@@ -1,0 +1,94 @@
+root@2091d8828162:/app# ng update
+Using package manager: 'npm'
+Collecting installed dependencies...
+Found 45 dependencies.
+    We analyzed your package.json, there are some packages to update:
+
+      Name                               Version                  Command to update
+     --------------------------------------------------------------------------------
+      @angular/cdk                       11.2.13 -> 12.2.9        ng update @angular/cdk@12
+      @angular/cli                       11.2.14 -> 12.2.9        ng update @angular/cli@12
+      @angular/core                      11.2.14 -> 12.2.9        ng update @angular/core@12
+      @angular/material                  11.2.13 -> 12.2.9        ng update @angular/material@12
+      ngx-toastr                         11.3.3 -> 16.1.1         ng update ngx-toastr
+
+    There might be additional packages which don't provide 'ng update' capabilities that are outdated.
+    You can update the additional packages by running the update command of your package manager.
+root@2091d8828162:/app# ng update @angular/cli@12 @angular/core@12
+Using package manager: 'npm'
+Collecting installed dependencies...
+Found 45 dependencies.
+Fetching dependency metadata from registry...
+    Updating package.json with dependency @angular-devkit/build-angular @ "12.2.18" (was "0.1102.14")...
+    Updating package.json with dependency @angular/cli @ "12.2.18" (was "11.2.14")...
+    Updating package.json with dependency @angular/compiler-cli @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/language-service @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/localize @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency karma @ "6.4.2" (was "5.2.3")...
+    Updating package.json with dependency @angular/animations @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/common @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/compiler @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/core @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/forms @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/platform-browser @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/platform-browser-dynamic @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency @angular/router @ "12.2.17" (was "11.2.14")...
+    Updating package.json with dependency typescript @ "4.3.5" (was "4.1.6")...
+    Updating package.json with dependency zone.js @ "0.11.8" (was "0.10.3")...
+  UPDATE package.json (1997 bytes)
+✔ Packages successfully installed.
+** Executing migrations of package '@angular/cli' **
+
+▸ Remove deprecated options from 'angular.json' that are no longer present in v12.
+  UPDATE angular.json (4370 bytes)
+  Migration completed.
+
+▸ Update 'zone.js' to version 0.11.x.
+  Read more about this here: https://github.com/angular/angular/blob/master/packages/zone.js/CHANGELOG.md#breaking-changes-since-zonejs-v0111  
+  UPDATE package.json (1998 bytes)
+  UPDATE src/polyfills.ts (2828 bytes)
+  UPDATE src/test.ts (632 bytes)
+  UPDATE src/environments/environment.ts (703 bytes)
+✔ Packages installed successfully.
+  Migration completed.
+
+▸ Remove 'emitDecoratorMetadata' TypeScript compiler option.
+  Decorator metadata is no longer needed by Angular.
+  Read more about this here: https://www.typescriptlang.org/docs/handbook/decorators.html#metadata
+  Migration completed.
+
+▸ Lazy loading syntax migration.
+  Update lazy loading string syntax to use dynamic imports.
+  Migration completed.
+
+▸ Remove deprecated ViewEngine-based i18n build and extract options.
+  Options present in the configuration will be converted to use non-deprecated options.
+  Migration completed.
+
+▸ Updates Web Worker consumer usage to use the new syntax supported directly by Webpack 5.
+  Migration completed.
+
+▸ Remove invalid 'skipTests' option in '@schematics/angular:module' Angular schematic options.
+  Migration completed.
+
+▸ Replace the deprecated '--prod' in package.json scripts.
+  UPDATE package.json (2018 bytes)
+  Migration completed.
+
+DeprecationWarning: 'createNodeArray' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+DeprecationWarning: 'createNull' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+DeprecationWarning: 'createKeywordTypeNode' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+DeprecationWarning: 'createAsExpression' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+DeprecationWarning: 'createIdentifier' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+DeprecationWarning: 'createNonNullExpression' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+** Executing migrations of package '@angular/core' **
+
+▸ In Angular version 12, the type of ActivatedRouteSnapshot.fragment is nullable.
+  This migration automatically adds non-null assertions to it.
+  Migration completed.
+
+▸ `XhrFactory` has been moved from `@angular/common/http` to `@angular/common`.
+  Migration completed.
+
+▸ Automatically migrates shadow-piercing selector from `/deep/` to the recommended alternative `::ng-deep`.
+  Migration completed.
