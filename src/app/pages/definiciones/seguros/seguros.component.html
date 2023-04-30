@@ -1,0 +1,148 @@
+<div class="pageContent">
+    <mat-card class="card">
+        <mat-card-title>
+           Seguros
+        </mat-card-title>     
+        <mat-divider></mat-divider>
+        <br>
+        <mat-card-content class="card-content">
+
+                <form [formGroup]="formSeguro" class="card-content-form-datos">
+
+                    <mat-form-field>
+                        <mat-label>Código</mat-label>
+                        <input matInput type="text"  matInput formControlName="codigo"  
+                        maxlength= "10" required
+                        (blur)="validateCode($event)"
+                        [readonly]="idSeguro!=0">
+                        <mat-error *ngIf="formSeguro.controls['codigo'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field>    
+
+                    <mat-form-field  hintLabel="Minimo 10 caracteres" class="descripcion">
+                        <mat-label>Descripción de la cobertura</mat-label>
+                        <textarea matInput #desc1 maxlength="200" required
+                        formControlName="denominacion"  required rows="2"></textarea>
+                        <mat-hint align="end">{{desc1.value?.length || 0}}/200</mat-hint>
+                        <mat-error *ngIf="formSeguro.controls['denominacion'].hasError('required')">Campo Obligatorio</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Compañia Aseguradora</mat-label>
+                        <mat-select formControlName="companniaAseguradora" requerid>
+                            <mat-option *ngFor="let def of company" [value]="def.id" >
+                                {{def.denominacion}}
+                                </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Número de la Poliza</mat-label>
+                        <input matInput type="text"  matInput formControlName="numeroPoliza"  
+                        maxlength= "30" required>
+                        <mat-error *ngIf="formSeguro.controls['numeroPoliza'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field> 
+
+                    <mat-form-field>
+                        <mat-label>Tipo de Poliza</mat-label>
+                        <mat-select formControlName="tipoPoliza">
+                            <mat-option *ngFor="let def of typePolicy" [value]="def.id" >
+                                {{def.denominacion}}
+                                </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formSeguro.controls['tipoPoliza'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field>
+           
+
+                    <mat-form-field>
+                        <mat-label>Monto de la Poliza</mat-label>
+                        <input matInput type="text"  matInput formControlName= "montoPoliza" required> 
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Cobertura Adicional</mat-label>
+                        <input matInput type="text"  matInput formControlName= "coberturaAdicional"> 
+                    </mat-form-field>
+
+                    <mat-form-field class="fila">
+                        <mat-label>Moneda Principal</mat-label>
+                        <mat-select formControlName="monedaPoliza" required>
+                            <mat-option *ngFor="let def of money" [value]="def.codigo" >
+                                {{def.denominacion}}
+                                </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formSeguro.controls['monedaPoliza'].hasError('required')">El valor es obligatorio</mat-error>
+
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Moneda Secundaria</mat-label>
+                        <mat-select formControlName="monedaSecundaria">
+                            <mat-option *ngFor="let def of money" [value]="def.codigo" >
+                                {{def.denominacion}}
+                                </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fila">
+                        <input matInput [matDatepicker]="picker1" placeholder="Fecha de Inicio Poliza" 
+                                formControlName="fechaInicio" required>
+                        <mat-datepicker-toggle matPrefix [for]="picker1" required ></mat-datepicker-toggle>
+                        <mat-datepicker #picker1  disabled="false" required></mat-datepicker>
+                        <mat-error *ngIf="formSeguro.controls['fechaInicio'].hasError('required')">El valor es obligatorio</mat-error>
+
+                    </mat-form-field>        
+
+                    
+                    <mat-form-field matTooltip="Debe hacer click sobre el icono" >
+                        <input matInput [matDatepicker]="picker2" placeholder="Fecha Fin de la Poliza" 
+                                formControlName="fechaFin" required >
+                        <mat-datepicker-toggle matPrefix [for]="picker2" required ></mat-datepicker-toggle>
+                        <mat-datepicker #picker2  disabled="false" required></mat-datepicker>
+                        <mat-error *ngIf="formSeguro.controls['fechaFin'].hasError('required')">El valor es obligatorio</mat-error>
+
+                    </mat-form-field>                    
+
+                    <div class="fila"> 
+                        <mat-slide-toggle  formControlName="responsabilidadCivil">Responsabilidad Civil</mat-slide-toggle>
+                     </div>
+
+                    <mat-form-field class="responsabilidad">
+                        <mat-label>Tipo Cobertura de la Poliza</mat-label>
+                        <mat-select formControlName="tipoCobertura" required>
+                            <mat-option *ngFor="let def of typeCoverage" [value]="def.id" >
+                                {{def.denominacion}}
+                                </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formSeguro.controls['tipoCobertura'].hasError('required')">El valor es obligatorio</mat-error>
+
+                    </mat-form-field>
+
+                    <mat-form-field  hintLabel="Minimo 10 caracteres" class="descripcion">
+                        <mat-label>Descripción de la cobertura</mat-label>
+                        <textarea matInput #desc maxlength="200" required
+                        formControlName="descripcion"  required rows="2"></textarea>
+                        <mat-hint align="end">{{desc.value?.length || 0}}/200</mat-hint>
+                        <mat-error *ngIf="formSeguro.controls['descripcion'].hasError('required')">Campo Obligatorio</mat-error>
+                    </mat-form-field>
+
+                    
+                    
+                </form>
+        </mat-card-content>
+    </mat-card>
+
+</div>
+
+<toolbar
+(crear)= "inicializar()"
+(buscar)="openCatSeguros()"
+(borrar)="deleteInsurance()"
+(guardar)="newInsurance()"
+(salir)="exit()"
+[desabilitarImprimir]="true"
+[desabilitarBuscar]="allInsurance.length==0"
+[desabilitarGuardar]="!formSeguro.valid "
+[desabilitarBorrar]="!formSeguro.valid || operacion!='actualizar'"
+>
+</toolbar>
+

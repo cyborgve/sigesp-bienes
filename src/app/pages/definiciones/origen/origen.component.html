@@ -1,0 +1,154 @@
+<div class="pageContent">
+    <mat-card class="card">
+        <mat-card-title>
+           Origen 
+        </mat-card-title>   
+        <mat-divider></mat-divider>  
+        <br>      
+        <mat-card-content class="card-content">
+                <form [formGroup]="formOrigen" class="card-content-form-datos">
+
+                    <mat-form-field >
+                        <mat-label>Código de Origen</mat-label>
+                        <input matInput type="text"  matInput formControlName= "codigoOrigen"  
+                           maxlength= "10" required
+                           (blur)="validarCodigo($event,'codigoOrigen')"
+                           [readonly]="idOrigin>0">
+                        <mat-error *ngIf="formOrigen.controls['codigoOrigen'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field>    
+                                        
+                    <mat-form-field matTooltip="Debe hacer click sobre el icono">
+                        <input matInput [matDatepicker]="picker2" placeholder="Fecha Origen" 
+                              formControlName="fechaOrigen" required >
+                        <mat-datepicker-toggle matPrefix [for]="picker2" required ></mat-datepicker-toggle>
+                        <mat-datepicker #picker2  disabled="false" required></mat-datepicker>
+                    </mat-form-field>
+
+                                        
+                     <mat-form-field matTooltip="Debe hacer click sobre el icono">
+                        <input matInput [matDatepicker]="picker1" placeholder="Fecha de Adquisición" 
+                              formControlName="fechaAdquisicion" required>
+                        <mat-datepicker-toggle matPrefix [for]="picker1" required ></mat-datepicker-toggle>
+                        <mat-datepicker #picker1  disabled="false" required></mat-datepicker>
+                      </mat-form-field>
+                      
+
+                      <mat-form-field class="fila">
+                        <mat-label>Modo de Adquisición</mat-label>
+                        <mat-select formControlName="modoAdquisicion"
+                        (selectionChange)="acquisitionform($event)"   requerid >
+                            <mat-option *ngFor="let def of modoOrigen" [value]="def.value" >
+                                {{def.denominacion}}
+                              </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+
+                     <mat-form-field >
+                        <mat-label>Forma de Adquisición</mat-label>
+                        <mat-select formControlName="formaAdquisicion" requerid
+                        (selectionChange)="selectAcquisition($event)">                                              
+                            <mat-option *ngFor="let def of formaAdquisicion" [value]="def.value">
+                                {{def.denominacion}}
+                              </mat-option>
+                        </mat-select>
+                     </mat-form-field>
+
+                    
+                    <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fila">
+                        <input matInput [matDatepicker]="picker3" placeholder="Fecha Forma de Adquisición" 
+                              formControlName="fechaFormaAdquisicion" required >
+                        <mat-datepicker-toggle matPrefix [for]="picker3" required ></mat-datepicker-toggle>
+                        <mat-datepicker #picker3  disabled="false" required></mat-datepicker>
+                    </mat-form-field>                    
+
+                    <mat-form-field>
+                        <mat-label>Número Forma de Adquisición</mat-label>
+                        <input matInput type="text"  matInput formControlName= "numeroFormaAdquisicion"  
+                           maxlength= "30" required >
+                        <mat-error *ngIf="formOrigen.controls['numeroFormaAdquisicion'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field>                         
+                   
+                                       
+                    <mat-form-field class="descripcion" >
+                        <mat-label>Nombre </mat-label>
+                        <input matInput type="text"  matInput formControlName= "nombreFormaAdquisicion" maxlength= "200" required >
+                        <mat-error *ngIf="formOrigen.controls['nombreFormaAdquisicion'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field> 
+
+                    <mat-form-field class="descripcion" >
+                        <mat-label>Beneficiario Cedente </mat-label>
+                        <input matInput type="text"  matInput formControlName= "beneficiarioCedente" maxlength= "200"  required >
+                        <mat-error *ngIf="formOrigen.controls['beneficiarioCedente'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="descripcion" >
+                        <mat-label>Beneficiario Receptor </mat-label>
+                        <input matInput type="text"  matInput formControlName= "beneficiarioReceptor" maxlength= "200" minlength="3" required >
+                        <mat-error *ngIf="formOrigen.controls['beneficiarioReceptor'].hasError('required')">El valor es obligatorio</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="descripcion">
+                        <mat-label>Nombre Propietario Anterior</mat-label>
+                        <input matInput type="text"  matInput formControlName= "nombrePropietarioAnterior"  
+                            required
+                           maxlength= "200">
+                    </mat-form-field>
+    
+                   <ng-container *ngIf="valor==3">
+                        <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fila">
+                            <input matInput [matDatepicker]="picker6" placeholder="Fecha de Factura" 
+                            formControlName="fechaFactura" >
+                            <mat-datepicker-toggle matPrefix [for]="picker6" required ></mat-datepicker-toggle>
+                            <mat-datepicker #picker6  disabled="false" required></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field >
+                            <mat-label>Número de Factura</mat-label>
+                            <input matInput type="text"  matInput formControlName= "numeroFactura"  
+                            maxlength= "30">
+                            <mat-error *ngIf="formOrigen.controls['numeroFactura'].hasError('required')">El valor es obligatorio</mat-error>
+                        </mat-form-field> 
+
+                        <mat-form-field>
+                            <mat-label>Proveedor.</mat-label>
+                            <input type="text" formControlName="proveedor" matInput
+                            [readonly]= "true">         
+                            <span matSuffix (click)="openCatProveedores()"><mat-icon>search</mat-icon></span>          
+                        </mat-form-field>
+                    </ng-container>
+                    
+
+                    <ng-container *ngIf="valor==16">
+                        <mat-form-field>
+                            <mat-label>Tomo</mat-label>
+                            <input matInput type="text"  matInput formControlName= "tomo" maxlength= "15" minlength="1">
+                        </mat-form-field> 
+
+                        <mat-form-field>
+                            <mat-label>Folio</mat-label>
+                            <input matInput type="text"  matInput formControlName= "folio" maxlength= "6" minlength="1">
+                        </mat-form-field> 
+                    </ng-container>
+
+                                                         
+                    <mat-form-field class= "descripcion">
+                        <mat-label>Observación</mat-label>
+                        <input matInput type="text"  matInput formControlName= "observacion" maxlength= "256">
+                    </mat-form-field> 
+                </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<toolbar
+    (crear)= "inicializar()"
+    (buscar)="openCatalogo()"
+    (borrar)="deleteOrigen()"
+    (guardar)="newOrigin()"
+    (salir)="exit()"
+    [desabilitarImprimir]="true"
+   
+   
+>
+</toolbar>
+

@@ -1,0 +1,117 @@
+<form [formGroup]="formSeguro" class="card-content-form-datos">
+    <ng-container>
+        <mat-slide-toggle 
+         formControlName="estatusAsegurado"
+         (change)="getStatusSlide($event,'estatusAsegurado')">
+         Tiene seguro</mat-slide-toggle>
+     </ng-container>
+    
+        
+    <mat-form-field class="fila">
+        <mat-label>Código Seguro</mat-label>
+        <input type="text" formControlName="codigo" matInput
+        [readonly]= "true">         
+        <span  matSuffix (click)="openSeguros()"><mat-icon>search</mat-icon></span>          
+    </mat-form-field>  
+       
+
+    <mat-form-field class= "descripcion">
+        <mat-label>Denominación</mat-label>
+        <input matInput type="text"  matInput formControlName= "denominacion" maxlength= "256" minlength="3" [readonly]="true" >
+    </mat-form-field>  
+
+
+    <mat-form-field>
+        <mat-label>Compañia Aseguradora</mat-label>
+        <mat-select formControlName="companniaAseguradora" [disabled]="true">
+            <mat-option *ngFor="let def of insuranceCompany" [value]="def.id" >
+                {{def.denominacion}}
+                </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Número de la Poliza</mat-label>
+        <input matInput type="text"  matInput formControlName= "numeroPoliza"  
+        maxlength= "2" [readonly]="true">
+    </mat-form-field> 
+
+    <mat-form-field>
+        <mat-label>Tipo de Poliza</mat-label>
+        <mat-select formControlName="tipoPoliza" [disabled]="true">
+            <mat-option *ngFor="let def of typePolicy" [value]="def.id" >
+                {{def.denominacion}}
+                </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="fila">
+        <mat-label>Monto de la Poliza</mat-label>
+        <input matInput type="text"  matInput formControlName= "montoPoliza"  
+        maxlength= "2" [readonly]="true"> 
+    </mat-form-field> 
+
+    <mat-form-field>
+        <mat-label>Cobertura Adicional</mat-label>
+        <input matInput type="number"  matInput formControlName= "coberturaAdicional" [readonly]="true"> 
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Moneda Principal</mat-label>
+        <mat-select formControlName="monedaPoliza" [disabled]="true">
+            <mat-option *ngFor="let def of money" [value]="def.codigo" >
+                {{def.denominacion}}
+                </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Moneda Secundaria</mat-label>
+        <mat-select formControlName="monedaSecundaria" [disabled]="true">
+            <mat-option *ngFor="let def of money" [value]="def.codigo" >
+                {{def.denominacion}}
+                </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    
+    <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fila" >
+        <input matInput [matDatepicker]="picker1" placeholder="Fecha de Inicio Poliza" 
+                formControlName="fechaInicio" [readonly]="true">
+        <mat-datepicker-toggle matPrefix [for]="picker1" [disabled]="true" ></mat-datepicker-toggle>
+        <mat-datepicker #picker1  disabled="false" [disabled]="true"></mat-datepicker>
+    </mat-form-field>        
+
+    
+    <mat-form-field matTooltip="Debe hacer click sobre el icono" >
+        <input matInput [matDatepicker]="picker2" placeholder="Fecha Fin de la Poliza" 
+                formControlName="fechaFin" [readonly]="true" >
+        <mat-datepicker-toggle matPrefix [for]="picker2" [disabled]="true" ></mat-datepicker-toggle>
+        <mat-datepicker #picker2  disabled="false" [disabled]="true"></mat-datepicker>
+    </mat-form-field>                    
+
+   
+
+    <div class="fila"> 
+        <mat-slide-toggle  [disabled]="true" formControlName="responsabilidadCivil">Responsabilidad Civil</mat-slide-toggle>
+     </div>
+
+    <mat-form-field class="responsabilidad">
+        <mat-label>Tipo Cobertura de la Poliza</mat-label>
+        <mat-select formControlName="tipoCobertura" [disabled]="true">
+            <mat-option *ngFor="let def of typeCoverage" [value]="def.id" >
+                {{def.denominacion}}
+                </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+   
+
+    <mat-form-field  hintLabel="Minimo 10 caracteres" class="descripcion">
+        <mat-label>Descripción de la cobertura</mat-label>
+        <textarea matInput #desc maxlength="154"
+        formControlName="descripcion"  [readonly]="true" rows="2"></textarea>
+        <mat-hint align="end">{{desc.value?.length || 0}}/154</mat-hint>
+    </mat-form-field>
+    
+</form>

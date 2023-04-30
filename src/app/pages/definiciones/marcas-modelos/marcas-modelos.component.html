@@ -1,0 +1,122 @@
+<div class="pageContent">
+    <mat-card>
+      <mat-card-header class="card-header">      
+        <mat-card-title>
+            Marcas y Modelos  
+        </mat-card-title>
+      </mat-card-header>
+  
+      <mat-divider></mat-divider>
+      <mat-card-content class="card-content">
+            <div class="form-group">
+              <form [formGroup]="formMarca" class="card-content-form-datos">  
+                <mat-form-field>
+                  <mat-label>Código </mat-label>
+                  <input type="text" formControlName="codigo" name="codigo" matInput  
+                    minlength="1" maxlength="3" 
+                    (blur)="validateCodeBrand($event)"
+                    [readonly]= "idMarca>=0">
+                  <mat-error *ngIf="formMarca.controls['codigo'].errors?.minlength" class="invalid-feedback">Deben ser 3
+                    caracteres mínimo</mat-error>
+                </mat-form-field>
+               
+                <mat-form-field class="descripcion">
+                  <mat-label>Denominación</mat-label>
+                  <input type="text" formControlName="denominacion" matInput maxlength="60"
+                  [readonly]="idMarca==0">
+                    <mat-error *ngIf="formMarca.controls['denominacion'].hasError('required')">El valor es obligatorio</mat-error>
+                </mat-form-field>
+             
+                <mat-form-field>
+                  <mat-label>Tipo de Marca</mat-label>
+                  <mat-select formControlName="tipoMarca" [disabled]="idMarca==0">
+                      <mat-option *ngFor="let tipo of brandType" [value]="tipo.id">
+                          {{tipo.denominacion}}
+                        </mat-option>
+                  </mat-select>
+               </mat-form-field> 
+
+            <mat-form-field class="apertura">
+              <mat-label>Filtrar</mat-label>
+              <input  [readonly]="idMarca==0" matInput (keyup)="aplicarFiltro($event.target.value)">
+            </mat-form-field>
+
+            <div class="nuevodetalle descripcion">   
+                <button 
+                  mat-raised-button color="primary" (click)="addModels()" 
+                  [disabled]="!formMarca.get('denominacion').valid || idMarca==0">Agregar Modelo
+                  <mat-icon matSuffix>add</mat-icon>
+                </button>          
+                <button mat-raised-button color="primary" (click)="delModel()" 
+                [disabled]="selection.selected.length==0 || idMarca==0">Eliminar Modelo
+                      <mat-icon matSuffix>remove</mat-icon>
+                </button>                 
+            </div>  
+            <div class="tableContainer descripcion" >                   
+              <table mat-table #table [dataSource]="modelsBrand" border="0" class="table">
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef class="prueba2">
+                    <mat-checkbox (change)="$event ? SeleccionTodo() : null"
+                                  [checked]="selection.hasValue() && TodasSeleccionadas()"
+                                  [indeterminate]="selection.hasValue() && !TodasSeleccionadas()"
+                                  [aria-label]="checkboxLabel()"
+                    >
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row; let element; let i = index">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)"
+                                  [aria-label]="checkboxLabel()"                                      
+                    >
+                    </mat-checkbox>
+                  </td>
+                </ng-container>                
+      
+                <ng-container matColumnDef="codigo">
+                  <th mat-header-cell *matHeaderCellDef class="prueba"> Código </th>
+                  <td mat-cell *matCellDef="let element; let i=index"> 
+                    {{element.codigoModelo}}
+                  </td>
+                </ng-container>
+      
+                <ng-container matColumnDef="denominacion">
+                  <th mat-header-cell *matHeaderCellDef> Denominación </th>
+                  <td mat-cell *matCellDef="let element; let i=index"> 
+                    <input matInput 
+                      (blur)="modifyModels($event, i, 'denominacionModelo')" 
+                      value="{{element.denominacionModelo}}"
+                      maxlength="60"
+                      [readonly]="idMarca==0"
+                    >
+                  </td>
+                </ng-container>
+  
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    class="row"
+                    [ngClass]="{isNew: row.isNew}">
+                </tr>  
+              </table>
+         </div>
+        </form>
+      </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <toolbar
+        (crear)="inicializar()"
+        (buscar)="openCatalog()"
+        (guardar)="newBrand()"
+        (borrar)="deleteBrand()"
+        (salir)="exit()"
+        [desabilitarImprimir]="true"
+        [desabilitarBuscar]="allBrand.length==0"  
+        [desabilitarBorrar]="!this.formMarca.valid  || operacion!='actualizar' || idMarca==0"  
+        [desabilitarGuardar]="!this.formMarca.valid || idMarca==0"     
+    >
+  </toolbar>
+  
+  
+

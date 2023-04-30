@@ -1,0 +1,80 @@
+<div class="pageContent">
+    <mat-card class="card">
+        <mat-card-title>
+            Configuración de Bienes Nacionales
+        </mat-card-title>         
+        <mat-divider></mat-divider>  
+        <mat-card-content class="card-content">            
+            <form [formGroup]="formSbnConfig" class="card-content-form-datos">
+              
+              <mat-form-field>
+                <mat-label>Codificación General de Activos</mat-label>
+                <input type="text" matInput  maxlength="25" minlength="3" 
+                [readonly]="AllCatalog.length>1" 
+                (keypress)="onlyGuionNumber($event)"
+                 required formControlName="formatoCuentaGeneral">
+                 <mat-hint>Ejemplo: 999-999 </mat-hint>
+                <mat-error *ngIf="formSbnConfig.controls['formatoCuentaGeneral'].hasError('requerid')">El valor es obligatorio</mat-error>
+                <mat-error *ngIf="formSbnConfig.controls['formatoCuentaGeneral'].hasError('pattern')">Formato Invalido</mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+               <mat-label>Codificación institucional de Activos</mat-label>
+                <input type="text" matInput  maxlength="25" minlength="4"
+                [readonly]="AllCatalog.length>1" 
+                (keypress)="onlyGuionNumber($event)"
+                requerid formControlName="formatoCuentaInstitucional">
+                <mat-hint>Ejemplo:999-999</mat-hint> 
+                            
+                <mat-error *ngIf="formSbnConfig.controls['formatoCuentaInstitucional'].hasError('requerid')" >El valor es obligatorio</mat-error>
+                <mat-error *ngIf="formSbnConfig.controls['formatoCuentaInstitucional'].hasError('pattern')">Formato Invalido</mat-error>
+              </mat-form-field>   
+                         
+
+               <mat-form-field >
+                <mat-label>Normativa de Activo</mat-label>
+                <mat-select formControlName="normativa" >
+                   <mat-option value="SCF">SIGECOF</mat-option>
+                   <mat-option value="CGR">CGR</mat-option>
+                   <mat-option value="SBP">SUDEBIP</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field >
+                <mat-label>Afectación de la Depreciación</mat-label>
+                <mat-select formControlName="afectacion" >
+                   <mat-option value="C">Contable</mat-option>
+                   <mat-option value="P">Presupuestario</mat-option>                  
+                </mat-select>
+              </mat-form-field>
+             
+
+                <div class="descripcion">
+                    <mat-slide-toggle formControlName="mostrarSeperadores" [disabled]="AllCatalog.length>1">Mostrar Separador de Máscara en el Código Único del Activo (-)</mat-slide-toggle>
+                 </div>
+
+                <div class="descripcion">
+                    <mat-slide-toggle formControlName="incorporacionAuto">Fecha de Incorporación Automática</mat-slide-toggle>
+                </div> 
+
+                <div class="descripcion">
+                    <mat-slide-toggle formControlName="generarAsiento">Generación de Asientos Contables</mat-slide-toggle>
+                </div> 
+               
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<toolbar
+    
+    (guardar)="newConfig()"
+    (salir)="exit()"
+    [desabilitarImprimir]="true"
+    [desabilitarBuscar]="true"
+    [desabilitarBorrar]="true"
+    [desabilitarCrear]="true"
+>
+</toolbar>
+
+  

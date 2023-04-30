@@ -1,0 +1,54 @@
+mat-card{
+    width: 97%;
+   // margin-left: 15%;
+  }
+  .card {
+  
+    &-header {
+      &-title {
+        width: 100%;
+        text-align:left; 
+        margin-left: 3%;     
+      }
+  
+    }mat-card{
+      width: 97%;
+     
+    }    
+    
+    &-content {
+  
+      &-title {
+        margin: 10px 0 5px 0!important;
+      }
+  
+     
+      &-form-datos {
+        display: grid;
+        grid-template-columns: repeat(3, 33%);
+        grid-gap: 15px 1%;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 1%;
+
+        .fila {
+          grid-column: 1/2;
+        }
+
+          .nombre{
+            grid-column: 3/4;
+          }   
+          
+          .descripcion{
+            grid-column: 1/4;
+          }
+          
+          .responsabilidad{
+            grid-column: 2/4;
+          }
+
+        }
+      }
+  }
+  
+  

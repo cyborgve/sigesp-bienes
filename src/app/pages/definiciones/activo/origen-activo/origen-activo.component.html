@@ -1,0 +1,122 @@
+<form [formGroup]="formOrigen" class="card-content-form-datos">
+
+    <mat-form-field>
+        <mat-label>Origen</mat-label>
+        <input type="text" formControlName="idOrigen" matInput
+        [readonly]= "true">         
+        <span matSuffix (click)="openCatalogoOrigin()"><mat-icon>search</mat-icon></span>          
+    </mat-form-field>       
+                        
+    <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fila">
+        <input matInput [matDatepicker]="picker2" placeholder="Fecha Origen" 
+              formControlName="fechaOrigen" [readonly]= "true" >
+        <mat-datepicker-toggle matPrefix [for]="picker2" [disabled]= "true" ></mat-datepicker-toggle>
+        <mat-datepicker #picker2  disabled="false" [disabled]= "true"></mat-datepicker>
+    </mat-form-field>
+
+                        
+     <mat-form-field matTooltip="Debe hacer click sobre el icono">
+        <input matInput [matDatepicker]="picker1" placeholder="Fecha de Adquisición" 
+              formControlName="fechaAdquisicion" [readonly]= "true">
+        <mat-datepicker-toggle matPrefix [for]="picker1" [disabled]= "true" ></mat-datepicker-toggle>
+        <mat-datepicker #picker1  disabled="false" [disabled]= "true"></mat-datepicker>
+      </mat-form-field>
+      
+
+      <mat-form-field class="fila">
+        <mat-label>Modo de Adquisición</mat-label>
+        <mat-select formControlName="modoAdquisicion"
+        (selectionChange)="acquisitionform($event)"   [disabled]="true" >
+            <mat-option *ngFor="let def of modoOrigen" [value]="def.value" >
+                {{def.denominacion}}
+              </mat-option>
+        </mat-select>
+     </mat-form-field>
+
+     <mat-form-field >
+        <mat-label>Forma de Adquisición</mat-label>
+        <mat-select formControlName="formaAdquisicion" [disabled]="true">                                              
+            <mat-option *ngFor="let def of formaAdquisicion" [value]="def.value">
+                {{def.denominacion}}
+              </mat-option>
+        </mat-select>
+     </mat-form-field>
+
+    
+    <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fila">
+        <input matInput [matDatepicker]="picker3" placeholder="Fecha Forma de Adquisición" 
+              formControlName="fechaFormaAdquisicion" [readonly]= "true" >
+        <mat-datepicker-toggle matPrefix [for]="picker3" [disabled]= "true" ></mat-datepicker-toggle>
+        <mat-datepicker #picker3  disabled="false" [disabled]= "true"></mat-datepicker>
+    </mat-form-field>                    
+
+    <mat-form-field>
+        <mat-label>Número Forma de Adquisición</mat-label>
+        <input matInput type="text"  matInput formControlName= "numeroFormaAdquisicion"  
+           maxlength= "30" [readonly]= "true" >
+    </mat-form-field>                         
+   
+                       
+    <mat-form-field class="descripcion" >
+        <mat-label>Nombre </mat-label>
+        <input matInput type="text"  matInput formControlName= "nombreFormaAdquisicion" 
+        maxlength= "200" [readonly]= "true" >
+    </mat-form-field> 
+
+    <mat-form-field class="descripcion" >
+        <mat-label>Beneficiario Cedente </mat-label>
+        <input matInput type="text"  matInput formControlName= "beneficiarioCedente" maxlength= "200"  [readonly]= "true" >
+    </mat-form-field>
+
+    <mat-form-field class="descripcion" >
+        <mat-label>Beneficiario Receptor </mat-label>
+        <input matInput type="text"  matInput formControlName= "beneficiarioReceptor" maxlength= "200" minlength="3" [readonly]= "true" >
+    </mat-form-field>
+
+    <mat-form-field class="descripcion">
+        <mat-label>Nombre Propietario Anterior</mat-label>
+        <input matInput type="text"  matInput formControlName= "nombrePropietarioAnterior"  
+            [readonly]= "true"
+           maxlength= "200">
+    </mat-form-field>
+
+   <ng-container *ngIf="valor==3">
+        <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fila">
+            <input matInput [matDatepicker]="picker6" placeholder="Fecha de Factura" 
+            formControlName="fechaFactura" [readonly]="true">
+            <mat-datepicker-toggle matPrefix [for]="picker6" [disabled]= "true" ></mat-datepicker-toggle>
+            <mat-datepicker #picker6  disabled="false" [disabled]= "true"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field >
+            <mat-label>Número de Factura</mat-label>
+            <input matInput type="text"  matInput formControlName= "numeroFactura"  
+            maxlength= "30"  [readonly]= "true">
+        </mat-form-field> 
+
+        <mat-form-field>
+            <mat-label>Proveedor.</mat-label>
+            <input type="text" formControlName="proveedor" matInput
+            [readonly]= "true">         
+        </mat-form-field>
+    </ng-container>   
+
+    <ng-container *ngIf="valor==16">
+        <mat-form-field>
+            <mat-label>Tomo</mat-label>
+            <input matInput type="text"  matInput formControlName= "tomo" maxlength= "15" minlength="1"  [readonly]= "true">
+        </mat-form-field> 
+
+        <mat-form-field>
+            <mat-label>Folio</mat-label>
+            <input matInput type="text"  matInput formControlName= "folio" maxlength= "6" minlength="1"  [readonly]= "true">
+        </mat-form-field> 
+    </ng-container>
+
+                                         
+    <mat-form-field class= "descripcion">
+        <mat-label>Observación</mat-label>
+        <input matInput type="text"  matInput formControlName= "observacion" maxlength= "256"  [readonly]= "true">
+    </mat-form-field>
+</form>
+        
