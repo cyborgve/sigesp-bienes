@@ -92,3 +92,36 @@ DeprecationWarning: 'createNonNullExpression' has been deprecated since v4.0.0. 
 
 ▸ Automatically migrates shadow-piercing selector from `/deep/` to the recommended alternative `::ng-deep`.
   Migration completed.
+
+  root@2091d8828162:/app# ng update @angular/cdk@12 @angular/material@12
+Using package manager: 'npm'
+Collecting installed dependencies...
+Found 45 dependencies.
+Fetching dependency metadata from registry...
+    Updating package.json with dependency @angular/cdk @ "12.2.13" (was "11.2.13")...
+    Updating package.json with dependency @angular/material @ "12.2.13" (was "11.2.13")...
+    Updating package.json with dependency @angular/material-moment-adapter @ "12.2.13" (was "11.2.13")...
+  UPDATE package.json (2017 bytes)
+✔ Packages successfully installed.
+** Executing migrations of package '@angular/cdk' **
+
+▸ Updates the Angular CDK to v12.
+    
+      ✓  Updated Angular CDK to version 12
+
+  Migration completed.
+
+** Executing migrations of package '@angular/material' **
+
+▸ Updates Angular Material to v12.
+    
+    ⚠  General notice: The HammerJS v9 migration for Angular Components is not able to migrate tests. Please manually clean up tests in your project if they rely on HammerJS.
+    Read more about migrating tests: https://git.io/ng-material-v9-hammer-migrate-tests
+    Migrated 1 file to the new Angular Material theming API.
+
+      ✓  Updated Angular Material to version 12
+
+  UPDATE src/styles.scss (2937 bytes)
+  UPDATE package.json (1991 bytes)
+✔ Packages installed successfully.
+  Migration completed.

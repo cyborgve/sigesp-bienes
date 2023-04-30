@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use '~@angular/material' as mat;
 
-@import '~@angular/material/theming';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~ngx-toastr/toastr';
 
@@ -109,12 +109,12 @@ $mat-myapp-accent: (
   )
 );
 
-$primary: mat-palette($mat-myapp-primary);
-$accent: mat-palette($mat-myapp-accent);
+$primary: mat.define-palette($mat-myapp-primary);
+$accent: mat.define-palette($mat-myapp-accent);
 
-$theme: mat-light-theme($primary, $accent);
+$theme: mat.define-light-theme($primary, $accent);
 
-@include angular-material-theme($theme);
+@include mat.all-component-themes($theme);
 
 .mainColor{
   background: #073763 ;
