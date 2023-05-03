@@ -7,13 +7,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NotLoggedComponent } from './not-logged/not-logged.component';
 import { CloseComponent } from './close/close.component';
 
-
 @NgModule({
   declarations: [RedirectComponent, NotLoggedComponent, CloseComponent],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    SharedModule
-  ]
+  imports: [CommonModule, AuthRoutingModule, SharedModule],
 })
-export class AuthModule { }
+export class AuthModule {}

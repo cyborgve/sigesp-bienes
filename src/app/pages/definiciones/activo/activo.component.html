@@ -1,149 +1,132 @@
-<div class="pageContent">
-    <mat-card>
-      <mat-card-header class="card-header">
-        <mat-card-title>
-          Activos
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-tab-group>
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Datos Generales --------------------->
-  <!---------------------------------------------------------->    
+<section class="pageContent">
+  <mat-card>
+    <mat-card-header class="card-header">
+      <mat-card-title> Activos </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <!---------------------------------------- ----------------->
+        <!-------------------- Datos Generales --------------------->
+        <!---------------------------------------------------------->
 
-          <mat-tab label="DATOS GENERALES"> 
+        <mat-tab label="DATOS GENERALES">
+          <app-datos-generales
+            [catalogoGeneral]="catalogoGeneral"
+            [configSBN]="configSBN"
+            [goodCategory]="goodCategory"
+            [goodClass]="goodClass"
+            [stateConservation]="stateConservation"
+            [stateUse]="stateUse"
+            [acquisitionForm]="acquisitionForm"
+            [purposeSemoviente]="purposeSemoviente"
+            [typeSemoviente]="typeSemoviente"
+            [typeComponent]="typeComponent"
+            [warranty]="warranty"
+            [buyCondition]="buyCondition"
+            [typeAnimal]="typeAnimal"
+            [weightUnit]="weightUnit"
+            [terrainUnit]="terrainUnit"
+            [constructionUnit]="constructionUnit"
+            [brand]="brand"
+            [money]="money"
+            [sedes]="sedes"
+            [unitMeasurement]="unitMeasurement"
+            [accountAccounting]="accountAccounting"
+            [accountExpenses]="accountExpenses"
+            [raceAnimal]="raceAnimal"
+            [labelingMethod]="labelingMethod"
+            [goodColor]="goodColor"
+            [dataGeneral]="dataGeneral[0]"
+            [dataInicilizar]="dataInicilizar"
+            (activoDataGeneral)="getGeneralData($event)">
+          </app-datos-generales>
+        </mat-tab>
 
-                <datos-generales
-                        [catalogoGeneral]="catalogoGeneral"
-                        [configSBN]="configSBN"
-                        [goodCategory]="goodCategory"
-                        [goodClass]="goodClass"
-                        [stateConservation]="stateConservation"
-                        [stateUse]="stateUse"
-                        [acquisitionForm]="acquisitionForm"
-                        [purposeSemoviente]="purposeSemoviente"
-                        [typeSemoviente]="typeSemoviente"
-                        [typeComponent]="typeComponent"
-                        [warranty]="warranty"
-                        [buyCondition]="buyCondition"
-                        [typeAnimal]="typeAnimal"
-                        [weightUnit]="weightUnit"
-                        [terrainUnit]="terrainUnit"
-                        [constructionUnit]="constructionUnit"
-                        [brand]="brand"
-                        [money]="money"
-                        [sedes]="sedes"     
-                        [unitMeasurement]="unitMeasurement"  
-                        [accountAccounting]="accountAccounting"
-                        [accountExpenses]="accountExpenses"   
-                        [raceAnimal]="raceAnimal"
-                        [labelingMethod]="labelingMethod" 
-                        [goodColor]="goodColor"  
-                        [dataGeneral]="dataGeneral[0]"  
-                        [dataInicilizar]="dataInicilizar"                                            
-                        (activoDataGeneral)="getGeneralData($event)"                        
-                >
-                </datos-generales> 
-          </mat-tab>
+        <!---------------------------------------- ----------------->
+        <!-------------------- Origen --------------------->
+        <!---------------------------------------------------------->
 
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Origen --------------------->
-  <!---------------------------------------------------------->
+        <mat-tab label="ORIGEN">
+          <app-origen-activo
+            (activoOrigen)="getGeneralData($event)"
+            [origin]="origin"
+            [dataGeneral]="dataGeneral[0]"
+            [dataInicilizar]="dataInicilizar"></app-origen-activo>
+        </mat-tab>
+        <!---------------------------------------- ----------------->
+        <!-------------------- Componentes --------------------->
+        <!---------------------------------------------------------->
 
-          <mat-tab label="ORIGEN">
-                <app-origen-activo
-                        (activoOrigen)="getGeneralData($event)"
-                        [origin]="origin"               
-                        [dataGeneral]="dataGeneral[0]"
-                        [dataInicilizar]="dataInicilizar"  
-                ></app-origen-activo>
-          </mat-tab>
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Componentes --------------------->
-  <!---------------------------------------------------------->
-        
-          <mat-tab label="COMPONENTES"> 
-          
-          </mat-tab>
+        <mat-tab label="COMPONENTES"> </mat-tab>
 
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Seguro --------------------->
-  <!---------------------------------------------------------->
-        
-          <mat-tab label="SEGURO"> 
-                <app-seguro-activos
-                        [allInsurance]="allInsurance"                        
-                        [money]="money"
-                        [typePolicy]="typePolicy"                       
-                        [dataGeneral]="dataGeneral[0]"  
-                        [dataInicilizar]="dataInicilizar"  
-                        (activoSeguro)="getGeneralData($event)"
-                >
-                </app-seguro-activos>
-          </mat-tab>
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Depreciación --------------------->
-  <!---------------------------------------------------------->
-        
-          <mat-tab label="DEPRECIACIÓN">                 
-                <app-depreciacion
-                        [costCenter]="costCenter"
-                        [dataGeneral]="dataGeneral[0]"  
-                        (activoDepreciacion)="getGeneralData($event)"
-                        [accountAccounting]="accountAccounting"
-                        [dataInicilizar]="dataInicilizar"
-                >  
-                </app-depreciacion>
-          </mat-tab>
+        <!---------------------------------------- ----------------->
+        <!-------------------- Seguro --------------------->
+        <!---------------------------------------------------------->
 
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Ubicación --------------------->
-  <!---------------------------------------------------------->
-        
-          <mat-tab label="UBICACIÓN"> 
-                <app-ubicacion-activo
-                        [dataGeneral]="dataGeneral[0]"  
-                        [dataInicilizar]="dataInicilizar"  
-                >
-                </app-ubicacion-activo>   
-          </mat-tab>
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Responsable --------------------->
-  <!---------------------------------------------------------->
-        
-          <mat-tab label="RESPONSABLE"> 
-                <app-responsable-activo
-                        [dataGeneral]="dataGeneral[0]"  
-                        [administrativeUnit]="administrativeUnit" 
-                        [dataInicilizar]="dataInicilizar">
-                </app-responsable-activo>         
-          </mat-tab>
-  <!---------------------------------------- ----------------->    
-  <!-------------------- Documentos --------------------->
-  <!---------------------------------------------------------->
-        
-          <mat-tab label="DOCUMENTOS"> 
+        <mat-tab label="SEGURO">
+          <app-seguro-activos
+            [allInsurance]="allInsurance"
+            [money]="money"
+            [typePolicy]="typePolicy"
+            [dataGeneral]="dataGeneral[0]"
+            [dataInicilizar]="dataInicilizar"
+            (activoSeguro)="getGeneralData($event)">
+          </app-seguro-activos>
+        </mat-tab>
+        <!---------------------------------------- ----------------->
+        <!-------------------- Depreciación --------------------->
+        <!---------------------------------------------------------->
 
-          </mat-tab>
+        <mat-tab label="DEPRECIACIÓN">
+          <app-depreciacion
+            [costCenter]="costCenter"
+            [dataGeneral]="dataGeneral[0]"
+            (activoDepreciacion)="getGeneralData($event)"
+            [accountAccounting]="accountAccounting"
+            [dataInicilizar]="dataInicilizar">
+          </app-depreciacion>
+        </mat-tab>
 
-  
+        <!---------------------------------------- ----------------->
+        <!-------------------- Ubicación --------------------->
+        <!---------------------------------------------------------->
 
-        </mat-tab-group>
-      </mat-card-content>
-    </mat-card>
-    </div>
-    
-    <toolbar
-        (crear)="getOperacionToolbar('new')"
-        (buscar)="getAllActive()"   
-        (guardar)="newActive()"
-        (borrar)="deleteActive()"
-        (salir)="getOperacionToolbar('exit')"
-        (imprimir)="getOperacionToolbar('print')"
-        [desabilitarImprimir]="true"
-        [desabilitarBorrar]="false"
-        [desabilitarBuscar]="false"
-        [desabilitarCrear]="false"
-    >
-    </toolbar>
-    
+        <mat-tab label="UBICACIÓN">
+          <app-ubicacion-activo
+            [dataGeneral]="dataGeneral[0]"
+            [dataInicilizar]="dataInicilizar">
+          </app-ubicacion-activo>
+        </mat-tab>
+        <!---------------------------------------- ----------------->
+        <!-------------------- Responsable --------------------->
+        <!---------------------------------------------------------->
+
+        <mat-tab label="RESPONSABLE">
+          <app-responsable-activo
+            [dataGeneral]="dataGeneral[0]"
+            [administrativeUnit]="administrativeUnit"
+            [dataInicilizar]="dataInicilizar">
+          </app-responsable-activo>
+        </mat-tab>
+        <!---------------------------------------- ----------------->
+        <!-------------------- Documentos --------------------->
+        <!---------------------------------------------------------->
+
+        <mat-tab label="DOCUMENTOS"> </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</section>
+
+<app-toolbar
+  (crear)="getOperacionToolbar('new')"
+  (buscar)="getAllActive()"
+  (guardar)="newActive()"
+  (borrar)="deleteActive()"
+  (salir)="getOperacionToolbar('exit')"
+  (imprimir)="getOperacionToolbar('print')"
+  [desabilitarImprimir]="true"
+  [desabilitarBorrar]="false"
+  [desabilitarBuscar]="false"
+  [desabilitarCrear]="false">
+</app-toolbar>

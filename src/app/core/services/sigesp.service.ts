@@ -2,45 +2,46 @@ import { Injectable, OnInit } from '@angular/core';
 import { MUsuario } from '../models/usuario.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SigespLocalService {
-
-  constructor() { }
+  constructor() {}
 
   public usuario: MUsuario = null;
   public servidor: string = null;
 
-  public guardarUsuario(user: MUsuario){
+  public guardarUsuario(user: MUsuario) {
     this.usuario = user;
-    let cypher = btoa(JSON.stringify(this.usuario))
-    sessionStorage.setItem("usuarioActual", cypher)
+    let cypher = btoa(JSON.stringify(this.usuario));
+    sessionStorage.setItem('usuarioActual', cypher);
   }
 
-  public guardarServidor(server: string){
+  public guardarServidor(server: string) {
     this.servidor = server;
-    let cypher = btoa(this.servidor)
-    sessionStorage.setItem("rutaServidor", cypher)
+    let cypher = btoa(this.servidor);
+    sessionStorage.setItem('rutaServidor', cypher);
   }
 
-  public sesionActiva(): boolean{
+  public sesionActiva(): boolean {
     if (!this.usuario) {
-      if (!sessionStorage.getItem("usuarioActual")) {
-        return false
+      if (!sessionStorage.getItem('usuarioActual')) {
+        return false;
       } else {
-        let activeUser:MUsuario = JSON.parse(atob(sessionStorage.getItem("usuarioActual")));
+        let activeUser: MUsuario = JSON.parse(
+          atob(sessionStorage.getItem('usuarioActual'))
+        );
         this.guardarUsuario(activeUser);
       }
     }
     return true;
   }
 
-  public servidorActivo(): boolean{
+  public servidorActivo(): boolean {
     if (!this.servidor) {
-      if (!sessionStorage.getItem("rutaServidor")) {
-        return false
+      if (!sessionStorage.getItem('rutaServidor')) {
+        return false;
       } else {
-        let ruta:string = atob(sessionStorage.getItem("rutaServidor"));
+        let ruta: string = atob(sessionStorage.getItem('rutaServidor'));
         this.guardarServidor(ruta);
       }
     }
@@ -50,7 +51,6 @@ export class SigespLocalService {
   public cerrarSesion() {
     this.usuario = null;
     this.servidor = null;
-    sessionStorage.clear()
+    sessionStorage.clear();
   }
-
 }

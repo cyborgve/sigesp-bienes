@@ -1,20 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { MCatalogoGeneral } from "@core/models/MCatalogoGeneral";
-import { Router } from "@angular/router";
-import { SigespService } from "sigesp";
-import { CatalogoGeneralService } from "@core/services/catalogo-general.service";
-import { ConfiguracionBienesService } from "@core/services/configuracion-bienes.service";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MCatalogoGeneral } from '@core/models/MCatalogoGeneral';
+import { Router } from '@angular/router';
+import { SigespService } from 'sigesp';
+import { CatalogoGeneralService } from '@core/services/catalogo-general.service';
+import { ConfiguracionBienesService } from '@core/services/configuracion-bienes.service';
 //import { MConfigSBN } from '@core/models/MconfigSBN';
 
 @Component({
-  selector: "app-catalogo-general",
-  templateUrl: "./catalogo-general.component.html",
-  styleUrls: ["./catalogo-general.component.scss"],
+  selector: 'app-catalogo-general',
+  templateUrl: './catalogo-general.component.html',
+  styleUrls: ['./catalogo-general.component.scss'],
 })
 export class CatalogoGeneralComponent implements OnInit {
   public formCatalogoGeneral: FormGroup;
-  public operacion: string = "guardar";
+  public operacion: string = 'guardar';
   public allCatalog: MCatalogoGeneral[] = [];
   public codeExists: boolean;
   public cuenta: string;
@@ -24,7 +24,7 @@ export class CatalogoGeneralComponent implements OnInit {
   public cuentaRef: string;
   public denominacionREf: string;
   public validoCodigo: boolean;
-  public patronPattern = "(^[0-9-])$";
+  public patronPattern = '(^[0-9-])$';
 
   constructor(
     private router: Router,
@@ -33,12 +33,12 @@ export class CatalogoGeneralComponent implements OnInit {
     private configSBN: ConfiguracionBienesService
   ) {
     this.formCatalogoGeneral = new FormGroup({
-      denominacion: new FormControl("", [
+      denominacion: new FormControl('', [
         Validators.required,
         Validators.maxLength(250),
         Validators.minLength(3),
       ]),
-      codigo: new FormControl("", [
+      codigo: new FormControl('', [
         Validators.required,
         Validators.maxLength(this.logitudCuentaGeneral),
         Validators.minLength(this.logitudCuentaGeneral),
@@ -58,7 +58,7 @@ export class CatalogoGeneralComponent implements OnInit {
   }
 
   public getDenominacion() {
-    let i = this.allCatalog.findIndex((e) => {
+    let i = this.allCatalog.findIndex(e => {
       return e.catalogoCuenta.trim() == this.cuentaRef.trim();
     });
     if (i >= 0) {
@@ -68,26 +68,26 @@ export class CatalogoGeneralComponent implements OnInit {
 
   public inicializar() {
     this.formCatalogoGeneral.reset();
-    this.operacion = "guardar";
+    this.operacion = 'guardar';
     this.getGeneralCatalog();
     this.configSbn();
-    this.cuentaRef = "";
-    this.cuenta = "";
-    this.denominacionREf = "";
+    this.cuentaRef = '';
+    this.cuenta = '';
+    this.denominacionREf = '';
   }
 
   public exit() {
-    this.router.navigate([""]);
+    this.router.navigate(['']);
   }
 
   public getGeneralCatalog() {
-    this.catalogoGeneralService.getAllGeneralCatalog().subscribe((resp) => {
+    this.catalogoGeneralService.getAllGeneralCatalog().subscribe(resp => {
       this.allCatalog = resp.data;
     });
   }
 
   public configSbn() {
-    this.configSBN.getConfigSbn().subscribe((resp) => {
+    this.configSBN.getConfigSbn().subscribe(resp => {
       this.config = resp.data;
       if (this.config.length > 0) {
         if (this.config[0].estatusSeparadorMascara == 1) {
@@ -97,33 +97,33 @@ export class CatalogoGeneralComponent implements OnInit {
         } else {
           this.formatoCuenta = this.config[0].formatoCuentaGeneral.replace(
             /-/gi,
-            ""
+            ''
           );
           this.logitudCuentaGeneral =
             this.config[0].longMaxCaracterCuentaGeneral;
         }
       } else
         this.sigesp.showToastError(
-          "No ha configurado el formato de las cuentas"
+          'No ha configurado el formato de las cuentas'
         );
     });
   }
 
   public newGeneralCatalog() {
     if (this.formCatalogoGeneral.valid) {
-      if (this.operacion == "actualizar") {
-        let valor = this.formCatalogoGeneral.get("codigo").value;
+      if (this.operacion == 'actualizar') {
+        let valor = this.formCatalogoGeneral.get('codigo').value;
         if (this.cuenta.trim() == valor.trim()) {
           this.updateGeneralCatalog();
         } else if (this.cuenta.trim() != valor.trim()) {
           this.saveGeneralCatlog();
         }
       }
-      if (this.operacion == "guardar") {
+      if (this.operacion == 'guardar') {
         this.saveGeneralCatlog();
       }
     } else
-      this.sigesp.showToastError("Hay campos vacios o su formato es invalido");
+      this.sigesp.showToastError('Hay campos vacios o su formato es invalido');
   }
 
   public saveGeneralCatlog() {
@@ -131,7 +131,7 @@ export class CatalogoGeneralComponent implements OnInit {
       .saveGeneralCatalog(this.formCatalogoGeneral, this.cuentaRef)
       .subscribe((resp: any) => {
         if (resp.data.length > 0) {
-          this.sigesp.showToastSuccess("Registro guardada con éxito");
+          this.sigesp.showToastSuccess('Registro guardada con éxito');
           this.inicializar();
         } else this.sigesp.showToastError(resp.message);
       });
@@ -142,7 +142,7 @@ export class CatalogoGeneralComponent implements OnInit {
       .updateGeneralCatalog(this.formCatalogoGeneral, this.cuentaRef)
       .subscribe((resp: any) => {
         if (resp.data) {
-          this.sigesp.showToastSuccess("Registro actualizada con éxito");
+          this.sigesp.showToastSuccess('Registro actualizada con éxito');
           this.inicializar();
         } else this.sigesp.showToastError(resp.message);
       });
@@ -150,14 +150,14 @@ export class CatalogoGeneralComponent implements OnInit {
 
   public deleteGeneralCatalog() {
     this.sigesp
-      .openDialogConfirm("Eliminar ", "Esta seguro de eliminar el registro?")
-      .then((resp) => {
+      .openDialogConfirm('Eliminar ', 'Esta seguro de eliminar el registro?')
+      .then(resp => {
         if (resp) {
           this.catalogoGeneralService
             .deleteGeneralCatalog(this.cuenta)
             .subscribe((resp: any) => {
               if (resp.data) {
-                this.sigesp.showToastSuccess("Cuenta eliminada con éxito");
+                this.sigesp.showToastSuccess('Cuenta eliminada con éxito');
                 this.inicializar();
               } else this.sigesp.showToastError(resp.message);
             });
@@ -167,9 +167,9 @@ export class CatalogoGeneralComponent implements OnInit {
 
   public openCatalogo() {
     this.inicializar();
-    let tittle = "Catalogo de Catalogo General";
-    let nameColummnas = ["Código", "Denominación"];
-    let columnas = ["catalogoCuenta", "denominacionCuenta"];
+    let tittle = 'Catalogo de Catalogo General';
+    let nameColummnas = ['Código', 'Denominación'];
+    let columnas = ['catalogoCuenta', 'denominacionCuenta'];
     if (this.allCatalog.length > 0) {
       this.sigesp
         .openCatalogoGenerico(columnas, tittle, this.allCatalog, nameColummnas)
@@ -177,45 +177,45 @@ export class CatalogoGeneralComponent implements OnInit {
           if (resp != null) {
             this.cuenta = resp.catalogoCuenta;
             this.formCatalogoGeneral
-              .get("codigo")
+              .get('codigo')
               .setValue(resp.catalogoCuenta);
             this.formCatalogoGeneral
-              .get("denominacion")
+              .get('denominacion')
               .setValue(resp.denominacionCuenta);
             this.formCatalogoGeneral
-              .get("referencia")
+              .get('referencia')
               .setValue(resp.cuentaReferencia);
             this.cuentaRef = resp.cuentaReferencia;
             this.getDenominacion();
-            if (resp.estatusMovimiento == "C") {
-              this.formCatalogoGeneral.get("estatus").setValue(true);
-            } else if (resp.estatusMovimiento == "S") {
-              this.formCatalogoGeneral.get("estatus").setValue(false);
+            if (resp.estatusMovimiento == 'C') {
+              this.formCatalogoGeneral.get('estatus').setValue(true);
+            } else if (resp.estatusMovimiento == 'S') {
+              this.formCatalogoGeneral.get('estatus').setValue(false);
             }
             this.cuenta = resp.catalogoCuenta;
-            this.operacion = "actualizar";
+            this.operacion = 'actualizar';
           }
         });
-    } else this.sigesp.showToastError("No hay catalogo registrado");
+    } else this.sigesp.showToastError('No hay catalogo registrado');
   }
 
   public openCatalogoReferencia() {
-    let tittle = "Catalogo de Catalogo General";
-    let nameColummnas = ["Código", "Denominación"];
-    let columnas = ["catalogoCuenta", "denominacionCuenta"];
+    let tittle = 'Catalogo de Catalogo General';
+    let nameColummnas = ['Código', 'Denominación'];
+    let columnas = ['catalogoCuenta', 'denominacionCuenta'];
     if (this.allCatalog.length > 0) {
       this.sigesp
         .openCatalogoGenerico(columnas, tittle, this.allCatalog, nameColummnas)
         .then((resp: MCatalogoGeneral) => {
           if (resp != null) {
             this.formCatalogoGeneral
-              .get("referencia")
+              .get('referencia')
               .setValue(resp.catalogoCuenta);
             this.cuentaRef = resp.catalogoCuenta;
             this.denominacionREf = resp.denominacionCuenta;
           }
         });
-    } else this.sigesp.showToastError("No hay catalogo registrado");
+    } else this.sigesp.showToastError('No hay catalogo registrado');
   }
 
   public validarDigitosCuenta(event) {
@@ -227,26 +227,26 @@ export class CatalogoGeneralComponent implements OnInit {
       let valorInput = (<HTMLInputElement>event.target).value;
       if (this.config[0].estatusSeparadorMascara == 1) {
         for (let i = 0; i < this.formatoCuenta.length; i++) {
-          if (this.formatoCuenta.charAt(i) == "-") {
+          if (this.formatoCuenta.charAt(i) == '-') {
             valor.push(i);
           }
         }
         if (valorInput.length == this.logitudCuentaGeneral) {
           if (valor.length > 0) {
             for (let i = 0; i < valor.length; i++) {
-              if (valorInput.charAt(valor[i]) == "-") {
+              if (valorInput.charAt(valor[i]) == '-') {
                 valido = true;
               } else {
                 valido = false;
-                this.sigesp.showToastError("Formato invalido del código");
+                this.sigesp.showToastError('Formato invalido del código');
                 break;
               }
               for (let j = 0; j < valor[i]; j++) {
-                if (valorInput[j] >= "0" && valorInput[j] <= "9") {
+                if (valorInput[j] >= '0' && valorInput[j] <= '9') {
                   valido = true;
                 } else {
                   valido = false;
-                  this.sigesp.showToastError("Formato invalido del código");
+                  this.sigesp.showToastError('Formato invalido del código');
                   break;
                 }
               }
@@ -255,17 +255,17 @@ export class CatalogoGeneralComponent implements OnInit {
         }
       }
       if (valorInput.length != this.logitudCuentaGeneral) {
-        this.sigesp.showToastError("Faltan dígitos al código");
+        this.sigesp.showToastError('Faltan dígitos al código');
         validoLog = false;
       } else validoLog = true;
 
-      let k = this.allCatalog.findIndex((e) => {
+      let k = this.allCatalog.findIndex(e => {
         return e.catalogoCuenta.trim() == valorInput.trim();
       });
 
       if (k >= 0) {
-        this.sigesp.showToastError("El código ya esta registrado");
-        this.formCatalogoGeneral.get("codigo").reset();
+        this.sigesp.showToastError('El código ya esta registrado');
+        this.formCatalogoGeneral.get('codigo').reset();
         this.codeExists = false;
       } else {
         this.codeExists = true;

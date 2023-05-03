@@ -1,24 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppComponent } from 'src/app/app/app.component';
+import { AppComponent } from 'src/app/app.component';
 import { ToastrService } from 'ngx-toastr';
 import { SigespService, IConexion } from 'sigesp';
 
 @Component({
   selector: 'app-redirect',
   templateUrl: './redirect.component.html',
-  styleUrls: ['./redirect.component.scss']
+  styleUrls: ['./redirect.component.scss'],
 })
 export class RedirectComponent implements OnInit {
-
   private data: IConexion;
 
-  constructor(private route: ActivatedRoute, private sigesp: SigespService, 
-    private toastr: ToastrService, private router: Router, private _app: AppComponent) { }
+  constructor(
+    private route: ActivatedRoute,
+    private sigesp: SigespService,
+    private toastr: ToastrService,
+    private router: Router,
+    private _app: AppComponent
+  ) {}
 
   ngOnInit() {
     if (this.route.snapshot.queryParamMap.get('data')) {
-      this.data =  JSON.parse(atob(this.route.snapshot.queryParamMap.get('data')));
+      this.data = JSON.parse(
+        atob(this.route.snapshot.queryParamMap.get('data'))
+      );
       // console.log(this.data);
 
       this.sigesp.saveUser(this.data);
@@ -29,5 +35,4 @@ export class RedirectComponent implements OnInit {
       this.router.navigate(['auth', 'not-logged']);
     }
   }
-
 }

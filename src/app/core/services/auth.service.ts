@@ -10,41 +10,43 @@ import { MUsuario } from '../models/usuario.model';
 import { SigespLocalService } from './sigesp.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  constructor(private http: HttpClient, private sigesp: SigespLocalService) {}
 
-  constructor(private http: HttpClient, private sigesp: SigespLocalService) { }
-
-  public obtenerConfigDB(): Observable<MConfiguracionDB[]>{
+  public obtenerConfigDB(): Observable<MConfiguracionDB[]> {
     return this.http.get(`${this.sigesp.servidor}/main/config_bd.php`).pipe(
       retry(3),
       map((res: any) => res.map(element => new MConfiguracionDB(element)))
-    )
+    );
   }
 
-  public logIn(userData): Observable<MUsuario>{
+  public logIn(userData): Observable<MUsuario> {
     let data = {
-      conexion_postgres:{
+      conexion_postgres: {
         basededatos: userData.selectdb.obtenerDB(),
         gestor: userData.selectdb.obtenerGestor(),
         login: userData.selectdb.obtenerDBLogin(),
         nombre: userData.selectdb.nombre,
         password: userData.selectdb.obtenerDBPassword(),
         puerto: userData.selectdb.obtenerPuerto(),
-        servidor: userData.selectdb.obtenerServidor()
+        servidor: userData.selectdb.obtenerServidor(),
       },
       fl_clave: userData.clave,
       fl_usuario: userData.usuario,
-      operacionl: "iniciarsesion"
-    }
-    return this.http.post(`${this.sigesp.servidor}/dao/login/login_dao.php`,
-    JSON.stringify(data))
-    .pipe(
-      retry(3),
-      map((res: any) => {
-        return new MUsuario(res, userData.selectdb)
-      })
-    )
+      operacionl: 'iniciarsesion',
+    };
+    return this.http
+      .post(
+        `${this.sigesp.servidor}/dao/login/login_dao.php`,
+        JSON.stringify(data)
+      )
+      .pipe(
+        retry(3),
+        map((res: any) => {
+          return new MUsuario(res, userData.selectdb);
+        })
+      );
   }
 }

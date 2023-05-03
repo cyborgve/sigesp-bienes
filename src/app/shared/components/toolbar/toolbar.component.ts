@@ -1,13 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+} from '@angular/core';
 
 @Component({
-  selector: 'toolbar',
+  selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
@@ -49,28 +55,27 @@ export class ToolbarComponent implements OnInit {
     }
   }
 
-  public emitNew(){
-    this.crear.emit(true)
+  public emitNew() {
+    this.crear.emit(true);
   }
 
-  public emitSave(){
-    this.guardar.emit(true)
+  public emitSave() {
+    this.guardar.emit(true);
   }
 
-  public emitDelete(){
-    this.borrar.emit(true)
+  public emitDelete() {
+    this.borrar.emit(true);
   }
 
-  public emitSearch(){
-    this.buscar.emit(true)
+  public emitSearch() {
+    this.buscar.emit(true);
   }
 
-  public emitPrint(){
-    this.imprimir.emit(true)
+  public emitPrint() {
+    this.imprimir.emit(true);
   }
 
-  public emitExit(){
-    this.salir.emit(true)
+  public emitExit() {
+    this.salir.emit(true);
   }
-
 }

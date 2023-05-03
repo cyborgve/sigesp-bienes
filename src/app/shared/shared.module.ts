@@ -7,26 +7,19 @@ import { CurrencyInputComponent } from './components/currency-input/currency-inp
 import { IsoCurrencyPipe } from './pipes/iso-currency.pipe';
 import { FormsModule } from '@angular/forms';
 
+const sharedComponents = [
+  ToolbarComponent,
+  LoadingScreenComponent,
+  CurrencyInputComponent,
+];
 
+const sharedPipes = [IsoCurrencyPipe];
+
+const sharedModules = [MaterialModule, FormsModule];
 
 @NgModule({
-  declarations: [
-    ToolbarComponent, 
-    LoadingScreenComponent,
-    CurrencyInputComponent,
-    IsoCurrencyPipe
-  ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    FormsModule
-  ],
-  exports: [
-    MaterialModule,
-    ToolbarComponent,
-    LoadingScreenComponent,
-    CurrencyInputComponent,
-    IsoCurrencyPipe
-  ]
+  declarations: [...sharedComponents, ...sharedPipes],
+  imports: [CommonModule, ...sharedModules],
+  exports: [...sharedComponents, ...sharedModules, ...sharedPipes],
 })
-export class SharedModule { }
+export class SharedModule {}

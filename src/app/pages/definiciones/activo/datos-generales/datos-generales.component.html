@@ -1,642 +1,811 @@
-<form class="form" [formGroup]="formDatosGenerales" class="card-content-form-datos">
+<form
+  class="form"
+  [formGroup]="formDatosGenerales"
+  class="card-content-form-datos">
+  <h4 class="card-content-title descripcion">Datos Básicos</h4>
 
-   <h4 class="card-content-title descripcion">Datos Básicos</h4> 
-
-     
-   <mat-form-field>    
-      <mat-label>Catálogo General</mat-label>
-      <input type="text" matInput 
+  <mat-form-field>
+    <mat-label>Catálogo General</mat-label>
+    <input
+      type="text"
+      matInput
       required
       formControlName="catalogoCuenta"
-      [readonly]="true"           
-      >
-      <span matSuffix mat-button (click)="openGeralCatalog()"  role="img" aria-hidden="true"><mat-icon>search</mat-icon></span>
-    </mat-form-field>
+      [readonly]="true" />
+    <span
+      matSuffix
+      mat-button
+      (click)="openGeralCatalog()"
+      role="img"
+      aria-hidden="true"
+      ><mat-icon>search</mat-icon></span
+    >
+  </mat-form-field>
 
-      <mat-form-field>    
-         <mat-label>Código Institucional del Activo</mat-label>
-         <input type="text" matInput 
-            required 
-            [readonly]="true"                  
-            formControlName="codigoInternoBien">
-      </mat-form-field>
-
-      <mat-form-field matTooltip="Debe hacer click sobre el icono"   class="fecha">
-         <input matInput [matDatepicker]="picker55" placeholder="Fecha de Registro" [readonly]="true"
-               formControlName="fechaRegistroBien" required
-               (dateChange)="modifyValueDatePicker($event,'fechaRegistroBien')">
-         <mat-datepicker-toggle matPrefix [for]="picker55" required></mat-datepicker-toggle>
-         <mat-datepicker #picker55  disabled="false" required></mat-datepicker>
-       </mat-form-field>
-
-        
-
-    <mat-form-field  class="descripcion">
-      <mat-label>Denominación del Bien /Activo</mat-label>
-      <textarea matInput #desc maxlength="250"
-          formControlName="descripcionBien"  required rows="2"  
-          (blur)="modifyValueInput($event,'descripcionBien')"
-      ></textarea>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Tipo de Bien/Activo</mat-label>
-      <mat-select formControlName="tipoActivo" 
-      (selectionChange)="selectionType($event,'tipoActivo')" 
-       required [disabled]="!mostrar">
-       <mat-option *ngFor="let tipo of tipoActivo" [value]="tipo.value" >
-         {{tipo.denominacion}}
-       </mat-option>
-      </mat-select>
-   </mat-form-field>   
-
-    <mat-form-field>
-      <mat-label>Chapa</mat-label>
-      <input type="text" matInput         
-      formControlName="chapa"  (blur)="modifyValueInput($event,'chapa')">  
-   </mat-form-field>  
-
-   <mat-form-field>
-      <mat-label>Rotulación Bien</mat-label>
-      <mat-select formControlName="idRotulacion"
-      (selectionChange)="modifyValueSelection($event,'idRotulacion')">
-          <mat-option *ngFor="let tipo of labelingMethod" [value]="tipo.id" >
-              {{tipo.denominacion}}
-            </mat-option>
-      </mat-select>
-   </mat-form-field>
-  
-   <mat-form-field>
-      <mat-label>Categoria del Bien</mat-label>
-      <mat-select formControlName="categoria"
-      (selectionChange)="modifyValueSelection($event,'idCategoria')">
-          <mat-option *ngFor="let tipo of goodCategory" [value]="tipo.id" >
-              {{tipo.denominacion}}
-            </mat-option>
-      </mat-select>
-   </mat-form-field>  
-
-   <mat-form-field  class="descripcion">
-        <mat-label>Observaciones del Bien</mat-label>
-        <textarea matInput #desc maxlength="250" 
-        formControlName="observacion"  required rows="2"
-        (blur)="modifyValueInput($event,'observacion')"></textarea>
-   </mat-form-field>   
-   
-
-   <h4 class="descripcion">Datos de Adquisición</h4>
-
-   <ng-container class="descripcion">
-      <mat-slide-toggle class="descripcion" 
-       formControlName="estatusDepreciacion"
-       (change)="getStatusSlide($event,'estatusDepreciacion')"
-       >Depreciable</mat-slide-toggle>
-   </ng-container>
-
-    <mat-form-field>
-      <mat-label>Valor de Adquisición del Bien</mat-label>
-      <input type="text" matInput         
-      formControlName="valorAdquisicionBien" 
+  <mat-form-field>
+    <mat-label>Código Institucional del Activo</mat-label>
+    <input
+      type="text"
+      matInput
       required
-      (blur)="modifyValueInput($event,'valorAdquisicionBien')"
-      >  
-   </mat-form-field>  
+      [readonly]="true"
+      formControlName="codigoInternoBien" />
+  </mat-form-field>
+
+  <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fecha">
+    <input
+      matInput
+      [matDatepicker]="picker55"
+      placeholder="Fecha de Registro"
+      [readonly]="true"
+      formControlName="fechaRegistroBien"
+      required
+      (dateChange)="modifyValueDatePicker($event, 'fechaRegistroBien')" />
+    <mat-datepicker-toggle
+      matPrefix
+      [for]="picker55"
+      required></mat-datepicker-toggle>
+    <mat-datepicker #picker55 disabled="false" required></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="descripcion">
+    <mat-label>Denominación del Bien /Activo</mat-label>
+    <textarea
+      matInput
+      #desc
+      maxlength="250"
+      formControlName="descripcionBien"
+      required
+      rows="2"
+      (blur)="modifyValueInput($event, 'descripcionBien')"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Tipo de Bien/Activo</mat-label>
+    <mat-select
+      formControlName="tipoActivo"
+      (selectionChange)="selectionType($event, 'tipoActivo')"
+      required
+      [disabled]="!mostrar">
+      <mat-option *ngFor="let tipo of tipoActivo" [value]="tipo.value">
+        {{ tipo.denominacion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Chapa</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="chapa"
+      (blur)="modifyValueInput($event, 'chapa')" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Rotulación Bien</mat-label>
+    <mat-select
+      formControlName="idRotulacion"
+      (selectionChange)="modifyValueSelection($event, 'idRotulacion')">
+      <mat-option *ngFor="let tipo of labelingMethod" [value]="tipo.id">
+        {{ tipo.denominacion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Categoria del Bien</mat-label>
+    <mat-select
+      formControlName="categoria"
+      (selectionChange)="modifyValueSelection($event, 'idCategoria')">
+      <mat-option *ngFor="let tipo of goodCategory" [value]="tipo.id">
+        {{ tipo.denominacion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="descripcion">
+    <mat-label>Observaciones del Bien</mat-label>
+    <textarea
+      matInput
+      #desc
+      maxlength="250"
+      formControlName="observacion"
+      required
+      rows="2"
+      (blur)="modifyValueInput($event, 'observacion')"></textarea>
+  </mat-form-field>
+
+  <h4 class="descripcion">Datos de Adquisición</h4>
+
+  <ng-container class="descripcion">
+    <mat-slide-toggle
+      class="descripcion"
+      formControlName="estatusDepreciacion"
+      (change)="getStatusSlide($event, 'estatusDepreciacion')"
+      >Depreciable</mat-slide-toggle
+    >
+  </ng-container>
+
+  <mat-form-field>
+    <mat-label>Valor de Adquisición del Bien</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="valorAdquisicionBien"
+      required
+      (blur)="modifyValueInput($event, 'valorAdquisicionBien')" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Moneda</mat-label>
+    <mat-select
+      formControlName="codigoMoneda"
+      (selectionChange)="modifyValueSelection($event, 'codigoMoneda')">
+      <mat-option *ngFor="let tipo of money" [value]="tipo.codigo">
+        {{ tipo.denominacion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fecha">
+    <input
+      matInput
+      [matDatepicker]="picker2"
+      placeholder="Fecha de Adquisición"
+      [readonly]="true"
+      formControlName="fechaAdquisicionBien"
+      (dateChange)="modifyValueDatePicker($event, 'fechaAdquisicionBien')" />
+    <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fecha">
+    <input
+      matInput
+      [matDatepicker]="picker"
+      placeholder="Fecha de Ingreso del Bien/Ingreso al Organo"
+      [readonly]="true"
+      formControlName="fechaIngresoBien"
+      required
+      (dateChange)="modifyValueDatePicker($event, 'fechaIngresoBien')" />
+    <mat-datepicker-toggle
+      matPrefix
+      [for]="picker"
+      required></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false" required></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Código Presupuestario</mat-label>
+    <input
+      type="text"
+      matInput
+      (blur)="modifyValueInput($event, 'cuentaPresupuestaria')"
+      formControlName="cuentaPresupuestaria"
+      [readonly]="true" />
+    <span
+      matSuffix
+      mat-button
+      (click)="openExpensesCatalog()"
+      role="img"
+      aria-hidden="true"
+      ><mat-icon>search</mat-icon></span
+    >
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Código Contable</mat-label>
+    <input
+      type="text"
+      matInput
+      (blur)="modifyValueInput($event, 'cuentaContable')"
+      formControlName="cuentaContable"
+      [readonly]="true" />
+    <span
+      matSuffix
+      mat-button
+      (click)="openAccountingCatalog()"
+      role="img"
+      aria-hidden="true"
+      ><mat-icon>search</mat-icon></span
+    >
+  </mat-form-field>
+
+  <h4 class="descripcion">Estado de Uso y Conservación del Bien</h4>
+
+  <mat-form-field>
+    <mat-label>Estado Uso del Bien</mat-label>
+    <mat-select
+      formControlName="idEstadoUso"
+      (selectionChange)="modifyValueSelection($event, 'idEstadoUso')">
+      <mat-option *ngFor="let tipo of stateUse" [value]="tipo.id">
+        {{ tipo.denominacion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Estado de Conservación del Bien</mat-label>
+    <mat-select
+      formControlName="idConservacion"
+      (selectionChange)="modifyValueSelection($event, 'idConservacion')">
+      <mat-option *ngFor="let tipo of stateConservation" [value]="tipo.id">
+        {{ tipo.denominacion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="descripcion">
+    <mat-label>Descripción del Estado Bien/Activo</mat-label>
+    <textarea
+      matInput
+      #desc
+      maxlength="250"
+      formControlName="explicacionEstadoConservacionBien"
+      required
+      rows="2"
+      (blur)="
+        modifyValueInput($event, 'explicacionEstadoConservacionBien')
+      "></textarea>
+  </mat-form-field>
+
+  <ng-container *ngIf="selection == 'M' || selection == 'C'">
+    <h4 class="descripcion">Especificaciones del Bien/Activo</h4>
 
     <mat-form-field>
-      <mat-label>Moneda</mat-label>
-      <mat-select formControlName="codigoMoneda" 
-      (selectionChange)="modifyValueSelection($event,'codigoMoneda')" >
-          <mat-option *ngFor="let tipo of money" [value]="tipo.codigo" >
-              {{tipo.denominacion}}
-            </mat-option>
+      <mat-label>Serial del bien/Activo</mat-label>
+      <input
+        type="text"
+        matInput
+        (blur)="modifyValueInput($event, 'numeroSerialBien')"
+        formControlName="numeroSerialBien"
+        maxlength="50" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Marca</mat-label>
+      <mat-select
+        formControlName="idMarca"
+        (selectionChange)="getModelBrand($event, 'idMarca')">
+        <mat-option *ngFor="let tipo of brand" [value]="tipo.idMarca">
+          {{ tipo.denominacionMarca }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
-   
-   <mat-form-field matTooltip="Debe hacer click sobre el icono"   class="fecha">
-      <input matInput [matDatepicker]="picker2" placeholder="Fecha de Adquisición"[readonly]="true"
-            formControlName="fechaAdquisicionBien" 
-            (dateChange)="modifyValueDatePicker($event,'fechaAdquisicionBien')">
-      <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2  disabled="false"></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field matTooltip="Debe hacer click sobre el icono"   class="fecha">
-      <input matInput [matDatepicker]="picker" placeholder="Fecha de Ingreso del Bien/Ingreso al Organo" [readonly]="true"
-            formControlName="fechaIngresoBien" required
-            (dateChange)="modifyValueDatePicker($event,'fechaIngresoBien')">
-      <mat-datepicker-toggle matPrefix [for]="picker" required></mat-datepicker-toggle>
-      <mat-datepicker #picker  disabled="false" required></mat-datepicker>
-    </mat-form-field>
-
-    
-
-    <mat-form-field>    
-      <mat-label>Código Presupuestario</mat-label>
-      <input type="text" matInput      
-      (blur)="modifyValueInput($event,'cuentaPresupuestaria')"
-      formControlName="cuentaPresupuestaria"
-      [readonly]="true">
-      <span matSuffix mat-button (click)="openExpensesCatalog()"  role="img" aria-hidden="true"><mat-icon>search</mat-icon></span>
-    </mat-form-field>
-
-    <mat-form-field>    
-      <mat-label>Código Contable</mat-label>
-      <input type="text" matInput 
-      (blur)="modifyValueInput($event,'cuentaContable')"      
-      formControlName="cuentaContable"
-      [readonly]="true" >
-      <span matSuffix mat-button (click)="openAccountingCatalog()"  role="img" aria-hidden="true"><mat-icon>search</mat-icon></span>
-    </mat-form-field>
-  
-<h4 class="descripcion">Estado de Uso y Conservación del Bien</h4>
-
-   <mat-form-field>
-      <mat-label>Estado Uso del Bien</mat-label>
-      <mat-select formControlName="idEstadoUso" 
-      (selectionChange)="modifyValueSelection($event,'idEstadoUso')" >
-         <mat-option *ngFor="let tipo of stateUse" [value]="tipo.id" >
-            {{tipo.denominacion}}
-            </mat-option>
+    <mat-form-field>
+      <mat-label>Modelo</mat-label>
+      <mat-select
+        formControlName="idModelo"
+        (selectionChange)="modifyValueSelection($event, 'idModelo')">
+        <mat-option *ngFor="let tipo of model" [value]="tipo.idModelo">
+          {{ tipo.denominacionModelo }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
-
-   <mat-form-field>
-        <mat-label>Estado de Conservación del Bien</mat-label>
-        <mat-select formControlName="idConservacion" 
-        (selectionChange)="modifyValueSelection($event,'idConservacion')" >
-            <mat-option *ngFor="let tipo of stateConservation" [value]="tipo.id" >
-               {{tipo.denominacion}}
-            </mat-option>
-        </mat-select>
-     </mat-form-field>
-
-
-     <mat-form-field  class="descripcion">
-      <mat-label>Descripción del Estado Bien/Activo</mat-label>
-      <textarea matInput #desc maxlength="250"
-          formControlName="explicacionEstadoConservacionBien"  required rows="2"  
-          (blur)="modifyValueInput($event,'explicacionEstadoConservacionBien')"
-      ></textarea>
     </mat-form-field>
-  
 
-<ng-container *ngIf="selection=='M' || selection=='C'">
+    <mat-form-field>
+      <mat-label>Año de Fabricacion</mat-label>
+      <input
+        type="text"
+        matInput
+        (blur)="modifyValueInput($event, 'annoFabricacionBien')"
+        formControlName="annoFabricacionBien"
+        maxlength="4"
+        minlength="4" />
+    </mat-form-field>
 
-   <h4 class="descripcion">Especificaciones del Bien/Activo</h4>
-
-      <mat-form-field>
-         <mat-label>Serial del bien/Activo</mat-label>
-         <input type="text" matInput 
-         (blur)="modifyValueInput($event,'numeroSerialBien')"      
-         formControlName="numeroSerialBien" maxlength="50">  
-      </mat-form-field> 
-
-      <mat-form-field>
-         <mat-label>Marca</mat-label>
-         <mat-select formControlName="idMarca" (selectionChange)="getModelBrand($event,'idMarca')"  >
-             <mat-option *ngFor="let tipo of brand" [value]="tipo.idMarca">
-                 {{tipo.denominacionMarca}}
-               </mat-option>
-         </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-         <mat-label>Modelo</mat-label>
-         <mat-select formControlName="idModelo" 
-         (selectionChange)="modifyValueSelection($event,'idModelo')" >
-             <mat-option *ngFor="let tipo of model" [value]="tipo.idModelo" >
-                 {{tipo.denominacionModelo}}
-               </mat-option>
-         </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-         <mat-label>Año de Fabricacion</mat-label>
-         <input type="text" matInput
-         (blur)="modifyValueInput($event,'annoFabricacionBien')" 
-         formControlName="annoFabricacionBien"
-         maxlength="4" minlength="4">  
-      </mat-form-field>  
-      
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Color</mat-label>
-      <mat-select formControlName="idColor" 
-      (selectionChange)="modifyValueSelection($event,'idColor')" >
-          <mat-option *ngFor="let tipo of goodColor" [value]="tipo.id" >
-              {{tipo.denominacion}}
-            </mat-option>
+      <mat-select
+        formControlName="idColor"
+        (selectionChange)="modifyValueSelection($event, 'idColor')">
+        <mat-option *ngFor="let tipo of goodColor" [value]="tipo.id">
+          {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field> 
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Especificación del color</mat-label>
-      <input type="text" matInput 
-      maxlength="200"        
-      formControlName="especificacionColor"
-      (blur)="modifyValueInput($event,'especificacionColor')" 
-      >  
-   </mat-form-field>  
+      <input
+        type="text"
+        matInput
+        maxlength="200"
+        formControlName="especificacionColor"
+        (blur)="modifyValueInput($event, 'especificacionColor')" />
+    </mat-form-field>
 
-
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Tipo de Componente</mat-label>
-      <mat-select formControlName="idTipoComponente" 
-      (selectionChange)="modifyValueSelection($event,'idTipoComponente')" >
-          <mat-option *ngFor="let tipo of typeComponent" [value]="tipo.id" >
-             {{tipo.denominacion}}
-            </mat-option>
+      <mat-select
+        formControlName="idTipoComponente"
+        (selectionChange)="modifyValueSelection($event, 'idTipoComponente')">
+        <mat-option *ngFor="let tipo of typeComponent" [value]="tipo.id">
+          {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
+    </mat-form-field>
 
-
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Especificación Técnicas del Bien</mat-label>
-      <input type="text" matInput  maxlength="200"   
-      (blur)="modifyValueInput($event,'especificacionesTecnicaBien')" 
-      formControlName="especificacionesTecnicaBien">  
-   </mat-form-field> 
+      <input
+        type="text"
+        matInput
+        maxlength="200"
+        (blur)="modifyValueInput($event, 'especificacionesTecnicaBien')"
+        formControlName="especificacionesTecnicaBien" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Garantia</mat-label>
-      <input type="text" matInput  
-      (blur)="modifyValueInput($event,'garantia')"        
-      formControlName="garantia">  
-   </mat-form-field>  
+      <input
+        type="text"
+        matInput
+        (blur)="modifyValueInput($event, 'garantia')"
+        formControlName="garantia" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Unidad de Medidas de Garantia</mat-label>
-      <mat-select formControlName="idUnidadMedidaGarantia" 
-      (selectionChange)="modifyValueSelection($event,'idUnidadMedidaGarantia')">
-          <mat-option *ngFor="let tipo of warranty" [value]="tipo.id" >
-              {{tipo.denominacion}}
-            </mat-option>
+      <mat-select
+        formControlName="idUnidadMedidaGarantia"
+        (selectionChange)="
+          modifyValueSelection($event, 'idUnidadMedidaGarantia')
+        ">
+        <mat-option *ngFor="let tipo of warranty" [value]="tipo.id">
+          {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
-
-
-   <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fecha">
-      <input matInput [matDatepicker]="picker5" placeholder="Fecha Inicio Garantia" 
-            formControlName="fechaInicioGarantia" [readonly]="true"
-            (blur)="modifyValueDatePicker($event,'fechaInicioGarantia')">
-      <mat-datepicker-toggle matPrefix [for]="picker5" ></mat-datepicker-toggle>
-      <mat-datepicker #picker5  disabled="false" ></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fecha">
-      <input matInput [matDatepicker]="picker4" placeholder="Fecha Fin Garantia" 
-            formControlName="fechaFinGarantia"  [readonly]="true"
-            (blur)="modifyValueDatePicker($event,'fecchaFinGarantia')">
-      <mat-datepicker-toggle matPrefix [for]="picker4" ></mat-datepicker-toggle>
-      <mat-datepicker #picker4  disabled="false" ></mat-datepicker>
+    <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fecha">
+      <input
+        matInput
+        [matDatepicker]="picker5"
+        placeholder="Fecha Inicio Garantia"
+        formControlName="fechaInicioGarantia"
+        [readonly]="true"
+        (blur)="modifyValueDatePicker($event, 'fechaInicioGarantia')" />
+      <mat-datepicker-toggle matPrefix [for]="picker5"></mat-datepicker-toggle>
+      <mat-datepicker #picker5 disabled="false"></mat-datepicker>
     </mat-form-field>
 
-</ng-container>
-<!-- VEHICULOS -->
-<ng-container *ngIf="selection=='M' || selection=='C'">
-   <h4 class="descripcion">Especificaciones del Bien/Activo (Vehículos) </h4>
+    <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fecha">
+      <input
+        matInput
+        [matDatepicker]="picker4"
+        placeholder="Fecha Fin Garantia"
+        formControlName="fechaFinGarantia"
+        [readonly]="true"
+        (blur)="modifyValueDatePicker($event, 'fecchaFinGarantia')" />
+      <mat-datepicker-toggle matPrefix [for]="picker4"></mat-datepicker-toggle>
+      <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+    </mat-form-field>
+  </ng-container>
+  <!-- VEHICULOS -->
+  <ng-container *ngIf="selection == 'M' || selection == 'C'">
+    <h4 class="descripcion">Especificaciones del Bien/Activo (Vehículos)</h4>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Clase del Bien (Vehículos) </mat-label>
-      <mat-select formControlName="ClaseBien" 
-      (selectionChange)="modifyValueSelection($event,'idClase')">
-         <mat-option *ngFor="let tipo of goodClass" [value]="tipo.id" >
-              {{tipo.denominacion}}
-         </mat-option>
+      <mat-select
+        formControlName="ClaseBien"
+        (selectionChange)="modifyValueSelection($event, 'idClase')">
+        <mat-option *ngFor="let tipo of goodClass" [value]="tipo.id">
+          {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field> 
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Otra Clase del Bien</mat-label>
-      <input type="text" matInput  
-      maxlength="200"             
-      formControlName="otraClaseBien"
-      (blur)="modifyValueInput($event,'descripcionOtraClase')">  
-   </mat-form-field>  
+      <input
+        type="text"
+        matInput
+        maxlength="200"
+        formControlName="otraClaseBien"
+        (blur)="modifyValueInput($event, 'descripcionOtraClase')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Serial de Carroceria</mat-label>
-      <input type="text" matInput              
-      formControlName="serialCarroceria"
-      (blur)="modifyValueInput($event,'serialCarroceriaBien')">  
-  
-   </mat-form-field> 
+      <input
+        type="text"
+        matInput
+        formControlName="serialCarroceria"
+        (blur)="modifyValueInput($event, 'serialCarroceriaBien')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Serial del Motor</mat-label>
-      <input type="text" matInput    
-         maxlength="50"         
-         formControlName="serialMotorBien" 
-         (blur)="modifyValueInput($event,'serialMotorBien')">   
-   </mat-form-field> 
+      <input
+        type="text"
+        matInput
+        maxlength="50"
+        formControlName="serialMotorBien"
+        (blur)="modifyValueInput($event, 'serialMotorBien')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Placa/Siglas del Bien</mat-label>
-      <input type="text" matInput  
-      maxlength="20"   
-      (blur)="modifyValueInput($event,'placaSiglasBien')"
-      formControlName="placaSiglasBien">  
-   </mat-form-field> 
+      <input
+        type="text"
+        matInput
+        maxlength="20"
+        (blur)="modifyValueInput($event, 'placaSiglasBien')"
+        formControlName="placaSiglasBien" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Número de Titulo de Propietario</mat-label>
-      <input type="text" matInput   
-      maxlength="30"        
-      formControlName="numeroTituloPropietario"
-      (blur)="modifyValueInput($event,'numeroTituloPropietario')">  
-   </mat-form-field> 
+      <input
+        type="text"
+        matInput
+        maxlength="30"
+        formControlName="numeroTituloPropietario"
+        (blur)="modifyValueInput($event, 'numeroTituloPropietario')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Capacidad del Bien</mat-label>
-      <input type="text" matInput  
-      maxlength="50"      
-      formControlName="capacidadBien"
-      (blur)="modifyValueInput($event,'capacidadBien')">  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        maxlength="50"
+        formControlName="capacidadBien"
+        (blur)="modifyValueInput($event, 'capacidadBien')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Nombre dado al Bien</mat-label>
-      <input type="text" matInput 
-      maxlength="100"         
-      formControlName="nombreBien"
-      (blur)="modifyValueInput($event,'nombreBien')">
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        maxlength="100"
+        formControlName="nombreBien"
+        (blur)="modifyValueInput($event, 'nombreBien')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Uso del Bien/Activo</mat-label>
-      <input type="text" matInput 
-      (blur)="modifyValueInput($event,'usoBienVehiculo')"         
-      formControlName="usoBienVehiculo">  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        (blur)="modifyValueInput($event, 'usoBienVehiculo')"
+        formControlName="usoBienVehiculo" />
+    </mat-form-field>
 
-   <ng-container>
-      <mat-slide-toggle 
-       formControlName="estatusGPS"
-       (change)="getStatusSlide($event,'estatusGPS')">
-       Tiene sistema de rastreo</mat-slide-toggle>
-   </ng-container>
+    <ng-container>
+      <mat-slide-toggle
+        formControlName="estatusGPS"
+        (change)="getStatusSlide($event, 'estatusGPS')">
+        Tiene sistema de rastreo</mat-slide-toggle
+      >
+    </ng-container>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Sistema de Rastreo</mat-label>
-      <input type="text" matInput 
-        maxlength="250"             
-       formControlName="especificacionSistemaGPS"
-       (blur)="modifyValueInput($event,'especificacionSistemaGPS')" >  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        maxlength="250"
+        formControlName="especificacionSistemaGPS"
+        (blur)="modifyValueInput($event, 'especificacionSistemaGPS')" />
+    </mat-form-field>
 
-   <mat-form-field class="descripcion">
+    <mat-form-field class="descripcion">
       <mat-label>Otras Especificaciones Descritas del Bien/Activo</mat-label>
-      <input type="text" matInput               
-      formControlName="descripcionComponenteBien">  
-   </mat-form-field> 
+      <input type="text" matInput formControlName="descripcionComponenteBien" />
+    </mat-form-field>
+  </ng-container>
 
-</ng-container>
+  <!-- SEMOVIENTES -->
+  <ng-container *ngIf="selection == 'S'">
+    <h4 class="descripcion">Especificaciones del Bien/activo (Semoviente)</h4>
 
-<!-- SEMOVIENTES -->
-<ng-container *ngIf="selection=='S'">
-   <h4 class="descripcion">Especificaciones del Bien/activo (Semoviente) </h4>
-
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Tipo de Semoviente</mat-label>
       <mat-select formControlName="tipoSemoviente">
-          <mat-option *ngFor="let tipo of typeSemoviente" [value]="tipo.id" 
-          (selectionChange)="modifyValueSelection($event,'tipoSemoviente')">
-            {{tipo.denominacion}}
-            </mat-option>
+        <mat-option
+          *ngFor="let tipo of typeSemoviente"
+          [value]="tipo.id"
+          (selectionChange)="modifyValueSelection($event, 'tipoSemoviente')">
+          {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field> 
-   
-   <mat-form-field>
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Tipo de Animal</mat-label>
       <mat-select formControlName="tipoAnimal">
-          <mat-option *ngFor="let tipo of typeAnimal" [value]="tipo.id"
-          (selectionChange)="modifyValueSelection($event,'tipoAnimal')">
-            {{tipo.denominacion}}
-            </mat-option>
+        <mat-option
+          *ngFor="let tipo of typeAnimal"
+          [value]="tipo.id"
+          (selectionChange)="modifyValueSelection($event, 'tipoAnimal')">
+          {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
-   
-   <mat-form-field>
-      <mat-label>Genero</mat-label>
-      <mat-select formControlName="generoSemoviente"
-      (selectionChange)="modifyValueSelection($event,'genero')">
-      <mat-option value="H" >Hermbra</mat-option>
-          <mat-option value="M" >Macho</mat-option>
-      </mat-select>
-   </mat-form-field> 
+    </mat-form-field>
 
-   <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fecha">
-      <input matInput [matDatepicker]="picker6" placeholder="Fecha de Nacimiento" [readonly]="true"
-            formControlName="fechaNacimiento" (dateChange)="modifyValueDatePicker($event,'fechaNacimientoAnimal')">
-      <mat-datepicker-toggle matPrefix [for]="picker6" ></mat-datepicker-toggle>
-      <mat-datepicker #picker6  disabled="false" ></mat-datepicker>
+    <mat-form-field>
+      <mat-label>Genero</mat-label>
+      <mat-select
+        formControlName="generoSemoviente"
+        (selectionChange)="modifyValueSelection($event, 'genero')">
+        <mat-option value="H">Hermbra</mat-option>
+        <mat-option value="M">Macho</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fecha">
+      <input
+        matInput
+        [matDatepicker]="picker6"
+        placeholder="Fecha de Nacimiento"
+        [readonly]="true"
+        formControlName="fechaNacimiento"
+        (dateChange)="modifyValueDatePicker($event, 'fechaNacimientoAnimal')" />
+      <mat-datepicker-toggle matPrefix [for]="picker6"></mat-datepicker-toggle>
+      <mat-datepicker #picker6 disabled="false"></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Raza del Animal</mat-label>
-      <mat-select formControlName="raza"
-      (selectionChange)="modifyValueSelection($event,'idRaza')">
-          <mat-option *ngFor="let tipo of raceAnimal" [value]="tipo.id">
-            {{tipo.denominacion}}
-            </mat-option>
+      <mat-select
+        formControlName="raza"
+        (selectionChange)="modifyValueSelection($event, 'idRaza')">
+        <mat-option *ngFor="let tipo of raceAnimal" [value]="tipo.id">
+          {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Proposito</mat-label>
-      <mat-select formControlName="proposito"
-      (selectionChange)="modifyValueSelection($event,'idPropositoSemoviente')">      
-          <mat-option *ngFor="let tipo of purposeSemoviente" [value]="tipo.id" >
-              {{tipo.codigo}}  {{tipo.denominacion}}
-            </mat-option>
+      <mat-select
+        formControlName="proposito"
+        (selectionChange)="
+          modifyValueSelection($event, 'idPropositoSemoviente')
+        ">
+        <mat-option *ngFor="let tipo of purposeSemoviente" [value]="tipo.id">
+          {{ tipo.codigo }} {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
+    </mat-form-field>
 
-   
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Peso</mat-label>
-      <input type="text" matInput  
-      (blur)="modifyValueInput($event,'peso')" 
-      formControlName="peso">  
-   </mat-form-field>  
+      <input
+        type="text"
+        matInput
+        (blur)="modifyValueInput($event, 'peso')"
+        formControlName="peso" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Unidad de Medidas (Peso)</mat-label>
-      <mat-select formControlName="unidadMedidaSe"
-      (selectionChange)="modifyValueSelection($event,'idUnidadaMedidaPeso')">
-          <mat-option *ngFor="let tipo of unitMeasurement" [value]="tipo.id_unimed" >
-              {{tipo.denmayor}}
-            </mat-option>
+      <mat-select
+        formControlName="unidadMedidaSe"
+        (selectionChange)="modifyValueSelection($event, 'idUnidadaMedidaPeso')">
+        <mat-option
+          *ngFor="let tipo of unitMeasurement"
+          [value]="tipo.id_unimed">
+          {{ tipo.denmayor }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Número de Hierro</mat-label>
-      <input type="text" matInput
-      maxlength="15" 
-      (blur)="modifyValueInput($event,'numeroHierro')"        
-      formControlName="numeroHierro">  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        maxlength="15"
+        (blur)="modifyValueInput($event, 'numeroHierro')"
+        formControlName="numeroHierro" />
+    </mat-form-field>
 
-   <mat-form-field class="descripcion">
+    <mat-form-field class="descripcion">
       <mat-label>Especificaciones del Animal</mat-label>
-      <input type="text" matInput 
-      maxlength="250"         
-      formControlName="especificacionesAnimal"
-      (blur)="modifyValueInput($event,'especificacionAnimal')">   
-   </mat-form-field>
-</ng-container>
+      <input
+        type="text"
+        matInput
+        maxlength="250"
+        formControlName="especificacionesAnimal"
+        (blur)="modifyValueInput($event, 'especificacionAnimal')" />
+    </mat-form-field>
+  </ng-container>
 
-<!-- INMUEBLES -->
+  <!-- INMUEBLES -->
 
-<ng-container *ngIf="selection=='I'">
-   <h4 class="descripcion">Especificaciones del Bien/Activo (Inmuebles) </h4>
+  <ng-container *ngIf="selection == 'I'">
+    <h4 class="descripcion">Especificaciones del Bien/Activo (Inmuebles)</h4>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Uso del bien Activo/Inmueble</mat-label>
-      <mat-select formControlName="usoInmueble"
-      (selectionChange)="modifyValueSelection($event,'idUso')">
-          <mat-option *ngFor="let tipo of stateUse" [value]="tipo.codigo" >
-              {{tipo.codigo}}  {{tipo.denominacion}}
-            </mat-option>
+      <mat-select
+        formControlName="usoInmueble"
+        (selectionChange)="modifyValueSelection($event, 'idUso')">
+        <mat-option *ngFor="let tipo of stateUse" [value]="tipo.codigo">
+          {{ tipo.codigo }} {{ tipo.denominacion }}
+        </mat-option>
       </mat-select>
-   </mat-form-field>
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Oficina de Registro Notaria</mat-label>
-      <input type="text" matInput  
-      maxlength="250"       
-      formControlName="oficinaRegistro"
-      (blur)="modifyValueInput($event,'oficinaRegistroNotaria')">  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        maxlength="250"
+        formControlName="oficinaRegistro"
+        (blur)="modifyValueInput($event, 'oficinaRegistroNotaria')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Referencia del Registro</mat-label>
-      <input type="text" matInput        
-      maxlength="250"  
-      formControlName="referenciaRegistro"
-      (blur)="modifyValueInput($event,'referenciaRegistro')"> 
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        maxlength="250"
+        formControlName="referenciaRegistro"
+        (blur)="modifyValueInput($event, 'referenciaRegistro')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Tomo</mat-label>
-      <input type="text" matInput 
-      maxlength="4"        
-      formControlName="tomo"
-      (blur)="modifyValueInput($event,'tomo')"> 
-  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        maxlength="4"
+        formControlName="tomo"
+        (blur)="modifyValueInput($event, 'tomo')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Folio</mat-label>
-      <input type="text" matInput 
-      formControlName="folio" 
-      maxlength="5" 
-      (blur)="modifyValueInput($event,'folio')"> 
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        formControlName="folio"
+        maxlength="5"
+        (blur)="modifyValueInput($event, 'folio')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Protocolo</mat-label>
-      <input type="text" matInput         
-      formControlName="protocolo"
-      maxlength="20" 
-      (blur)="modifyValueInput($event,'protocolo')">  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        formControlName="protocolo"
+        maxlength="20"
+        (blur)="modifyValueInput($event, 'protocolo')" />
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Número de Registro</mat-label>
-      <input type="text" matInput         
-      formControlName="numeroRegistro"
-      maxlength="20" 
-      (blur)="modifyValueInput($event,'numeroRegistro')">   
-   </mat-form-field>
-
-
-   <mat-form-field matTooltip="Debe hacer click sobre el icono"  class="fecha">
-      <input matInput [matDatepicker]="picker7" placeholder="Fecha de Registro" 
-            formControlName="fechaRegistro" [readonly]="true"       
-            (dateChange)="modifyValueDatePicker($event,'fechaRegistro')">   
-      <mat-datepicker-toggle matPrefix [for]="picker7" ></mat-datepicker-toggle>
-      <mat-datepicker #picker7  disabled="false" ></mat-datepicker>
+      <input
+        type="text"
+        matInput
+        formControlName="numeroRegistro"
+        maxlength="20"
+        (blur)="modifyValueInput($event, 'numeroRegistro')" />
     </mat-form-field>
 
+    <mat-form-field matTooltip="Debe hacer click sobre el icono" class="fecha">
+      <input
+        matInput
+        [matDatepicker]="picker7"
+        placeholder="Fecha de Registro"
+        formControlName="fechaRegistro"
+        [readonly]="true"
+        (dateChange)="modifyValueDatePicker($event, 'fechaRegistro')" />
+      <mat-datepicker-toggle matPrefix [for]="picker7"></mat-datepicker-toggle>
+      <mat-datepicker #picker7 disabled="false"></mat-datepicker>
+    </mat-form-field>
 
-    <mat-form-field  class="descripcion">
+    <mat-form-field class="descripcion">
       <mat-label>Dependencias que lo integran</mat-label>
-      <textarea matInput #desc maxlength="250"
-          formControlName="dependenciaInmuebles"  required rows="2"  
-          (blur)="modifyValueInput($event,'dependencias')"
-      ></textarea>
+      <textarea
+        matInput
+        #desc
+        maxlength="250"
+        formControlName="dependenciaInmuebles"
+        required
+        rows="2"
+        (blur)="modifyValueInput($event, 'dependencias')"></textarea>
     </mat-form-field>
 
-   <mat-form-field>
-      <mat-label>Área de  Construcción</mat-label>
-      <input type="text" matInput         
-      formControlName="areaConstruccion"
-      (blur)="modifyValueInput($event,'areaConstruccion')">  
-   </mat-form-field>
+    <mat-form-field>
+      <mat-label>Área de Construcción</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="areaConstruccion"
+        (blur)="modifyValueInput($event, 'areaConstruccion')" />
+    </mat-form-field>
 
-
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Unidad de Medida de la Construcción</mat-label>
-      <mat-select formControlName="unidMedConstruccion"       
-      (selectionChange)="modifyValueSelection($event,'idUnidadMedidaConstruccion')"> 
-          <mat-option *ngFor="let tipo of unitMeasurement" [value]="tipo.id_unimed" >
-              {{tipo.denmayor}}
-            </mat-option>
+      <mat-select
+        formControlName="unidMedConstruccion"
+        (selectionChange)="
+          modifyValueSelection($event, 'idUnidadMedidaConstruccion')
+        ">
+        <mat-option
+          *ngFor="let tipo of unitMeasurement"
+          [value]="tipo.id_unimed">
+          {{ tipo.denmayor }}
+        </mat-option>
       </mat-select>
-   </mat-form-field> 
+    </mat-form-field>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Área del Terreno</mat-label>
-      <input type="text" matInput         
-      formControlName="areaTerreno"
-      (blur)="modifyValueInput($event,'areaDelTerreno')">    
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        formControlName="areaTerreno"
+        (blur)="modifyValueInput($event, 'areaDelTerreno')" />
+    </mat-form-field>
 
-
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Unidad de Medida del Terreno</mat-label>
-      <mat-select formControlName="unidMedTerreno"
-      (selectionChange)="modifyValueSelection($event,'idUnidadMedidaTerreno')"> 
-          <mat-option *ngFor="let tipo of unitMeasurement" [value]="tipo.id_unimed" >
-              {{tipo.denmayor}}
-            </mat-option>
+      <mat-select
+        formControlName="unidMedTerreno"
+        (selectionChange)="
+          modifyValueSelection($event, 'idUnidadMedidaTerreno')
+        ">
+        <mat-option
+          *ngFor="let tipo of unitMeasurement"
+          [value]="tipo.id_unimed">
+          {{ tipo.denmayor }}
+        </mat-option>
       </mat-select>
-   </mat-form-field> 
+    </mat-form-field>
 
-   <mat-form-field class="descripcion">
+    <mat-form-field class="descripcion">
       <mat-label>Propietario Anterior</mat-label>
-      <input type="text" matInput         
-      formControlName="propietarioAnterior"
-      maxlength="150" 
-      (blur)="modifyValueInput($event,'propietarioAnterior')">  
-   </mat-form-field>
+      <input
+        type="text"
+        matInput
+        formControlName="propietarioAnterior"
+        maxlength="150"
+        (blur)="modifyValueInput($event, 'propietarioAnterior')" />
+    </mat-form-field>
 
-   <ng-container>
-      <mat-slide-toggle class="descripcion" formControlName="estatusSede" (change)="getStatusSlide($event,'estatusSede')">Corresponde el Bien/Activo Inmueble a alguna Sede del Organo o Ente</mat-slide-toggle>
-   </ng-container>
+    <ng-container>
+      <mat-slide-toggle
+        class="descripcion"
+        formControlName="estatusSede"
+        (change)="getStatusSlide($event, 'estatusSede')"
+        >Corresponde el Bien/Activo Inmueble a alguna Sede del Organo o
+        Ente</mat-slide-toggle
+      >
+    </ng-container>
 
-   <mat-form-field>
+    <mat-form-field>
       <mat-label>Código de la Sede</mat-label>
-      <mat-select formControlName="codigoSede" [disabled]="!statusSede"
-      (selectionChange)="modifyValueSelection($event,'idSedeUbicacion')"> 
-         <mat-option *ngFor="let tipo of sedes" [value]="tipo.idSede" >
-              {{tipo.denominacionSede}}
-            </mat-option>
+      <mat-select
+        formControlName="codigoSede"
+        [disabled]="!statusSede"
+        (selectionChange)="modifyValueSelection($event, 'idSedeUbicacion')">
+        <mat-option *ngFor="let tipo of sedes" [value]="tipo.idSede">
+          {{ tipo.denominacionSede }}
+        </mat-option>
       </mat-select>
-   </mat-form-field> 
+    </mat-form-field>
 
-   <mat-form-field class="descripcion">
+    <mat-form-field class="descripcion">
       <mat-label>Especificaciones del Inmueble</mat-label>
-      <input type="text" matInput         
-      formControlName="especificacionInmueble"
-      maxlength="250" 
-      (blur)="modifyValueInput($event,'especificacionInmueble')">  
-  
-   </mat-form-field>
-   
-</ng-container>
-
-
-
+      <input
+        type="text"
+        matInput
+        formControlName="especificacionInmueble"
+        maxlength="250"
+        (blur)="modifyValueInput($event, 'especificacionInmueble')" />
+    </mat-form-field>
+  </ng-container>
 </form>

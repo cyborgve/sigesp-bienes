@@ -1,41 +1,90 @@
-import { DefinicionesBasicasComponent } from './definiciones-basicas/definiciones-basicas.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MarcasModelosComponent } from './marcas-modelos/marcas-modelos.component';
-import { ActivoComponent } from './activo/activo.component';
-import { SedeComponent } from './sede/sede.component';
-import { EstructuraPredominanteComponent } from './estructura-predominante/estructura-predominante.component';
-import { CausaMovimientoComponent } from './causa-movimiento/causa-movimiento.component';
-import { CatalogoGeneralComponent } from './catalogo-general/catalogo-general.component';
-import { ConfiguracionBienesComponent } from './configuracion-bienes/configuracion-bienes.component';
 import { DefinicionesComponent } from './definiciones.component';
 import { Routes, RouterModule } from '@angular/router';
-import { UnidadAdministrativaComponent } from './unidad-administrativa/unidad-administrativa.component';
-import { OrigenComponent } from './origen/origen.component';
-import { SegurosComponent } from './seguros/seguros.component';
 
 const routes: Routes = [
-  { path: '', component: DefinicionesComponent },  
-  { path: 'configuracion-bienes', component: ConfiguracionBienesComponent },
-  { path: 'catalogo-general', component: CatalogoGeneralComponent },
-  { path: 'causa-movimiento', component: CausaMovimientoComponent },
-  { path: 'estructura-predominante', component: EstructuraPredominanteComponent },
-  { path: 'sede', component: SedeComponent },
-  { path: 'origen', component: OrigenComponent },
-  { path: 'activo', component: ActivoComponent },
-  { path: 'marcas-modelos', component: MarcasModelosComponent },
-  { path: 'unidad-administrativa', component: UnidadAdministrativaComponent },
-  { path: 'definiciones-basicas', component: DefinicionesBasicasComponent },
-  { path: 'seguros', component: SegurosComponent }
-
+  { path: '', component: DefinicionesComponent },
+  {
+    path: 'configuracion-bienes',
+    loadChildren: () =>
+      import(
+        '@pages/definiciones/configuracion-bienes/configuracion-bienes.module'
+      ).then(m => m.ConfiguracionBienesModule),
+  },
+  {
+    path: 'catalogo-general',
+    loadChildren: () =>
+      import(
+        '@pages/definiciones/catalogo-general/catalogo-general.module'
+      ).then(m => m.CatalogoGeneralModule),
+  },
+  {
+    path: 'causa-movimiento',
+    loadChildren: () =>
+      import(
+        '@pages/definiciones/causa-movimiento/causa-movimiento.module'
+      ).then(m => m.CausaMovimientoModule),
+  },
+  {
+    path: 'estructura-predominante',
+    loadChildren: () =>
+      import(
+        '@pages/definiciones/estructura-predominante/estructura-predominante.module'
+      ).then(m => m.EstructuraPredominanteModule),
+  },
+  {
+    path: 'sede',
+    loadChildren: () =>
+      import('@pages/definiciones/sede/sede.module').then(m => m.SedeModule),
+  },
+  {
+    path: 'origen',
+    loadChildren: () =>
+      import('@pages/definiciones/origen/origen.module').then(
+        m => m.OrigenModule
+      ),
+  },
+  {
+    path: 'activo',
+    loadChildren: () =>
+      import('@pages/definiciones/activo/activo.module').then(
+        m => m.ActivoModule
+      ),
+  },
+  {
+    path: 'marcas-modelos',
+    loadChildren: () =>
+      import('@pages/definiciones/marcas-modelos/marcas-modelos.module').then(
+        m => m.MarcasModelosModule
+      ),
+  },
+  {
+    path: 'unidad-administrativa',
+    loadChildren: () =>
+      import(
+        '@pages/definiciones/unidad-administrativa/unidad-administrativa.module'
+      ).then(m => m.UnidadAdministrativaModule),
+  },
+  {
+    path: 'definiciones-basicas',
+    loadChildren: () =>
+      import(
+        '@pages/definiciones/definiciones-basicas/definiciones-basicas.module'
+      ).then(m => m.DefinicionesBasicasModule),
+  },
+  {
+    path: 'seguros',
+    loadChildren: () =>
+      import('@pages/definiciones/seguros/seguros.module').then(
+        m => m.SegurosModule
+      ),
+  },
 ];
 
 @NgModule({
   declarations: [],
-  imports: [
-    RouterModule.forChild(routes),
-    CommonModule
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes), CommonModule],
+  exports: [RouterModule],
 })
-export class DefinicionesRoutingModule { }
+export class DefinicionesRoutingModule {}

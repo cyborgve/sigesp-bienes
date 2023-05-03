@@ -1,16 +1,16 @@
-import { Router } from "@angular/router";
-import { FormGroup, FormControl } from "@angular/forms";
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { SigespService, MCentroCosto, MCuentaInstitucional } from "sigesp";
-import { MDefinicionesBasicas } from "@core/models/MDefinicionesBasicas";
+import { Router } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { SigespService, MCentroCosto, MCuentaInstitucional } from 'sigesp';
+import { MDefinicionesBasicas } from '@core/models/MDefinicionesBasicas';
 //import { MConfigSBN } from '@core/models/MconfigSBN';
-import { MActivo, MetodoDepreciacion } from "@core/models/MActivo";
-import { ConfiguracionBienesService } from "@core/services/configuracion-bienes.service";
+import { MActivo, MetodoDepreciacion } from '@core/models/MActivo';
+import { ConfiguracionBienesService } from '@core/services/configuracion-bienes.service';
 
 @Component({
-  selector: "app-depreciacion",
-  templateUrl: "./depreciacion.component.html",
-  styleUrls: ["./depreciacion.component.scss"],
+  selector: 'app-depreciacion',
+  templateUrl: './depreciacion.component.html',
+  styleUrls: ['./depreciacion.component.scss'],
 })
 export class DepreciacionComponent implements OnInit {
   public formDepreciacion: FormGroup;
@@ -48,14 +48,14 @@ export class DepreciacionComponent implements OnInit {
     this.inicializar();
   }
 
-  ngOnChanges() {
-    this.dataGeneral;
-    this.dataInicilizar;
-    this.showData();
-    if (this.dataInicilizar) {
-      this.inicializar();
-    }
-  }
+  // ngOnChanges() {
+  //   this.dataGeneral;
+  //   this.dataInicilizar;
+  //   this.showData();
+  //   if (this.dataInicilizar) {
+  //     this.inicializar();
+  //   }
+  // }
 
   public inicializar() {
     this.formDepreciacion.reset();
@@ -64,35 +64,35 @@ export class DepreciacionComponent implements OnInit {
   public showData() {
     if (this.dataGeneral != undefined) {
       this.formDepreciacion
-        .get("metodoDepreciacion")
+        .get('metodoDepreciacion')
         .setValue(this.dataGeneral.metodoDepreciacion);
-      this.formDepreciacion.get("vidaUtil").setValue(this.dataGeneral.vidaUtil);
+      this.formDepreciacion.get('vidaUtil').setValue(this.dataGeneral.vidaUtil);
       this.formDepreciacion
-        .get("valorRescate")
+        .get('valorRescate')
         .setValue(this.dataGeneral.valorRescate);
       this.formDepreciacion
-        .get("cuentaDepreciacion")
+        .get('cuentaDepreciacion')
         .setValue(this.dataGeneral.cuentaDepreciacion);
       this.formDepreciacion
-        .get("cuentaDepreciacionAcumulada")
+        .get('cuentaDepreciacionAcumulada')
         .setValue(this.dataGeneral.cuentaDepreciacionAcumulada);
       this.formDepreciacion
-        .get("cuentaPresupuestaria")
+        .get('cuentaPresupuestaria')
         .setValue(this.dataGeneral.cuentaPresupuestaria);
       this.formDepreciacion
-        .get("estructuraPresupuestaria")
+        .get('estructuraPresupuestaria')
         .setValue(this.dataGeneral.estructuraPresupuestaria);
       this.formDepreciacion
-        .get("fuenteFinanciamiento")
+        .get('fuenteFinanciamiento')
         .setValue(this.dataGeneral.codigoFuenteFinaciamiento);
       this.formDepreciacion
-        .get("codigoCentroCosto")
+        .get('codigoCentroCosto')
         .setValue(this.dataGeneral.codigoCentroCosto);
     }
   }
 
   public getConfigurationSBN() {
-    this.configuracionBienesService.getConfigSbn().subscribe((resp) => {
+    this.configuracionBienesService.getConfigSbn().subscribe(resp => {
       if (resp.data.length > 0) {
         this.configSBN = resp.data;
         this.depeciacion = this.configSBN[0].afectacionDepreciacion;
@@ -119,9 +119,9 @@ export class DepreciacionComponent implements OnInit {
   }
 
   public openCatalogDepreciationAccounts() {
-    let columns = ["cuenta", "denominacion"];
-    let columnsName = ["cuenta", "denominación"];
-    let tittle = "Catálogo Plan Institucional de Cuentas Contables";
+    let columns = ['cuenta', 'denominacion'];
+    let columnsName = ['cuenta', 'denominación'];
+    let tittle = 'Catálogo Plan Institucional de Cuentas Contables';
     this.sigesp
       .openCatalogoGenerico(
         columns,
@@ -129,18 +129,18 @@ export class DepreciacionComponent implements OnInit {
         this.accountAccounting,
         columnsName
       )
-      .then((resp) => {
+      .then(resp => {
         if (resp != null) {
-          this.formDepreciacion.get("cuentaDepreciacion").setValue(resp.cuenta);
-          this.modifyValue(resp.cuenta, "cuentaDepreciacion");
+          this.formDepreciacion.get('cuentaDepreciacion').setValue(resp.cuenta);
+          this.modifyValue(resp.cuenta, 'cuentaDepreciacion');
         }
       });
   }
 
   public openCatalogAccumulatedDepreciationAccounts() {
-    let columns = ["cuenta", "denominacion"];
-    let columnsName = ["cuenta", "denominación"];
-    let tittle = "Catálogo Plan Institucional de Cuentas Contables";
+    let columns = ['cuenta', 'denominacion'];
+    let columnsName = ['cuenta', 'denominación'];
+    let tittle = 'Catálogo Plan Institucional de Cuentas Contables';
     this.sigesp
       .openCatalogoGenerico(
         columns,
@@ -148,12 +148,12 @@ export class DepreciacionComponent implements OnInit {
         this.accountAccounting,
         columnsName
       )
-      .then((resp) => {
+      .then(resp => {
         if (resp != null) {
           this.formDepreciacion
-            .get("cuentaDepreciacionAcumulada")
+            .get('cuentaDepreciacionAcumulada')
             .setValue(resp.cuenta);
-          this.modifyValue(resp.cuenta, "cuentaDepreciacionAcumulada");
+          this.modifyValue(resp.cuenta, 'cuentaDepreciacionAcumulada');
         }
       });
   }
