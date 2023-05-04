@@ -3,6 +3,8 @@ import { ISideNav } from '@core/interfaces/sidenav';
 import { SigespService, MUsuario } from 'sigesp';
 import { Router } from '@angular/router';
 import packageJson from '../../package.json';
+import { MENU } from '@core/constants/menu';
+import { MenuItem } from '@core/new.models/menu-item';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +13,7 @@ import packageJson from '../../package.json';
 })
 export class AppComponent {
   version = ' v' + packageJson.version;
+  items: MenuItem[] = MENU;
   public rutas: ISideNav[];
   public usuario: MUsuario;
 

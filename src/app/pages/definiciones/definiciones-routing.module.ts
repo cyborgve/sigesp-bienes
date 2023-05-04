@@ -46,7 +46,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'activo',
+    path: 'bien-activo',
     loadChildren: () =>
       import('@pages/definiciones/activo/activo.module').then(
         m => m.ActivoModule
@@ -74,7 +74,7 @@ const routes: Routes = [
       ).then(m => m.DefinicionesBasicasModule),
   },
   {
-    path: 'seguros',
+    path: 'seguro',
     loadChildren: () =>
       import('@pages/definiciones/seguros/seguros.module').then(
         m => m.SegurosModule

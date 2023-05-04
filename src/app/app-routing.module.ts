@@ -34,6 +34,16 @@ const routes: Routes = [
       import('@pages/procesos/procesos.module').then(m => m.ProcesosModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'reportes',
+    loadChildren: () =>
+      import('@pages/reportes/reportes.module').then(m => m.ReportesModule),
+  },
+  {
+    path: 'ayuda',
+    loadChildren: () =>
+      import('./pages/ayuda/ayuda.module').then(m => m.AyudaModule),
+  },
 ];
 
 @NgModule({
