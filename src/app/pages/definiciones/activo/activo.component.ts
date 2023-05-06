@@ -334,9 +334,9 @@ export class ActivoComponent implements OnInit {
 
   public getAdministrativeUnit() {
     this.unidadAdministrativaService
-      .getAllAdministrativeUnit()
+      .buscarTodasUnidadesAdministrativas()
       .subscribe(resp => {
-        this.administrativeUnit = resp.data;
+        //this.administrativeUnit = resp.data;
       });
   }
 

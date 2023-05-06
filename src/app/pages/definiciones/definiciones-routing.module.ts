@@ -80,6 +80,13 @@ const routes: Routes = [
         m => m.SegurosModule
       ),
   },
+  {
+    path: 'categoria-unidad-administrativa',
+    loadChildren: () =>
+      import(
+        './categoria-unidad-administrativa/categoria-unidad-administrativa.module'
+      ).then(m => m.CategoriaUnidadAdministrativaModule),
+  },
 ];
 
 @NgModule({

@@ -1,11 +1,14 @@
-import { MDefinicionesBasicas } from '@core/models/MDefinicionesBasicas';
+import { UnidadAdministrativa } from '@core/new.models/unidad-administrative';
 import { DefinicionesBasicasService } from '@core/services/definiciones-basicas.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { UnidadAdministrativaService } from '@core/services/unidad-administrativa.service';
 import { MUnidadAdministrativa } from '@core/models/MUnidadAdministrativa';
 import { SigespService } from 'sigesp';
+import { Observable } from 'rxjs';
+import { CategoriaUnidadAdministrativeService } from '@core/new.services/categoria-unidad-administrative.service';
+import { CategoriaUnidadAdministrativa } from '@core/new.models/categoria-unidad-administrativa';
 
 @Component({
   selector: 'app-unidad-administrativa',
@@ -13,76 +16,69 @@ import { SigespService } from 'sigesp';
   styleUrls: ['./unidad-administrativa.component.scss'],
 })
 export class UnidadAdministrativaComponent implements OnInit {
-  public formUnidadAdministrativa: FormGroup;
-  public allCategory: MDefinicionesBasicas[] = [];
-  public allUnit: MUnidadAdministrativa[] = [];
-  public idUnit: number = 0;
-  public operacion: string = 'guardar';
-  public codeExists: boolean;
+  formUnidadAdministrativa: FormGroup;
+  allCategory: UnidadAdministrativa[] = [];
+  allUnit: UnidadAdministrativa[] = [];
+  idUnit: number = 0;
+  operacion: string = 'guardar';
+  codeExists: boolean;
 
   constructor(
-    private router: Router,
-    private sigesp: SigespService,
-    private unidadAdministrativaService: UnidadAdministrativaService,
-    private definicionesBasicasService: DefinicionesBasicasService
+    private _formBuilder: FormBuilder,
+    private _router: Router,
+    private _sigesp: SigespService,
+    private _unidadAdministrativa: UnidadAdministrativaService,
+    private _definicionesBasicas: DefinicionesBasicasService,
+    private _categoriaUnidadAdministrativa: CategoriaUnidadAdministrativeService
   ) {
-    this.formUnidadAdministrativa = new FormGroup({
-      codigo: new FormControl('', [
+    this.formUnidadAdministrativa = this._formBuilder.group({
+      codigo: [
+        '',
         Validators.required,
         Validators.maxLength(5),
         Validators.minLength(1),
-      ]),
-      denominacion: new FormControl('', [
+      ],
+      denominacion: [
+        '',
         Validators.required,
-        Validators.maxLength(200),
-        Validators.minLength(3),
-      ]),
-      categoria: new FormControl(),
-      otraDenominacion: new FormControl('', [
-        Validators.maxLength(200),
-        Validators.minLength(3),
-      ]),
-      codUnidadAdscrita: new FormControl(),
+        Validators.maxLength(5),
+        Validators.minLength(1),
+      ],
+      categoria: [''],
+      otraDenominacion: [
+        '',
+        Validators.required,
+        Validators.maxLength(5),
+        Validators.minLength(1),
+      ],
+      codUnidadAdscrita: [''],
     });
   }
 
   ngOnInit() {
-    this.getAllCategory();
-    this.getAllAdministrativeUnit();
     this.formUnidadAdministrativa.get('categoria').setValue(0);
     this.formUnidadAdministrativa.get('codUnidadAdscrita').setValue(0);
   }
 
-  public getAllCategory() {
-    const tipo = '1';
-    this.definicionesBasicasService.getDefinition(tipo).subscribe(resp => {
-      this.allCategory = resp.data;
-    });
-  }
+  categoriasUnidadAdministrativa: Observable<CategoriaUnidadAdministrativa[]> =
+    this._categoriaUnidadAdministrativa.buscarTodos();
 
-  public getAllAdministrativeUnit() {
-    this.unidadAdministrativaService
-      .getAllAdministrativeUnit()
-      .subscribe(resp => {
-        this.allUnit = resp.data;
-      });
-  }
+  unidadesAdministrativas: Observable<UnidadAdministrativa[]> =
+    this._unidadAdministrativa.buscarTodasUnidadesAdministrativas();
 
-  public inicializar() {
+  inicializar() {
     this.formUnidadAdministrativa.reset();
     this.idUnit = 0;
     this.operacion = 'guardar';
-    this.getAllCategory();
-    this.getAllAdministrativeUnit();
     this.formUnidadAdministrativa.get('categoria').setValue(0);
     this.formUnidadAdministrativa.get('codUnidadAdscrita').setValue(0);
   }
 
-  public exit() {
-    this.router.navigate(['']);
+  exit() {
+    this._router.navigate(['']);
   }
 
-  public newUnit() {
+  newUnit() {
     if (this.formUnidadAdministrativa.valid) {
       if (this.operacion == 'guardar') {
         this.saveUnit();
@@ -90,20 +86,20 @@ export class UnidadAdministrativaComponent implements OnInit {
         this.updateUnit();
       }
     } else {
-      this.sigesp.showToastSuccess(
+      this._sigesp.showToastSuccess(
         'Hay campos vacios o su formato es invalido'
       );
     }
   }
 
-  public validateCode(event, campo) {
+  validateCode(event, campo) {
     if (this.operacion == 'guardar') {
       let valorInput = (<HTMLInputElement>event.target).value;
       let i = this.allUnit.findIndex(e => {
-        return e.codigoUnidadAdministrativa.trim() == valorInput.trim();
+        return e.coduniadmbien.trim() == valorInput.trim();
       });
       if (i >= 0) {
-        this.sigesp.showToastError('El código ya esta registrado');
+        this._sigesp.showToastError('El código ya esta registrado');
         this.formUnidadAdministrativa.get('codigo').reset();
         this.codeExists = false;
       } else {
@@ -112,55 +108,55 @@ export class UnidadAdministrativaComponent implements OnInit {
     }
   }
 
-  public saveUnit() {
-    this.unidadAdministrativaService
+  saveUnit() {
+    this._unidadAdministrativa
       .saveAdministrativeUnit(this.formUnidadAdministrativa)
       .subscribe((resp: any) => {
         if (resp.data.length > 0) {
-          this.sigesp.showToastSuccess(
+          this._sigesp.showToastSuccess(
             'Unidad Administrativa guardada con éxito'
           );
           this.inicializar();
-        } else this.sigesp.showToastError(resp.message);
+        } else this._sigesp.showToastError(resp.message);
       });
   }
 
-  public updateUnit() {
-    this.unidadAdministrativaService
+  updateUnit() {
+    this._unidadAdministrativa
       .updateAdministrativeUnit(this.formUnidadAdministrativa, this.idUnit)
       .subscribe((resp: any) => {
         if (resp.data) {
-          this.sigesp.showToastSuccess(
+          this._sigesp.showToastSuccess(
             'Unidad Administrativa actualizada con éxito'
           );
           this.inicializar();
-        } else this.sigesp.showToastError(resp.message);
+        } else this._sigesp.showToastError(resp.message);
       });
   }
 
-  public deleteUnit() {
-    this.sigesp
+  deleteUnit() {
+    this._sigesp
       .openDialogConfirm(
         'Eliminar La causa de movimiento',
         'Esta seguro de eliminar la Causa de Movimiento?'
       )
       .then(resp => {
         if (resp) {
-          this.unidadAdministrativaService
+          this._unidadAdministrativa
             .deleteAdministrativeUnit(this.idUnit)
             .subscribe((resp: any) => {
               if (resp.data) {
-                this.sigesp.showToastSuccess(
+                this._sigesp.showToastSuccess(
                   'Unidad Administrativa eliminada con éxito'
                 );
                 this.inicializar();
-              } else this.sigesp.showToastSuccess(resp.message);
+              } else this._sigesp.showToastSuccess(resp.message);
             });
         }
       });
   }
 
-  public openCatalogo() {
+  openCatalogo() {
     this.inicializar();
     let tittle = 'Catálogo de Causa de Movimiento';
     let nameColummnas = ['Código', 'Unidad Administrativa'];
@@ -169,7 +165,7 @@ export class UnidadAdministrativaComponent implements OnInit {
       'denominacionUnidadAdministrativaBien',
     ];
     if (this.allUnit.length > 0) {
-      this.sigesp
+      this._sigesp
         .openCatalogoGenerico(columnas, tittle, this.allUnit, nameColummnas)
         .then((resp: MUnidadAdministrativa) => {
           if (resp != null) {

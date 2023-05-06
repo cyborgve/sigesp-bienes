@@ -6,18 +6,16 @@
       <form
         [formGroup]="formUnidadAdministrativa"
         class="card-content-form-datos">
-        <mat-form-field>
+        <!-- codigo -->
+        <mat-form-field appearance="fill">
           <mat-label>Código</mat-label>
           <input
             matInput
             type="text"
             matInput
             formControlName="codigo"
-            maxlength="5"
-            required
             (blur)="validateCode($event, 'codigo')"
-            [readonly]="idUnit > 0 || operacion == 'actualizar'"
-            required />
+            [readonly]="idUnit > 0 || operacion == 'actualizar'" />
           <mat-error
             *ngIf="
               formUnidadAdministrativa.controls['codigo'].hasError('required')
@@ -25,17 +23,10 @@
             >El valor es obligatorio</mat-error
           >
         </mat-form-field>
-
-        <mat-form-field class="descripcion">
+        <!-- descripcion -->
+        <mat-form-field class="descripcion" appearance="fill">
           <mat-label>Descripción de la Unidad</mat-label>
-          <input
-            matInput
-            type="text"
-            matInput
-            formControlName="denominacion"
-            maxlength="200"
-            minlength="5"
-            required />
+          <input matInput type="text" matInput formControlName="denominacion" />
           <mat-error
             *ngIf="
               formUnidadAdministrativa.controls['denominacion'].hasError(
@@ -45,12 +36,14 @@
             >El valor es obligatorio</mat-error
           >
         </mat-form-field>
-
+        <!-- categoria de la unidad -->
         <mat-form-field>
           <mat-label>Categoría de la Unidad</mat-label>
           <mat-select formControlName="categoria">
-            <mat-option *ngFor="let cat of allCategory" [value]="cat.id">
-              {{ cat.denominacion }}
+            <mat-option
+              *ngFor="let categoria of categoriasUnidadAdministrativa | async"
+              [value]="categoria.id">
+              {{ categoria.denominacion }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -64,9 +57,7 @@
             matInput
             type="text"
             matInput
-            formControlName="otraDenominacion"
-            maxlength="200"
-            minlength="5" />
+            formControlName="otraDenominacion" />
           <mat-error
             *ngIf="
               formUnidadAdministrativa.controls['otraDenominacion'].hasError(

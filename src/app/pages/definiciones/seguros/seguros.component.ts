@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MDefinicionesBasicas } from '@core/models/MDefinicionesBasicas';
 import { Router } from '@angular/router';
@@ -6,13 +6,15 @@ import { SigespService, MMoneda, MMonedaConfig } from 'sigesp';
 import { MSeguros } from '@core/models/MSeguros';
 import { DefinicionesBasicasService } from '@core/services/definiciones-basicas.service';
 import { SegurosService } from '@core/services/seguros.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-seguros',
   templateUrl: './seguros.component.html',
   styleUrls: ['./seguros.component.scss'],
 })
-export class SegurosComponent implements OnInit {
+export class SegurosComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   public formSeguro: FormGroup;
   public company: MDefinicionesBasicas[] = [];
   public typePolicy: MDefinicionesBasicas[] = [];
@@ -76,11 +78,17 @@ export class SegurosComponent implements OnInit {
     this.formSeguro.get('tipoCobertura').setValue(0);
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
   public getBasicDefinition() {
     var tipo: string = '5';
-    this.definicionesBasicasService.getDefinition(tipo).subscribe(resp => {
-      this.company = resp.data;
-    });
+    this.subscriptions.push(
+      this.definicionesBasicasService.getDefinition(tipo).subscribe(resp => {
+        this.company = resp.data;
+      })
+    );
 
     tipo = '14';
     this.definicionesBasicasService.getDefinition(tipo).subscribe(resp => {
