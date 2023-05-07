@@ -13,8 +13,6 @@ import {
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-  constructor() {}
-
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
     if (window.scrollY < 70) {
@@ -24,28 +22,28 @@ export class ToolbarComponent implements OnInit {
     }
   }
 
-  @Input() public mostrarCrear: boolean = true;
-  @Input() public mostrarGuardar: boolean = true;
-  @Input() public mostrarBorrar: boolean = true;
-  @Input() public mostrarBuscar: boolean = true;
-  @Input() public mostrarImprimir: boolean = true;
-  @Input() public mostrarSalir: boolean = true;
+  @Input() mostrarCrear: boolean = true;
+  @Input() mostrarGuardar: boolean = true;
+  @Input() mostrarBorrar: boolean = true;
+  @Input() mostrarBuscar: boolean = true;
+  @Input() mostrarImprimir: boolean = true;
+  @Input() mostrarSalir: boolean = true;
 
-  @Input() public desabilitarCrear: boolean = false;
-  @Input() public desabilitarGuardar: boolean = false;
-  @Input() public desabilitarBorrar: boolean = false;
-  @Input() public desabilitarBuscar: boolean = false;
-  @Input() public desabilitarImprimir: boolean = false;
-  @Input() public desabilitarSalir: boolean = false;
+  @Input() desabilitarCrear: boolean = false;
+  @Input() desabilitarGuardar: boolean = false;
+  @Input() desabilitarBorrar: boolean = false;
+  @Input() desabilitarBuscar: boolean = false;
+  @Input() desabilitarImprimir: boolean = false;
+  @Input() desabilitarSalir: boolean = false;
 
-  @Output() public crear = new EventEmitter<boolean>();
-  @Output() public guardar = new EventEmitter<boolean>();
-  @Output() public borrar = new EventEmitter<boolean>();
-  @Output() public buscar = new EventEmitter<boolean>();
-  @Output() public imprimir = new EventEmitter<boolean>();
-  @Output() public salir = new EventEmitter<boolean>();
+  @Output() crear = new EventEmitter();
+  @Output() guardar = new EventEmitter();
+  @Output() borrar = new EventEmitter();
+  @Output() buscar = new EventEmitter();
+  @Output() imprimir = new EventEmitter();
+  @Output() salir = new EventEmitter();
 
-  public offset: number = 0;
+  offset: number = 0;
 
   ngOnInit() {
     if (window.scrollY < 70) {
@@ -55,27 +53,27 @@ export class ToolbarComponent implements OnInit {
     }
   }
 
-  public emitNew() {
+  emitNew() {
     this.crear.emit(true);
   }
 
-  public emitSave() {
+  emitSave() {
     this.guardar.emit(true);
   }
 
-  public emitDelete() {
+  emitDelete() {
     this.borrar.emit(true);
   }
 
-  public emitSearch() {
+  emitSearch() {
     this.buscar.emit(true);
   }
 
-  public emitPrint() {
+  emitPrint() {
     this.imprimir.emit(true);
   }
 
-  public emitExit() {
+  emitExit() {
     this.salir.emit(true);
   }
 }

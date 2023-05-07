@@ -1,15 +1,9 @@
-<section class="grid grid-cols-4 gap-4 p-4">
+<section class="grid grid-cols-5">
   <a *ngFor="let item of items" [routerLink]="item.routerLink">
-    <mat-card
-      appearance="outlined"
-      class="p-4 hover:bg-primary hover:bg-opacity-10 hover:text-accent hover:shadow-xl rounded-xl">
-      <img [src]="item.image" alt="image-file" width="100px" />
-      <mat-card-title class="text-lg font-medium text-primary">{{
-        item.label | titlecase
-      }}</mat-card-title>
-      <mat-card-subtitle class="hover:text-primary">{{
-        title | titlecase
-      }}</mat-card-subtitle>
+    <mat-card>
+      <img [src]="item.image" alt="image" width="80px" />
+      <mat-card-title>{{ item.label }}</mat-card-title>
+      <mat-card-subtitle>{{ title }}</mat-card-subtitle>
     </mat-card>
   </a>
 </section>

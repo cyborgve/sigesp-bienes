@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from './material/material.module';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { CurrencyInputComponent } from './components/currency-input/currency-input.component';
@@ -15,7 +14,7 @@ const sharedComponents = [
 
 const sharedPipes = [IsoCurrencyPipe];
 
-const sharedModules = [MaterialModule, FormsModule];
+const sharedModules = [FormsModule];
 
 @NgModule({
   declarations: [...sharedComponents, ...sharedPipes],

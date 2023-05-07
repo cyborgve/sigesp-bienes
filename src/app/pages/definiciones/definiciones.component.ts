@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MENU } from '@core/constants/menu';
-import { MenuItem } from '@core/new.models/menu-item';
+import { MenuItem } from '@core/models/menu-item';
 
 @Component({
   selector: 'app-definiciones',

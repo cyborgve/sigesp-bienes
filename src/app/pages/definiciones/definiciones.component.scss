@@ -1,0 +1,21 @@
+mat-card {
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
+
+section {
+  padding: 0.5rem;
+}
+
+mat-card-title {
+  font-size: small;
+  font-weight: 600;
+}
+
+mat-card {
+  @apply p-4 hover:bg-primary hover:bg-opacity-10 hover:text-accent hover:shadow-xl;
+}

@@ -96,3 +96,44 @@ mat-expansion-panel {
   font-weight: 100;
   font-size: small;
 }
+
+.mainColor {
+  background: #073763;
+  color: white;
+}
+
+.mainColorText {
+  color: #073763 !important;
+}
+
+.title {
+  font-weight: 600;
+  font-size: x-large;
+  margin: 0;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.pageContent {
+  padding: 15px 60px 15px 15px;
+}
+
+.pageContentSmall {
+  padding: 15px;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+  border-radius: 0.35rem !important;
+}

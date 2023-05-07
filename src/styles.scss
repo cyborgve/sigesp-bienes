@@ -115,60 +115,60 @@ $theme: mat-light-theme($primary, $accent);
 
 @include angular-material-theme($theme);
 
-.mainColor {
-  background: #073763;
-  color: white;
-}
+// .mainColor {
+//   background: #073763;
+//   color: white;
+// }
 
-.mainColorText {
-  color: #073763 !important;
-}
+// .mainColorText {
+//   color: #073763 !important;
+// }
 
-.title {
-  font-weight: 600;
-  font-size: x-large;
-  margin: 0;
-}
+// .title {
+//   font-weight: 600;
+//   font-size: x-large;
+//   margin: 0;
+// }
 
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-}
+// .flex {
+//   display: flex;
+//   flex-wrap: wrap;
+// }
 
-.justify-content-center {
-  justify-content: center;
-}
+// .justify-content-center {
+//   justify-content: center;
+// }
 
-.align-items-center {
-  align-items: center;
-}
+// .align-items-center {
+//   align-items: center;
+// }
 
-html,
-body {
-  height: 100%;
-}
+// .pageContent {
+//   padding: 15px 60px 15px 15px;
+// }
 
-.pageContent {
-  padding: 15px 60px 15px 15px;
-}
+// .pageContentSmall {
+//   padding: 15px;
+// }
 
-.pageContentSmall {
-  padding: 15px;
-}
+// .mat-dialog-container {
+//   padding: 0 !important;
+//   border-radius: 0.35rem !important;
+// }
 
-.mat-dialog-container {
-  padding: 0 !important;
-  border-radius: 0.35rem !important;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  //font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

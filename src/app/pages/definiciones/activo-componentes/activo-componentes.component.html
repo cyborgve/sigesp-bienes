@@ -1,0 +1,57 @@
+<section class="outside">
+  <!-- encabezado -->
+  <mat-card class="card-header">
+    <article class="contenido">
+      <!-- titulo-->
+      <span class="titulo">{{ titulo }}</span>
+      <span class="espaciador"></span>
+      <!-- nuevo -->
+      <button mat-stroked-button color="primary">
+        <mat-icon>add</mat-icon>
+        Nuevo
+      </button>
+      <!-- buscador -->
+      <mat-form-field appearance="fill" class="buscar">
+        <mat-label>Buscar</mat-label>
+        <input type="text" #inputBuscar matInput />
+      </mat-form-field>
+    </article>
+  </mat-card>
+  <mat-card class="card-table">
+    <!-- tabla -->
+    <table mat-table [dataSource]="dataSource" class="table" mat-sort>
+      <!-- codigo -->
+      <ng-container matColumnDef="codigo">
+        <th mat-header-cell *matHeaderCellDef>Codigo</th>
+        <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
+      </ng-container>
+      <!-- denominacion -->
+      <ng-container matColumnDef="denominacion">
+        <th mat-header-cell *matHeaderCellDef>Denominacion</th>
+        <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
+      </ng-container>
+      <!-- creado -->
+      <ng-container matColumnDef="creado">
+        <th mat-header-cell *matHeaderCellDef>Creado</th>
+        <td mat-cell *matCellDef="let row">{{ row.creado | date }}</td>
+      </ng-container>
+      <!-- modificado -->
+      <ng-container matColumnDef="modificado">
+        <th mat-header-cell *matHeaderCellDef>Modificado</th>
+        <td mat-cell *matCellDef="let row">{{ row.modificado | date }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- mostrar cuando no hay datos que coincidan -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No hay datos para mostrar que concidan con la busqueda"{{
+            inputBuscar.value
+          }}"
+        </td>
+      </tr>
+    </table>
+  </mat-card>
+</section>
