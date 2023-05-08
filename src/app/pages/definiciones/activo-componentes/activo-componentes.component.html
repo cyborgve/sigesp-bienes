@@ -6,14 +6,21 @@
       <span class="titulo">{{ titulo }}</span>
       <span class="espaciador"></span>
       <!-- nuevo -->
-      <button mat-stroked-button color="primary">
+      <button mat-stroked-button color="primary" class="boton-crear">
         <mat-icon>add</mat-icon>
         Nuevo
       </button>
       <!-- buscador -->
       <mat-form-field appearance="fill" class="buscar">
         <mat-label>Buscar</mat-label>
-        <input type="text" #inputBuscar matInput />
+        <input
+          type="text"
+          #inputBuscar
+          matInput
+          (keyup)="filtrarDatos($event)" />
+        <button mat-icon-button type="button" matSuffix>
+          <mat-icon color="primary">close</mat-icon>
+        </button>
       </mat-form-field>
     </article>
   </mat-card>
@@ -33,25 +40,44 @@
       <!-- creado -->
       <ng-container matColumnDef="creado">
         <th mat-header-cell *matHeaderCellDef>Creado</th>
-        <td mat-cell *matCellDef="let row">{{ row.creado | date }}</td>
+        <td mat-cell *matCellDef="let row">
+          {{ row.creado | date : 'medium' }}
+        </td>
       </ng-container>
       <!-- modificado -->
       <ng-container matColumnDef="modificado">
         <th mat-header-cell *matHeaderCellDef>Modificado</th>
-        <td mat-cell *matCellDef="let row">{{ row.modificado | date }}</td>
+        <td mat-cell *matCellDef="let row">
+          {{ row.modificado | date : 'medium' }}
+        </td>
+      </ng-container>
+
+      <!-- acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let row">
+          <app-botones-acciones></app-botones-acciones>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="row-hover"></tr>
 
       <!-- mostrar cuando no hay datos que coincidan -->
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">
-          No hay datos para mostrar que concidan con la busqueda"{{
+          No hay datos para mostrar que concidan con la busqueda "{{
             inputBuscar.value
           }}"
         </td>
       </tr>
     </table>
+  </mat-card>
+  <mat-card class="pie">
+    <button mat-stroked-button color="primary">Inicio</button>
+    <button mat-stroked-button color="primary">Atras</button>
   </mat-card>
 </section>
