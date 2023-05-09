@@ -1,6 +1,6 @@
 {
   "name": "sigesp-bienes",
-  "version": "0.34.6",
+  "version": "0.34.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
@@ -26,7 +26,6 @@
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/router": "^11.2.14",
     "@angular/typescript": "^2.0.0-5d0e199",
-    "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "moment": "^2.29.1",
     "ngx-toastr": "^11.3.3",
     "rxjs": "^6.6.3",
