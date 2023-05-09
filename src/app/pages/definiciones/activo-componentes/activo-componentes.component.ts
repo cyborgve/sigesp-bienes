@@ -1,10 +1,14 @@
-import { tap, first } from 'rxjs/operators';
+import { tap, first, switchMap, take } from 'rxjs/operators';
 import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoComponente } from '@core/models/activo-componente';
 import { ActivoComponenteService } from '@core/services/activo-componente.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
 const data: ActivoComponente[] = [
   {
@@ -62,7 +66,12 @@ export class ActivoComponentesComponent {
     'acciones',
   ];
 
-  constructor(private _activoComponente: ActivoComponenteService) {}
+  constructor(
+    private _activoComponente: ActivoComponenteService,
+    private _location: Location,
+    private _router: Router,
+    private _dialog: MatDialog
+  ) {}
 
   private recargarDatos() {
     this._activoComponente
@@ -83,4 +92,35 @@ export class ActivoComponentesComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
   }
+
+  atras = () => this._location.back();
+  inicio = () => this._router.navigate(['/']);
+
+  nuevo = () =>
+    this._router.navigate([
+      '/definiciones/activo-componentes/activo-componente',
+    ]);
+
+  editar = (componente: ActivoComponente) =>
+    this._router.navigate([
+      '/definiciones/activo-componentes/activo-componente/' + componente.id,
+    ]);
+
+  eliminar = (activoComponente: ActivoComponente) => {
+    let dialog = this._dialog.open(DialogoEliminarComponent, {
+      data: {
+        codigo: activoComponente.codigo,
+        denominacion: activoComponente.denominacion,
+      },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        switchMap((confirmacion: boolean) =>
+          this._activoComponente.eliminar(activoComponente.id)
+        ),
+        take(1)
+      )
+      .subscribe(() => this.recargarDatos());
+  };
 }

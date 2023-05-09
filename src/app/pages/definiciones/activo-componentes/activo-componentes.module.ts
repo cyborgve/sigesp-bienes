@@ -12,12 +12,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SharedModule } from '@shared/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [ActivoComponentesComponent],
   imports: [
     CommonModule,
     ActivoComponentesRoutingModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
     MatTableModule,
@@ -25,7 +27,7 @@ import { SharedModule } from '@shared/shared.module';
     MatIconModule,
     MatSortModule,
     MatPaginatorModule,
-    SharedModule,
+    MatDialogModule,
   ],
 })
 export class ActivoComponentesModule {}

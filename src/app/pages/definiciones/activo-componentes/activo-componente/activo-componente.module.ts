@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [ActivoComponenteComponent],
@@ -21,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatDividerModule,
     MatIconModule,
+    SharedModule,
   ],
 })
 export class ActivoComponenteModule {}

@@ -1,14 +1,22 @@
 <section class="outside">
-  <form [formGroup]="activoComponenteForm">
-    <mat-card>
-      <h3 class="titulo">{{ titulo | titlecase }}</h3>
-      <mat-divider></mat-divider>
+  <!-- encabezado -->
+  <mat-card>
+    <article>
+      <span>{{ titulo }}</span>
+    </article>
+  </mat-card>
+
+  <!-- datos -->
+  <mat-card>
+    <mat-card-title class="titulo">{{ titulo | titlecase }}</mat-card-title>
+    <mat-divider></mat-divider>
+    <form [formGroup]="activoComponenteForm">
       <article class="contenido">
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
           <mat-label>Codigo</mat-label>
           <input type="text" matInput formControlName="codigo" />
-          <button type="button" matSuffix (click)="nuevo()">
+          <button type="button" matSuffix>
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
@@ -24,33 +32,28 @@
             <mat-option
               *ngFor="let tipoComponente of tiposComponente() | async"
               [value]="tipoComponente.id"
-              >{{tipoComponente.denominacion}</mat-option
+              >{{ tipoComponente.denominacion }}</mat-option
             >
           </mat-select>
         </mat-form-field>
         <!-- marca -->
         <mat-form-field appearance="fill" class="marca">
           <mat-label>Marca</mat-label>
-          <mat-select formControlName="marcaId">
-            <mat-option
-              *ngFor="let marca of marcas() | async"
-              [value]="marca.id"
-              >{{marca.denominacion}</mat-option
-            >
-          </mat-select>
+          <input type="text" matInput formControlName="marca" />
+          <button type="button" matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- modelo -->
         <mat-form-field appearance="fill" class="modelo">
           <mat-label>Modelo</mat-label>
-          <mat-select formControlName="modeloId">
-            <mat-option
-              *ngFor="let modelo of modelos() | async"
-              [value]="modelo.id"
-              >{{modelo.denominacion}</mat-option
-            >
-          </mat-select>
+          <input type="text" matInput formControlName="modelo" />
+          <button type="button" matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
       </article>
-    </mat-card>
-  </form>
+    </form>
+  </mat-card>
 </section>
+<app-toolbar></app-toolbar>

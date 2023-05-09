@@ -69,6 +69,4 @@ export class ActivoComponenteComponent {
       });
     }
   }
-
-  nuevo = () => this._router.navigate(['activo-componente']);
 }

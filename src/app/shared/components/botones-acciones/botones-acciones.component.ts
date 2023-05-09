@@ -1,5 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { EventEmitter } from 'events';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-botones-acciones',

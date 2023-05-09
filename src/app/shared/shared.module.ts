@@ -7,12 +7,16 @@ import { IsoCurrencyPipe } from './pipes/iso-currency.pipe';
 import { FormsModule } from '@angular/forms';
 import { BotonesAccionesComponent } from './components/botones-acciones/botones-acciones.component';
 import { MaterialModule } from '../material/material.module';
+import { DialogoEliminarComponent } from './components/dialogo-eliminar/dialogo-eliminar.component';
+import { EcabezadoDeficinionComponent } from './components/ecabezado-deficinion/ecabezado-deficinion.component';
 
 const sharedComponents = [
   ToolbarComponent,
   LoadingScreenComponent,
   CurrencyInputComponent,
   BotonesAccionesComponent,
+  DialogoEliminarComponent,
+  EcabezadoDeficinionComponent,
 ];
 
 const sharedPipes = [IsoCurrencyPipe];

@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>
+  {{ 'Confirmacion para eliminar ' + data.denominacion }}
+</h2>
+<mat-dialog-content class="mat-typografy">
+  <p>
+    {{
+      'Esta seguro de que quiere eliminar ' +
+        data.denominacion +
+        ': "codigo ' +
+        data.codigo +
+        '"'
+    }}
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button type="button" color="primary" mat-stroked-button (click)="noOpcion()">
+    Cancel
+  </button>
+  <button
+    type="button"
+    color="warn"
+    mat-stroked-button
+    (click)="okOpcion()"
+    cdkFocusInitial>
+    Ok
+  </button>
+</mat-dialog-actions>
