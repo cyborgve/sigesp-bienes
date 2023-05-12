@@ -14,6 +14,20 @@ const routes: Routes = [
         m => m.ActivoComponentesModule
       ),
   },
+  {
+    path: 'aseguradoras',
+    loadChildren: () =>
+      import('./aseguradoras/aseguradoras.module').then(
+        m => m.AseguradorasModule
+      ),
+  },
+  {
+    path: 'categoria-unidad-administrativa',
+    loadChildren: () =>
+      import(
+        './categoria-unidad-administrativa/categoria-unidad-administrativa.module'
+      ).then(m => m.CategoriaUnidadAdministrativaModule),
+  },
 ];
 
 @NgModule({

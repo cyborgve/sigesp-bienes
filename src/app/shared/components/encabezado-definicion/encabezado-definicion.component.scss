@@ -1,0 +1,20 @@
+.card-titulo {
+  @apply mb-1 p-8;
+}
+
+.contenido {
+  @apply flex w-full items-center;
+}
+
+.titulo {
+  @apply text-primary text-xl font-semibold pl-4;
+}
+
+.espaciador {
+  flex: 1 1 auto;
+}
+
+.creado,
+.modificado {
+  @apply mr-12 font-extralight text-primary text-lg;
+}

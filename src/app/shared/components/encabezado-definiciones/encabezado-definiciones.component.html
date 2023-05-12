@@ -1,0 +1,31 @@
+<mat-card class="card-header">
+  <article class="contenido">
+    <!-- titulo-->
+    <span class="titulo">{{ titulo | titlecase }}</span>
+    <span class="espaciador"></span>
+    <!-- nuevo -->
+    <section [hidden]="ocultarNuevo">
+      <button
+        mat-stroked-button
+        color="primary"
+        class="boton-crear"
+        (click)="nuevo.emit()">
+        <mat-icon>add</mat-icon>
+        Nuevo
+      </button>
+    </section>
+    <!-- buscador -->
+    <mat-form-field appearance="fill" class="buscar">
+      <mat-label>Buscar</mat-label>
+      <input type="text" #buscar matInput (keyup)="filtrarDatos.emit($event)" />
+      <button
+        mat-icon-button
+        type="button"
+        matSuffix
+        *ngIf="buscar.value"
+        (click)="limpiarBuscador()">
+        <mat-icon color="primary">close</mat-icon>
+      </button>
+    </mat-form-field>
+  </article>
+</mat-card>

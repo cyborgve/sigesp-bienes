@@ -1,0 +1,15 @@
+.contenedor {
+  @apply p-4;
+}
+
+.contenido {
+  @apply grid grid-cols-12 gap-x-4;
+}
+
+.codigo {
+  @apply col-span-3;
+}
+
+.denominacion {
+  @apply col-span-9;
+}

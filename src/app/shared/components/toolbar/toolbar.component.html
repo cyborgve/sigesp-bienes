@@ -4,7 +4,7 @@
       mat-button
       type="button"
       class="btn btn-default"
-      (click)="emitNew()"
+      (click)="crear.emit()"
       [disabled]="desabilitarCrear">
       <i class="material-icons">note_add</i>
     </button>
@@ -15,7 +15,7 @@
       mat-button
       type="button"
       class="btn btn-default"
-      (click)="emitSave()"
+      (click)="guardar.emit()"
       [disabled]="desabilitarGuardar">
       <i class="material-icons">save</i>
     </button>
@@ -26,7 +26,7 @@
       mat-button
       type="button"
       class="btn btn-default"
-      (click)="emitDelete()"
+      (click)="borrar.emit()"
       [disabled]="desabilitarBorrar">
       <i class="material-icons">delete</i>
     </button>
@@ -37,7 +37,7 @@
       mat-button
       type="button"
       class="btn btn-default"
-      (click)="emitSearch()"
+      (click)="buscar.emit()"
       [disabled]="desabilitarBuscar">
       <i class="material-icons">search</i>
     </button>
@@ -48,7 +48,7 @@
       mat-button
       type="button"
       class="btn btn-default"
-      (click)="emitPrint()"
+      (click)="imprimir.emit()"
       [disabled]="desabilitarImprimir">
       <i class="material-icons">print</i>
     </button>
@@ -59,7 +59,7 @@
       mat-button
       type="button"
       class="btn btn-default"
-      (click)="emitExit()"
+      (click)="salir.emit()"
       [disabled]="desabilitarSalir">
       <i class="material-icons">power_settings_new</i>
     </button>

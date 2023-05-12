@@ -1,0 +1,25 @@
+.espaciador {
+  flex: 1 1 auto;
+}
+
+.contenido {
+  @apply flex w-full items-center;
+}
+
+.titulo {
+  @apply text-primary text-xl font-semibold pl-4;
+}
+
+.boton-crear {
+  height: 58px;
+  margin-bottom: 4px;
+  margin-right: 16px;
+}
+
+.buscar {
+  @apply w-3/12 mb-0 pb-0 mt-4;
+}
+
+.card-header {
+  @apply mb-1;
+}

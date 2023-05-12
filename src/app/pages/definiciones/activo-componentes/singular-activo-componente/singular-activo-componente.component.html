@@ -1,0 +1,62 @@
+<section class="outside">
+  <!-- encabezado -->
+  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
+  <!-- datos -->
+  <mat-card>
+    <form [formGroup]="singularForm">
+      <article class="contenido">
+        <!-- codigo -->
+        <mat-form-field appearance="fill" class="codigo">
+          <mat-label>Codigo</mat-label>
+          <input type="text" matInput formControlName="codigo" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarActivoComponente()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominacion</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
+        <!-- tipo -->
+        <mat-form-field appearance="fill" class="tipo">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipo">
+            <mat-option
+              *ngFor="let tipoComponente of tiposComponente() | async"
+              [value]="tipoComponente.id"
+              >{{ tipoComponente.denominacion }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <!-- marca -->
+        <mat-form-field appearance="fill" class="marca">
+          <mat-label>Marca</mat-label>
+          <input type="text" matInput formControlName="marca" />
+          <button type="button" matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- modelo -->
+        <mat-form-field appearance="fill" class="modelo">
+          <mat-label>Modelo</mat-label>
+          <input type="text" matInput formControlName="modelo" />
+          <button type="button" matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </article>
+    </form>
+  </mat-card>
+  <!-- botones -->
+  <app-botones-definicion
+    (importar)="importar()"
+    (eliminar)="eliminar()"
+    (irAlInicio)="irAlInicio()"
+    (irAtras)="irAtras()"
+    (guardar)="guardar()"></app-botones-definicion>
+</section>

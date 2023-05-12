@@ -52,28 +52,4 @@ export class ToolbarComponent implements OnInit {
       this.offset = 70;
     }
   }
-
-  emitNew() {
-    this.crear.emit(true);
-  }
-
-  emitSave() {
-    this.guardar.emit(true);
-  }
-
-  emitDelete() {
-    this.borrar.emit(true);
-  }
-
-  emitSearch() {
-    this.buscar.emit(true);
-  }
-
-  emitPrint() {
-    this.imprimir.emit(true);
-  }
-
-  emitExit() {
-    this.salir.emit(true);
-  }
 }

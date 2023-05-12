@@ -26,8 +26,8 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/assured_workload.svg',
       },
       {
-        label: 'Categorias de Unidad Adm.',
-        routerLink: 'categorias-unidad-administrativa',
+        label: 'Categoria de Unidad Adm.',
+        routerLink: 'categoria-unidad-administrativa',
         icon: 'folder_copy',
         image: './assets/images/svg/folder_copy.svg',
       },

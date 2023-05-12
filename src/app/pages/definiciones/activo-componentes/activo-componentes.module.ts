@@ -1,33 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { ActivoComponentesRoutingModule } from './activo-componentes-routing.module';
-import { ActivoComponentesComponent } from './activo-componentes.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { SharedModule } from '@shared/shared.module';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [ActivoComponentesComponent],
-  imports: [
-    CommonModule,
-    ActivoComponentesRoutingModule,
-    SharedModule,
-    MatCardModule,
-    MatInputModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatDialogModule,
-  ],
+  imports: [ActivoComponentesRoutingModule],
 })
 export class ActivoComponentesModule {}

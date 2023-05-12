@@ -1,0 +1,45 @@
+<mat-card>
+  <section class="flex w-full">
+    <!-- importar -->
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="importar.emit()">
+      <mat-icon>download</mat-icon>Importar
+    </button>
+    <!-- eliminar -->
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="eliminar.emit()">
+      <mat-icon>delete</mat-icon>Eliminar
+    </button>
+    <span class="espaciador"></span>
+    <!-- ir al inicio -->
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="irAlInicio.emit()">
+      <mat-icon>reply_all</mat-icon>Ir al inicio
+    </button>
+    <!-- ir atras -->
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="irAtras.emit()">
+      <mat-icon>reply</mat-icon>Ir atras
+    </button>
+    <!-- guardar -->
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="guardar.emit()">
+      <mat-icon>save</mat-icon>Guardar
+    </button>
+  </section>
+</mat-card>

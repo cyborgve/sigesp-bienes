@@ -8,7 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { BotonesAccionesComponent } from './components/botones-acciones/botones-acciones.component';
 import { MaterialModule } from '../material/material.module';
 import { DialogoEliminarComponent } from './components/dialogo-eliminar/dialogo-eliminar.component';
-import { EcabezadoDeficinionComponent } from './components/ecabezado-deficinion/ecabezado-deficinion.component';
+import { EncabezadoDefinicionComponent } from './components/encabezado-definicion/encabezado-definicion.component';
+import { BotonesDefinicionComponent } from './components/botones-definicion/botones-definicion.component';
+import { BotonesDefinicionesComponent } from './components/botones-definiciones/botones-definiciones.component';
+import { EncabezadoDefinicionesComponent } from './components/encabezado-definiciones/encabezado-definiciones.component';
 
 const sharedComponents = [
   ToolbarComponent,
@@ -16,16 +19,17 @@ const sharedComponents = [
   CurrencyInputComponent,
   BotonesAccionesComponent,
   DialogoEliminarComponent,
-  EcabezadoDeficinionComponent,
+  EncabezadoDefinicionComponent,
+  BotonesDefinicionComponent,
+  BotonesDefinicionesComponent,
+  EncabezadoDefinicionesComponent,
 ];
 
 const sharedPipes = [IsoCurrencyPipe];
 
-const sharedModules = [FormsModule];
-
 @NgModule({
   declarations: [...sharedComponents, ...sharedPipes],
-  imports: [CommonModule, MaterialModule, ...sharedModules],
-  exports: [...sharedComponents, ...sharedModules, ...sharedPipes],
+  imports: [CommonModule, FormsModule, MaterialModule],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}
