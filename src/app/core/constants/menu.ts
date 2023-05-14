@@ -26,8 +26,8 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/assured_workload.svg',
       },
       {
-        label: 'Categoria de Unidad Adm.',
-        routerLink: 'categoria-unidad-administrativa',
+        label: 'Categorias de Unidad Adm.',
+        routerLink: 'categorias-unidad-administrativa',
         icon: 'folder_copy',
         image: './assets/images/svg/folder_copy.svg',
       },
@@ -39,7 +39,7 @@ export const MENU: MenuItem[] = [
       },
       {
         label: 'Causas de Movimiento',
-        routerLink: 'causa-movimiento',
+        routerLink: 'causas-movimiento',
         icon: 'change_circle',
         image: './assets/images/svg/change_circle.svg',
       },

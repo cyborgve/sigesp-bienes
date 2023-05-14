@@ -1,4 +1,4 @@
-import { take, tap } from 'rxjs/operators';
+import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,23 +10,28 @@ import { TipoComponenteService } from '@core/services/tipo-componente.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorActivoComponenteComponent } from '../buscador-activo-componente/buscador-activo-componente.component';
 import { ActivoComponente } from '@core/models/activo-componente';
+import { ModoFormulario } from '@core/types/modo-formulario';
+import { Id } from '@core/types/id';
+import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
 @Component({
   selector: 'app-singular-activo-componente',
   templateUrl: './singular-activo-componente.component.html',
   styleUrls: ['./singular-activo-componente.component.scss'],
 })
-export class SingularActivoComponenteComponent {
+export class SingularActivoComponenteComponent extends AbstractEntidadFunciones {
+  modoFormulario: ModoFormulario = 'CREANDO';
+  id: Id;
   titulo = 'activo componente';
-  singularForm: FormGroup;
-  id: number;
+  formulario: FormGroup;
 
   tiposComponente = () => this._tipoComponente.buscarTodos();
   marcas = () => this._marca.buscarTodos();
   modelos = () => this._modelo.buscarTodos();
 
   constructor(
-    private _activoComponente: ActivoComponenteService,
+    private _entidad: ActivoComponenteService,
     private _tipoComponente: TipoComponenteService,
     private _marca: MarcaService,
     private _modelo: ModeloService,
@@ -36,88 +41,134 @@ export class SingularActivoComponenteComponent {
     private _location: Location,
     private _dialog: MatDialog
   ) {
+    super();
     this.id = this._activatedRoute.snapshot.params['id'];
-    this.updateForm();
+    this.actualizarFormulario();
   }
 
-  private updateForm(): void {
+  private actualizarFormulario() {
     if (this.id) {
-      this._activoComponente
+      this.modoFormulario = 'EDITANDO';
+      this._entidad
         .buscarPorId(this.id)
         .pipe(
           take(1),
-          tap(ac => {
-            this.singularForm = this._formBuilder.group({
-              empresaId: [ac.empresaId],
-              id: [ac.id],
-              tipo: [ac.tipo, Validators.required],
-              codigo: [ac.codigo, Validators.required],
-              denominacion: [ac.denominacion, Validators.required],
-              marcaId: [ac.marcaId],
-              modeloId: [ac.modeloId],
-              creado: [ac.creado],
-              modificado: [ac.modificado],
+          tap(entidad => {
+            this.formulario = this._formBuilder.group({
+              empresaId: [entidad.empresaId],
+              id: [entidad.id],
+              codigo: [entidad.codigo, Validators.required],
+              denominacion: [entidad.denominacion, Validators.required],
+              tipo: [entidad.denominacion, Validators.required],
+              marcaId: [entidad.denominacion],
+              modeloId: [entidad.denominacion],
+              creado: [entidad.creado],
+              modificado: [entidad.modificado],
             });
           })
         )
         .subscribe();
     } else {
-      this.singularForm = this._formBuilder.group({
+      this.formulario = this._formBuilder.group({
         empresaId: [''],
         id: [''],
-        tipo: ['', Validators.required],
         codigo: ['', Validators.required],
         denominacion: ['', Validators.required],
+        tipo: ['', Validators.required],
         marcaId: [''],
         modeloId: [''],
-        creado: [new Date()],
-        modificado: [new Date()],
+        creado: [''],
+        modificado: [''],
       });
     }
   }
 
-  buscarActivoComponente() {
+  buscar() {
     let dialog = this._dialog.open(BuscadorActivoComponenteComponent, {
       width: '95%',
-      height: '95%',
+      height: '85%',
     });
     dialog
       .afterClosed()
       .pipe(
-        tap((ac: ActivoComponente) => {
-          this._router.navigate([
-            '/definiciones/activo-componentes/activo-componente/' + ac.id,
-          ]);
+        tap((activoComponente: ActivoComponente) => {
+          this.formulario.patchValue({
+            empresaId: activoComponente.empresaId,
+            id: activoComponente.id,
+            codigo: activoComponente.creado,
+            denominacion: activoComponente.denominacion,
+            tipo: activoComponente.tipo,
+            marcaId: activoComponente.marcaId,
+            modeloId: activoComponente.modeloId,
+            modificado: activoComponente.modificado,
+          });
         })
       )
       .subscribe();
   }
 
-  importar = () => {
+  importar() {
     let dialog = this._dialog.open(BuscadorActivoComponenteComponent, {
       width: '95%',
-      height: '95%',
+      height: '85%',
     });
     dialog
       .afterClosed()
       .pipe(
-        tap((ac: ActivoComponente) => {
-          this.singularForm.patchValue({
-            tipo: ac.tipo,
-            denominacion: ac.denominacion,
-            marcaId: ac.marcaId,
-            modeloId: ac.modeloId,
+        tap((activoComponente: ActivoComponente) => {
+          this.formulario.patchValue({
+            empresaId: activoComponente.empresaId,
+            id: activoComponente.id,
+            denominacion: activoComponente.denominacion,
           });
         })
       )
       .subscribe();
-  };
+  }
 
-  eliminar = () => {};
+  guardar() {
+    let activoComponente: ActivoComponente = this.formulario.value;
+    activoComponente.modificado = new Date();
+    if (this.modoFormulario === 'CREANDO') {
+      activoComponente.creado = new Date();
+      this._entidad.guardar(activoComponente).pipe(first()).subscribe();
+    } else {
+      this._entidad
+        .actualizar(this.id, activoComponente)
+        .pipe(first())
+        .subscribe();
+    }
+  }
 
-  irAtras = () => this._location.back();
+  borrar() {
+    let dialog = this._dialog.open(DialogoEliminarComponent, {
+      data: {
+        codigo: this.formulario.value.codigo,
+        denominacion: this.formulario.value.denominacion,
+      },
+    });
+    dialog
+      .beforeClosed()
+      .pipe(
+        filter(todo => !!todo),
+        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+        take(1)
+      )
+      .subscribe();
+  }
 
-  irAlInicio = () => this._router.navigate(['/']);
+  imprimir() {
+    throw new Error('Method not implemented.');
+  }
 
-  guardar = () => {};
+  irAtras() {
+    this._location.back();
+  }
+  irAlInicio() {
+    this._router.navigate(['/']);
+  }
+
+  salir() {
+    throw new Error('Method not implemented.');
+  }
 }

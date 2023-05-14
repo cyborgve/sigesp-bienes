@@ -52,10 +52,7 @@ const data: Aseguradora[] = [
   templateUrl: './tabla-aseguradora.component.html',
   styleUrls: ['./tabla-aseguradora.component.scss'],
 })
-export class TablaAseguradoraComponent
-  extends AbstractTablaFunciones<Aseguradora>
-  implements AfterViewInit
-{
+export class TablaAseguradoraComponent extends AbstractTablaFunciones<Aseguradora> {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -74,11 +71,7 @@ export class TablaAseguradoraComponent
     private _dialog: MatDialog
   ) {
     super();
-  }
-
-  ngAfterViewInit(): void {
     this.dataSource = new MatTableDataSource(data);
-    //this.recargarDatos();
   }
 
   private recargarDatos() {
