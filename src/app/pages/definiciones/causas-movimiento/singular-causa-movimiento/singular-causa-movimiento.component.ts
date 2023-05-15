@@ -11,6 +11,7 @@ import { BuscadorCausaMovimientoComponent } from '../buscador-causa-movimiento/b
 import { CausaMovimiento } from '@core/models/causa-movimiento';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Location } from '@angular/common';
+import { TIPOS_CAUSA_MOVIMIENTO } from '@core/constants/tipos-causa-movimiento';
 
 @Component({
   selector: 'app-singular-causa-movimiento',
@@ -20,8 +21,10 @@ import { Location } from '@angular/common';
 export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'causaMovimiento';
+  titulo = 'causa movimiento';
   formulario: FormGroup;
+  tiposCausaMovimiento = TIPOS_CAUSA_MOVIMIENTO;
+
   constructor(
     private _entidad: CausaMovimientoService,
     private _activatedRoute: ActivatedRoute,
@@ -48,6 +51,15 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
               id: [entidad.id],
               codigo: [entidad.codigo, Validators.required],
               denominacion: [entidad.denominacion, Validators.required],
+              tipo: [entidad.tipo, Validators.required],
+              estadoAfectacionContable: [
+                entidad.estadoAfectacionContable,
+                Validators.required,
+              ],
+              estadoAfectacionPresupuestaia: [
+                entidad.estadoAfectacionPresupuestari,
+                Validators.required,
+              ],
               creado: [entidad.creado],
               modificado: [entidad.modificado],
             });
@@ -60,6 +72,9 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
         id: [''],
         codigo: ['', Validators.required],
         denominacion: ['', Validators.required],
+        tipo: ['', Validators.required],
+        estadoAfectacionContable: ['', Validators.required],
+        estadoAfectacionPresupuestaria: ['', Validators.required],
         creado: [''],
         modificado: [''],
       });

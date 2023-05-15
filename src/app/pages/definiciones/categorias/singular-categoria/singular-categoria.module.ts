@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { BuscadorCategoriaModule } from '../buscador-categoria/buscador-categoria.module';
 
 @NgModule({
   declarations: [SingularCategoriaComponent],
@@ -19,6 +20,7 @@ import { MatCardModule } from '@angular/material/card';
     MatInputModule,
     MatIconModule,
     MatCardModule,
+    BuscadorCategoriaModule,
   ],
 })
 export class SingularCategoriaModule {}

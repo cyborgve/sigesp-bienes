@@ -1,8 +1,133 @@
-import { Component } from '@angular/core';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { Location } from '@angular/common';
+import { Component, ViewChild, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { CausaMovimiento } from '@core/models/causa-movimiento';
+import { CausaMovimientoService } from '@core/services/causa-movimiento.service';
+import { Id } from '@core/types/id';
+import { EventEmitter } from 'events';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
 @Component({
   selector: 'app-tabla-causa-movimiento',
   templateUrl: './tabla-causa-movimiento.component.html',
   styleUrls: ['./tabla-causa-movimiento.component.scss'],
 })
-export class TablaCausaMovimientoComponent {}
+export class TablaCausaMovimientoComponent extends AbstractTablaFunciones<CausaMovimiento> {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() titulo: string = '';
+  @Input() ocultarNuevo: boolean = false;
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CAUSAS_MOVIMIENTO;
+  @Output() dobleClick = new EventEmitter();
+
+  private urlPlural = '/definiciones/causas-movimiento';
+  private urlSingular = this.urlPlural + '/causa-movimiento';
+  private urlSingularId = (id: Id) =>
+    this.urlPlural + '/causa-movimiento/' + id;
+
+  constructor(
+    private _entidad: CausaMovimientoService,
+    private _location: Location,
+    private _router: Router,
+    private _dialog: MatDialog
+  ) {
+    super();
+    this.dataSource = new MatTableDataSource(data);
+  }
+
+  private recargarDatos() {
+    this._entidad
+      .buscarTodos()
+      .pipe(
+        first(),
+        tap(causasMovimiento => {
+          this.dataSource = new MatTableDataSource(causasMovimiento);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        })
+      )
+      .subscribe();
+  }
+
+  irAtras() {
+    this._location.back();
+  }
+
+  irAlInicio() {
+    this._router.navigate(['/']);
+  }
+
+  filtrar(event: Event) {
+    let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
+    this.dataSource.filter = valorFiltro.trim().toLowerCase();
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  nuevo() {
+    this._router.navigate([this.urlSingular]);
+  }
+
+  editar(entidad: CausaMovimiento) {
+    this._router.navigate([this.urlSingularId(entidad.id)]);
+  }
+
+  eliminar(entidad: CausaMovimiento) {
+    let dialog = this._dialog.open(DialogoEliminarComponent, {
+      data: {
+        codigo: entidad.codigo,
+        denominacion: entidad.denominacion,
+      },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        switchMap(() => this._entidad.eliminar(entidad.id)),
+        take(1)
+      )
+      .subscribe(() => this.recargarDatos());
+  }
+}
+
+const data: CausaMovimiento[] = [
+  {
+    empresaId: 10000000,
+    id: 1,
+    codigo: '1029384756',
+    denominacion: 'CausaMovimiento 1',
+    tipo: '10000000',
+    estadoAfectacionContable: '',
+    estadoAfectacionPresupuestari: '',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 2,
+    codigo: '1029384755',
+    denominacion: 'CausaMovimiento 2',
+    tipo: '10000000',
+    estadoAfectacionContable: '',
+    estadoAfectacionPresupuestari: '',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 3,
+    codigo: '1029384754',
+    denominacion: 'CausaMovimiento 3',
+    tipo: '10000000',
+    estadoAfectacionContable: '',
+    estadoAfectacionPresupuestari: '',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+];

@@ -40,6 +40,23 @@ const routes: Routes = [
         m => m.CausasMovimientoModule
       ),
   },
+  {
+    path: 'clases',
+    loadChildren: () =>
+      import('./clases/clases.module').then(m => m.ClasesModule),
+  },
+  {
+    path: 'colores',
+    loadChildren: () =>
+      import('./colores/colores.module').then(m => m.ColoresModule),
+  },
+  {
+    path: 'componentes-estructura',
+    loadChildren: () =>
+      import('./componentes-estructura/componentes-estructura.module').then(
+        m => m.ComponentesEstructuraModule
+      ),
+  },
 ];
 
 @NgModule({

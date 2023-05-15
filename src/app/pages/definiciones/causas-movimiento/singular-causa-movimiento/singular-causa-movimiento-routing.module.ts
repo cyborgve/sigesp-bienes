@@ -4,6 +4,7 @@ import { SingularCausaMovimientoComponent } from './singular-causa-movimiento.co
 
 const routes: Routes = [
   { path: '', component: SingularCausaMovimientoComponent },
+  { path: ':id', component: SingularCausaMovimientoComponent },
 ];
 
 @NgModule({

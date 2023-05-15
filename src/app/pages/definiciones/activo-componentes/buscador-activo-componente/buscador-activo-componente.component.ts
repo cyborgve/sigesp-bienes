@@ -1,4 +1,4 @@
-import { COLUMNAS_VISIBLES } from './../../../../core/constants/columnas-visibles';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivoComponente } from '@core/models/activo-componente';

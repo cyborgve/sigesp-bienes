@@ -18,6 +18,7 @@ export const COLUMNAS_VISIBLES = {
   CAUSAS_MOVIMIENTO: [
     'codigo',
     'denominacion',
+    'tipo',
     'creado',
     'modificado',
     'acciones',

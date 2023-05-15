@@ -5,6 +5,12 @@ import { SingularCausaMovimientoRoutingModule } from './singular-causa-movimient
 import { SingularCausaMovimientoComponent } from './singular-causa-movimiento.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { SharedModule } from '@shared/shared.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { BuscadorCausaMovimientoModule } from '../buscador-causa-movimiento/buscador-causa-movimiento.module';
 
 @NgModule({
   declarations: [SingularCausaMovimientoComponent],
@@ -13,6 +19,12 @@ import { MatInputModule } from '@angular/material/input';
     SingularCausaMovimientoRoutingModule,
     ReactiveFormsModule,
     MatInputModule,
+    SharedModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
+    BuscadorCausaMovimientoModule,
   ],
 })
 export class SingularCausaMovimientoModule {}

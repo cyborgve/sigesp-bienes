@@ -1,10 +1,10 @@
+import { BuscadorCategoriaUnidadAdministrativaComponent } from './buscador-categoria-unidad-administrativa.component';
+import { TablaCategoriaUnidadAdministrativaModule } from './../tabla-categoria-unidad-administrativa/tabla-categoria-unidad-administrativa.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { BuscadorCategoriaUnidadAdministrativaRoutingModule } from './buscador-categoria-unidad-administrativa-routing.module';
-
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, BuscadorCategoriaUnidadAdministrativaRoutingModule],
+  declarations: [BuscadorCategoriaUnidadAdministrativaComponent],
+  imports: [CommonModule, TablaCategoriaUnidadAdministrativaModule],
 })
 export class BuscadorCategoriaUnidadAdministrativaModule {}

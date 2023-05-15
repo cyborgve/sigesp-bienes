@@ -9,14 +9,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { BuscadorActivoComponenteModule } from '../buscador-activo-componente/buscador-activo-componente.module';
+import { ActivoComponentesModule } from '../activo-componentes.module';
 
 @NgModule({
   declarations: [SingularActivoComponenteComponent],
   imports: [
     CommonModule,
+    ActivoComponentesModule,
     SingularActivoComponenteRoutingModule,
-    BuscadorActivoComponenteModule,
     ReactiveFormsModule,
     SharedModule,
     MatCardModule,

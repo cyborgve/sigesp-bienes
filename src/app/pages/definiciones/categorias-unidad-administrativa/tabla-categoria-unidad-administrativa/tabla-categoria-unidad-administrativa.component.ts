@@ -1,8 +1,132 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { CategoriaUnidadAdministrativaService } from '@core/services/categoria-unidad-administrativa.service';
+import { CategoriaUnidadAdministr } from '@core/models/categoria-unidad-administrativa';
+import { Location } from '@angular/common';
+import { Id } from '@core/types/id';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+
+const data: CategoriaUnidadAdministr[] = [
+  {
+    empresaId: 10000000,
+    id: 1,
+    codigo: '1029384756',
+    denominacion: 'Categoria Unidad Administrativa 1',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 2,
+    codigo: '1029384755',
+    denominacion: 'Categoria Unidad Administrativa 2',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 3,
+    codigo: '1029384754',
+    denominacion: 'Categoria Unidad Administrativa 3',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+];
 
 @Component({
   selector: 'app-tabla-categoria-unidad-administrativa',
   templateUrl: './tabla-categoria-unidad-administrativa.component.html',
   styleUrls: ['./tabla-categoria-unidad-administrativa.component.scss'],
 })
-export class TablaCategoriaUnidadAdministrativaComponent {}
+export class TablaCategoriaUnidadAdministrativaComponent extends AbstractTablaFunciones<CategoriaUnidadAdministr> {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() titulo: string = '';
+  @Input() ocultarNuevo: boolean = false;
+  @Input() columnasVisibles: string[] =
+    COLUMNAS_VISIBLES.CATEGORIAS_UNIDAD_ADMINISTRATIVA;
+  @Output() dobleClick = new EventEmitter();
+
+  private urlPlural = '/definiciones/categorias-unidad-administrativa';
+  private urlSingular = this.urlPlural + '/categoria-unidad-administrativa';
+  private urlSingularId = (id: Id) =>
+    this.urlPlural + '/categoria-unidad-administrativa/' + id;
+
+  constructor(
+    private _entidad: CategoriaUnidadAdministrativaService,
+    private _location: Location,
+    private _router: Router,
+    private _dialog: MatDialog
+  ) {
+    super();
+    this.dataSource = new MatTableDataSource(data);
+  }
+
+  private recargarDatos() {
+    this._entidad
+      .buscarTodos()
+      .pipe(
+        first(),
+        tap(categoriasUnidadAdministrativa => {
+          this.dataSource = new MatTableDataSource(
+            categoriasUnidadAdministrativa
+          );
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        })
+      )
+      .subscribe();
+  }
+
+  irAtras() {
+    this._location.back();
+  }
+
+  irAlInicio() {
+    this._router.navigate(['/']);
+  }
+
+  filtrar(event: Event) {
+    let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
+    this.dataSource.filter = valorFiltro.trim().toLowerCase();
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  nuevo() {
+    this._router.navigate([this.urlSingular]);
+  }
+
+  editar(entidad: CategoriaUnidadAdministr) {
+    this._router.navigate([this.urlSingularId(entidad.id)]);
+  }
+
+  eliminar(entidad: CategoriaUnidadAdministr) {
+    let dialog = this._dialog.open(DialogoEliminarComponent, {
+      data: {
+        codigo: entidad.codigo,
+        denominacion: entidad.denominacion,
+      },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        switchMap(() => this._entidad.eliminar(entidad.id)),
+        take(1)
+      )
+      .subscribe(() => this.recargarDatos());
+  }
+}
