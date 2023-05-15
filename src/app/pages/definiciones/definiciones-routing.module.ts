@@ -71,6 +71,26 @@ const routes: Routes = [
         m => m.EstadosConservacionModule
       ),
   },
+  {
+    path: 'estados-uso',
+    loadChildren: () =>
+      import('./estados-uso/estados-uso.module').then(m => m.EstadosUsoModule),
+  },
+  {
+    path: 'marcas',
+    loadChildren: () =>
+      import('./marcas/marcas.module').then(m => m.MarcasModule),
+  },
+  {
+    path: 'modelos',
+    loadChildren: () =>
+      import('./modelos/modelos.module').then(m => m.ModelosModule),
+  },
+  {
+    path: 'origenes',
+    loadChildren: () =>
+      import('./origenes/origenes.module').then(m => m.OrigenesModule),
+  },
 ];
 
 @NgModule({

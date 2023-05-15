@@ -75,7 +75,7 @@ export const MENU: MenuItem[] = [
       },
       {
         label: 'Estados de Uso',
-        routerLink: 'configuracion-bienes',
+        routerLink: 'estados-uso',
         icon: 'body_fat',
         image: './assets/images/svg/body_fat.svg',
       },
