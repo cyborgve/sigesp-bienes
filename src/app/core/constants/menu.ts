@@ -63,7 +63,7 @@ export const MENU: MenuItem[] = [
       },
       {
         label: 'Condiciones de Compra',
-        routerLink: 'condisiones-compra',
+        routerLink: 'condiciones-compra',
         icon: 'shopping_bag',
         image: './assets/images/svg/shopping_bag.svg',
       },

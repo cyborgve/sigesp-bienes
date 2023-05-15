@@ -1,43 +1,37 @@
 import { first, tap, filter, switchMap, take } from 'rxjs/operators';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, ViewChild, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Aseguradora } from '@core/models/aseguradora';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { MatTableDataSource } from '@angular/material/table';
-import { AseguradoraService } from '@core/services/aseguradora.service';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { Id } from '@core/types/id';
-import { MatDialog } from '@angular/material/dialog';
+import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { ActivoComponente } from '@core/models/activo-componente';
+import { ActivoComponenteService } from '@core/services/activo-componente.service';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Id } from '@core/types/id';
 
 @Component({
-  selector: 'app-tabla-aseguradora',
-  templateUrl: './tabla-aseguradora.component.html',
-  styleUrls: ['./tabla-aseguradora.component.scss'],
+  selector: 'app-tabla-activo-componente',
+  templateUrl: './tabla-activo-componente.component.html',
+  styleUrls: ['./tabla-activo-componente.component.scss'],
 })
-export class TablaAseguradoraComponent extends AbstractTablaFunciones<Aseguradora> {
+export class TablaActivoComponenteComponent extends AbstractTablaFunciones<ActivoComponente> {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
-  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ASEGURADORAS;
-  @Output() dobleClick = new EventEmitter();
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTIVO_COMPONENTES;
 
-  private urlPlural = '/definiciones/aseguradoras';
-  private urlSingular = this.urlPlural + '/aseguradora';
-  private urlSingularId = (id: Id) => this.urlPlural + '/aseguradora/' + id;
+  private urlPlural = '/definiciones/activo-componentes';
+  private urlSingular = this.urlPlural + '/activo-componente';
+  private urlSingularId = (id: Id) =>
+    this.urlPlural + '/activo-componente/' + id;
 
   constructor(
-    private _entidad: AseguradoraService,
+    private _entidad: ActivoComponenteService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
@@ -51,8 +45,8 @@ export class TablaAseguradoraComponent extends AbstractTablaFunciones<Asegurador
       .buscarTodos()
       .pipe(
         first(),
-        tap(aseguradoras => {
-          this.dataSource = new MatTableDataSource(aseguradoras);
+        tap(activoComponentes => {
+          this.dataSource = new MatTableDataSource(activoComponentes);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -78,11 +72,11 @@ export class TablaAseguradoraComponent extends AbstractTablaFunciones<Asegurador
     this._router.navigate([this.urlSingular]);
   }
 
-  editar(entidad: Aseguradora) {
+  editar(entidad: ActivoComponente) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
 
-  eliminar(entidad: Aseguradora) {
+  eliminar(entidad: ActivoComponente) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.codigo,
@@ -100,12 +94,15 @@ export class TablaAseguradoraComponent extends AbstractTablaFunciones<Asegurador
   }
 }
 
-const data: Aseguradora[] = [
+const data: ActivoComponente[] = [
   {
     empresaId: 10000000,
     id: 1,
     codigo: '1029384756',
-    denominacion: 'Aseguradora 1',
+    denominacion: 'Activo Componente 1',
+    tipo: '10000000',
+    marcaId: '10000000',
+    modeloId: '10000000',
     creado: new Date(),
     modificado: new Date(),
   },
@@ -113,7 +110,10 @@ const data: Aseguradora[] = [
     empresaId: 10000000,
     id: 2,
     codigo: '1029384755',
-    denominacion: 'Aseguradora 2',
+    denominacion: 'Activo Componente 2',
+    tipo: '10000000',
+    marcaId: '10000000',
+    modeloId: '10000000',
     creado: new Date(),
     modificado: new Date(),
   },
@@ -121,7 +121,10 @@ const data: Aseguradora[] = [
     empresaId: 10000000,
     id: 3,
     codigo: '1029384754',
-    denominacion: 'Aseguradora 3',
+    denominacion: 'Activo Componente 3',
+    tipo: '10000000',
+    marcaId: '10000000',
+    modeloId: '10000000',
     creado: new Date(),
     modificado: new Date(),
   },

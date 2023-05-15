@@ -8,13 +8,6 @@ const routes: Routes = [
     component: DefinicionesComponent,
   },
   {
-    path: 'activo-componentes',
-    loadChildren: () =>
-      import('./activo-componentes/activo-componentes.module').then(
-        m => m.ActivoComponentesModule
-      ),
-  },
-  {
     path: 'aseguradoras',
     loadChildren: () =>
       import('./aseguradoras/aseguradoras.module').then(
@@ -55,6 +48,27 @@ const routes: Routes = [
     loadChildren: () =>
       import('./componentes-estructura/componentes-estructura.module').then(
         m => m.ComponentesEstructuraModule
+      ),
+  },
+  {
+    path: 'activo-componentes',
+    loadChildren: () =>
+      import('./activo-componente/activo-componente.module').then(
+        m => m.ActivoComponenteModule
+      ),
+  },
+  {
+    path: 'condiciones-compra',
+    loadChildren: () =>
+      import('./condiciones-compra/condiciones-compra.module').then(
+        m => m.CondicionesCompraModule
+      ),
+  },
+  {
+    path: 'estados-conservacion',
+    loadChildren: () =>
+      import('./estados-conservacion/estados-conservacion.module').then(
+        m => m.EstadosConservacionModule
       ),
   },
 ];

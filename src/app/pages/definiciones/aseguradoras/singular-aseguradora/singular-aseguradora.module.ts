@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BuscadorAseguradoraModule } from '../buscador-aseguradora/buscador-aseguradora.module';
-import { TablaAseguradoraModule } from '../tabla-aseguradora/tabla-aseguradora.module';
 
 @NgModule({
   declarations: [SingularAseguradoraComponent],

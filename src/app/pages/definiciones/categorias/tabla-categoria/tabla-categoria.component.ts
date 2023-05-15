@@ -19,33 +19,6 @@ import { Id } from '@core/types/id';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
-const data: Categoria[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Categoria 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Categoria 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Categoria 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];
-
 @Component({
   selector: 'app-tabla-categoria',
   templateUrl: './tabla-categoria.component.html',
@@ -126,3 +99,30 @@ export class TablaCategoriaComponent extends AbstractTablaFunciones<Categoria> {
       .subscribe(() => this.recargarDatos());
   }
 }
+
+const data: Categoria[] = [
+  {
+    empresaId: 10000000,
+    id: 1,
+    codigo: '1029384756',
+    denominacion: 'Categoria 1',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 2,
+    codigo: '1029384755',
+    denominacion: 'Categoria 2',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 3,
+    codigo: '1029384754',
+    denominacion: 'Categoria 3',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+];

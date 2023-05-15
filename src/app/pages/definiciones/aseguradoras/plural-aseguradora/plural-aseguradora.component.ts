@@ -8,9 +8,4 @@ import { Router } from '@angular/router';
 })
 export class PluralAseguradoraComponent {
   titulo = 'aseguradoras';
-
-  constructor(private _router: Router) {}
-
-  nuevo = () =>
-    this._router.navigate(['/definiciones/aseguradoras/aseguradora']);
 }
