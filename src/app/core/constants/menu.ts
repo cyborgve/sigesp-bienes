@@ -99,7 +99,7 @@ export const MENU: MenuItem[] = [
       },
       {
         label: 'Propositos de Semoviente',
-        routerLink: 'proposito-semoviente',
+        routerLink: 'propositos-semoviente',
         icon: 'model_training',
         image: './assets/images/svg/model_training.svg',
       },

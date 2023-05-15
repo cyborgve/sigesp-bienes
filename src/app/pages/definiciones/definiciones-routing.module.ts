@@ -91,6 +91,59 @@ const routes: Routes = [
     loadChildren: () =>
       import('./origenes/origenes.module').then(m => m.OrigenesModule),
   },
+  {
+    path: 'propositos-semoviente',
+    loadChildren: () =>
+      import('./propositos-semoviente/propositos-semoviente.module').then(
+        m => m.PropositosSemovienteModule
+      ),
+  },
+  {
+    path: 'razas',
+    loadChildren: () => import('./razas/razas.module').then(m => m.RazasModule),
+  },
+  {
+    path: 'responsables',
+    loadChildren: () =>
+      import('./responsables/responsables.module').then(
+        m => m.ResponsablesModule
+      ),
+  },
+  {
+    path: 'sedes',
+    loadChildren: () => import('./sedes/sedes.module').then(m => m.SedesModule),
+  },
+  {
+    path: 'seguros',
+    loadChildren: () =>
+      import('./seguros/seguros.module').then(m => m.SegurosModule),
+  },
+  {
+    path: 'tipos-cobertura',
+    loadChildren: () =>
+      import('./tipos-cobertura/tipos-cobertura.module').then(
+        m => m.TiposCoberturaModule
+      ),
+  },
+  {
+    path: 'tipos-componente',
+    loadChildren: () =>
+      import('./tipos-componente/tipos-componente.module').then(
+        m => m.TiposComponenteModule
+      ),
+  },
+  {
+    path: 'tipos-estructura',
+    loadChildren: () =>
+      import('./tipos-estructura/tipos-estructura.module').then(
+        m => m.TiposEstructuraModule
+      ),
+  },
+  {
+    path: 'tipos-marca',
+    loadChildren: () =>
+      import('./tipos-marca/tipos-marca.module').then(m => m.TiposMarcaModule),
+  },
 ];
 
 @NgModule({
