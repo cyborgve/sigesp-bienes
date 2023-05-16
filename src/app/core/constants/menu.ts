@@ -170,20 +170,20 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/sound_detection_dog_barking.svg',
       },
       {
-        label: 'Unidades Administrativas',
-        routerLink: 'unidades-administrativas',
-        icon: 'ac_unit',
-        image: './assets/images/svg/ac_unit.svg',
-      },
-      {
         label: 'Tipos de Uso',
         routerLink: 'tipos-uso',
         icon: 'precision_manufacturing',
         image: './assets/images/svg/precision_manufacturing.svg',
       },
       {
+        label: 'Unidades Administrativas',
+        routerLink: 'unidades-administrativas',
+        icon: 'ac_unit',
+        image: './assets/images/svg/ac_unit.svg',
+      },
+      {
         label: 'Bien / Activo',
-        routerLink: 'bien-activo',
+        routerLink: 'activos',
         icon: 'home_work',
         image: './assets/images/svg/home_work.svg',
       },

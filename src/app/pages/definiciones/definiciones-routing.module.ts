@@ -144,6 +144,42 @@ const routes: Routes = [
     loadChildren: () =>
       import('./tipos-marca/tipos-marca.module').then(m => m.TiposMarcaModule),
   },
+  {
+    path: 'tipos-poliza',
+    loadChildren: () =>
+      import('./tipos-poliza/tipos-poliza.module').then(
+        m => m.TiposPolizaModule
+      ),
+  },
+  {
+    path: 'tipos-sede',
+    loadChildren: () =>
+      import('./tipos-sede/tipos-sede.module').then(m => m.TiposSedeModule),
+  },
+  {
+    path: 'tipos-semoviente',
+    loadChildren: () =>
+      import('./tipos-semoviente/tipos-semoviente.module').then(
+        m => m.TiposSemovienteModule
+      ),
+  },
+  {
+    path: 'unidades-administrativas',
+    loadChildren: () =>
+      import('./unidades-administrativas/unidades-administrativas.module').then(
+        m => m.UnidadesAdministrativasModule
+      ),
+  },
+  {
+    path: 'tipos-uso',
+    loadChildren: () =>
+      import('./tipos-uso/tipos-uso.module').then(m => m.TiposUsoModule),
+  },
+  {
+    path: 'activos',
+    loadChildren: () =>
+      import('./activos/activos.module').then(m => m.ActivosModule),
+  },
 ];
 
 @NgModule({
