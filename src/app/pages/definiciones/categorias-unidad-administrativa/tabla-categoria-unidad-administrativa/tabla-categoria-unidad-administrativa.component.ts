@@ -19,33 +19,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
-const data: CategoriaUnidadAdministr[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Categoria Unidad Administrativa 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Categoria Unidad Administrativa 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Categoria Unidad Administrativa 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];
-
 @Component({
   selector: 'app-tabla-categoria-unidad-administrativa',
   templateUrl: './tabla-categoria-unidad-administrativa.component.html',
@@ -130,3 +103,29 @@ export class TablaCategoriaUnidadAdministrativaComponent extends AbstractTablaFu
       .subscribe(() => this.recargarDatos());
   }
 }
+const data: CategoriaUnidadAdministr[] = [
+  {
+    empresaId: 10000000,
+    id: 1,
+    codigo: '1029384756',
+    denominacion: 'Categoria Unidad Administrativa 1',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 2,
+    codigo: '1029384755',
+    denominacion: 'Categoria Unidad Administrativa 2',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 3,
+    codigo: '1029384754',
+    denominacion: 'Categoria Unidad Administrativa 3',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+];

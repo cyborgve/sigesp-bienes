@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-color.component.html',
   styleUrls: ['./plural-color.component.scss'],
 })
-export class PluralColorComponent {}
+export class PluralColorComponent {
+  titulo = 'colores';
+}

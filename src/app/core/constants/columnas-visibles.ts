@@ -26,6 +26,14 @@ export const COLUMNAS_VISIBLES = {
   ],
   CLASES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   COLORES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  COMPONENTES_ESTRUCTURA: [
+    'codigo',
+    'denominacion',
+    'tipo',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   CONDICIONES_COMPRA: [
     'codigo',
     'denominacion',

@@ -29,7 +29,7 @@ export class TablaCategoriaComponent extends AbstractTablaFunciones<Categoria> {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
-  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ASEGURADORAS;
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CATEGORIAS;
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/categorias';

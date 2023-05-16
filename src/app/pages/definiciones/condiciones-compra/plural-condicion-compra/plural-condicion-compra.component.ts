@@ -5,4 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './plural-condicion-compra.component.html',
   styleUrls: ['./plural-condicion-compra.component.scss'],
 })
-export class PluralCondicionCompraComponent {}
+export class PluralCondicionCompraComponent {
+  titulo = 'condiciones de compra';
+}
