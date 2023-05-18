@@ -9,6 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./buscador-categoria.component.scss'],
 })
 export class BuscadorCategoriaComponent {
+  titulo = 'buscador de categorias';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CATEGORIAS.filter(c => c !== 'acciones');
   constructor(private _dialogRef: MatDialogRef<BuscadorCategoriaComponent>) {}

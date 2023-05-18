@@ -10,7 +10,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'marcas',
+    path: 'marca',
     loadChildren: () =>
       import('./singular-marca/singular-marca.module').then(
         m => m.SingularMarcaModule

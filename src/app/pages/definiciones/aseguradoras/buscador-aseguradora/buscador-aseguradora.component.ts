@@ -9,6 +9,7 @@ import { Aseguradora } from '@core/models/aseguradora';
   styleUrls: ['./buscador-aseguradora.component.scss'],
 })
 export class BuscadorAseguradoraComponent {
+  titulo = 'buscador de aseguradoras';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.ASEGURADORAS.filter(
     c => c !== 'acciones'

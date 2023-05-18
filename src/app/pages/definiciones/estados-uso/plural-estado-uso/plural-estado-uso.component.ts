@@ -5,4 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './plural-estado-uso.component.html',
   styleUrls: ['./plural-estado-uso.component.scss'],
 })
-export class PluralEstadoUsoComponent {}
+export class PluralEstadoUsoComponent {
+  titulo = 'estados de uso';
+}

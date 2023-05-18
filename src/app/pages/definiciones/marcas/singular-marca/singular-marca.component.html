@@ -1,1 +1,47 @@
-<p>singular-marca works!</p>
+<section class="contenedor-singular">
+  <!-- encabezado -->
+  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
+  <!-- datos -->
+  <mat-card>
+    <form [formGroup]="formulario">
+      <article class="contenido">
+        <!-- codigo -->
+        <mat-form-field appearance="fill" class="codigo">
+          <mat-label>Codigo</mat-label>
+          <input type="text" matInput formControlName="codigo" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- tipo -->
+        <mat-form-field appearance="fill" class="tipo">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipo">
+            <mat-option *ngFor="let tipo of tiposMarca" [value]="tipo">{{
+              tipo
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominacion</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
+      </article>
+    </form>
+  </mat-card>
+  <!-- botones -->
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

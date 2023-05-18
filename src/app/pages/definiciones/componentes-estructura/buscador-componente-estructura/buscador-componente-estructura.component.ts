@@ -9,6 +9,7 @@ import { ComponenteEstructura } from '@core/models/componente-estructura';
   styleUrls: ['./buscador-componente-estructura.component.scss'],
 })
 export class BuscadorComponenteEstructuraComponent {
+  titulo = 'buscador de componentes de estructura';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES_ESTRUCTURA.filter(
     c => c !== 'acciones'

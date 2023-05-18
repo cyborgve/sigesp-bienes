@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./plural-causa-movimiento.component.scss'],
 })
 export class PluralCausaMovimientoComponent {
-  titulo = 'causas movimiento';
+  titulo = 'causas de movimiento';
 }

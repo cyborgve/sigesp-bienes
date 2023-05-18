@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { BuscadorCondicionCompraModule } from '../buscador-condicion-compra/buscador-condicion-compra.module';
 
 @NgModule({
   declarations: [SingularCondicionCompraComponent],
@@ -17,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     ReactiveFormsModule,
     SingularCondicionCompraRoutingModule,
+    BuscadorCondicionCompraModule,
     SharedModule,
     MatCardModule,
     MatInputModule,

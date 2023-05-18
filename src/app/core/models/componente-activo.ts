@@ -1,6 +1,6 @@
 import { Basica } from '@core/models/basica';
 
-export interface ActivoComponente extends Basica {
+export interface ComponenteActivo extends Basica {
   tipo: string;
   codigo: string;
   denominacion: string;

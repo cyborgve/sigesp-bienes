@@ -144,7 +144,7 @@ export class SingularColorComponent extends AbstractEntidadFunciones {
     this._location.back();
   }
   irAlInicio() {
-    this._router.navigate(['/']);
+    this._router.navigate(['/definiciones']);
   }
 
   salir() {

@@ -9,6 +9,7 @@ import { Color } from '@core/models/color';
   styleUrls: ['./buscador-color.component.scss'],
 })
 export class BuscadorColorComponent {
+  titulo = 'buscador de colores';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.COLORES.filter(c => c !== 'acciones');
   constructor(private _dialogRef: MatDialogRef<BuscadorColorComponent>) {}

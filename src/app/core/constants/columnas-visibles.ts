@@ -1,5 +1,5 @@
 export const COLUMNAS_VISIBLES = {
-  ACTIVO_COMPONENTES: [
+  COMPONENTES_ACTIVO: [
     'codigo',
     'denominacion',
     'tipo',
@@ -41,6 +41,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
+  CONSERVACION: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   ESTADOS_CONSERVACION: [
     'codigo',
     'denominacion',
@@ -49,8 +50,22 @@ export const COLUMNAS_VISIBLES = {
     'acciones',
   ],
   ESTADOS_USO: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
-  MARCAS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
-  MODELOS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  MARCAS: [
+    'codigo',
+    'denominacion',
+    'tipo',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
+  MODELOS: [
+    'codigo',
+    'denominacion',
+    'marcaId',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   ORIGENES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   PROPOSITOS_SEMOVIENTE: [
     'codigo',

@@ -12,7 +12,6 @@ import { BuscadorComponenteEstructuraComponent } from '../buscador-componente-es
 import { ComponenteEstructura } from '@core/models/componente-estructura';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorTipoEstructuraComponent } from '@pages/definiciones/tipos-estructura/buscador-tipo-estructura/buscador-tipo-estructura.component';
-import { TipoEstructura } from '@core/models/tipo-estructura';
 
 @Component({
   selector: 'app-singular-componente-estructura',
@@ -22,7 +21,7 @@ import { TipoEstructura } from '@core/models/tipo-estructura';
 export class SingularComponenteEstructuraComponent extends AbstractEntidadFunciones {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'componente estructura';
+  titulo = 'componente de estructura';
   formulario: FormGroup;
 
   constructor(
@@ -51,6 +50,7 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
               id: [entidad.id],
               codigo: [entidad.codigo, Validators.required],
               denominacion: [entidad.denominacion, Validators.required],
+              tipo: [entidad.tipo, Validators.required],
               creado: [entidad.creado],
               modificado: [entidad.modificado],
             });
@@ -63,6 +63,7 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
         id: [''],
         codigo: ['', Validators.required],
         denominacion: ['', Validators.required],
+        tipo: ['', Validators.required],
         creado: [''],
         modificado: [''],
       });
@@ -83,6 +84,7 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
             id: componenteEstructura.id,
             codigo: componenteEstructura.creado,
             denominacion: componenteEstructura.denominacion,
+            tipo: componenteEstructura.tipo,
             creado: componenteEstructura.creado,
             modificado: componenteEstructura.modificado,
           });
@@ -104,6 +106,7 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
             empresaId: componenteEstructura.empresaId,
             id: componenteEstructura.id,
             denominacion: componenteEstructura.denominacion,
+            tipo: componenteEstructura.tipo,
           });
         })
       )
@@ -149,7 +152,7 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
     this._location.back();
   }
   irAlInicio() {
-    this._router.navigate(['/']);
+    this._router.navigate(['/definiciones']);
   }
 
   salir() {

@@ -9,6 +9,7 @@ import { Clase } from '@core/models/clase';
   styleUrls: ['./buscador-clase.component.scss'],
 })
 export class BuscadorClaseComponent {
+  titulo = 'buscador de clases';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CLASES.filter(c => c !== 'acciones');
   constructor(private _dialogRef: MatDialogRef<BuscadorClaseComponent>) {}

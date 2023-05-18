@@ -21,7 +21,7 @@ import { TIPOS_CAUSA_MOVIMIENTO } from '@core/constants/tipos-causa-movimiento';
 export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'causa movimiento';
+  titulo = 'causa de movimiento';
   formulario: FormGroup;
   tiposCausaMovimiento = TIPOS_CAUSA_MOVIMIENTO;
 
@@ -161,7 +161,7 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
     this._location.back();
   }
   irAlInicio() {
-    this._router.navigate(['/']);
+    this._router.navigate(['/definiciones']);
   }
 
   salir() {

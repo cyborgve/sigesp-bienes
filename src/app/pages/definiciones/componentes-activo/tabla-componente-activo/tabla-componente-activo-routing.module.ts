@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PluralActivoComponenteComponent } from './plural-activo-componente.component';
+import { TablaComponenteActivoComponent } from './tabla-componente-activo.component';
 
 const routes: Routes = [
-  { path: '', component: PluralActivoComponenteComponent },
+  { path: '', component: TablaComponenteActivoComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PluralActivoComponenteRoutingModule {}
+export class TablaComponenteActivoRoutingModule {}

@@ -14,8 +14,8 @@ export const MENU: MenuItem[] = [
     image: './assets/images/svg/description.svg',
     items: [
       {
-        label: 'Activo Componentes',
-        routerLink: 'activo-componentes',
+        label: 'Componentes de Activo',
+        routerLink: 'componentes-activo',
         icon: 'crop_square',
         image: './assets/images/svg/crop_square.svg',
       },
@@ -106,8 +106,8 @@ export const MENU: MenuItem[] = [
       {
         label: 'Razas',
         routerLink: 'razas',
-        icon: 'pets',
-        image: './assets/images/svg/pets.svg',
+        icon: 'sound_detection_dog_barking',
+        image: './assets/images/svg/sound_detection_dog_barking.svg',
       },
       {
         label: 'Responsables',
@@ -166,8 +166,8 @@ export const MENU: MenuItem[] = [
       {
         label: 'Tipos de Semoviente',
         routerLink: 'tipos-semoviente',
-        icon: 'sound_detection_dog_barking',
-        image: './assets/images/svg/sound_detection_dog_barking.svg',
+        icon: 'pets',
+        image: './assets/images/svg/pets.svg',
       },
       {
         label: 'Tipos de Uso',

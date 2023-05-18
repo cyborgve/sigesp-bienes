@@ -9,6 +9,7 @@ import { CategoriaUnidadAdministr } from '@core/models/categoria-unidad-administ
   styleUrls: ['./buscador-categoria-unidad-administrativa.component.scss'],
 })
 export class BuscadorCategoriaUnidadAdministrativaComponent {
+  titulo = 'buscador de categorias de unidad administrativa';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CATEGORIAS_UNIDAD_ADMINISTRATIVA.filter(
     c => c !== 'acciones'

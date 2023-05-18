@@ -9,6 +9,7 @@ import { CausaMovimiento } from '@core/models/causa-movimiento';
   styleUrls: ['./buscador-causa-movimiento.component.scss'],
 })
 export class BuscadorCausaMovimientoComponent {
+  titulo = 'buscador de causas de movimiento';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CAUSAS_MOVIMIENTO.filter(
     c => c !== 'acciones'

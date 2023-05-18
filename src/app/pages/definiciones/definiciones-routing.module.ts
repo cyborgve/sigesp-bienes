@@ -51,13 +51,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'activo-componentes',
-    loadChildren: () =>
-      import('./activo-componente/activo-componente.module').then(
-        m => m.ActivoComponenteModule
-      ),
-  },
-  {
     path: 'condiciones-compra',
     loadChildren: () =>
       import('./condiciones-compra/condiciones-compra.module').then(
@@ -179,6 +172,13 @@ const routes: Routes = [
     path: 'activos',
     loadChildren: () =>
       import('./activos/activos.module').then(m => m.ActivosModule),
+  },
+  {
+    path: 'componentes-activo',
+    loadChildren: () =>
+      import('./componentes-activo/componentes-activo.module').then(
+        m => m.ComponentesActivoModule
+      ),
   },
 ];
 

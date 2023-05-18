@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./plural-componente-estructura.component.scss'],
 })
 export class PluralComponenteEstructuraComponent {
-  titulo = 'componentes estructura';
+  titulo = 'componentes de estructura';
 }

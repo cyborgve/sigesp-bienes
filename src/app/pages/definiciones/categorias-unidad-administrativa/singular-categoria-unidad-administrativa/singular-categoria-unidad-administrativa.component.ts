@@ -20,7 +20,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 export class SingularCategoriaUnidadAdministrativaComponent extends AbstractEntidadFunciones {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'categoria unidad administrativa';
+  titulo = 'categoria de unidad administrativa';
   formulario: FormGroup;
   constructor(
     private _entidad: CategoriaUnidadAdministrativaService,
@@ -156,7 +156,7 @@ export class SingularCategoriaUnidadAdministrativaComponent extends AbstractEnti
     this._location.back();
   }
   irAlInicio() {
-    this._router.navigate(['/']);
+    this._router.navigate(['/definiciones']);
   }
 
   salir() {

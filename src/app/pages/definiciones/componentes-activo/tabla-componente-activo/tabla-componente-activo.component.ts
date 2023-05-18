@@ -1,6 +1,11 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component, ViewChild, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,30 +13,32 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { ActivoComponente } from '@core/models/activo-componente';
-import { ActivoComponenteService } from '@core/services/activo-componente.service';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { ComponenteActivo } from '@core/models/componente-activo';
+import { ComponenteActivoService } from '@core/services/componente-activo.service';
 import { Id } from '@core/types/id';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-tabla-activo-componente',
-  templateUrl: './tabla-activo-componente.component.html',
-  styleUrls: ['./tabla-activo-componente.component.scss'],
+  selector: 'app-tabla-componente-activo',
+  templateUrl: './tabla-componente-activo.component.html',
+  styleUrls: ['./tabla-componente-activo.component.scss'],
 })
-export class TablaActivoComponenteComponent extends AbstractTablaFunciones<ActivoComponente> {
+export class TablaComponenteActivoComponent extends AbstractTablaFunciones<ComponenteActivo> {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
-  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTIVO_COMPONENTES;
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.COMPONENTES_ACTIVO;
+  @Output() dobleClick = new EventEmitter();
 
-  private urlPlural = '/definiciones/activo-componentes';
-  private urlSingular = this.urlPlural + '/activo-componente';
+  private urlPlural = '/definiciones/componentes-activo';
+  private urlSingular = this.urlPlural + '/componente-activo';
   private urlSingularId = (id: Id) =>
-    this.urlPlural + '/activo-componente/' + id;
+    this.urlPlural + '/componente-activo/' + id;
 
   constructor(
-    private _entidad: ActivoComponenteService,
+    private _entidad: ComponenteActivoService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
@@ -45,8 +52,8 @@ export class TablaActivoComponenteComponent extends AbstractTablaFunciones<Activ
       .buscarTodos()
       .pipe(
         first(),
-        tap(activoComponentes => {
-          this.dataSource = new MatTableDataSource(activoComponentes);
+        tap(causasMovimiento => {
+          this.dataSource = new MatTableDataSource(causasMovimiento);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -72,11 +79,11 @@ export class TablaActivoComponenteComponent extends AbstractTablaFunciones<Activ
     this._router.navigate([this.urlSingular]);
   }
 
-  editar(entidad: ActivoComponente) {
+  editar(entidad: ComponenteActivo) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
 
-  eliminar(entidad: ActivoComponente) {
+  eliminar(entidad: ComponenteActivo) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.codigo,
@@ -94,12 +101,12 @@ export class TablaActivoComponenteComponent extends AbstractTablaFunciones<Activ
   }
 }
 
-const data: ActivoComponente[] = [
+const data: ComponenteActivo[] = [
   {
     empresaId: 10000000,
     id: 1,
     codigo: '1029384756',
-    denominacion: 'Activo Componente 1',
+    denominacion: 'Componente Activo 1',
     tipo: '10000000',
     marcaId: '10000000',
     modeloId: '10000000',
@@ -110,7 +117,7 @@ const data: ActivoComponente[] = [
     empresaId: 10000000,
     id: 2,
     codigo: '1029384755',
-    denominacion: 'Activo Componente 2',
+    denominacion: 'Componente Activo 2',
     tipo: '10000000',
     marcaId: '10000000',
     modeloId: '10000000',
@@ -121,7 +128,7 @@ const data: ActivoComponente[] = [
     empresaId: 10000000,
     id: 3,
     codigo: '1029384754',
-    denominacion: 'Activo Componente 3',
+    denominacion: 'Componente Activo 3',
     tipo: '10000000',
     marcaId: '10000000',
     modeloId: '10000000',

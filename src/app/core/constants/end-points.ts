@@ -1,6 +1,5 @@
 export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'activo', valor: 'activos' },
-  { clave: 'activoComponent', valor: 'activos-component' },
   { clave: 'aseguradora', valor: 'aseguradoras' },
   {
     clave: 'categoriaUnidadAdministrativa',
@@ -10,6 +9,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'causaMovimiento', valor: 'causas-movimiento' },
   { clave: 'clase', valor: 'clases' },
   { clave: 'color', valor: 'colores' },
+  { clave: 'componenteActivo', valor: 'componente-activo' },
   { clave: 'componenteEstructura', valor: 'componentes-estructura' },
   { clave: 'condicionCompra', valor: 'condiciones-compra' },
   { clave: 'conservacion', valor: 'conservaciones' },
