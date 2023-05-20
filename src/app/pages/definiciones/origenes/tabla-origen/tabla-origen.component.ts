@@ -1,8 +1,170 @@
-import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { Origen } from '@core/models/origen';
+import { OrigenService } from '@core/services/origen.service';
+import { Id } from '@core/types/id';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-origen',
   templateUrl: './tabla-origen.component.html',
   styleUrls: ['./tabla-origen.component.scss'],
 })
-export class TablaOrigenComponent {}
+export class TablaOrigenComponent extends AbstractTablaFunciones<Origen> {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() titulo: string = '';
+  @Input() ocultarNuevo: boolean = false;
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ORIGENES;
+  @Output() dobleClick = new EventEmitter();
+
+  private urlPlural = '/definiciones/origenes';
+  private urlSingular = this.urlPlural + '/origen';
+  private urlSingularId = (id: Id) => this.urlPlural + '/origen/' + id;
+
+  constructor(
+    private _entidad: OrigenService,
+    private _location: Location,
+    private _router: Router,
+    private _dialog: MatDialog
+  ) {
+    super();
+    this.dataSource = new MatTableDataSource(data);
+  }
+
+  private recargarDatos() {
+    this._entidad
+      .buscarTodos()
+      .pipe(
+        first(),
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        })
+      )
+      .subscribe();
+  }
+
+  irAtras() {
+    this._location.back();
+  }
+
+  irAlInicio() {
+    this._router.navigate(['/']);
+  }
+
+  filtrar(event: Event) {
+    let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
+    this.dataSource.filter = valorFiltro.trim().toLowerCase();
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  nuevo() {
+    this._router.navigate([this.urlSingular]);
+  }
+
+  editar(entidad: Origen) {
+    this._router.navigate([this.urlSingularId(entidad.id)]);
+  }
+
+  eliminar(entidad: Origen) {
+    let dialog = this._dialog.open(DialogoEliminarComponent, {
+      data: {
+        codigo: entidad.codigo,
+        denominacion: entidad.modoAdquisicion,
+      },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        switchMap(() => this._entidad.eliminar(entidad.id)),
+        take(1)
+      )
+      .subscribe(() => this.recargarDatos());
+  }
+}
+
+const data: Origen[] = [
+  {
+    empresaId: 10000000,
+    id: 1,
+    codigo: '1029384756',
+    fechaOrigen: new Date(),
+    fechaAdquisicion: new Date(),
+    modoAdquisicion: 'modo adquisicion',
+    formaAdquisicion: 'forma adquisicion',
+    numeroFormaAdquisicion: 'numero forma adquisicion',
+    nombreFormaAdquisicion: 'nombre forma adquisicion',
+    fechaFactura: new Date(),
+    numeroFactura: '10000000',
+    proveedorId: '10000000',
+    tomo: 'Tomo 1',
+    folio: 'Folio',
+    nombrePropietarioAnterior: 'Pedro Perez',
+    nombreBenefactor: 'Jose Rodriguez',
+    nombreBeneficiario: 'Carlos Gonzalez',
+    observaciones: 'texto de observaciones',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 2,
+    codigo: '1029384755',
+    fechaOrigen: new Date(),
+    fechaAdquisicion: new Date(),
+    modoAdquisicion: 'modo adquisicion',
+    formaAdquisicion: 'forma adquisicion',
+    numeroFormaAdquisicion: 'numero forma adquisicion',
+    nombreFormaAdquisicion: 'nombre forma adquisicion',
+    fechaFactura: new Date(),
+    numeroFactura: '10000000',
+    proveedorId: '10000000',
+    tomo: 'Tomo 1',
+    folio: 'Folio',
+    nombrePropietarioAnterior: 'Pedro Perez',
+    nombreBenefactor: 'Jose Rodriguez',
+    nombreBeneficiario: 'Carlos Gonzalez',
+    observaciones: 'texto de observaciones',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 3,
+    codigo: '1029384754',
+    fechaOrigen: new Date(),
+    fechaAdquisicion: new Date(),
+    modoAdquisicion: 'modo adquisicion',
+    formaAdquisicion: 'forma adquisicion',
+    numeroFormaAdquisicion: 'numero forma adquisicion',
+    nombreFormaAdquisicion: 'nombre forma adquisicion',
+    fechaFactura: new Date(),
+    numeroFactura: '10000000',
+    proveedorId: '10000000',
+    tomo: 'Tomo 1',
+    folio: 'Folio',
+    nombrePropietarioAnterior: 'Pedro Perez',
+    nombreBenefactor: 'Jose Rodriguez',
+    nombreBeneficiario: 'Carlos Gonzalez',
+    observaciones: 'texto de observaciones',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+];

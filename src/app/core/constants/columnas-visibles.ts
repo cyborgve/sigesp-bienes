@@ -66,7 +66,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  ORIGENES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  ORIGENES: ['codigo', 'modoAdquisicion', 'creado', 'modificado', 'acciones'],
   PROPOSITOS_SEMOVIENTE: [
     'codigo',
     'denominacion',
@@ -75,7 +75,18 @@ export const COLUMNAS_VISIBLES = {
     'acciones',
   ],
   RAZAS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
-  RESPONSABLES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  RESPONSABLES: [
+    'tipo',
+    'numeroCedula',
+    'nombreCompleto',
+    'cargo',
+    'telefonos',
+    'direccion',
+    'correoElectronico',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   SEDES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   SEGUROS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   TIPOS_COBERTURA: [

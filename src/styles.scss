@@ -193,3 +193,32 @@ body {
 .denominacion {
   @apply col-span-9;
 }
+
+.table {
+  @apply w-full;
+}
+
+th.mat-column-denominacion,
+td.mat-column-denominacion {
+  @apply w-fit;
+}
+
+th.mat-column-codigo,
+td.mat-column-codigo {
+  width: 12rem;
+}
+
+th.mat-column-acciones,
+td.mat-column-acciones {
+  width: 8rem !important;
+  text-align: center !important;
+}
+
+th.mat-column-creado,
+th.mat-column-modificado {
+  @apply w-2/12;
+}
+
+.row-hover {
+  @apply hover:bg-primary hover:bg-opacity-10;
+}

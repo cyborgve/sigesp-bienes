@@ -1,0 +1,26 @@
+.fechaOrigen,
+.modoAdquisicion,
+.fechaAdquisicion,
+.fechaFactura,
+.numeroFactura,
+.proveedorId {
+  @apply col-span-2;
+}
+
+.formaAdquisicion,
+.numeroFormaAdquisicion,
+.nombreFormaAdquisicion,
+.tomo,
+.folio {
+  @apply col-span-3;
+}
+
+.nombrePropietarioAnterior,
+.nombreBeneficiario,
+.nombreBenefactor {
+  @apply col-span-6;
+}
+
+.observaciones {
+  @apply col-span-full;
+}

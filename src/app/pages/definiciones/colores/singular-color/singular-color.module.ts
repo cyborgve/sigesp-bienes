@@ -16,7 +16,6 @@ import { BuscadorColorModule } from '../buscador-color/buscador-color.module';
   declarations: [SingularColorComponent],
   imports: [
     CommonModule,
-    RouterModule,
     ReactiveFormsModule,
     SingularColorRoutingModule,
     BuscadorColorModule,

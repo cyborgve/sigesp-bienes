@@ -1,1 +1,147 @@
-<p>singular-origen works!</p>
+<section class="contenedor-singular">
+  <!-- encabezado -->
+  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
+  <!-- datos -->
+  <mat-card>
+    <form [formGroup]="formulario">
+      <article class="contenido">
+        <!-- codigo -->
+        <mat-form-field appearance="fill" class="codigo">
+          <mat-label>Codigo</mat-label>
+          <input type="text" matInput formControlName="codigo" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- fecha origen -->
+        <mat-form-field appearance="fill" class="fechaOrigen">
+          <mat-label>Fecha Origen</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFechaOrigen"
+            formControlName="fechaOrigen" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaOrigen"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaOrigen></mat-datepicker>
+        </mat-form-field>
+        <!-- fecha adquisicion -->
+        <mat-form-field appearance="fill" class="fechaAdquisicion">
+          <mat-label>Fecha Adquisicion</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFechaAdquisicion"
+            formControlName="fechaAdquisicion" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaAdquisicion"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaAdquisicion></mat-datepicker>
+        </mat-form-field>
+        <!-- modo adquisicion -->
+        <mat-form-field appearance="fill" class="modoAdquisicion">
+          <mat-label>Modo Adquisicion</mat-label>
+          <mat-select formControlName="modoAdquisicion">
+            <mat-option *ngFor="let modo of modosAdquisicion" [value]="modo">{{
+              modo
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- forma adquisicion -->
+        <mat-form-field appearance="fill" class="formaAdquisicion">
+          <mat-label>Forma Adquisicion</mat-label>
+          <mat-select formControlName="formaAdquisicion">
+            <mat-option
+              *ngFor="let forma of formasAdquisicion"
+              [value]="forma"
+              >{{ forma }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <!-- numero forma adquisicion -->
+        <mat-form-field appearance="fill" class="numeroFormaAdquisicion">
+          <mat-label>Numero Forma de Adquisicion</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="numeroFormaAdquisicion" />
+        </mat-form-field>
+        <!-- nombre forma adquisicion -->
+        <mat-form-field appearance="fill" class="nombreFormaAdquisicion">
+          <mat-label>Nombre de Forma de Adquisicion</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="nombreFormaAdquisicion" />
+        </mat-form-field>
+        <!-- fecha factura -->
+        <mat-form-field appearance="fill" class="fechaFactura">
+          <mat-label>Fecha Factura</mat-label>
+          <input
+            matInput
+            formControlName="fechaFactura"
+            [matDatepicker]="pickerFechaFactura" />
+          <mat-datepicker-toggle
+            [for]="pickerFechaFactura"
+            matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaFactura></mat-datepicker>
+        </mat-form-field>
+        <!-- numero de factura -->
+        <mat-form-field appearance="fill" class="numeroFactura">
+          <mat-label>Numero de Factura</mat-label>
+          <input type="text" matInput formControlName="numeroFactura" />
+        </mat-form-field>
+        <!-- proveedor -->
+        <mat-form-field appearance="fill" class="proveedorId">
+          <mat-label>Proveedor</mat-label>
+          <input type="text" matInput formControlName="proveedorId" />
+        </mat-form-field>
+        <!-- tomo -->
+        <mat-form-field appearance="fill" class="tomo">
+          <mat-label>Tomo</mat-label>
+          <input type="text" matInput formControlName="tomo" />
+        </mat-form-field>
+        <!-- folio -->
+        <mat-form-field appearance="fill" class="folio">
+          <mat-label>Folio</mat-label>
+          <input type="text" matInput formControlName="folio" />
+        </mat-form-field>
+        <!-- nombrePropietarioAnterior -->
+        <mat-form-field appearance="fill" class="nombrePropietarioAnterior">
+          <mat-label>Nombre del Propietario Anterior</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="nombrePropietarioAnterior" />
+        </mat-form-field>
+        <!-- nombreBenefactor -->
+        <mat-form-field appearance="fill" class="nombreBenefactor">
+          <mat-label>Nombre del Benefactor</mat-label>
+          <input type="text" matInput formControlName="nombreBenefactor" />
+        </mat-form-field>
+        <!-- nombreBeneficiario -->
+        <mat-form-field appearance="fill" class="nombreBeneficiario">
+          <mat-label>Nombre del Beneficiario</mat-label>
+          <input type="text" matInput formControlName="nombreBeneficiario" />
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea matInput rows="2"></textarea>
+        </mat-form-field>
+      </article>
+    </form>
+  </mat-card>
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

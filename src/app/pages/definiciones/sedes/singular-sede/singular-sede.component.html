@@ -1,1 +1,138 @@
-<p>singular-sede works!</p>
+<section class="contenedor-singular">
+  <!-- encabezado -->
+  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
+  <!-- datos -->
+  <mat-card>
+    <form [formGroup]="formulario">
+      <article class="contenido">
+        <!-- codigo -->
+        <mat-form-field appearance="fill" class="codigo">
+          <mat-label>Codigo</mat-label>
+          <input type="text" matInput formControlName="codigo" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominacion</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
+        <!-- tipo -->
+        <mat-form-field appearance="fill" class="tipo">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipo">
+            <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{
+              tipo
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- localizacion -->
+        <mat-form-field appearance="fill" class="localizacion">
+          <mat-label>Localizacion</mat-label>
+          <mat-select formControlName="localizacion">
+            <mat-option
+              *ngFor="let localizacion of localizaciones"
+              [value]="localizacion"
+              >{{ localizacion }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <!-- paisId -->
+        <mat-form-field appearance="fill" class="paisId">
+          <mat-label>Pais</mat-label>
+          <input type="text" matInput formControlName="paisId" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarPais()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- estadoId -->
+        <mat-form-field appearance="fill" class="estadoId">
+          <mat-label>Estado</mat-label>
+          <input type="text" matInput formControlName="estadoId" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarEstado()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- municipioId -->
+        <mat-form-field appearance="fill" class="municipioId">
+          <mat-label>Municipio</mat-label>
+          <input type="text" matInput formControlName="municipioId" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarMunicipio()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- parroquiaId -->
+        <mat-form-field appearance="fill" class="parroquiaId">
+          <mat-label>Parroquia</mat-label>
+          <input type="text" matInput formControlName="parroquiaId" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarParroquia()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- ciudadId -->
+        <mat-form-field appearance="fill" class="ciudadId">
+          <mat-label>Ciudad</mat-label>
+          <input type="text" matInput formControlName="ciudadId" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCiudad()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- urbanizacion -->
+        <mat-form-field appearance="fill" class="urbanizacion">
+          <mat-label>Urbanizacion</mat-label>
+          <input type="text" matInput formControlName="urbanizacion" />
+        </mat-form-field>
+        <!-- calleAvenida -->
+        <mat-form-field appearance="fill" class="calleAvenida">
+          <mat-label>Calle / Avenida</mat-label>
+          <input type="text" matInput formControlName="calleAvenida" />
+        </mat-form-field>
+        <!-- casaEdificio -->
+        <mat-form-field appearance="fill" class="casaEdificio">
+          <mat-label>Casa / Edificio</mat-label>
+          <input type="text" matInput formControlName="casaEdificio" />
+        </mat-form-field>
+        <!-- piso -->
+        <mat-form-field appearance="fill" class="piso">
+          <mat-label>Piso</mat-label>
+          <input type="text" matInput formControlName="piso" />
+        </mat-form-field>
+      </article>
+    </form>
+  </mat-card>
+  <!-- botones -->
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

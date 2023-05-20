@@ -14,10 +14,10 @@ export const MENU: MenuItem[] = [
     image: './assets/images/svg/description.svg',
     items: [
       {
-        label: 'Componentes de Activo',
-        routerLink: 'componentes-activo',
-        icon: 'crop_square',
-        image: './assets/images/svg/crop_square.svg',
+        label: 'Bien / Activo',
+        routerLink: 'activos',
+        icon: 'home_work',
+        image: './assets/images/svg/home_work.svg',
       },
       {
         label: 'Aseguradoras',
@@ -26,16 +26,16 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/assured_workload.svg',
       },
       {
-        label: 'Categorias de Unidad Adm.',
-        routerLink: 'categorias-unidad-administrativa',
-        icon: 'folder_copy',
-        image: './assets/images/svg/folder_copy.svg',
-      },
-      {
         label: 'Categorias',
         routerLink: 'categorias',
         icon: 'category',
         image: './assets/images/svg/category.svg',
+      },
+      {
+        label: 'Categorias de Unidad Adm.',
+        routerLink: 'categorias-unidad-administrativa',
+        icon: 'folder_copy',
+        image: './assets/images/svg/folder_copy.svg',
       },
       {
         label: 'Causas de Movimiento',
@@ -54,6 +54,12 @@ export const MENU: MenuItem[] = [
         routerLink: 'colores',
         icon: 'palette',
         image: './assets/images/svg/palette.svg',
+      },
+      {
+        label: 'Componentes de Activo',
+        routerLink: 'componentes-activo',
+        icon: 'crop_square',
+        image: './assets/images/svg/crop_square.svg',
       },
       {
         label: 'Componentes de Estructura',
@@ -180,12 +186,6 @@ export const MENU: MenuItem[] = [
         routerLink: 'unidades-administrativas',
         icon: 'ac_unit',
         image: './assets/images/svg/ac_unit.svg',
-      },
-      {
-        label: 'Bien / Activo',
-        routerLink: 'activos',
-        icon: 'home_work',
-        image: './assets/images/svg/home_work.svg',
       },
     ],
   },
