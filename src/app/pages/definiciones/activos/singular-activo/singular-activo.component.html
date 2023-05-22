@@ -1,1 +1,45 @@
-<p>singular-activo works!</p>
+<section class="contenedor-singular">
+  <!-- encabezado -->
+  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
+
+  <!-- datos -->
+  <mat-card>
+    <!-- grupo de paneles -->
+    <mat-tab-group mat-align-tabs="end">
+      <mat-tab *ngFor="let tab of tabLabels" [label]="tab | titlecase">
+        <article class="tab-activo">
+          <ng-container [ngSwitch]="tab">
+            <app-activo-componentes
+              *ngSwitchCase="'componentes'"></app-activo-componentes>
+            <app-activo-datos-generales
+              *ngSwitchCase="'datos generales'"
+              [formulario]="formulario"></app-activo-datos-generales>
+            <app-activo-depreciacion
+              *ngSwitchCase="'depreciacion'"></app-activo-depreciacion>
+            <app-activo-documentacion
+              *ngSwitchCase="'documentacion'"></app-activo-documentacion>
+            <app-activo-responsable
+              *ngSwitchCase="'responsable'"></app-activo-responsable>
+            <app-activo-origen *ngSwitchCase="'origen'"></app-activo-origen>
+            <app-activo-seguro *ngSwitchCase="'seguro'"></app-activo-seguro>
+            <app-activo-ubicacion
+              *ngSwitchCase="'ubicacion'"></app-activo-ubicacion>
+          </ng-container>
+        </article>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

@@ -1,0 +1,17 @@
+<form [formGroup]="formulario">
+  <article class="contenido">
+    <!-- codigo -->
+    <mat-form-field appearance="fill" class="codigo">
+      <mat-label>Codigo</mat-label>
+      <input type="text" matInput formControlName="codigo" />
+      <button type="button" mat-icon-button matSuffix (click)="buscar()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- denominacion -->
+    <mat-form-field appearance="fill" class="denominacion">
+      <mat-label>Denominacion</mat-label>
+      <input type="text" matInput formControlName="denominacion" />
+    </mat-form-field>
+  </article>
+</form>

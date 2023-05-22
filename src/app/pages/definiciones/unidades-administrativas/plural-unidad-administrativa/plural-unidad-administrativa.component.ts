@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-unidad-administrativa.component.html',
   styleUrls: ['./plural-unidad-administrativa.component.scss'],
 })
-export class PluralUnidadAdministrativaComponent {}
+export class PluralUnidadAdministrativaComponent {
+  titulo = 'unidades administrativas';
+}

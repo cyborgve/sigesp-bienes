@@ -120,7 +120,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  TIPOS_UNIDAD_ADMINISTRATIVA: [
+  UNIDADES_ADMINISTRATIVAS: [
     'codigo',
     'denominacion',
     'creado',
