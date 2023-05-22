@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PluralTipoUsoComponent } from './plural-tipo-uso.component';
+import { PluralUsoComponent } from './plural-uso.component';
 
-describe('PluralTipoUsoComponent', () => {
-  let component: PluralTipoUsoComponent;
-  let fixture: ComponentFixture<PluralTipoUsoComponent>;
+describe('PluralUsoComponent', () => {
+  let component: PluralUsoComponent;
+  let fixture: ComponentFixture<PluralUsoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PluralTipoUsoComponent],
+      declarations: [PluralUsoComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PluralTipoUsoComponent);
+    fixture = TestBed.createComponent(PluralUsoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

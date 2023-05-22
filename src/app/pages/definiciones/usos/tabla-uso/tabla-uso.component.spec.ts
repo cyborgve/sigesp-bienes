@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SingularTipoUsoComponent } from './singular-tipo-uso.component';
+import { TablaUsoComponent } from './tabla-uso.component';
 
-describe('SingularTipoUsoComponent', () => {
-  let component: SingularTipoUsoComponent;
-  let fixture: ComponentFixture<SingularTipoUsoComponent>;
+describe('TablaUsoComponent', () => {
+  let component: TablaUsoComponent;
+  let fixture: ComponentFixture<TablaUsoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SingularTipoUsoComponent],
+      declarations: [TablaUsoComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SingularTipoUsoComponent);
+    fixture = TestBed.createComponent(TablaUsoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

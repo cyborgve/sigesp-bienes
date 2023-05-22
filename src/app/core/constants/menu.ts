@@ -176,16 +176,16 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/pets.svg',
       },
       {
-        label: 'Tipos de Uso',
-        routerLink: 'tipos-uso',
-        icon: 'precision_manufacturing',
-        image: './assets/images/svg/precision_manufacturing.svg',
-      },
-      {
         label: 'Unidades Administrativas',
         routerLink: 'unidades-administrativas',
         icon: 'ac_unit',
         image: './assets/images/svg/ac_unit.svg',
+      },
+      {
+        label: 'Usos',
+        routerLink: 'usos',
+        icon: 'precision_manufacturing',
+        image: './assets/images/svg/precision_manufacturing.svg',
       },
     ],
   },

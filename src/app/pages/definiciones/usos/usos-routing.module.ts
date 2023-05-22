@@ -5,15 +5,13 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./plural-tipo-uso/plural-tipo-uso.module').then(
-        m => m.PluralTipoUsoModule
-      ),
+      import('./plural-uso/plural-uso.module').then(m => m.PluralUsoModule),
   },
   {
-    path: 'tipo-uso',
+    path: 'uso',
     loadChildren: () =>
-      import('./singular-tipo-uso/singular-tipo-uso.module').then(
-        m => m.SingularTipoUsoModule
+      import('./singular-uso/singular-uso.module').then(
+        m => m.SingularUsoModule
       ),
   },
 ];
@@ -22,4 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TiposUsoRoutingModule {}
+export class UsosRoutingModule {}

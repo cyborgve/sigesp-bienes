@@ -1,1 +1,135 @@
-<p>singular-seguro works!</p>
+<section class="contenedor-singular">
+  <!-- encabezado -->
+  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
+  <!-- datos -->
+  <mat-card>
+    <form [formGroup]="formulario">
+      <article class="contenido">
+        <!-- codigo -->
+        <mat-form-field appearance="fill" class="codigo">
+          <mat-label>Codigo</mat-label>
+          <input type="text" matInput formControlName="codigo" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominacion</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
+        <!-- aseguradoraId -->
+        <mat-form-field appearance="fill" class="aseguradoraId">
+          <mat-label>Aseguradora</mat-label>
+          <input type="text" matInput formControlName="aseguradoraId" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- tipoPoliza -->
+        <mat-form-field appearance="fill" class="tipoPoliza">
+          <mat-label>Tipo de Poliza</mat-label>
+          <input type="text" matInput formControlName="tipoPoliza" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- tipoCobertura -->
+        <mat-form-field appearance="fill" class="tipoCobertura">
+          <mat-label>Tipo de Cobertura</mat-label>
+          <input type="text" matInput formControlName="tipoCobertura" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- numeroPoliza -->
+        <mat-form-field appearance="fill" class="numeroPoliza">
+          <mat-label>Numero de Poliza</mat-label>
+          <input type="text" matInput formControlName="numeroPoliza" />
+        </mat-form-field>
+        <!-- montoAsegurado -->
+        <mat-form-field appearance="fill" class="montoAsegurado">
+          <mat-label>Monto Asegurado</mat-label>
+          <input type="number" matInput formControlName="montoAsegurado" />
+        </mat-form-field>
+        <!-- fechaInicioPoliza -->
+        <mat-form-field appearance="fill" class="fechaInicioPoliza">
+          <mat-label>Fecha Inicio de la Poliza</mat-label>
+          <input
+            [matDatepicker]="pickerFechaInicioPoliza"
+            matInput
+            formControlName="fechaInicioPoliza" />
+          <mat-datepicker-toggle
+            [for]="pickerFechaInicioPoliza"
+            matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaInicioPoliza></mat-datepicker>
+        </mat-form-field>
+        <!-- fechaFinPoliza -->
+        <mat-form-field appearance="fill" class="fechaFinPoliza">
+          <mat-label>Fecha Inicio de la Poliza</mat-label>
+          <input
+            [matDatepicker]="pickerFechaFinPoliza"
+            matInput
+            formControlName="fechaFinPoliza" />
+          <mat-datepicker-toggle
+            [for]="pickerFechaFinPoliza"
+            matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaFinPoliza></mat-datepicker>
+        </mat-form-field>
+        <!-- monedaId -->
+        <mat-form-field appearance="fill" class="monedaId">
+          <mat-label>Moneda</mat-label>
+          <input type="text" matInput formControlName="monedaId" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- monedaSecundariaId -->
+        <mat-form-field appearance="fill" class="monedaSecundariaId">
+          <mat-label>Moneda Secundaria</mat-label>
+          <input type="text" matInput formControlName="monedaSecundariaId" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- coberturaAdicional -->
+        <mat-form-field appearance="fill" class="coberturaAdicional">
+          <mat-label>Cobertura Adicional</mat-label>
+          <input type="text" matInput formControlName="coberturaAdicional" />
+          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- poseeRCV -->
+        <mat-slide-toggle
+          color="primary"
+          class="poseeRCV"
+          formControlName="poseeRCV"
+          >Posee R.C.V.</mat-slide-toggle
+        >
+        <!-- descripcionCobertura -->
+        <mat-form-field appearance="fill" class="descripcionCobertura">
+          <mat-label>Descripcion de la Cobertura</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="descripcionCobertura"></textarea>
+        </mat-form-field>
+      </article>
+    </form>
+  </mat-card>
+  <!-- botones -->
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

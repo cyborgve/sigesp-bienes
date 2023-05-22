@@ -111,6 +111,7 @@ export const COLUMNAS_VISIBLES = {
     'acciones',
   ],
   TIPOS_MARCA: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  TIPOS_POLIZA: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   TIPOS_SEDE: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   TIPOS_SEMOVIENTE: [
     'codigo',
@@ -126,6 +127,6 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  TIPOS_USO: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  USOS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   ACTIVOS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
 };

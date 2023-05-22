@@ -1,8 +1,164 @@
-import { Component } from '@angular/core';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import {
+  Component,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { Seguro } from '@core/models/seguro';
+import { SeguroService } from '@core/services/seguro.service';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Location } from '@angular/common';
+import { Id } from '@core/types/id';
 
 @Component({
   selector: 'app-tabla-seguro',
   templateUrl: './tabla-seguro.component.html',
   styleUrls: ['./tabla-seguro.component.scss'],
 })
-export class TablaSeguroComponent {}
+export class TablaSeguroComponent extends AbstractTablaFunciones<Seguro> {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() titulo: string = '';
+  @Input() ocultarNuevo: boolean = false;
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.SEGUROS;
+  @Output() dobleClick = new EventEmitter();
+
+  private urlPlural = '/definiciones/seguros';
+  private urlSingular = this.urlPlural + '/seguro';
+  private urlSingularId = (id: Id) => this.urlPlural + '/seguro/' + id;
+
+  constructor(
+    private _entidad: SeguroService,
+    private _location: Location,
+    private _router: Router,
+    private _dialog: MatDialog
+  ) {
+    super();
+    this.dataSource = new MatTableDataSource(data);
+  }
+
+  private recargarDatos() {
+    this._entidad
+      .buscarTodos()
+      .pipe(
+        first(),
+        tap(colores => {
+          this.dataSource = new MatTableDataSource(colores);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        })
+      )
+      .subscribe();
+  }
+
+  irAtras() {
+    this._location.back();
+  }
+
+  irAlInicio() {
+    this._router.navigate(['/']);
+  }
+
+  filtrar(event: Event) {
+    let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
+    this.dataSource.filter = valorFiltro.trim().toLowerCase();
+    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  nuevo() {
+    this._router.navigate([this.urlSingular]);
+  }
+
+  editar(entidad: Seguro) {
+    this._router.navigate([this.urlSingularId(entidad.id)]);
+  }
+
+  eliminar(entidad: Seguro) {
+    let dialog = this._dialog.open(DialogoEliminarComponent, {
+      data: {
+        codigo: entidad.codigo,
+        denominacion: entidad.denominacion,
+      },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        switchMap(() => this._entidad.eliminar(entidad.id)),
+        take(1)
+      )
+      .subscribe(() => this.recargarDatos());
+  }
+}
+
+const data: Seguro[] = [
+  {
+    empresaId: 10000000,
+    id: 1,
+    codigo: '1029384756',
+    denominacion: 'Seguro 1',
+    aseguradoraId: '1924790121',
+    tipoPoliza: 'Tipo Poliza 1',
+    tipoCobertura: 'Tipo Cobertura 1',
+    numeroPoliza: '12312346764',
+    montoAsegurado: 3123122,
+    fechaInicioPoliza: new Date(),
+    fechaFinPoliza: new Date(),
+    monedaId: '1323232423423',
+    monedaSecundariaId: '15677676996803',
+    poseeRCV: true,
+    descripcionCobertura: 'no aplica',
+    coberturaAdicional: 'no aplica',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 2,
+    codigo: '1029384755',
+    denominacion: 'Seguro 2',
+    aseguradoraId: '1924790121',
+    tipoPoliza: 'Tipo Poliza 1',
+    tipoCobertura: 'Tipo Cobertura 1',
+    numeroPoliza: '12312346764',
+    montoAsegurado: 3123122,
+    fechaInicioPoliza: new Date(),
+    fechaFinPoliza: new Date(),
+    monedaId: '1323232423423',
+    monedaSecundariaId: '15677676996803',
+    poseeRCV: true,
+    descripcionCobertura: 'no aplica',
+    coberturaAdicional: 'no aplica',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+  {
+    empresaId: 10000000,
+    id: 3,
+    codigo: '1029384754',
+    denominacion: 'Seguro 3',
+    aseguradoraId: '1924790121',
+    tipoPoliza: 'Tipo Poliza 1',
+    tipoCobertura: 'Tipo Cobertura 1',
+    numeroPoliza: '12312346764',
+    montoAsegurado: 3123122,
+    fechaInicioPoliza: new Date(),
+    fechaFinPoliza: new Date(),
+    monedaId: '1323232423423',
+    monedaSecundariaId: '15677676996803',
+    poseeRCV: true,
+    descripcionCobertura: 'no aplica',
+    coberturaAdicional: 'no aplica',
+    creado: new Date(),
+    modificado: new Date(),
+  },
+];

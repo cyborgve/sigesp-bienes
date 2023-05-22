@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-tipo-semoviente.component.html',
   styleUrls: ['./plural-tipo-semoviente.component.scss'],
 })
-export class PluralTipoSemovienteComponent {}
+export class PluralTipoSemovienteComponent {
+  titulo = 'tipos de semoviente';
+}

@@ -1,0 +1,20 @@
+.aseguradoraId,
+.tipoPoliza,
+.tipoCobertura,
+.numeroPoliza,
+.monedaId,
+.monedaSecundariaId,
+.poseeRCV,
+.coberturaAdicional {
+  @apply col-span-3;
+}
+
+.montoAsegurado,
+.fechaInicioPoliza,
+.fechaFinPoliza {
+  @apply col-span-2;
+}
+
+.descripcionCobertura {
+  @apply col-span-full;
+}

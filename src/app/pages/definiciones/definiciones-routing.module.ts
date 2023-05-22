@@ -133,11 +133,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'tipos-marca',
-    loadChildren: () =>
-      import('./tipos-marca/tipos-marca.module').then(m => m.TiposMarcaModule),
-  },
-  {
     path: 'tipos-poliza',
     loadChildren: () =>
       import('./tipos-poliza/tipos-poliza.module').then(
@@ -164,11 +159,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'tipos-uso',
-    loadChildren: () =>
-      import('./tipos-uso/tipos-uso.module').then(m => m.TiposUsoModule),
-  },
-  {
     path: 'activos',
     loadChildren: () =>
       import('./activos/activos.module').then(m => m.ActivosModule),
@@ -179,6 +169,15 @@ const routes: Routes = [
       import('./componentes-activo/componentes-activo.module').then(
         m => m.ComponentesActivoModule
       ),
+  },
+  {
+    path: 'tipos-marca',
+    loadChildren: () =>
+      import('./tipos-marca/tipos-marca.module').then(m => m.TiposMarcaModule),
+  },
+  {
+    path: 'usos',
+    loadChildren: () => import('./usos/usos.module').then(m => m.UsosModule),
   },
 ];
 
