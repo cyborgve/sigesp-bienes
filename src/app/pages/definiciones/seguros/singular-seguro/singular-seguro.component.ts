@@ -11,6 +11,9 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorSeguroComponent } from '../buscador-seguro/buscador-seguro.component';
 import { Seguro } from '@core/models/seguro';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { BuscadorAseguradoraComponent } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.component';
+import { BuscadorTipoPolizaComponent } from '@pages/definiciones/tipos-poliza/buscador-tipo-poliza/buscador-tipo-poliza.component';
+import { BuscadorTipoCoberturaComponent } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.component';
 
 @Component({
   selector: 'app-singular-seguro',
@@ -207,5 +210,26 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
 
   salir() {
     throw new Error('Method not implemented.');
+  }
+
+  buscarAseguradora() {
+    let dialog = this._dialog.open(BuscadorAseguradoraComponent, {
+      width: '85%',
+      height: '95%',
+    });
+  }
+
+  buscarTipoPoliza() {
+    let dialog = this._dialog.open(BuscadorTipoPolizaComponent, {
+      width: '85%',
+      height: '95%',
+    });
+  }
+
+  buscarTipoCobertura() {
+    let dialog = this._dialog.open(BuscadorTipoCoberturaComponent, {
+      width: '85%',
+      height: '95%',
+    });
   }
 }

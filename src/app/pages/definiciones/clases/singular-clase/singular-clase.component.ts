@@ -75,14 +75,14 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((clase: Clase) => {
+        tap((entidad: Clase) => {
           this.formulario.patchValue({
-            empresaId: clase.empresaId,
-            id: clase.id,
-            codigo: clase.creado,
-            denominacion: clase.denominacion,
-            creado: clase.creado,
-            modificado: clase.modificado,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            codigo: entidad.creado,
+            denominacion: entidad.denominacion,
+            creado: entidad.creado,
+            modificado: entidad.modificado,
           });
         })
       )
@@ -97,11 +97,11 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((clase: Clase) => {
+        tap((entidad: Clase) => {
           this.formulario.patchValue({
-            empresaId: clase.empresaId,
-            id: clase.id,
-            denominacion: clase.denominacion,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            denominacion: entidad.denominacion,
           });
         })
       )
@@ -109,13 +109,13 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
   }
 
   guardar() {
-    let clase: Clase = this.formulario.value;
-    clase.modificado = new Date();
+    let entidad: Clase = this.formulario.value;
+    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      clase.creado = new Date();
-      this._entidad.guardar(clase).pipe(first()).subscribe();
+      entidad.creado = new Date();
+      this._entidad.guardar(entidad).pipe(first()).subscribe();
     } else {
-      this._entidad.actualizar(this.id, clase).pipe(first()).subscribe();
+      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
     }
   }
 

@@ -11,6 +11,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorSedeComponent } from '../buscador-sede/buscador-sede.component';
 import { Sede } from '@core/models/sede';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
 
 @Component({
   selector: 'app-singular-sede',
@@ -214,5 +215,12 @@ export class SingularSedeComponent extends AbstractEntidadFunciones {
 
   buscarCiudad() {
     throw new Error('Method not implemented.');
+  }
+
+  buscarTipoSede() {
+    let dialog = this._dialog.open(BuscadorTipoSedeComponent, {
+      width: '85%',
+      height: '95%',
+    });
   }
 }

@@ -23,7 +23,9 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-MatDialogModule;
+import { BuscadorAseguradoraModule } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.module';
+import { BuscadorTipoPolizaModule } from '@pages/definiciones/tipos-poliza/buscador-tipo-poliza/buscador-tipo-poliza.module';
+import { BuscadorTipoCoberturaModule } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.module';
 
 @NgModule({
   declarations: [SingularSeguroComponent],
@@ -33,6 +35,9 @@ MatDialogModule;
     SharedModule,
     SingularSeguroRoutingModule,
     BuscadorSeguroModule,
+    BuscadorAseguradoraModule,
+    BuscadorTipoPolizaModule,
+    BuscadorTipoCoberturaModule,
     MatCardModule,
     MatInputModule,
     MatSelectModule,
@@ -40,6 +45,7 @@ MatDialogModule;
     MatIconModule,
     MatDatepickerModule,
     MatSlideToggleModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-Ve' },

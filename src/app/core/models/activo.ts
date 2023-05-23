@@ -2,13 +2,15 @@ import { Basica } from '@core/models/basica';
 import { Id } from '@core/types/id';
 
 export interface Activo extends Basica {
+  /* datos generales - incluye los datos de la interface basica*/
   codigo: string;
   denominacion: string;
-  cuentaContable: string;
+  catalogoCuentas: string;
   tipoActivo: string;
-  depreciable: boolean;
   fechaAdquisicion: Date;
   fechaIngreso: Date;
+
+  depreciable: boolean;
   observaciones: string;
   origenId: Id;
   unidadAdministrativaId: Id;

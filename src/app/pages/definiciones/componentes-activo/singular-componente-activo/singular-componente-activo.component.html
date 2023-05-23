@@ -33,7 +33,11 @@
         <mat-form-field appearance="fill" class="marcaId">
           <mat-label>Marca</mat-label>
           <input type="text" matInput formControlName="marcaId" />
-          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarMarca()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
@@ -41,7 +45,11 @@
         <mat-form-field appearance="fill" class="modeloId">
           <mat-label>Modelo</mat-label>
           <input type="text" matInput formControlName="modeloId" />
-          <button type="button" mat-icon-button matSuffix (click)="buscar()">
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarModelo()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>

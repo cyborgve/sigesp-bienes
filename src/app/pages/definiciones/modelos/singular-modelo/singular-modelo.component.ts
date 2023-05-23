@@ -11,6 +11,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { Modelo } from '@core/models/modelo';
 import { BuscadorModeloComponent } from '../buscador-modelo/buscador-modelo.component';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
 
 @Component({
   selector: 'app-singular-modelo',
@@ -154,5 +155,12 @@ export class SingularModeloComponent extends AbstractEntidadFunciones {
 
   salir() {
     throw new Error('Method not implemented.');
+  }
+
+  buscarMarca() {
+    let dialog = this._dialog.open(BuscadorMarcaComponent, {
+      width: '85%',
+      height: '95%',
+    });
   }
 }

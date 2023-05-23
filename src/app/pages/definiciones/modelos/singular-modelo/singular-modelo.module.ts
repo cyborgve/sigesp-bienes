@@ -12,6 +12,7 @@ import { SharedModule } from '@shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
 
 @NgModule({
   declarations: [SingularModeloComponent],
@@ -19,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     SingularModeloRoutingModule,
     BuscadorModeloModule,
+    BuscadorMarcaModule,
     ReactiveFormsModule,
     MatCardModule,
     MatSelectModule,

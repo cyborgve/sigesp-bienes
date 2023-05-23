@@ -11,6 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
+import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
 
 @NgModule({
   declarations: [SingularComponenteActivoComponent],
@@ -18,6 +20,8 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     SingularComponenteActivoRoutingModule,
     BuscadorComponenteActivoModule,
+    BuscadorMarcaModule,
+    BuscadorModeloModule,
     SharedModule,
     ReactiveFormsModule,
     MatInputModule,

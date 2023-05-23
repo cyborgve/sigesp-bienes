@@ -11,6 +11,7 @@ import { SharedModule } from '@shared/shared.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { BuscadorTipoSedeModule } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.module';
 
 @NgModule({
   declarations: [SingularSedeComponent],
@@ -19,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     SingularSedeRoutingModule,
     BuscadorSedeModule,
+    BuscadorTipoSedeModule,
     SharedModule,
     MatCardModule,
     MatSelectModule,

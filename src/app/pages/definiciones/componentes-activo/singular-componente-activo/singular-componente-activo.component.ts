@@ -11,6 +11,8 @@ import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorComponenteActivoComponent } from '../buscador-componente-activo/buscador-componente-activo.component';
 import { ComponenteActivo } from '@core/models/componente-activo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
+import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
 
 @Component({
   selector: 'app-singular-componente-activo',
@@ -160,5 +162,19 @@ export class SingularComponenteActivoComponent extends AbstractEntidadFunciones 
 
   salir() {
     throw new Error('Method not implemented.');
+  }
+
+  buscarMarca() {
+    let dialog = this._dialog.open(BuscadorMarcaComponent, {
+      width: '95%',
+      height: '85%',
+    });
+  }
+
+  buscarModelo() {
+    let dialog = this._dialog.open(BuscadorModeloComponent, {
+      width: '95%',
+      height: '85%',
+    });
   }
 }

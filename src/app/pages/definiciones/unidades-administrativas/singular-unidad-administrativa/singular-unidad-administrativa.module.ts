@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { BuscadorCategoriaUnidadAdministrativaModule } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad-administrativa/buscador-categoria-unidad-administrativa.module';
 
 @NgModule({
   declarations: [SingularUnidadAdministrativaComponent],
@@ -19,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     SingularUnidadAdministrativaRoutingModule,
     BuscadorUnidadAdministrativaModule,
+    BuscadorCategoriaUnidadAdministrativaModule,
     SharedModule,
     MatCardModule,
     MatInputModule,

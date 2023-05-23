@@ -23,6 +23,15 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
   titulo = 'activo';
   formulario: FormGroup;
 
+  formularioDatosGenerales: FormGroup;
+  formularioComponentes: FormGroup;
+  formularioDepreciacion: FormGroup;
+  formularioDocumentacion: FormGroup;
+  formularioOrigen: FormGroup;
+  formularioResponsable: FormGroup;
+  formularioSeguro: FormGroup;
+  formularioUbicacion: FormGroup;
+
   tabLabels = [
     'datos generales',
     'componentes',
@@ -47,6 +56,27 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
   }
 
   private actualizarFormulario() {
+    if (this.id) {
+      this.modoFormulario = 'EDITANDO';
+      this._entidad
+        .buscarPorId(this.id)
+        .pipe(
+          take(1),
+          tap(entidad => {
+            this.formularioDatosGenerales = this._formBuilder.group({
+              empresaId: [entidad.empresaId],
+              id: [entidad.id],
+              codigo: [entidad.codigo, Validators.required],
+              denominacion: [entidad.denominacion, Validators.required],
+              creado: [entidad.creado],
+              modificado: [entidad.modificado],
+            });
+          })
+        )
+        .subscribe();
+    }
+
+    // old //
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
       this._entidad

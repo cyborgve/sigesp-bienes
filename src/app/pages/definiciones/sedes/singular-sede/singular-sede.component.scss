@@ -1,16 +1,13 @@
-.tipo,
-.localizacion {
-  @apply col-span-2;
-}
-
-.paisId,
-.estadoId,
 .municipioId,
 .parroquiaId,
 .ciudadId {
   @apply col-span-4;
 }
 
+.paisId,
+.estadoId,
+.tipo,
+.localizacion,
 .urbanizacion,
 .calleAvenida,
 .casaEdificio,

@@ -77,14 +77,14 @@ export class SingularCategoriaUnidadAdministrativaComponent extends AbstractEnti
     dialog
       .afterClosed()
       .pipe(
-        tap((categoriaUnidadAdministrativa: CategoriaUnidadAdministr) => {
+        tap((entidad: CategoriaUnidadAdministr) => {
           this.formulario.patchValue({
-            empresaId: categoriaUnidadAdministrativa.empresaId,
-            id: categoriaUnidadAdministrativa.id,
-            codigo: categoriaUnidadAdministrativa.creado,
-            denominacion: categoriaUnidadAdministrativa.denominacion,
-            creado: categoriaUnidadAdministrativa.creado,
-            modificado: categoriaUnidadAdministrativa.modificado,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            codigo: entidad.creado,
+            denominacion: entidad.denominacion,
+            creado: entidad.creado,
+            modificado: entidad.modificado,
           });
         })
       )
@@ -102,11 +102,11 @@ export class SingularCategoriaUnidadAdministrativaComponent extends AbstractEnti
     dialog
       .afterClosed()
       .pipe(
-        tap((categoriaUnidadAdministrativa: CategoriaUnidadAdministr) => {
+        tap((entidad: CategoriaUnidadAdministr) => {
           this.formulario.patchValue({
-            empresaId: categoriaUnidadAdministrativa.empresaId,
-            id: categoriaUnidadAdministrativa.id,
-            denominacion: categoriaUnidadAdministrativa.denominacion,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            denominacion: entidad.denominacion,
           });
         })
       )
@@ -114,20 +114,13 @@ export class SingularCategoriaUnidadAdministrativaComponent extends AbstractEnti
   }
 
   guardar() {
-    let categoriaUnidadAdministrativa: CategoriaUnidadAdministr =
-      this.formulario.value;
-    categoriaUnidadAdministrativa.modificado = new Date();
+    let entidad: CategoriaUnidadAdministr = this.formulario.value;
+    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      categoriaUnidadAdministrativa.creado = new Date();
-      this._entidad
-        .guardar(categoriaUnidadAdministrativa)
-        .pipe(first())
-        .subscribe();
+      entidad.creado = new Date();
+      this._entidad.guardar(entidad).pipe(first()).subscribe();
     } else {
-      this._entidad
-        .actualizar(this.id, categoriaUnidadAdministrativa)
-        .pipe(first())
-        .subscribe();
+      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
     }
   }
 

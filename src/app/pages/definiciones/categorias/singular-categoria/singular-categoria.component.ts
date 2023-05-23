@@ -74,14 +74,14 @@ export class SingularCategoriaComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((categoria: Categoria) => {
+        tap((entidad: Categoria) => {
           this.formulario.patchValue({
-            empresaId: categoria.empresaId,
-            id: categoria.id,
-            codigo: categoria.creado,
-            denominacion: categoria.denominacion,
-            creado: categoria.creado,
-            modificado: categoria.modificado,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            codigo: entidad.creado,
+            denominacion: entidad.denominacion,
+            creado: entidad.creado,
+            modificado: entidad.modificado,
           });
         })
       )
@@ -96,11 +96,11 @@ export class SingularCategoriaComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((categoria: Categoria) => {
+        tap((entidad: Categoria) => {
           this.formulario.patchValue({
-            empresaId: categoria.empresaId,
-            id: categoria.id,
-            denominacion: categoria.denominacion,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            denominacion: entidad.denominacion,
           });
         })
       )
@@ -108,13 +108,13 @@ export class SingularCategoriaComponent extends AbstractEntidadFunciones {
   }
 
   guardar() {
-    let categoria: Categoria = this.formulario.value;
-    categoria.modificado = new Date();
+    let entidad: Categoria = this.formulario.value;
+    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      categoria.creado = new Date();
-      this._entidad.guardar(categoria).pipe(first()).subscribe();
+      entidad.creado = new Date();
+      this._entidad.guardar(entidad).pipe(first()).subscribe();
     } else {
-      this._entidad.actualizar(this.id, categoria).pipe(first()).subscribe();
+      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
     }
   }
 

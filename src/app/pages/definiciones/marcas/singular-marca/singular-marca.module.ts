@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { BuscadorMarcaModule } from '../buscador-marca/buscador-marca.module';
+import { BuscadorTipoMarcaModule } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.module';
 
 @NgModule({
   declarations: [SingularMarcaComponent],
@@ -19,6 +20,7 @@ import { BuscadorMarcaModule } from '../buscador-marca/buscador-marca.module';
     ReactiveFormsModule,
     SingularMarcaRoutingModule,
     BuscadorMarcaModule,
+    BuscadorTipoMarcaModule,
     SharedModule,
     MatCardModule,
     MatInputModule,

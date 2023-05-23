@@ -89,14 +89,14 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((causaMovimiento: CausaMovimiento) => {
+        tap((entidad: CausaMovimiento) => {
           this.formulario.patchValue({
-            empresaId: causaMovimiento.empresaId,
-            id: causaMovimiento.id,
-            codigo: causaMovimiento.creado,
-            denominacion: causaMovimiento.denominacion,
-            creado: causaMovimiento.creado,
-            modificado: causaMovimiento.modificado,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            codigo: entidad.creado,
+            denominacion: entidad.denominacion,
+            creado: entidad.creado,
+            modificado: entidad.modificado,
           });
         })
       )
@@ -111,11 +111,11 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((causaMovimiento: CausaMovimiento) => {
+        tap((entidad: CausaMovimiento) => {
           this.formulario.patchValue({
-            empresaId: causaMovimiento.empresaId,
-            id: causaMovimiento.id,
-            denominacion: causaMovimiento.denominacion,
+            empresaId: entidad.empresaId,
+            id: entidad.id,
+            denominacion: entidad.denominacion,
           });
         })
       )
@@ -123,16 +123,13 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
   }
 
   guardar() {
-    let causaMovimiento: CausaMovimiento = this.formulario.value;
-    causaMovimiento.modificado = new Date();
+    let entidad: CausaMovimiento = this.formulario.value;
+    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      causaMovimiento.creado = new Date();
-      this._entidad.guardar(causaMovimiento).pipe(first()).subscribe();
+      entidad.creado = new Date();
+      this._entidad.guardar(entidad).pipe(first()).subscribe();
     } else {
-      this._entidad
-        .actualizar(this.id, causaMovimiento)
-        .pipe(first())
-        .subscribe();
+      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
     }
   }
 

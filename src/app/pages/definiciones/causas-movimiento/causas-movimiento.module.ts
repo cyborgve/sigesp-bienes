@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 import { CausasMovimientoRoutingModule } from './causas-movimiento-routing.module';
 @NgModule({
-  imports: [CommonModule, CausasMovimientoRoutingModule],
+  imports: [CausasMovimientoRoutingModule],
 })
 export class CausasMovimientoModule {}

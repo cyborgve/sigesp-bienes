@@ -16,11 +16,10 @@
         <!-- tipo -->
         <mat-form-field appearance="fill" class="tipo">
           <mat-label>Tipo</mat-label>
-          <mat-select formControlName="tipo">
-            <mat-option *ngFor="let tipo of tiposMarca" [value]="tipo">{{
-              tipo
-            }}</mat-option>
-          </mat-select>
+          <input type="text" matInput formControlName="tipo" />
+          <button mat-icon-button matSuffix (click)="buscarTipoMarca()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
