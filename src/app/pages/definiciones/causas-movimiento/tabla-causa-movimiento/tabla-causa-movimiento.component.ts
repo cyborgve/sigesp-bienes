@@ -1,6 +1,12 @@
 import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component, ViewChild, Input, Output } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  Input,
+  Output,
+  AfterViewInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -19,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-causa-movimiento.component.html',
   styleUrls: ['./tabla-causa-movimiento.component.scss'],
 })
-export class TablaCausaMovimientoComponent extends AbstractTablaFunciones<CausaMovimiento> {
+export class TablaCausaMovimientoComponent
+  extends AbstractTablaFunciones<CausaMovimiento>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -39,7 +48,10 @@ export class TablaCausaMovimientoComponent extends AbstractTablaFunciones<CausaM
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -95,39 +107,3 @@ export class TablaCausaMovimientoComponent extends AbstractTablaFunciones<CausaM
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: CausaMovimiento[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'CausaMovimiento 1',
-    tipo: '10000000',
-    estadoAfectacionContable: '',
-    estadoAfectacionPresupuestari: '',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'CausaMovimiento 2',
-    tipo: '10000000',
-    estadoAfectacionContable: '',
-    estadoAfectacionPresupuestari: '',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'CausaMovimiento 3',
-    tipo: '10000000',
-    estadoAfectacionContable: '',
-    estadoAfectacionPresupuestari: '',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

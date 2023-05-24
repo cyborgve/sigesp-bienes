@@ -1,5 +1,6 @@
 import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-aseguradora.component.html',
   styleUrls: ['./tabla-aseguradora.component.scss'],
 })
-export class TablaAseguradoraComponent extends AbstractTablaFunciones<Aseguradora> {
+export class TablaAseguradoraComponent
+  extends AbstractTablaFunciones<Aseguradora>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaAseguradoraComponent extends AbstractTablaFunciones<Asegurador
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -51,8 +58,8 @@ export class TablaAseguradoraComponent extends AbstractTablaFunciones<Asegurador
       .buscarTodos()
       .pipe(
         first(),
-        tap(aseguradoras => {
-          this.dataSource = new MatTableDataSource(aseguradoras);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -99,30 +106,3 @@ export class TablaAseguradoraComponent extends AbstractTablaFunciones<Asegurador
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Aseguradora[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Aseguradora 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Aseguradora 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Aseguradora 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

@@ -8,6 +8,15 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { AppModule as SigespModule } from 'sigesp';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+} from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +29,15 @@ import { AppModule as SigespModule } from 'sigesp';
     ToastrModule.forRoot(),
     SigespModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-Ve' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

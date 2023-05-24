@@ -21,7 +21,7 @@
     <ng-container matColumnDef="creado">
       <th mat-header-cell *matHeaderCellDef>Creado</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.creado | date : 'medium' }}
+        {{ row.creado.getTime() | date : 'medium' }}
       </td>
     </ng-container>
     <!-- modificado -->

@@ -12,15 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-} from '@angular/material/core';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-} from '@angular/material-moment-adapter';
 import { BuscadorOrigenModule } from '../buscador-origen/buscador-origen.module';
 
 @NgModule({
@@ -38,15 +29,6 @@ import { BuscadorOrigenModule } from '../buscador-origen/buscador-origen.module'
     MatIconModule,
     MatSelectModule,
     MatDatepickerModule,
-  ],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'es-Ve' },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE],
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
 })
 export class SingularOrigenModule {}

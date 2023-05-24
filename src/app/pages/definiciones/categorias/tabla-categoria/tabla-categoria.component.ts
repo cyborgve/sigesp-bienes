@@ -1,5 +1,6 @@
 import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-categoria.component.html',
   styleUrls: ['./tabla-categoria.component.scss'],
 })
-export class TablaCategoriaComponent extends AbstractTablaFunciones<Categoria> {
+export class TablaCategoriaComponent
+  extends AbstractTablaFunciones<Categoria>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaCategoriaComponent extends AbstractTablaFunciones<Categoria> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -99,30 +106,3 @@ export class TablaCategoriaComponent extends AbstractTablaFunciones<Categoria> {
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Categoria[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Categoria 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Categoria 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Categoria 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];
