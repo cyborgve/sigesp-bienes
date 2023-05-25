@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-estado-uso.component.html',
   styleUrls: ['./tabla-estado-uso.component.scss'],
 })
-export class TablaEstadoUsoComponent extends AbstractTablaFunciones<EstadoUso> {
+export class TablaEstadoUsoComponent
+  extends AbstractTablaFunciones<EstadoUso>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaEstadoUsoComponent extends AbstractTablaFunciones<EstadoUso> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -51,8 +58,8 @@ export class TablaEstadoUsoComponent extends AbstractTablaFunciones<EstadoUso> {
       .buscarTodos()
       .pipe(
         first(),
-        tap(estadosUso => {
-          this.dataSource = new MatTableDataSource(estadosUso);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -99,30 +106,3 @@ export class TablaEstadoUsoComponent extends AbstractTablaFunciones<EstadoUso> {
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: EstadoUso[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Estado Uso 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Estado Uso 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Estado Uso 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-condicion-compra.component.html',
   styleUrls: ['./tabla-condicion-compra.component.scss'],
 })
-export class TablaCondicionCompraComponent extends AbstractTablaFunciones<CondicionCompra> {
+export class TablaCondicionCompraComponent
+  extends AbstractTablaFunciones<CondicionCompra>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -44,7 +48,10 @@ export class TablaCondicionCompraComponent extends AbstractTablaFunciones<Condic
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -100,33 +107,3 @@ export class TablaCondicionCompraComponent extends AbstractTablaFunciones<Condic
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: CondicionCompra[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Condicion Compra 1',
-    explicacion: 'Condicion Compra 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Condicion Compra 2',
-    explicacion: 'Condicion Compra 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Condicion Compra 3',
-    explicacion: 'Condicion Compra 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

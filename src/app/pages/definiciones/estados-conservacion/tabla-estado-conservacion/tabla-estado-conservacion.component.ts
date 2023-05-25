@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { MatSort } from '@angular/material/sort';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-estado-conservacion.component.html',
   styleUrls: ['./tabla-estado-conservacion.component.scss'],
 })
-export class TablaEstadoConservacionComponent extends AbstractTablaFunciones<Conservacion> {
+export class TablaEstadoConservacionComponent
+  extends AbstractTablaFunciones<Conservacion>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -44,7 +48,10 @@ export class TablaEstadoConservacionComponent extends AbstractTablaFunciones<Con
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -52,8 +59,8 @@ export class TablaEstadoConservacionComponent extends AbstractTablaFunciones<Con
       .buscarTodos()
       .pipe(
         first(),
-        tap(condicionesCompra => {
-          this.dataSource = new MatTableDataSource(condicionesCompra);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -100,30 +107,3 @@ export class TablaEstadoConservacionComponent extends AbstractTablaFunciones<Con
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Conservacion[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Estado Conservacion 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Estado Conservacion 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Estado Conservacion 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { Id } from '@core/types/id';
   templateUrl: './tabla-seguro.component.html',
   styleUrls: ['./tabla-seguro.component.scss'],
 })
-export class TablaSeguroComponent extends AbstractTablaFunciones<Seguro> {
+export class TablaSeguroComponent
+  extends AbstractTablaFunciones<Seguro>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaSeguroComponent extends AbstractTablaFunciones<Seguro> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -51,8 +58,8 @@ export class TablaSeguroComponent extends AbstractTablaFunciones<Seguro> {
       .buscarTodos()
       .pipe(
         first(),
-        tap(colores => {
-          this.dataSource = new MatTableDataSource(colores);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -99,66 +106,3 @@ export class TablaSeguroComponent extends AbstractTablaFunciones<Seguro> {
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Seguro[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Seguro 1',
-    aseguradoraId: '1924790121',
-    tipoPoliza: 'Tipo Poliza 1',
-    tipoCobertura: 'Tipo Cobertura 1',
-    numeroPoliza: '12312346764',
-    montoAsegurado: 3123122,
-    fechaInicioPoliza: new Date(),
-    fechaFinPoliza: new Date(),
-    monedaId: '1323232423423',
-    monedaSecundariaId: '15677676996803',
-    poseeRCV: true,
-    descripcionCobertura: 'no aplica',
-    coberturaAdicional: 'no aplica',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Seguro 2',
-    aseguradoraId: '1924790121',
-    tipoPoliza: 'Tipo Poliza 1',
-    tipoCobertura: 'Tipo Cobertura 1',
-    numeroPoliza: '12312346764',
-    montoAsegurado: 3123122,
-    fechaInicioPoliza: new Date(),
-    fechaFinPoliza: new Date(),
-    monedaId: '1323232423423',
-    monedaSecundariaId: '15677676996803',
-    poseeRCV: true,
-    descripcionCobertura: 'no aplica',
-    coberturaAdicional: 'no aplica',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Seguro 3',
-    aseguradoraId: '1924790121',
-    tipoPoliza: 'Tipo Poliza 1',
-    tipoCobertura: 'Tipo Cobertura 1',
-    numeroPoliza: '12312346764',
-    montoAsegurado: 3123122,
-    fechaInicioPoliza: new Date(),
-    fechaFinPoliza: new Date(),
-    monedaId: '1323232423423',
-    monedaSecundariaId: '15677676996803',
-    poseeRCV: true,
-    descripcionCobertura: 'no aplica',
-    coberturaAdicional: 'no aplica',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

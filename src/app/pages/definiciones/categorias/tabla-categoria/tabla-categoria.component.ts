@@ -58,8 +58,8 @@ export class TablaCategoriaComponent
       .buscarTodos()
       .pipe(
         first(),
-        tap(categorias => {
-          this.dataSource = new MatTableDataSource(categorias);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })

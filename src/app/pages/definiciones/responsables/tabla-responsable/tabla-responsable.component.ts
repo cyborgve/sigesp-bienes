@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-responsable.component.html',
   styleUrls: ['./tabla-responsable.component.scss'],
 })
-export class TablaResponsableComponent extends AbstractTablaFunciones<Responsable> {
+export class TablaResponsableComponent
+  extends AbstractTablaFunciones<Responsable>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -47,7 +51,10 @@ export class TablaResponsableComponent extends AbstractTablaFunciones<Responsabl
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -103,48 +110,3 @@ export class TablaResponsableComponent extends AbstractTablaFunciones<Responsabl
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Responsable[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    tipo: 'Tipo Responsable 1',
-    numeroCedula: 'V-12345678',
-    nombreCompleto: 'Jose Manuel Camacaro Medina',
-    telefonos: '+58(414)123-12-34',
-    correoElectronico: 'jm_camacaro@medina.com',
-    cargo: 'Arquitecto de Software',
-    direccion:
-      'Urb. Urbanizacion, Av. Avenida entre una calle y otra. Barquisimeto - Lara.',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    tipo: 'Tipo Responsable 2',
-    numeroCedula: 'V-23456789',
-    nombreCompleto: 'Carlos Gabriel Andrade Lopez',
-    telefonos: '+58(414)123-45-67',
-    correoElectronico: 'cg_andrade@lopez.com',
-    cargo: 'C.E.O.',
-    direccion:
-      'Urb. Urbanizacion, Av. Avenida entre una calle y otra. Barquisimeto - Lara.',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    tipo: 'Tipo Responsable 3',
-    numeroCedula: 'V-24567890',
-    nombreCompleto: 'Maria Rutila Caceres Ramirez',
-    telefonos: '+58(414)567-89-01',
-    correoElectronico: 'mr_caceres@ramirez.com',
-    cargo: 'Desarrolladora Full-Stack',
-    direccion:
-      'Urb. Urbanizacion, Av. Avenida entre una calle y otra. Barquisimeto - Lara.',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

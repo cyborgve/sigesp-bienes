@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-sede.component.html',
   styleUrls: ['./tabla-sede.component.scss'],
 })
-export class TablaSedeComponent extends AbstractTablaFunciones<Sede> {
+export class TablaSedeComponent
+  extends AbstractTablaFunciones<Sede>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaSedeComponent extends AbstractTablaFunciones<Sede> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -51,8 +58,8 @@ export class TablaSedeComponent extends AbstractTablaFunciones<Sede> {
       .buscarTodos()
       .pipe(
         first(),
-        tap(colores => {
-          this.dataSource = new MatTableDataSource(colores);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })

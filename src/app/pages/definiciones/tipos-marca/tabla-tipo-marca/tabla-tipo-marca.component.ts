@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-tipo-marca.component.html',
   styleUrls: ['./tabla-tipo-marca.component.scss'],
 })
-export class TablaTipoMarcaComponent extends AbstractTablaFunciones<TipoMarca> {
+export class TablaTipoMarcaComponent
+  extends AbstractTablaFunciones<TipoMarca>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaTipoMarcaComponent extends AbstractTablaFunciones<TipoMarca> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -51,8 +58,8 @@ export class TablaTipoMarcaComponent extends AbstractTablaFunciones<TipoMarca> {
       .buscarTodos()
       .pipe(
         first(),
-        tap(entidad => {
-          this.dataSource = new MatTableDataSource(entidad);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -99,30 +106,3 @@ export class TablaTipoMarcaComponent extends AbstractTablaFunciones<TipoMarca> {
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: TipoMarca[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Tipo Marca 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Tipo Marca 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Tipo Marca 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

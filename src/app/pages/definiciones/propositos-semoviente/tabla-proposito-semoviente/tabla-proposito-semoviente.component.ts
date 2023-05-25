@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-proposito-semoviente.component.html',
   styleUrls: ['./tabla-proposito-semoviente.component.scss'],
 })
-export class TablaPropositoSemovienteComponent extends AbstractTablaFunciones<PropositoSemoviente> {
+export class TablaPropositoSemovienteComponent
+  extends AbstractTablaFunciones<PropositoSemoviente>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -44,7 +48,10 @@ export class TablaPropositoSemovienteComponent extends AbstractTablaFunciones<Pr
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -100,30 +107,3 @@ export class TablaPropositoSemovienteComponent extends AbstractTablaFunciones<Pr
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: PropositoSemoviente[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Proposito Semoviente 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Proposito Semoviente 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Proposito Semoviente 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

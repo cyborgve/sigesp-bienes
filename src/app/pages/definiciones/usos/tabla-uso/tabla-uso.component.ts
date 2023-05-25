@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-uso.component.html',
   styleUrls: ['./tabla-uso.component.scss'],
 })
-export class TablaUsoComponent extends AbstractTablaFunciones<Uso> {
+export class TablaUsoComponent
+  extends AbstractTablaFunciones<Uso>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaUsoComponent extends AbstractTablaFunciones<Uso> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -51,8 +58,8 @@ export class TablaUsoComponent extends AbstractTablaFunciones<Uso> {
       .buscarTodos()
       .pipe(
         first(),
-        tap(entidad => {
-          this.dataSource = new MatTableDataSource(entidad);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -99,30 +106,3 @@ export class TablaUsoComponent extends AbstractTablaFunciones<Uso> {
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Uso[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Uso 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Uso 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Uso 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

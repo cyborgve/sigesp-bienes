@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-componente-estructura.component.html',
   styleUrls: ['./tabla-componente-estructura.component.scss'],
 })
-export class TablaComponenteEstructuraComponent extends AbstractTablaFunciones<ComponenteEstructura> {
+export class TablaComponenteEstructuraComponent
+  extends AbstractTablaFunciones<ComponenteEstructura>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -45,7 +49,10 @@ export class TablaComponenteEstructuraComponent extends AbstractTablaFunciones<C
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -53,8 +60,8 @@ export class TablaComponenteEstructuraComponent extends AbstractTablaFunciones<C
       .buscarTodos()
       .pipe(
         first(),
-        tap(componentesEstructura => {
-          this.dataSource = new MatTableDataSource(componentesEstructura);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })
@@ -101,33 +108,3 @@ export class TablaComponenteEstructuraComponent extends AbstractTablaFunciones<C
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: ComponenteEstructura[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Componente Estructura 1',
-    tipo: '10000000',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Componente Estructura 2',
-    tipo: '10000000',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Componente Estructura 3',
-    tipo: '10000000',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

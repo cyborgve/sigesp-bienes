@@ -60,10 +60,8 @@ export class TablaCategoriaUnidadAdministrativaComponent
       .buscarTodos()
       .pipe(
         first(),
-        tap(categoriasUnidadAdministrativa => {
-          this.dataSource = new MatTableDataSource(
-            categoriasUnidadAdministrativa
-          );
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })

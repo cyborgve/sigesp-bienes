@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   templateUrl: './tabla-modelo.component.html',
   styleUrls: ['./tabla-modelo.component.scss'],
 })
-export class TablaModeloComponent extends AbstractTablaFunciones<Modelo> {
+export class TablaModeloComponent
+  extends AbstractTablaFunciones<Modelo>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaModeloComponent extends AbstractTablaFunciones<Modelo> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -99,33 +106,3 @@ export class TablaModeloComponent extends AbstractTablaFunciones<Modelo> {
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Modelo[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Modelo 1',
-    marcaId: 10000000,
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Modelo 2',
-    marcaId: 10000000,
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Modelo 3',
-    marcaId: 10000000,
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { filter, first, switchMap, take, tap } from 'rxjs/operators';
   templateUrl: './tabla-origen.component.html',
   styleUrls: ['./tabla-origen.component.scss'],
 })
-export class TablaOrigenComponent extends AbstractTablaFunciones<Origen> {
+export class TablaOrigenComponent
+  extends AbstractTablaFunciones<Origen>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -43,7 +47,10 @@ export class TablaOrigenComponent extends AbstractTablaFunciones<Origen> {
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -99,72 +106,3 @@ export class TablaOrigenComponent extends AbstractTablaFunciones<Origen> {
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: Origen[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    fechaOrigen: new Date(),
-    fechaAdquisicion: new Date(),
-    modoAdquisicion: 'modo adquisicion',
-    formaAdquisicion: 'forma adquisicion',
-    numeroFormaAdquisicion: 'numero forma adquisicion',
-    nombreFormaAdquisicion: 'nombre forma adquisicion',
-    fechaFactura: new Date(),
-    numeroFactura: '10000000',
-    proveedorId: '10000000',
-    tomo: 'Tomo 1',
-    folio: 'Folio',
-    nombrePropietarioAnterior: 'Pedro Perez',
-    nombreBenefactor: 'Jose Rodriguez',
-    nombreBeneficiario: 'Carlos Gonzalez',
-    observaciones: 'texto de observaciones',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    fechaOrigen: new Date(),
-    fechaAdquisicion: new Date(),
-    modoAdquisicion: 'modo adquisicion',
-    formaAdquisicion: 'forma adquisicion',
-    numeroFormaAdquisicion: 'numero forma adquisicion',
-    nombreFormaAdquisicion: 'nombre forma adquisicion',
-    fechaFactura: new Date(),
-    numeroFactura: '10000000',
-    proveedorId: '10000000',
-    tomo: 'Tomo 1',
-    folio: 'Folio',
-    nombrePropietarioAnterior: 'Pedro Perez',
-    nombreBenefactor: 'Jose Rodriguez',
-    nombreBeneficiario: 'Carlos Gonzalez',
-    observaciones: 'texto de observaciones',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    fechaOrigen: new Date(),
-    fechaAdquisicion: new Date(),
-    modoAdquisicion: 'modo adquisicion',
-    formaAdquisicion: 'forma adquisicion',
-    numeroFormaAdquisicion: 'numero forma adquisicion',
-    nombreFormaAdquisicion: 'nombre forma adquisicion',
-    fechaFactura: new Date(),
-    numeroFactura: '10000000',
-    proveedorId: '10000000',
-    tomo: 'Tomo 1',
-    folio: 'Folio',
-    nombrePropietarioAnterior: 'Pedro Perez',
-    nombreBenefactor: 'Jose Rodriguez',
-    nombreBeneficiario: 'Carlos Gonzalez',
-    observaciones: 'texto de observaciones',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

@@ -59,8 +59,8 @@ export class TablaCausaMovimientoComponent
       .buscarTodos()
       .pipe(
         first(),
-        tap(causasMovimiento => {
-          this.dataSource = new MatTableDataSource(causasMovimiento);
+        tap(entidades => {
+          this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         })

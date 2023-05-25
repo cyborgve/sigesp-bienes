@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +25,10 @@ import { filter, first, switchMap, take, tap } from 'rxjs/operators';
   templateUrl: './tabla-componente-activo.component.html',
   styleUrls: ['./tabla-componente-activo.component.scss'],
 })
-export class TablaComponenteActivoComponent extends AbstractTablaFunciones<ComponenteActivo> {
+export class TablaComponenteActivoComponent
+  extends AbstractTablaFunciones<ComponenteActivo>
+  implements AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -44,7 +48,10 @@ export class TablaComponenteActivoComponent extends AbstractTablaFunciones<Compo
     private _dialog: MatDialog
   ) {
     super();
-    this.dataSource = new MatTableDataSource(data);
+  }
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -100,39 +107,3 @@ export class TablaComponenteActivoComponent extends AbstractTablaFunciones<Compo
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: ComponenteActivo[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Componente Activo 1',
-    tipo: '10000000',
-    marcaId: '10000000',
-    modeloId: '10000000',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Componente Activo 2',
-    tipo: '10000000',
-    marcaId: '10000000',
-    modeloId: '10000000',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Componente Activo 3',
-    tipo: '10000000',
-    marcaId: '10000000',
-    modeloId: '10000000',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];
