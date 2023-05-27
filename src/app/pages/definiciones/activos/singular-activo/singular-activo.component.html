@@ -39,7 +39,7 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarGuardar]="deshabilitarGuardar() || true"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
   [mostrarSalir]="false"></app-toolbar>

@@ -52,6 +52,14 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
   ) {
     super();
     this.id = this._activatedRoute.snapshot.params['id'];
+    this.formularioComponentes = this._formBuilder.group({});
+    this.formularioDatosGenerales = this._formBuilder.group({});
+    this.formularioDepreciacion = this._formBuilder.group({});
+    this.formularioDocumentacion = this._formBuilder.group({});
+    this.formularioOrigen = this._formBuilder.group({});
+    this.formularioSeguro = this._formBuilder.group({});
+    this.formularioResponsable = this._formBuilder.group({});
+    this.formularioUbicacion = this._formBuilder.group({});
     this.actualizarFormulario();
   }
 
@@ -74,27 +82,6 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
           })
         )
         .subscribe();
-    }
-
-    // old //
-    if (this.id) {
-      this.modoFormulario = 'EDITANDO';
-      this._entidad
-        .buscarPorId(this.id)
-        .pipe(
-          take(1),
-          tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
-            });
-          })
-        )
-        .subscribe();
     } else {
       this.formulario = this._formBuilder.group({
         empresaId: [''],
@@ -106,6 +93,20 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
       });
     }
   }
+
+  deshabilitarGuardar = () => {
+    return (
+      this.formularioDatosGenerales.invalid &&
+      this.formularioComponentes.invalid &&
+      this.formularioDepreciacion.invalid &&
+      this.formularioDocumentacion.invalid &&
+      this.formularioOrigen.invalid &&
+      this.formularioOrigen.invalid &&
+      this.formularioResponsable.invalid &&
+      this.formularioSeguro.invalid &&
+      this.formularioUbicacion.invalid
+    );
+  };
 
   buscar() {
     let dialog = this._dialog.open(BuscadorActivoComponent, {

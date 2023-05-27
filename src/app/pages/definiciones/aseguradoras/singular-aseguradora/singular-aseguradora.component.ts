@@ -74,15 +74,10 @@ export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((aseguradora: Aseguradora) => {
-          this.formulario.patchValue({
-            empresaId: aseguradora.empresaId,
-            id: aseguradora.id,
-            codigo: aseguradora.creado,
-            denominacion: aseguradora.denominacion,
-            creado: aseguradora.creado,
-            modificado: aseguradora.modificado,
-          });
+        tap((entidad: Aseguradora) => {
+          this._router.navigate([
+            '/definiciones/aseguradoras/aseguradora/' + entidad.codigo,
+          ]);
         })
       )
       .subscribe();
@@ -96,11 +91,9 @@ export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((aseguradora: Aseguradora) => {
+        tap((entidad: Aseguradora) => {
           this.formulario.patchValue({
-            empresaId: aseguradora.empresaId,
-            id: aseguradora.id,
-            denominacion: aseguradora.denominacion,
+            denominacion: entidad.denominacion,
           });
         })
       )
@@ -108,13 +101,28 @@ export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
   }
 
   guardar() {
-    let aseguradora: Aseguradora = this.formulario.value;
-    aseguradora.modificado = new Date();
+    let entidad: Aseguradora = this.formulario.value;
+    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      aseguradora.creado = new Date();
-      this._entidad.guardar(aseguradora).pipe(first()).subscribe();
+      entidad.creado = new Date();
+      this._entidad
+        .guardar(entidad)
+        .pipe(
+          first(),
+          tap(() => this.formulario.reset())
+        )
+        .subscribe();
     } else {
-      this._entidad.actualizar(this.id, aseguradora).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(
+          first(),
+          tap(() => {
+            this.modoFormulario = 'CREANDO';
+            this.formulario.reset();
+          })
+        )
+        .subscribe();
     }
   }
 

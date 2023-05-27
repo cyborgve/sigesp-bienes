@@ -5,7 +5,7 @@ import { ModeloServicio } from '@core/models/modelo-servicio';
 import { Id } from '@core/types/id';
 import { environment } from '@environments/environment';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 
 @Injectable({
@@ -22,15 +22,19 @@ export abstract class GenericService<T extends Basica>
   constructor(protected _http: HttpClient, protected _sigesp: SigespService) {}
 
   buscarTodos(): Observable<T[]> {
-    return this._http.get<T[]>(this.apiUrl, {
-      headers: this._sigesp.getHttpHeaders(),
-    });
+    return this._http
+      .get<T[]>(this.apiUrl, {
+        headers: this._sigesp.getHttpHeaders(),
+      })
+      .pipe(map((res: any) => res.data));
   }
 
   buscarPorId(id: Id): Observable<T> {
-    return this._http.get<T>(this.apiUrlId(id), {
-      headers: this._sigesp.getHttpHeaders(),
-    });
+    return this._http
+      .get<T>(this.apiUrlId(id), {
+        headers: this._sigesp.getHttpHeaders(),
+      })
+      .pipe(map((res: any) => res.data));
   }
 
   guardar(entidad: T): Observable<T> {
