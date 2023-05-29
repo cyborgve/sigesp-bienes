@@ -7,11 +7,13 @@ import { SharedModule } from '@shared/shared.module';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [TablaCategoriaUnidadAdministrativaComponent],
   imports: [
     CommonModule,
+    RouterModule,
     MatTableModule,
     MatCardModule,
     SharedModule,

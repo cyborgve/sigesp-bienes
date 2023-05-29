@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '192.xx.xxx.xx',
+  apiUrl: 'http://localhost/sigesp_php',
 };

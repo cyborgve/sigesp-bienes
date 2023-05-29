@@ -1,11 +1,11 @@
 export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'activo', valor: 'activos' },
-  { clave: 'aseguradora', valor: 'aseguradoras' },
+  { clave: 'aseguradoras', valor: 'dao/sbn/aseguradora-dao.php' },
+  { clave: 'categoria', valor: 'dao/sbn/categoria-dao.php' },
   {
     clave: 'categoriaUnidadAdministrativa',
     valor: 'categorias-unidad-administrativa',
   },
-  { clave: 'categoria', valor: 'categorias' },
   { clave: 'causaMovimiento', valor: 'causas-movimiento' },
   { clave: 'clase', valor: 'clases' },
   { clave: 'color', valor: 'colores' },

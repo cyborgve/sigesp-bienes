@@ -9,19 +9,21 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BuscadorCategoriaUnidadAdministrativaModule } from '../buscador-categoria-unidad-administrativa/buscador-categoria-unidad-administrativa.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [SingularCategoriaUnidadAdministrativaComponent],
   imports: [
     CommonModule,
-    SingularCategoriaUnidadAdministrativaRoutingModule,
     ReactiveFormsModule,
+    SingularCategoriaUnidadAdministrativaRoutingModule,
+    BuscadorCategoriaUnidadAdministrativaModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
-    SharedModule,
-    MatIconModule,
     MatButtonModule,
-    BuscadorCategoriaUnidadAdministrativaModule,
+    MatIconModule,
+    MatDialogModule,
   ],
   exports: [SingularCategoriaUnidadAdministrativaComponent],
 })

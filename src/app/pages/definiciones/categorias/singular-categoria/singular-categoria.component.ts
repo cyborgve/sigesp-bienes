@@ -74,16 +74,11 @@ export class SingularCategoriaComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Categoria) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.creado,
-            denominacion: entidad.denominacion,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
+        tap((entidad: Categoria) =>
+          this._router.navigate([
+            '/definiciones/categorias/categoria' + entidad.id,
+          ])
+        )
       )
       .subscribe();
   }
@@ -98,8 +93,6 @@ export class SingularCategoriaComponent extends AbstractEntidadFunciones {
       .pipe(
         tap((entidad: Categoria) => {
           this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
             denominacion: entidad.denominacion,
           });
         })

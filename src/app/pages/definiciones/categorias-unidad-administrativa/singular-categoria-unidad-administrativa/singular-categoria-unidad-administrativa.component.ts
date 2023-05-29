@@ -77,16 +77,12 @@ export class SingularCategoriaUnidadAdministrativaComponent extends AbstractEnti
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: CategoriaUnidadAdministr) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.creado,
-            denominacion: entidad.denominacion,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
+        tap((entidad: CategoriaUnidadAdministr) =>
+          this._router.navigate([
+            '/definiciones/categorias-unidad-administrativa/categoria-unidad-administrativa/' +
+              entidad.codigo,
+          ])
+        )
       )
       .subscribe();
   }

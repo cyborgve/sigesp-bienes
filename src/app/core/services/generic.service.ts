@@ -34,7 +34,10 @@ export abstract class GenericService<T extends Basica>
       .get<T>(this.apiUrlId(id), {
         headers: this._sigesp.getHttpHeaders(),
       })
-      .pipe(map((res: any) => res.data));
+      .pipe(
+        map((res: any) => res.data),
+        tap(res => console.log(res))
+      );
   }
 
   guardar(entidad: T): Observable<T> {

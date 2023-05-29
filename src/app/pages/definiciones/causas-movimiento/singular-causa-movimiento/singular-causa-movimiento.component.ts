@@ -89,16 +89,11 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: CausaMovimiento) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.creado,
-            denominacion: entidad.denominacion,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
+        tap((entidad: CausaMovimiento) =>
+          this._router.navigate([
+            '/definiciones/causas-movimiento/causa-movimiento/' + entidad.id,
+          ])
+        )
       )
       .subscribe();
   }
@@ -113,8 +108,6 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
       .pipe(
         tap((entidad: CausaMovimiento) => {
           this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
             denominacion: entidad.denominacion,
           });
         })
