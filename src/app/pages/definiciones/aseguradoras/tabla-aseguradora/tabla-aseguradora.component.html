@@ -6,27 +6,27 @@
   (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
 <mat-card class="card-table">
   <!-- tabla -->
-  <table mat-table [dataSource]="dataSource" class="table" mat-sort>
+  <table mat-table [dataSource]="dataSource" class="table" matSort>
     <!-- codigo -->
     <ng-container matColumnDef="codigo">
-      <th mat-header-cell *matHeaderCellDef>Codigo</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
       <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
-      <th mat-header-cell *matHeaderCellDef>Denominacion</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominacion</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
     <!-- creado -->
     <ng-container matColumnDef="creado">
-      <th mat-header-cell *matHeaderCellDef>Creado</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
       <td mat-cell *matCellDef="let row">
         {{ row.creado | date : 'medium' }}
       </td>
     </ng-container>
     <!-- modificado -->
     <ng-container matColumnDef="modificado">
-      <th mat-header-cell *matHeaderCellDef>Modificado</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
       <td mat-cell *matCellDef="let row">
         {{ row.modificado | date : 'medium' }}
       </td>
@@ -47,7 +47,8 @@
     <tr
       mat-row
       *matRowDef="let row; columns: columnasVisibles"
-      class="row-hover"></tr>
+      class="row-hover"
+      (dblclick)="dobleClick.emit(row)"></tr>
 
     <!-- mostrar cuando no hay datos que coincidan -->
     <tr class="mat-row" *matNoDataRow>

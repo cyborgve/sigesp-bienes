@@ -16,7 +16,7 @@ export class BuscadorAseguradoraComponent {
   );
   constructor(private _dialogRef: MatDialogRef<BuscadorAseguradoraComponent>) {}
 
-  seleccionar = (aseguradora: Aseguradora) => {
-    this._dialogRef.close(aseguradora);
+  seleccionar = (entidad: Aseguradora) => {
+    this._dialogRef.close(entidad);
   };
 }
