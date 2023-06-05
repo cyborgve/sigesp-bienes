@@ -1,0 +1,27 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  pg-server:
+    image: postgres:11-bullseye
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: sigespadmin
+      POSTGRES_DB: db_fnc_2023
+    volumes:
+      - sigesp-bienes:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  pg-admin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=sigespadmin
+    ports:
+      - 81:80
+    depends_on:
+      - pg-server
+
+volumes:
+  sigesp-bienes:
