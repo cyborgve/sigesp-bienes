@@ -6,25 +6,28 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TipoCobertura } from '@core/models/tipo-cobertura';
 import { TipoCoberturaService } from '@core/services/tipo-cobertura.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-tipo-cobertura',
   templateUrl: './tabla-tipo-cobertura.component.html',
   styleUrls: ['./tabla-tipo-cobertura.component.scss'],
 })
-export class TablaTipoCoberturaComponent extends AbstractTablaFunciones<TipoCobertura> {
+export class TablaTipoCoberturaComponent
+  implements TablaEntidad<TipoCobertura>, AfterViewInit
+{
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -36,14 +39,17 @@ export class TablaTipoCoberturaComponent extends AbstractTablaFunciones<TipoCobe
   private urlSingular = this.urlPlural + '/tipo-cobertura';
   private urlSingularId = (id: Id) => this.urlPlural + '/tipo-cobertura/' + id;
 
+  dataSource: MatTableDataSource<TipoCobertura> = new MatTableDataSource();
+
   constructor(
     private _entidad: TipoCoberturaService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-    this.dataSource = new MatTableDataSource(data);
+  ) {}
+
+  ngAfterViewInit(): void {
+    this.recargarDatos();
   }
 
   private recargarDatos() {
@@ -99,30 +105,3 @@ export class TablaTipoCoberturaComponent extends AbstractTablaFunciones<TipoCobe
       .subscribe(() => this.recargarDatos());
   }
 }
-
-const data: TipoCobertura[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Tipo Cobertura 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Tipo Cobertura 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Tipo Cobertura 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

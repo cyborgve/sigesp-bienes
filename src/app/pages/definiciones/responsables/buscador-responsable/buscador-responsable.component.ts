@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { Responsable } from '@core/models/responsable';
 
 @Component({
   selector: 'app-buscador-responsable',
@@ -13,4 +15,9 @@ export class BuscadorResponsableComponent {
     .filter(c => c !== 'direccion')
     .filter(c => c !== 'telefonos')
     .filter(c => c !== 'acciones');
+  constructor(private _dialogRef: MatDialogRef<BuscadorResponsableComponent>) {}
+
+  seleccionar = (entidad: Responsable) => {
+    this._dialogRef.close(entidad);
+  };
 }

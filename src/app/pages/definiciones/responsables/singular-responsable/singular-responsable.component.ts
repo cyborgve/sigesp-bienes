@@ -11,13 +11,14 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorResponsableComponent } from '../buscador-responsable/buscador-responsable.component';
 import { Responsable } from '@core/models/responsable';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-responsable',
   templateUrl: './singular-responsable.component.html',
   styleUrls: ['./singular-responsable.component.scss'],
 })
-export class SingularResponsableComponent extends AbstractEntidadFunciones {
+export class SingularResponsableComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'responsable';
@@ -34,7 +35,19 @@ export class SingularResponsableComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      tipo: ['', Validators.required],
+      numeroCedula: ['', Validators.required],
+      nombreCompleto: ['', Validators.required],
+      cargo: ['', Validators.required],
+      telefonos: ['', Validators.required],
+      direccion: ['', Validators.required],
+      correoElectronico: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -47,67 +60,23 @@ export class SingularResponsableComponent extends AbstractEntidadFunciones {
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              tipo: [entidad.tipo, Validators.required],
-              numeroCedula: [entidad.numeroCedula, Validators.required],
-              nombreCompleto: [entidad.nombreCompleto, Validators.required],
-              cargo: [entidad.cargo, Validators.required],
-              telefonos: [entidad.telefonos, Validators.required],
-              direccion: [entidad.direccion, Validators.required],
-              correoElectronico: [
-                entidad.correoElectronico,
-                Validators.required,
-              ],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              tipo: entidad.tipo,
+              numeroCedula: entidad.numeroCedula,
+              nombreCompleto: entidad.nombreCompleto,
+              cargo: entidad.cargo,
+              telefonos: entidad.telefonos,
+              direccion: entidad.direccion,
+              correoElectronico: entidad.correoElectronico,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        tipo: ['', Validators.required],
-        numeroCedula: ['', Validators.required],
-        nombreCompleto: ['', Validators.required],
-        cargo: ['', Validators.required],
-        telefonos: ['', Validators.required],
-        direccion: ['', Validators.required],
-        correoElectronico: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Responsable) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            tipo: entidad.tipo,
-            numeroCedula: entidad.numeroCedula,
-            nombreCompleto: entidad.nombreCompleto,
-            cargo: entidad.cargo,
-            telefonos: entidad.telefonos,
-            direccion: entidad.direccion,
-            correoElectronico: entidad.correoElectronico,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -120,12 +89,12 @@ export class SingularResponsableComponent extends AbstractEntidadFunciones {
       .pipe(
         tap((entidad: Responsable) => {
           this.formulario.patchValue({
-            tipo: [entidad.tipo, Validators.required],
-            nombreCompleto: [entidad.nombreCompleto, Validators.required],
-            cargo: [entidad.cargo, Validators.required],
-            telefonos: [entidad.telefonos, Validators.required],
-            direccion: [entidad.direccion, Validators.required],
-            correoElectronico: [entidad.correoElectronico, Validators.required],
+            tipo: entidad.tipo,
+            nombreCompleto: entidad.nombreCompleto,
+            cargo: entidad.cargo,
+            telefonos: entidad.telefonos,
+            direccion: entidad.direccion,
+            correoElectronico: entidad.correoElectronico,
           });
         })
       )
@@ -137,9 +106,15 @@ export class SingularResponsableComponent extends AbstractEntidadFunciones {
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -157,7 +132,7 @@ export class SingularResponsableComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {

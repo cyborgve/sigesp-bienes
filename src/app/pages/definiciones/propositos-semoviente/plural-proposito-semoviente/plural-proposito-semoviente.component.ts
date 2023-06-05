@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./plural-proposito-semoviente.component.scss'],
 })
 export class PluralPropositoSemovienteComponent {
-  titulo = 'propositos semoviente';
+  titulo = 'propósitos semoviente';
 }

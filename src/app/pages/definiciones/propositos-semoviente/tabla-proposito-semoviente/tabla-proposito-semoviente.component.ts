@@ -19,6 +19,7 @@ import { PropositoSemoviente } from '@core/models/proposito-semoviente';
 import { PropositoSemovienteService } from '@core/services/proposito-semoviente.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-proposito-semoviente',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-proposito-semoviente.component.scss'],
 })
 export class TablaPropositoSemovienteComponent
-  extends AbstractTablaFunciones<PropositoSemoviente>
-  implements AfterViewInit
+  implements TablaEntidad<PropositoSemoviente>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,14 +41,15 @@ export class TablaPropositoSemovienteComponent
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/proposito-semoviente/' + id;
 
+  dataSource: MatTableDataSource<PropositoSemoviente> =
+    new MatTableDataSource();
+
   constructor(
     private _entidad: PropositoSemovienteService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

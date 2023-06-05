@@ -1,5 +1,5 @@
-<form [formGroup]="formulario">
-  <section class="contenedor-singular">
+<section class="contenedor-singular">
+  <form [formGroup]="formulario">
     <!-- encabezado -->
     <app-encabezado-definicion
       [titulo]="titulo"
@@ -10,22 +10,19 @@
       <article class="contenido">
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
-          <mat-label>Codigo</mat-label>
+          <mat-label>Código</mat-label>
           <input type="text" matInput formControlName="codigo" />
-          <button type="button" mat-icon-button matSuffix (click)="buscar()">
-            <mat-icon>search</mat-icon>
-          </button>
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
-          <mat-label>Denominacion</mat-label>
+          <mat-label>Denominación</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
       </article>
     </mat-card>
     <!-- botones -->
-  </section>
-</form>
+  </form>
+</section>
 <!-- barra de herramientas lateral -->
 <app-toolbar
   (importar)="importar()"

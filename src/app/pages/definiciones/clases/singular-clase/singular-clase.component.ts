@@ -4,20 +4,20 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { ClaseService } from '@core/services/clase.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorClaseComponent } from '../buscador-clase/buscador-clase.component';
 import { Clase } from '@core/models/clase';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-clase',
   templateUrl: './singular-clase.component.html',
   styleUrls: ['./singular-clase.component.scss'],
 })
-export class SingularClaseComponent extends AbstractEntidadFunciones {
+export class SingularClaseComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'clase';
@@ -31,7 +31,14 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -44,49 +51,18 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorClaseComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Clase) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.creado,
-            denominacion: entidad.denominacion,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -99,8 +75,6 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
       .pipe(
         tap((entidad: Clase) => {
           this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
             denominacion: entidad.denominacion,
           });
         })
@@ -113,9 +87,22 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(
+          first(),
+          tap(res => console.trace(res)),
+          tap(() => this.irAtras())
+        )
+        .subscribe();
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(
+          first(),
+          tap(() => this.irAtras())
+        )
+        .subscribe();
     }
   }
 
@@ -133,7 +120,7 @@ export class SingularClaseComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {

@@ -82,7 +82,8 @@
     <tr
       mat-row
       *matRowDef="let row; columns: columnasVisibles"
-      class="row-hover"></tr>
+      class="row-hover"
+      (dblclick)="dobleClick.emit(row)"></tr>
 
     <!-- mostrar cuando no hay datos que coincidan -->
     <tr class="mat-row" *matNoDataRow>

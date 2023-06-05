@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { Origen } from '@core/models/origen';
 
 @Component({
   selector: 'app-buscador-origen',
@@ -7,7 +9,12 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
   styleUrls: ['./buscador-origen.component.scss'],
 })
 export class BuscadorOrigenComponent {
-  titulo = 'buscador de origenes';
+  titulo = 'buscador de orígenes';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.ORIGENES.filter(c => c !== 'acciones');
+  constructor(private _dialogRef: MatDialogRef<BuscadorOrigenComponent>) {}
+
+  seleccionar = (origen: Origen) => {
+    this._dialogRef.close(origen);
+  };
 }

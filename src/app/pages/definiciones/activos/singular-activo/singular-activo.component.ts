@@ -4,20 +4,20 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { ActivoService } from '@core/services/activo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorActivoComponent } from '../buscador-activo/buscador-activo.component';
 import { Activo } from '@core/models/activo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-activo',
   templateUrl: './singular-activo.component.html',
   styleUrls: ['./singular-activo.component.scss'],
 })
-export class SingularActivoComponent extends AbstractEntidadFunciones {
+export class SingularActivoComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'activo';
@@ -50,7 +50,6 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formularioComponentes = this._formBuilder.group({});
     this.formularioDatosGenerales = this._formBuilder.group({});
@@ -108,28 +107,6 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
     );
   };
 
-  buscar() {
-    let dialog = this._dialog.open(BuscadorActivoComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Activo) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.creado,
-            denominacion: entidad.denominacion,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
-      )
-      .subscribe();
-  }
-
   importar() {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       width: '95%',
@@ -154,9 +131,15 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -174,7 +157,7 @@ export class SingularActivoComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {

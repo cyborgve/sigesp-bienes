@@ -19,6 +19,7 @@ import { Modelo } from '@core/models/modelo';
 import { ModeloService } from '@core/services/modelo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-modelo',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-modelo.component.scss'],
 })
 export class TablaModeloComponent
-  extends AbstractTablaFunciones<Modelo>
-  implements AfterViewInit
+  implements TablaEntidad<Modelo>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +40,14 @@ export class TablaModeloComponent
   private urlSingular = this.urlPlural + '/modelo';
   private urlSingularId = (id: Id) => this.urlPlural + '/modelo/' + id;
 
+  dataSource: MatTableDataSource<Modelo> = new MatTableDataSource();
+
   constructor(
     private _entidad: ModeloService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

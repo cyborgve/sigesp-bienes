@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { Marca } from '@core/models/marca';
 
 @Component({
   selector: 'app-buscador-marca',
@@ -8,6 +10,11 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 })
 export class BuscadorMarcaComponent {
   titulo = 'buscador de marcas';
-  columnasVisibles = COLUMNAS_VISIBLES.MARCAS.filter(c => c !== 'acciones');
   ocultarNuevo = true;
+  columnasVisibles = COLUMNAS_VISIBLES.MARCAS.filter(c => c !== 'acciones');
+  constructor(private _dialogRef: MatDialogRef<BuscadorMarcaComponent>) {}
+
+  seleccionar = (marca: Marca) => {
+    this._dialogRef.close(marca);
+  };
 }

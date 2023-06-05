@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./plural-categoria.component.scss'],
 })
 export class PluralCategoriaComponent {
-  titulo = 'categorias';
+  titulo = 'categorías';
 }

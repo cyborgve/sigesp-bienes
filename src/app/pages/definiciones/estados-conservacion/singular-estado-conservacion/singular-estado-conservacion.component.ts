@@ -11,16 +11,17 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorEstadoConservacionComponent } from '../buscador-estado-conservacion/buscador-estado-conservacion.component';
 import { Conservacion } from '@core/models/conservacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-estado-conservacion',
   templateUrl: './singular-estado-conservacion.component.html',
   styleUrls: ['./singular-estado-conservacion.component.scss'],
 })
-export class SingularEstadoConservacionComponent extends AbstractEntidadFunciones {
+export class SingularEstadoConservacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'Estado de Conservacion';
+  titulo = 'Estado de Conservación';
   formulario: FormGroup;
 
   constructor(
@@ -31,7 +32,14 @@ export class SingularEstadoConservacionComponent extends AbstractEntidadFuncione
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -44,49 +52,18 @@ export class SingularEstadoConservacionComponent extends AbstractEntidadFuncione
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorEstadoConservacionComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((condicionCompra: Conservacion) => {
-          this.formulario.patchValue({
-            empresaId: condicionCompra.empresaId,
-            id: condicionCompra.id,
-            codigo: condicionCompra.creado,
-            denominacion: condicionCompra.denominacion,
-            creado: condicionCompra.creado,
-            modificado: condicionCompra.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -99,8 +76,6 @@ export class SingularEstadoConservacionComponent extends AbstractEntidadFuncione
       .pipe(
         tap((condicionCompra: Conservacion) => {
           this.formulario.patchValue({
-            empresaId: condicionCompra.empresaId,
-            id: condicionCompra.id,
             denominacion: condicionCompra.denominacion,
           });
         })
@@ -113,12 +88,15 @@ export class SingularEstadoConservacionComponent extends AbstractEntidadFuncione
     condicionCompra.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       condicionCompra.creado = new Date();
-      this._entidad.guardar(condicionCompra).pipe(first()).subscribe();
+      this._entidad
+        .guardar(condicionCompra)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
       this._entidad
         .actualizar(this.id, condicionCompra)
         .pipe(first())
-        .subscribe();
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -136,7 +114,7 @@ export class SingularEstadoConservacionComponent extends AbstractEntidadFuncione
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {

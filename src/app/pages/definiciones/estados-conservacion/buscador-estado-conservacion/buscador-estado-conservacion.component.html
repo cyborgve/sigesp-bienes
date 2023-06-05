@@ -1,4 +1,5 @@
 <app-tabla-estado-conservacion
   [titulo]="titulo"
   [columnasVisibles]="columnasVisibles"
-  [ocultarNuevo]="ocultarNuevo"></app-tabla-estado-conservacion>
+  [ocultarNuevo]="ocultarNuevo"
+  (dobleClick)="seleccionar($event)"></app-tabla-estado-conservacion>

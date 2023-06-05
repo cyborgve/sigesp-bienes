@@ -1,4 +1,5 @@
 <app-tabla-modelo
   [titulo]="titulo"
   [columnasVisibles]="columnasVisibles"
-  [ocultarNuevo]="ocultarNuevo"></app-tabla-modelo>
+  [ocultarNuevo]="ocultarNuevo"
+  (dobleClick)="seleccionar($event)"></app-tabla-modelo>

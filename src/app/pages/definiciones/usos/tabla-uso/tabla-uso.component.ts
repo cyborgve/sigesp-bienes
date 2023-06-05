@@ -19,16 +19,14 @@ import { Uso } from '@core/models/uso';
 import { UsoService } from '@core/services/uso.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-uso',
   templateUrl: './tabla-uso.component.html',
   styleUrls: ['./tabla-uso.component.scss'],
 })
-export class TablaUsoComponent
-  extends AbstractTablaFunciones<Uso>
-  implements AfterViewInit
-{
+export class TablaUsoComponent implements TablaEntidad<Uso>, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -40,14 +38,14 @@ export class TablaUsoComponent
   private urlSingular = this.urlPlural + '/uso';
   private urlSingularId = (id: Id) => this.urlPlural + '/uso/' + id;
 
+  dataSource: MatTableDataSource<Uso> = new MatTableDataSource();
+
   constructor(
     private _entidad: UsoService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

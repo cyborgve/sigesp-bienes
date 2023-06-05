@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { TipoEstructura } from '@core/models/tipo-estructura';
 
 @Component({
   selector: 'app-buscador-tipo-estructura',
@@ -12,4 +14,11 @@ export class BuscadorTipoEstructuraComponent {
   columnasVisibles = COLUMNAS_VISIBLES.TIPOS_ESTRUCTURA.filter(
     c => c !== 'acciones'
   );
+  constructor(
+    private _dialogRef: MatDialogRef<BuscadorTipoEstructuraComponent>
+  ) {}
+
+  seleccionar = (entidad: TipoEstructura) => {
+    this._dialogRef.close(entidad);
+  };
 }

@@ -4,27 +4,26 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { OrigenService } from '@core/services/origen.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorOrigenComponent } from '../buscador-origen/buscador-origen.component';
 import { Origen } from '@core/models/origen';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-origen',
   templateUrl: './singular-origen.component.html',
   styleUrls: ['./singular-origen.component.scss'],
 })
-export class SingularOrigenComponent extends AbstractEntidadFunciones {
+export class SingularOrigenComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'Origen';
   formulario: FormGroup;
   modosAdquisicion: string[] = [];
   formasAdquisicion: string[] = [];
-  //tiposMarca: string[] = ['marca 1', 'marca 2', 'marca 3'];
 
   constructor(
     private _entidad: OrigenService,
@@ -34,7 +33,28 @@ export class SingularOrigenComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      fechaOrigen: ['', Validators.required],
+      fechaAdquisicion: ['', Validators.required],
+      modoAdquisicion: ['', Validators.required],
+      formaAdquisicion: ['', Validators.required],
+      numeroFormaAdquisicion: ['', Validators.required],
+      nombreFormaAdquisicion: ['', Validators.required],
+      fechaFactura: ['', Validators.required],
+      numeroFactura: ['', Validators.required],
+      proveedorId: ['', Validators.required],
+      tomo: ['', Validators.required],
+      folio: ['', Validators.required],
+      nombrePropietarioAnterior: ['', Validators.required],
+      nombreBenefactor: ['', Validators.required],
+      nombreBeneficiario: ['', Validators.required],
+      observaciones: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -47,70 +67,36 @@ export class SingularOrigenComponent extends AbstractEntidadFunciones {
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              fechaOrigen: [entidad.fechaOrigen, Validators.required],
-              fechaAdquisicion: [entidad.fechaAdquisicion, Validators.required],
-              modoAdquisicion: [entidad.modoAdquisicion, Validators.required],
-              formaAdquisicion: [entidad.formaAdquisicion, Validators.required],
-              numeroFormaAdquisicion: [
-                entidad.numeroFormaAdquisicion,
-                Validators.required,
-              ],
-              nombreFormaAdquisicion: [
-                entidad.nombreFormaAdquisicion,
-                Validators.required,
-              ],
-              fechaFactura: [entidad.fechaFactura, Validators.required],
-              numeroFactura: [entidad.numeroFactura, Validators.required],
-              proveedorId: [entidad.proveedorId, Validators.required],
-              tomo: [entidad.tomo, Validators.required],
-              folio: [entidad.folio, Validators.required],
-              nombrePropietarioAnterior: [
-                entidad.nombrePropietarioAnterior,
-                Validators.required,
-              ],
-              nombreBenefactor: [entidad.nombreBenefactor, Validators.required],
-              nombreBeneficiario: [
-                entidad.nombreBeneficiario,
-                Validators.required,
-              ],
-              observaciones: [entidad.observaciones, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              fechaOrigen: entidad.fechaOrigen,
+              fechaAdquisicion: entidad.fechaAdquisicion,
+              modoAdquisicion: entidad.modoAdquisicion,
+              formaAdquisicion: entidad.formaAdquisicion,
+              numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
+              nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
+              fechaFactura: entidad.fechaFactura,
+              numeroFactura: entidad.numeroFactura,
+              proveedorId: entidad.proveedorId,
+              tomo: entidad.tomo,
+              folio: entidad.folio,
+              nombrePropietarioAnterior: entidad.nombrePropietarioAnterior,
+              nombreBenefactor: entidad.nombreBenefactor,
+              nombreBeneficiario: entidad.nombreBeneficiario,
+              observaciones: entidad.observaciones,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        fechaOrigen: ['', Validators.required],
-        fechaAdquisicion: ['', Validators.required],
-        modoAdquisicion: ['', Validators.required],
-        formaAdquisicion: ['', Validators.required],
-        numeroFormaAdquisicion: ['', Validators.required],
-        nombreFormaAdquisicion: ['', Validators.required],
-        fechaFactura: ['', Validators.required],
-        numeroFactura: ['', Validators.required],
-        proveedorId: ['', Validators.required],
-        tomo: ['', Validators.required],
-        folio: ['', Validators.required],
-        nombrePropietarioAnterior: ['', Validators.required],
-        nombreBenefactor: ['', Validators.required],
-        nombreBeneficiario: ['', Validators.required],
-        observaciones: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
   }
 
-  buscar() {
+  importar() {
     let dialog = this._dialog.open(BuscadorOrigenComponent, {
       width: '95%',
       height: '85%',
@@ -118,11 +104,9 @@ export class SingularOrigenComponent extends AbstractEntidadFunciones {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Origen) => {
+        tap((entidad: Origen) =>
           this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.codigo,
+            denominacion: entidad.denominacion,
             fechaOrigen: entidad.fechaOrigen,
             fechaAdquisicion: entidad.fechaAdquisicion,
             modoAdquisicion: entidad.modoAdquisicion,
@@ -138,28 +122,8 @@ export class SingularOrigenComponent extends AbstractEntidadFunciones {
             nombreBenefactor: entidad.nombreBenefactor,
             nombreBeneficiario: entidad.nombreBeneficiario,
             observaciones: entidad.observaciones,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
-      )
-      .subscribe();
-  }
-
-  importar() {
-    let dialog = this._dialog.open(BuscadorOrigenComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Origen) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-          });
-        })
+          })
+        )
       )
       .subscribe();
   }
@@ -169,9 +133,15 @@ export class SingularOrigenComponent extends AbstractEntidadFunciones {
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 

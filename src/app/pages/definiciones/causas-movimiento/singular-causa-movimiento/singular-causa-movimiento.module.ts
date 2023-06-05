@@ -16,15 +16,15 @@ import { BuscadorCausaMovimientoModule } from '../buscador-causa-movimiento/busc
   declarations: [SingularCausaMovimientoComponent],
   imports: [
     CommonModule,
-    SingularCausaMovimientoRoutingModule,
     ReactiveFormsModule,
-    MatInputModule,
+    SingularCausaMovimientoRoutingModule,
+    BuscadorCausaMovimientoModule,
     SharedModule,
     MatCardModule,
+    MatInputModule,
+    MatSelectModule,
     MatButtonModule,
     MatIconModule,
-    MatSelectModule,
-    BuscadorCausaMovimientoModule,
   ],
 })
 export class SingularCausaMovimientoModule {}

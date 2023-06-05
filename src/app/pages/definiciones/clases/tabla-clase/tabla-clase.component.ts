@@ -12,23 +12,20 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Clase } from '@core/models/clase';
 import { ClaseService } from '@core/services/clase.service';
 import { Id } from '@core/types/id';
 import { EventEmitter } from 'events';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-clase',
   templateUrl: './tabla-clase.component.html',
   styleUrls: ['./tabla-clase.component.scss'],
 })
-export class TablaClaseComponent
-  extends AbstractTablaFunciones<Clase>
-  implements AfterViewInit
-{
+export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -40,14 +37,14 @@ export class TablaClaseComponent
   private urlSingular = this.urlPlural + '/clase';
   private urlSingularId = (id: Id) => this.urlPlural + '/clase/' + id;
 
+  dataSource: MatTableDataSource<Clase> = new MatTableDataSource();
+
   constructor(
     private _entidad: ClaseService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

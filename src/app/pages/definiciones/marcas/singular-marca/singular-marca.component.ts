@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { MarcaService } from '@core/services/marca.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
@@ -12,28 +11,40 @@ import { BuscadorMarcaComponent } from '../buscador-marca/buscador-marca.compone
 import { Marca } from '@core/models/marca';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorTipoMarcaComponent } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.component';
+import { TipoMarcaService } from '@core/services/tipo-marca.service';
+import { Entidad } from '@core/models/entidad';
+import { TipoMarca } from '@core/models/tipo-marca';
 
 @Component({
   selector: 'app-singular-marca',
   templateUrl: './singular-marca.component.html',
   styleUrls: ['./singular-marca.component.scss'],
 })
-export class SingularMarcaComponent extends AbstractEntidadFunciones {
+export class SingularMarcaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'marca';
   formulario: FormGroup;
-  tiposMarca: string[] = ['tipo 1', 'tipo 2', 'tipo 3'];
+  tiposMarca = () => this._tipoMarca.buscarTodos();
 
   constructor(
     private _entidad: MarcaService,
+    private _tipoMarca: TipoMarcaService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      tipo: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -46,52 +57,19 @@ export class SingularMarcaComponent extends AbstractEntidadFunciones {
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              tipo: [entidad.tipo, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              tipo: entidad.tipo,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        tipo: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorMarcaComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Marca) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.creado,
-            creado: entidad.creado,
-            denominacion: entidad.denominacion,
-            tipo: entidad.tipo,
-            modificado: entidad.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -104,8 +82,6 @@ export class SingularMarcaComponent extends AbstractEntidadFunciones {
       .pipe(
         tap((entidad: Marca) => {
           this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
             denominacion: entidad.denominacion,
             tipo: entidad.tipo,
           });
@@ -119,9 +95,15 @@ export class SingularMarcaComponent extends AbstractEntidadFunciones {
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -139,7 +121,7 @@ export class SingularMarcaComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {
@@ -162,5 +144,13 @@ export class SingularMarcaComponent extends AbstractEntidadFunciones {
       width: '85%',
       height: '95%',
     });
+    dialog
+      .beforeClosed()
+      .pipe(
+        tap((tipoMarca: TipoMarca) =>
+          this.formulario.patchValue({ tipo: tipoMarca.id })
+        )
+      )
+      .subscribe();
   }
 }

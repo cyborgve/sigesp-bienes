@@ -9,12 +9,12 @@
   <table mat-table [dataSource]="dataSource" class="table" matSort>
     <!-- codigo -->
     <ng-container matColumnDef="codigo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
       <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominacion</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
     <!-- tipo -->
@@ -52,7 +52,8 @@
     <tr
       mat-row
       *matRowDef="let row; columns: columnasVisibles"
-      class="row-hover"></tr>
+      class="row-hover"
+      (dblclick)="dobleClick.emit(row)"></tr>
 
     <!-- mostrar cuando no hay datos que coincidan -->
     <tr class="mat-row" *matNoDataRow>

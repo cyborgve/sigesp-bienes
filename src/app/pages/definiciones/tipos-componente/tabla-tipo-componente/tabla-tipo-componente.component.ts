@@ -19,6 +19,7 @@ import { TipoComponente } from '@core/models/tipo-componente';
 import { TipoComponenteService } from '@core/services/tipo-componente.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-tipo-componente',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-tipo-componente.component.scss'],
 })
 export class TablaTipoComponenteComponent
-  extends AbstractTablaFunciones<TipoComponente>
-  implements AfterViewInit
+  implements TablaEntidad<TipoComponente>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +40,14 @@ export class TablaTipoComponenteComponent
   private urlSingular = this.urlPlural + '/tipo-componente';
   private urlSingularId = (id: Id) => this.urlPlural + '/tipo-componente/' + id;
 
+  dataSource: MatTableDataSource<TipoComponente> = new MatTableDataSource();
+
   constructor(
     private _entidad: TipoComponenteService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

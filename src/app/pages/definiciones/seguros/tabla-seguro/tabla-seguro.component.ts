@@ -12,13 +12,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Seguro } from '@core/models/seguro';
 import { SeguroService } from '@core/services/seguro.service';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Location } from '@angular/common';
 import { Id } from '@core/types/id';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-seguro',
@@ -26,8 +26,7 @@ import { Id } from '@core/types/id';
   styleUrls: ['./tabla-seguro.component.scss'],
 })
 export class TablaSeguroComponent
-  extends AbstractTablaFunciones<Seguro>
-  implements AfterViewInit
+  implements TablaEntidad<Seguro>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +39,14 @@ export class TablaSeguroComponent
   private urlSingular = this.urlPlural + '/seguro';
   private urlSingularId = (id: Id) => this.urlPlural + '/seguro/' + id;
 
+  dataSource: MatTableDataSource<Seguro> = new MatTableDataSource();
+
   constructor(
     private _entidad: SeguroService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

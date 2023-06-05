@@ -19,16 +19,14 @@ import { Raza } from '@core/models/raza';
 import { RazaService } from '@core/services/raza.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-raza',
   templateUrl: './tabla-raza.component.html',
   styleUrls: ['./tabla-raza.component.scss'],
 })
-export class TablaRazaComponent
-  extends AbstractTablaFunciones<Raza>
-  implements AfterViewInit
-{
+export class TablaRazaComponent implements TablaEntidad<Raza>, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -40,14 +38,14 @@ export class TablaRazaComponent
   private urlSingular = this.urlPlural + '/raza';
   private urlSingularId = (id: Id) => this.urlPlural + '/raza/' + id;
 
+  dataSource: MatTableDataSource<Raza> = new MatTableDataSource();
+
   constructor(
     private _entidad: RazaService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

@@ -13,13 +13,14 @@ import { UnidadAdministrativa } from '@core/models/unidad-administrativa';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { BuscadorCategoriaUnidadAdministrativaComponent } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad-administrativa/buscador-categoria-unidad-administrativa.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-unidad-administrativa',
   templateUrl: './singular-unidad-administrativa.component.html',
   styleUrls: ['./singular-unidad-administrativa.component.scss'],
 })
-export class SingularUnidadAdministrativaComponent extends AbstractEntidadFunciones {
+export class SingularUnidadAdministrativaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'Unidad Administrativa';
@@ -33,7 +34,15 @@ export class SingularUnidadAdministrativaComponent extends AbstractEntidadFuncio
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      categoriaId: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -46,52 +55,20 @@ export class SingularUnidadAdministrativaComponent extends AbstractEntidadFuncio
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              categoriaId: [entidad.categoriaId, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              categoriaId: entidad.categoriaId,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
     } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        categoriaId: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: UnidadAdministrativa) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.creado,
-            denominacion: entidad.denominacion,
-            categoriaId: entidad.categoriaId,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -104,8 +81,6 @@ export class SingularUnidadAdministrativaComponent extends AbstractEntidadFuncio
       .pipe(
         tap((entidad: UnidadAdministrativa) => {
           this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
             denominacion: entidad.denominacion,
             categoriaId: entidad.categoriaId,
           });
@@ -119,9 +94,15 @@ export class SingularUnidadAdministrativaComponent extends AbstractEntidadFuncio
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -139,7 +120,7 @@ export class SingularUnidadAdministrativaComponent extends AbstractEntidadFuncio
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {

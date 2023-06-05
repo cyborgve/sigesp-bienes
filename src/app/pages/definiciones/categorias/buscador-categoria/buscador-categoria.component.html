@@ -1,4 +1,5 @@
 <app-tabla-categoria
   [titulo]="titulo"
   [ocultarNuevo]="ocultarNuevo"
-  [columnasVisibles]="columnasVisibles"></app-tabla-categoria>
+  [columnasVisibles]="columnasVisibles"
+  (dobleClick)="seleccionar($event)"></app-tabla-categoria>

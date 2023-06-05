@@ -10,15 +10,12 @@
       <article class="contenido">
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
-          <mat-label>Codigo</mat-label>
+          <mat-label>Código</mat-label>
           <input type="text" matInput formControlName="codigo" />
-          <button type="button" mat-icon-button matSuffix (click)="buscar()">
-            <mat-icon>search</mat-icon>
-          </button>
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
-          <mat-label>Denominacion</mat-label>
+          <mat-label>Denominación</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
         <!-- tipo -->
@@ -27,28 +24,26 @@
           <mat-select formControlName="tipo">
             <mat-option
               *ngFor="let tipo of tiposCausaMovimiento"
-              [value]="tipo"
+              [value]="tipo.charAt(0)"
               >{{ tipo | titlecase }}</mat-option
             >
           </mat-select>
         </mat-form-field>
         <!-- estado afectacion contable -->
-        <mat-form-field appearance="fill" class="estadoAfectacionContable">
-          <mat-label>Estado Afectacion Contable</mat-label>
+        <mat-form-field appearance="fill" class="estAfectacionContable">
+          <mat-label>Estado afectación contable</mat-label>
           <input
-            type="text"
+            type="number"
             matInput
-            formControlName="estadoAfectacionContable" />
+            formControlName="estAfectacionContable" />
         </mat-form-field>
         <!-- estado afectacion presupuestaria -->
-        <mat-form-field
-          appearance="fill"
-          class="estadoAfectacionPresupuestaria">
-          <mat-label>Estado Afectacion Presupuestaria</mat-label>
+        <mat-form-field appearance="fill" class="estAfectacionPresupuestaria">
+          <mat-label>Estado afectación presupuestaria</mat-label>
           <input
-            type="text"
+            type="number"
             matInput
-            formControlName="estadoAfectacionPresupuestaria" />
+            formControlName="estAfectacionPresupuestaria" />
         </mat-form-field>
       </article>
     </mat-card>

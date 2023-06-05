@@ -6,7 +6,6 @@ import {
   ViewChild,
   AfterViewInit,
 } from '@angular/core';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
@@ -19,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-categoria-unidad-administrativa',
@@ -26,8 +26,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-categoria-unidad-administrativa.component.scss'],
 })
 export class TablaCategoriaUnidadAdministrativaComponent
-  extends AbstractTablaFunciones<CategoriaUnidadAdministr>
-  implements AfterViewInit
+  implements TablaEntidad<CategoriaUnidadAdministr>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -42,14 +41,15 @@ export class TablaCategoriaUnidadAdministrativaComponent
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/categoria-unidad-administrativa/' + id;
 
+  dataSource: MatTableDataSource<CategoriaUnidadAdministr> =
+    new MatTableDataSource();
+
   constructor(
     private _entidad: CategoriaUnidadAdministrativaService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

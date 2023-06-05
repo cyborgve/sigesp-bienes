@@ -15,7 +15,7 @@ export abstract class GenericService<T extends Basica>
   implements ModeloServicio<T>
 {
   protected apiUrl = `${environment.apiUrl}/${this.getEntidadUrl()}`;
-  protected apiUrlId = (id: Id) => `${this.apiUrl}/${id}`;
+  protected apiUrlId = (id: Id) => `${this.apiUrl}?id=${id}`;
 
   protected abstract getEntidadUrl(): string;
 
@@ -36,7 +36,7 @@ export abstract class GenericService<T extends Basica>
       })
       .pipe(
         map((res: any) => res.data),
-        tap(res => console.log(res))
+        map(data => data[0])
       );
   }
 
@@ -46,8 +46,8 @@ export abstract class GenericService<T extends Basica>
     });
   }
 
-  actualizar(id: Id, entidad: T): Observable<T> {
-    return this._http.put<T>(this.apiUrlId(id), entidad, {
+  actualizar(id: Id, entidad: T): Observable<Number> {
+    return this._http.put<Number>(this.apiUrlId(id), entidad, {
       headers: this._sigesp.getHttpHeaders(),
     });
   }

@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { CausaMovimientoService } from '@core/services/causa-movimiento.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
@@ -12,13 +11,14 @@ import { CausaMovimiento } from '@core/models/causa-movimiento';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Location } from '@angular/common';
 import { TIPOS_CAUSA_MOVIMIENTO } from '@core/constants/tipos-causa-movimiento';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-causa-movimiento',
   templateUrl: './singular-causa-movimiento.component.html',
   styleUrls: ['./singular-causa-movimiento.component.scss'],
 })
-export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
+export class SingularCausaMovimientoComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'causa de movimiento';
@@ -33,7 +33,6 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -49,17 +48,17 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
             this.formulario = this._formBuilder.group({
               empresaId: [entidad.empresaId],
               id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
               denominacion: [entidad.denominacion, Validators.required],
               tipo: [entidad.tipo, Validators.required],
-              estadoAfectacionContable: [
-                entidad.estadoAfectacionContable,
+              estAfectacionContable: [
+                entidad.estAfectacionContable,
                 Validators.required,
               ],
-              estadoAfectacionPresupuestaia: [
-                entidad.estadoAfectacionPresupuestari,
+              estAfectacionPresupuestaria: [
+                entidad.estAfectacionPresupuestaria,
                 Validators.required,
               ],
+              codigo: [entidad.codigo, Validators.required],
               creado: [entidad.creado],
               modificado: [entidad.modificado],
             });
@@ -73,29 +72,12 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
         codigo: ['', Validators.required],
         denominacion: ['', Validators.required],
         tipo: ['', Validators.required],
-        estadoAfectacionContable: ['', Validators.required],
-        estadoAfectacionPresupuestaria: ['', Validators.required],
+        estAfectacionContable: ['', Validators.required],
+        estAfectacionPresupuestaria: ['', Validators.required],
         creado: [''],
         modificado: [''],
       });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: CausaMovimiento) =>
-          this._router.navigate([
-            '/definiciones/causas-movimiento/causa-movimiento/' + entidad.id,
-          ])
-        )
-      )
-      .subscribe();
   }
 
   importar() {
@@ -109,6 +91,9 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
         tap((entidad: CausaMovimiento) => {
           this.formulario.patchValue({
             denominacion: entidad.denominacion,
+            tipo: entidad.tipo,
+            estAfectacionContable: entidad.estAfectacionContable,
+            estAfectacionPresupuestaria: entidad.estAfectacionPresupuestaria,
           });
         })
       )
@@ -120,9 +105,15 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -140,7 +131,7 @@ export class SingularCausaMovimientoComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {

@@ -1,5 +1,5 @@
 export abstract class AbstractEntidadFunciones {
-  abstract buscar();
+  //abstract buscar();
   abstract importar();
   abstract guardar();
   abstract borrar();

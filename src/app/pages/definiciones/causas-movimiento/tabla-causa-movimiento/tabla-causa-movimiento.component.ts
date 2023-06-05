@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   AfterViewInit,
+  EventEmitter,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -17,8 +18,8 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CausaMovimiento } from '@core/models/causa-movimiento';
 import { CausaMovimientoService } from '@core/services/causa-movimiento.service';
 import { Id } from '@core/types/id';
-import { EventEmitter } from 'events';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-causa-movimiento',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-causa-movimiento.component.scss'],
 })
 export class TablaCausaMovimientoComponent
-  extends AbstractTablaFunciones<CausaMovimiento>
-  implements AfterViewInit
+  implements TablaEntidad<CausaMovimiento>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,14 +41,14 @@ export class TablaCausaMovimientoComponent
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/causa-movimiento/' + id;
 
+  dataSource: MatTableDataSource<CausaMovimiento> = new MatTableDataSource();
+
   constructor(
     private _entidad: CausaMovimientoService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./plural-responsable.component.scss'],
 })
 export class PluralResponsableComponent {
-  titulo = 'Responsables';
+  titulo = 'responsables';
 }

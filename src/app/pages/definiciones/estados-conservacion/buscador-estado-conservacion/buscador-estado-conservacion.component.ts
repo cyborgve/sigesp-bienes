@@ -9,9 +9,9 @@ import { Conservacion } from '@core/models/conservacion';
   styleUrls: ['./buscador-estado-conservacion.component.scss'],
 })
 export class BuscadorEstadoConservacionComponent {
-  titulo = 'buscador de estados de consevacion';
+  titulo = 'buscador de estados de consevación';
   ocultarNuevo = true;
-  columnasVisibles = COLUMNAS_VISIBLES.CONSERVACION.filter(
+  columnasVisibles = COLUMNAS_VISIBLES.ESTADOS_CONSERVACION.filter(
     c => c !== 'acciones'
   );
   constructor(

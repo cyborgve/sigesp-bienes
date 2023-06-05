@@ -1,33 +1,34 @@
-<section class="contenedor-singular">
-  <!-- encabezado -->
-  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
-  <!-- datos -->
-  <mat-card>
-    <form [formGroup]="formulario">
+<form [formGroup]="formulario">
+  <section class="contenedor-singular">
+    <!-- encabezado -->
+    <app-encabezado-definicion
+      [titulo]="titulo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-definicion
+    >/app-encabezado-definicion>
+    <!-- datos -->
+    <mat-card>
       <article class="contenido">
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
-          <mat-label>Codigo</mat-label>
+          <mat-label>Código</mat-label>
           <input type="text" matInput formControlName="codigo" />
-          <button type="button" mat-icon-button matSuffix (click)="buscar()">
-            <mat-icon>search</mat-icon>
-          </button>
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
-          <mat-label>Denominacion</mat-label>
+          <mat-label>Denominación</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
         <!-- explicacion -->
         <mat-form-field appearance="fill" class="explicacion">
-          <mat-label>Explicacion</mat-label>
+          <mat-label>Explicación</mat-label>
           <textarea matInput rows="2" formControlName="explicacion"></textarea>
         </mat-form-field>
       </article>
-    </form>
-  </mat-card>
-  <!-- botones -->
-</section>
+    </mat-card>
+    <!-- botones -->
+  </section>
+</form>
 <!-- barra de herramientas lateral -->
 <app-toolbar
   (importar)="importar()"

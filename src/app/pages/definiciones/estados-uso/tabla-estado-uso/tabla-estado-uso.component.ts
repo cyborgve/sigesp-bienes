@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-estado-uso',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-estado-uso.component.scss'],
 })
 export class TablaEstadoUsoComponent
-  extends AbstractTablaFunciones<EstadoUso>
-  implements AfterViewInit
+  implements TablaEntidad<EstadoUso>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +40,14 @@ export class TablaEstadoUsoComponent
   private urlSingular = this.urlPlural + '/estado-uso';
   private urlSingularId = (id: Id) => this.urlPlural + '/estado-uso/' + id;
 
+  dataSource: MatTableDataSource<EstadoUso> = new MatTableDataSource();
+
   constructor(
     private _entidad: EstadoUsoService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

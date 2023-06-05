@@ -19,6 +19,7 @@ import { Responsable } from '@core/models/responsable';
 import { ResponsableService } from '@core/services/responsable.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-responsable',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-responsable.component.scss'],
 })
 export class TablaResponsableComponent
-  extends AbstractTablaFunciones<Responsable>
-  implements AfterViewInit
+  implements TablaEntidad<Responsable>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -44,14 +44,14 @@ export class TablaResponsableComponent
   private urlSingular = this.urlPlural + '/responsable';
   private urlSingularId = (id: Id) => this.urlPlural + '/responsable/' + id;
 
+  dataSource: MatTableDataSource<Responsable> = new MatTableDataSource();
+
   constructor(
     private _entidad: ResponsableService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

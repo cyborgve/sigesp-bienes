@@ -13,12 +13,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Activo } from '@core/models/activo';
 import { ActivoService } from '@core/services/activo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-activo',
@@ -26,8 +26,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-activo.component.scss'],
 })
 export class TablaActivoComponent
-  extends AbstractTablaFunciones<Activo>
-  implements AfterViewInit
+  implements TablaEntidad<Activo>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +39,14 @@ export class TablaActivoComponent
   private urlSingular = this.urlPlural + '/activo';
   private urlSingularId = (id: Id) => this.urlPlural + '/activo/' + id;
 
+  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
+
   constructor(
     private _entidad: ActivoService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();
@@ -106,32 +105,3 @@ export class TablaActivoComponent
       .subscribe(() => this.recargarDatos());
   }
 }
-
-type ActivoParcial = Partial<Activo>;
-
-const data: ActivoParcial[] = [
-  {
-    empresaId: 10000000,
-    id: 1,
-    codigo: '1029384756',
-    denominacion: 'Activo 1',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 2,
-    codigo: '1029384755',
-    denominacion: 'Activo 2',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-  {
-    empresaId: 10000000,
-    id: 3,
-    codigo: '1029384754',
-    denominacion: 'Activo 3',
-    creado: new Date(),
-    modificado: new Date(),
-  },
-];

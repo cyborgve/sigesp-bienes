@@ -11,7 +11,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Categoria } from '@core/models/categoria';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoriaService } from '@core/services/categoria.service';
 import { Location } from '@angular/common';
@@ -19,6 +18,7 @@ import { Router } from '@angular/router';
 import { Id } from '@core/types/id';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-categoria',
@@ -26,8 +26,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-categoria.component.scss'],
 })
 export class TablaCategoriaComponent
-  extends AbstractTablaFunciones<Categoria>
-  implements AfterViewInit
+  implements TablaEntidad<Categoria>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +39,14 @@ export class TablaCategoriaComponent
   private urlSingular = this.urlPlural + '/categoria';
   private urlSingularId = (id: Id) => this.urlPlural + '/categoria/' + id;
 
+  dataSource: MatTableDataSource<Categoria> = new MatTableDataSource();
+
   constructor(
     private _entidad: CategoriaService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

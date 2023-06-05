@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { ComponenteEstructuraService } from '@core/services/componente-estructura.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
@@ -12,13 +11,15 @@ import { BuscadorComponenteEstructuraComponent } from '../buscador-componente-es
 import { ComponenteEstructura } from '@core/models/componente-estructura';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorTipoEstructuraComponent } from '@pages/definiciones/tipos-estructura/buscador-tipo-estructura/buscador-tipo-estructura.component';
+import { Entidad } from '@core/models/entidad';
+import { TipoEstructura } from '@core/models/tipo-estructura';
 
 @Component({
   selector: 'app-singular-componente-estructura',
   templateUrl: './singular-componente-estructura.component.html',
   styleUrls: ['./singular-componente-estructura.component.scss'],
 })
-export class SingularComponenteEstructuraComponent extends AbstractEntidadFunciones {
+export class SingularComponenteEstructuraComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'componente de estructura';
@@ -32,7 +33,15 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      tipo: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -45,52 +54,19 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              tipo: [entidad.tipo, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              tipo: entidad.tipo,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        tipo: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorComponenteEstructuraComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((componenteEstructura: ComponenteEstructura) => {
-          this.formulario.patchValue({
-            empresaId: componenteEstructura.empresaId,
-            id: componenteEstructura.id,
-            codigo: componenteEstructura.creado,
-            denominacion: componenteEstructura.denominacion,
-            tipo: componenteEstructura.tipo,
-            creado: componenteEstructura.creado,
-            modificado: componenteEstructura.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -103,8 +79,6 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
       .pipe(
         tap((componenteEstructura: ComponenteEstructura) => {
           this.formulario.patchValue({
-            empresaId: componenteEstructura.empresaId,
-            id: componenteEstructura.id,
             denominacion: componenteEstructura.denominacion,
             tipo: componenteEstructura.tipo,
           });
@@ -118,12 +92,15 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
     componenteEstructura.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       componenteEstructura.creado = new Date();
-      this._entidad.guardar(componenteEstructura).pipe(first()).subscribe();
+      this._entidad
+        .guardar(componenteEstructura)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
       this._entidad
         .actualizar(this.id, componenteEstructura)
         .pipe(first())
-        .subscribe();
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -141,7 +118,7 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {
@@ -164,6 +141,13 @@ export class SingularComponenteEstructuraComponent extends AbstractEntidadFuncio
       width: '95%',
       height: '85%',
     });
-    dialog.afterClosed().pipe().subscribe();
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((tipo: TipoEstructura) =>
+          this.formulario.patchValue({ tipo: tipo.id })
+        )
+      )
+      .subscribe();
   }
 }

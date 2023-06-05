@@ -6,5 +6,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plural-origen.component.scss'],
 })
 export class PluralOrigenComponent {
-  titulo = 'Origenes';
+  titulo = 'orígenes';
 }

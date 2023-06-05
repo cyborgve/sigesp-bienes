@@ -4,23 +4,23 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { CondicionCompraService } from '@core/services/condicion-compra.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorCondicionCompraComponent } from '../buscador-condicion-compra/buscador-condicion-compra.component';
 import { CondicionCompra } from '@core/models/condicion-compra';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-condicion-compra',
   templateUrl: './singular-condicion-compra.component.html',
   styleUrls: ['./singular-condicion-compra.component.scss'],
 })
-export class SingularCondicionCompraComponent extends AbstractEntidadFunciones {
+export class SingularCondicionCompraComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'condicion de compra';
+  titulo = 'condición de compra';
   formulario: FormGroup;
 
   constructor(
@@ -31,7 +31,15 @@ export class SingularCondicionCompraComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      explicacion: [''],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -56,40 +64,7 @@ export class SingularCondicionCompraComponent extends AbstractEntidadFunciones {
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        explicacion: [''],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorCondicionCompraComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((condicionCompra: CondicionCompra) => {
-          this.formulario.patchValue({
-            empresaId: condicionCompra.empresaId,
-            id: condicionCompra.id,
-            codigo: condicionCompra.creado,
-            denominacion: condicionCompra.denominacion,
-            explicacion: condicionCompra.explicacion,
-            creado: condicionCompra.creado,
-            modificado: condicionCompra.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -102,8 +77,6 @@ export class SingularCondicionCompraComponent extends AbstractEntidadFunciones {
       .pipe(
         tap((condicionCompra: CondicionCompra) => {
           this.formulario.patchValue({
-            empresaId: condicionCompra.empresaId,
-            id: condicionCompra.id,
             denominacion: condicionCompra.denominacion,
             explicacion: condicionCompra.explicacion,
           });
@@ -117,12 +90,15 @@ export class SingularCondicionCompraComponent extends AbstractEntidadFunciones {
     condicionCompra.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       condicionCompra.creado = new Date();
-      this._entidad.guardar(condicionCompra).pipe(first()).subscribe();
+      this._entidad
+        .guardar(condicionCompra)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
       this._entidad
         .actualizar(this.id, condicionCompra)
         .pipe(first())
-        .subscribe();
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -140,7 +116,7 @@ export class SingularCondicionCompraComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {

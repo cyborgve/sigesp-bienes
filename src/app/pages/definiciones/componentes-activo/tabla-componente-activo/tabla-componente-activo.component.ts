@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ComponenteActivo } from '@core/models/componente-activo';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 import { ComponenteActivoService } from '@core/services/componente-activo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -26,8 +27,7 @@ import { filter, first, switchMap, take, tap } from 'rxjs/operators';
   styleUrls: ['./tabla-componente-activo.component.scss'],
 })
 export class TablaComponenteActivoComponent
-  extends AbstractTablaFunciones<ComponenteActivo>
-  implements AfterViewInit
+  implements TablaEntidad<ComponenteActivo>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,6 +35,8 @@ export class TablaComponenteActivoComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.COMPONENTES_ACTIVO;
   @Output() dobleClick = new EventEmitter();
+
+  dataSource: MatTableDataSource<ComponenteActivo> = new MatTableDataSource();
 
   private urlPlural = '/definiciones/componentes-activo';
   private urlSingular = this.urlPlural + '/componente-activo';
@@ -46,9 +48,7 @@ export class TablaComponenteActivoComponent
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

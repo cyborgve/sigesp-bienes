@@ -1,9 +1,9 @@
 import { Basica } from '@core/models/basica';
 
 export interface Sede extends Basica {
-  tipo: String;
   codigo: string;
   denominacion: string;
+  tipo: string;
   localizacion: string;
   paisId: string;
   estadoId: string;

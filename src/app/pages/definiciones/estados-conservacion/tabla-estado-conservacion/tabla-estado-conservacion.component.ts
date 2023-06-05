@@ -19,6 +19,7 @@ import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-estado-conservacion',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-estado-conservacion.component.scss'],
 })
 export class TablaEstadoConservacionComponent
-  extends AbstractTablaFunciones<Conservacion>
-  implements AfterViewInit
+  implements TablaEntidad<Conservacion>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,6 +35,8 @@ export class TablaEstadoConservacionComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CONSERVACION;
   @Output() dobleClick = new EventEmitter();
+
+  dataSource: MatTableDataSource<Conservacion> = new MatTableDataSource();
 
   private urlPlural = '/definiciones/estados-conservacion';
   private urlSingular = this.urlPlural + '/estado-conservacion';
@@ -46,9 +48,7 @@ export class TablaEstadoConservacionComponent
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

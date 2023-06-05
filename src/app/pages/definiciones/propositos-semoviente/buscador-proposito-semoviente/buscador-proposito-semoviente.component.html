@@ -1,4 +1,5 @@
 <app-tabla-proposito-semoviente
   [titulo]="titulo"
   [ocultarNuevo]="ocultarNuevo"
-  [columnasVisibles]="columnasVisibles"></app-tabla-proposito-semoviente>
+  [columnasVisibles]="columnasVisibles"
+  (dobleClick)="seleccionar($event)"></app-tabla-proposito-semoviente>

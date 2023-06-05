@@ -1,10 +1,10 @@
+import { Entidad } from '@core/models/entidad';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { SeguroService } from '@core/services/seguro.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
@@ -14,13 +14,16 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { BuscadorAseguradoraComponent } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.component';
 import { BuscadorTipoPolizaComponent } from '@pages/definiciones/tipos-poliza/buscador-tipo-poliza/buscador-tipo-poliza.component';
 import { BuscadorTipoCoberturaComponent } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.component';
+import { Aseguradora } from '@core/models/aseguradora';
+import { TipoPoliza } from '@core/models/tipo-poliza';
+import { TipoCobertura } from '@core/models/tipo-cobertura';
 
 @Component({
   selector: 'app-singular-seguro',
   templateUrl: './singular-seguro.component.html',
   styleUrls: ['./singular-seguro.component.scss'],
 })
-export class SingularSeguroComponent extends AbstractEntidadFunciones {
+export class SingularSeguroComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'seguro';
@@ -34,7 +37,26 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      aseguradoraId: ['', Validators.required],
+      tipoPoliza: ['', Validators.required],
+      tipoCobertura: ['', Validators.required],
+      numeroPoliza: ['', Validators.required],
+      montoAsegurado: ['', Validators.required],
+      fechaInicioPoliza: ['', Validators.required],
+      fechaFinPoliza: ['', Validators.required],
+      monedaId: ['', Validators.required],
+      monedaSecundariaId: ['', Validators.required],
+      poseeRCV: ['', Validators.required],
+      descripcionCobertura: ['', Validators.required],
+      coberturaAdicional: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -47,97 +69,30 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              aseguradoraId: [entidad.aseguradoraId, Validators.required],
-              tipoPoliza: [entidad.tipoPoliza, Validators.required],
-              tipoCobertura: [entidad.tipoCobertura, Validators.required],
-              numeroPoliza: [entidad.numeroPoliza, Validators.required],
-              montoAsegurado: [entidad.montoAsegurado, Validators.required],
-              fechaInicioPoliza: [
-                entidad.fechaInicioPoliza,
-                Validators.required,
-              ],
-              fechaFinPoliza: [entidad.fechaFinPoliza, Validators.required],
-              monedaId: [entidad.monedaId, Validators.required],
-              monedaSecundariaId: [
-                entidad.monedaSecundariaId,
-                Validators.required,
-              ],
-              poseeRCV: [entidad.poseeRCV, Validators.required],
-              descripcionCobertura: [
-                entidad.descripcionCobertura,
-                Validators.required,
-              ],
-              coberturaAdicional: [
-                entidad.coberturaAdicional,
-                Validators.required,
-              ],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              aseguradoraId: entidad.aseguradoraId,
+              tipoPoliza: entidad.tipoPoliza,
+              tipoCobertura: entidad.tipoCobertura,
+              numeroPoliza: entidad.numeroPoliza,
+              montoAsegurado: entidad.montoAsegurado,
+              fechaInicioPoliza: entidad.fechaInicioPoliza,
+              fechaFinPoliza: entidad.fechaFinPoliza,
+              monedaId: entidad.monedaId,
+              monedaSecundariaId: entidad.monedaSecundariaId,
+              poseeRCV: entidad.poseeRCV,
+              descripcionCobertura: entidad.descripcionCobertura,
+              coberturaAdicional: entidad.coberturaAdicional,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        aseguradoraId: ['', Validators.required],
-        tipoPoliza: ['', Validators.required],
-        tipoCobertura: ['', Validators.required],
-        numeroPoliza: ['', Validators.required],
-        montoAsegurado: ['', Validators.required],
-        fechaInicioPoliza: ['', Validators.required],
-        fechaFinPoliza: ['', Validators.required],
-        monedaId: ['', Validators.required],
-        monedaSecundariaId: ['', Validators.required],
-        poseeRCV: ['', Validators.required],
-        descripcionCobertura: ['', Validators.required],
-        coberturaAdicional: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorSeguroComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Seguro) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.codigo,
-            denominacion: entidad.denominacion,
-            aseguradoraId: entidad.aseguradoraId,
-            tipoPoliza: entidad.tipoPoliza,
-            tipoCobertura: entidad.tipoCobertura,
-            numeroPoliza: entidad.numeroPoliza,
-            montoAsegurado: entidad.montoAsegurado,
-            fechaInicioPoliza: entidad.fechaInicioPoliza,
-            fechaFinPoliza: entidad.fechaFinPoliza,
-            monedaId: entidad.monedaId,
-            monedaSecundariaId: entidad.monedaSecundariaId,
-            poseeRCV: entidad.poseeRCV,
-            descripcionCobertura: entidad.descripcionCobertura,
-            coberturaAdicional: entidad.coberturaAdicional,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          });
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -174,9 +129,15 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
-      this._entidad.guardar(entidad).pipe(first()).subscribe();
+      this._entidad
+        .guardar(entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
-      this._entidad.actualizar(this.id, entidad).pipe(first()).subscribe();
+      this._entidad
+        .actualizar(this.id, entidad)
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -194,7 +155,7 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {
@@ -217,6 +178,16 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
       width: '85%',
       height: '95%',
     });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Aseguradora) =>
+          this.formulario.patchValue({
+            aseguradoraId: entidad.codigo,
+          })
+        )
+      )
+      .subscribe();
   }
 
   buscarTipoPoliza() {
@@ -224,6 +195,16 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
       width: '85%',
       height: '95%',
     });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: TipoPoliza) =>
+          this.formulario.patchValue({
+            tipoPoliza: entidad.codigo,
+          })
+        )
+      )
+      .subscribe();
   }
 
   buscarTipoCobertura() {
@@ -231,5 +212,13 @@ export class SingularSeguroComponent extends AbstractEntidadFunciones {
       width: '85%',
       height: '95%',
     });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: TipoCobertura) =>
+          this.formulario.patchValue({ tipoCobertura: entidad.codigo })
+        )
+      )
+      .subscribe();
   }
 }

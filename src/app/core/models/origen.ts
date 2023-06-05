@@ -2,6 +2,7 @@ import { Basica } from '@core/models/basica';
 
 export interface Origen extends Basica {
   codigo: string;
+  denominacion: string;
   fechaOrigen: Date;
   fechaAdquisicion: Date;
   modoAdquisicion: string;

@@ -19,6 +19,7 @@ import { UnidadAdministrativa } from '@core/models/unidad-administrativa';
 import { UnidadAdministrativaService } from '@core/services/unidad-administrativa.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-unidad-administrativa',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-unidad-administrativa.component.scss'],
 })
 export class TablaUnidadAdministrativaComponent
-  extends AbstractTablaFunciones<UnidadAdministrativa>
-  implements AfterViewInit
+  implements TablaEntidad<UnidadAdministrativa>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -42,14 +42,15 @@ export class TablaUnidadAdministrativaComponent
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/unidad-administrativa/' + id;
 
+  dataSource: MatTableDataSource<UnidadAdministrativa> =
+    new MatTableDataSource();
+
   constructor(
     private _entidad: UnidadAdministrativaService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

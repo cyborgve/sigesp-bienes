@@ -19,6 +19,7 @@ import { TipoSemoviente } from '@core/models/tipo-semoviente';
 import { TipoSemovienteService } from '@core/services/tipo-semoviente.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-tipo-semoviente',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-tipo-semoviente.component.scss'],
 })
 export class TablaTipoSemovienteComponent
-  extends AbstractTablaFunciones<TipoSemoviente>
-  implements AfterViewInit
+  implements TablaEntidad<TipoSemoviente>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +40,14 @@ export class TablaTipoSemovienteComponent
   private urlSingular = this.urlPlural + '/tipo-semoviente';
   private urlSingularId = (id: Id) => this.urlPlural + '/tipo-semoviente/' + id;
 
+  dataSource: MatTableDataSource<TipoSemoviente> = new MatTableDataSource();
+
   constructor(
     private _entidad: TipoSemovienteService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

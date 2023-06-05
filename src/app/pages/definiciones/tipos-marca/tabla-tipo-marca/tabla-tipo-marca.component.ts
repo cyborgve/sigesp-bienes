@@ -19,6 +19,7 @@ import { TipoMarca } from '@core/models/tipo-marca';
 import { TipoMarcaService } from '@core/services/tipo-marca.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-tipo-marca',
@@ -26,8 +27,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-tipo-marca.component.scss'],
 })
 export class TablaTipoMarcaComponent
-  extends AbstractTablaFunciones<TipoMarca>
-  implements AfterViewInit
+  implements TablaEntidad<TipoMarca>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +40,14 @@ export class TablaTipoMarcaComponent
   private urlSingular = this.urlPlural + '/tipo-marca';
   private urlSingularId = (id: Id) => this.urlPlural + '/tipo-marca/' + id;
 
+  dataSource: MatTableDataSource<TipoMarca> = new MatTableDataSource();
+
   constructor(
     private _entidad: TipoMarcaService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

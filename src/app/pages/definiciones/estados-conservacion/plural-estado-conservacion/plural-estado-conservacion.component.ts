@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./plural-estado-conservacion.component.scss'],
 })
 export class PluralEstadoConservacionComponent {
-  titulo = 'estados de conservacion';
+  titulo = 'estados de conservación';
 }

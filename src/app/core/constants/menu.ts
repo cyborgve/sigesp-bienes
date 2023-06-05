@@ -26,13 +26,13 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/assured_workload.svg',
       },
       {
-        label: 'Categorias',
+        label: 'Categorías',
         routerLink: 'categorias',
         icon: 'category',
         image: './assets/images/svg/category.svg',
       },
       {
-        label: 'Categorias de Unidad Adm.',
+        label: 'Categorías de Unidad Adm.',
         routerLink: 'categorias-unidad-administrativa',
         icon: 'folder_copy',
         image: './assets/images/svg/folder_copy.svg',
@@ -74,7 +74,7 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/shopping_bag.svg',
       },
       {
-        label: 'Estados de Conservacion',
+        label: 'Estados de Conservación',
         routerLink: 'estados-conservacion',
         icon: 'hardware',
         image: './assets/images/svg/hardware.svg',
@@ -98,13 +98,13 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/checklist.svg',
       },
       {
-        label: 'Origenes',
+        label: 'Orígenes',
         routerLink: 'origenes',
         icon: 'trip_origin',
         image: './assets/images/svg/trip_origin.svg',
       },
       {
-        label: 'Propositos de Semoviente',
+        label: 'Propósitos de Semoviente',
         routerLink: 'propositos-semoviente',
         icon: 'model_training',
         image: './assets/images/svg/model_training.svg',
@@ -158,7 +158,7 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/format_list_numbered.svg',
       },
       {
-        label: 'Tipos de Poliza',
+        label: 'Tipos de Póliza',
         routerLink: 'tipos-poliza',
         icon: 'security',
         image: './assets/images/svg/security.svg',

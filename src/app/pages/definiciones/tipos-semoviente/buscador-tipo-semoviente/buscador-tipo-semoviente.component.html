@@ -1,4 +1,5 @@
 <app-tabla-tipo-semoviente
   [titulo]="titulo"
   [ocultarNuevo]="ocultarNuevo"
-  [columnasVisibles]="columnasVisibles"></app-tabla-tipo-semoviente>
+  [columnasVisibles]="columnasVisibles"
+  (dobleClick)="seleccionar($event)"></app-tabla-tipo-semoviente>

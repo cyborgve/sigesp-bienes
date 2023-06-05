@@ -19,16 +19,14 @@ import { Marca } from '@core/models/marca';
 import { MarcaService } from '@core/services/marca.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-marca',
   templateUrl: './tabla-marca.component.html',
   styleUrls: ['./tabla-marca.component.scss'],
 })
-export class TablaMarcaComponent
-  extends AbstractTablaFunciones<Marca>
-  implements AfterViewInit
-{
+export class TablaMarcaComponent implements TablaEntidad<Marca>, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -40,14 +38,14 @@ export class TablaMarcaComponent
   private urlSingular = this.urlPlural + '/marca';
   private urlSingularId = (id: Id) => this.urlPlural + '/marca/' + id;
 
+  dataSource: MatTableDataSource<Marca> = new MatTableDataSource();
+
   constructor(
     private _entidad: MarcaService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

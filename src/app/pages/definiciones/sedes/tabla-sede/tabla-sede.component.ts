@@ -19,16 +19,14 @@ import { Sede } from '@core/models/sede';
 import { SedeService } from '@core/services/sede.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-sede',
   templateUrl: './tabla-sede.component.html',
   styleUrls: ['./tabla-sede.component.scss'],
 })
-export class TablaSedeComponent
-  extends AbstractTablaFunciones<Sede>
-  implements AfterViewInit
-{
+export class TablaSedeComponent implements TablaEntidad<Sede>, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -40,14 +38,14 @@ export class TablaSedeComponent
   private urlSingular = this.urlPlural + '/sede';
   private urlSingularId = (id: Id) => this.urlPlural + '/sede/' + id;
 
+  dataSource: MatTableDataSource<Sede> = new MatTableDataSource();
+
   constructor(
     private _entidad: SedeService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

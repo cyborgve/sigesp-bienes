@@ -12,23 +12,20 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Color } from '@core/models/color';
 import { ColorService } from '@core/services/color.service';
 import { Id } from '@core/types/id';
 import { EventEmitter } from 'events';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-color',
   templateUrl: './tabla-color.component.html',
   styleUrls: ['./tabla-color.component.scss'],
 })
-export class TablaColorComponent
-  extends AbstractTablaFunciones<Color>
-  implements AfterViewInit
-{
+export class TablaColorComponent implements TablaEntidad<Color>, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
@@ -40,14 +37,14 @@ export class TablaColorComponent
   private urlSingular = this.urlPlural + '/color';
   private urlSingularId = (id: Id) => this.urlPlural + '/color/' + id;
 
+  dataSource: MatTableDataSource<Color> = new MatTableDataSource();
+
   constructor(
     private _entidad: ColorService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

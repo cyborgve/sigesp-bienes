@@ -12,9 +12,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Origen } from '@core/models/origen';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 import { OrigenService } from '@core/services/origen.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -26,8 +26,7 @@ import { filter, first, switchMap, take, tap } from 'rxjs/operators';
   styleUrls: ['./tabla-origen.component.scss'],
 })
 export class TablaOrigenComponent
-  extends AbstractTablaFunciones<Origen>
-  implements AfterViewInit
+  implements TablaEntidad<Origen>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,14 +39,14 @@ export class TablaOrigenComponent
   private urlSingular = this.urlPlural + '/origen';
   private urlSingularId = (id: Id) => this.urlPlural + '/origen/' + id;
 
+  dataSource: MatTableDataSource<Origen> = new MatTableDataSource();
+
   constructor(
     private _entidad: OrigenService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

@@ -1,4 +1,5 @@
 <app-tabla-unidad-administrativa
   [titulo]="titulo"
   [ocultarNuevo]="ocultarNuevo"
-  [columnasVisibles]="columnasVisibles"></app-tabla-unidad-administrativa>
+  [columnasVisibles]="columnasVisibles"
+  (dobleClick)="seleccionar($event)"></app-tabla-unidad-administrativa>

@@ -8,16 +8,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AseguradoraService } from '@core/services/aseguradora.service';
 import { Id } from '@core/types/id';
 import { BuscadorAseguradoraComponent } from '../buscador-aseguradora/buscador-aseguradora.component';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Entidad } from '@core/models/entidad';
 
 @Component({
   selector: 'app-singular-aseguradora',
   templateUrl: './singular-aseguradora.component.html',
   styleUrls: ['./singular-aseguradora.component.scss'],
 })
-export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
+export class SingularAseguradoraComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'aseguradora';
@@ -30,8 +30,15 @@ export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
     private _location: Location,
     private _dialog: MatDialog
   ) {
-    super();
     this.id = this._activatedRoute.snapshot.params['id'];
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
     this.actualizarFormulario();
   }
 
@@ -43,44 +50,18 @@ export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
         .pipe(
           take(1),
           tap(entidad => {
-            this.formulario = this._formBuilder.group({
-              empresaId: [entidad.empresaId],
-              id: [entidad.id],
-              codigo: [entidad.codigo, Validators.required],
-              denominacion: [entidad.denominacion, Validators.required],
-              creado: [entidad.creado],
-              modificado: [entidad.modificado],
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              denominacion: entidad.denominacion,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
             });
           })
         )
         .subscribe();
-    } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
     }
-  }
-
-  buscar() {
-    let dialog = this._dialog.open(BuscadorAseguradoraComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Aseguradora) => {
-          this._router.navigate([
-            '/definiciones/aseguradoras/aseguradora/' + entidad.codigo,
-          ]);
-        })
-      )
-      .subscribe();
   }
 
   importar() {
@@ -107,22 +88,13 @@ export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
       entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
-        .pipe(
-          first(),
-          tap(() => this.formulario.reset())
-        )
-        .subscribe();
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     } else {
       this._entidad
         .actualizar(this.id, entidad)
-        .pipe(
-          first(),
-          tap(() => {
-            this.modoFormulario = 'CREANDO';
-            this.formulario.reset();
-          })
-        )
-        .subscribe();
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
@@ -140,7 +112,7 @@ export class SingularAseguradoraComponent extends AbstractEntidadFunciones {
         switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
         take(1)
       )
-      .subscribe();
+      .subscribe(() => this.irAtras());
   }
 
   imprimir() {
