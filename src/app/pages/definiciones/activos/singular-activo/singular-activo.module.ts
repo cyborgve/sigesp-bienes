@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { SingularActivoRoutingModule } from './singular-activo-routing.module';
 import { SingularActivoComponent } from './singular-activo.component';
 import { BuscadorActivoModule } from '../buscador-activo/buscador-activo.module';
@@ -19,6 +18,26 @@ import { ActivoOrigenComponent } from './activo-origen/activo-origen.component';
 import { ActivoResponsableComponent } from './activo-responsable/activo-responsable.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivoUbicacionComponent } from './activo-ubicacion/activo-ubicacion.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.module';
+import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
+import { BuscadorEstadoUsoModule } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.module';
+import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
+import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
+import { BuscadorColorModule } from '@pages/definiciones/colores/buscador-color/buscador-color.module';
+import { BuscadorEstadoConservacionModule } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.module';
+import { BuscadorResponsableModule } from '@pages/definiciones/responsables/buscador-responsable/buscador-responsable.module';
+import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
+import { BuscadorClaseModule } from '@pages/definiciones/clases/buscador-clase/buscador-clase.module';
+import { BuscadorUsoModule } from '@pages/definiciones/usos/buscador-uso/buscador-uso.module';
+import { BuscadorTipoSemovienteModule } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.module';
+import { BuscadorPropositoSemovienteModule } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.module';
+import { BuscadorCategoriaModule } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.module';
+import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
+import { BuscadorSeguroModule } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.module';
+import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/buscador-raza.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +62,26 @@ import { ActivoUbicacionComponent } from './activo-ubicacion/activo-ubicacion.co
     MatButtonModule,
     MatIconModule,
     MatTabsModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    BuscadorOrigenModule,
+    BuscadorUnidadAdministrativaModule,
+    BuscadorSedeModule,
+    BuscadorResponsableModule,
+    BuscadorEstadoUsoModule,
+    BuscadorEstadoConservacionModule,
+    BuscadorMarcaModule,
+    BuscadorModeloModule,
+    BuscadorColorModule,
+    BuscadorClaseModule,
+    BuscadorUsoModule,
+    BuscadorTipoSemovienteModule,
+    BuscadorPropositoSemovienteModule,
+    BuscadorCategoriaModule,
+    BuscadorTipoComponenteModule,
+    BuscadorSeguroModule,
+    BuscadorRazaModule,
   ],
 })
 export class SingularActivoModule {}

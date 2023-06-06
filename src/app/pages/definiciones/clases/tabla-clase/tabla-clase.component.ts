@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   AfterViewInit,
+  EventEmitter,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,7 +17,6 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Clase } from '@core/models/clase';
 import { ClaseService } from '@core/services/clase.service';
 import { Id } from '@core/types/id';
-import { EventEmitter } from 'events';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/tabla-entidad';
 

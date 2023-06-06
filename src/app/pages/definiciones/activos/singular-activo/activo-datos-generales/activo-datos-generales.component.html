@@ -2,13 +2,621 @@
   <article class="contenido">
     <!-- codigo -->
     <mat-form-field appearance="fill" class="codigo">
-      <mat-label>Codigo</mat-label>
+      <mat-label>Código</mat-label>
       <input type="text" matInput formControlName="codigo" />
     </mat-form-field>
     <!-- denominacion -->
     <mat-form-field appearance="fill" class="denominacion">
-      <mat-label>Denominacion</mat-label>
+      <mat-label>Denominación</mat-label>
       <input type="text" matInput formControlName="denominacion" />
+    </mat-form-field>
+    <!-- catalogo de cuentas -->
+    <mat-form-field appearance="fill" class="catalogoCuentas">
+      <mat-label>Catálogo de cuentas</mat-label>
+      <input type="text" matInput formControlName="catalogoCuentas" />
+      <button type="button" mat-icon-button matSuffix>
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- fecha de registro -->
+    <mat-form-field appearance="fill" class="fechaRegistro">
+      <mat-label>Fecha de registro</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaRegistroPicker"
+        formControlName="fechaRegistro" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaRegistroPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaRegistroPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- tipo de activo -->
+    <mat-form-field appearance="fill" class="tipoActivo">
+      <mat-label>Tipo de activo</mat-label>
+      <mat-select formControlName="tipoActivo">
+        <mat-option *ngFor="let tipo of tiposActivo" [value]="tipo">{{
+          tipo
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- depreciable -->
+    <mat-slide-toggle formControlName="depreciable" class="depreciable"
+      >Depreciable</mat-slide-toggle
+    >
+    <!-- fecha de adquisicion -->
+    <mat-form-field appearance="fill" class="fechaAdquisicion">
+      <mat-label>Fecha de adquisición</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaAdquisicionPicker"
+        formControlName="fechaAdquisicion" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaAdquisicionPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaAdquisicionPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- fecha de ingreso -->
+    <mat-form-field appearance="fill" class="fechaIngreso">
+      <mat-label>Fecha de ingreso</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaIngresoPicker"
+        formControlName="fechaIngreso" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaIngresoPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaIngresoPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- observaciones -->
+    <mat-form-field appearance="fill" class="observaciones">
+      <mat-label>Observaciones</mat-label>
+      <textarea rows="1" matInput formControlName="observaciones"></textarea>
+    </mat-form-field>
+    <!-- origen id -->
+    <mat-form-field appearance="fill" class="origenId">
+      <mat-label>Origen</mat-label>
+      <input type="text" matInput formControlName="origenId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarOrigen()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- unidad administrativa id -->
+    <mat-form-field appearance="fill" class="unidadAdministrativaId">
+      <mat-label>Unidad administrativa</mat-label>
+      <input type="text" matInput formControlName="unidadAdministrativaId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarUnidadAdministrativa()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- sede id -->
+    <mat-form-field appearance="fill" class="sedeId">
+      <mat-label>Sede</mat-label>
+      <input type="text" matInput formControlName="sedeId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarSede()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- peso -->
+    <mat-form-field appearance="fill" class="peso">
+      <mat-label>Peso</mat-label>
+      <input type="text" matInput formControlName="peso" />
+    </mat-form-field>
+    <!-- responsable uso id -->
+    <mat-form-field appearance="fill" class="responsableUsoId">
+      <mat-label>Responsable de uso</mat-label>
+      <input type="text" matInput formControlName="responsableUsoId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarResponsableUso()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- estado de uso id -->
+    <mat-form-field appearance="fill" class="estadoUsoId">
+      <mat-label>Estado de uso</mat-label>
+      <input type="text" matInput formControlName="estadoUsoId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarEstadoUso()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- valor de adquisicion -->
+    <mat-form-field appearance="fill" class="valorAdquisicion">
+      <mat-label>Valor de adquisición</mat-label>
+      <input type="number" matInput formControlName="valorAdquisicion" />
+    </mat-form-field>
+    <!-- modeda id -->
+    <mat-form-field appearance="fill" class="monedaId">
+      <mat-label>Moneda</mat-label>
+      <input type="text" matInput formControlName="monedaId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- conservacion -->
+    <mat-form-field appearance="fill" class="conservacion">
+      <mat-label>Conservacion</mat-label>
+      <input type="text" matInput formControlName="conservacion" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarEstadoConservacion()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- descripcion de estado de conservacion -->
+    <mat-form-field appearance="fill" class="descripcionEstadoConservacion">
+      <mat-label>Descripcion del estado de conservación</mat-label>
+      <textarea
+        rows="1"
+        matInput
+        formControlName="descripcionEstadoConservacion"></textarea>
+    </mat-form-field>
+    <!-- serial -->
+    <mat-form-field appearance="fill" class="serial">
+      <mat-label>Serial</mat-label>
+      <input type="text" matInput formControlName="serial" />
+    </mat-form-field>
+    <!-- marca id -->
+    <mat-form-field appearance="fill" class="marcaId">
+      <mat-label>Marca</mat-label>
+      <input type="text" matInput formControlName="marcaId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarMarca()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- modelo id -->
+    <mat-form-field appearance="fill" class="modeloId">
+      <mat-label>Modelo</mat-label>
+      <input type="text" matInput formControlName="modeloId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarModelo()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- anio de fabricacion -->
+    <mat-form-field appearance="fill" class="anioFabricacion">
+      <mat-label>Año de fabricación</mat-label>
+      <input type="text" matInput formControlName="anioFabricacion" />
+    </mat-form-field>
+    <!-- color id -->
+    <mat-form-field appearance="fill" class="colorId">
+      <mat-label>Color</mat-label>
+      <input type="text" matInput formControlName="colorId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarColor()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- posee componentes -->
+    <mat-slide-toggle
+      formControlName="poseeComponentes"
+      class="poseeComponentes"
+      >Posee componentes</mat-slide-toggle
+    >
+    <!-- descripcion del componente -->
+    <mat-form-field appearance="fill" class="descripcionComponente">
+      <mat-label>Descripción del componente</mat-label>
+      <input type="text" matInput formControlName="descripcionComponente" />
+    </mat-form-field>
+    <!-- especificaciones tecnicas -->
+    <mat-form-field appearance="fill" class="especificacionesTecnicas">
+      <mat-label>Especificaciones técnicas</mat-label>
+      <textarea
+        rows="1"
+        matInput
+        formControlName="especificacionesTecnicas"></textarea>
+    </mat-form-field>
+    <!-- dias de garantia -->
+    <mat-form-field appearance="fill" class="diasGarantia">
+      <mat-label>Días de garantía</mat-label>
+      <input type="text" matInput formControlName="diasGarantia" />
+    </mat-form-field>
+    <!-- fecha inicio de la garantia -->
+    <mat-form-field appearance="fill" class="fechaInicioGarantia">
+      <mat-label>Fecha inicio de la garantía</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaInicioGarantiaPicker"
+        formControlName="fechaInicioGarantia" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaInicioGarantiaPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaInicioGarantiaPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- fecha fin de la garantia -->
+    <mat-form-field appearance="fill" class="fechaFinGarantia">
+      <mat-label>Fecha fin de la garantía</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaFinGarantiaPicker"
+        formControlName="fechaFinGarantia" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaFinGarantiaPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaFinGarantiaPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- clase id -->
+    <mat-form-field appearance="fill" class="claseId">
+      <mat-label>Clase</mat-label>
+      <input type="text" matInput formControlName="claseId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarClase()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- descripcion otra clase -->
+    <mat-form-field appearance="fill" class="descripcionOtraClase">
+      <mat-label>Descripción de otra clase</mat-label>
+      <input type="text" matInput formControlName="descripcionOtraClase" />
+    </mat-form-field>
+    <!-- serial carroceria -->
+    <mat-form-field appearance="fill" class="serialCarroceria">
+      <mat-label>Serial de carrocería</mat-label>
+      <input type="text" matInput formControlName="serialCarroceria" />
+    </mat-form-field>
+    <!-- serial motor -->
+    <mat-form-field appearance="fill" class="serialMotor">
+      <mat-label>Serial de motor</mat-label>
+      <input type="text" matInput formControlName="serialMotor" />
+    </mat-form-field>
+    <!-- placas -->
+    <mat-form-field appearance="fill" class="placas">
+      <mat-label>Placas</mat-label>
+      <input type="text" matInput formControlName="placas" />
+    </mat-form-field>
+    <!-- numero de titulo de propiedad -->
+    <mat-form-field appearance="fill" class="numeroTituloPropiedad">
+      <mat-label>Número de título de propiedad</mat-label>
+      <input type="text" matInput formControlName="numeroTituloPropiedad" />
+    </mat-form-field>
+    <!-- capacidad -->
+    <mat-form-field appearance="fill" class="capacidad">
+      <mat-label>Capacidad</mat-label>
+      <input type="text" matInput formControlName="capacidad" />
+    </mat-form-field>
+    <!-- nombre -->
+    <mat-form-field appearance="fill" class="nombre">
+      <mat-label>Nombre</mat-label>
+      <input type="text" matInput formControlName="nombre" />
+    </mat-form-field>
+    <!-- uso id -->
+    <mat-form-field appearance="fill" class="usoId">
+      <mat-label>Uso</mat-label>
+      <input type="text" matInput formControlName="usoId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarUso()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- tiene gps -->
+    <mat-slide-toggle formControlName="tieneGPS" class="tieneGPS"
+      >Tiene GPS</mat-slide-toggle
+    >
+    <!-- especificaciones gps -->
+    <mat-form-field appearance="fill" class="especificacionesGPS">
+      <mat-label>Especificaciones GPS</mat-label>
+      <input type="text" matInput formControlName="especificacionesGPS" />
+    </mat-form-field>
+    <!-- tipo semoviente id -->
+    <mat-form-field appearance="fill" class="tipoSemovienteId">
+      <mat-label>Tipo de semoviente</mat-label>
+      <input type="text" matInput formControlName="tipoSemovienteId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarTipoSemoviente()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- genero -->
+    <mat-form-field appearance="fill" class="genero">
+      <mat-label>Género</mat-label>
+      <mat-select formControlName="genero">
+        <mat-option
+          *ngFor="let genero of ['masculino', 'femenino']"
+          [value]="genero"
+          >{{ genero | titlecase }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <!-- raza -->
+    <mat-form-field appearance="fill" class="raza">
+      <mat-label>Raza</mat-label>
+      <input type="text" matInput formControlName="raza" />
+    </mat-form-field>
+    <!-- proposito semoviente id -->
+    <mat-form-field appearance="fill" class="propositoSemovienteId">
+      <mat-label>Propósito del semoviente</mat-label>
+      <input type="text" matInput formControlName="propositoSemovienteId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarPropositoSemoviente()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- unidad de medida id -->
+    <mat-form-field appearance="fill" class="unidadMedidaId">
+      <mat-label>Unidad de medída</mat-label>
+      <input type="text" matInput formControlName="unidadMedidaId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarUnidadMedida()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- nummero de hierro id -->
+    <mat-form-field appearance="fill" class="numeroHierro">
+      <mat-label>Número de hierrro</mat-label>
+      <input type="text" matInput formControlName="numeroHierro" />
+    </mat-form-field>
+    <!-- especificaciones del animar -->
+    <mat-form-field appearance="fill" class="especificacionesAnimal">
+      <mat-label>Especificaciones del animal</mat-label>
+      <input type="text" matInput formControlName="especificacionesAnimal" />
+    </mat-form-field>
+    <!-- tipo de animal id -->
+    <mat-form-field appearance="fill" class="tipoAnimalId">
+      <mat-label>Tipo de animal</mat-label>
+      <input type="text" matInput formControlName="tipoAnimalId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarTipoAnimal()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- responsable id -->
+    <mat-form-field appearance="fill" class="responsableId">
+      <mat-label>Responsable</mat-label>
+      <input type="text" matInput formControlName="responsableId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarResponsable()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- fecha nacimiento animal -->
+    <mat-form-field appearance="fill" class="fechaNacimientoAnimal">
+      <mat-label>Fecha de nacimiento del animal</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaNacimientoAnimalPicker"
+        formControlName="fechaNacimientoAnimal" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaNacimientoAnimalPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaNacimientoAnimalPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- oficina de registro -->
+    <mat-form-field appearance="fill" class="oficinaRegistro">
+      <mat-label>Oficina de registro</mat-label>
+      <input type="text" matInput formControlName="oficinaRegistro" />
+    </mat-form-field>
+    <!-- referencia del registro -->
+    <mat-form-field appearance="fill" class="referenciaRegistro">
+      <mat-label>Referencia del registro</mat-label>
+      <input type="text" matInput formControlName="referenciaRegistro" />
+    </mat-form-field>
+    <!-- tomo -->
+    <mat-form-field appearance="fill" class="tomo">
+      <mat-label>Tomo</mat-label>
+      <input type="text" matInput formControlName="tomo" />
+    </mat-form-field>
+    <!-- folio -->
+    <mat-form-field appearance="fill" class="folio">
+      <mat-label>Folio</mat-label>
+      <input type="text" matInput formControlName="folio" />
+    </mat-form-field>
+    <!-- protocolo -->
+    <mat-form-field appearance="fill" class="protocolo">
+      <mat-label>Protocolo</mat-label>
+      <input type="text" matInput formControlName="protocolo" />
+    </mat-form-field>
+    <!-- numero de registro -->
+    <mat-form-field appearance="fill" class="numeroRegistro">
+      <mat-label>Número de registro</mat-label>
+      <input type="text" matInput formControlName="numeroRegistro" />
+    </mat-form-field>
+    <!-- fecha registrado -->
+    <mat-form-field appearance="fill" class="fechaRegistrado">
+      <mat-label>Fecha registrado</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaRegistradoPicker"
+        formControlName="fechaRegistrado" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaRegistradoPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaRegistradoPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- propietario anterior -->
+    <mat-form-field appearance="fill" class="propietarioAnterior">
+      <mat-label>Propietario anterior</mat-label>
+      <input type="text" matInput formControlName="propietarioAnterior" />
+    </mat-form-field>
+    <!-- dependencias -->
+    <mat-form-field appearance="fill" class="dependencias">
+      <mat-label>Dependencias</mat-label>
+      <input type="text" matInput formControlName="dependencias" />
+    </mat-form-field>
+    <!-- metros cuadrados de area de construccion  -->
+    <mat-form-field appearance="fill" class="areaConstruccionM2">
+      <mat-label>M2 Área de construcción</mat-label>
+      <input type="text" matInput formControlName="areaConstruccionM2" />
+    </mat-form-field>
+    <!-- metros cuadrados de area del terreno  -->
+    <mat-form-field appearance="fill" class="areaTerrenoM2">
+      <mat-label>M2 Área del terreno</mat-label>
+      <input type="text" matInput formControlName="areaTerrenoM2" />
+    </mat-form-field>
+    <!-- especificaciones del inmueble -->
+    <mat-form-field appearance="fill" class="especificacionesInmueble">
+      <mat-label>Especificaciones del inmueble</mat-label>
+      <textarea
+        rows="1"
+        matInput
+        formControlName="especificacionesInmueble"></textarea>
+    </mat-form-field>
+    <!-- pertenece a sede -->
+    <mat-slide-toggle formControlName="perteneceASede" class="perteneceASede"
+      >Pertenece a sede</mat-slide-toggle
+    >
+    <!-- sede ubicacion id -->
+    <mat-form-field appearance="fill" class="sedeUbicacionId">
+      <mat-label>Sede ubicación</mat-label>
+      <input type="text" matInput formControlName="sedeUbicacionId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarSedeUbicacion()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- especificaciones del color -->
+    <mat-form-field appearance="fill" class="especificacionesColor">
+      <mat-label>Especificaciones del color</mat-label>
+      <textarea
+        rows="1"
+        matInput
+        formControlName="especificacionesColor"></textarea>
+    </mat-form-field>
+    <!-- rotulacion id -->
+    <mat-form-field appearance="fill" class="rotulacionId">
+      <mat-label>Rotulación</mat-label>
+      <input type="text" matInput formControlName="rotulacionId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarRotulacion()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- categoria id -->
+    <mat-form-field appearance="fill" class="categoriaId">
+      <mat-label>Categoría</mat-label>
+      <input type="text" matInput formControlName="categoriaId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCategoria()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- tipo de componente id -->
+    <mat-form-field appearance="fill" class="tipoComponenteId">
+      <mat-label>Tipo de componente</mat-label>
+      <input type="text" matInput formControlName="tipoComponenteId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarTipoComponente()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- asegurado -->
+    <mat-slide-toggle formControlName="asegurado" class="asegurado"
+      >Asegurado</mat-slide-toggle
+    >
+    <!-- seguro id -->
+    <mat-form-field appearance="fill" class="seguroId">
+      <mat-label>Seguro</mat-label>
+      <input type="text" matInput formControlName="seguroId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarSeguro()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- raza id -->
+    <mat-form-field appearance="fill" class="razaId">
+      <mat-label>Raza</mat-label>
+      <input type="text" matInput formControlName="razaId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarRaza()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- metodo depreciacion -->
+    <mat-form-field appearance="fill" class="metodoDepreciacion">
+      <mat-label>Método de depreciación</mat-label>
+      <mat-select formControlName="metodoDepreciacion">
+        <mat-option
+          *ngFor="let metodo of metodosDepreciacion"
+          [value]="metodo"
+          >{{ metodo | titlecase }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <!-- vida util  -->
+    <mat-form-field appearance="fill" class="vidaUtil">
+      <mat-label>Vida útil</mat-label>
+      <input type="text" matInput formControlName="vidaUtil" />
+    </mat-form-field>
+    <!-- valor rescate  -->
+    <mat-form-field appearance="fill" class="valorRescate">
+      <mat-label>Valor de rescate</mat-label>
+      <input type="text" matInput formControlName="valorRescate" />
+    </mat-form-field>
+    <!-- cuenta contable del gasto -->
+    <mat-form-field appearance="fill" class="cuentaContableGasto">
+      <mat-label>Cuenta contable del gasto</mat-label>
+      <input type="text" matInput formControlName="cuentaContableGasto" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCuentaContableGasto()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- cuenta contable de depreciacion -->
+    <mat-form-field appearance="fill" class="cuentaContableDepreciacion">
+      <mat-label>Cuenta contable de depreciación</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="cuentaContableDepreciacion" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCuentaContableDepreciacion()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- fuente de financiamiento id -->
+    <mat-form-field appearance="fill" class="fuenteFinanciamientoId">
+      <mat-label>Fuente de financiamiento</mat-label>
+      <input type="text" matInput formControlName="fuenteFinanciamientoId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarFuenteFinanciamiento()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- codcencos  -->
+    <!-- TODO: Preguntar que significa el nombre de este campo -->
+    <mat-form-field appearance="fill" class="codcencos">
+      <mat-label>Codcencos</mat-label>
+      <input type="text" matInput formControlName="codcencos" />
     </mat-form-field>
   </article>
 </form>
