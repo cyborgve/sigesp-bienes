@@ -1,6 +1,6 @@
 {
   "name": "sigesp-bienes",
-  "version": "0.35.26",
+  "version": "0.36.27",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
@@ -28,10 +28,12 @@
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/router": "^11.2.14",
     "@angular/typescript": "^2.0.0-5d0e199",
+    "crypto-js": "^4.1.1",
     "moment": "^2.29.1",
     "ngx-toastr": "^11.3.3",
     "rxjs": "^6.6.3",
-    "sigesp": "^0.8.45-211102",
+    "sigesp": "^0.9.45-23230426",
+    "sweetalert2": "^11.7.12",
     "tslib": "^1.14.1",
     "typescript": "^4.1.6",
     "zone.js": "^0.10.3"

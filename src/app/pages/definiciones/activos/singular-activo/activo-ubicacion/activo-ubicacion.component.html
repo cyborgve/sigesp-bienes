@@ -1,3 +1,36 @@
 <form [formGroup]="formulario">
-  <section class="contenido"></section>
+  <section class="contenido">
+    <!-- fecha de ingreso -->
+    <mat-form-field appearance="fill" class="fechaIngreso">
+      <mat-label>Fecha de ingreso</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaIngresoPicker"
+        formControlName="fechaIngreso" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="fechaIngresoPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaIngresoPicker></mat-datepicker>
+    </mat-form-field>
+    <!-- unidad administrativa id -->
+    <mat-form-field appearance="fill" class="unidadAdministrativaId">
+      <mat-label>Unidad administrativa</mat-label>
+      <input type="text" matInput formControlName="unidadAdministrativaId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarUnidadAdministrativa()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- sede id -->
+    <mat-form-field appearance="fill" class="sedeId">
+      <mat-label>Sede</mat-label>
+      <input type="text" matInput formControlName="sedeId" />
+      <button type="button" mat-icon-button matSuffix (click)="buscarSede()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </section>
 </form>

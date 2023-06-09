@@ -1,18 +1,12 @@
-.catalogoCuentas,
-.fechaRegistro,
-.tipoActivo,
 .fechaAdquisicion,
-.fechaIngreso,
-.observaciones,
-.origenId,
 .unidadAdministrativaId,
-.sedeId,
 .peso,
 .responsableUsoId,
 .estadoUsoId,
 .valorAdquisicion,
 .monedaId,
-.serial,
+.serialRotulacion,
+.serialFabrica,
 .marcaId,
 .modeloId,
 .anioFabricacion,
@@ -52,4 +46,15 @@
 .creado,
 .modificado {
   @apply col-span-3;
+}
+
+.catalogoCuentas,
+.tipoActivo,
+.fechaRegistro {
+  @apply col-span-2;
+}
+
+.observaciones,
+.denominacion {
+  @apply col-start-1 col-span-full;
 }

@@ -42,6 +42,11 @@ import { BuscadorCategoriaModule } from '@pages/definiciones/categorias/buscador
 import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
 import { BuscadorSeguroModule } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.module';
 import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/buscador-raza.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDividerModule } from '@angular/material/divider';
+import { BuscadorComponenteActivoModule } from '@pages/definiciones/componentes-activo/buscador-componente-activo/buscador-componente-activo.module';
 
 @NgModule({
   declarations: [
@@ -69,6 +74,9 @@ import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/busc
     MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     BuscadorOrigenModule,
     BuscadorUnidadAdministrativaModule,
     BuscadorSedeModule,
@@ -83,7 +91,7 @@ import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/busc
     BuscadorTipoSemovienteModule,
     BuscadorPropositoSemovienteModule,
     BuscadorCategoriaModule,
-    BuscadorTipoComponenteModule,
+    BuscadorComponenteActivoModule,
     BuscadorSeguroModule,
     BuscadorRazaModule,
   ],

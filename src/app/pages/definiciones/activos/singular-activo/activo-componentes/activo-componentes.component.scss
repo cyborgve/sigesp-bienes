@@ -1,3 +1,16 @@
+.tipoComponenteId,
 .poseeComponentes {
   @apply col-span-3;
+}
+
+.descripcionComponente {
+  @apply col-span-7;
+}
+
+.botonAgregar {
+  @apply col-span-2 max-h-14;
+}
+
+.tabla {
+  @apply col-start-1 col-span-full pt-8;
 }

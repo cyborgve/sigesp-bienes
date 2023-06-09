@@ -1,9 +1,7 @@
-import { tap, map } from 'rxjs/operators';
+import { tap, map, first } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
-import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { Basica } from '@core/models/basica';
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
@@ -14,10 +12,10 @@ import { BuscadorUsoComponent } from '@pages/definiciones/usos/buscador-uso/busc
 import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
 import { BuscadorPropositoSemovienteComponent } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.component';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
-import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
 import { BuscadorRazaComponent } from '@pages/definiciones/razas/buscador-raza/buscador-raza.component';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
-import { MMoneda, CurrencyService } from 'sigesp';
+import { MMoneda, SigespService } from 'sigesp';
+import { MCuentaInstitucional } from 'sigesp/lib/core/models/SCG/cuentaInstitucional.model';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -30,38 +28,28 @@ export class ActivoDatosGeneralesComponent {
   tiposActivo = TIPOS_ACTIVO;
 
   monedas: MMoneda[] = [];
+  catalogoCuentas: MCuentaInstitucional[];
 
-  constructor(private _dialog: MatDialog, private _moneda: CurrencyService) {}
+  constructor(private _dialog: MatDialog, private _sigesp: SigespService) {
+    this._sigesp
+      .getMonedas('todas')
+      .pipe(
+        first(),
+        tap(monedas => (this.monedas = monedas))
+      )
+      .subscribe();
+    this._sigesp
+      .getCuentasInstitucionales()
+      .pipe(
+        first(),
+        tap(cuentas => this.catalogoCuentas)
+      )
+      .subscribe();
+  }
 
   buscarCatalogoCuentas() {
     TODO: 'Pendiente de oreguntar de donde obtengo estos datos';
     alert('TO-DO');
-  }
-
-  buscarOrigen() {
-    let dialog = this._dialog.open(BuscadorOrigenComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((origen: Basica) =>
-        this.formulario.patchValue({ origenId: origen.id })
-      )
-    );
-  }
-
-  buscarUnidadAdministrativa() {
-    let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ origenId: entidad.id })
-      )
-    );
   }
 
   buscarSede() {
@@ -197,19 +185,6 @@ export class ActivoDatosGeneralesComponent {
       map(entidad => entidad as Basica),
       tap((entidad: Basica) =>
         this.formulario.patchValue({ categoriaId: entidad.id })
-      )
-    );
-  }
-
-  buscarTipoComponente() {
-    let dialog = this._dialog.open(BuscadorTipoComponenteComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ tipoComponenteId: entidad.id })
       )
     );
   }

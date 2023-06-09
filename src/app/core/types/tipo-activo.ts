@@ -1,1 +1,1 @@
-export type TipoActivo = 'MUEBLE' | 'INMUEBLE' | 'SEMOVIENTE';
+export type TipoActivo = 'MUEBLE' | 'INMUEBLE' | 'SEMOVIENTE' | 'VEHICULO';

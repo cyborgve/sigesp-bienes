@@ -21,7 +21,8 @@ export interface Activo extends Basica {
   monedaId: Id;
   conservacion: string;
   descripcionEstadoConservacion: Id;
-  serial: string;
+  serialRorulacion: string;
+  serialFabrica: string;
   marcaId: Id;
   modeloId: Id;
   anioFabricacion: string;

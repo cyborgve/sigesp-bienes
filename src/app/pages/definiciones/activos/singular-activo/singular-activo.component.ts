@@ -1,3 +1,4 @@
+import { UnidadAdministrativa } from './../../../../core/models/unidad-administrativa';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
@@ -34,9 +35,9 @@ export class SingularActivoComponent implements Entidad {
 
   tabLabels = [
     'datos generales',
+    'documentación',
     'componentes',
     'depreciación',
-    'documentación',
     'origen',
     'responsable',
     'seguro',
@@ -53,6 +54,8 @@ export class SingularActivoComponent implements Entidad {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formularioComponentes = this._formBuilder.group({
       poseeComponentes: ['', Validators.required],
+      descripcionComponente: ['', Validators.required],
+      tipoComponenteId: ['', Validators.required],
     });
     this.formularioDatosGenerales = this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -60,23 +63,21 @@ export class SingularActivoComponent implements Entidad {
       codigo: ['', Validators.required],
       denominacion: ['', Validators.required],
       catalogoCuentas: ['', Validators.required],
-      fechaRegistro: ['', Validators.required],
+      fechaRegistro: [{ value: '', disable: true }, Validators.required],
       tipoActivo: ['', Validators.required],
       fechaAdquisicion: ['', Validators.required],
-      fechaIngreso: ['', Validators.required],
       observaciones: ['', Validators.required],
       origenId: ['', Validators.required],
-      unidadAdministrativaId: ['', Validators.required],
       sedeId: ['', Validators.required],
       peso: ['', Validators.required],
       valorAdquisicion: ['', Validators.required],
       monedaId: ['', Validators.required],
-      serial: ['', Validators.required],
+      serialRotulacion: ['', Validators.required],
+      serialFabrica: ['', Validators.required],
       marcaId: ['', Validators.required],
       modeloId: ['', Validators.required],
       anioFabricacion: ['', Validators.required],
       colorId: ['', Validators.required],
-      descripcionComponente: ['', Validators.required],
       especificacionesTecnicas: ['', Validators.required],
       diasGarantia: ['', Validators.required],
       fechaInicioGarantia: ['', Validators.required],
@@ -103,7 +104,6 @@ export class SingularActivoComponent implements Entidad {
       fechaNacimientoAnimal: ['', Validators.required],
       rotulacionId: ['', Validators.required],
       categoriaId: ['', Validators.required],
-      tipoComponenteId: ['', Validators.required],
       razaId: ['', Validators.required],
       valorRescate: ['', Validators.required],
       fuenteFinanciamientoId: ['', Validators.required],
@@ -147,7 +147,10 @@ export class SingularActivoComponent implements Entidad {
       conservacion: ['', Validators.required],
       descripcionEstadoConservacion: ['', Validators.required],
     });
-    this.formularioUbicacion = this._formBuilder.group({});
+    this.formularioUbicacion = this._formBuilder.group({
+      fechaIngreso: ['', Validators.required],
+      unidadAdministrativaId: ['', Validators.required],
+    });
     this.actualizarFormulario();
   }
 
@@ -161,6 +164,8 @@ export class SingularActivoComponent implements Entidad {
           tap(entidad =>
             this.formularioComponentes.patchValue({
               poseeComponentes: entidad.poseeComponentes,
+              descripcionComponente: entidad.descripcionComponente,
+              tipoComponenteId: entidad.tipoComponenteId,
             })
           ),
           tap(entidad =>
@@ -176,17 +181,16 @@ export class SingularActivoComponent implements Entidad {
               fechaIngreso: entidad.fechaIngreso,
               observaciones: entidad.observaciones,
               origenId: entidad.origenId,
-              unidadAdministrativaId: entidad.unidadAdministrativaId,
               sedeId: entidad.sedeId,
               peso: entidad.peso,
               valorAdquisicion: entidad.valorAdquisicion,
               monedaId: entidad.modeloId,
-              serial: entidad.serial,
+              serialRotulacion: entidad.serialRorulacion,
+              serialFabrica: entidad.serialFabrica,
               marcaId: entidad.marcaId,
               modeloId: entidad.modeloId,
               anioFabricacion: entidad.anioFabricacion,
               colorId: entidad.colorId,
-              descripcionComponente: entidad.descripcionComponente,
               especificacionesTecnicas: entidad.especificacionesTecnicas,
               diasGarantia: entidad.diasGarantia,
               fechaInicioGarantia: entidad.fechaInicioGarantia,
@@ -213,7 +217,6 @@ export class SingularActivoComponent implements Entidad {
               fechaNacimientoAnimal: entidad.fechaNacimientoAnimal,
               rotulacionId: entidad.rotulacionId,
               categoriaId: entidad.categoriaId,
-              tipoComponenteId: entidad.tipoComponenteId,
               asegurado: entidad.asegurado,
               seguroId: entidad.seguroId,
               razaId: entidad.razaId,
@@ -264,7 +267,12 @@ export class SingularActivoComponent implements Entidad {
             })
           ),
           tap(entidad => this.formularioSeguro.patchValue({})),
-          tap(entidad => this.formularioUbicacion.patchValue({}))
+          tap(entidad =>
+            this.formularioUbicacion.patchValue({
+              fechaIngreso: entidad.fechaIngreso,
+              unidadAdministrativaId: entidad.unidadAdministrativaId,
+            })
+          )
         )
         .subscribe();
     }

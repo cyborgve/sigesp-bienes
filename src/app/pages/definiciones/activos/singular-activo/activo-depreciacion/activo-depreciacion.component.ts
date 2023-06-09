@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -9,12 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class ActivoDepreciacionComponent {
   @Input() formulario: FormGroup = new FormGroup({});
 
-  metodosDepreciacion: string[] = [
-    'Método de depreciación 1',
-    'Método de depreciación 2',
-    'Método de depreciación 3',
-    'Método de depreciación 4',
-  ];
+  metodosDepreciacion = METODOS_DEPRECIACION;
 
   buscarCuentaContableGasto() {
     TODO: 'preguntar de donde se obtienen estos datos';

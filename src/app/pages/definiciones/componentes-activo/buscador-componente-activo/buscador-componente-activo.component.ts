@@ -10,7 +10,7 @@ import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-col
   styleUrls: ['./buscador-componente-activo.component.scss'],
 })
 export class BuscadorComponenteActivoComponent {
-  titulo = 'buscador de colores';
+  titulo = 'buscador de componentes de activo';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES_ACTIVO.filter(
     c => c !== 'acciones'
