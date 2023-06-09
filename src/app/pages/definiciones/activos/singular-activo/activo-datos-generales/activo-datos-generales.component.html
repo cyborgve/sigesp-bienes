@@ -14,7 +14,11 @@
     <mat-form-field appearance="fill" class="catalogoCuentas">
       <mat-label>Catálogo de cuentas</mat-label>
       <input type="text" matInput formControlName="catalogoCuentas" />
-      <button type="button" mat-icon-button matSuffix>
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCatalogoCuentas()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
@@ -35,14 +39,10 @@
       <mat-label>Tipo de activo</mat-label>
       <mat-select formControlName="tipoActivo">
         <mat-option *ngFor="let tipo of tiposActivo" [value]="tipo">{{
-          tipo
+          tipo | titlecase
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <!-- depreciable -->
-    <mat-slide-toggle formControlName="depreciable" class="depreciable"
-      >Depreciable</mat-slide-toggle
-    >
     <!-- fecha de adquisicion -->
     <mat-form-field appearance="fill" class="fechaAdquisicion">
       <mat-label>Fecha de adquisición</mat-label>
@@ -105,30 +105,6 @@
       <mat-label>Peso</mat-label>
       <input type="text" matInput formControlName="peso" />
     </mat-form-field>
-    <!-- responsable uso id -->
-    <mat-form-field appearance="fill" class="responsableUsoId">
-      <mat-label>Responsable de uso</mat-label>
-      <input type="text" matInput formControlName="responsableUsoId" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarResponsableUso()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- estado de uso id -->
-    <mat-form-field appearance="fill" class="estadoUsoId">
-      <mat-label>Estado de uso</mat-label>
-      <input type="text" matInput formControlName="estadoUsoId" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarEstadoUso()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
     <!-- valor de adquisicion -->
     <mat-form-field appearance="fill" class="valorAdquisicion">
       <mat-label>Valor de adquisición</mat-label>
@@ -137,30 +113,9 @@
     <!-- modeda id -->
     <mat-form-field appearance="fill" class="monedaId">
       <mat-label>Moneda</mat-label>
-      <input type="text" matInput formControlName="monedaId" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- conservacion -->
-    <mat-form-field appearance="fill" class="conservacion">
-      <mat-label>Conservacion</mat-label>
-      <input type="text" matInput formControlName="conservacion" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarEstadoConservacion()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- descripcion de estado de conservacion -->
-    <mat-form-field appearance="fill" class="descripcionEstadoConservacion">
-      <mat-label>Descripcion del estado de conservación</mat-label>
-      <textarea
-        rows="1"
-        matInput
-        formControlName="descripcionEstadoConservacion"></textarea>
+      <mat-select formControlName="monedaId">
+        <mat-option *ngFor="let moneda of monedas"></mat-option>
+      </mat-select>
     </mat-form-field>
     <!-- serial -->
     <mat-form-field appearance="fill" class="serial">
@@ -196,12 +151,6 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- posee componentes -->
-    <mat-slide-toggle
-      formControlName="poseeComponentes"
-      class="poseeComponentes"
-      >Posee componentes</mat-slide-toggle
-    >
     <!-- descripcion del componente -->
     <mat-form-field appearance="fill" class="descripcionComponente">
       <mat-label>Descripción del componente</mat-label>
@@ -378,18 +327,6 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- responsable id -->
-    <mat-form-field appearance="fill" class="responsableId">
-      <mat-label>Responsable</mat-label>
-      <input type="text" matInput formControlName="responsableId" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarResponsable()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
     <!-- fecha nacimiento animal -->
     <mat-form-field appearance="fill" class="fechaNacimientoAnimal">
       <mat-label>Fecha de nacimiento del animal</mat-label>
@@ -401,100 +338,6 @@
         matSuffix
         [for]="fechaNacimientoAnimalPicker"></mat-datepicker-toggle>
       <mat-datepicker #fechaNacimientoAnimalPicker></mat-datepicker>
-    </mat-form-field>
-    <!-- oficina de registro -->
-    <mat-form-field appearance="fill" class="oficinaRegistro">
-      <mat-label>Oficina de registro</mat-label>
-      <input type="text" matInput formControlName="oficinaRegistro" />
-    </mat-form-field>
-    <!-- referencia del registro -->
-    <mat-form-field appearance="fill" class="referenciaRegistro">
-      <mat-label>Referencia del registro</mat-label>
-      <input type="text" matInput formControlName="referenciaRegistro" />
-    </mat-form-field>
-    <!-- tomo -->
-    <mat-form-field appearance="fill" class="tomo">
-      <mat-label>Tomo</mat-label>
-      <input type="text" matInput formControlName="tomo" />
-    </mat-form-field>
-    <!-- folio -->
-    <mat-form-field appearance="fill" class="folio">
-      <mat-label>Folio</mat-label>
-      <input type="text" matInput formControlName="folio" />
-    </mat-form-field>
-    <!-- protocolo -->
-    <mat-form-field appearance="fill" class="protocolo">
-      <mat-label>Protocolo</mat-label>
-      <input type="text" matInput formControlName="protocolo" />
-    </mat-form-field>
-    <!-- numero de registro -->
-    <mat-form-field appearance="fill" class="numeroRegistro">
-      <mat-label>Número de registro</mat-label>
-      <input type="text" matInput formControlName="numeroRegistro" />
-    </mat-form-field>
-    <!-- fecha registrado -->
-    <mat-form-field appearance="fill" class="fechaRegistrado">
-      <mat-label>Fecha registrado</mat-label>
-      <input
-        matInput
-        [matDatepicker]="fechaRegistradoPicker"
-        formControlName="fechaRegistrado" />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="fechaRegistradoPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fechaRegistradoPicker></mat-datepicker>
-    </mat-form-field>
-    <!-- propietario anterior -->
-    <mat-form-field appearance="fill" class="propietarioAnterior">
-      <mat-label>Propietario anterior</mat-label>
-      <input type="text" matInput formControlName="propietarioAnterior" />
-    </mat-form-field>
-    <!-- dependencias -->
-    <mat-form-field appearance="fill" class="dependencias">
-      <mat-label>Dependencias</mat-label>
-      <input type="text" matInput formControlName="dependencias" />
-    </mat-form-field>
-    <!-- metros cuadrados de area de construccion  -->
-    <mat-form-field appearance="fill" class="areaConstruccionM2">
-      <mat-label>M2 Área de construcción</mat-label>
-      <input type="text" matInput formControlName="areaConstruccionM2" />
-    </mat-form-field>
-    <!-- metros cuadrados de area del terreno  -->
-    <mat-form-field appearance="fill" class="areaTerrenoM2">
-      <mat-label>M2 Área del terreno</mat-label>
-      <input type="text" matInput formControlName="areaTerrenoM2" />
-    </mat-form-field>
-    <!-- especificaciones del inmueble -->
-    <mat-form-field appearance="fill" class="especificacionesInmueble">
-      <mat-label>Especificaciones del inmueble</mat-label>
-      <textarea
-        rows="1"
-        matInput
-        formControlName="especificacionesInmueble"></textarea>
-    </mat-form-field>
-    <!-- pertenece a sede -->
-    <mat-slide-toggle formControlName="perteneceASede" class="perteneceASede"
-      >Pertenece a sede</mat-slide-toggle
-    >
-    <!-- sede ubicacion id -->
-    <mat-form-field appearance="fill" class="sedeUbicacionId">
-      <mat-label>Sede ubicación</mat-label>
-      <input type="text" matInput formControlName="sedeUbicacionId" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarSedeUbicacion()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- especificaciones del color -->
-    <mat-form-field appearance="fill" class="especificacionesColor">
-      <mat-label>Especificaciones del color</mat-label>
-      <textarea
-        rows="1"
-        matInput
-        formControlName="especificacionesColor"></textarea>
     </mat-form-field>
     <!-- rotulacion id -->
     <mat-form-field appearance="fill" class="rotulacionId">
@@ -532,18 +375,6 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- asegurado -->
-    <mat-slide-toggle formControlName="asegurado" class="asegurado"
-      >Asegurado</mat-slide-toggle
-    >
-    <!-- seguro id -->
-    <mat-form-field appearance="fill" class="seguroId">
-      <mat-label>Seguro</mat-label>
-      <input type="text" matInput formControlName="seguroId" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarSeguro()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
     <!-- raza id -->
     <mat-form-field appearance="fill" class="razaId">
       <mat-label>Raza</mat-label>
@@ -552,53 +383,10 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- metodo depreciacion -->
-    <mat-form-field appearance="fill" class="metodoDepreciacion">
-      <mat-label>Método de depreciación</mat-label>
-      <mat-select formControlName="metodoDepreciacion">
-        <mat-option
-          *ngFor="let metodo of metodosDepreciacion"
-          [value]="metodo"
-          >{{ metodo | titlecase }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <!-- vida util  -->
-    <mat-form-field appearance="fill" class="vidaUtil">
-      <mat-label>Vida útil</mat-label>
-      <input type="text" matInput formControlName="vidaUtil" />
-    </mat-form-field>
     <!-- valor rescate  -->
     <mat-form-field appearance="fill" class="valorRescate">
       <mat-label>Valor de rescate</mat-label>
       <input type="text" matInput formControlName="valorRescate" />
-    </mat-form-field>
-    <!-- cuenta contable del gasto -->
-    <mat-form-field appearance="fill" class="cuentaContableGasto">
-      <mat-label>Cuenta contable del gasto</mat-label>
-      <input type="text" matInput formControlName="cuentaContableGasto" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarCuentaContableGasto()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- cuenta contable de depreciacion -->
-    <mat-form-field appearance="fill" class="cuentaContableDepreciacion">
-      <mat-label>Cuenta contable de depreciación</mat-label>
-      <input
-        type="text"
-        matInput
-        formControlName="cuentaContableDepreciacion" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarCuentaContableDepreciacion()">
-        <mat-icon>search</mat-icon>
-      </button>
     </mat-form-field>
     <!-- fuente de financiamiento id -->
     <mat-form-field appearance="fill" class="fuenteFinanciamientoId">
@@ -612,11 +400,10 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- codcencos  -->
-    <!-- TODO: Preguntar que significa el nombre de este campo -->
-    <mat-form-field appearance="fill" class="codcencos">
-      <mat-label>Codcencos</mat-label>
-      <input type="text" matInput formControlName="codcencos" />
+    <!-- codigo centro costos  -->
+    <mat-form-field appearance="fill" class="codigoCentroCostos">
+      <mat-label>Código centro de costos</mat-label>
+      <input type="text" matInput formControlName="codigoCentroCostos" />
     </mat-form-field>
   </article>
 </form>

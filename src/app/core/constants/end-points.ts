@@ -1,5 +1,5 @@
 export const END_POINTS: { clave: string; valor: string }[] = [
-  { clave: 'activo', valor: 'activos' },
+  { clave: 'activo', valor: 'dao/sbn/activo-dao.php' },
   { clave: 'aseguradoras', valor: 'dao/sbn/aseguradora-dao.php' },
   { clave: 'categoria', valor: 'dao/sbn/categoria-dao.php' },
   {
@@ -15,6 +15,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     valor: 'dao/sbn/componente-estructura-dao.php',
   },
   { clave: 'condicionCompra', valor: 'dao/sbn/condicion-compra-dao.php' },
+  { clave: 'configuracion', valor: 'dao/sbn/configuracion-dao.php' },
   { clave: 'conservacion', valor: 'dao/sbn/conservacion-dao.php' },
   { clave: 'estadoUso', valor: 'dao/sbn/estado-uso-dao.php' },
   { clave: 'marca', valor: 'dao/sbn/marca-dao.php' },

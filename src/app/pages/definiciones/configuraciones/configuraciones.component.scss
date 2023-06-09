@@ -1,0 +1,21 @@
+.generarAsientosContables,
+.fechaIncorporacionAutomatica,
+.separadorMascaraCodigo {
+  @apply col-span-3;
+}
+
+.longitudMaximaCatalogoCuenta,
+.longitudMaximaCodigoInstituc,
+.afectacionDepreciacion,
+.normativaActivos {
+  @apply col-span-2;
+}
+
+.formatoCatalogoCuentaGeneral,
+.formatoCodigoInstitucional {
+  @apply col-span-4;
+}
+
+.toggle {
+  @apply col-span-4 row-span-2 grid grid-cols-1 gap-4 text-center;
+}

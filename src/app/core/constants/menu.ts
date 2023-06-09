@@ -74,6 +74,12 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/shopping_bag.svg',
       },
       {
+        label: 'Configuraciones',
+        routerLink: 'configuraciones/1',
+        icon: 'settings',
+        image: './assets/images/svg/settings.svg',
+      },
+      {
         label: 'Estados de Conservación',
         routerLink: 'estados-conservacion',
         icon: 'hardware',

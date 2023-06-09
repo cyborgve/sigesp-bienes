@@ -1,10 +1,12 @@
 {
   "name": "sigesp-bienes",
-  "version": "0.35.25",
+  "version": "0.35.26",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
-    "start:indocker": "ng serve --port 4300 --host 0.0.0.0 --disable-host-check",
+    "start:public": "ng serve --port 4300 --host 0.0.0.0 --disable-host-check",
+    "docker:postgres": "docker-compose -f ./docker-sigesp-database/docker-compose.yml up -d",
+    "docker:postgres:down": "docker-compose -f ./docker-sigesp-database/docker-compose.yml down",
     "build": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /sigesp-bienes/",
     "test": "ng test",
     "lint": "ng lint",

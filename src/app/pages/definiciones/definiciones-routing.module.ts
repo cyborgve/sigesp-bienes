@@ -58,6 +58,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'configuraciones',
+    loadChildren: () =>
+      import('./configuraciones/configuraciones.module').then(
+        m => m.ConfiguracionesModule
+      ),
+  },
+  {
     path: 'estados-conservacion',
     loadChildren: () =>
       import('./estados-conservacion/estados-conservacion.module').then(

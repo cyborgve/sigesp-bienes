@@ -10,20 +10,31 @@
         <article class="tab-activo">
           <ng-container [ngSwitch]="tab">
             <app-activo-componentes
-              *ngSwitchCase="'componentes'"></app-activo-componentes>
+              *ngSwitchCase="'componentes'"
+              [formulario]="formularioComponentes"></app-activo-componentes>
             <app-activo-datos-generales
               *ngSwitchCase="'datos generales'"
-              [formulario]="formulario"></app-activo-datos-generales>
+              [formulario]="
+                formularioDatosGenerales
+              "></app-activo-datos-generales>
             <app-activo-depreciacion
-              *ngSwitchCase="'depreciación'"></app-activo-depreciacion>
+              *ngSwitchCase="'depreciación'"
+              [formulario]="formularioDepreciacion"></app-activo-depreciacion>
             <app-activo-documentacion
-              *ngSwitchCase="'documentación'"></app-activo-documentacion>
+              *ngSwitchCase="'documentación'"
+              [formulario]="formularioDocumentacion"></app-activo-documentacion>
             <app-activo-responsable
-              *ngSwitchCase="'responsable'"></app-activo-responsable>
-            <app-activo-origen *ngSwitchCase="'origen'"></app-activo-origen>
-            <app-activo-seguro *ngSwitchCase="'seguro'"></app-activo-seguro>
+              *ngSwitchCase="'responsable'"
+              [formulario]="formularioResponsable"></app-activo-responsable>
+            <app-activo-origen
+              *ngSwitchCase="'origen'"
+              [formulario]="formularioOrigen"></app-activo-origen>
+            <app-activo-seguro
+              *ngSwitchCase="'seguro'"
+              [formulario]="formularioSeguro"></app-activo-seguro>
             <app-activo-ubicacion
-              *ngSwitchCase="'ubicación'"></app-activo-ubicacion>
+              *ngSwitchCase="'ubicación'"
+              [formulario]="formularioUbicacion"></app-activo-ubicacion>
           </ng-container>
         </article>
       </mat-tab>

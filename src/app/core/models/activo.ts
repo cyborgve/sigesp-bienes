@@ -80,5 +80,5 @@ export interface Activo extends Basica {
   cuentaContableGasto: string;
   cuentaContableDepreciacion: string;
   fuenteFinanciamientoId: string;
-  codcencos: string;
+  codigoCentroCostos: string;
 }
