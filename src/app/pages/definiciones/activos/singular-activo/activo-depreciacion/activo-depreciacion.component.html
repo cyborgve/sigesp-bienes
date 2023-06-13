@@ -4,6 +4,18 @@
     <mat-slide-toggle formControlName="depreciable" class="depreciable"
       >Depreciable</mat-slide-toggle
     >
+    <!-- plantilla de depreciacion -->
+    <mat-form-field appearance="fill" class="plantillaDepreciacion">
+      <mat-label>Plantilla de depreciación</mat-label>
+      <input type="text" matInput formControlName="plantillaDepreciacion" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarPlantillaDepreciacion()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
     <!-- metodo depreciacion -->
     <mat-form-field appearance="fill" class="metodoDepreciacion">
       <mat-label>Método de depreciación</mat-label>

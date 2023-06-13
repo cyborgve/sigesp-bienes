@@ -1,7 +1,16 @@
-.depreciable,
-.metodoDepreciacion,
+.depreciable {
+  @apply col-span-2;
+}
 .cuentaContableGasto,
 .cuentaContableDepreciacion,
 .vidaUtil {
   @apply col-span-3;
+}
+
+.metodoDepreciacion {
+  @apply col-start-1 col-span-3;
+}
+
+.plantillaDepreciacion {
+  @apply col-span-3 col-start-4;
 }

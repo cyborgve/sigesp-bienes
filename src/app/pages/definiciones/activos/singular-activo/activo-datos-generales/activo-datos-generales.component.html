@@ -73,9 +73,11 @@
     <mat-form-field appearance="fill" class="monedaId">
       <mat-label>Moneda</mat-label>
       <mat-select formControlName="monedaId">
-        <mat-option *ngFor="let moneda of monedas" [value]="moneda.codigo">{{
-          moneda.denominacion | titlecase
-        }}</mat-option>
+        <mat-option
+          *ngFor="let moneda of monedas2() | async"
+          [value]="moneda.codigo"
+          >{{ moneda.denominacion | titlecase }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
     <!-- marca id -->

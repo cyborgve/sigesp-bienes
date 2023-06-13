@@ -25,6 +25,8 @@ export class ActivoDatosGeneralesComponent {
   tiposActivo = TIPOS_ACTIVO;
 
   monedas: MMoneda[] = [];
+
+  monedas2 = () => this._sigesp.getMonedas('todas');
   catalogoCuentas: MCuentaInstitucional[];
 
   constructor(private _dialog: MatDialog, private _sigesp: SigespService) {

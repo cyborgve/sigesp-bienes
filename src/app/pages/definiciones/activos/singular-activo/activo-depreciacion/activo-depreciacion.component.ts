@@ -21,4 +21,6 @@ export class ActivoDepreciacionComponent {
     TODO: 'preguntar de donde se obtienen estos datos';
     alert('TO-DO');
   }
+
+  buscarPlantillaDepreciacion() {}
 }
