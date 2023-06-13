@@ -67,6 +67,13 @@ export const COLUMNAS_VISIBLES = {
     'acciones',
   ],
   ORIGENES: ['codigo', 'modoAdquisicion', 'creado', 'modificado', 'acciones'],
+  PLANTILLAS_DEPRECIACION: [
+    'codigo',
+    'denominacion',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   PROPOSITOS_SEMOVIENTE: [
     'codigo',
     'denominacion',
@@ -87,6 +94,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
+  ROTULACIONES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   SEDES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   SEGUROS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   TIPOS_COBERTURA: [

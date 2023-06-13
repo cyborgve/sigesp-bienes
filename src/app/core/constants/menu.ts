@@ -110,6 +110,12 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/trip_origin.svg',
       },
       {
+        label: 'Plantillas de depreciacion',
+        routerLink: 'plantillas-depreciacion',
+        icon: 'web',
+        image: './assets/images/svg/web.svg',
+      },
+      {
         label: 'Propósitos de Semoviente',
         routerLink: 'propositos-semoviente',
         icon: 'model_training',
@@ -126,6 +132,12 @@ export const MENU: MenuItem[] = [
         routerLink: 'responsables',
         icon: 'assignment_ind',
         image: './assets/images/svg/assignment_ind.svg',
+      },
+      {
+        label: 'Rotulaciones',
+        routerLink: 'rotulaciones',
+        icon: 'auto_label',
+        image: './assets/images/svg/auto_label.svg',
       },
       {
         label: 'Sedes',

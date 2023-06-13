@@ -20,10 +20,7 @@ import { SingularActivoComponent } from './singular-activo.component';
 import { ActivoDatosGeneralesComponent } from './activo-datos-generales/activo-datos-generales.component';
 import { ActivoComponentesComponent } from './activo-componentes/activo-componentes.component';
 import { ActivoDepreciacionComponent } from './activo-depreciacion/activo-depreciacion.component';
-import { ActivoDocumentacionComponent } from './activo-documentacion/activo-documentacion.component';
-import { ActivoSeguroComponent } from './activo-seguro/activo-seguro.component';
-import { ActivoOrigenComponent } from './activo-origen/activo-origen.component';
-import { ActivoResponsableComponent } from './activo-responsable/activo-responsable.component';
+import { ActivoDetallesComponent } from './activo-detalles/activo-detalles.component';
 import { ActivoUbicacionComponent } from './activo-ubicacion/activo-ubicacion.component';
 import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.module';
 import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
@@ -39,13 +36,11 @@ import { BuscadorUsoModule } from '@pages/definiciones/usos/buscador-uso/buscado
 import { BuscadorTipoSemovienteModule } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.module';
 import { BuscadorPropositoSemovienteModule } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.module';
 import { BuscadorCategoriaModule } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.module';
-import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
 import { BuscadorSeguroModule } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.module';
 import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/buscador-raza.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatDividerModule } from '@angular/material/divider';
 import { BuscadorComponenteActivoModule } from '@pages/definiciones/componentes-activo/buscador-componente-activo/buscador-componente-activo.module';
 
 @NgModule({
@@ -54,10 +49,7 @@ import { BuscadorComponenteActivoModule } from '@pages/definiciones/componentes-
     ActivoDatosGeneralesComponent,
     ActivoComponentesComponent,
     ActivoDepreciacionComponent,
-    ActivoDocumentacionComponent,
-    ActivoSeguroComponent,
-    ActivoOrigenComponent,
-    ActivoResponsableComponent,
+    ActivoDetallesComponent,
     ActivoUbicacionComponent,
   ],
   imports: [

@@ -4,6 +4,10 @@ import { FormGroup } from '@angular/forms';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { Basica } from '@core/models/basica';
 import { MatDialog } from '@angular/material/dialog';
+import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
+import { BuscadorResponsableComponent } from '@pages/definiciones/responsables/buscador-responsable/buscador-responsable.component';
+import { BuscadorEstadoConservacionComponent } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.component';
+import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.component';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -24,6 +28,71 @@ export class ActivoUbicacionComponent {
       map(entidad => entidad as Basica),
       tap((entidad: Basica) =>
         this.formulario.patchValue({ origenId: entidad.id })
+      )
+    );
+  }
+
+  buscarSede() {
+    let dialog = this._dialog.open(BuscadorSedeComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      map(entidad => entidad as Basica),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ sedeId: entidad.id })
+      )
+    );
+  }
+
+  buscarResponsable() {
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      map(entidad => entidad as Basica),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ responsableId: entidad.id })
+      )
+    );
+  }
+
+  buscarResponsableUso() {
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      map(entidad => entidad as Basica),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ responsableUsoId: entidad.id })
+      )
+    );
+  }
+
+  buscarEstadoConservacion() {
+    let dialog = this._dialog.open(BuscadorEstadoConservacionComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      map(entidad => entidad as Basica),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ conservacion: entidad.id })
+      )
+    );
+  }
+
+  buscarEstadoUso() {
+    let dialog = this._dialog.open(BuscadorEstadoUsoComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      map(entidad => entidad as Basica),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ estadoUsoId: entidad.id })
       )
     );
   }

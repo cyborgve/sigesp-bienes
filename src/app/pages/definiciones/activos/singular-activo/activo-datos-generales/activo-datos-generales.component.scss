@@ -1,59 +1,43 @@
-.fechaAdquisicion,
 .unidadAdministrativaId,
-.peso,
 .responsableUsoId,
 .estadoUsoId,
-.valorAdquisicion,
-.monedaId,
 .serialRotulacion,
 .serialFabrica,
-.marcaId,
-.modeloId,
-.anioFabricacion,
-.colorId,
 .descripcionComponente,
-.especificacionesTecnicas,
-.diasGarantia,
-.fechaInicioGarantia,
-.fechaFinGarantia,
-.claseId,
-.descripcionOtraClase,
-.serialCarroceria,
-.serialMotor,
-.placas,
-.numeroTituloPropiedad,
-.capacidad,
-.nombre,
-.usoId,
-.tieneGPS,
-.especificacionesGPS,
-.tipoSemovienteId,
-.genero,
-.raza,
-.propositoSemovienteId,
-.unidadMedidaId,
-.numeroHierro,
-.especificacionesAnimal,
-.tipoAnimalId,
-.fechaNacimientoAnimal,
-.rotulacionId,
-.categoriaId,
-.tipoComponenteId,
-.razaId,
-.valorRescate,
-.fuenteFinanciamientoId,
-.codigoCentroCostos,
 .creado,
 .modificado {
   @apply col-span-3;
 }
 
+.asegurado,
+.seguroId,
+.origenId,
+.fechaInicioGarantia,
+.fechaFinGarantia,
+.claseId,
+.colorId,
+.marcaId,
+.modeloId,
+.monedaId,
+.valorAdquisicion,
+.fechaAdquisicion,
 .catalogoCuentas,
 .tipoActivo,
+.diasGarantia,
+.anioFabricacion,
 .fechaRegistro {
   @apply col-span-2;
 }
 
+.peso {
+  @apply col-span-1;
+}
+
+.descripcionOtraClase {
+  @apply col-span-4;
+}
+
+.especificacionesTecnicas,
 .observaciones,
 .denominacion {
   @apply col-start-1 col-span-full;

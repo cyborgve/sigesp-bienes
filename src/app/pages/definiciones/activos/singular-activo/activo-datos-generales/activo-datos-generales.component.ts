@@ -8,14 +8,11 @@ import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marc
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
 import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-color/buscador-color.component';
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
-import { BuscadorUsoComponent } from '@pages/definiciones/usos/buscador-uso/buscador-uso.component';
-import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
-import { BuscadorPropositoSemovienteComponent } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.component';
-import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
-import { BuscadorRazaComponent } from '@pages/definiciones/razas/buscador-raza/buscador-raza.component';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 import { MMoneda, SigespService } from 'sigesp';
 import { MCuentaInstitucional } from 'sigesp/lib/core/models/SCG/cuentaInstitucional.model';
+import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
+import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.component';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -50,19 +47,6 @@ export class ActivoDatosGeneralesComponent {
   buscarCatalogoCuentas() {
     TODO: 'Pendiente de oreguntar de donde obtengo estos datos';
     alert('TO-DO');
-  }
-
-  buscarSede() {
-    let dialog = this._dialog.open(BuscadorSedeComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ sedeId: entidad.id })
-      )
-    );
   }
 
   buscarMoneda() {
@@ -122,88 +106,29 @@ export class ActivoDatosGeneralesComponent {
     );
   }
 
-  buscarUso() {
-    let dialog = this._dialog.open(BuscadorUsoComponent, {
+  buscarOrigen() {
+    let dialog = this._dialog.open(BuscadorOrigenComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      map(entidad => entidad as Basica),
+      tap((origen: Basica) =>
+        this.formulario.patchValue({ origenId: origen.id })
+      )
+    );
+  }
+
+  buscarSeguro() {
+    let dialog = this._dialog.open(BuscadorSeguroComponent, {
       height: '95%',
       width: '85%',
     });
     dialog.afterClosed().pipe(
       map(entidad => entidad as Basica),
       tap((entidad: Basica) =>
-        this.formulario.patchValue({ usoId: entidad.id })
+        this.formulario.patchValue({ seguroId: entidad.id })
       )
     );
-  }
-
-  buscarTipoSemoviente() {
-    let dialog = this._dialog.open(BuscadorTipoSemovienteComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ tipoSemovienteId: entidad.id })
-      )
-    );
-  }
-
-  buscarPropositoSemoviente() {
-    let dialog = this._dialog.open(BuscadorPropositoSemovienteComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ propositoSemovienteId: entidad.id })
-      )
-    );
-  }
-
-  buscarUnidadMedida() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
-  }
-
-  buscarTipoAnimal() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
-  }
-
-  buscarRotulacion() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
-  }
-
-  buscarCategoria() {
-    let dialog = this._dialog.open(BuscadorCategoriaComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ categoriaId: entidad.id })
-      )
-    );
-  }
-
-  buscarRaza() {
-    let dialog = this._dialog.open(BuscadorRazaComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ razaId: entidad.id })
-      )
-    );
-  }
-
-  buscarFuenteFinanciamiento() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
   }
 }

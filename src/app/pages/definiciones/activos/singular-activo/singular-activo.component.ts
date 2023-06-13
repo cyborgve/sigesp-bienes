@@ -27,7 +27,7 @@ export class SingularActivoComponent implements Entidad {
   formularioDatosGenerales: FormGroup;
   formularioComponentes: FormGroup;
   formularioDepreciacion: FormGroup;
-  formularioDocumentacion: FormGroup;
+  formularioDetalles: FormGroup;
   formularioOrigen: FormGroup;
   formularioResponsable: FormGroup;
   formularioSeguro: FormGroup;
@@ -35,12 +35,9 @@ export class SingularActivoComponent implements Entidad {
 
   tabLabels = [
     'datos generales',
-    'documentación',
+    'detalles',
     'componentes',
     'depreciación',
-    'origen',
-    'responsable',
-    'seguro',
     'ubicación',
   ];
   constructor(
@@ -84,6 +81,32 @@ export class SingularActivoComponent implements Entidad {
       fechaFinGarantia: ['', Validators.required],
       claseId: ['', Validators.required],
       descripcionOtraClase: ['', Validators.required],
+      creado: [''],
+      modificado: [''],
+    });
+    this.formularioDepreciacion = this._formBuilder.group({
+      depreciable: ['', Validators.required],
+      metodoDepreciacion: ['', Validators.required],
+      cuentaContableGasto: ['', Validators.required],
+      cuentaContableDepreciacion: ['', Validators.required],
+      vidaUtil: ['', Validators.required],
+    });
+    this.formularioDetalles = this._formBuilder.group({
+      oficinaRegistro: ['', Validators.required],
+      referenciaRegistro: ['', Validators.required],
+      tomo: ['', Validators.required],
+      folio: ['', Validators.required],
+      protocolo: ['', Validators.required],
+      numeroRegistro: ['', Validators.required],
+      fechaRegistrado: ['', Validators.required],
+      propietarioAnterior: ['', Validators.required],
+      dependencias: ['', Validators.required],
+      areaConstruccionM2: ['', Validators.required],
+      areaTerrenoM2: ['', Validators.required],
+      especificacionesInmueble: ['', Validators.required],
+      perteneceASede: ['', Validators.required],
+      sedeUbicacionId: ['', Validators.required],
+      especificacionesColor: ['', Validators.required],
       serialCarroceria: ['', Validators.required],
       serialMotor: ['', Validators.required],
       placas: ['', Validators.required],
@@ -108,32 +131,6 @@ export class SingularActivoComponent implements Entidad {
       valorRescate: ['', Validators.required],
       fuenteFinanciamientoId: ['', Validators.required],
       codigoCentroCostos: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
-    });
-    this.formularioDepreciacion = this._formBuilder.group({
-      depreciable: ['', Validators.required],
-      metodoDepreciacion: ['', Validators.required],
-      cuentaContableGasto: ['', Validators.required],
-      cuentaContableDepreciacion: ['', Validators.required],
-      vidaUtil: ['', Validators.required],
-    });
-    this.formularioDocumentacion = this._formBuilder.group({
-      oficinaRegistro: ['', Validators.required],
-      referenciaRegistro: ['', Validators.required],
-      tomo: ['', Validators.required],
-      folio: ['', Validators.required],
-      protocolo: ['', Validators.required],
-      numeroRegistro: ['', Validators.required],
-      fechaRegistrado: ['', Validators.required],
-      propietarioAnterior: ['', Validators.required],
-      dependencias: ['', Validators.required],
-      areaConstruccionM2: ['', Validators.required],
-      areaTerrenoM2: ['', Validators.required],
-      especificacionesInmueble: ['', Validators.required],
-      perteneceASede: ['', Validators.required],
-      sedeUbicacionId: ['', Validators.required],
-      especificacionesColor: ['', Validators.required],
     });
     this.formularioOrigen = this._formBuilder.group({});
     this.formularioSeguro = this._formBuilder.group({
@@ -197,6 +194,36 @@ export class SingularActivoComponent implements Entidad {
               fechaFinGarantia: entidad.fechaFinGarantia,
               claseId: entidad.claseId,
               descripcionOtraClase: entidad.descripcionOtraClase,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
+            })
+          ),
+          tap(entidad =>
+            this.formularioDepreciacion.patchValue({
+              depreciable: entidad.depreciable,
+              metodoDepreciacion: entidad.metodoDepreciacion,
+              cuentaContableGasto: entidad.cuentaContableGasto,
+              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+              vidaUtil: entidad.vidaUtil,
+            })
+          ),
+          tap(entidad =>
+            this.formularioDetalles.patchValue({
+              oficinaRegistro: entidad.oficinaRegistro,
+              referenciaRegistro: entidad.referenciaRegistro,
+              tomo: entidad.tomo,
+              folio: entidad.folio,
+              protocolo: entidad.protocolo,
+              numeroRegistro: entidad.numeroRegistro,
+              fechaRegistrado: entidad.fechaRegistrado,
+              popietarioAnterior: entidad.propietarioAnterior,
+              dependencias: entidad.dependencias,
+              areaConstruccionM2: entidad.areaConstruccionM2,
+              areaTerrenoM2: entidad.areaTerrenoM2,
+              especificacionesInmueble: entidad.especificacionesInmueble,
+              perteneceASede: entidad.perteneceASede,
+              sedeUbicacionId: entidad.sedeUbicacionId,
+              especificacionesColor: entidad.especificacionesColor,
               serialCarroceria: entidad.serialCarroceria,
               serialMotor: entidad.serialMotor,
               placas: entidad.placas,
@@ -223,36 +250,6 @@ export class SingularActivoComponent implements Entidad {
               valorRescate: entidad.valorRescate,
               fuenteFinanciamientoId: entidad.fuenteFinanciamientoId,
               codigoCentroCostos: entidad.codigoCentroCostos,
-              creado: entidad.creado,
-              modificado: entidad.modificado,
-            })
-          ),
-          tap(entidad =>
-            this.formularioDepreciacion.patchValue({
-              depreciable: entidad.depreciable,
-              metodoDepreciacion: entidad.metodoDepreciacion,
-              cuentaContableGasto: entidad.cuentaContableGasto,
-              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-              vidaUtil: entidad.vidaUtil,
-            })
-          ),
-          tap(entidad =>
-            this.formularioDocumentacion.patchValue({
-              oficinaRegistro: entidad.oficinaRegistro,
-              referenciaRegistro: entidad.referenciaRegistro,
-              tomo: entidad.tomo,
-              folio: entidad.folio,
-              protocolo: entidad.protocolo,
-              numeroRegistro: entidad.numeroRegistro,
-              fechaRegistrado: entidad.fechaRegistrado,
-              popietarioAnterior: entidad.propietarioAnterior,
-              dependencias: entidad.dependencias,
-              areaConstruccionM2: entidad.areaConstruccionM2,
-              areaTerrenoM2: entidad.areaTerrenoM2,
-              especificacionesInmueble: entidad.especificacionesInmueble,
-              perteneceASede: entidad.perteneceASede,
-              sedeUbicacionId: entidad.sedeUbicacionId,
-              especificacionesColor: entidad.especificacionesColor,
             })
           ),
           tap(entidad => this.formularioOrigen.patchValue({})),
@@ -283,7 +280,7 @@ export class SingularActivoComponent implements Entidad {
       this.formularioDatosGenerales.invalid &&
       this.formularioComponentes.invalid &&
       this.formularioDepreciacion.invalid &&
-      this.formularioDocumentacion.invalid &&
+      this.formularioDetalles.invalid &&
       this.formularioOrigen.invalid &&
       this.formularioOrigen.invalid &&
       this.formularioResponsable.invalid &&

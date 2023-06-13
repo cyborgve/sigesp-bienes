@@ -20,18 +20,9 @@
             <app-activo-depreciacion
               *ngSwitchCase="'depreciación'"
               [formulario]="formularioDepreciacion"></app-activo-depreciacion>
-            <app-activo-documentacion
-              *ngSwitchCase="'documentación'"
-              [formulario]="formularioDocumentacion"></app-activo-documentacion>
-            <app-activo-responsable
-              *ngSwitchCase="'responsable'"
-              [formulario]="formularioResponsable"></app-activo-responsable>
-            <app-activo-origen
-              *ngSwitchCase="'origen'"
-              [formulario]="formularioOrigen"></app-activo-origen>
-            <app-activo-seguro
-              *ngSwitchCase="'seguro'"
-              [formulario]="formularioSeguro"></app-activo-seguro>
+            <app-activo-detalles
+              *ngSwitchCase="'detalles'"
+              [formulario]="formularioDetalles"></app-activo-detalles>
             <app-activo-ubicacion
               *ngSwitchCase="'ubicación'"
               [formulario]="formularioUbicacion"></app-activo-ubicacion>

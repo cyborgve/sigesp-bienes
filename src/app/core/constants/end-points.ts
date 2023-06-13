@@ -25,8 +25,13 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     clave: 'propositoSemoviente',
     valor: 'dao/sbn/proposito-semoviente-dao.php',
   },
+  {
+    clave: 'plantillaDepreciacion',
+    valor: 'dao/sbn/plantilla-depreciacion-dao.php',
+  },
   { clave: 'raza', valor: 'dao/sbn/raza-dao.php' },
   { clave: 'responsable', valor: 'dao/sbn/responsable-dao.php' },
+  { clave: 'rotulacion', valor: 'dao/sbn/rotulacion-dao.php' },
   { clave: 'sede', valor: 'dao/sbn/sede-dao.php' },
   { clave: 'seguro', valor: 'dao/sbn/seguro-dao.php' },
   { clave: 'tipoCobertura', valor: 'dao/sbn/tipo-cobertura-dao.php' },

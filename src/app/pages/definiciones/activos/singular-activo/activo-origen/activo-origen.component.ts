@@ -14,17 +14,4 @@ export class ActivoOrigenComponent {
   @Input() formulario: FormGroup = new FormGroup({});
 
   constructor(private _dialog: MatDialog) {}
-
-  buscarOrigen() {
-    let dialog = this._dialog.open(BuscadorOrigenComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((origen: Basica) =>
-        this.formulario.patchValue({ origenId: origen.id })
-      )
-    );
-  }
 }

@@ -110,6 +110,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'rotulaciones',
+    loadChildren: () =>
+      import('./rotulaciones/rotulaciones.module').then(
+        m => m.RotulacionesModule
+      ),
+  },
+  {
     path: 'sedes',
     loadChildren: () => import('./sedes/sedes.module').then(m => m.SedesModule),
   },
@@ -185,6 +192,13 @@ const routes: Routes = [
   {
     path: 'usos',
     loadChildren: () => import('./usos/usos.module').then(m => m.UsosModule),
+  },
+  {
+    path: 'plantillas-depreciacion',
+    loadChildren: () =>
+      import('./plantillas-depreciacion/plantillas-depreciacion.module').then(
+        m => m.PlantillasDepreciacionModule
+      ),
   },
 ];
 
