@@ -12,6 +12,7 @@ import { EncabezadoDefinicionComponent } from './components/encabezado-definicio
 import { BotonesDefinicionComponent } from './components/botones-definicion/botones-definicion.component';
 import { BotonesDefinicionesComponent } from './components/botones-definiciones/botones-definiciones.component';
 import { EncabezadoDefinicionesComponent } from './components/encabezado-definiciones/encabezado-definiciones.component';
+import { TablaCuentaContableComponent } from './components/tabla-cuenta-contable/tabla-cuenta-contable.component';
 
 const sharedComponents = [
   ToolbarComponent,
@@ -23,6 +24,7 @@ const sharedComponents = [
   BotonesDefinicionComponent,
   BotonesDefinicionesComponent,
   EncabezadoDefinicionesComponent,
+  TablaCuentaContableComponent,
 ];
 
 const sharedPipes = [IsoCurrencyPipe];
