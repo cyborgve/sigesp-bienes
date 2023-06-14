@@ -2,7 +2,6 @@ import { tap, map, first } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { Basica } from '@core/models/basica';
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
@@ -13,6 +12,7 @@ import { MMoneda, SigespService } from 'sigesp';
 import { MCuentaInstitucional } from 'sigesp/lib/core/models/SCG/cuentaInstitucional.model';
 import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
 import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.component';
+import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -130,6 +130,29 @@ export class ActivoDatosGeneralesComponent {
       map(entidad => entidad as Basica),
       tap((entidad: Basica) =>
         this.formulario.patchValue({ seguroId: entidad.id })
+      )
+    );
+  }
+
+  buscarFuenteFinanciamiento() {
+    TODO: 'preguntar de donde se obtienen estos datos';
+    alert('TO-DO');
+  }
+
+  buscarRotulacion() {
+    TODO: 'preguntar de donde se obtienen estos datos';
+    alert('TO-DO');
+  }
+
+  buscarCategoria() {
+    let dialog = this._dialog.open(BuscadorCategoriaComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      map(entidad => entidad as Basica),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ categoriaId: entidad.id })
       )
     );
   }

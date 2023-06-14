@@ -1,4 +1,3 @@
-import { Entidad } from './../../../../../core/models/entidad';
 import { map, tap } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -35,6 +34,7 @@ export class ActivoComponentesComponent {
       )
     );
   }
+
   buscarComponenteActivo() {
     let dialog = this._dialog.open(BuscadorComponenteActivoComponent, {
       height: '95%',
@@ -48,6 +48,10 @@ export class ActivoComponentesComponent {
     );
   }
 
-  editar(entidad: ComponenteActivo) {}
-  eliminar(Entidad: ComponenteActivo) {}
+  editar(entidad: ComponenteActivo) {
+    alert('TO-DO');
+  }
+  eliminar(Entidad: ComponenteActivo) {
+    alert('TO-DO');
+  }
 }

@@ -73,11 +73,9 @@
     <mat-form-field appearance="fill" class="monedaId">
       <mat-label>Moneda</mat-label>
       <mat-select formControlName="monedaId">
-        <mat-option
-          *ngFor="let moneda of monedas2() | async"
-          [value]="moneda.codigo"
-          >{{ moneda.denominacion | titlecase }}</mat-option
-        >
+        <mat-option *ngFor="let moneda of monedas" [value]="moneda.codigo">{{
+          moneda.denominacion | titlecase
+        }}</mat-option>
       </mat-select>
     </mat-form-field>
     <!-- marca id -->
@@ -101,11 +99,6 @@
       <mat-label>Año fábrica</mat-label>
       <input type="number" matInput formControlName="anioFabricacion" />
     </mat-form-field>
-    <!-- peso -->
-    <mat-form-field appearance="fill" class="peso">
-      <mat-label>Peso</mat-label>
-      <input type="text" matInput formControlName="peso" />
-    </mat-form-field>
     <!-- serial fabrica -->
     <mat-form-field appearance="fill" class="serialFabrica">
       <mat-label>Serial Fábrica</mat-label>
@@ -126,7 +119,7 @@
     </mat-form-field>
     <!-- fecha inicio de la garantia -->
     <mat-form-field appearance="fill" class="fechaInicioGarantia">
-      <mat-label>Fecha inicio de la garantía</mat-label>
+      <mat-label>Fecha inicio garantía</mat-label>
       <input
         matInput
         [matDatepicker]="fechaInicioGarantiaPicker"
@@ -138,7 +131,7 @@
     </mat-form-field>
     <!-- fecha fin de la garantia -->
     <mat-form-field appearance="fill" class="fechaFinGarantia">
-      <mat-label>Fecha fin de la garantía</mat-label>
+      <mat-label>Fecha fin garantía</mat-label>
       <input
         matInput
         [matDatepicker]="fechaFinGarantiaPicker"
@@ -180,6 +173,52 @@
     <mat-form-field appearance="fill" class="descripcionOtraClase">
       <mat-label>Descripción de otra clase</mat-label>
       <input type="text" matInput formControlName="descripcionOtraClase" />
+    </mat-form-field>
+    <!-- valor rescate  -->
+    <mat-form-field appearance="fill" class="valorRescate">
+      <mat-label>Valor de rescate</mat-label>
+      <input type="text" matInput formControlName="valorRescate" />
+    </mat-form-field>
+    <!-- fuente de financiamiento id -->
+    <mat-form-field appearance="fill" class="fuenteFinanciamientoId">
+      <mat-label>Fuente de financiamiento</mat-label>
+      <input type="text" matInput formControlName="fuenteFinanciamientoId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarFuenteFinanciamiento()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- codigo centro costos  -->
+    <mat-form-field appearance="fill" class="codigoCentroCostos">
+      <mat-label>Código centro de costos</mat-label>
+      <input type="text" matInput formControlName="codigoCentroCostos" />
+    </mat-form-field>
+    <!-- rotulacion id -->
+    <mat-form-field appearance="fill" class="rotulacionId">
+      <mat-label>Rotulación</mat-label>
+      <input type="text" matInput formControlName="rotulacionId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarRotulacion()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- categoria id -->
+    <mat-form-field appearance="fill" class="categoriaId">
+      <mat-label>Categoría</mat-label>
+      <input type="text" matInput formControlName="categoriaId" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCategoria()">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
     <!-- especificaciones tecnicas -->
     <mat-form-field appearance="fill" class="especificacionesTecnicas">

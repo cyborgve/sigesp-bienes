@@ -4,18 +4,23 @@
 .serialRotulacion,
 .serialFabrica,
 .descripcionComponente,
+.colorId,
+.categoriaId,
+.rotulacionId,
 .creado,
 .modificado {
   @apply col-span-3;
 }
 
+.codigoCentroCostos,
+.valorRescate,
+.fuenteFinanciamientoId,
 .asegurado,
 .seguroId,
 .origenId,
 .fechaInicioGarantia,
 .fechaFinGarantia,
 .claseId,
-.colorId,
 .marcaId,
 .modeloId,
 .monedaId,
@@ -27,10 +32,6 @@
 .anioFabricacion,
 .fechaRegistro {
   @apply col-span-2;
-}
-
-.peso {
-  @apply col-span-1;
 }
 
 .descripcionOtraClase {

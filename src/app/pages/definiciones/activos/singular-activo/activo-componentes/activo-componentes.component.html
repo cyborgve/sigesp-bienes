@@ -1,29 +1,5 @@
 <form [formGroup]="formulario">
   <section class="contenido">
-    <!-- posee componentes -->
-    <!-- <mat-slide-toggle
-      formControlName="poseeComponentes"
-      class="poseeComponentes"
-      >Posee componentes</mat-slide-toggle
-    > -->
-    <!-- tipo de componente id -->
-    <mat-form-field appearance="fill" class="tipoComponenteId">
-      <mat-label>Componente</mat-label>
-      <input type="text" matInput formControlName="tipoComponenteId" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarComponenteActivo()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- descripcion del componente -->
-    <mat-form-field appearance="fill" class="descripcionComponente">
-      <mat-label>Descripción del componente</mat-label>
-      <input type="text" matInput formControlName="descripcionComponente" />
-    </mat-form-field>
-
     <!-- boton agregar -->
     <button
       type="button"
@@ -31,7 +7,7 @@
       class="botonAgregar"
       color="primary"
       (click)="agregarComponente()">
-      <mat-icon>add</mat-icon>Agregar
+      <mat-icon>add</mat-icon>Agregar componente
     </button>
 
     <!-- tabla componentes -->

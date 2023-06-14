@@ -1,5 +1,6 @@
 import { Basica } from '@core/models/basica';
 import { Id } from '@core/types/id';
+import { ComponenteActivo } from './componente-activo';
 
 export interface Activo extends Basica {
   codigo: string;
@@ -21,14 +22,13 @@ export interface Activo extends Basica {
   monedaId: Id;
   conservacion: string;
   descripcionEstadoConservacion: Id;
-  serialRorulacion: string;
+  serialRotulacion: string;
   serialFabrica: string;
   marcaId: Id;
   modeloId: Id;
   anioFabricacion: string;
   colorId: Id;
-  poseeComponentes: boolean;
-  descripcionComponente: string;
+  componentes: ComponenteActivo[];
   especificacionesTecnicas: string;
   diasGarantia: number;
   fechaInicioGarantia: Date;
@@ -71,10 +71,10 @@ export interface Activo extends Basica {
   especificacionesColor: string;
   rotulacionId: Id;
   categoriaId: Id;
-  tipoComponenteId: Id;
   asegurado: boolean;
   seguroId: Id;
   razaId: Id;
+  plantillaDepreciacion: Id;
   metodoDepreciacion: string;
   vidaUtil: string;
   valorRescate: number;

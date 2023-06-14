@@ -9,20 +9,23 @@
       <mat-tab *ngFor="let tab of tabLabels" [label]="tab | titlecase">
         <article class="tab-activo">
           <ng-container [ngSwitch]="tab">
-            <app-activo-componentes
-              *ngSwitchCase="'componentes'"
-              [formulario]="formularioComponentes"></app-activo-componentes>
             <app-activo-datos-generales
               *ngSwitchCase="'datos generales'"
               [formulario]="
                 formularioDatosGenerales
               "></app-activo-datos-generales>
+            <app-activo-detalles
+              *ngSwitchCase="'detalles'"
+              [formulario]="formularioDetalles"
+              [tipoActivo]="
+                formularioDatosGenerales.value.tipoActivo
+              "></app-activo-detalles>
+            <app-activo-componentes
+              *ngSwitchCase="'componentes'"
+              [formulario]="formularioComponentes"></app-activo-componentes>
             <app-activo-depreciacion
               *ngSwitchCase="'depreciación'"
               [formulario]="formularioDepreciacion"></app-activo-depreciacion>
-            <app-activo-detalles
-              *ngSwitchCase="'detalles'"
-              [formulario]="formularioDetalles"></app-activo-detalles>
             <app-activo-ubicacion
               *ngSwitchCase="'ubicación'"
               [formulario]="formularioUbicacion"></app-activo-ubicacion>

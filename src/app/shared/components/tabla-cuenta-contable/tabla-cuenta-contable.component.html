@@ -4,11 +4,11 @@
   (filtrarDatos)="filtrar($event)"
   (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
 <mat-card class="card-table">
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource" class="table" matSort>
     <!-- cuenta -->
-    <ng-container matColumnDef="sc_cuenta">
+    <ng-container matColumnDef="cuenta">
       <th mat-header-cell *matHeaderCellDef>Cuenta Contable</th>
-      <td mat-cell *matCellDef="let row">{{ row.sc_cuenta }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.cuenta }}</td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
@@ -31,7 +31,8 @@
     <tr
       mat-row
       *matRowDef="let row; columns: columnasVisibles"
-      class="row-hover"></tr>
+      class="row-hover"
+      (dblclick)="dobleClick.emit(row)"></tr>
 
     <!-- mostrar cuando no hay datos que coincidan -->
     <tr class="mat-row" *matNoDataRow>

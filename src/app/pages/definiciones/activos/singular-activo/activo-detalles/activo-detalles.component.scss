@@ -6,13 +6,8 @@
 .numeroRegistro,
 .fechaRegistrado,
 .propietarioAnterior,
-.dependencias,
-.areaConstruccionM2,
-.areaTerrenoM2,
-.especificacionesInmueble,
 .perteneceASede,
 .sedeUbicacionId,
-.especificacionesColor,
 .serialCarroceria,
 .serialMotor,
 .placas,
@@ -21,22 +16,31 @@
 .nombre,
 .usoId,
 .tieneGPS,
-.especificacionesGPS,
 .tipoSemovienteId,
 .genero,
-.raza,
 .propositoSemovienteId,
-.unidadMedidaId,
 .numeroHierro,
-.especificacionesAnimal,
-.tipoAnimalId,
-.fechaNacimientoAnimal,
-.rotulacionId,
-.categoriaId,
-.tipoComponenteId,
-.razaId,
-.valorRescate,
-.fuenteFinanciamientoId,
-.codigoCentroCostos {
+.razaId {
   @apply col-span-3;
+}
+
+.especificacionesAnimal,
+.especificacionesGPS,
+.especificacionesColor,
+.especificacionesInmueble {
+  @apply col-start-1 col-span-full;
+}
+
+.raza,
+.fechaNacimientoAnimal,
+.tipoAnimalId,
+.unidadMedidaId,
+.dependencias,
+.areaConstruccionM2,
+.areaTerrenoM2 {
+  @apply col-span-2;
+}
+
+.peso {
+  @apply col-span-1;
 }

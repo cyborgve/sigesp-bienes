@@ -5,9 +5,9 @@ import { Basica } from '@core/models/basica';
 import { BuscadorUsoComponent } from '@pages/definiciones/usos/buscador-uso/buscador-uso.component';
 import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
 import { BuscadorPropositoSemovienteComponent } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.component';
-import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { BuscadorRazaComponent } from '@pages/definiciones/razas/buscador-raza/buscador-raza.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TipoActivo } from '@core/types/tipo-activo';
 
 @Component({
   selector: 'app-activo-detalles',
@@ -16,13 +16,28 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ActivoDetallesComponent {
   @Input() formulario: FormGroup = new FormGroup({});
+  @Input() tipoActivo: TipoActivo = 'INMUEBLE';
 
   constructor(private _dialog: MatDialog) {}
+
+  ocultarInmueble = () => {
+    if (this.tipoActivo === 'INMUEBLE') return false;
+    return true;
+  };
+  ocultarVehiculo = () => {
+    if (this.tipoActivo === 'VEHICULO') return false;
+    return true;
+  };
+  ocultarSemoviente = () => {
+    if (this.tipoActivo === 'SEMOVIENTE') return false;
+    return true;
+  };
 
   buscarSedeUbicacion() {
     TODO: 'preguntar de donde se obtienen estos datos';
     alert('TO-DO');
   }
+
   buscarUso() {
     let dialog = this._dialog.open(BuscadorUsoComponent, {
       height: '95%',
@@ -72,24 +87,6 @@ export class ActivoDetallesComponent {
     alert('TO-DO');
   }
 
-  buscarRotulacion() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
-  }
-
-  buscarCategoria() {
-    let dialog = this._dialog.open(BuscadorCategoriaComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ categoriaId: entidad.id })
-      )
-    );
-  }
-
   buscarRaza() {
     let dialog = this._dialog.open(BuscadorRazaComponent, {
       height: '95%',
@@ -101,10 +98,5 @@ export class ActivoDetallesComponent {
         this.formulario.patchValue({ razaId: entidad.id })
       )
     );
-  }
-
-  buscarFuenteFinanciamiento() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
   }
 }
