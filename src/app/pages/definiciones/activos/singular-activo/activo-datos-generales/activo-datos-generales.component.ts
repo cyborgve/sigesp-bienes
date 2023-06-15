@@ -1,5 +1,5 @@
 import { tap, map, first } from 'rxjs/operators';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Basica } from '@core/models/basica';
@@ -9,27 +9,28 @@ import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-col
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 import { MMoneda, SigespService } from 'sigesp';
-import { MCuentaInstitucional } from 'sigesp/lib/core/models/SCG/cuentaInstitucional.model';
 import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
 import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.component';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
+import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-activo-datos-generales',
   templateUrl: './activo-datos-generales.component.html',
   styleUrls: ['./activo-datos-generales.component.scss'],
 })
-export class ActivoDatosGeneralesComponent {
+export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
+  private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup = new FormGroup({});
 
   tiposActivo = TIPOS_ACTIVO;
 
   monedas: MMoneda[] = [];
 
-  monedas2 = () => this._sigesp.getMonedas('todas');
-  catalogoCuentas: MCuentaInstitucional[];
+  constructor(private _dialog: MatDialog, private _sigesp: SigespService) {}
 
-  constructor(private _dialog: MatDialog, private _sigesp: SigespService) {
+  ngOnInit(): void {
     this._sigesp
       .getMonedas('todas')
       .pipe(
@@ -37,22 +38,19 @@ export class ActivoDatosGeneralesComponent {
         tap(monedas => (this.monedas = monedas))
       )
       .subscribe();
-    this._sigesp
-      .getCuentasInstitucionales()
-      .pipe(
-        first(),
-        tap(cuentas => this.catalogoCuentas)
-      )
-      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   buscarCatalogoCuentas() {
-    TODO: 'Pendiente de oreguntar de donde obtengo estos datos';
+    TODO: 'Pendiente de preguntar de donde obtengo estos datos';
     alert('TO-DO');
   }
 
   buscarMoneda() {
-    TODO: 'Pendiente de oreguntar de donde obtengo estos datos';
+    TODO: 'Pendiente de preguntar de donde obtengo estos datos';
     alert('TO-DO');
   }
 
@@ -61,11 +59,16 @@ export class ActivoDatosGeneralesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ marcaId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((entidad: Basica) =>
+            this.formulario.patchValue({ marcaId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -74,11 +77,16 @@ export class ActivoDatosGeneralesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ modeloId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((entidad: Basica) =>
+            this.formulario.patchValue({ modeloId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -87,11 +95,16 @@ export class ActivoDatosGeneralesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ colorId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((entidad: Basica) =>
+            this.formulario.patchValue({ colorId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -100,11 +113,16 @@ export class ActivoDatosGeneralesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ claseId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((entidad: Basica) =>
+            this.formulario.patchValue({ claseId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -113,11 +131,16 @@ export class ActivoDatosGeneralesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((origen: Basica) =>
-        this.formulario.patchValue({ origenId: origen.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((origen: Basica) =>
+            this.formulario.patchValue({ origenId: origen.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -126,11 +149,16 @@ export class ActivoDatosGeneralesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ seguroId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((entidad: Basica) =>
+            this.formulario.patchValue({ seguroId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -140,8 +168,21 @@ export class ActivoDatosGeneralesComponent {
   }
 
   buscarRotulacion() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
+    let dialog = this._dialog.open(BuscadorRotulacionComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad =>
+            this.formulario.patchValue({ rotulacionId: entidad.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarCategoria() {
@@ -149,11 +190,16 @@ export class ActivoDatosGeneralesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ categoriaId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad =>
+            this.formulario.patchValue({ categoriaId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 }

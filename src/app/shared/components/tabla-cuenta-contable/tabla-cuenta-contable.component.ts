@@ -23,7 +23,7 @@ import { ICuentaInstitucional } from 'sigesp/lib/core/interfaces/CuentaInstituci
   styleUrls: ['./tabla-cuenta-contable.component.scss'],
 })
 export class TablaCuentaContableComponent
-  implements TablaEntidad<ICuentaInstitucional>, AfterViewInit
+  implements TablaEntidad<CuentaContable>, AfterViewInit
 {
   @ViewChild(MatSort) matSort: MatSort;
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
@@ -77,11 +77,11 @@ export class TablaCuentaContableComponent
     throw new Error('Method not implemented.');
   }
 
-  editar(entidad: ICuentaInstitucional): void {
+  editar(entidad: CuentaContable): void {
     throw new Error('Method not implemented.');
   }
 
-  eliminar(entidad: ICuentaInstitucional): void {
+  eliminar(entidad: CuentaContable): void {
     throw new Error('Method not implemented.');
   }
 }

@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -20,6 +20,11 @@ import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/tabla-entidad';
 
+type ActivoList = Pick<
+  Activo,
+  'id' | 'codigo' | 'denominacion' | 'creado' | 'modificado'
+>;
+
 @Component({
   selector: 'app-tabla-activo',
   templateUrl: './tabla-activo.component.html',
@@ -39,7 +44,7 @@ export class TablaActivoComponent
   private urlSingular = this.urlPlural + '/activo';
   private urlSingularId = (id: Id) => this.urlPlural + '/activo/' + id;
 
-  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoList> = new MatTableDataSource();
 
   constructor(
     private _entidad: ActivoService,
@@ -57,6 +62,7 @@ export class TablaActivoComponent
       .buscarTodos()
       .pipe(
         first(),
+        map(entidades => entidades as ActivoList[]),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
@@ -84,11 +90,11 @@ export class TablaActivoComponent
     this._router.navigate([this.urlSingular]);
   }
 
-  editar(entidad: Activo) {
+  editar(entidad: ActivoList) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
 
-  eliminar(entidad: Activo) {
+  eliminar(entidad: ActivoList) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.codigo,

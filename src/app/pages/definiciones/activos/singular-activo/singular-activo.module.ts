@@ -42,6 +42,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BuscadorComponenteActivoModule } from '@pages/definiciones/componentes-activo/buscador-componente-activo/buscador-componente-activo.module';
+import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { BuscadorComponenteActivoModule } from '@pages/definiciones/componentes-
     BuscadorComponenteActivoModule,
     BuscadorSeguroModule,
     BuscadorRazaModule,
+    BuscadorRotulacionModule,
   ],
 })
 export class SingularActivoModule {}

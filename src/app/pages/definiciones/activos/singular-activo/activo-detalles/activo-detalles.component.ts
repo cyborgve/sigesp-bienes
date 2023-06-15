@@ -1,5 +1,5 @@
 import { map, tap } from 'rxjs/operators';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/basica';
 import { BuscadorUsoComponent } from '@pages/definiciones/usos/buscador-uso/buscador-uso.component';
@@ -8,34 +8,41 @@ import { BuscadorPropositoSemovienteComponent } from '@pages/definiciones/propos
 import { BuscadorRazaComponent } from '@pages/definiciones/razas/buscador-raza/buscador-raza.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TipoActivo } from '@core/types/tipo-activo';
+import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-activo-detalles',
   templateUrl: './activo-detalles.component.html',
   styleUrls: ['./activo-detalles.component.scss'],
 })
-export class ActivoDetallesComponent {
+export class ActivoDetallesComponent implements OnDestroy {
+  private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup = new FormGroup({});
   @Input() tipoActivo: TipoActivo = 'INMUEBLE';
 
   constructor(private _dialog: MatDialog) {}
 
-  ocultarInmueble = () => {
-    if (this.tipoActivo === 'INMUEBLE') return false;
-    return true;
-  };
-  ocultarVehiculo = () => {
-    if (this.tipoActivo === 'VEHICULO') return false;
-    return true;
-  };
-  ocultarSemoviente = () => {
-    if (this.tipoActivo === 'SEMOVIENTE') return false;
-    return true;
-  };
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
+  }
 
   buscarSedeUbicacion() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
+    let dialog = this._dialog.open(BuscadorSedeComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad =>
+            this.formulario.patchValue({ sedeUbicacionId: entidad.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarUso() {
@@ -43,11 +50,14 @@ export class ActivoDetallesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ usoId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad => this.formulario.patchValue({ usoId: entidad.id }))
+        )
+        .subscribe()
     );
   }
 
@@ -56,11 +66,16 @@ export class ActivoDetallesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ tipoSemovienteId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad =>
+            this.formulario.patchValue({ tipoSemovienteId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -69,11 +84,16 @@ export class ActivoDetallesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ propositoSemovienteId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad =>
+            this.formulario.patchValue({ propositoSemovienteId: entidad.id })
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -92,11 +112,14 @@ export class ActivoDetallesComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ razaId: entidad.id })
-      )
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad => this.formulario.patchValue({ razaId: entidad.id }))
+        )
+        .subscribe()
     );
   }
 }
