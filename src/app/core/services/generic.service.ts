@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { Basica } from '@core/models/basica';
 import { ModeloServicio } from '@core/models/modelo-servicio';
 import { Id } from '@core/types/id';
-import { environment } from '@environments/environment';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 
 @Injectable({
@@ -14,7 +13,7 @@ import { SigespService } from 'sigesp';
 export abstract class GenericService<T extends Basica>
   implements ModeloServicio<T>
 {
-  protected apiUrl = `${environment.apiUrl}/${this.getEntidadUrl()}`;
+  protected apiUrl = `${this._sigesp.URL}/${this.getEntidadUrl()}`;
   protected apiUrlId = (id: Id) => `${this.apiUrl}?id=${id}`;
 
   protected abstract getEntidadUrl(): string;

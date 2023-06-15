@@ -1,3 +1,4 @@
+import { CuentaContable } from './../../../../../core/types/cuenta-contable';
 import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
 import { tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
@@ -34,8 +35,8 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap(cuentaContable =>
-            this.formulario.patchValue({ cuentaContableGasto: cuentaContable })
+          tap((cc: CuentaContable) =>
+            this.formulario.patchValue({ cuentaContableGasto: cc.cuenta })
           )
         )
         .subscribe()
@@ -43,8 +44,22 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   }
 
   buscarCuentaContableDepreciacion() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
+    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((cc: CuentaContable) =>
+            this.formulario.patchValue({
+              cuentaContableDepreciacion: cc.cuenta,
+            })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarPlantillaDepreciacion() {
