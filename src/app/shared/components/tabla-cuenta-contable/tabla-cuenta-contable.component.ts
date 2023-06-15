@@ -15,7 +15,6 @@ import { TablaEntidad } from '@core/models/tabla-entidad';
 import { CuentaContable } from '@core/types/cuenta-contable';
 import { first, map, tap } from 'rxjs/operators';
 import { MCuentaInstitucional, SigespService } from 'sigesp';
-import { ICuentaInstitucional } from 'sigesp/lib/core/interfaces/CuentaInstitucional';
 
 @Component({
   selector: 'app-tabla-cuenta-contable',
@@ -49,6 +48,7 @@ export class TablaCuentaContableComponent
       .getCuentasInstitucionales()
       .pipe(
         first(),
+        tap(ci => console.trace(ci)),
         map(ci => ci as CuentaContable[]),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
