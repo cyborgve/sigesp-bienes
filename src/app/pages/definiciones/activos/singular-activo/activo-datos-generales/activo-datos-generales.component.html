@@ -30,11 +30,7 @@
     <mat-form-field appearance="fill" class="catalogoCuentas">
       <mat-label>Catálogo de cuentas</mat-label>
       <mat-select matInput formControlName="catalogoCuentas">
-        <mat-option
-          *ngFor="let cuenta of catalogoCuentas"
-          [value]="cuenta.codigo"
-          >{{ cuenta.denominacion | titlecase }}</mat-option
-        >
+        <mat-option></mat-option>
       </mat-select>
     </mat-form-field>
     <!-- serial rotulacion -->
