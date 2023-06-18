@@ -1,6 +1,6 @@
 import { Marca } from '@core/models/marca';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,13 +16,17 @@ import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-mo
 import { Entidad } from '@core/models/entidad';
 import { Modelo } from '@core/models/modelo';
 import { TipoComponenteService } from '@core/services/tipo-componente.service';
+import { Subscription } from 'rxjs';
+import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
+import { TipoComponente } from '@core/models/tipo-componente';
 
 @Component({
   selector: 'app-singular-componente-activo',
   templateUrl: './singular-componente-activo.component.html',
   styleUrls: ['./singular-componente-activo.component.scss'],
 })
-export class SingularComponenteActivoComponent implements Entidad {
+export class SingularComponenteActivoComponent implements Entidad, OnDestroy {
+  subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'componente de activo';
@@ -51,6 +55,10 @@ export class SingularComponenteActivoComponent implements Entidad {
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -83,18 +91,20 @@ export class SingularComponenteActivoComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: ComponenteActivo) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-            marcaId: entidad.marcaId,
-            modeloId: entidad.modeloId,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: ComponenteActivo) => {
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              marcaId: entidad.marcaId,
+              modeloId: entidad.modeloId,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
@@ -151,12 +161,16 @@ export class SingularComponenteActivoComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        tap((marca: Marca) => this.formulario.patchValue({ marcaId: marca.id }))
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          tap((marca: Marca) =>
+            this.formulario.patchValue({ marcaId: marca.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarModelo() {
@@ -164,13 +178,32 @@ export class SingularComponenteActivoComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        tap((modelo: Modelo) =>
-          this.formulario.patchValue({ modeloId: modelo.id })
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          tap((modelo: Modelo) =>
+            this.formulario.patchValue({ modeloId: modelo.id })
+          )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
+  }
+
+  buscarTipoComponente() {
+    let dialog = this._dialog.open(BuscadorTipoComponenteComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((tipoComponente: TipoComponente) =>
+            this.formulario.patchValue({ tipo: tipoComponente.id })
+          )
+        )
+        .subscribe()
+    );
   }
 }

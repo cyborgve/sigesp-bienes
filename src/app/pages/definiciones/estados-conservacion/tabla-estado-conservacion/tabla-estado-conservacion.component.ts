@@ -8,7 +8,6 @@ import {
   EventEmitter,
   AfterViewInit,
 } from '@angular/core';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';

@@ -1,10 +1,9 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
-import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { JsonPipe, Location } from '@angular/common';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractEntidadFunciones } from '@core/class/abstract-entidad-funciones';
 import { ModeloService } from '@core/services/modelo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
@@ -14,13 +13,15 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
 import { Entidad } from '@core/models/entidad';
 import { Marca } from '@core/models/marca';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-modelo',
   templateUrl: './singular-modelo.component.html',
   styleUrls: ['./singular-modelo.component.scss'],
 })
-export class SingularModeloComponent implements Entidad {
+export class SingularModeloComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'modelo';
@@ -47,6 +48,10 @@ export class SingularModeloComponent implements Entidad {
     this.actualizarFormulario();
   }
 
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
+  }
+
   private actualizarFormulario() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
@@ -54,6 +59,7 @@ export class SingularModeloComponent implements Entidad {
         .buscarPorId(this.id)
         .pipe(
           take(1),
+          tap(entidad => console.trace(entidad)),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -75,17 +81,19 @@ export class SingularModeloComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Modelo) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-            marcaId: entidad.marcaId,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: Modelo) => {
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              marcaId: entidad.marcaId,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
@@ -142,11 +150,15 @@ export class SingularModeloComponent implements Entidad {
       width: '85%',
       height: '95%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((marca: Marca) => this.formulario.patchValue({ marcaId: marca.id }))
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((marca: Marca) =>
+            this.formulario.patchValue({ marcaId: marca.id })
+          )
+        )
+        .subscribe()
+    );
   }
 }

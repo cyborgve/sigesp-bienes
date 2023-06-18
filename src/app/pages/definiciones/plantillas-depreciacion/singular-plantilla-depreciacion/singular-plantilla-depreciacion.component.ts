@@ -1,6 +1,6 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,13 +12,19 @@ import { BuscadorPlantillaDepreciacionComponent } from '../buscador-plantilla-de
 import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
+import { Subscription } from 'rxjs';
+import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
+import { CuentaContable } from '@core/types/cuenta-contable';
 
 @Component({
   selector: 'app-singular-plantilla-depreciacion',
   templateUrl: './singular-plantilla-depreciacion.component.html',
   styleUrls: ['./singular-plantilla-depreciacion.component.scss'],
 })
-export class SingularPlantillaDepreciacionComponent implements Entidad {
+export class SingularPlantillaDepreciacionComponent
+  implements Entidad, OnDestroy
+{
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'plantilla depreciación';
@@ -47,6 +53,10 @@ export class SingularPlantillaDepreciacionComponent implements Entidad {
       modificado: [''],
     });
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -80,20 +90,22 @@ export class SingularPlantillaDepreciacionComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: PlantillaDepreciacion) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-            metodoDepreciacion: entidad.denominacion,
-            cuentaContableGasto: entidad.denominacion,
-            cuentaContableDepreciacion: entidad.denominacion,
-            vidaUtil: entidad.denominacion,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: PlantillaDepreciacion) => {
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              metodoDepreciacion: entidad.denominacion,
+              cuentaContableGasto: entidad.denominacion,
+              cuentaContableDepreciacion: entidad.denominacion,
+              vidaUtil: entidad.denominacion,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
@@ -120,14 +132,16 @@ export class SingularPlantillaDepreciacionComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {
@@ -143,5 +157,43 @@ export class SingularPlantillaDepreciacionComponent implements Entidad {
 
   salir() {
     throw new Error('Method not implemented.');
+  }
+
+  buscarCuentaContableGasto() {
+    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((cc: CuentaContable) =>
+            this.formulario.patchValue({
+              cuentaContableGasto: cc.cuenta,
+            })
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  buscarCuentaContableDepreciacion() {
+    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((cc: CuentaContable) =>
+            this.formulario.patchValue({
+              cuentaContableDepreciacion: cc.cuenta,
+            })
+          )
+        )
+        .subscribe()
+    );
   }
 }

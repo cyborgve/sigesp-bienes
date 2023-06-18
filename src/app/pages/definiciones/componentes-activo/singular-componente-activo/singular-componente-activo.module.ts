@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
 import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
+import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
 
 @NgModule({
   declarations: [SingularComponenteActivoComponent],
@@ -22,6 +23,7 @@ import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-model
     BuscadorComponenteActivoModule,
     BuscadorMarcaModule,
     BuscadorModeloModule,
+    BuscadorTipoComponenteModule,
     SharedModule,
     ReactiveFormsModule,
     MatInputModule,
@@ -30,5 +32,6 @@ import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-model
     MatIconModule,
     MatSelectModule,
   ],
+  exports: [SingularComponenteActivoComponent],
 })
 export class SingularComponenteActivoModule {}

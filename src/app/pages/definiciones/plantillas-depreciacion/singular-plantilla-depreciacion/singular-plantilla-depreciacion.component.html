@@ -33,7 +33,11 @@
         <mat-form-field appearance="fill" class="cuentaContableGasto">
           <mat-label>Cuenta contable de gasto</mat-label>
           <input type="text" matInput formControlName="cuentaContableGasto" />
-          <button type="button" mat-icon-button matSuffix>
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCuentaContableGasto()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
@@ -44,7 +48,11 @@
             type="text"
             matInput
             formControlName="cuentaContableDepreciacion" />
-          <button type="button" mat-icon-button matSuffix>
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCuentaContableDepreciacion()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>

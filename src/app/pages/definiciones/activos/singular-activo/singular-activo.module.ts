@@ -43,6 +43,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BuscadorComponenteActivoModule } from '@pages/definiciones/componentes-activo/buscador-componente-activo/buscador-componente-activo.module';
 import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
+import { BuscadorPlantillaDepreciacionModule } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.module';
+import { SingularComponenteActivoModule } from '@pages/definiciones/componentes-activo/singular-componente-activo/singular-componente-activo.module';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/busca
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    SingularComponenteActivoModule,
     BuscadorOrigenModule,
     BuscadorUnidadAdministrativaModule,
     BuscadorSedeModule,
@@ -88,6 +91,7 @@ import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/busca
     BuscadorSeguroModule,
     BuscadorRazaModule,
     BuscadorRotulacionModule,
+    BuscadorPlantillaDepreciacionModule,
   ],
 })
 export class SingularActivoModule {}

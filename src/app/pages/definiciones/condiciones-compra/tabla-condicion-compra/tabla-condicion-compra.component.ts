@@ -1,3 +1,4 @@
+import { TablaEntidad } from '@core/models/tabla-entidad';
 import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
@@ -13,7 +14,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AbstractTablaFunciones } from '@core/class/abstract-tabla-funciones';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CondicionCompra } from '@core/models/condicion-compra';
 import { CondicionCompraService } from '@core/services/condicion-compra.service';
@@ -26,8 +26,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-condicion-compra.component.scss'],
 })
 export class TablaCondicionCompraComponent
-  extends AbstractTablaFunciones<CondicionCompra>
-  implements AfterViewInit
+  implements TablaEntidad<CondicionCompra>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,14 +40,14 @@ export class TablaCondicionCompraComponent
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/condicion-compra/' + id;
 
+  dataSource: MatTableDataSource<CondicionCompra> = new MatTableDataSource();
+
   constructor(
     private _entidad: CondicionCompraService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.recargarDatos();

@@ -21,13 +21,14 @@
         <!-- tipo -->
         <mat-form-field appearance="fill" class="tipo">
           <mat-label>Tipo</mat-label>
-          <mat-select formControlName="tipo">
-            <mat-option
-              *ngFor="let tipo of tiposComponenteActivo() | async"
-              [value]="tipo.codigo"
-              >{{ tipo.denominacion | titlecase }}</mat-option
-            >
-          </mat-select>
+          <input type="text" matInput formControlName="tipo" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarTipoComponente()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- marca -->
         <mat-form-field appearance="fill" class="marcaId">

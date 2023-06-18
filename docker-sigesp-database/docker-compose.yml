@@ -6,8 +6,10 @@ services:
     image: postgres:11-bullseye
     restart: always
     environment:
-      POSTGRES_PASSWORD: sigespadmin
-      POSTGRES_DB: db_fnc_2023
+      - TZ='America/Caracas'
+      - PGTZ='America/Caracas'
+      - POSTGRES_PASSWORD=sigespadmin
+      - POSTGRES_DB=db_fnc_2023
     volumes:
       - sigesp-bienes:/var/lib/postgresql/data
     ports:
