@@ -1,4 +1,4 @@
-mat-card {
+.definicion {
   border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
@@ -12,10 +12,14 @@ mat-card-title {
   font-weight: 600;
 }
 
-mat-card {
+.definicion {
   @apply p-4 hover:bg-primary hover:bg-opacity-10 hover:text-accent hover:shadow-xl;
 }
 
-section {
-  padding: 0.5rem;
+.buscar {
+  @apply flex justify-end pr-2 pt-4;
+}
+
+.buscador {
+  @apply w-72;
 }

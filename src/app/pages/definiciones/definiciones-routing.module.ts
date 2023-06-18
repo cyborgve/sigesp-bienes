@@ -200,6 +200,13 @@ const routes: Routes = [
         m => m.PlantillasDepreciacionModule
       ),
   },
+  {
+    path: 'correlativos',
+    loadChildren: () =>
+      import('./correlativos/correlativos.module').then(
+        m => m.CorrelativosModule
+      ),
+  },
 ];
 
 @NgModule({

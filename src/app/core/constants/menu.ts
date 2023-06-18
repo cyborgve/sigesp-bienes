@@ -80,6 +80,12 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/settings.svg',
       },
       {
+        label: 'Correlativos',
+        routerLink: 'correlativos',
+        icon: 'pin',
+        image: './assets/images/svg/pin.svg',
+      },
+      {
         label: 'Estados de Conservación',
         routerLink: 'estados-conservacion',
         icon: 'hardware',

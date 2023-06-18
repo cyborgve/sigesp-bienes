@@ -1,9 +1,22 @@
-<section class="grid grid-cols-5">
-  <a *ngFor="let item of items" [routerLink]="item.routerLink">
-    <mat-card>
-      <img [src]="item.image" alt="image" width="80px" />
-      <mat-card-title>{{ item.label }}</mat-card-title>
-      <mat-card-subtitle>{{ title }}</mat-card-subtitle>
-    </mat-card>
-  </a>
+<section class="contenedor">
+  <mat-card>
+    <article class="buscar">
+      <mat-form-field class="buscador">
+        <mat-label>Buscar</mat-label>
+        <input type="text" #buscar matInput (keyup)="buscar($event)" />
+        <button mat-icon-button matSuffix *ngif="buscar.value">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </article>
+    <article class="grid grid-cols-5">
+      <a *ngFor="let item of items" [routerLink]="item.routerLink">
+        <mat-card class="definicion">
+          <img [src]="item.image" alt="image" width="80px" />
+          <mat-card-title>{{ item.label }}</mat-card-title>
+          <mat-card-subtitle>{{ title }}</mat-card-subtitle>
+        </mat-card>
+      </a>
+    </article>
+  </mat-card>
 </section>

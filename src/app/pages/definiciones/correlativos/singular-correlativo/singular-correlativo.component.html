@@ -1,0 +1,43 @@
+<section class="contenedor-singular">
+  <form [formGroup]="formulario">
+    <!-- encabezado -->
+    <app-encabezado-definicion
+      [titulo]="titulo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-definicion>
+    <!-- datos -->
+    <mat-card>
+      <article class="contenido">
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominación</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
+        <!-- serie -->
+        <mat-form-field appearance="fill" class="serie">
+          <mat-label>Serie</mat-label>
+          <input type="number" matInput formControlName="serie" />
+        </mat-form-field>
+        <!-- correlativo -->
+        <mat-form-field appearance="fill" class="correlativo">
+          <mat-label>Correlativo</mat-label>
+          <input type="number" matInput formControlName="correlativo" />
+        </mat-form-field>
+      </article>
+    </mat-card>
+    <!-- botones -->
+  </form>
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

@@ -9,5 +9,9 @@ import { MenuItem } from '@core/models/menu-item';
 })
 export class DefinicionesComponent {
   title = 'Definiciones';
-  items: MenuItem[] = MENU.find(i => i.label === this.title).items;
+  items: MenuItem[] = MENU.find(i => i.label === this.title).items.sort();
+
+  buscar(event: Event) {
+    alert('TODO');
+  }
 }
