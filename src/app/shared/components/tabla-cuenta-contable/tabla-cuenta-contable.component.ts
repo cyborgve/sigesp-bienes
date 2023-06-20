@@ -48,7 +48,6 @@ export class TablaCuentaContableComponent
       .getCuentasInstitucionales()
       .pipe(
         first(),
-        tap(ci => console.trace(ci)),
         map(ci => ci as CuentaContable[]),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);

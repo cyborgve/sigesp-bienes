@@ -20,10 +20,12 @@
 .genero,
 .propositoSemovienteId,
 .numeroHierro,
+.fuenteFinanciamientoId,
 .razaId {
   @apply col-span-3;
 }
 
+.especificacionesTecnicas,
 .especificacionesAnimal,
 .especificacionesGPS,
 .especificacionesColor,
@@ -31,6 +33,15 @@
   @apply col-start-1 col-span-full;
 }
 
+.diasGarantia,
+.fechaInicioGarantia,
+.fechaFinGarantia,
+.origenId,
+.asegurado,
+.seguroId,
+.claseId,
+.descripcionOtraClase,
+.codigoCentroCostos,
 .raza,
 .fechaNacimientoAnimal,
 .tipoAnimalId,
@@ -43,4 +54,12 @@
 
 .peso {
   @apply col-span-1;
+}
+
+.asegurado {
+  @apply pt-4;
+}
+
+.descripcionOtraClase {
+  @apply col-span-5;
 }

@@ -74,10 +74,11 @@ export interface Activo extends Basica {
   asegurado: boolean;
   seguroId: Id;
   razaId: Id;
-  plantillaDepreciacion: Id;
+  //plantillaDepreciacion: Id;
   metodoDepreciacion: string;
   vidaUtil: string;
   valorRescate: number;
+  monedaIdvalorRescate: Id;
   cuentaContableGasto: string;
   cuentaContableDepreciacion: string;
   fuenteFinanciamientoId: string;

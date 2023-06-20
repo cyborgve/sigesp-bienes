@@ -74,10 +74,7 @@ export abstract class GenericService<T extends Basica>
       .post<T>(this.apiUrl, entidad, {
         headers: this._sigesp.getHttpHeaders(),
       })
-      .pipe(
-        map(respuesta => this.normalizarRespuesta(respuesta)),
-        tap(respuesta => console.trace(respuesta))
-      );
+      .pipe(map(respuesta => this.normalizarRespuesta(respuesta)));
   }
 
   actualizar(id: Id, entidad: T): Observable<Number> {

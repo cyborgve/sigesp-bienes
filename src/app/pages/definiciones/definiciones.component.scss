@@ -17,9 +17,13 @@ mat-card-title {
 }
 
 .buscar {
-  @apply flex justify-end pr-2 pt-4;
+  @apply flex justify-end pr-2 px-4 items-center;
 }
 
 .buscador {
-  @apply w-72;
+  @apply w-72 mt-4;
+}
+
+.titulo {
+  @apply text-primary text-xl font-semibold;
 }

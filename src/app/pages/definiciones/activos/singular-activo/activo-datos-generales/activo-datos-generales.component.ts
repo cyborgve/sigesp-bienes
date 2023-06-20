@@ -108,65 +108,6 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
     );
   }
 
-  buscarClase() {
-    let dialog = this._dialog.open(BuscadorClaseComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          map(entidad => entidad as Basica),
-          tap((entidad: Basica) =>
-            this.formulario.patchValue({ claseId: entidad.id })
-          )
-        )
-        .subscribe()
-    );
-  }
-
-  buscarOrigen() {
-    let dialog = this._dialog.open(BuscadorOrigenComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          map(entidad => entidad as Basica),
-          tap((origen: Basica) =>
-            this.formulario.patchValue({ origenId: origen.id })
-          )
-        )
-        .subscribe()
-    );
-  }
-
-  buscarSeguro() {
-    let dialog = this._dialog.open(BuscadorSeguroComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          map(entidad => entidad as Basica),
-          tap((entidad: Basica) =>
-            this.formulario.patchValue({ seguroId: entidad.id })
-          )
-        )
-        .subscribe()
-    );
-  }
-
-  buscarFuenteFinanciamiento() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
-  }
-
   buscarRotulacion() {
     let dialog = this._dialog.open(BuscadorRotulacionComponent, {
       width: '85%',

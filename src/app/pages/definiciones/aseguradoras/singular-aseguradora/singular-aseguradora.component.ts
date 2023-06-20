@@ -11,6 +11,7 @@ import { BuscadorAseguradoraComponent } from '../buscador-aseguradora/buscador-a
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/entidad';
+import { CorrelativoService } from '@core/services/correlativo.service';
 
 @Component({
   selector: 'app-singular-aseguradora',
@@ -28,13 +29,14 @@ export class SingularAseguradoraComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['01-00000001', Validators.required],
       denominacion: ['', Validators.required],
       creado: [''],
       modificado: [''],

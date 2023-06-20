@@ -57,6 +57,8 @@ export class ConfiguracionesComponent implements Entidad {
         '########',
         [Validators.max(32), Validators.min(8)],
       ],
+      activarPaginacion: [false],
+      opcionesPaginacion: [''],
       creado: [new Date()],
       modificado: [new Date()],
     });
@@ -102,6 +104,8 @@ export class ConfiguracionesComponent implements Entidad {
               formatoCatalogoCuentaGeneral:
                 entidad.formatoCatalogoCuentaGeneral,
               formatoCodigoInstitucional: entidad.formatoCodigoInstitucional,
+              activarPaginacion: entidad.activarPaginacion,
+              opcionesPaginacion: entidad.opcionesPaginacion,
               creado: entidad.creado,
               modificado: entidad.modificado,
             })

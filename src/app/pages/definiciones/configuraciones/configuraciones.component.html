@@ -55,7 +55,7 @@
           <mat-slide-toggle
             formControlName="fechaIncorporacionAutomatica"
             class="fechaIncorporacionAutomatica"
-            >Generar asientos contables</mat-slide-toggle
+            >Fecha de incorporación automática</mat-slide-toggle
           >
           <!-- usar mascara codigo -->
           <mat-slide-toggle
@@ -79,6 +79,21 @@
             type="text"
             matInput
             formControlName="formatoCodigoInstitucional" />
+        </mat-form-field>
+      </article>
+    </mat-card>
+  </section>
+  <section class="contenedorPaginacion">
+    <mat-card>
+      <article class="contenido">
+        <mat-slide-toggle
+          class="activarPaginacion"
+          formControlName="activarPaginacion"
+          >Activar paginación</mat-slide-toggle
+        >
+        <mat-form-field appearance="fill" class="opcionesPaginacion">
+          <mat-label>Opciones de paginación</mat-label>
+          <input type="text" matInput formControlName="opcionesPaginacion" />
         </mat-form-field>
       </article>
     </mat-card>

@@ -11,6 +11,7 @@ import { BuscadorCategoriaComponent } from '../buscador-categoria/buscador-categ
 import { Categoria } from '@core/models/categoria';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/entidad';
+import { CorrelativoService } from '@core/services/correlativo.service';
 
 @Component({
   selector: 'app-singular-categoria',
@@ -29,7 +30,8 @@ export class SingularCategoriaComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -60,6 +62,21 @@ export class SingularCategoriaComponent implements Entidad {
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(2)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }

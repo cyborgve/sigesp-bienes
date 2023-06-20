@@ -1,13 +1,14 @@
-import { CuentaContable } from './../../../../../core/types/cuenta-contable';
+import { CuentaContable } from '@core/types/cuenta-contable';
 import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
-import { tap } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { BuscadorPlantillaDepreciacionComponent } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { MMoneda, SigespService } from 'sigesp';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -19,8 +20,17 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   @Input() formulario: FormGroup = new FormGroup({});
 
   metodosDepreciacion = METODOS_DEPRECIACION;
+  monedas: MMoneda[] = [];
 
-  constructor(private _dialog: MatDialog) {}
+  constructor(private _dialog: MatDialog, private _sigesp: SigespService) {
+    this._sigesp
+      .getMonedas('todas')
+      .pipe(
+        take(1),
+        tap(monedas => (this.monedas = monedas))
+      )
+      .subscribe();
+  }
 
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());

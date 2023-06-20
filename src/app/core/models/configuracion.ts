@@ -10,4 +10,6 @@ export interface Configuracion extends Basica {
   longitudMaximaCodigoInstituc: number;
   formatoCatalogoCuentaGeneral: string;
   formatoCodigoInstitucional: string;
+  activarPaginacion: boolean;
+  opcionesPaginacion: number[];
 }

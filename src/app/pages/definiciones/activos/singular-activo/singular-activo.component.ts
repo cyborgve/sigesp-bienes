@@ -63,6 +63,13 @@ export class SingularActivoComponent implements Entidad {
       anioFabricacion: [''],
       serialFabrica: [''],
       colorId: [''],
+      rotulacionId: [''],
+      categoriaId: [''],
+      creado: [''],
+      modificado: [''],
+    });
+    /* formulario detalles */
+    this.formularioDetalles = this._formBuilder.group({
       diasGarantia: [''],
       fechaInicioGarantia: [''],
       fechaFinGarantia: [''],
@@ -71,17 +78,9 @@ export class SingularActivoComponent implements Entidad {
       seguroId: [''],
       claseId: [''],
       descripcionOtraClase: [''],
-      rotulacionId: [''],
-      categoriaId: [''],
-      valorRescate: [''],
       fuenteFinanciamientoId: [''],
       codigoCentroCostos: [''],
       especificacionesTecnicas: [''],
-      creado: [''],
-      modificado: [''],
-    });
-    /* formulario detalles */
-    this.formularioDetalles = this._formBuilder.group({
       oficinaRegistro: [''],
       referenciaRegistro: [''],
       tomo: [''],
@@ -125,11 +124,13 @@ export class SingularActivoComponent implements Entidad {
     /* formulario depreciacion */
     this.formularioDepreciacion = this._formBuilder.group({
       depreciable: [''],
-      plantillaDepreciacion: [''],
+      //plantillaDepreciacion: [''],
       metodoDepreciacion: [''],
       cuentaContableGasto: [''],
       cuentaContableDepreciacion: [''],
       vidaUtil: [''],
+      valorRescate: [''],
+      monedaIdValorRescate: [''],
     });
     /* formulario ubicacion */
     this.formularioUbicacion = this._formBuilder.group({
@@ -171,6 +172,14 @@ export class SingularActivoComponent implements Entidad {
               anioFabricacion: entidad.anioFabricacion,
               serialFabrica: entidad.serialFabrica,
               colorId: entidad.colorId,
+              categoriaId: entidad.categoriaId,
+              rotulacionId: entidad.rotulacionId,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
+            })
+          ),
+          tap(entidad =>
+            this.formularioDetalles.patchValue({
               diasGarantia: entidad.diasGarantia,
               fechaInicioGarantia: entidad.fechaInicioGarantia,
               fechaFinGarantia: entidad.fechaFinGarantia,
@@ -179,18 +188,9 @@ export class SingularActivoComponent implements Entidad {
               seguroId: entidad.seguroId,
               claseId: entidad.claseId,
               descripcionOtraClase: entidad.descripcionOtraClase,
-              categoriaId: entidad.categoriaId,
-              rotulacionId: entidad.rotulacionId,
-              valorRescate: entidad.valorRescate,
               fuenteFinanciamientoId: entidad.fuenteFinanciamientoId,
               codigoCentroCostos: entidad.codigoCentroCostos,
               especificacionesTecnicas: entidad.especificacionesTecnicas,
-              creado: entidad.creado,
-              modificado: entidad.modificado,
-            })
-          ),
-          tap(entidad =>
-            this.formularioDetalles.patchValue({
               oficinaRegistro: entidad.oficinaRegistro,
               referenciaRegistro: entidad.referenciaRegistro,
               tomo: entidad.tomo,
@@ -236,11 +236,13 @@ export class SingularActivoComponent implements Entidad {
           tap(entidad =>
             this.formularioDepreciacion.patchValue({
               depreciable: entidad.depreciable,
-              plantillaDepreciacion: entidad.plantillaDepreciacion,
+              //plantillaDepreciacion: entidad.plantillaDepreciacion,
               metodoDepreciacion: entidad.metodoDepreciacion,
               cuentaContableGasto: entidad.cuentaContableGasto,
               cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
               vidaUtil: entidad.vidaUtil,
+              valorRescate: entidad.valorRescate,
+              monedaIdValorRescate: entidad.monedaIdvalorRescate,
             })
           ),
           tap(entidad =>
@@ -359,7 +361,7 @@ export class SingularActivoComponent implements Entidad {
         tap(entidad =>
           this.formularioDepreciacion.patchValue({
             depreciable: entidad.depreciable,
-            plantillaDepreciacion: entidad.plantillaDepreciacion,
+            //plantillaDepreciacion: entidad.plantillaDepreciacion,
             metodoDepreciacion: entidad.metodoDepreciacion,
             cuentaContableGasto: entidad.cuentaContableGasto,
             cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,

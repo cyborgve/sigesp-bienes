@@ -10,6 +10,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { TipoActivo } from '@core/types/tipo-activo';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { Subscription } from 'rxjs';
+import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.component';
+import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
+import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
 
 @Component({
   selector: 'app-activo-detalles',
@@ -118,6 +121,64 @@ export class ActivoDetallesComponent implements OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap(entidad => this.formulario.patchValue({ razaId: entidad.id }))
+        )
+        .subscribe()
+    );
+  }
+  buscarSeguro() {
+    let dialog = this._dialog.open(BuscadorSeguroComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((entidad: Basica) =>
+            this.formulario.patchValue({ seguroId: entidad.id })
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  buscarFuenteFinanciamiento() {
+    TODO: 'preguntar de donde se obtienen estos datos';
+    alert('TO-DO');
+  }
+
+  buscarClase() {
+    let dialog = this._dialog.open(BuscadorClaseComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((entidad: Basica) =>
+            this.formulario.patchValue({ claseId: entidad.id })
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  buscarOrigen() {
+    let dialog = this._dialog.open(BuscadorOrigenComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap((origen: Basica) =>
+            this.formulario.patchValue({ origenId: origen.id })
+          )
         )
         .subscribe()
     );

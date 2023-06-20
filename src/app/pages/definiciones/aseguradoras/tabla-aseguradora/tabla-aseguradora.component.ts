@@ -38,7 +38,6 @@ export class TablaAseguradoraComponent
   private urlPlural = '/definiciones/aseguradoras';
   private urlSingular = this.urlPlural + '/aseguradora';
   private urlSingularId = (id: Id) => this.urlPlural + '/aseguradora/' + id;
-
   dataSource: MatTableDataSource<Aseguradora> = new MatTableDataSource();
 
   constructor(

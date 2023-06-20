@@ -6,8 +6,8 @@
     >
     <!-- plantilla de depreciacion -->
     <mat-form-field appearance="fill" class="plantillaDepreciacion">
-      <mat-label>Plantilla de depreciación</mat-label>
-      <input type="text" matInput formControlName="plantillaDepreciacion" />
+      <mat-label>Plantilla depreciación</mat-label>
+      <input type="text" matInput />
       <button
         type="button"
         mat-icon-button
@@ -26,6 +26,11 @@
           >{{ metodo | titlecase }}</mat-option
         >
       </mat-select>
+    </mat-form-field>
+    <!-- vida util  -->
+    <mat-form-field appearance="fill" class="vidaUtil">
+      <mat-label>Vida útil</mat-label>
+      <input type="text" matInput formControlName="vidaUtil" />
     </mat-form-field>
     <!-- cuenta contable del gasto -->
     <mat-form-field appearance="fill" class="cuentaContableGasto">
@@ -54,10 +59,19 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- vida util  -->
-    <mat-form-field appearance="fill" class="vidaUtil">
-      <mat-label>Vida útil</mat-label>
-      <input type="text" matInput formControlName="vidaUtil" />
+    <!-- valor rescate  -->
+    <mat-form-field appearance="fill" class="valorRescate">
+      <mat-label>Valor de rescate</mat-label>
+      <input type="text" matInput formControlName="valorRescate" />
+    </mat-form-field>
+    <!-- valor rescate moneda id  -->
+    <mat-form-field appearance="fill" class="monedaIdValorRescate">
+      <mat-label>Moneda Valor de rescate</mat-label>
+      <mat-select formControlName="monedaIdValorRescate">
+        <mat-option *ngFor="let moneda of monedas" [value]="moneda.codigo">{{
+          moneda.denominacion | titlecase
+        }}</mat-option>
+      </mat-select>
     </mat-form-field>
   </section>
 </form>

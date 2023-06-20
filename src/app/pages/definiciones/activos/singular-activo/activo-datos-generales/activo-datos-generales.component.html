@@ -108,90 +108,6 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- dias de garantia -->
-    <mat-form-field appearance="fill" class="diasGarantia">
-      <mat-label>Días garantía</mat-label>
-      <input type="text" matInput formControlName="diasGarantia" />
-    </mat-form-field>
-    <!-- fecha inicio de la garantia -->
-    <mat-form-field appearance="fill" class="fechaInicioGarantia">
-      <mat-label>Fecha inicio garantía</mat-label>
-      <input
-        matInput
-        [matDatepicker]="fechaInicioGarantiaPicker"
-        formControlName="fechaInicioGarantia" />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="fechaInicioGarantiaPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fechaInicioGarantiaPicker></mat-datepicker>
-    </mat-form-field>
-    <!-- fecha fin de la garantia -->
-    <mat-form-field appearance="fill" class="fechaFinGarantia">
-      <mat-label>Fecha fin garantía</mat-label>
-      <input
-        matInput
-        [matDatepicker]="fechaFinGarantiaPicker"
-        formControlName="fechaFinGarantia" />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="fechaFinGarantiaPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fechaFinGarantiaPicker></mat-datepicker>
-    </mat-form-field>
-    <!-- origen id -->
-    <mat-form-field appearance="fill" class="origenId">
-      <mat-label>Origen</mat-label>
-      <input type="text" matInput formControlName="origenId" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarOrigen()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- asegurado -->
-    <mat-slide-toggle formControlName="asegurado" class="asegurado"
-      >Asegurado</mat-slide-toggle
-    >
-    <!-- seguro id -->
-    <mat-form-field appearance="fill" class="seguroId">
-      <mat-label>Seguro</mat-label>
-      <input type="text" matInput formControlName="seguroId" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarSeguro()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- clase id -->
-    <mat-form-field appearance="fill" class="claseId">
-      <mat-label>Clase</mat-label>
-      <input type="text" matInput formControlName="claseId" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarClase()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- descripcion otra clase -->
-    <mat-form-field appearance="fill" class="descripcionOtraClase">
-      <mat-label>Descripción de otra clase</mat-label>
-      <input type="text" matInput formControlName="descripcionOtraClase" />
-    </mat-form-field>
-    <!-- valor rescate  -->
-    <mat-form-field appearance="fill" class="valorRescate">
-      <mat-label>Valor de rescate</mat-label>
-      <input type="text" matInput formControlName="valorRescate" />
-    </mat-form-field>
-    <!-- fuente de financiamiento id -->
-    <mat-form-field appearance="fill" class="fuenteFinanciamientoId">
-      <mat-label>Fuente de financiamiento</mat-label>
-      <input type="text" matInput formControlName="fuenteFinanciamientoId" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarFuenteFinanciamiento()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- codigo centro costos  -->
-    <mat-form-field appearance="fill" class="codigoCentroCostos">
-      <mat-label>Código centro de costos</mat-label>
-      <input type="text" matInput formControlName="codigoCentroCostos" />
-    </mat-form-field>
     <!-- rotulacion id -->
     <mat-form-field appearance="fill" class="rotulacionId">
       <mat-label>Rotulación</mat-label>
@@ -215,14 +131,6 @@
         (click)="buscarCategoria()">
         <mat-icon>search</mat-icon>
       </button>
-    </mat-form-field>
-    <!-- especificaciones tecnicas -->
-    <mat-form-field appearance="fill" class="especificacionesTecnicas">
-      <mat-label>Especificaciones técnicas</mat-label>
-      <textarea
-        rows="2"
-        matInput
-        formControlName="especificacionesTecnicas"></textarea>
     </mat-form-field>
   </article>
 </form>

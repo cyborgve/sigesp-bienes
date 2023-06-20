@@ -1,16 +1,20 @@
-.depreciable {
+.vidaUtil {
   @apply col-span-2;
 }
+
+.valorRescate,
+.monedaIdValorRescate,
+.plantillaDepreciacion,
+.metodoDepreciacion,
 .cuentaContableGasto,
-.cuentaContableDepreciacion,
-.vidaUtil {
+.cuentaContableDepreciacion {
   @apply col-span-3;
 }
 
-.metodoDepreciacion {
-  @apply col-start-1 col-span-3;
+.depreciable {
+  @apply col-span-2 pt-4;
 }
 
 .plantillaDepreciacion {
-  @apply col-span-3 col-start-4;
+  @apply col-start-5;
 }
