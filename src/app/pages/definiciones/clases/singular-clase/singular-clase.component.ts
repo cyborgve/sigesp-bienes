@@ -91,7 +91,6 @@ export class SingularClaseComponent implements Entidad {
         .guardar(entidad)
         .pipe(
           first(),
-          tap(res => console.trace(res)),
           tap(() => this.irAtras())
         )
         .subscribe();

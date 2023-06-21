@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { BuscadorCausaMovimientoModule } from '../buscador-causa-movimiento/buscador-causa-movimiento.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [SingularCausaMovimientoComponent],
@@ -25,6 +26,7 @@ import { BuscadorCausaMovimientoModule } from '../buscador-causa-movimiento/busc
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
+    MatSlideToggleModule,
   ],
 })
 export class SingularCausaMovimientoModule {}

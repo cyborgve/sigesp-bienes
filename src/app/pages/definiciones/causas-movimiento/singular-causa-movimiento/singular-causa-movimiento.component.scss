@@ -2,7 +2,6 @@
   @apply col-span-2;
 }
 
-.estAfectacionContable,
-.estAfectacionPresupuestaria {
-  @apply col-span-3;
+.afectaciones {
+  @apply col-span-3 pt-1;
 }

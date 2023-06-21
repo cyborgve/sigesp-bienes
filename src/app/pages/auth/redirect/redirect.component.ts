@@ -25,7 +25,6 @@ export class RedirectComponent implements OnInit {
       this.data = JSON.parse(
         atob(this.route.snapshot.queryParamMap.get('data'))
       );
-      // console.log(this.data);
 
       this.sigesp.saveUser(this.data);
       this._app.usuario = this.sigesp.usuarioActivo;

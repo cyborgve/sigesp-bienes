@@ -59,7 +59,6 @@ export class SingularModeloComponent implements Entidad, OnDestroy {
         .buscarPorId(this.id)
         .pipe(
           take(1),
-          tap(entidad => console.trace(entidad)),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,

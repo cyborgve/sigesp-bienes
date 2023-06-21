@@ -29,22 +29,20 @@
             >
           </mat-select>
         </mat-form-field>
-        <!-- estado afectacion contable -->
-        <mat-form-field appearance="fill" class="estAfectacionContable">
-          <mat-label>Estado afectación contable</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="estAfectacionContable" />
-        </mat-form-field>
-        <!-- estado afectacion presupuestaria -->
-        <mat-form-field appearance="fill" class="estAfectacionPresupuestaria">
-          <mat-label>Estado afectación presupuestaria</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="estAfectacionPresupuestaria" />
-        </mat-form-field>
+        <article class="afectaciones">
+          <!-- estado afectacion contable -->
+          <mat-slide-toggle
+            class="estAfectacionContable"
+            formControlName="estAfectacionContable"
+            >Afectación contable</mat-slide-toggle
+          >
+          <!-- estado afectacion presupuestaria -->
+          <mat-slide-toggle
+            formControlName="estAfectacionPresupuestaria"
+            class="estAfectacionPresupuestaria"
+            >Afectación presupuestaria</mat-slide-toggle
+          >
+        </article>
       </article>
     </mat-card>
     <!-- botones -->
