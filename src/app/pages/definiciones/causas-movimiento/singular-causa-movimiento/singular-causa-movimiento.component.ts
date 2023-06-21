@@ -50,13 +50,9 @@ export class SingularCausaMovimientoComponent implements Entidad {
               id: [entidad.id],
               denominacion: [entidad.denominacion, Validators.required],
               tipo: [entidad.tipo, Validators.required],
-              estAfectacionContable: [
-                entidad.estAfectacionContable,
-                Validators.required,
-              ],
+              estAfectacionContable: [entidad.estAfectacionContable],
               estAfectacionPresupuestaria: [
                 entidad.estAfectacionPresupuestaria,
-                Validators.required,
               ],
               codigo: [entidad.codigo, Validators.required],
               creado: [entidad.creado],
@@ -72,8 +68,8 @@ export class SingularCausaMovimientoComponent implements Entidad {
         codigo: ['', Validators.required],
         denominacion: ['', Validators.required],
         tipo: ['', Validators.required],
-        estAfectacionContable: ['', Validators.required],
-        estAfectacionPresupuestaria: ['', Validators.required],
+        estAfectacionContable: [false],
+        estAfectacionPresupuestaria: [false],
         creado: [''],
         modificado: [''],
       });

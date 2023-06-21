@@ -1,5 +1,5 @@
 export type TipoCausaMovimiento =
-  | 'INCORPORACION'
-  | 'DESINCORPORACION'
-  | 'REASIGNACION'
-  | 'MODIFICACION';
+  | 'INCORPORACIÓN'
+  | 'DESINCORPORACIÓN'
+  | 'REASIGNACIÓN'
+  | 'MODIFICACIÓN';

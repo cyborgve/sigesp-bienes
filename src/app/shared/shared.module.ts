@@ -10,7 +10,6 @@ import { EncabezadoDefinicionComponent } from './components/encabezado-definicio
 import { BotonesDefinicionComponent } from './components/botones-definicion/botones-definicion.component';
 import { BotonesDefinicionesComponent } from './components/botones-definiciones/botones-definiciones.component';
 import { EncabezadoDefinicionesComponent } from './components/encabezado-definiciones/encabezado-definiciones.component';
-import { TablaCuentaContableComponent } from './components/tabla-cuenta-contable/tabla-cuenta-contable.component';
 import { BuscadorCuentaContableComponent } from './components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
@@ -23,7 +22,6 @@ const sharedComponents = [
   BotonesDefinicionComponent,
   BotonesDefinicionesComponent,
   EncabezadoDefinicionesComponent,
-  TablaCuentaContableComponent,
   BuscadorCuentaContableComponent,
 ];
 

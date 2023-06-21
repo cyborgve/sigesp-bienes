@@ -21,7 +21,7 @@
 .propositoSemovienteId,
 .numeroHierro,
 .fuenteFinanciamientoId,
-.razaId {
+.raza {
   @apply col-span-3;
 }
 
@@ -33,6 +33,7 @@
   @apply col-start-1 col-span-full;
 }
 
+.razaId,
 .diasGarantia,
 .fechaInicioGarantia,
 .fechaFinGarantia,
@@ -42,7 +43,6 @@
 .claseId,
 .descripcionOtraClase,
 .codigoCentroCostos,
-.raza,
 .fechaNacimientoAnimal,
 .tipoAnimalId,
 .unidadMedidaId,
