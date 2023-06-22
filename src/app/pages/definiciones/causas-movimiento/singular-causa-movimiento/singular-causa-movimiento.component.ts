@@ -12,6 +12,8 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Location } from '@angular/common';
 import { TIPOS_CAUSA_MOVIMIENTO } from '@core/constants/tipos-causa-movimiento';
 import { Entidad } from '@core/models/entidad';
+import { CORRELATIVOS } from '@core/constants/correlativos';
+import { CorrelativoService } from '@core/services/correlativo.service';
 
 @Component({
   selector: 'app-singular-causa-movimiento',
@@ -31,8 +33,20 @@ export class SingularCausaMovimientoComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      tipo: ['', Validators.required],
+      estAfectacionContable: [false],
+      estAfectacionPresupuestaria: [false],
+      creado: [''],
+      modificado: [''],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -62,17 +76,20 @@ export class SingularCausaMovimientoComponent implements Entidad {
         )
         .subscribe();
     } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        tipo: ['', Validators.required],
-        estAfectacionContable: [false],
-        estAfectacionPresupuestaria: [false],
-        creado: [''],
-        modificado: [''],
-      });
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
+        )
+        .subscribe();
     }
   }
 

@@ -395,7 +395,6 @@ export class SingularActivoComponent implements Entidad {
     };
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

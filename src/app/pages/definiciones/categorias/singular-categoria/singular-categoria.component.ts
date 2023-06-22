@@ -12,6 +12,7 @@ import { Categoria } from '@core/models/categoria';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-categoria',
@@ -36,7 +37,7 @@ export class SingularCategoriaComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       creado: [''],
       modificado: [''],
@@ -66,7 +67,7 @@ export class SingularCategoriaComponent implements Entidad {
         .subscribe();
     } else {
       this._correlativo
-        .buscarPorId(2)
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
           take(1),
           tap(categoria =>
@@ -101,9 +102,7 @@ export class SingularCategoriaComponent implements Entidad {
 
   guardar() {
     let entidad: Categoria = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

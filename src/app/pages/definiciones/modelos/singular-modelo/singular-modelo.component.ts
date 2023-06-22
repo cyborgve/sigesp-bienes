@@ -1,5 +1,4 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
-import { JsonPipe, Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +13,9 @@ import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marc
 import { Entidad } from '@core/models/entidad';
 import { Marca } from '@core/models/marca';
 import { Subscription } from 'rxjs';
+import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-singular-modelo',
@@ -33,7 +35,8 @@ export class SingularModeloComponent implements Entidad, OnDestroy {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -70,6 +73,21 @@ export class SingularModeloComponent implements Entidad, OnDestroy {
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }

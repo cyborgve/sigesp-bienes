@@ -13,6 +13,8 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { BuscadorTipoEstructuraComponent } from '@pages/definiciones/tipos-estructura/buscador-tipo-estructura/buscador-tipo-estructura.component';
 import { Entidad } from '@core/models/entidad';
 import { TipoEstructura } from '@core/models/tipo-estructura';
+import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-componente-estructura',
@@ -31,7 +33,8 @@ export class SingularComponenteEstructuraComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -64,6 +67,21 @@ export class SingularComponenteEstructuraComponent implements Entidad {
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }

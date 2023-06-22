@@ -11,6 +11,8 @@ import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorCategoriaUnidadAdministrativaComponent } from '../buscador-categoria-unidad-administrativa/buscador-categoria-unidad-administrativa.component';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/entidad';
+import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-categoria-unidad-administrativa',
@@ -28,8 +30,17 @@ export class SingularCategoriaUnidadAdministrativaComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
+    this.formulario = this._formBuilder.group({
+      empresaId: [''],
+      id: [''],
+      codigo: ['', Validators.required],
+      denominacion: ['', Validators.required],
+      creado: [new Date()],
+      modificado: [new Date()],
+    });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
@@ -54,14 +65,20 @@ export class SingularCategoriaUnidadAdministrativaComponent implements Entidad {
         )
         .subscribe();
     } else {
-      this.formulario = this._formBuilder.group({
-        empresaId: [''],
-        id: [''],
-        codigo: ['', Validators.required],
-        denominacion: ['', Validators.required],
-        creado: [''],
-        modificado: [''],
-      });
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
+        )
+        .subscribe();
     }
   }
 
@@ -89,9 +106,7 @@ export class SingularCategoriaUnidadAdministrativaComponent implements Entidad {
 
   guardar() {
     let entidad: CategoriaUnidadAdministr = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

@@ -12,6 +12,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-aseguradora',
@@ -36,10 +37,10 @@ export class SingularAseguradoraComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['01-00000001', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.actualizarFormulario();
   }
@@ -61,6 +62,21 @@ export class SingularAseguradoraComponent implements Entidad {
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }
@@ -85,9 +101,7 @@ export class SingularAseguradoraComponent implements Entidad {
 
   guardar() {
     let entidad: Aseguradora = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

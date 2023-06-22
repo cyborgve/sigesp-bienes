@@ -19,6 +19,8 @@ import { TipoComponenteService } from '@core/services/tipo-componente.service';
 import { Subscription } from 'rxjs';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
 import { TipoComponente } from '@core/models/tipo-componente';
+import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-componente-activo',
@@ -40,7 +42,8 @@ export class SingularComponenteActivoComponent implements Entidad, OnDestroy {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -81,6 +84,21 @@ export class SingularComponenteActivoComponent implements Entidad, OnDestroy {
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }

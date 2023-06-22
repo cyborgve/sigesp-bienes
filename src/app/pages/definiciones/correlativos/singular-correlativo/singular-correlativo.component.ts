@@ -11,6 +11,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorCorrelativoComponent } from '../buscador-correlativo/buscador-correlativo.component';
 import { Correlativo } from '@core/models/correlativo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-correlativo',
@@ -28,7 +29,8 @@ export class SingularCorrelativoComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
@@ -61,6 +63,21 @@ export class SingularCorrelativoComponent implements Entidad {
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }

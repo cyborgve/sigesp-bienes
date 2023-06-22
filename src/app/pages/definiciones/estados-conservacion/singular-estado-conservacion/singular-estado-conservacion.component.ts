@@ -11,6 +11,8 @@ import { BuscadorEstadoConservacionComponent } from '../buscador-estado-conserva
 import { Conservacion } from '@core/models/conservacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/entidad';
+import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-estado-conservacion',
@@ -29,7 +31,8 @@ export class SingularEstadoConservacionComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -60,6 +63,21 @@ export class SingularEstadoConservacionComponent implements Entidad {
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }

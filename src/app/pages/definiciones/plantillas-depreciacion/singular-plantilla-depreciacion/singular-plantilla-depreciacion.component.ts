@@ -15,6 +15,8 @@ import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { Subscription } from 'rxjs';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { CuentaContable } from '@core/types/cuenta-contable';
+import { CorrelativoService } from '@core/services/correlativo.service';
+import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
   selector: 'app-singular-plantilla-depreciacion',
@@ -37,7 +39,8 @@ export class SingularPlantillaDepreciacionComponent
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _correlativo: CorrelativoService
   ) {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
@@ -80,6 +83,21 @@ export class SingularPlantillaDepreciacionComponent
               modificado: entidad.modificado,
             });
           })
+        )
+        .subscribe();
+    } else {
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+        .pipe(
+          take(1),
+          tap(categoria =>
+            this.formulario.patchValue({
+              codigo:
+                categoria.serie.toString().padStart(4, '0') +
+                '-' +
+                categoria.correlativo.toString().padStart(8, '0'),
+            })
+          )
         )
         .subscribe();
     }
