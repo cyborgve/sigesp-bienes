@@ -1,6 +1,6 @@
 import { take, tap, filter, switchMap, first } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,13 +13,15 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-color',
   templateUrl: './singular-color.component.html',
   styleUrls: ['./singular-color.component.scss'],
 })
-export class SingularColorComponent implements Entidad {
+export class SingularColorComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'color';
@@ -37,13 +39,17 @@ export class SingularColorComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -88,23 +94,23 @@ export class SingularColorComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((color: Color) => {
-          this.formulario.patchValue({
-            denominacion: color.denominacion,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((color: Color) => {
+            this.formulario.patchValue({
+              denominacion: color.denominacion,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
     let color: Color = this.formulario.value;
-    color.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      color.creado = new Date();
       this._entidad
         .guardar(color)
         .pipe(first())
@@ -124,14 +130,16 @@ export class SingularColorComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {

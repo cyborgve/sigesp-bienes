@@ -1,5 +1,5 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,13 +14,15 @@ import { TIPOS_CAUSA_MOVIMIENTO } from '@core/constants/tipos-causa-movimiento';
 import { Entidad } from '@core/models/entidad';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { CorrelativoService } from '@core/services/correlativo.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-causa-movimiento',
   templateUrl: './singular-causa-movimiento.component.html',
   styleUrls: ['./singular-causa-movimiento.component.scss'],
 })
-export class SingularCausaMovimientoComponent implements Entidad {
+export class SingularCausaMovimientoComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'causa de movimiento';
@@ -39,16 +41,20 @@ export class SingularCausaMovimientoComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       tipo: ['', Validators.required],
-      estAfectacionContable: [false],
-      estAfectacionPresupuestaria: [false],
-      creado: [''],
-      modificado: [''],
+      estAfectacionContable: [0],
+      estAfectacionPresupuestaria: [0],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -98,26 +104,26 @@ export class SingularCausaMovimientoComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: CausaMovimiento) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-            tipo: entidad.tipo,
-            estAfectacionContable: entidad.estAfectacionContable,
-            estAfectacionPresupuestaria: entidad.estAfectacionPresupuestaria,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: CausaMovimiento) => {
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              tipo: entidad.tipo,
+              estAfectacionContable: entidad.estAfectacionContable,
+              estAfectacionPresupuestaria: entidad.estAfectacionPresupuestaria,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
     let entidad: CausaMovimiento = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())
@@ -137,14 +143,16 @@ export class SingularCausaMovimientoComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {

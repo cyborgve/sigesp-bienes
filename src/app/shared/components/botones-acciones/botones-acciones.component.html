@@ -11,6 +11,7 @@
   mat-icon-button
   color="primary"
   (click)="eliminar.emit()"
-  class="eliminar">
+  class="eliminar"
+  [disabled]="deshabilitarEliminar">
   <mat-icon>delete</mat-icon>
 </button>

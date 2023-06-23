@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,13 +13,17 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-categoria-unidad-administrativa',
   templateUrl: './singular-categoria-unidad-administrativa.component.html',
   styleUrls: ['./singular-categoria-unidad-administrativa.component.scss'],
 })
-export class SingularCategoriaUnidadAdministrativaComponent implements Entidad {
+export class SingularCategoriaUnidadAdministrativaComponent
+  implements Entidad, OnDestroy
+{
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'categoria de unidad administrativa';
@@ -36,13 +40,17 @@ export class SingularCategoriaUnidadAdministrativaComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       creado: [new Date()],
       modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -90,18 +98,20 @@ export class SingularCategoriaUnidadAdministrativaComponent implements Entidad {
         height: '85%',
       }
     );
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: CategoriaUnidadAdministr) => {
-          this.formulario.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            denominacion: entidad.denominacion,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: CategoriaUnidadAdministr) => {
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              denominacion: entidad.denominacion,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
@@ -126,14 +136,16 @@ export class SingularCategoriaUnidadAdministrativaComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {

@@ -1,6 +1,6 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,13 +13,15 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-categoria',
   templateUrl: './singular-categoria.component.html',
   styleUrls: ['./singular-categoria.component.scss'],
 })
-export class SingularCategoriaComponent implements Entidad {
+export class SingularCategoriaComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'categoría';
@@ -39,11 +41,15 @@ export class SingularCategoriaComponent implements Entidad {
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -88,16 +94,18 @@ export class SingularCategoriaComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Categoria) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: Categoria) => {
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
@@ -122,14 +130,16 @@ export class SingularCategoriaComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {

@@ -22,7 +22,7 @@
           <mat-label>Afectación depreciación</mat-label>
           <mat-select formControlName="afectacionDepreciacion">
             <mat-option
-              *ngFor="let afectacion of afectacionesDepreciacion"
+              *ngFor="let afectacion of tiposAfectacionDepreciacion"
               [value]="afectacion.charAt(0)"
               >{{ afectacion | titlecase }}</mat-option
             >

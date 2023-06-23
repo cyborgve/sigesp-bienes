@@ -1,21 +1,29 @@
 <app-encabezado-definiciones
   [titulo]="titulo"
-  [ocultarNuevo]="ocultarNuevo"
-  (nuevo)="nuevo()"
+  [ocultarNuevo]="'true'"
   (filtrarDatos)="filtrar($event)"
   (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
 <mat-card class="card-table">
   <!-- tabla -->
   <table mat-table [dataSource]="dataSource" class="table" matSort>
-    <!-- codigo -->
-    <ng-container matColumnDef="codigo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
-      <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
-    </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
-      <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
+      <td mat-cell *matCellDef="let row">
+        {{ row.denominacion }}
+      </td>
+    </ng-container>
+    <!-- serie -->
+    <ng-container matColumnDef="serie">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Serie</th>
+      <td mat-cell *matCellDef="let row">{{ row.serie | numeroSerie }}</td>
+    </ng-container>
+    <!-- correlativo -->
+    <ng-container matColumnDef="correlativo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Correlativo</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.correlativo | numeroCorrelativo }}
+      </td>
     </ng-container>
     <!-- creado -->
     <ng-container matColumnDef="creado">
@@ -38,7 +46,7 @@
       <td mat-cell *matCellDef="let row">
         <app-botones-acciones
           (editar)="editar(row)"
-          (eliminar)="eliminar(row)"></app-botones-acciones>
+          [deshabilitarEliminar]="'true'"></app-botones-acciones>
       </td>
     </ng-container>
 

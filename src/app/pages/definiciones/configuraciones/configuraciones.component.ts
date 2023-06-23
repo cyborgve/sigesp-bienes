@@ -1,7 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AFECTACIONES_DEPRECIACION } from '@core/constants/afectaciones-depreciacion';
 import { NORMATIVAS_ACTIVO } from '@core/constants/normativas-activo';
 import { ConfiguracionService } from '@core/services/configuracion.service';
 import { Id } from '@core/types/id';
@@ -10,6 +9,7 @@ import { Entidad } from '@core/models/entidad';
 import { Location } from '@angular/common';
 import { Configuracion } from '@core/models/configuracion';
 import { ModoFormulario } from '@core/types/modo-formulario';
+import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
 
 @Component({
   selector: 'app-configuraciones',
@@ -21,7 +21,7 @@ export class ConfiguracionesComponent implements Entidad {
   titulo = 'Configuraciones';
   formulario: FormGroup;
 
-  afectacionesDepreciacion = AFECTACIONES_DEPRECIACION;
+  tiposAfectacionDepreciacion = TIPOS_AFECTACION_DEPRECIACION;
   normativasActivo = NORMATIVAS_ACTIVO;
 
   private id: Id;
@@ -36,9 +36,9 @@ export class ConfiguracionesComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      generarAsientosContables: [false],
-      fechaIncorporacionAutomatica: [false],
-      separadorMascaraCodigo: [false],
+      generarAsientosContables: [0],
+      fechaIncorporacionAutomatica: [0],
+      separadorMascaraCodigo: [0],
       afectacionDepreciacion: ['', Validators.required],
       normativaActivos: ['', Validators.required],
       longitudMaximaCatalogoCuenta: [
@@ -57,7 +57,7 @@ export class ConfiguracionesComponent implements Entidad {
         '########',
         [Validators.max(32), Validators.min(8)],
       ],
-      activarPaginacion: [false],
+      activarPaginacion: [0],
       opcionesPaginacion: [''],
       creado: [new Date()],
       modificado: [new Date()],
@@ -121,9 +121,7 @@ export class ConfiguracionesComponent implements Entidad {
 
   guardar(): void {
     let configuracion: Configuracion = this.formulario.value as Configuracion;
-    configuracion.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      configuracion.creado = new Date();
       this._entidad
         .guardar(configuracion)
         .pipe(first())

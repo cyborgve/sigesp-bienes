@@ -1,7 +1,7 @@
 import { Aseguradora } from '@core/models/aseguradora';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,13 +13,15 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-aseguradora',
   templateUrl: './singular-aseguradora.component.html',
   styleUrls: ['./singular-aseguradora.component.scss'],
 })
-export class SingularAseguradoraComponent implements Entidad {
+export class SingularAseguradoraComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'aseguradora';
@@ -43,6 +45,10 @@ export class SingularAseguradoraComponent implements Entidad {
       modificado: [new Date()],
     });
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -87,16 +93,18 @@ export class SingularAseguradoraComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Aseguradora) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: Aseguradora) => {
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
@@ -121,14 +129,16 @@ export class SingularAseguradoraComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {

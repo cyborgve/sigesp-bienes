@@ -12,6 +12,9 @@ import { BotonesDefinicionesComponent } from './components/botones-definiciones/
 import { EncabezadoDefinicionesComponent } from './components/encabezado-definiciones/encabezado-definiciones.component';
 import { BuscadorCuentaContableComponent } from './components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
+import { NumeroSeriePipe } from './pipes/numero-serie.pipe';
+import { NumeroCorrelativoPipe } from './pipes/numero-correlativo.pipe';
+import { DenominacionCorrelativoPipe } from './pipes/denominacion-correlativo.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -25,7 +28,12 @@ const sharedComponents = [
   BuscadorCuentaContableComponent,
 ];
 
-const sharedPipes = [IsoCurrencyPipe];
+const sharedPipes = [
+  IsoCurrencyPipe,
+  NumeroSeriePipe,
+  NumeroCorrelativoPipe,
+  DenominacionCorrelativoPipe,
+];
 
 @NgModule({
   declarations: [...sharedComponents, ...sharedPipes],

@@ -55,18 +55,18 @@ export const MENU: MenuItem[] = [
         icon: 'palette',
         image: './assets/images/svg/palette.svg',
       },
-      {
-        label: 'Componentes de Activo',
-        routerLink: 'componentes-activo',
-        icon: 'crop_square',
-        image: './assets/images/svg/crop_square.svg',
-      },
-      {
-        label: 'Componentes de Estructura',
-        routerLink: 'componentes-estructura',
-        icon: 'house_siding',
-        image: './assets/images/svg/house_siding.svg',
-      },
+      // {
+      //   label: 'Componentes de Activo',
+      //   routerLink: 'componentes-activo',
+      //   icon: 'crop_square',
+      //   image: './assets/images/svg/crop_square.svg',
+      // },
+      // {
+      //   label: 'Componentes de Estructura',
+      //   routerLink: 'componentes-estructura',
+      //   icon: 'house_siding',
+      //   image: './assets/images/svg/house_siding.svg',
+      // },
       {
         label: 'Condiciones de Compra',
         routerLink: 'condiciones-compra',

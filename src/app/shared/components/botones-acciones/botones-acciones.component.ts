@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-botones-acciones',
@@ -8,4 +8,5 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class BotonesAccionesComponent {
   @Output() editar = new EventEmitter();
   @Output() eliminar = new EventEmitter();
+  @Input() deshabilitarEliminar: boolean = false;
 }
