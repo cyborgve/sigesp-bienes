@@ -12,13 +12,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Id } from '@core/types/id';
-import { ConservacionService } from '@core/services/conservacion.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/tabla-entidad';
+import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
 
 @Component({
   selector: 'app-tabla-estado-conservacion',
@@ -43,7 +43,7 @@ export class TablaEstadoConservacionComponent
     this.urlPlural + '/estado-conservacion/' + id;
 
   constructor(
-    private _entidad: ConservacionService,
+    private _entidad: EstadoConservacionService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog

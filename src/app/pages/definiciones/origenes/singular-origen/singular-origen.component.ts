@@ -1,6 +1,6 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,19 +13,22 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-origen',
   templateUrl: './singular-origen.component.html',
   styleUrls: ['./singular-origen.component.scss'],
 })
-export class SingularOrigenComponent implements Entidad {
+export class SingularOrigenComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'Origen';
   formulario: FormGroup;
-  modosAdquisicion: string[] = [];
-  formasAdquisicion: string[] = [];
+  //TODO: preguntar por los tipos de adquisicion y los modos de adquisicion.
+  modosAdquisicion: string[] = ['Modo 1', 'Modo 2', 'Modo 3'];
+  formasAdquisicion: string[] = ['Forma 1', 'Forma 2', 'Forma 3'];
 
   constructor(
     private _entidad: OrigenService,
@@ -38,28 +41,32 @@ export class SingularOrigenComponent implements Entidad {
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
-      id: [''],
+      id: ['autogenerado'],
       codigo: ['', Validators.required],
-      fechaOrigen: ['', Validators.required],
-      fechaAdquisicion: ['', Validators.required],
+      fechaOrigen: [null, Validators.required],
+      fechaAdquisicion: [null],
       modoAdquisicion: ['', Validators.required],
       formaAdquisicion: ['', Validators.required],
-      numeroFormaAdquisicion: ['', Validators.required],
-      nombreFormaAdquisicion: ['', Validators.required],
-      fechaFactura: ['', Validators.required],
-      numeroFactura: ['', Validators.required],
-      proveedorId: ['', Validators.required],
-      tomo: ['', Validators.required],
-      folio: ['', Validators.required],
-      nombrePropietarioAnterior: ['', Validators.required],
-      nombreBenefactor: ['', Validators.required],
-      nombreBeneficiario: ['', Validators.required],
-      observaciones: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      numeroFormaAdquisicion: [''],
+      nombreFormaAdquisicion: [''],
+      fechaFactura: [null],
+      numeroFactura: [''],
+      proveedorId: [''],
+      tomo: [''],
+      folio: [''],
+      nombrePropietarioAnterior: [''],
+      nombreBenefactor: [''],
+      nombreBeneficiario: [''],
+      observaciones: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -119,38 +126,38 @@ export class SingularOrigenComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Origen) =>
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-            fechaOrigen: entidad.fechaOrigen,
-            fechaAdquisicion: entidad.fechaAdquisicion,
-            modoAdquisicion: entidad.modoAdquisicion,
-            formaAdquisicion: entidad.formaAdquisicion,
-            numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
-            nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
-            fechaFactura: entidad.fechaFactura,
-            numeroFactura: entidad.numeroFactura,
-            proveedorId: entidad.proveedorId,
-            tomo: entidad.tomo,
-            folio: entidad.folio,
-            nombrePropietarioAnterior: entidad.nombrePropietarioAnterior,
-            nombreBenefactor: entidad.nombreBenefactor,
-            nombreBeneficiario: entidad.nombreBeneficiario,
-            observaciones: entidad.observaciones,
-          })
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: Origen) =>
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              fechaOrigen: entidad.fechaOrigen,
+              fechaAdquisicion: entidad.fechaAdquisicion,
+              modoAdquisicion: entidad.modoAdquisicion,
+              formaAdquisicion: entidad.formaAdquisicion,
+              numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
+              nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
+              fechaFactura: entidad.fechaFactura,
+              numeroFactura: entidad.numeroFactura,
+              proveedorId: entidad.proveedorId,
+              tomo: entidad.tomo,
+              folio: entidad.folio,
+              nombrePropietarioAnterior: entidad.nombrePropietarioAnterior,
+              nombreBenefactor: entidad.nombreBenefactor,
+              nombreBeneficiario: entidad.nombreBeneficiario,
+              observaciones: entidad.observaciones,
+            })
+          )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 
   guardar() {
     let entidad: Origen = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

@@ -15,6 +15,8 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
 import { NumeroSeriePipe } from './pipes/numero-serie.pipe';
 import { NumeroCorrelativoPipe } from './pipes/numero-correlativo.pipe';
 import { DenominacionCorrelativoPipe } from './pipes/denominacion-correlativo.pipe';
+import { TipoMarcaPipe } from './pipes/tipo-marca.pipe';
+import { DenominacionMarcaPipe } from './pipes/denominacion-marca.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -33,6 +35,8 @@ const sharedPipes = [
   NumeroSeriePipe,
   NumeroCorrelativoPipe,
   DenominacionCorrelativoPipe,
+  DenominacionMarcaPipe,
+  TipoMarcaPipe,
 ];
 
 @NgModule({

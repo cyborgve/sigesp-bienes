@@ -1,3 +1,4 @@
+import { CuentaContable } from '@core/types/cuenta-contable';
 import { tap, map, first } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -11,6 +12,7 @@ import { MMoneda, SigespService } from 'sigesp';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.component';
 import { Subscription } from 'rxjs';
+import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -42,8 +44,22 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
   }
 
   buscarCatalogoCuentas() {
-    TODO: 'Pendiente de preguntar de donde obtengo estos datos';
-    alert('TO-DO');
+    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((cuentaContable: CuentaContable) =>
+            this.formulario.patchValue({
+              catalogoCuentas: cuentaContable.cuenta,
+            })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarMoneda() {

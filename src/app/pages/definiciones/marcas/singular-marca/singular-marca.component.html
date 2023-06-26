@@ -1,9 +1,12 @@
-<section class="contenedor-singular">
-  <!-- encabezado -->
-  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
-  <!-- datos -->
-  <mat-card>
-    <form [formGroup]="formulario">
+<form [formGroup]="formulario">
+  <section class="contenedor-singular">
+    <!-- encabezado -->
+    <app-encabezado-definicion
+      [titulo]="titulo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-definicion>
+    <!-- datos -->
+    <mat-card>
       <article class="contenido">
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
@@ -13,10 +16,13 @@
         <!-- tipo -->
         <mat-form-field appearance="fill" class="tipo">
           <mat-label>Tipo</mat-label>
-          <input type="text" matInput formControlName="tipo" />
-          <button mat-icon-button matSuffix (click)="buscarTipoMarca()">
-            <mat-icon>search</mat-icon>
-          </button>
+          <mat-select formControlName="tipo">
+            <mat-option
+              *ngFor="let tipo of tiposMarca"
+              [value]="tipo.charAt(0)"
+              >{{ tipo | titlecase }}</mat-option
+            >
+          </mat-select>
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
@@ -24,10 +30,9 @@
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
       </article>
-    </form>
-  </mat-card>
-  <!-- botones -->
-</section>
+    </mat-card>
+  </section>
+</form>
 <!-- barra de herramientas lateral -->
 <app-toolbar
   (importar)="importar()"
@@ -41,3 +46,5 @@
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
   [mostrarSalir]="false"></app-toolbar>
+
+<pre>{{ formulario.value | json }}</pre>

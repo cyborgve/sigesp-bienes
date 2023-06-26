@@ -31,12 +31,12 @@ export const MENU: MenuItem[] = [
         icon: 'category',
         image: './assets/images/svg/category.svg',
       },
-      {
-        label: 'Categorías de Unidad Adm.',
-        routerLink: 'categorias-unidad-administrativa',
-        icon: 'folder_copy',
-        image: './assets/images/svg/folder_copy.svg',
-      },
+      // {
+      //   label: 'Categorías de Unidad Adm.',
+      //   routerLink: 'categorias-unidad-administrativa',
+      //   icon: 'folder_copy',
+      //   image: './assets/images/svg/folder_copy.svg',
+      // },
       {
         label: 'Causas de Movimiento',
         routerLink: 'causas-movimiento',
@@ -67,12 +67,12 @@ export const MENU: MenuItem[] = [
       //   icon: 'house_siding',
       //   image: './assets/images/svg/house_siding.svg',
       // },
-      {
-        label: 'Condiciones de Compra',
-        routerLink: 'condiciones-compra',
-        icon: 'shopping_bag',
-        image: './assets/images/svg/shopping_bag.svg',
-      },
+      // {
+      //   label: 'Condiciones de Compra',
+      //   routerLink: 'condiciones-compra',
+      //   icon: 'shopping_bag',
+      //   image: './assets/images/svg/shopping_bag.svg',
+      // },
       {
         label: 'Configuraciones',
         routerLink: 'configuraciones/1',
@@ -109,12 +109,12 @@ export const MENU: MenuItem[] = [
         icon: 'checklist',
         image: './assets/images/svg/checklist.svg',
       },
-      {
-        label: 'Orígenes',
-        routerLink: 'origenes',
-        icon: 'trip_origin',
-        image: './assets/images/svg/trip_origin.svg',
-      },
+      // {
+      //   label: 'Orígenes',
+      //   routerLink: 'origenes',
+      //   icon: 'trip_origin',
+      //   image: './assets/images/svg/trip_origin.svg',
+      // },
       {
         label: 'Plantillas de depreciacion',
         routerLink: 'plantillas-depreciacion',

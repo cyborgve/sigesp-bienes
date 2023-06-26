@@ -44,7 +44,7 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="deshabilitarGuardar() || true"
+  [desabilitarGuardar]="formularioDatosGenerales.invalid"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
   [mostrarSalir]="false"></app-toolbar>

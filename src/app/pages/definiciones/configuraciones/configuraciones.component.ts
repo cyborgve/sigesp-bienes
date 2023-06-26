@@ -36,9 +36,9 @@ export class ConfiguracionesComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      generarAsientosContables: [0],
-      fechaIncorporacionAutomatica: [0],
-      separadorMascaraCodigo: [0],
+      generarAsientosContables: [false],
+      fechaIncorporacionAutomatica: [false],
+      separadorMascaraCodigo: [false],
       afectacionDepreciacion: ['', Validators.required],
       normativaActivos: ['', Validators.required],
       longitudMaximaCatalogoCuenta: [
@@ -57,7 +57,7 @@ export class ConfiguracionesComponent implements Entidad {
         '########',
         [Validators.max(32), Validators.min(8)],
       ],
-      activarPaginacion: [0],
+      activarPaginacion: [false],
       opcionesPaginacion: [''],
       creado: [new Date()],
       modificado: [new Date()],

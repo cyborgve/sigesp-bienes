@@ -1,10 +1,9 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConservacionService } from '@core/services/conservacion.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorEstadoConservacionComponent } from '../buscador-estado-conservacion/buscador-estado-conservacion.component';
@@ -13,20 +12,23 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Subscription } from 'rxjs';
+import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
 
 @Component({
   selector: 'app-singular-estado-conservacion',
   templateUrl: './singular-estado-conservacion.component.html',
   styleUrls: ['./singular-estado-conservacion.component.scss'],
 })
-export class SingularEstadoConservacionComponent implements Entidad {
+export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'Estado de Conservación';
   formulario: FormGroup;
 
   constructor(
-    private _entidad: ConservacionService,
+    private _entidad: EstadoConservacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _formBuilder: FormBuilder,
@@ -37,13 +39,17 @@ export class SingularEstadoConservacionComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -88,23 +94,23 @@ export class SingularEstadoConservacionComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((condicionCompra: Conservacion) => {
-          this.formulario.patchValue({
-            denominacion: condicionCompra.denominacion,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((condicionCompra: Conservacion) => {
+            this.formulario.patchValue({
+              denominacion: condicionCompra.denominacion,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
     let condicionCompra: Conservacion = this.formulario.value;
-    condicionCompra.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      condicionCompra.creado = new Date();
       this._entidad
         .guardar(condicionCompra)
         .pipe(first())
@@ -124,14 +130,16 @@ export class SingularEstadoConservacionComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {

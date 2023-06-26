@@ -16,6 +16,7 @@ import { Entidad } from '@core/models/entidad';
 import { TipoMarca } from '@core/models/tipo-marca';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { TIPOS_MARCA } from '@core/constants/tipos-marca';
 
 @Component({
   selector: 'app-singular-marca',
@@ -27,7 +28,7 @@ export class SingularMarcaComponent implements Entidad {
   id: Id;
   titulo = 'marca';
   formulario: FormGroup;
-  tiposMarca = () => this._tipoMarca.buscarTodos();
+  tiposMarca = TIPOS_MARCA;
 
   constructor(
     private _entidad: MarcaService,
@@ -42,11 +43,11 @@ export class SingularMarcaComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       tipo: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -110,9 +111,7 @@ export class SingularMarcaComponent implements Entidad {
 
   guardar() {
     let entidad: Marca = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

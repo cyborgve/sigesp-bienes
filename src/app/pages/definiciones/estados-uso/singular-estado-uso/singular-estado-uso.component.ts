@@ -1,6 +1,7 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +20,8 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
   templateUrl: './singular-estado-uso.component.html',
   styleUrls: ['./singular-estado-uso.component.scss'],
 })
-export class SingularEstadoUsoComponent implements Entidad {
+export class SingularEstadoUsoComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = 'estado de uso';
@@ -37,13 +39,17 @@ export class SingularEstadoUsoComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -88,16 +94,18 @@ export class SingularEstadoUsoComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((estadoUso: EstadoUso) => {
-          this.formulario.patchValue({
-            denominacion: estadoUso.denominacion,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((estadoUso: EstadoUso) => {
+            this.formulario.patchValue({
+              denominacion: estadoUso.denominacion,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
@@ -124,14 +132,16 @@ export class SingularEstadoUsoComponent implements Entidad {
         denominacion: this.formulario.value.denominacion,
       },
     });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
+    this.subscripciones.push(
+      dialog
+        .beforeClosed()
+        .pipe(
+          filter(todo => !!todo),
+          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          take(1)
+        )
+        .subscribe(() => this.irAtras())
+    );
   }
 
   imprimir() {

@@ -29,7 +29,7 @@ export class SingularPlantillaDepreciacionComponent
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'plantilla depreciación';
+  titulo = 'plantilla de depreciación';
   formulario: FormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
 

@@ -6,8 +6,8 @@ import { END_POINTS } from '@core/constants/end-points';
 @Injectable({
   providedIn: 'root',
 })
-export class ConservacionService extends GenericService<Conservacion> {
+export class EstadoConservacionService extends GenericService<Conservacion> {
   protected getEntidadUrl(): string {
-    return END_POINTS.find(ep => ep.clave === 'conservacion').valor;
+    return END_POINTS.find(ep => ep.clave === 'estadoConservacion').valor;
   }
 }

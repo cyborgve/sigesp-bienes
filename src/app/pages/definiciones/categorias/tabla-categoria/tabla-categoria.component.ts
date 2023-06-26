@@ -19,6 +19,7 @@ import { Id } from '@core/types/id';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/tabla-entidad';
+import { noMostratSeleccionar } from '@core/utils/operadores-rxjs';
 
 @Component({
   selector: 'app-tabla-categoria',
@@ -57,6 +58,7 @@ export class TablaCategoriaComponent
       .buscarTodos()
       .pipe(
         first(),
+        noMostratSeleccionar(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;

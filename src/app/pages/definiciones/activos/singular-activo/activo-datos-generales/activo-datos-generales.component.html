@@ -29,9 +29,14 @@
     <!-- catalogo de cuentas -->
     <mat-form-field appearance="fill" class="catalogoCuentas">
       <mat-label>Catálogo cuentas</mat-label>
-      <mat-select matInput formControlName="catalogoCuentas">
-        <mat-option></mat-option>
-      </mat-select>
+      <input matInput formControlName="catalogoCuentas" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCatalogoCuentas()">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
     <!-- serial rotulacion -->
     <mat-form-field appearance="fill" class="serialRotulacion">

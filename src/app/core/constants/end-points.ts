@@ -16,7 +16,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   },
   { clave: 'condicionCompra', valor: 'dao/sbn/condicion-compra-dao.php' },
   { clave: 'configuracion', valor: 'dao/sbn/configuracion-dao.php' },
-  { clave: 'conservacion', valor: 'dao/sbn/conservacion-dao.php' },
+  { clave: 'estadoConservacion', valor: 'dao/sbn/estado-conservacion-dao.php' },
   { clave: 'correlativo', valor: 'dao/sbn/correlativo-dao.php' },
   { clave: 'estadoUso', valor: 'dao/sbn/estado-uso-dao.php' },
   { clave: 'marca', valor: 'dao/sbn/marca-dao.php' },
