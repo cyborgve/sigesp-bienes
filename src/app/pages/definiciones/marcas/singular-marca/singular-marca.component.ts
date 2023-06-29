@@ -17,6 +17,7 @@ import { TipoMarca } from '@core/models/tipo-marca';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { TIPOS_MARCA } from '@core/constants/tipos-marca';
+import { Basica } from '@core/models/basica';
 
 @Component({
   selector: 'app-singular-marca',
@@ -32,7 +33,6 @@ export class SingularMarcaComponent implements Entidad {
 
   constructor(
     private _entidad: MarcaService,
-    private _tipoMarca: TipoMarcaService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _formBuilder: FormBuilder,
@@ -166,6 +166,21 @@ export class SingularMarcaComponent implements Entidad {
       .pipe(
         tap((tipoMarca: TipoMarca) =>
           this.formulario.patchValue({ tipo: tipoMarca.id })
+        )
+      )
+      .subscribe();
+  }
+
+  buscarTipo() {
+    let dialog = this._dialog.open(BuscadorTipoMarcaComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Basica) =>
+          this.formulario.patchValue({ tipo: entidad.id })
         )
       )
       .subscribe();

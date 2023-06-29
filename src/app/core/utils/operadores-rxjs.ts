@@ -1,9 +1,9 @@
 import { pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-export const noMostratSeleccionar = () =>
+export const filtrarValoresIniciales = () =>
   pipe(
-    map((entidades: any[]) => entidades.filter(entidad => entidad.id !== 0))
+    map((entidades: any[]) => entidades.filter(entidad => entidad.id !== '0'))
   );
 
 export const ordenarPorCodigo = () =>

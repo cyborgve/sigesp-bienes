@@ -42,6 +42,7 @@ export const COLUMNAS_VISIBLES = {
   ],
   CONSERVACION: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   CORRELATIVOS: [
+    'id',
     'denominacion',
     'serie',
     'correlativo',

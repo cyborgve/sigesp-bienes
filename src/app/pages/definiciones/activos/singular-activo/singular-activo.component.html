@@ -1,6 +1,11 @@
 <section class="contenedor-singular">
   <!-- encabezado -->
-  <app-encabezado-definicion [titulo]="titulo"></app-encabezado-definicion>
+  <app-encabezado-definicion
+    [titulo]="titulo"
+    [creado]="formularioDatosGenerales.value.creado"
+    [modificado]="
+      formularioDatosGenerales.value.modificado
+    "></app-encabezado-definicion>
 
   <!-- datos -->
   <mat-card>

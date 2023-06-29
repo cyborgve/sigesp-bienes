@@ -1,6 +1,6 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { Responsable } from '@core/models/responsable';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
+import { Subscription } from 'rxjs';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({
@@ -19,10 +20,11 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
   templateUrl: './singular-responsable.component.html',
   styleUrls: ['./singular-responsable.component.scss'],
 })
-export class SingularResponsableComponent implements Entidad {
+export class SingularResponsableComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'responsable';
+  titulo = 'Responsable';
   formulario: FormGroup;
 
   tipos = ['Tipo 1', 'Tipo 2', 'Tipo 3'];
@@ -47,11 +49,15 @@ export class SingularResponsableComponent implements Entidad {
       telefonos: ['', Validators.required],
       direccion: ['', Validators.required],
       correoElectronico: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -78,21 +84,6 @@ export class SingularResponsableComponent implements Entidad {
           })
         )
         .subscribe();
-    } else {
-      this._correlativo
-        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
-        .pipe(
-          take(1),
-          tap(categoria =>
-            this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
-        )
-        .subscribe();
     }
   }
 
@@ -101,28 +92,28 @@ export class SingularResponsableComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Responsable) => {
-          this.formulario.patchValue({
-            tipo: entidad.tipo,
-            nombreCompleto: entidad.nombreCompleto,
-            cargo: entidad.cargo,
-            telefonos: entidad.telefonos,
-            direccion: entidad.direccion,
-            correoElectronico: entidad.correoElectronico,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: Responsable) => {
+            this.formulario.patchValue({
+              tipo: entidad.tipo,
+              nombreCompleto: entidad.nombreCompleto,
+              cargo: entidad.cargo,
+              telefonos: entidad.telefonos,
+              direccion: entidad.direccion,
+              correoElectronico: entidad.correoElectronico,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
     let entidad: Responsable = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

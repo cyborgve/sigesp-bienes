@@ -1,6 +1,6 @@
-import { take, tap, first, filter, switchMap } from 'rxjs/operators';
+import { take, tap, first, filter, switchMap, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,20 +14,26 @@ import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscad
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Basica } from '@core/models/basica';
+import { Pais } from '@core/types/pais';
+import { SigespService } from 'sigesp';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-sede',
   templateUrl: './singular-sede.component.html',
   styleUrls: ['./singular-sede.component.scss'],
 })
-export class SingularSedeComponent implements Entidad {
+export class SingularSedeComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
 
   id: Id;
-  titulo = 'sede';
+  titulo = CORRELATIVOS[16].nombre;
   formulario: FormGroup;
   tipos = ['Tipo 1', 'Tipo 2', 'Tipo 3'];
   localizaciones = ['Nacional', 'Internacional'];
+  paises: Pais[] = [];
 
   constructor(
     private _entidad: SedeService,
@@ -36,12 +42,13 @@ export class SingularSedeComponent implements Entidad {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService
+    private _correlativo: CorrelativoService,
+    private _sigesp: SigespService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       tipo: ['', Validators.required],
       localizacion: ['', Validators.required],
@@ -54,11 +61,26 @@ export class SingularSedeComponent implements Entidad {
       calleAvenida: ['', Validators.required],
       casaEdificio: ['', Validators.required],
       piso: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+    this._sigesp
+      .getCountries()
+      .pipe(
+        take(1),
+        map(countries =>
+          countries.map(c => ({ id: c.code, nombre: c.name } as Pais))
+        ),
+        map(paises => paises.sort((a, b) => (a.nombre > b.nombre ? 1 : -1))),
+        tap(paises => (this.paises = paises))
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -114,34 +136,34 @@ export class SingularSedeComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Sede) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-            tipo: entidad.tipo,
-            localizacion: entidad.localizacion,
-            paisId: entidad.paisId,
-            estadoId: entidad.estadoId,
-            municipioId: entidad.municipioId,
-            parroquiaId: entidad.parroquiaId,
-            ciudadId: entidad.ciudadId,
-            urbanizacion: entidad.urbanizacion,
-            calleAvenida: entidad.calleAvenida,
-            casaEdificio: entidad.casaEdificio,
-            piso: entidad.piso,
-          });
-        })
-      )
-      .subscribe();
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: Sede) => {
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              tipo: entidad.tipo,
+              localizacion: entidad.localizacion,
+              paisId: entidad.paisId,
+              estadoId: entidad.estadoId,
+              municipioId: entidad.municipioId,
+              parroquiaId: entidad.parroquiaId,
+              ciudadId: entidad.ciudadId,
+              urbanizacion: entidad.urbanizacion,
+              calleAvenida: entidad.calleAvenida,
+              casaEdificio: entidad.casaEdificio,
+              piso: entidad.piso,
+            });
+          })
+        )
+        .subscribe()
+    );
   }
 
   guardar() {
     let entidad: Sede = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())
@@ -211,5 +233,13 @@ export class SingularSedeComponent implements Entidad {
       width: '85%',
       height: '95%',
     });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Basica) =>
+          this.formulario.patchValue({ tipo: entidad.id })
+        )
+      )
+      .subscribe();
   }
 }

@@ -22,7 +22,7 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
 export class SingularRotulacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'rotulación';
+  titulo = CORRELATIVOS[15].nombre;
   formulario: FormGroup;
   constructor(
     private _entidad: RotulacionService,
@@ -37,10 +37,10 @@ export class SingularRotulacionComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.actualizarFormulario();
   }

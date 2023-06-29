@@ -1,6 +1,6 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,16 +13,22 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Subscription } from 'rxjs';
+import { ActivoComponenteService } from '@core/services/activo-componente.service';
+import { ActivoDepreciacionService } from '@core/services/activo-depreciacion.service';
+import { ActivoDetalleService } from '@core/services/activo-detalle.service';
+import { ActivoUbicacionService } from '@core/services/activo-ubicacion.service';
 
 @Component({
   selector: 'app-singular-activo',
   templateUrl: './singular-activo.component.html',
   styleUrls: ['./singular-activo.component.scss'],
 })
-export class SingularActivoComponent implements Entidad {
+export class SingularActivoComponent implements Entidad, OnDestroy {
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'activo';
+  titulo = CORRELATIVOS[0].nombre;
 
   formularioDatosGenerales: FormGroup;
   formularioDetalles: FormGroup;
@@ -38,7 +44,11 @@ export class SingularActivoComponent implements Entidad {
     'ubicación',
   ];
   constructor(
-    private _entidad: ActivoService,
+    private _activo: ActivoService,
+    private _activoComponente: ActivoComponenteService,
+    private _activoDepreciacion: ActivoDepreciacionService,
+    private _activoDetalle: ActivoDetalleService,
+    private _activoUbicacion: ActivoUbicacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _formBuilder: FormBuilder,
@@ -52,13 +62,13 @@ export class SingularActivoComponent implements Entidad {
       empresaId: [''],
       id: [''],
       codigo: ['autogenerado'],
-      tipoActivo: ['', Validators.required],
+      tipoActivo: ['Seleccionar', Validators.required],
       fechaRegistro: [new Date()],
       catalogoCuentas: [''],
       serialRotulacion: [''],
       denominacion: ['', Validators.required],
       observaciones: [''],
-      fechaAdquisicion: [undefined],
+      fechaAdquisicion: [new Date()],
       valorAdquisicion: [0],
       monedaId: [''],
       marcaId: [0],
@@ -73,15 +83,18 @@ export class SingularActivoComponent implements Entidad {
     });
     /* formulario detalles */
     this.formularioDetalles = this._formBuilder.group({
-      diasGarantia: [''],
-      fechaInicioGarantia: [''],
-      fechaFinGarantia: [''],
-      origenId: [''],
-      asegurado: [''],
-      seguroId: [''],
-      claseId: [''],
+      empresaId: [''],
+      id: [''],
+      activoId: [0],
+      diasGarantia: [0],
+      inicioGarantia: [new Date()],
+      finGarantia: [new Date()],
+      origenId: [0],
+      asegurado: [0],
+      seguroId: [0],
+      claseId: [0],
       descripcionOtraClase: [''],
-      fuenteFinanciamientoId: [''],
+      fuente_financiamiento: [''],
       codigoCentroCostos: [''],
       especificacionesTecnicas: [''],
       oficinaRegistro: [''],
@@ -90,14 +103,14 @@ export class SingularActivoComponent implements Entidad {
       folio: [''],
       protocolo: [''],
       numeroRegistro: [''],
-      fechaRegistrado: [''],
+      fechaRegistrado: [new Date()],
       propietarioAnterior: [''],
       dependencias: [''],
-      areaConstruccionM2: [''],
-      areaTerrenoM2: [''],
+      areaConstruccionM2: [0],
+      areaTerrenoM2: [0],
       especificacionesInmueble: [''],
-      perteneceASede: [''],
-      sedeUbicacionId: [''],
+      perteneceASede: [0],
+      sedeUbicacionId: [0],
       especificacionesColor: [''],
       serialCarroceria: [''],
       serialMotor: [''],
@@ -105,20 +118,19 @@ export class SingularActivoComponent implements Entidad {
       numeroTituloPropiedad: [''],
       capacidad: [''],
       nombre: [''],
-      usoId: [''],
-      tieneGPS: [''],
-      especificacionesGPS: [''],
-      tipoSemovienteId: [''],
+      usoId: [0],
+      tieneGps: [false],
+      especificacionesGps: [''],
+      tipoSemovienteId: [0],
       genero: [''],
-      raza: [''],
-      propositoSemovienteId: [''],
-      peso: [''],
-      unidadMedidaId: [''],
+      propositoSemovienteId: [0],
+      peso: [0],
+      unidadMedidaPeso: [''],
       numeroHierro: [''],
       especificacionesAnimal: [''],
-      tipoAnimalId: [''],
-      fechaNacimientoAnimal: [''],
-      razaId: [''],
+      tipoAnimalId: [0],
+      fechaNacimientoAnimal: [new Date()],
+      razaId: [0],
     });
     /* formulario componentes */
     this.formularioComponentes = this._formBuilder.group({
@@ -152,7 +164,7 @@ export class SingularActivoComponent implements Entidad {
   private actualizarFormularios() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
-      this._entidad
+      this._activo
         .buscarPorId(this.id)
         .pipe(
           take(1),
@@ -181,86 +193,10 @@ export class SingularActivoComponent implements Entidad {
               modificado: entidad.modificado,
             })
           ),
-          tap(entidad =>
-            this.formularioDetalles.patchValue({
-              // diasGarantia: entidad.diasGarantia,
-              // fechaInicioGarantia: entidad.fechaInicioGarantia,
-              // fechaFinGarantia: entidad.fechaFinGarantia,
-              // origenId: entidad.origenId,
-              // asegurado: entidad.asegurado,
-              // seguroId: entidad.seguroId,
-              // claseId: entidad.claseId,
-              // descripcionOtraClase: entidad.descripcionOtraClase,
-              // fuenteFinanciamientoId: entidad.fuenteFinanciamientoId,
-              // codigoCentroCostos: entidad.codigoCentroCostos,
-              // especificacionesTecnicas: entidad.especificacionesTecnicas,
-              // oficinaRegistro: entidad.oficinaRegistro,
-              // referenciaRegistro: entidad.referenciaRegistro,
-              // tomo: entidad.tomo,
-              // folio: entidad.folio,
-              // protocolo: entidad.protocolo,
-              // numeroRegistro: entidad.numeroRegistro,
-              // fechaRegistrado: entidad.fechaRegistrado,
-              // propietarioAnterior: entidad.propietarioAnterior,
-              // dependencias: entidad.dependencias,
-              // areaConstruccionM2: entidad.areaConstruccionM2,
-              // areaTerrenoM2: entidad.areaTerrenoM2,
-              // especificacionesInmueble: entidad.especificacionesInmueble,
-              // perteneceASede: entidad.perteneceASede,
-              // sedeUbicacionId: entidad.sedeUbicacionId,
-              // especificacionesColor: entidad.especificacionesColor,
-              // serialCarroceria: entidad.serialCarroceria,
-              // serialMotor: entidad.serialMotor,
-              // placas: entidad.placas,
-              // numeroTituloPropiedad: entidad.numeroTituloPropiedad,
-              // capacidad: entidad.capacidad,
-              // nombre: entidad.nombre,
-              // usoId: entidad.usoId,
-              // tieneGPS: entidad.tieneGPS,
-              // especificacionesGPS: entidad.especificacionesGPS,
-              // tipoSemovienteId: entidad.tipoSemovienteId,
-              // genero: entidad.genero,
-              // raza: entidad.raza,
-              // propositoSemovienteId: entidad.propositoSemovienteId,
-              // peso: entidad.peso,
-              // unidadMedidaId: entidad.unidadMedidaId,
-              // numeroHierro: entidad.numeroHierro,
-              // especificacionesAnimal: entidad.especificacionesAnimal,
-              // tipoAnimalId: entidad.tipoAnimalId,
-              // fechaNacimientoAnimal: entidad.fechaNacimientoAnimal,
-              // razaId: entidad.razaId,
-            })
-          ),
-          tap(entidad =>
-            this.formularioComponentes.patchValue({
-              // componentes: entidad.componentes,
-            })
-          ),
-          tap(entidad =>
-            this.formularioDepreciacion.patchValue({
-              // depreciable: entidad.depreciable,
-              // //plantillaDepreciacion: entidad.plantillaDepreciacion,
-              // metodoDepreciacion: entidad.metodoDepreciacion,
-              // cuentaContableGasto: entidad.cuentaContableGasto,
-              // cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-              // vidaUtil: entidad.vidaUtil,
-              // valorRescate: entidad.valorRescate,
-              // monedaIdValorRescate: entidad.monedaIdvalorRescate,
-            })
-          ),
-          tap(entidad =>
-            this.formularioUbicacion.patchValue({
-              // sedeId: entidad.sedeId,
-              // unidadAdministrativaId: entidad.unidadAdministrativaId,
-              // fechaIngreso: entidad.fechaIngreso,
-              // responsableId: entidad.responsableId,
-              // responsableUsoId: entidad.responsableUsoId,
-              // estadoUsoId: entidad.estadoUsoId,
-              // conservacion: entidad.conservacion,
-              // descripcionEstadoConservacion:
-              //   entidad.descripcionEstadoConservacion,
-            })
-          )
+          tap(entidad => this.formularioDetalles.patchValue({})),
+          tap(entidad => this.formularioComponentes.patchValue({})),
+          tap(entidad => this.formularioDepreciacion.patchValue({})),
+          tap(entidad => this.formularioUbicacion.patchValue({}))
         )
         .subscribe();
     } else {
@@ -281,121 +217,127 @@ export class SingularActivoComponent implements Entidad {
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
+  }
+
   importar() {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       width: '95%',
       height: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((entidad: Activo) =>
-          this.formularioDatosGenerales.patchValue({
-            empresaId: entidad.empresaId,
-            id: entidad.id,
-            codigo: entidad.codigo,
-            tipoActivo: entidad.tipoActivo,
-            fechaRegistro: entidad.fechaRegistro,
-            catalogoCuentas: entidad.catalogoCuentas,
-            serialRotulacion: entidad.serialRotulacion,
-            denominacion: entidad.denominacion,
-            observaciones: entidad.observaciones,
-            fechaAdquisicion: entidad.fechaAdquisicion,
-            valorAdquisicion: entidad.valorAdquisicion,
-            monedaId: entidad.modeloId,
-            marcaId: entidad.marcaId,
-            modeloId: entidad.modeloId,
-            anioFabricacion: entidad.anioFabricacion,
-            serialFabrica: entidad.serialFabrica,
-            colorId: entidad.colorId,
-            rotulacionId: entidad.rotulacionId,
-            categoriaId: entidad.categoriaId,
-            creado: entidad.creado,
-            modificado: entidad.modificado,
-          })
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: Activo) =>
+            this.formularioDatosGenerales.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              codigo: entidad.codigo,
+              tipoActivo: entidad.tipoActivo,
+              fechaRegistro: entidad.fechaRegistro,
+              catalogoCuentas: entidad.catalogoCuentas,
+              serialRotulacion: entidad.serialRotulacion,
+              denominacion: entidad.denominacion,
+              observaciones: entidad.observaciones,
+              fechaAdquisicion: entidad.fechaAdquisicion,
+              valorAdquisicion: entidad.valorAdquisicion,
+              monedaId: entidad.modeloId,
+              marcaId: entidad.marcaId,
+              modeloId: entidad.modeloId,
+              anioFabricacion: entidad.anioFabricacion,
+              serialFabrica: entidad.serialFabrica,
+              colorId: entidad.colorId,
+              rotulacionId: entidad.rotulacionId,
+              categoriaId: entidad.categoriaId,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
+            })
+          )
+          // tap(entidad =>
+          //   this.formularioDetalles.patchValue({
+          //     oficinaRegistro: entidad.oficinaRegistro,
+          //     referenciaRegistro: entidad.referenciaRegistro,
+          //     tomo: entidad.tomo,
+          //     folio: entidad.folio,
+          //     protocolo: entidad.protocolo,
+          //     numeroRegistro: entidad.numeroRegistro,
+          //     fechaRegistrado: entidad.fechaRegistrado,
+          //     propietarioAnterior: entidad.propietarioAnterior,
+          //     dependencias: entidad.dependencias,
+          //     areaConstruccionM2: entidad.areaConstruccionM2,
+          //     areaTerrenoM2: entidad.areaTerrenoM2,
+          //     especificacionesInmueble: entidad.especificacionesInmueble,
+          //     perteneceASede: entidad.perteneceASede,
+          //     sedeUbicacionId: entidad.sedeUbicacionId,
+          //     especificacionesColor: entidad.especificacionesColor,
+          //     serialCarroceria: entidad.serialCarroceria,
+          //     serialMotor: entidad.serialMotor,
+          //     placas: entidad.placas,
+          //     numeroTituloPropiedad: entidad.numeroTituloPropiedad,
+          //     capacidad: entidad.capacidad,
+          //     nombre: entidad.nombre,
+          //     usoId: entidad.usoId,
+          //     tieneGPS: entidad.tieneGPS,
+          //     especificacionesGPS: entidad.especificacionesGPS,
+          //     tipoSemovienteId: entidad.tipoSemovienteId,
+          //     genero: entidad.genero,
+          //     raza: entidad.raza,
+          //     propositoSemovienteId: entidad.propositoSemovienteId,
+          //     unidadMedidaId: entidad.unidadMedidaId,
+          //     numeroHierro: entidad.numeroHierro,
+          //     especificacionesAnimal: entidad.especificacionesAnimal,
+          //     tipoAnimalId: entidad.tipoAnimalId,
+          //     fechaNacimientoAnimal: entidad.fechaNacimientoAnimal,
+          //     razaId: entidad.razaId,
+          //     valorRescate: entidad.valorRescate,
+          //     fuenteFinanciamientoId: entidad.fuenteFinanciamientoId,
+          //     codigoCentroCostos: entidad.codigoCentroCostos,
+          //   })
+          // ),
+          // tap(entidad =>
+          //   this.formularioComponentes.patchValue({
+          //     componentes: entidad.componentes,
+          //   })
+          // ),
+          // tap(entidad =>
+          //   this.formularioDepreciacion.patchValue({
+          //     depreciable: entidad.depreciable,
+          //     //plantillaDepreciacion: entidad.plantillaDepreciacion,
+          //     metodoDepreciacion: entidad.metodoDepreciacion,
+          //     cuentaContableGasto: entidad.cuentaContableGasto,
+          //     cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+          //     vidaUtil: entidad.vidaUtil,
+          //   })
+          // ),
+          // tap(entidad =>
+          //   this.formularioUbicacion.patchValue({
+          //     sedeId: entidad.sedeId,
+          //     unidadAdministrativaId: entidad.unidadAdministrativaId,
+          //     fechaIngreso: entidad.fechaIngreso,
+          //     responsableId: entidad.responsableId,
+          //     responsableUsoId: entidad.responsableUsoId,
+          //     estadoUsoId: entidad.estadoUsoId,
+          //     conservacion: entidad.conservacion,
+          //     descripcionEstadoConservacion:
+          //       entidad.descripcionEstadoConservacion,
+          //   })
+          // )
         )
-        // tap(entidad =>
-        //   this.formularioDetalles.patchValue({
-        //     oficinaRegistro: entidad.oficinaRegistro,
-        //     referenciaRegistro: entidad.referenciaRegistro,
-        //     tomo: entidad.tomo,
-        //     folio: entidad.folio,
-        //     protocolo: entidad.protocolo,
-        //     numeroRegistro: entidad.numeroRegistro,
-        //     fechaRegistrado: entidad.fechaRegistrado,
-        //     propietarioAnterior: entidad.propietarioAnterior,
-        //     dependencias: entidad.dependencias,
-        //     areaConstruccionM2: entidad.areaConstruccionM2,
-        //     areaTerrenoM2: entidad.areaTerrenoM2,
-        //     especificacionesInmueble: entidad.especificacionesInmueble,
-        //     perteneceASede: entidad.perteneceASede,
-        //     sedeUbicacionId: entidad.sedeUbicacionId,
-        //     especificacionesColor: entidad.especificacionesColor,
-        //     serialCarroceria: entidad.serialCarroceria,
-        //     serialMotor: entidad.serialMotor,
-        //     placas: entidad.placas,
-        //     numeroTituloPropiedad: entidad.numeroTituloPropiedad,
-        //     capacidad: entidad.capacidad,
-        //     nombre: entidad.nombre,
-        //     usoId: entidad.usoId,
-        //     tieneGPS: entidad.tieneGPS,
-        //     especificacionesGPS: entidad.especificacionesGPS,
-        //     tipoSemovienteId: entidad.tipoSemovienteId,
-        //     genero: entidad.genero,
-        //     raza: entidad.raza,
-        //     propositoSemovienteId: entidad.propositoSemovienteId,
-        //     unidadMedidaId: entidad.unidadMedidaId,
-        //     numeroHierro: entidad.numeroHierro,
-        //     especificacionesAnimal: entidad.especificacionesAnimal,
-        //     tipoAnimalId: entidad.tipoAnimalId,
-        //     fechaNacimientoAnimal: entidad.fechaNacimientoAnimal,
-        //     razaId: entidad.razaId,
-        //     valorRescate: entidad.valorRescate,
-        //     fuenteFinanciamientoId: entidad.fuenteFinanciamientoId,
-        //     codigoCentroCostos: entidad.codigoCentroCostos,
-        //   })
-        // ),
-        // tap(entidad =>
-        //   this.formularioComponentes.patchValue({
-        //     componentes: entidad.componentes,
-        //   })
-        // ),
-        // tap(entidad =>
-        //   this.formularioDepreciacion.patchValue({
-        //     depreciable: entidad.depreciable,
-        //     //plantillaDepreciacion: entidad.plantillaDepreciacion,
-        //     metodoDepreciacion: entidad.metodoDepreciacion,
-        //     cuentaContableGasto: entidad.cuentaContableGasto,
-        //     cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-        //     vidaUtil: entidad.vidaUtil,
-        //   })
-        // ),
-        // tap(entidad =>
-        //   this.formularioUbicacion.patchValue({
-        //     sedeId: entidad.sedeId,
-        //     unidadAdministrativaId: entidad.unidadAdministrativaId,
-        //     fechaIngreso: entidad.fechaIngreso,
-        //     responsableId: entidad.responsableId,
-        //     responsableUsoId: entidad.responsableUsoId,
-        //     estadoUsoId: entidad.estadoUsoId,
-        //     conservacion: entidad.conservacion,
-        //     descripcionEstadoConservacion:
-        //       entidad.descripcionEstadoConservacion,
-        //   })
-        // )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 
   guardar() {
     let entidad: Activo = this.formularioDatosGenerales.value;
     if (this.modoFormulario === 'CREANDO') {
-      this._entidad
+      this._activo
         .guardar(entidad)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
-      this._entidad
+      this._activo
         .actualizar(this.id, entidad)
         .pipe(first())
         .subscribe(() => this.irAtras());
@@ -414,7 +356,7 @@ export class SingularActivoComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._entidad.eliminar(this.formularioDatosGenerales.value.id)
+          this._activo.eliminar(this.formularioDatosGenerales.value.id)
         ),
         take(1)
       )

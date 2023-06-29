@@ -44,14 +44,11 @@
         <!-- paisId -->
         <mat-form-field appearance="fill" class="paisId">
           <mat-label>Pais</mat-label>
-          <input type="text" matInput formControlName="paisId" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarPais()">
-            <mat-icon>search</mat-icon>
-          </button>
+          <mat-select formControlName="paisId">
+            <mat-option *ngFor="let pais of paises" [value]="pais.id">{{
+              pais.nombre
+            }}</mat-option>
+          </mat-select>
         </mat-form-field>
         <!-- estadoId -->
         <mat-form-field appearance="fill" class="estadoId">

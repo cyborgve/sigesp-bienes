@@ -1,5 +1,5 @@
-<section class="contenedor-singular">
-  <form [formGroup]="formulario">
+<form [formGroup]="formulario">
+  <section class="contenedor-singular">
     <!-- encabezado -->
     <app-encabezado-definicion
       [titulo]="titulo"
@@ -20,9 +20,8 @@
         </mat-form-field>
       </article>
     </mat-card>
-    <!-- botones -->
-  </form>
-</section>
+  </section>
+</form>
 <!-- barra de herramientas lateral -->
 <app-toolbar
   (importar)="importar()"

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Basica } from '@core/models/basica';
 import { ModeloServicio } from '@core/models/modelo-servicio';
 import { Id } from '@core/types/id';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs';
 import { Utilidades } from '@core/utils/utilidades';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -19,16 +20,15 @@ export abstract class GenericService<T extends Basica>
 
   protected abstract getEntidadUrl(): string;
 
-  constructor(protected _http: HttpClient, protected _sigesp: SigespService) {}
+  constructor(protected _http: HttpClient, private _sigesp: SigespService) {}
 
   buscarTodos(): Observable<T[]> {
-    return this._http
-      .get<T[]>(this.apiUrl)
-      .pipe(
-        map((res: any) =>
-          res.data.map((ent: T) => Utilidades.normalizarObjeto(ent))
-        )
-      );
+    return this._http.get<T[]>(this.apiUrl).pipe(
+      map((res: any) =>
+        res.data.map((ent: T) => Utilidades.normalizarObjeto(ent))
+      ),
+      filtrarValoresIniciales()
+    );
   }
 
   buscarPorId(id: Id): Observable<T> {

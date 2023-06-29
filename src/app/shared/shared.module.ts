@@ -14,9 +14,9 @@ import { BuscadorCuentaContableComponent } from './components/buscador-cuenta-co
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { NumeroSeriePipe } from './pipes/numero-serie.pipe';
 import { NumeroCorrelativoPipe } from './pipes/numero-correlativo.pipe';
-import { DenominacionCorrelativoPipe } from './pipes/denominacion-correlativo.pipe';
 import { TipoMarcaPipe } from './pipes/tipo-marca.pipe';
 import { DenominacionMarcaPipe } from './pipes/denominacion-marca.pipe';
+import { DenominacionCorrelativoPipe } from './pipes/denominacion-correlativo.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -34,8 +34,8 @@ const sharedPipes = [
   IsoCurrencyPipe,
   NumeroSeriePipe,
   NumeroCorrelativoPipe,
-  DenominacionCorrelativoPipe,
   DenominacionMarcaPipe,
+  DenominacionCorrelativoPipe,
   TipoMarcaPipe,
 ];
 

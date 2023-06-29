@@ -9,6 +9,7 @@
     <mat-form-field appearance="fill" class="tipoActivo">
       <mat-label>Tipo de activo</mat-label>
       <mat-select formControlName="tipoActivo">
+        <mat-option value="Seleccionar">Seleccionar</mat-option>
         <mat-option *ngFor="let tipo of tiposActivo" [value]="tipo">{{
           tipo | titlecase
         }}</mat-option>

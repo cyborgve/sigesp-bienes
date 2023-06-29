@@ -28,7 +28,7 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
 export class SingularSeguroComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'seguro';
+  titulo = CORRELATIVOS[17].nombre;
   formulario: FormGroup;
 
   constructor(

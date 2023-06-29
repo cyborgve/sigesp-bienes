@@ -24,7 +24,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'Origen';
+  titulo = CORRELATIVOS[11].nombre;
   formulario: FormGroup;
   //TODO: preguntar por los tipos de adquisicion y los modos de adquisicion.
   modosAdquisicion: string[] = ['Modo 1', 'Modo 2', 'Modo 3'];

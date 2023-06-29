@@ -24,7 +24,7 @@ export class SingularColorComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'color';
+  titulo = CORRELATIVOS[6].nombre;
   formulario: FormGroup;
 
   constructor(

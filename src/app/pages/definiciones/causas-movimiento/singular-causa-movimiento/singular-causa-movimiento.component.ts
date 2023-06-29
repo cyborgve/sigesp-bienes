@@ -25,7 +25,7 @@ export class SingularCausaMovimientoComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'causa de movimiento';
+  titulo = CORRELATIVOS[4].nombre;
   formulario: FormGroup;
   tiposCausaMovimiento = TIPOS_CAUSA_MOVIMIENTO;
 

@@ -29,7 +29,7 @@ export class SingularPlantillaDepreciacionComponent
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = 'plantilla de depreciación';
+  titulo = CORRELATIVOS[12].nombre;
   formulario: FormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
 
@@ -46,14 +46,14 @@ export class SingularPlantillaDepreciacionComponent
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       metodoDepreciacion: ['', Validators.required],
       cuentaContableGasto: ['', Validators.required],
       cuentaContableDepreciacion: ['', Validators.required],
       vidaUtil: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.actualizarFormulario();
   }
