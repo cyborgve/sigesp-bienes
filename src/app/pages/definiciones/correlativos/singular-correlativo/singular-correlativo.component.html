@@ -11,7 +11,16 @@
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
           <mat-label>Denominación</mat-label>
-          <input type="text" matInput formControlName="denominacion" />
+          <input
+            type="text"
+            matInput
+            formControlName="denominacion"
+            readonly="true"
+            [value]="
+              formulario.value.denominacion
+                | denominacionCorrelativo
+                | titlecase
+            " />
         </mat-form-field>
         <!-- serie -->
         <mat-form-field appearance="fill" class="serie">

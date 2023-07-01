@@ -106,6 +106,7 @@ export const COLUMNAS_VISIBLES = {
   ROTULACIONES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   SEDES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   SEGUROS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  TIPOS_ANIMAL: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   TIPOS_COBERTURA: [
     'codigo',
     'denominacion',
@@ -137,6 +138,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
+  TIPOS_USO: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   UNIDADES_ADMINISTRATIVAS: [
     'codigo',
     'denominacion',

@@ -240,6 +240,10 @@ th.mat-column-modificado {
   @apply w-2/12;
 }
 
+mat-datepicker-toggle {
+  @apply text-primary;
+}
+
 .row-hover {
   @apply hover:bg-primary hover:bg-opacity-10;
 }

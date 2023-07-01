@@ -17,6 +17,19 @@ import { NumeroCorrelativoPipe } from './pipes/numero-correlativo.pipe';
 import { TipoMarcaPipe } from './pipes/tipo-marca.pipe';
 import { DenominacionMarcaPipe } from './pipes/denominacion-marca.pipe';
 import { DenominacionCorrelativoPipe } from './pipes/denominacion-correlativo.pipe';
+import { DenominacionModeloPipe } from './pipes/denominacion-modelo.pipe';
+import { DenominacionColorPipe } from './pipes/denominacion-color.pipe';
+import { DenominacionRotulacionPipe } from './pipes/denominacion-rotulacion.pipe';
+import { DenominacionCategoriaPipe } from './pipes/denominacion-categoria.pipe';
+import { DenominacionOrigenPipe } from './pipes/denominacion-origen.pipe';
+import { DenominacionSeguroPipe } from './pipes/denominacion-seguro.pipe';
+import { DenominacionClasePipe } from './pipes/denominacion-clase.pipe';
+import { DenominacionSedePipe } from './pipes/denominacion-sede.pipe';
+import { DenominacionTipoSemovientePipe } from './pipes/denominacion-tipo-semoviente.pipe';
+import { DenominacionPropositoSemovientePipe } from './pipes/denominacion-proposito-semoviente.pipe';
+import { DenominacionTipoUsoPipe } from './pipes/denominacion-tipo-uso.pipe';
+import { DenominacionTipoAnimalPipe } from './pipes/denominacion-tipo-animal.pipe';
+import { DenominacionRazaPipe } from './pipes/denominacion-raza.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -34,14 +47,38 @@ const sharedPipes = [
   IsoCurrencyPipe,
   NumeroSeriePipe,
   NumeroCorrelativoPipe,
+  TipoMarcaPipe,
   DenominacionMarcaPipe,
   DenominacionCorrelativoPipe,
-  TipoMarcaPipe,
+  DenominacionModeloPipe,
+  DenominacionColorPipe,
+  DenominacionRotulacionPipe,
+  DenominacionCategoriaPipe,
+  DenominacionOrigenPipe,
+  DenominacionSeguroPipe,
+  DenominacionClasePipe,
+  DenominacionSedePipe,
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DenominacionTipoSemovientePipe,
+    DenominacionPropositoSemovientePipe,
+    DenominacionTipoUsoPipe,
+    DenominacionTipoAnimalPipe,
+    DenominacionRazaPipe,
+  ],
   imports: [CommonModule, FormsModule, MaterialModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DenominacionPropositoSemovientePipe,
+    DenominacionTipoSemovientePipe,
+    DenominacionTipoUsoPipe,
+    DenominacionTipoAnimalPipe,
+    DenominacionRazaPipe,
+  ],
 })
 export class SharedModule {}

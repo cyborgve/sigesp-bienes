@@ -94,7 +94,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       seguroId: [0],
       claseId: [0],
       descripcionOtraClase: [''],
-      fuente_financiamiento: [''],
+      fuenteFinanciamiento: [''],
       codigoCentroCostos: [''],
       especificacionesTecnicas: [''],
       oficinaRegistro: [''],
@@ -122,7 +122,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       tieneGps: [false],
       especificacionesGps: [''],
       tipoSemovienteId: [0],
-      genero: [''],
+      genero: ['Seleccionar'],
       propositoSemovienteId: [0],
       peso: [0],
       unidadMedidaPeso: [''],
@@ -255,75 +255,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
               modificado: entidad.modificado,
             })
           )
-          // tap(entidad =>
-          //   this.formularioDetalles.patchValue({
-          //     oficinaRegistro: entidad.oficinaRegistro,
-          //     referenciaRegistro: entidad.referenciaRegistro,
-          //     tomo: entidad.tomo,
-          //     folio: entidad.folio,
-          //     protocolo: entidad.protocolo,
-          //     numeroRegistro: entidad.numeroRegistro,
-          //     fechaRegistrado: entidad.fechaRegistrado,
-          //     propietarioAnterior: entidad.propietarioAnterior,
-          //     dependencias: entidad.dependencias,
-          //     areaConstruccionM2: entidad.areaConstruccionM2,
-          //     areaTerrenoM2: entidad.areaTerrenoM2,
-          //     especificacionesInmueble: entidad.especificacionesInmueble,
-          //     perteneceASede: entidad.perteneceASede,
-          //     sedeUbicacionId: entidad.sedeUbicacionId,
-          //     especificacionesColor: entidad.especificacionesColor,
-          //     serialCarroceria: entidad.serialCarroceria,
-          //     serialMotor: entidad.serialMotor,
-          //     placas: entidad.placas,
-          //     numeroTituloPropiedad: entidad.numeroTituloPropiedad,
-          //     capacidad: entidad.capacidad,
-          //     nombre: entidad.nombre,
-          //     usoId: entidad.usoId,
-          //     tieneGPS: entidad.tieneGPS,
-          //     especificacionesGPS: entidad.especificacionesGPS,
-          //     tipoSemovienteId: entidad.tipoSemovienteId,
-          //     genero: entidad.genero,
-          //     raza: entidad.raza,
-          //     propositoSemovienteId: entidad.propositoSemovienteId,
-          //     unidadMedidaId: entidad.unidadMedidaId,
-          //     numeroHierro: entidad.numeroHierro,
-          //     especificacionesAnimal: entidad.especificacionesAnimal,
-          //     tipoAnimalId: entidad.tipoAnimalId,
-          //     fechaNacimientoAnimal: entidad.fechaNacimientoAnimal,
-          //     razaId: entidad.razaId,
-          //     valorRescate: entidad.valorRescate,
-          //     fuenteFinanciamientoId: entidad.fuenteFinanciamientoId,
-          //     codigoCentroCostos: entidad.codigoCentroCostos,
-          //   })
-          // ),
-          // tap(entidad =>
-          //   this.formularioComponentes.patchValue({
-          //     componentes: entidad.componentes,
-          //   })
-          // ),
-          // tap(entidad =>
-          //   this.formularioDepreciacion.patchValue({
-          //     depreciable: entidad.depreciable,
-          //     //plantillaDepreciacion: entidad.plantillaDepreciacion,
-          //     metodoDepreciacion: entidad.metodoDepreciacion,
-          //     cuentaContableGasto: entidad.cuentaContableGasto,
-          //     cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-          //     vidaUtil: entidad.vidaUtil,
-          //   })
-          // ),
-          // tap(entidad =>
-          //   this.formularioUbicacion.patchValue({
-          //     sedeId: entidad.sedeId,
-          //     unidadAdministrativaId: entidad.unidadAdministrativaId,
-          //     fechaIngreso: entidad.fechaIngreso,
-          //     responsableId: entidad.responsableId,
-          //     responsableUsoId: entidad.responsableUsoId,
-          //     estadoUsoId: entidad.estadoUsoId,
-          //     conservacion: entidad.conservacion,
-          //     descripcionEstadoConservacion:
-          //       entidad.descripcionEstadoConservacion,
-          //   })
-          // )
         )
         .subscribe()
     );

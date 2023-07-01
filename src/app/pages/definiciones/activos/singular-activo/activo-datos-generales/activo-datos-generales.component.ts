@@ -1,3 +1,4 @@
+import { DenominacionMarcaPipe } from './../../../../../shared/pipes/denominacion-marca.pipe';
 import { CuentaContable } from '@core/types/cuenta-contable';
 import { tap, map, first } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -24,8 +25,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
   @Input() formulario: FormGroup = new FormGroup({});
 
   tiposActivo = TIPOS_ACTIVO;
-
   monedas: MMoneda[] = [];
+  buscadorMarca = BuscadorMarcaComponent;
+  denominacionMarcaPipe = DenominacionMarcaPipe;
 
   constructor(private _dialog: MatDialog, private _sigesp: SigespService) {}
 

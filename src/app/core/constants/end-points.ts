@@ -39,6 +39,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'rotulacion', valor: 'dao/sbn/rotulacion-dao.php' },
   { clave: 'sede', valor: 'dao/sbn/sede-dao.php' },
   { clave: 'seguro', valor: 'dao/sbn/seguro-dao.php' },
+  { clave: 'tipoAnimal', valor: 'sbn/dao/tipo-animal-dao.php' },
   { clave: 'tipoCobertura', valor: 'dao/sbn/tipo-cobertura-dao.php' },
   { clave: 'tipoComponente', valor: 'dao/sbn/tipo-componente-dao.php' },
   { clave: 'tipoEstructura', valor: 'dao/sbn/tipo-estructura-dao.php' },
@@ -50,5 +51,5 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     clave: 'unidadAdministrativa',
     valor: 'dao/sbn/unidad-administrativa-dao.php',
   },
-  { clave: 'uso', valor: 'sbn/dao/usos-dao.php' },
+  { clave: 'tipoUso', valor: 'sbn/dao/tipo-uso-dao.php' },
 ];

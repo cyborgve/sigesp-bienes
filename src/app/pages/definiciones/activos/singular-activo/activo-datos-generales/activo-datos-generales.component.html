@@ -3,7 +3,7 @@
     <!-- codigo -->
     <mat-form-field appearance="fill" class="codigo">
       <mat-label>Código</mat-label>
-      <input type="text" matInput formControlName="codigo" />
+      <input type="text" matInput formControlName="codigo" readonly="true" />
     </mat-form-field>
     <!-- tipo de activo -->
     <mat-form-field appearance="fill" class="tipoActivo">
@@ -21,7 +21,8 @@
       <input
         matInput
         [matDatepicker]="fechaRegistroPicker"
-        formControlName="fechaRegistro" />
+        formControlName="fechaRegistro"
+        readonly="true" />
       <mat-datepicker-toggle
         matSuffix
         [for]="fechaRegistroPicker"></mat-datepicker-toggle>
@@ -30,7 +31,7 @@
     <!-- catalogo de cuentas -->
     <mat-form-field appearance="fill" class="catalogoCuentas">
       <mat-label>Catálogo cuentas</mat-label>
-      <input matInput formControlName="catalogoCuentas" />
+      <input matInput formControlName="catalogoCuentas" readonly="true" />
       <button
         type="button"
         mat-icon-button
@@ -60,7 +61,8 @@
       <input
         matInput
         [matDatepicker]="fechaAdquisicionPicker"
-        formControlName="fechaAdquisicion" />
+        formControlName="fechaAdquisicion"
+        readonly="true" />
       <mat-datepicker-toggle
         matSuffix
         [for]="fechaAdquisicionPicker"></mat-datepicker-toggle>
@@ -81,9 +83,14 @@
       </mat-select>
     </mat-form-field>
     <!-- marca id -->
-    <mat-form-field appearance="fill" class="marcaId">
+    <mat-form-field class="marcaId" appearance="fill">
       <mat-label>Marca</mat-label>
-      <input type="text" matInput formControlName="marcaId" />
+      <input
+        type="text"
+        matInput
+        formControlName="marcaId"
+        readonly="true"
+        [value]="formulario.value.marcaId | denominacionMarca | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarMarca()">
         <mat-icon>search</mat-icon>
       </button>
@@ -91,7 +98,12 @@
     <!-- modelo id -->
     <mat-form-field appearance="fill" class="modeloId">
       <mat-label>Modelo</mat-label>
-      <input type="text" matInput formControlName="modeloId" />
+      <input
+        type="text"
+        matInput
+        formControlName="modeloId"
+        readonly="true"
+        [value]="formulario.value.modeloId | denominacionModelo | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarModelo()">
         <mat-icon>search</mat-icon>
       </button>
@@ -109,7 +121,12 @@
     <!-- color id -->
     <mat-form-field appearance="fill" class="colorId">
       <mat-label>Color</mat-label>
-      <input type="text" matInput formControlName="colorId" />
+      <input
+        type="text"
+        matInput
+        formControlName="colorId"
+        readonly="true"
+        [value]="formulario.value.colorId | denominacionColor | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarColor()">
         <mat-icon>search</mat-icon>
       </button>
@@ -117,7 +134,14 @@
     <!-- rotulacion id -->
     <mat-form-field appearance="fill" class="rotulacionId">
       <mat-label>Rotulación</mat-label>
-      <input type="text" matInput formControlName="rotulacionId" />
+      <input
+        type="text"
+        matInput
+        formControlName="rotulacionId"
+        readonly="true"
+        [value]="
+          formulario.value.rotulacionId | denominacionRotulacion | async
+        " />
       <button
         type="button"
         mat-icon-button
@@ -129,7 +153,14 @@
     <!-- categoria id -->
     <mat-form-field appearance="fill" class="categoriaId">
       <mat-label>Categoría</mat-label>
-      <input type="text" matInput formControlName="categoriaId" />
+      <input
+        type="text"
+        matInput
+        formControlName="categoriaId"
+        readonly="true"
+        [value]="
+          formulario.value.categoriaId | denominacionCategoria | async
+        " />
       <button
         type="button"
         mat-icon-button

@@ -14,7 +14,7 @@ export const MENU: MenuItem[] = [
     image: './assets/images/svg/description.svg',
     items: [
       {
-        label: 'Bien / Activo',
+        label: 'Activos - Bienes',
         routerLink: 'activos',
         icon: 'home_work',
         image: './assets/images/svg/home_work.svg',
@@ -196,8 +196,8 @@ export const MENU: MenuItem[] = [
       {
         label: 'Tipos de Semoviente',
         routerLink: 'tipos-semoviente',
-        icon: 'pets',
-        image: './assets/images/svg/pets.svg',
+        icon: 'pet_supplies',
+        image: './assets/images/svg/pet_supplies.svg',
       },
       {
         label: 'Unidades Administrativas',
@@ -205,12 +205,18 @@ export const MENU: MenuItem[] = [
         icon: 'ac_unit',
         image: './assets/images/svg/ac_unit.svg',
       },
-      // {
-      //   label: 'Usos',
-      //   routerLink: 'usos',
-      //   icon: 'precision_manufacturing',
-      //   image: './assets/images/svg/precision_manufacturing.svg',
-      // },
+      {
+        label: 'Tipos de Uso',
+        routerLink: 'tipos-uso',
+        icon: 'precision_manufacturing',
+        image: './assets/images/svg/precision_manufacturing.svg',
+      },
+      {
+        label: 'Tipos de Animal',
+        routerLink: 'tipos-animal',
+        icon: 'pets',
+        image: './assets/images/svg/pets.svg',
+      },
     ],
   },
   {

@@ -11,7 +11,8 @@
       <input
         matInput
         [matDatepicker]="fechaInicioGarantiaPicker"
-        formControlName="fechaInicioGarantia" />
+        formControlName="inicioGarantia"
+        readonly="true" />
       <mat-datepicker-toggle
         matSuffix
         [for]="fechaInicioGarantiaPicker"></mat-datepicker-toggle>
@@ -23,7 +24,8 @@
       <input
         matInput
         [matDatepicker]="fechaFinGarantiaPicker"
-        formControlName="fechaFinGarantia" />
+        formControlName="finGarantia"
+        readonly="true" />
       <mat-datepicker-toggle
         matSuffix
         [for]="fechaFinGarantiaPicker"></mat-datepicker-toggle>
@@ -32,7 +34,12 @@
     <!-- origen id -->
     <mat-form-field appearance="fill" class="origenId">
       <mat-label>Origen</mat-label>
-      <input type="text" matInput formControlName="origenId" />
+      <input
+        type="text"
+        matInput
+        formControlName="origenId"
+        readonly="true"
+        [value]="formulario.value.origenId | denominacionOrigen | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarOrigen()">
         <mat-icon>search</mat-icon>
       </button>
@@ -44,7 +51,12 @@
     <!-- seguro id -->
     <mat-form-field appearance="fill" class="seguroId">
       <mat-label>Seguro</mat-label>
-      <input type="text" matInput formControlName="seguroId" />
+      <input
+        type="text"
+        matInput
+        formControlName="seguroId"
+        readonly="true"
+        [value]="formulario.value.seguroId | denominacionSeguro | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarSeguro()">
         <mat-icon>search</mat-icon>
       </button>
@@ -52,7 +64,7 @@
     <!-- fuente de financiamiento id -->
     <mat-form-field appearance="fill" class="fuenteFinanciamientoId">
       <mat-label>Fuente de financiamiento</mat-label>
-      <input type="text" matInput formControlName="fuenteFinanciamientoId" />
+      <input type="text" matInput formControlName="fuenteFinanciamiento" />
       <button
         type="button"
         mat-icon-button
@@ -64,7 +76,12 @@
     <!-- clase id -->
     <mat-form-field appearance="fill" class="claseId">
       <mat-label>Clase</mat-label>
-      <input type="text" matInput formControlName="claseId" />
+      <input
+        type="text"
+        matInput
+        formControlName="claseId"
+        readonly="true"
+        [value]="formulario.value.claseId | denominacionClase | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarClase()">
         <mat-icon>search</mat-icon>
       </button>
@@ -127,7 +144,8 @@
         <input
           matInput
           [matDatepicker]="fechaRegistradoPicker"
-          formControlName="fechaRegistrado" />
+          formControlName="fechaRegistrado"
+          readonly="true" />
         <mat-datepicker-toggle
           matSuffix
           [for]="fechaRegistradoPicker"></mat-datepicker-toggle>
@@ -160,7 +178,14 @@
       <!-- sede ubicacion id -->
       <mat-form-field appearance="fill" class="sedeUbicacionId">
         <mat-label>Sede ubicación</mat-label>
-        <input type="text" matInput formControlName="sedeUbicacionId" />
+        <input
+          type="text"
+          matInput
+          formControlName="sedeUbicacionId"
+          readonly="true"
+          [value]="
+            formulario.value.sedeUbicacionId | denominacionSede | async
+          " />
         <button
           type="button"
           mat-icon-button
@@ -211,11 +236,20 @@
         <mat-label>Nombre</mat-label>
         <input type="text" matInput formControlName="nombre" />
       </mat-form-field>
-      <!-- uso id -->
-      <mat-form-field appearance="fill" class="usoId">
-        <mat-label>Uso</mat-label>
-        <input type="text" matInput formControlName="usoId" />
-        <button type="button" mat-icon-button matSuffix (click)="buscarUso()">
+      <!-- tipo uso id -->
+      <mat-form-field appearance="fill" class="tipoUsoId">
+        <mat-label>Tipo de uso</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="tipoUsoId"
+          readonly="true"
+          [value]="formulario.value.tipoUsoId | denominacionTipoUso | async" />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarTipoUso()">
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
@@ -246,7 +280,16 @@
       <!-- tipo semoviente id -->
       <mat-form-field appearance="fill" class="tipoSemovienteId">
         <mat-label>Tipo de semoviente</mat-label>
-        <input type="text" matInput formControlName="tipoSemovienteId" />
+        <input
+          type="text"
+          matInput
+          formControlName="tipoSemovienteId"
+          readonly="true"
+          [value]="
+            formulario.value.tipoSemovienteId
+              | denominacionTipoSemoviente
+              | async
+          " />
         <button
           type="button"
           mat-icon-button
@@ -259,6 +302,7 @@
       <mat-form-field appearance="fill" class="genero">
         <mat-label>Género</mat-label>
         <mat-select formControlName="genero">
+          <mat-option [value]="'Seleccionar'">Seleccionar</mat-option>
           <mat-option
             *ngFor="let genero of ['masculino', 'femenino']"
             [value]="genero"
@@ -266,15 +310,19 @@
           >
         </mat-select>
       </mat-form-field>
-      <!-- raza -->
-      <mat-form-field appearance="fill" class="raza">
-        <mat-label>Raza</mat-label>
-        <input type="text" matInput formControlName="raza" />
-      </mat-form-field>
       <!-- proposito semoviente id -->
       <mat-form-field appearance="fill" class="propositoSemovienteId">
         <mat-label>Propósito del semoviente</mat-label>
-        <input type="text" matInput formControlName="propositoSemovienteId" />
+        <input
+          type="text"
+          matInput
+          formControlName="propositoSemovienteId"
+          readonly="true"
+          [value]="
+            formulario.value.propositoSemovienteId
+              | denominacionPropositoSemoviente
+              | async
+          " />
         <button
           type="button"
           mat-icon-button
@@ -286,19 +334,19 @@
       <!-- peso -->
       <mat-form-field appearance="fill" class="peso">
         <mat-label>Peso</mat-label>
-        <input type="text" matInput formControlName="peso" />
+        <input type="number" matInput formControlName="peso" />
       </mat-form-field>
       <!-- unidad de medida id -->
       <mat-form-field appearance="fill" class="unidadMedidaId">
         <mat-label>Peso unidad</mat-label>
-        <input type="text" matInput formControlName="unidadMedidaId" />
-        <button
-          type="button"
-          mat-icon-button
-          matSuffix
-          (click)="buscarUnidadMedida()">
-          <mat-icon>search</mat-icon>
-        </button>
+        <mat-select formControlName="unidadMedidaPeso">
+          <mat-option value="" selected>Seleccionar</mat-option>
+          <mat-option
+            *ngFor="let unidad of unidadesMedidaPeso"
+            [value]="unidad"
+            >{{ unidad | titlecase }}</mat-option
+          >
+        </mat-select>
       </mat-form-field>
       <!-- nummero de hierro id -->
       <mat-form-field appearance="fill" class="numeroHierro">
@@ -308,7 +356,14 @@
       <!-- tipo de animal id -->
       <mat-form-field appearance="fill" class="tipoAnimalId">
         <mat-label>Tipo de animal</mat-label>
-        <input type="text" matInput formControlName="tipoAnimalId" />
+        <input
+          type="text"
+          matInput
+          formControlName="tipoAnimalId"
+          readonly="true"
+          [value]="
+            formulario.value.tipoAnimalId | denominacionTipoAnimal | async
+          " />
         <button
           type="button"
           mat-icon-button
@@ -323,7 +378,8 @@
         <input
           matInput
           [matDatepicker]="fechaNacimientoAnimalPicker"
-          formControlName="fechaNacimientoAnimal" />
+          formControlName="fechaNacimientoAnimal"
+          readonly="true" />
         <mat-datepicker-toggle
           matSuffix
           [for]="fechaNacimientoAnimalPicker"></mat-datepicker-toggle>
@@ -332,7 +388,12 @@
       <!-- raza id -->
       <mat-form-field appearance="fill" class="razaId">
         <mat-label>Raza</mat-label>
-        <input type="text" matInput formControlName="razaId" />
+        <input
+          type="text"
+          matInput
+          formControlName="razaId"
+          readonly="true"
+          [value]="formulario.value.razaId | denominacionRaza | async" />
         <button type="button" mat-icon-button matSuffix (click)="buscarRaza()">
           <mat-icon>search</mat-icon>
         </button>

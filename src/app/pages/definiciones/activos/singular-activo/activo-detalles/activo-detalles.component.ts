@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.component';
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
 import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
+import { UNIDADES_MEDIDA_PESO } from '@core/constants/unidades-medida-peso';
 
 @Component({
   selector: 'app-activo-detalles',
@@ -23,6 +24,8 @@ export class ActivoDetallesComponent implements OnDestroy {
   private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup = new FormGroup({});
   @Input() tipoActivo: TipoActivo = 'INMUEBLE';
+
+  unidadesMedidaPeso = UNIDADES_MEDIDA_PESO;
 
   constructor(private _dialog: MatDialog) {}
 
@@ -48,7 +51,7 @@ export class ActivoDetallesComponent implements OnDestroy {
     );
   }
 
-  buscarUso() {
+  buscarTipoUso() {
     let dialog = this._dialog.open(BuscadorUsoComponent, {
       height: '95%',
       width: '85%',

@@ -207,6 +207,18 @@ const routes: Routes = [
         m => m.CorrelativosModule
       ),
   },
+  {
+    path: 'tipos-animal',
+    loadChildren: () =>
+      import('./tipos-animal/tipos-animal.module').then(
+        m => m.TiposAnimalModule
+      ),
+  },
+  {
+    path: 'tipos-uso',
+    loadChildren: () =>
+      import('./tipos-uso/tipos-uso.module').then(m => m.TiposUsoModule),
+  },
 ];
 
 @NgModule({

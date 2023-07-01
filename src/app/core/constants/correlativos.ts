@@ -43,4 +43,14 @@ export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
     id: 24,
     tabla: 'sbn_unidades_administrativas',
   },
+  {
+    nombre: 'tipo de animal',
+    id: 25,
+    tabla: 'sbn_tipos_animal',
+  },
+  {
+    nombre: 'tipo de uso',
+    id: 26,
+    tabla: 'sbn_tipos_uso',
+  },
 ];

@@ -18,7 +18,7 @@ export class DefinicionesComponent {
   constructor() {
     this.menuItems = MENU.find(
       item => item.label.toLowerCase() === this.titulo.toLowerCase()
-    ).items.sort();
+    ).items.sort((a, b) => (a.label > b.label ? 1 : -1));
     this.$definiciones.next(this.menuItems);
   }
 
