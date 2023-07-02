@@ -11,7 +11,11 @@
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
           <mat-label>Código</mat-label>
-          <input type="text" matInput formControlName="codigo" />
+          <input
+            type="text"
+            matInput
+            formControlName="codigo"
+            readonly="true" />
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
@@ -22,17 +26,27 @@
         <mat-form-field appearance="fill" class="metodoDepreciacion">
           <mat-label>Método de depreciación</mat-label>
           <mat-select formControlName="metodoDepreciacion">
+            <mat-option value="" selected>Seleccionar</mat-option>
             <mat-option
               *ngFor="let metodo of metodosDepreciacion"
               [value]="metodo"
-              >{{ metodo }}</mat-option
+              >{{ metodo | titlecase }}</mat-option
             >
           </mat-select>
         </mat-form-field>
         <!-- cuentaContableGasto -->
         <mat-form-field appearance="fill" class="cuentaContableGasto">
           <mat-label>Cuenta contable gasto</mat-label>
-          <input type="text" matInput formControlName="cuentaContableGasto" />
+          <input
+            type="text"
+            matInput
+            formControlName="cuentaContableGasto"
+            readonly="true"
+            [value]="
+              formulario.value.cuentaContableGasto
+                | denominacionCuentaContable
+                | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -47,7 +61,13 @@
           <input
             type="text"
             matInput
-            formControlName="cuentaContableDepreciacion" />
+            formControlName="cuentaContableDepreciacion"
+            readonly="true"
+            [value]="
+              formulario.value.cuentaContableDepreciacion
+                | denominacionCuentaContable
+                | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -59,7 +79,17 @@
         <!-- vidaUtil -->
         <mat-form-field appearance="fill" class="vidaUtil">
           <mat-label>Vida útil</mat-label>
-          <input type="text" matInput formControlName="vidaUtil" />
+          <input type="number" matInput formControlName="vidaUtil" />
+        </mat-form-field>
+        <!-- unidadVidaUtil -->
+        <mat-form-field appearance="fill" class="unidadVidaUtil">
+          <mat-label>Unidad de Medida</mat-label>
+          <mat-select formControlName="unidadVidaUtil">
+            <mat-option value="" selected>Seleccionar</mat-option>
+            <mat-option *ngFor="let unidad of unidades" [value]="unidad">{{
+              unidad | titlecase
+            }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </article>
     </mat-card>

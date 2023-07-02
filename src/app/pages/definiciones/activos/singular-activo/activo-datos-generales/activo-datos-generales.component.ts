@@ -1,5 +1,4 @@
-import { DenominacionMarcaPipe } from './../../../../../shared/pipes/denominacion-marca.pipe';
-import { CuentaContable } from '@core/types/cuenta-contable';
+import { DenominacionMarcaPipe } from '@shared/pipes/denominacion-marca.pipe';
 import { tap, map, first } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -14,6 +13,9 @@ import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/busca
 import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.component';
 import { Subscription } from 'rxjs';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
+import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
+import { Moneda } from '@core/models/moneda';
+import { CuentaContable } from '@core/models/cuenta-contable';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -56,7 +58,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .pipe(
           tap((cuentaContable: CuentaContable) =>
             this.formulario.patchValue({
-              catalogoCuentas: cuentaContable.cuenta,
+              catalogoCuentas: cuentaContable.id,
             })
           )
         )
@@ -65,8 +67,20 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
   }
 
   buscarMoneda() {
-    TODO: 'Pendiente de preguntar de donde obtengo estos datos';
-    alert('TO-DO');
+    let dialog = this._dialog.open(BuscadorMonedaComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((moneda: Moneda) =>
+            this.formulario.patchValue({ monedaId: moneda.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarMarca() {

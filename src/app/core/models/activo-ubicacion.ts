@@ -1,8 +1,7 @@
 import { Id } from '@core/types/id';
+import { Basica } from './basica';
 
-export interface ActivoUbicacion {
-  empresaId: Id;
-  id: Id;
+export interface ActivoUbicacion extends Basica {
   activoId: Id;
   sedeId: Id;
   unidadAdministrativaId: Id;
@@ -12,6 +11,4 @@ export interface ActivoUbicacion {
   estadoUsoId: Id;
   estado_conservacionId: Id;
   descripcionEstadoConservacion: string;
-  creado: Date;
-  modificado: Date;
 }

@@ -4,6 +4,7 @@ import { SingularPlantillaDepreciacionComponent } from './singular-plantilla-dep
 
 const routes: Routes = [
   { path: '', component: SingularPlantillaDepreciacionComponent },
+  { path: ':id', component: SingularPlantillaDepreciacionComponent },
 ];
 
 @NgModule({

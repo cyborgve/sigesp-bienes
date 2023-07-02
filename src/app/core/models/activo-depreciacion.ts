@@ -1,8 +1,7 @@
 import { Id } from '@core/types/id';
+import { Basica } from './basica';
 
-export interface ActivoDepreciacion {
-  empresaId: Id;
-  id: Id;
+export interface ActivoDepreciacion extends Basica {
   activoId: Id;
   depreciable: boolean;
   metodoDepreciacion: string;
@@ -12,6 +11,4 @@ export interface ActivoDepreciacion {
   unidadVidaUtil: string;
   valorRescate: number;
   monedaValorRescate: string;
-  creado: Date;
-  modificado: Date;
 }

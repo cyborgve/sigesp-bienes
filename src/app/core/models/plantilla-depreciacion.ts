@@ -10,4 +10,5 @@ export interface PlantillaDepreciacion extends Basica {
   cuentaContableGasto: Id;
   cuentaContableDepreciacion: Id;
   vidaUtil: number;
+  unidadVidaUtil: string;
 }

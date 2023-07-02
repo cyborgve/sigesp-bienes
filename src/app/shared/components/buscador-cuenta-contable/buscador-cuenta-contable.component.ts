@@ -6,8 +6,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { CuentaContable } from '@core/models/cuenta-contable';
 import { TablaEntidad } from '@core/models/tabla-entidad';
-import { CuentaContable } from '@core/types/cuenta-contable';
+import { adaptarCuentasContables } from '@core/utils/operadores-rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 
@@ -42,7 +43,7 @@ export class BuscadorCuentaContableComponent
       .getCuentasInstitucionales()
       .pipe(
         first(),
-        map(ci => ci as CuentaContable[]),
+        adaptarCuentasContables(),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;

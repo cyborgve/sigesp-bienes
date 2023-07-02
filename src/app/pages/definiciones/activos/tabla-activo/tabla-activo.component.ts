@@ -37,7 +37,7 @@ export class TablaActivoComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
-  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTIVOS;
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES['ACTIVOS'];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/activos';

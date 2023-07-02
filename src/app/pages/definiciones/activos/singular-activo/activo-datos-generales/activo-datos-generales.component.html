@@ -9,7 +9,7 @@
     <mat-form-field appearance="fill" class="tipoActivo">
       <mat-label>Tipo de activo</mat-label>
       <mat-select formControlName="tipoActivo">
-        <mat-option value="Seleccionar">Seleccionar</mat-option>
+        <mat-option value="" selected>Seleccionar</mat-option>
         <mat-option *ngFor="let tipo of tiposActivo" [value]="tipo">{{
           tipo | titlecase
         }}</mat-option>
@@ -31,7 +31,13 @@
     <!-- catalogo de cuentas -->
     <mat-form-field appearance="fill" class="catalogoCuentas">
       <mat-label>Catálogo cuentas</mat-label>
-      <input matInput formControlName="catalogoCuentas" readonly="true" />
+      <input
+        matInput
+        formControlName="catalogoCuentas"
+        readonly="true"
+        [value]="
+          formulario.value.catalogoCuentas | denominacionCuentaContable | async
+        " />
       <button
         type="button"
         mat-icon-button
@@ -76,11 +82,21 @@
     <!-- modeda id -->
     <mat-form-field appearance="fill" class="monedaId">
       <mat-label>Moneda</mat-label>
-      <mat-select formControlName="monedaId">
-        <mat-option *ngFor="let moneda of monedas" [value]="moneda.codigo">{{
-          moneda.denominacion | titlecase
-        }}</mat-option>
-      </mat-select>
+      <input
+        type="text"
+        matInput
+        formControlName="monedaId"
+        readonly="true"
+        [value]="
+          formulario.value.monedaId
+            | denominacionMoneda
+            | async
+            | corregirSeleccionar
+            | titlecase
+        " />
+      <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
     <!-- marca id -->
     <mat-form-field class="marcaId" appearance="fill">

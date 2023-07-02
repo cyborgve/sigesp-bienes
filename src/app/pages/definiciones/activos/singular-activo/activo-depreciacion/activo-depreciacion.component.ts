@@ -1,4 +1,3 @@
-import { CuentaContable } from '@core/types/cuenta-contable';
 import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
 import { tap, take } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
@@ -7,8 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { BuscadorPlantillaDepreciacionComponent } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MMoneda, SigespService } from 'sigesp';
+import { CuentaContable } from '@core/models/cuenta-contable';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -46,7 +46,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         .afterClosed()
         .pipe(
           tap((cc: CuentaContable) =>
-            this.formulario.patchValue({ cuentaContableGasto: cc.cuenta })
+            this.formulario.patchValue({ cuentaContableGasto: cc.id })
           )
         )
         .subscribe()
@@ -64,7 +64,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         .pipe(
           tap((cc: CuentaContable) =>
             this.formulario.patchValue({
-              cuentaContableDepreciacion: cc.cuenta,
+              cuentaContableDepreciacion: cc.id,
             })
           )
         )

@@ -9,4 +9,5 @@ export class BotonesAccionesComponent {
   @Output() editar = new EventEmitter();
   @Output() eliminar = new EventEmitter();
   @Input() deshabilitarEliminar: boolean = false;
+  @Input() deshabilitarEditar: boolean = false;
 }

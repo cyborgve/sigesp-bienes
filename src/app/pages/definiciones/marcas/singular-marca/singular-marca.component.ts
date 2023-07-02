@@ -45,7 +45,7 @@ export class SingularMarcaComponent implements Entidad {
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      tipo: ['', Validators.required],
+      tipo: [0],
       creado: [new Date()],
       modificado: [new Date()],
     });

@@ -11,7 +11,11 @@
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
           <mat-label>Codigo</mat-label>
-          <input type="text" matInput formControlName="codigo" />
+          <input
+            type="text"
+            matInput
+            formControlName="codigo"
+            readonly="true" />
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
@@ -21,7 +25,12 @@
         <!-- tipo -->
         <mat-form-field appearance="fill" class="tipo">
           <mat-label>Tipo</mat-label>
-          <input type="text" matInput formControlName="tipo" />
+          <input
+            type="text"
+            matInput
+            formControlName="tipo"
+            readonly="true"
+            [value]="formulario.value.tipo | denominacionTipoSede | async" />
           <button
             type="button"
             mat-icon-button
@@ -34,6 +43,7 @@
         <mat-form-field appearance="fill" class="localizacion">
           <mat-label>Localizacion</mat-label>
           <mat-select formControlName="localizacion">
+            <mat-option value="" selected>Seleccionar</mat-option>
             <mat-option
               *ngFor="let localizacion of localizaciones"
               [value]="localizacion"
@@ -44,11 +54,24 @@
         <!-- paisId -->
         <mat-form-field appearance="fill" class="paisId">
           <mat-label>Pais</mat-label>
-          <mat-select formControlName="paisId">
-            <mat-option *ngFor="let pais of paises" [value]="pais.id">{{
-              pais.nombre
-            }}</mat-option>
-          </mat-select>
+          <input
+            type="text"
+            matInput
+            formControlName="paisId"
+            readonly="true"
+            [value]="
+              formulario.value.paisId
+                | denominacionPais
+                | async
+                | corregirNinguno
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarPais()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- estadoId -->
         <mat-form-field appearance="fill" class="estadoId">

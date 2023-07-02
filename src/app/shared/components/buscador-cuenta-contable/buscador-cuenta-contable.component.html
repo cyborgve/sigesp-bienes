@@ -5,25 +5,29 @@
   (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
 <mat-card class="card-table">
   <table mat-table [dataSource]="dataSource" class="table" matSort>
-    <!-- cuenta -->
-    <ng-container matColumnDef="cuenta">
-      <th mat-header-cell *matHeaderCellDef>Cuenta Contable</th>
-      <td mat-cell *matCellDef="let row">{{ row.cuenta }}</td>
+    <!-- codigo -->
+    <ng-container matColumnDef="codigo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+      <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
-      <th mat-header-cell *matHeaderCellDef>Denominación</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
-    <!-- cueproacu -->
-    <ng-container matColumnDef="cueproacu">
-      <th mat-header-cell *matHeaderCellDef>cueproacu</th>
-      <td mat-cell *matCellDef="let row">{{ row.cueproacu }}</td>
+    <!-- creado -->
+    <ng-container matColumnDef="creado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.creado | date : 'medium' }}
+      </td>
     </ng-container>
-    <!-- referencia -->
-    <ng-container matColumnDef="referencia">
-      <th mat-header-cell *matHeaderCellDef>referencia</th>
-      <td mat-cell *matCellDef="let row">{{ row.referencia }}</td>
+    <!-- modificado -->
+    <ng-container matColumnDef="modificado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.modificado | date : 'medium' }}
+      </td>
     </ng-container>
 
     <!-- ejecuta el armado de la tabla -->

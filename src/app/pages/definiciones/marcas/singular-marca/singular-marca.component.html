@@ -11,12 +11,21 @@
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
           <mat-label>Codigo</mat-label>
-          <input type="text" matInput formControlName="codigo" />
+          <input
+            type="text"
+            matInput
+            formControlName="codigo"
+            readonly="true" />
         </mat-form-field>
         <!-- tipo -->
         <mat-form-field appearance="fill" class="tipo">
           <mat-label>Tipo</mat-label>
-          <input type="text" matInput formControlName="tipo" />
+          <input
+            type="text"
+            matInput
+            formControlName="tipo"
+            readonly="true"
+            [value]="formulario.value.tipo | denominacionTipoMarca | async" />
           <button
             type="button"
             mat-icon-button

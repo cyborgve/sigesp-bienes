@@ -30,6 +30,18 @@ import { DenominacionPropositoSemovientePipe } from './pipes/denominacion-propos
 import { DenominacionTipoUsoPipe } from './pipes/denominacion-tipo-uso.pipe';
 import { DenominacionTipoAnimalPipe } from './pipes/denominacion-tipo-animal.pipe';
 import { DenominacionRazaPipe } from './pipes/denominacion-raza.pipe';
+import { BuscadorMonedaComponent } from './components/buscador-moneda/buscador-moneda.component';
+import { DenominacionMonedaPipe } from './pipes/denominacion-moneda.pipe';
+import { CorregirSeleccionarPipe } from './pipes/corregir-seleccionar.pipe';
+import { DenominacionCuentaContablePipe } from './pipes/denominacion-cuenta-contable.pipe';
+import { BuscadorFuenteFinanciemientoComponent } from './components/buscador-fuente-financiemiento/buscador-fuente-financiemiento.component';
+import { DenominacionFuenteFinanciamientoPipe } from './pipes/denominacion-fuente-financiamiento.pipe';
+import { TipoCausaMovimientoPipe } from './pipes/tipo-causa-movimiento.pipe';
+import { DenominacionTipoMarcaPipe } from './pipes/denominacion-tipo-marca.pipe';
+import { DenominacionTipoSedePipe } from './pipes/denominacion-tipo-sede.pipe';
+import { BuscadorPaisComponent } from './components/buscador-pais/buscador-pais.component';
+import { DenominacionPaisPipe } from './pipes/denominacion-pais.pipe';
+import { CorregirNingunoPipe } from './pipes/corregir-ninguno.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -41,6 +53,9 @@ const sharedComponents = [
   BotonesDefinicionesComponent,
   EncabezadoDefinicionesComponent,
   BuscadorCuentaContableComponent,
+  BuscadorMonedaComponent,
+  BuscadorFuenteFinanciemientoComponent,
+  BuscadorPaisComponent,
 ];
 
 const sharedPipes = [
@@ -58,27 +73,33 @@ const sharedPipes = [
   DenominacionSeguroPipe,
   DenominacionClasePipe,
   DenominacionSedePipe,
+  DenominacionTipoSemovientePipe,
+  DenominacionPropositoSemovientePipe,
+  DenominacionTipoUsoPipe,
+  DenominacionTipoAnimalPipe,
+  DenominacionRazaPipe,
+  DenominacionMonedaPipe,
+  CorregirSeleccionarPipe,
+  DenominacionCuentaContablePipe,
+  DenominacionFuenteFinanciamientoPipe,
+  TipoCausaMovimientoPipe,
+  DenominacionTipoMarcaPipe,
+  DenominacionTipoSedePipe,
 ];
 
 @NgModule({
   declarations: [
     ...sharedComponents,
     ...sharedPipes,
-    DenominacionTipoSemovientePipe,
-    DenominacionPropositoSemovientePipe,
-    DenominacionTipoUsoPipe,
-    DenominacionTipoAnimalPipe,
-    DenominacionRazaPipe,
+    DenominacionPaisPipe,
+    CorregirNingunoPipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
     ...sharedComponents,
     ...sharedPipes,
-    DenominacionPropositoSemovientePipe,
-    DenominacionTipoSemovientePipe,
-    DenominacionTipoUsoPipe,
-    DenominacionTipoAnimalPipe,
-    DenominacionRazaPipe,
+    DenominacionPaisPipe,
+    CorregirNingunoPipe,
   ],
 })
 export class SharedModule {}

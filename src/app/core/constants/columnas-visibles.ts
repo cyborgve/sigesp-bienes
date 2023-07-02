@@ -19,6 +19,7 @@ export const COLUMNAS_VISIBLES = {
   CAUSAS_MOVIMIENTO: [
     'codigo',
     'denominacion',
+    'tipo',
     'creado',
     'modificado',
     'acciones',
@@ -50,7 +51,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  CUENTAS_CONTABLES: ['cuenta', 'denominacion', 'cueproacu', 'referencia'],
+  CUENTAS_CONTABLES: ['codigo', 'denominacion', 'creado', 'modificado'],
   ESTADOS_CONSERVACION: [
     'codigo',
     'denominacion',
@@ -148,4 +149,7 @@ export const COLUMNAS_VISIBLES = {
   ],
   USOS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   ACTIVOS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  MONEDAS: ['codigo', 'denominacion', 'iso', 'creado', 'modificado'],
+  PAISES: ['codigo', 'denominacion', 'iso', 'creado', 'modificado'],
+  FUENTES_FINANCIEMIENTO: ['codigo', 'denominacion', 'creado', 'modificado'],
 };

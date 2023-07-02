@@ -43,7 +43,7 @@ export class SingularCausaMovimientoComponent implements Entidad, OnDestroy {
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      tipo: ['', Validators.required],
+      tipo: [''],
       estAfectacionContable: [0],
       estAfectacionPresupuestaria: [0],
       creado: [new Date()],

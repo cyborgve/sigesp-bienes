@@ -1,4 +1,5 @@
-import { map, tap } from 'rxjs/operators';
+import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
+import { map, take, tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/basica';
@@ -13,7 +14,9 @@ import { Subscription } from 'rxjs';
 import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.component';
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
 import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
-import { UNIDADES_MEDIDA_PESO } from '@core/constants/unidades-medida-peso';
+import { SigespService } from 'sigesp';
+import { BuscadorFuenteFinanciemientoComponent } from '@shared/components/buscador-fuente-financiemiento/buscador-fuente-financiemiento.component';
+import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 
 @Component({
   selector: 'app-activo-detalles',
@@ -25,9 +28,9 @@ export class ActivoDetallesComponent implements OnDestroy {
   @Input() formulario: FormGroup = new FormGroup({});
   @Input() tipoActivo: TipoActivo = 'INMUEBLE';
 
-  unidadesMedidaPeso = UNIDADES_MEDIDA_PESO;
+  unidadesMedidaPeso = UNIDADES_MEDIDA['PESO'];
 
-  constructor(private _dialog: MatDialog) {}
+  constructor(private _dialog: MatDialog, private _sigesp: SigespService) {}
 
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
@@ -147,8 +150,20 @@ export class ActivoDetallesComponent implements OnDestroy {
   }
 
   buscarFuenteFinanciamiento() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
+    let dialog = this._dialog.open(BuscadorFuenteFinanciemientoComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((fuente: FuenteFinanciemiento) =>
+            this.formulario.patchValue({ fuenteFinanciamiento: fuente.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarClase() {

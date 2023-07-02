@@ -11,7 +11,11 @@
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
           <mat-label>Código</mat-label>
-          <input type="text" matInput formControlName="codigo" />
+          <input
+            type="text"
+            matInput
+            formControlName="codigo"
+            readonly="true" />
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
@@ -22,6 +26,7 @@
         <mat-form-field appearance="fill" class="tipo">
           <mat-label>Tipo</mat-label>
           <mat-select formControlName="tipo">
+            <mat-option value="" selected>Seleccionar</mat-option>
             <mat-option
               *ngFor="let tipo of tiposCausaMovimiento"
               [value]="tipo.charAt(0)"

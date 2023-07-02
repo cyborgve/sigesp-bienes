@@ -1,8 +1,7 @@
 import { Id } from '@core/types/id';
+import { Basica } from './basica';
 
-export interface ActivoDetalle {
-  empresaId: Id;
-  id: Id;
+export interface ActivoDetalle extends Basica {
   activoId: Id;
   diasGarantia: number;
   inicioGarantia: Date;
@@ -37,8 +36,8 @@ export interface ActivoDetalle {
   capacidad: string;
   nombre: string;
   usoId: Id;
-  tieneGps: boolean;
-  especificacionesGps: string;
+  tieneGPS: boolean;
+  especificacionesGPS: string;
   tipoSemovienteId: Id;
   genero: string;
   propositoSemovienteId: Id;

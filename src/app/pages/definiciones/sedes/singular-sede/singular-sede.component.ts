@@ -18,6 +18,7 @@ import { Basica } from '@core/models/basica';
 import { Pais } from '@core/types/pais';
 import { SigespService } from 'sigesp';
 import { Subscription } from 'rxjs';
+import { BuscadorPaisComponent } from '@shared/components/buscador-pais/buscador-pais.component';
 
 @Component({
   selector: 'app-singular-sede',
@@ -50,9 +51,9 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      tipo: ['', Validators.required],
+      tipo: [0, Validators.required],
       localizacion: ['', Validators.required],
-      paisId: ['', Validators.required],
+      paisId: ['---', Validators.required],
       estadoId: ['', Validators.required],
       municipioId: ['', Validators.required],
       parroquiaId: ['', Validators.required],
@@ -209,7 +210,18 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   }
 
   buscarPais() {
-    throw new Error('Method not implemented.');
+    let dialog = this._dialog.open(BuscadorPaisComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((pais: Pais) => this.formulario.patchValue({ paisId: pais.id }))
+        )
+        .subscribe()
+    );
   }
 
   buscarEstado() {

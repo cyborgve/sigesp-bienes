@@ -3,7 +3,8 @@
   mat-icon-button
   color="primary"
   (click)="editar.emit()"
-  class="editar">
+  class="editar"
+  [disabled]="deshabilitarEditar">
   <mat-icon>edit</mat-icon>
 </button>
 <button

@@ -64,7 +64,13 @@
     <!-- fuente de financiamiento id -->
     <mat-form-field appearance="fill" class="fuenteFinanciamientoId">
       <mat-label>Fuente de financiamiento</mat-label>
-      <input type="text" matInput formControlName="fuenteFinanciamiento" />
+      <input
+        type="text"
+        matInput
+        formControlName="fuenteFinanciamiento"
+        [value]="
+          formulario.value.id | denominacionFuenteFinanciamiento | async
+        " />
       <button
         type="button"
         mat-icon-button
@@ -237,7 +243,7 @@
         <input type="text" matInput formControlName="nombre" />
       </mat-form-field>
       <!-- tipo uso id -->
-      <mat-form-field appearance="fill" class="tipoUsoId">
+      <!-- <mat-form-field appearance="fill" class="tipoUsoId">
         <mat-label>Tipo de uso</mat-label>
         <input
           type="text"
@@ -252,7 +258,7 @@
           (click)="buscarTipoUso()">
           <mat-icon>search</mat-icon>
         </button>
-      </mat-form-field>
+      </mat-form-field> -->
       <!-- tiene gps -->
       <mat-slide-toggle formControlName="tieneGPS" class="tieneGPS"
         >Tiene GPS</mat-slide-toggle

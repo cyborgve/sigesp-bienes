@@ -14,9 +14,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { Subscription } from 'rxjs';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
-import { CuentaContable } from '@core/types/cuenta-contable';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { CuentaContable } from '@core/models/cuenta-contable';
+import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 
 @Component({
   selector: 'app-singular-plantilla-depreciacion',
@@ -32,6 +33,7 @@ export class SingularPlantillaDepreciacionComponent
   titulo = CORRELATIVOS[12].nombre;
   formulario: FormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
+  unidades = UNIDADES_MEDIDA['TIEMPO'];
 
   constructor(
     private _entidad: PlantillaDepreciacionService,
@@ -42,19 +44,20 @@ export class SingularPlantillaDepreciacionComponent
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService
   ) {
-    this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       metodoDepreciacion: ['', Validators.required],
-      cuentaContableGasto: ['', Validators.required],
-      cuentaContableDepreciacion: ['', Validators.required],
-      vidaUtil: ['', Validators.required],
+      cuentaContableGasto: ['Seleccionar', Validators.required],
+      cuentaContableDepreciacion: ['Seleccionar', Validators.required],
+      vidaUtil: [0, Validators.required],
+      unidadVidaUtil: ['', Validators.required],
       creado: [new Date()],
       modificado: [new Date()],
     });
+    this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
 
@@ -188,7 +191,7 @@ export class SingularPlantillaDepreciacionComponent
         .pipe(
           tap((cc: CuentaContable) =>
             this.formulario.patchValue({
-              cuentaContableGasto: cc.cuenta,
+              cuentaContableGasto: cc.id,
             })
           )
         )
@@ -207,7 +210,7 @@ export class SingularPlantillaDepreciacionComponent
         .pipe(
           tap((cc: CuentaContable) =>
             this.formulario.patchValue({
-              cuentaContableDepreciacion: cc.cuenta,
+              cuentaContableDepreciacion: cc.id,
             })
           )
         )

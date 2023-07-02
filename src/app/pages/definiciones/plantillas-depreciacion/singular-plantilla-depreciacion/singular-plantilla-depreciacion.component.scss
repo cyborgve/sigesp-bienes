@@ -1,6 +1,13 @@
-.metodoDepreciacion,
 .cuentaContableGasto,
 .cuentaContableDepreciacion,
-.vidaUtil {
+.metodoDepreciacion {
   @apply col-span-3;
+}
+
+.vidaUtil {
+  @apply col-span-1;
+}
+
+.unidadVidaUtil {
+  @apply col-span-2;
 }

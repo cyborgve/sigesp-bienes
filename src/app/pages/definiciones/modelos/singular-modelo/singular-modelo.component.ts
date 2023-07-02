@@ -43,7 +43,7 @@ export class SingularModeloComponent implements Entidad, OnDestroy {
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      marcaId: ['', Validators.required],
+      marcaId: [0],
       creado: [new Date()],
       modificado: [new Date()],
     });
