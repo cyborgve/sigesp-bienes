@@ -10,7 +10,11 @@ export class DenominacionTipoMarcaPipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._tipoMarca
       .buscarPorId(value)
-      .pipe(map(tipoMarca => tipoMarca.denominacion));
+      .pipe(
+        map(tipoMarca =>
+          tipoMarca ? tipoMarca['denominacion'] : String(value)
+        )
+      );
   }
 
   constructor(private _tipoMarca: TipoMarcaService) {}

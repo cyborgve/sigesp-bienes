@@ -10,7 +10,7 @@ export class DenominacionTipoSemovientePipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._tipoSemoviente
       .buscarPorId(value)
-      .pipe(map(tipoSemoviente => tipoSemoviente.denominacion));
+      .pipe(map(tipo => (tipo ? tipo['denominacion'] : String(value))));
   }
 
   constructor(private _tipoSemoviente: TipoSemovienteService) {}

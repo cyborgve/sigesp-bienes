@@ -1,17 +1,19 @@
 import { Basica } from '@core/models/basica';
+import { Codigo } from '@core/types/codigo';
+import { Id } from '@core/types/id';
 
 export interface Sede extends Basica {
-  codigo: string;
+  codigo: Codigo;
   denominacion: string;
-  tipo: string;
+  tipoSede: string;
   localizacion: string;
-  paisId: string;
-  estadoId: string;
-  municipioId: string;
-  parroquiaId: string;
-  ciudadId: string;
+  paisId: Id;
+  estadoId: Id;
+  municipioId: Id;
+  parroquiaId: Id;
+  ciudadId: Id;
   urbanizacion: string;
   calleAvenida: string;
   casaEdificio: string;
-  piso: string;
+  piso: number;
 }

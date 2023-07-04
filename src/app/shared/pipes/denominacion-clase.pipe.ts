@@ -11,8 +11,7 @@ export class DenominacionClasePipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._clase
       .buscarPorId(value)
-      .pipe(map(clase => clase.denominacion));
+      .pipe(map(clase => (clase ? clase['denominacion'] : String(value))));
   }
-
   constructor(private _clase: ClaseService) {}
 }

@@ -24,11 +24,11 @@ import { SigespService } from 'sigesp';
 export class BuscadorFuenteFinanciemientoComponent
   implements TablaEntidad<FuenteFinanciemiento>, AfterViewInit
 {
-  titulo = 'buscador de fuentes de financiamiento';
+  titulo = 'buscador de fuentes de financiemiento';
   @ViewChild(MatSort) matSort: MatSort;
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
   ocultarNuevo = true;
-  columnasVisibles = COLUMNAS_VISIBLES.FUENTES_FINANCIEMIENTO;
+  columnasVisibles = COLUMNAS_VISIBLES['FUENTES_FINANCIEMIENTO'];
   dataSource: MatTableDataSource<FuenteFinanciemiento> =
     new MatTableDataSource();
 
@@ -51,8 +51,8 @@ export class BuscadorFuenteFinanciemientoComponent
         adaptarFuentesFinanciemiento(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
-        tap(monedas => {
-          this.dataSource = new MatTableDataSource(monedas);
+        tap(cuentas => {
+          this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
         })

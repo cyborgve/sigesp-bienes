@@ -10,8 +10,11 @@ export class DenominacionCategoriaPipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._categoria
       .buscarPorId(value)
-      .pipe(map(categoria => categoria.denominacion));
+      .pipe(
+        map(categoria =>
+          categoria ? categoria['denominacion'] : String(value)
+        )
+      );
   }
-
   constructor(private _categoria: CategoriaService) {}
 }

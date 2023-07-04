@@ -12,7 +12,7 @@ export interface Seguro extends Basica {
   fechaFinPoliza: Date;
   monedaId: string;
   monedaSecundariaId: string;
-  poseeRCV: boolean;
+  poseeRCV: number;
   descripcionCobertura: string;
   coberturaAdicional: string;
 }

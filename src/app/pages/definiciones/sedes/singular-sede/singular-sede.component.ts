@@ -15,10 +15,16 @@ import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Basica } from '@core/models/basica';
-import { Pais } from '@core/types/pais';
 import { SigespService } from 'sigesp';
 import { Subscription } from 'rxjs';
 import { BuscadorPaisComponent } from '@shared/components/buscador-pais/buscador-pais.component';
+import { BuscadorEstadoComponent } from '@shared/components/buscador-estado/buscador-estado.component';
+import { Estado } from '@core/models/estado';
+import { BuscadorMunicipioComponent } from '@shared/components/buscador-municipio/buscador-municipio.component';
+import { Municipio } from '@core/models/municipio';
+import { BuscadorCiudadComponent } from '@shared/components/buscador-ciudad/buscador-ciudad.component';
+import { Ciudad } from '@core/models/ciudad';
+import { Pais } from '@core/models/pais';
 
 @Component({
   selector: 'app-singular-sede',
@@ -43,41 +49,29 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService,
-    private _sigesp: SigespService
+    private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      tipo: [0, Validators.required],
-      localizacion: ['', Validators.required],
-      paisId: ['---', Validators.required],
-      estadoId: ['', Validators.required],
-      municipioId: ['', Validators.required],
-      parroquiaId: ['', Validators.required],
-      ciudadId: ['', Validators.required],
-      urbanizacion: ['', Validators.required],
-      calleAvenida: ['', Validators.required],
-      casaEdificio: ['', Validators.required],
-      piso: ['', Validators.required],
+      tipoSede: [0, Validators.required],
+      localizacion: [''],
+      paisId: ['---'],
+      estadoId: ['---'],
+      municipioId: ['---'],
+      parroquiaId: ['---'],
+      ciudadId: ['---'],
+      urbanizacion: [''],
+      calleAvenida: [''],
+      casaEdificio: [''],
+      piso: [''],
       creado: [new Date()],
       modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
-    this._sigesp
-      .getCountries()
-      .pipe(
-        take(1),
-        map(countries =>
-          countries.map(c => ({ id: c.code, nombre: c.name } as Pais))
-        ),
-        map(paises => paises.sort((a, b) => (a.nombre > b.nombre ? 1 : -1))),
-        tap(paises => (this.paises = paises))
-      )
-      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -97,7 +91,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
               id: entidad.id,
               codigo: entidad.codigo,
               denominacion: entidad.denominacion,
-              tipo: entidad.tipo,
+              tipoSede: entidad.tipoSede,
               localizacion: entidad.localizacion,
               paisId: entidad.paisId,
               estadoId: entidad.estadoId,
@@ -144,7 +138,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
           tap((entidad: Sede) => {
             this.formulario.patchValue({
               denominacion: entidad.denominacion,
-              tipo: entidad.tipo,
+              tipoSede: entidad.tipoSede,
               localizacion: entidad.localizacion,
               paisId: entidad.paisId,
               estadoId: entidad.estadoId,
@@ -225,11 +219,37 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   }
 
   buscarEstado() {
-    throw new Error('Method not implemented.');
+    let dialog = this._dialog.open(BuscadorEstadoComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((estado: Estado) =>
+            this.formulario.patchValue({ estadoId: estado.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarMunicipio() {
-    throw new Error('Method not implemented.');
+    let dialog = this._dialog.open(BuscadorMunicipioComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((municipio: Municipio) =>
+            this.formulario.patchValue({ municipioId: municipio.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarParroquia() {
@@ -237,7 +257,20 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   }
 
   buscarCiudad() {
-    throw new Error('Method not implemented.');
+    let dialog = this._dialog.open(BuscadorCiudadComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((ciudad: Ciudad) =>
+            this.formulario.patchValue({ ciudadId: ciudad.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarTipoSede() {
@@ -249,7 +282,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       .afterClosed()
       .pipe(
         tap((entidad: Basica) =>
-          this.formulario.patchValue({ tipo: entidad.id })
+          this.formulario.patchValue({ tipoSede: entidad.id })
         )
       )
       .subscribe();

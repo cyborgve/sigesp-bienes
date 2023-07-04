@@ -2,7 +2,6 @@ import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { SigespService } from 'sigesp';
 import { map } from 'rxjs/operators';
-import { adaptarMonedas } from '@core/utils/operadores-rxjs';
 
 @Pipe({
   name: 'denominacionMoneda',
@@ -10,10 +9,9 @@ import { adaptarMonedas } from '@core/utils/operadores-rxjs';
 export class DenominacionMonedaPipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._sigesp.getMonedas('uno', value).pipe(
-      adaptarMonedas(),
-      map(monedas => monedas[0].denominacion)
+      map(monedas => monedas[0]),
+      map(moneda => (moneda ? moneda['denominacion'] : String(value)))
     );
   }
-
   constructor(private _sigesp: SigespService) {}
 }

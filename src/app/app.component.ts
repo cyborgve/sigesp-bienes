@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { SigespService, MUsuario } from 'sigesp';
 import { Router } from '@angular/router';
 import packageJson from '../../package.json';
@@ -10,14 +10,17 @@ import { MenuItem } from '@core/models/menu-item';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   version = ' v' + packageJson.version;
   items: MenuItem[] = MENU;
   public usuario: MUsuario;
 
   constructor(private sigesp: SigespService, private router: Router) {
-    this.sigesp.init();
     this.usuario = this.sigesp.usuarioActivo;
+  }
+
+  ngAfterViewInit(): void {
+    this.sigesp.init();
   }
 
   public close(): void {

@@ -11,7 +11,11 @@
         <!-- codigo -->
         <mat-form-field appearance="fill" class="codigo">
           <mat-label>Codigo</mat-label>
-          <input type="text" matInput formControlName="codigo" />
+          <input
+            type="text"
+            matInput
+            formControlName="codigo"
+            readonly="true" />
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
@@ -21,7 +25,14 @@
         <!-- aseguradoraId -->
         <mat-form-field appearance="fill" class="aseguradoraId">
           <mat-label>Aseguradora</mat-label>
-          <input type="text" matInput formControlName="aseguradoraId" />
+          <input
+            type="text"
+            matInput
+            formControlName="aseguradoraId"
+            readonly="true"
+            [value]="
+              formulario.value.aseguradoraId | denominacionAseguradora | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -33,7 +44,14 @@
         <!-- tipoPoliza -->
         <mat-form-field appearance="fill" class="tipoPoliza">
           <mat-label>Tipo de Poliza</mat-label>
-          <input type="text" matInput formControlName="tipoPoliza" />
+          <input
+            type="text"
+            matInput
+            formControlName="tipoPoliza"
+            readonly="true"
+            [value]="
+              formulario.value.tipoPoliza | denominacionTipoPoliza | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -45,7 +63,14 @@
         <!-- tipoCobertura -->
         <mat-form-field appearance="fill" class="tipoCobertura">
           <mat-label>Tipo de Cobertura</mat-label>
-          <input type="text" matInput formControlName="tipoCobertura" />
+          <input
+            type="text"
+            matInput
+            formControlName="tipoCobertura"
+            readonly="true"
+            [value]="
+              formulario.value.tipoCobertura | denominacionTipoCobertura | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -70,7 +95,8 @@
           <input
             [matDatepicker]="pickerFechaInicioPoliza"
             matInput
-            formControlName="fechaInicioPoliza" />
+            formControlName="fechaInicioPoliza"
+            readonly="true" />
           <mat-datepicker-toggle
             [for]="pickerFechaInicioPoliza"
             matSuffix></mat-datepicker-toggle>
@@ -82,7 +108,8 @@
           <input
             [matDatepicker]="pickerFechaFinPoliza"
             matInput
-            formControlName="fechaFinPoliza" />
+            formControlName="fechaFinPoliza"
+            readonly="true" />
           <mat-datepicker-toggle
             [for]="pickerFechaFinPoliza"
             matSuffix></mat-datepicker-toggle>
@@ -91,8 +118,17 @@
         <!-- monedaId -->
         <mat-form-field appearance="fill" class="monedaId">
           <mat-label>Moneda</mat-label>
-          <input type="text" matInput formControlName="monedaId" />
-          <button type="button" mat-icon-button matSuffix>
+          <input
+            type="text"
+            matInput
+            formControlName="monedaId"
+            readonly="true"
+            [value]="formulario.value.monedaId | denominacionMoneda | async" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarMoneda()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>

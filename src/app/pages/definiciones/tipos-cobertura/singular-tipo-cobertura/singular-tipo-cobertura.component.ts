@@ -37,10 +37,10 @@ export class SingularTipoCoberturaComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -52,7 +52,7 @@ export class SingularTipoCoberturaComponent implements Entidad {
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          take(1),
+          first(),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -91,6 +91,7 @@ export class SingularTipoCoberturaComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        take(1),
         tap((entidad: TipoCobertura) => {
           this.formulario.patchValue({
             denominacion: entidad.denominacion,
@@ -102,9 +103,7 @@ export class SingularTipoCoberturaComponent implements Entidad {
 
   guardar() {
     let entidad: TipoCobertura = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

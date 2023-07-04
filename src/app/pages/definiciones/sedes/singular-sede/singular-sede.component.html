@@ -22,15 +22,17 @@
           <mat-label>Denominacion</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
-        <!-- tipo -->
+        <!-- tipo sede-->
         <mat-form-field appearance="fill" class="tipo">
           <mat-label>Tipo</mat-label>
           <input
             type="text"
             matInput
-            formControlName="tipo"
+            formControlName="tipoSede"
             readonly="true"
-            [value]="formulario.value.tipo | denominacionTipoSede | async" />
+            [value]="
+              formulario.value.tipoSede | denominacionTipoSede | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -46,7 +48,7 @@
             <mat-option value="" selected>Seleccionar</mat-option>
             <mat-option
               *ngFor="let localizacion of localizaciones"
-              [value]="localizacion"
+              [value]="localizacion.charAt(0)"
               >{{ localizacion }}</mat-option
             >
           </mat-select>
@@ -76,7 +78,17 @@
         <!-- estadoId -->
         <mat-form-field appearance="fill" class="estadoId">
           <mat-label>Estado</mat-label>
-          <input type="text" matInput formControlName="estadoId" />
+          <input
+            type="text"
+            matInput
+            formControlName="estadoId"
+            readonly="true"
+            [value]="
+              formulario.value.estadoId
+                | denominacionEstado
+                | async
+                | corregirNinguno
+            " />
           <button
             type="button"
             mat-icon-button
@@ -88,7 +100,17 @@
         <!-- municipioId -->
         <mat-form-field appearance="fill" class="municipioId">
           <mat-label>Municipio</mat-label>
-          <input type="text" matInput formControlName="municipioId" />
+          <input
+            type="text"
+            matInput
+            formControlName="municipioId"
+            readonly="true"
+            [value]="
+              formulario.value.municipioId
+                | denominacionMunicipio
+                | async
+                | corregirNinguno
+            " />
           <button
             type="button"
             mat-icon-button
@@ -97,22 +119,20 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- parroquiaId -->
-        <mat-form-field appearance="fill" class="parroquiaId">
-          <mat-label>Parroquia</mat-label>
-          <input type="text" matInput formControlName="parroquiaId" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarParroquia()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
         <!-- ciudadId -->
         <mat-form-field appearance="fill" class="ciudadId">
           <mat-label>Ciudad</mat-label>
-          <input type="text" matInput formControlName="ciudadId" />
+          <input
+            type="text"
+            matInput
+            formControlName="ciudadId"
+            readonly="true"
+            [value]="
+              formulario.value.ciudadId
+                | denominacionCiudad
+                | async
+                | corregirNinguno
+            " />
           <button
             type="button"
             mat-icon-button

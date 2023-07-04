@@ -1,3 +1,4 @@
+import { first, tap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -6,15 +7,14 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { Pais } from '@core/models/pais';
 import { TablaEntidad } from '@core/models/tabla-entidad';
-import { Pais } from '@core/types/pais';
+import { SigespService } from 'sigesp';
 import {
   adaptarPaises,
   filtrarValoresIniciales,
   ordenarPorCodigo,
 } from '@core/utils/operadores-rxjs';
-import { first, tap } from 'rxjs/operators';
-import { SigespService } from 'sigesp';
 
 @Component({
   selector: 'app-buscador-pais',
@@ -50,8 +50,8 @@ export class BuscadorPaisComponent
         adaptarPaises(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
-        tap(paises => {
-          this.dataSource = new MatTableDataSource(paises);
+        tap(cuentas => {
+          this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
         })

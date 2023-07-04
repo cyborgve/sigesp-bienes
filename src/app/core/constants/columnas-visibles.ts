@@ -149,7 +149,10 @@ export const COLUMNAS_VISIBLES = {
   ],
   USOS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   ACTIVOS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
-  MONEDAS: ['codigo', 'denominacion', 'iso', 'creado', 'modificado'],
-  PAISES: ['codigo', 'denominacion', 'iso', 'creado', 'modificado'],
+  MONEDAS: ['codigo', 'denominacion', 'creado', 'modificado'],
+  PAISES: ['codigo', 'denominacion', 'creado', 'modificado'],
+  ESTADOS: ['codigo', 'denominacion', 'creado', 'modificado'],
+  MUNICIPIOS: ['codigo', 'denominacion', 'creado', 'modificado'],
+  CIUDADES: ['codigo', 'denominacion', 'creado', 'modificado'],
   FUENTES_FINANCIEMIENTO: ['codigo', 'denominacion', 'creado', 'modificado'],
 };

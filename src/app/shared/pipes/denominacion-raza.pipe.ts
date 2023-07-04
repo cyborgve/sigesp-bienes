@@ -8,7 +8,9 @@ import { RazaService } from '@core/services/raza.service';
 })
 export class DenominacionRazaPipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    return this._raza.buscarPorId(value).pipe(map(raza => raza.denominacion));
+    return this._raza
+      .buscarPorId(value)
+      .pipe(map(raza => (raza ? raza['denominacion'] : String(value))));
   }
 
   constructor(private _raza: RazaService) {}

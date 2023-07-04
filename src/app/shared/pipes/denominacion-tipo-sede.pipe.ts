@@ -10,7 +10,9 @@ export class DenominacionTipoSedePipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._tipoSede
       .buscarPorId(value)
-      .pipe(map(tipoSede => tipoSede.denominacion));
+      .pipe(
+        map(tipoSede => (tipoSede ? tipoSede['denominacion'] : String(value)))
+      );
   }
 
   constructor(private _tipoSede: TipoSedeService) {}

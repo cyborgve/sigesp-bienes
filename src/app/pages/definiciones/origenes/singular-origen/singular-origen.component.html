@@ -19,7 +19,8 @@
           <input
             matInput
             [matDatepicker]="pickerFechaOrigen"
-            formControlName="fechaOrigen" />
+            formControlName="fechaOrigen"
+            readonly="true" />
           <mat-datepicker-toggle
             matSuffix
             [for]="pickerFechaOrigen"></mat-datepicker-toggle>
@@ -31,7 +32,8 @@
           <input
             matInput
             [matDatepicker]="pickerFechaAdquisicion"
-            formControlName="fechaAdquisicion" />
+            formControlName="fechaAdquisicion"
+            readonly="true" />
           <mat-datepicker-toggle
             matSuffix
             [for]="pickerFechaAdquisicion"></mat-datepicker-toggle>
@@ -79,7 +81,8 @@
           <input
             matInput
             formControlName="fechaFactura"
-            [matDatepicker]="pickerFechaFactura" />
+            [matDatepicker]="pickerFechaFactura"
+            readonly="true" />
           <mat-datepicker-toggle
             [for]="pickerFechaFactura"
             matSuffix></mat-datepicker-toggle>

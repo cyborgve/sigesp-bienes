@@ -28,7 +28,7 @@ export class BuscadorMonedaComponent
   @ViewChild(MatSort) matSort: MatSort;
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
   ocultarNuevo = true;
-  columnasVisibles = COLUMNAS_VISIBLES.MONEDAS;
+  columnasVisibles = COLUMNAS_VISIBLES['MONEDAS'];
   dataSource: MatTableDataSource<Moneda> = new MatTableDataSource();
 
   constructor(
@@ -50,8 +50,8 @@ export class BuscadorMonedaComponent
         adaptarMonedas(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
-        tap(monedas => {
-          this.dataSource = new MatTableDataSource(monedas);
+        tap(cuentas => {
+          this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
         })

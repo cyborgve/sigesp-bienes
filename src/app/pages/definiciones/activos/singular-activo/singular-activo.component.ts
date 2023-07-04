@@ -1,4 +1,5 @@
-import { take, tap, first, filter, switchMap } from 'rxjs/operators';
+import { Basica } from './../../../../core/models/basica';
+import { take, tap, first, filter, switchMap, zipAll } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,11 +14,15 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { ActivoComponenteService } from '@core/services/activo-componente.service';
 import { ActivoDepreciacionService } from '@core/services/activo-depreciacion.service';
 import { ActivoDetalleService } from '@core/services/activo-detalle.service';
 import { ActivoUbicacionService } from '@core/services/activo-ubicacion.service';
+import { ActivoDetalle } from '@core/models/activo-detalle';
+import { ActivoComponente } from '@core/models/activo-componente';
+import { ActivoDepreciacion } from '@core/models/activo-depreciacion';
+import { ActivoUbicacion } from '@core/models/activo-ubicacion';
 
 @Component({
   selector: 'app-singular-activo',
@@ -261,15 +266,31 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
   }
 
   guardar() {
-    let entidad: Activo = this.formularioDatosGenerales.value;
+    const activoDatosGenerales: Activo = this.formularioDatosGenerales.value;
+    const activoDetalle: ActivoDetalle = this.formularioDetalles.value;
+    const activoComponentes: ActivoComponente =
+      this.formularioComponentes.value;
+    const activoDepreciacion: ActivoDepreciacion =
+      this.formularioDepreciacion.value;
+    const activoUbicacion: ActivoUbicacion = this.formularioUbicacion.value;
+
     if (this.modoFormulario === 'CREANDO') {
       this._activo
-        .guardar(entidad)
-        .pipe(first())
+        .guardar(activoDatosGenerales)
+        .pipe(
+          first(),
+          tap(activo => {
+            const activoId = activo['id'];
+            activoDetalle.activoId = activoId;
+            activoComponentes.activoId = activoId;
+            activoDepreciacion.activoId = activoId;
+            activoUbicacion.activoId = activoId;
+          })
+        )
         .subscribe(() => this.irAtras());
     } else {
       this._activo
-        .actualizar(this.id, entidad)
+        .actualizar(this.id, activoDatosGenerales)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }

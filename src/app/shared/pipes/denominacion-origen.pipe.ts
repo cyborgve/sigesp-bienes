@@ -10,7 +10,7 @@ export class DenominacionOrigenPipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._origen
       .buscarPorId(value)
-      .pipe(map(origen => origen.denominacion));
+      .pipe(map(origen => (origen ? origen.denominacion : String(value))));
   }
 
   constructor(private _origen: OrigenService) {}

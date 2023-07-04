@@ -18,8 +18,7 @@
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
     <h1 class="title">
-      {{ 'Sigesp - Bienes Nacionales'
-      }}<span class="version">{{ version }}</span>
+      Sigesp - Bienes Nacionales <span class="version">{{ version }}</span>
     </h1>
     <button
       type="button"
@@ -52,7 +51,9 @@
 
 <ng-template #notLogged>
   <header class="mainColor notLogged">
-    <h1 class="title">{{ 'Sigesp - Bienes Nacionales' | uppercase }}</h1>
+    <h1 class="title">
+      Sigesp - Bienes Nacionales <span class="version">{{ version }}</span>
+    </h1>
   </header>
 
   <section class="content">

@@ -1,13 +1,19 @@
+import { Ciudad } from '@core/models/ciudad';
 import { CuentaContable } from '@core/models/cuenta-contable';
+import { Estado } from '@core/models/estado';
 import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
 import { Moneda } from '@core/models/moneda';
+import { Municipio } from '@core/models/municipio';
 import { pipe } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
+  MCity,
   MCountry,
   MCuentaInstitucional,
   MFuenteFinanciamiento,
   MMoneda,
+  MMunicipality,
+  MState,
 } from 'sigesp';
 
 export const filtrarValoresIniciales = () =>
@@ -95,6 +101,64 @@ export const adaptarPaises = () =>
             id: pais.code,
             codigo: pais.code,
             denominacion: pais.name,
+            creado: new Date(),
+            modificado: new Date(),
+          }
+      )
+    )
+  );
+
+export const adaptarEstados = () =>
+  pipe(
+    map((estados: MState[]) =>
+      estados.map(
+        estado =>
+          <Estado>{
+            empresaId: undefined,
+            id: estado.code,
+            paisId: estado.countryCode,
+            codigo: estado.code,
+            denominacion: estado.name,
+            capital: estado.capital,
+            creado: new Date(),
+            modificado: new Date(),
+          }
+      )
+    )
+  );
+
+export const adaptarMunicipios = () =>
+  pipe(
+    map((municipios: MMunicipality[]) =>
+      municipios.map(
+        municipio =>
+          <Municipio>{
+            empresaId: undefined,
+            id: municipio.code,
+            paisId: municipio.countryCode,
+            estadoId: municipio.stateCode,
+            codigo: municipio.code,
+            denominacion: municipio.name,
+            capital: municipio.capital,
+            creado: new Date(),
+            modificado: new Date(),
+          }
+      )
+    )
+  );
+
+export const adaptarCiudades = () =>
+  pipe(
+    map((ciudades: MCity[]) =>
+      ciudades.map(
+        ciudad =>
+          <Ciudad>{
+            empresaId: undefined,
+            id: ciudad.code,
+            paisId: ciudad.countryCode,
+            estadoId: ciudad.stateCode,
+            codigo: ciudad.code,
+            denominacion: ciudad.name,
             creado: new Date(),
             modificado: new Date(),
           }

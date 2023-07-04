@@ -10,8 +10,7 @@ export class DenominacionModeloPipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._modelo
       .buscarPorId(value)
-      .pipe(map(modelo => modelo.denominacion));
+      .pipe(map(modelo => (modelo ? modelo['denominacion'] : String(value))));
   }
-
   constructor(private _modelo: ModeloService) {}
 }

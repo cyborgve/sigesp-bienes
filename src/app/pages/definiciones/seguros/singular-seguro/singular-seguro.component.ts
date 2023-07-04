@@ -19,6 +19,7 @@ import { TipoPoliza } from '@core/models/tipo-poliza';
 import { TipoCobertura } from '@core/models/tipo-cobertura';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 
 @Component({
   selector: 'app-singular-seguro',
@@ -43,22 +44,22 @@ export class SingularSeguroComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['', Validators.required],
+      codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      aseguradoraId: ['', Validators.required],
-      tipoPoliza: ['', Validators.required],
-      tipoCobertura: ['', Validators.required],
-      numeroPoliza: ['', Validators.required],
-      montoAsegurado: ['', Validators.required],
-      fechaInicioPoliza: ['', Validators.required],
-      fechaFinPoliza: ['', Validators.required],
-      monedaId: ['', Validators.required],
-      monedaSecundariaId: ['', Validators.required],
-      poseeRCV: ['', Validators.required],
-      descripcionCobertura: ['', Validators.required],
-      coberturaAdicional: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      aseguradoraId: [0],
+      tipoPoliza: [0],
+      tipoCobertura: [0],
+      numeroPoliza: [''],
+      montoAsegurado: [0],
+      fechaInicioPoliza: [new Date()],
+      fechaFinPoliza: [new Date()],
+      monedaId: ['--'],
+      monedaSecundariaId: ['--'],
+      poseeRCV: [0],
+      descripcionCobertura: [''],
+      coberturaAdicional: [0],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -121,6 +122,7 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        take(1),
         tap((entidad: Seguro) => {
           this.formulario.patchValue({
             denominacion: entidad.denominacion,
@@ -144,9 +146,7 @@ export class SingularSeguroComponent implements Entidad {
 
   guardar() {
     let entidad: Seguro = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())
@@ -199,6 +199,7 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        take(1),
         tap((entidad: Aseguradora) =>
           this.formulario.patchValue({
             aseguradoraId: entidad.codigo,
@@ -216,6 +217,7 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        take(1),
         tap((entidad: TipoPoliza) =>
           this.formulario.patchValue({
             tipoPoliza: entidad.codigo,
@@ -233,10 +235,18 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        take(1),
         tap((entidad: TipoCobertura) =>
           this.formulario.patchValue({ tipoCobertura: entidad.codigo })
         )
       )
       .subscribe();
+  }
+
+  buscarMoneda() {
+    let dialog = this._dialog.open(BuscadorMonedaComponent, {
+      height: '95%',
+      width: '85%',
+    });
   }
 }

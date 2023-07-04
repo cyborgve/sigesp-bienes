@@ -10,9 +10,10 @@ export class DenominacionPaisPipe implements PipeTransform {
   transform(value: string): Observable<string> {
     if (value) {
       {
-        return this._sigesp
-          .getCountries()
-          .pipe(map(paises => paises.find(pais => pais.code === value).name));
+        return this._sigesp.getCountries().pipe(
+          map(paises => paises.find(pais => pais['code'] === String(value))),
+          map(pais => (pais ? pais['name'] : String(value)))
+        );
       }
     }
     return of(value);

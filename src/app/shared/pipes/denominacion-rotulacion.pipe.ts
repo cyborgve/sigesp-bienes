@@ -10,7 +10,11 @@ export class DenominacionRotulacionPipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._rotulacion
       .buscarPorId(value)
-      .pipe(map(rotulacion => rotulacion.denominacion));
+      .pipe(
+        map(rotulacion =>
+          rotulacion ? rotulacion['denominacion'] : String(value)
+        )
+      );
   }
 
   constructor(private _rotulacion: RotulacionService) {}

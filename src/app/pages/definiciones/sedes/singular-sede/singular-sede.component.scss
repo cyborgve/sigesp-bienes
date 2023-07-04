@@ -1,16 +1,25 @@
+.urbanizacion,
 .municipioId,
 .parroquiaId,
 .ciudadId {
   @apply col-span-4;
 }
 
-.paisId,
 .estadoId,
 .tipo,
-.localizacion,
-.urbanizacion,
-.calleAvenida,
-.casaEdificio,
-.piso {
+.paisId,
+.localizacion {
   @apply col-span-3;
+}
+
+.piso {
+  @apply col-span-1;
+}
+
+.calleAvenida {
+  @apply col-span-6;
+}
+
+.casaEdificio {
+  @apply col-span-5;
 }

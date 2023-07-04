@@ -14,7 +14,6 @@ import { BuscadorCuentaContableComponent } from './components/buscador-cuenta-co
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { NumeroSeriePipe } from './pipes/numero-serie.pipe';
 import { NumeroCorrelativoPipe } from './pipes/numero-correlativo.pipe';
-import { TipoMarcaPipe } from './pipes/tipo-marca.pipe';
 import { DenominacionMarcaPipe } from './pipes/denominacion-marca.pipe';
 import { DenominacionCorrelativoPipe } from './pipes/denominacion-correlativo.pipe';
 import { DenominacionModeloPipe } from './pipes/denominacion-modelo.pipe';
@@ -42,6 +41,15 @@ import { DenominacionTipoSedePipe } from './pipes/denominacion-tipo-sede.pipe';
 import { BuscadorPaisComponent } from './components/buscador-pais/buscador-pais.component';
 import { DenominacionPaisPipe } from './pipes/denominacion-pais.pipe';
 import { CorregirNingunoPipe } from './pipes/corregir-ninguno.pipe';
+import { DenominacionEstadoPipe } from './pipes/denominacion-estado.pipe';
+import { DenominacionMunicipioPipe } from './pipes/denominacion-municipio.pipe';
+import { DenominacionCiudadPipe } from './pipes/denominacion-ciudad.pipe';
+import { BuscadorEstadoComponent } from './components/buscador-estado/buscador-estado.component';
+import { BuscadorMunicipioComponent } from './components/buscador-municipio/buscador-municipio.component';
+import { BuscadorCiudadComponent } from './components/buscador-ciudad/buscador-ciudad.component';
+import { DenominacionAseguradoraPipe } from './pipes/denominacion-aseguradora.pipe';
+import { DenominacionTipoCoberturaPipe } from './pipes/denominacion-tipo-cobertura.pipe';
+import { DenominacionTipoPolizaPipe } from './pipes/denominacion-tipo-poliza.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -56,13 +64,15 @@ const sharedComponents = [
   BuscadorMonedaComponent,
   BuscadorFuenteFinanciemientoComponent,
   BuscadorPaisComponent,
+  BuscadorEstadoComponent,
+  BuscadorMunicipioComponent,
+  BuscadorCiudadComponent,
 ];
 
 const sharedPipes = [
   IsoCurrencyPipe,
   NumeroSeriePipe,
   NumeroCorrelativoPipe,
-  TipoMarcaPipe,
   DenominacionMarcaPipe,
   DenominacionCorrelativoPipe,
   DenominacionModeloPipe,
@@ -85,21 +95,19 @@ const sharedPipes = [
   TipoCausaMovimientoPipe,
   DenominacionTipoMarcaPipe,
   DenominacionTipoSedePipe,
+  DenominacionPaisPipe,
+  CorregirNingunoPipe,
+  DenominacionEstadoPipe,
+  DenominacionMunicipioPipe,
+  DenominacionCiudadPipe,
+  DenominacionAseguradoraPipe,
+  DenominacionTipoCoberturaPipe,
+  DenominacionTipoPolizaPipe,
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    ...sharedPipes,
-    DenominacionPaisPipe,
-    CorregirNingunoPipe,
-  ],
+  declarations: [...sharedComponents, ...sharedPipes],
   imports: [CommonModule, FormsModule, MaterialModule],
-  exports: [
-    ...sharedComponents,
-    ...sharedPipes,
-    DenominacionPaisPipe,
-    CorregirNingunoPipe,
-  ],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}

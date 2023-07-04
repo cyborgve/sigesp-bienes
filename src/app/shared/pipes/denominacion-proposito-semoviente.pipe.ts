@@ -10,7 +10,11 @@ export class DenominacionPropositoSemovientePipe implements PipeTransform {
   transform(value: number): Observable<string> {
     return this._propositoSemoviente
       .buscarPorId(value)
-      .pipe(map(propositoSemoviente => propositoSemoviente.denominacion));
+      .pipe(
+        map(proposito =>
+          proposito ? proposito['denominacion'] : String(value)
+        )
+      );
   }
 
   constructor(private _propositoSemoviente: PropositoSemovienteService) {}
