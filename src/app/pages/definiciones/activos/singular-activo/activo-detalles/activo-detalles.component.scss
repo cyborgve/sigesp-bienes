@@ -1,3 +1,14 @@
+.garantia,
+.unidadGarantia,
+.inicioGarantia,
+.finGarantia,
+.origenId,
+.asegurado,
+.claseId,
+.descripcionOtraClase,
+.fuenteFinanciamiento,
+.codigoCentroCostos,
+.especificacionesTecnicas,
 .oficinaRegistro,
 .referenciaRegistro,
 .tomo,
@@ -6,8 +17,15 @@
 .numeroRegistro,
 .fechaRegistrado,
 .propietarioAnterior,
+.dependencias,
+.areaConstruccion,
+.unidadAreaConstruccion,
+.areaTerreno,
+.unidadAreaTerreno,
+.especificacionesInmueble,
 .perteneceASede,
-.sedeUbicacionId,
+.sede_ubicacionId,
+.especificacionesColor,
 .serialCarroceria,
 .serialMotor,
 .placas,
@@ -15,55 +33,17 @@
 .capacidad,
 .nombre,
 .usoId,
-.tieneGPS,
+.tieneGps,
+.especificacionesGps,
 .tipoSemovienteId,
 .genero,
 .propositoSemovienteId,
+.peso,
+.unidadMedidaPeso,
 .numeroHierro,
-.fuenteFinanciamientoId,
-.raza {
-  @apply col-span-3;
-}
-
-.especificacionesTecnicas,
 .especificacionesAnimal,
-.especificacionesGPS,
-.especificacionesColor,
-.especificacionesInmueble {
-  @apply col-start-1 col-span-full;
-}
-
-.razaId,
-.diasGarantia,
-.fechaInicioGarantia,
-.fechaFinGarantia,
-.origenId,
-.asegurado,
-.seguroId,
-.claseId,
-.descripcionOtraClase,
-.codigoCentroCostos,
-.fechaNacimientoAnimal,
 .tipoAnimalId,
-.unidadMedidaId,
-.dependencias,
-.areaConstruccionM2,
-.areaTerrenoM2 {
-  @apply col-span-2;
-}
-
-.peso {
-  @apply col-span-1;
-}
-
-.asegurado {
-  @apply pt-4;
-}
-
-.descripcionOtraClase {
-  @apply col-span-5;
-}
-
-.tipoUsoId {
+.fechaNacimientoAnimal,
+.razaId {
   @apply col-span-3;
 }

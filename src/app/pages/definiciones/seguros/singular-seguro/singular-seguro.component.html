@@ -22,6 +22,11 @@
           <mat-label>Denominacion</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
+        <!-- numeroPoliza -->
+        <mat-form-field appearance="fill" class="numeroPoliza">
+          <mat-label>Numero de Poliza</mat-label>
+          <input type="text" matInput formControlName="numeroPoliza" />
+        </mat-form-field>
         <!-- aseguradoraId -->
         <mat-form-field appearance="fill" class="aseguradoraId">
           <mat-label>Aseguradora</mat-label>
@@ -41,16 +46,16 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- tipoPoliza -->
-        <mat-form-field appearance="fill" class="tipoPoliza">
+        <!-- tipoPolizaId -->
+        <mat-form-field appearance="fill" class="tipoPolizaId">
           <mat-label>Tipo de Poliza</mat-label>
           <input
             type="text"
             matInput
-            formControlName="tipoPoliza"
+            formControlName="tipoPolizaId"
             readonly="true"
             [value]="
-              formulario.value.tipoPoliza | denominacionTipoPoliza | async
+              formulario.value.tipoPolizaId | denominacionTipoPoliza | async
             " />
           <button
             type="button"
@@ -60,16 +65,18 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- tipoCobertura -->
-        <mat-form-field appearance="fill" class="tipoCobertura">
+        <!-- tipoCoberturaId -->
+        <mat-form-field appearance="fill" class="tipoCoberturaId">
           <mat-label>Tipo de Cobertura</mat-label>
           <input
             type="text"
             matInput
-            formControlName="tipoCobertura"
+            formControlName="tipoCoberturaId"
             readonly="true"
             [value]="
-              formulario.value.tipoCobertura | denominacionTipoCobertura | async
+              formulario.value.tipoCoberturaId
+                | denominacionTipoCobertura
+                | async
             " />
           <button
             type="button"
@@ -78,16 +85,6 @@
             (click)="buscarTipoCobertura()">
             <mat-icon>search</mat-icon>
           </button>
-        </mat-form-field>
-        <!-- numeroPoliza -->
-        <mat-form-field appearance="fill" class="numeroPoliza">
-          <mat-label>Numero de Poliza</mat-label>
-          <input type="text" matInput formControlName="numeroPoliza" />
-        </mat-form-field>
-        <!-- montoAsegurado -->
-        <mat-form-field appearance="fill" class="montoAsegurado">
-          <mat-label>Monto Asegurado</mat-label>
-          <input type="number" matInput formControlName="montoAsegurado" />
         </mat-form-field>
         <!-- fechaInicioPoliza -->
         <mat-form-field appearance="fill" class="fechaInicioPoliza">
@@ -115,6 +112,11 @@
             matSuffix></mat-datepicker-toggle>
           <mat-datepicker #pickerFechaFinPoliza></mat-datepicker>
         </mat-form-field>
+        <!-- montoAsegurado -->
+        <mat-form-field appearance="fill" class="montoAsegurado">
+          <mat-label>Monto Asegurado</mat-label>
+          <input type="number" matInput formControlName="montoAsegurado" />
+        </mat-form-field>
         <!-- monedaId -->
         <mat-form-field appearance="fill" class="monedaId">
           <mat-label>Moneda</mat-label>
@@ -123,7 +125,13 @@
             matInput
             formControlName="monedaId"
             readonly="true"
-            [value]="formulario.value.monedaId | denominacionMoneda | async" />
+            [value]="
+              formulario.value.monedaId
+                | denominacionMoneda
+                | async
+                | corregirSeleccionar
+                | titlecase
+            " />
           <button
             type="button"
             mat-icon-button
@@ -135,20 +143,44 @@
         <!-- monedaSecundariaId -->
         <mat-form-field appearance="fill" class="monedaSecundariaId">
           <mat-label>Moneda Secundaria</mat-label>
-          <input type="text" matInput formControlName="monedaSecundariaId" />
-          <button type="button" mat-icon-button matSuffix>
+          <input
+            type="text"
+            matInput
+            formControlName="monedaSecundariaId"
+            readonly="true"
+            [value]="
+              formulario.value.monedaSecundariaId
+                | denominacionMoneda
+                | async
+                | corregirSeleccionar
+                | titlecase
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarMonedaSecundaria()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
         <!-- coberturaAdicional -->
         <mat-form-field appearance="fill" class="coberturaAdicional">
           <mat-label>Cobertura Adicional</mat-label>
-          <input type="text" matInput formControlName="coberturaAdicional" />
+          <input
+            type="text"
+            matInput
+            formControlName="coberturaAdicional"
+            readonly="true"
+            [value]="
+              formulario.value.coberturaAdicional
+                | denominacionTipoCobertura
+                | async
+            " />
           <button
             type="button"
             mat-icon-button
             matSuffix
-            (click)="buscarTipoCobertura()">
+            (click)="buscarCoberturaAdicional()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>

@@ -13,10 +13,19 @@
           <mat-label>Codigo</mat-label>
           <input type="text" matInput formControlName="codigo" />
         </mat-form-field>
-        <!-- categoriaId -->
-        <mat-form-field appearance="fill" class="categoriaId">
+        <!-- categoria -->
+        <mat-form-field appearance="fill" class="categoria">
           <mat-label>Categoria</mat-label>
-          <input type="text" matInput formControlName="categoriaId" />
+          <input
+            type="text"
+            matInput
+            formControlName="categoria"
+            readonly="true"
+            [value]="
+              formulario.value.categoria
+                | denominacionCategoriaUnidadAdministrativa
+                | async
+            " />
           <button
             type="button"
             mat-icon-button

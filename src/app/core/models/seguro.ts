@@ -1,17 +1,20 @@
+import { Codigo } from '@core/types/codigo';
+import { Id } from '@core/types/id';
 import { Basica } from '@core/models/basica';
 
 export interface Seguro extends Basica {
-  codigo: string;
+  activoId: Id;
+  codigo: Codigo;
   denominacion: string;
-  aseguradoraId: string;
-  tipoPoliza: string;
-  tipoCobertura: string;
+  aseguradoraId: Id;
+  tipoPolizaId: Id;
+  tipoCoberturaId: Id;
   numeroPoliza: string;
   montoAsegurado: number;
   fechaInicioPoliza: Date;
   fechaFinPoliza: Date;
-  monedaId: string;
-  monedaSecundariaId: string;
+  monedaId: Id;
+  monedaSecundariaId: Id;
   poseeRCV: number;
   descripcionCobertura: string;
   coberturaAdicional: string;

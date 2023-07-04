@@ -49,19 +49,19 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     'ubicación',
   ];
   constructor(
-    private _activo: ActivoService,
-    private _activoComponente: ActivoComponenteService,
-    private _activoDepreciacion: ActivoDepreciacionService,
-    private _activoDetalle: ActivoDetalleService,
-    private _activoUbicacion: ActivoUbicacionService,
-    private _activatedRoute: ActivatedRoute,
-    private _router: Router,
+    private Activo: ActivoService,
+    private ActivoComponente: ActivoComponenteService,
+    private ActivoDepreciacion: ActivoDepreciacionService,
+    private ActivoDetalle: ActivoDetalleService,
+    private ActivoUbicacion: ActivoUbicacionService,
+    private ActivatedRoute: ActivatedRoute,
+    private Router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService
+    private Correlativo: CorrelativoService
   ) {
-    this.id = this._activatedRoute.snapshot.params['id'];
+    this.id = this.ActivatedRoute.snapshot.params['id'];
     /* formulario datos generales */
     this.formularioDatosGenerales = this._formBuilder.group({
       empresaId: [''],
@@ -88,18 +88,18 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     });
     /* formulario detalles */
     this.formularioDetalles = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
+      empresaId: [0],
       activoId: [0],
-      diasGarantia: [0],
+      id: [0],
+      garantia: [0],
+      unidadGarantia: [''],
       inicioGarantia: [new Date()],
       finGarantia: [new Date()],
       origenId: [0],
       asegurado: [0],
-      seguroId: [0],
       claseId: [0],
       descripcionOtraClase: [''],
-      fuenteFinanciamiento: [0],
+      fuenteFinanciamiento: ['--'],
       codigoCentroCostos: [''],
       especificacionesTecnicas: [''],
       oficinaRegistro: [''],
@@ -111,8 +111,10 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       fechaRegistrado: [new Date()],
       propietarioAnterior: [''],
       dependencias: [''],
-      areaConstruccionM2: [0],
-      areaTerrenoM2: [0],
+      areaConstruccion: [0],
+      unidadAreaConstruccion: [''],
+      areaTerreno: [0],
+      unidadAreaTerreno: [''],
       especificacionesInmueble: [''],
       perteneceASede: [0],
       sedeUbicacionId: [0],
@@ -124,10 +126,10 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       capacidad: [''],
       nombre: [''],
       usoId: [0],
-      tieneGPS: [false],
-      especificacionesGPS: [''],
+      tieneGps: [0],
+      especificacionesGps: [''],
       tipoSemovienteId: [0],
-      genero: ['Seleccionar'],
+      genero: [''],
       propositoSemovienteId: [0],
       peso: [0],
       unidadMedidaPeso: [''],
@@ -136,6 +138,8 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       tipoAnimalId: [0],
       fechaNacimientoAnimal: [new Date()],
       razaId: [0],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
     /* formulario componentes */
     this.formularioComponentes = this._formBuilder.group({
@@ -169,8 +173,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
   private actualizarFormularios() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
-      this._activo
-        .buscarPorId(this.id)
+      this.Activo.buscarPorId(this.id)
         .pipe(
           take(1),
           tap(entidad =>
@@ -205,8 +208,9 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         )
         .subscribe();
     } else {
-      this._correlativo
-        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
+      this.Correlativo.buscarPorId(
+        CORRELATIVOS.find(c => c.nombre === this.titulo).id
+      )
         .pipe(
           take(1),
           tap(categoria =>
@@ -275,8 +279,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     const activoUbicacion: ActivoUbicacion = this.formularioUbicacion.value;
 
     if (this.modoFormulario === 'CREANDO') {
-      this._activo
-        .guardar(activoDatosGenerales)
+      this.Activo.guardar(activoDatosGenerales)
         .pipe(
           first(),
           tap(activo => {
@@ -289,8 +292,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         )
         .subscribe(() => this.irAtras());
     } else {
-      this._activo
-        .actualizar(this.id, activoDatosGenerales)
+      this.Activo.actualizar(this.id, activoDatosGenerales)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -308,7 +310,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._activo.eliminar(this.formularioDatosGenerales.value.id)
+          this.Activo.eliminar(this.formularioDatosGenerales.value.id)
         ),
         take(1)
       )
@@ -323,7 +325,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     this._location.back();
   }
   irAlInicio() {
-    this._router.navigate(['/definiciones']);
+    this.Router.navigate(['/definiciones']);
   }
 
   salir() {

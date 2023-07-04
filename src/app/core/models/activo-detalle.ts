@@ -1,17 +1,18 @@
 import { Id } from '@core/types/id';
 import { Basica } from './basica';
+import { Logico } from '@core/types/logico';
 
 export interface ActivoDetalle extends Basica {
   activoId: Id;
-  diasGarantia: number;
+  garantia: number;
+  unidadGarantia: string;
   inicioGarantia: Date;
   finGarantia: Date;
   origenId: Id;
-  asegurado: number;
-  seguroId: Id;
+  asegurado: Logico;
   claseId: Id;
   descripcionOtraClase: string;
-  fuente_financiamiento: Id;
+  fuenteFinanciamiento: string;
   codigoCentroCostos: string;
   especificacionesTecnicas: string;
   oficinaRegistro: string;
@@ -23,11 +24,13 @@ export interface ActivoDetalle extends Basica {
   fechaRegistrado: Date;
   propietarioAnterior: string;
   dependencias: string;
-  areaConstruccionM2: number;
-  areaTerrenoM2: number;
+  areaConstruccion: number;
+  unidadAreaConstruccion: string;
+  areaTerreno: number;
+  unidadAreaTerreno: string;
   especificacionesInmueble: string;
-  perteneceASede: number;
-  sedeUbicacionId: Id;
+  perteneceASede: Logico;
+  sede_ubicacionId: Id;
   especificacionesColor: string;
   serialCarroceria: string;
   serialMotor: string;
@@ -36,8 +39,8 @@ export interface ActivoDetalle extends Basica {
   capacidad: string;
   nombre: string;
   usoId: Id;
-  tieneGPS: boolean;
-  especificacionesGPS: string;
+  tieneGps: Logico;
+  especificacionesGps: string;
   tipoSemovienteId: Id;
   genero: string;
   propositoSemovienteId: Id;

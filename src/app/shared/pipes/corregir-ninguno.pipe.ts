@@ -6,7 +6,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CorregirNingunoPipe implements PipeTransform {
   transform(value: string): string {
     if (value) {
-      if (value.toLowerCase() === 'ninguno') return 'Seleccionar';
+      if (
+        value.toLowerCase() === 'ninguno' ||
+        value.toLowerCase() === 'ninguna'
+      )
+        return 'Seleccionar';
     }
     return value;
   }

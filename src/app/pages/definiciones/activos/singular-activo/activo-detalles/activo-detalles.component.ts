@@ -1,5 +1,5 @@
 import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
-import { map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/basica';
@@ -29,6 +29,7 @@ export class ActivoDetallesComponent implements OnDestroy {
   @Input() tipoActivo: TipoActivo = 'INMUEBLE';
 
   unidadesMedidaPeso = UNIDADES_MEDIDA['PESO'];
+  unidadesMedidaTiempo = UNIDADES_MEDIDA['TIEMPO'];
 
   constructor(private _dialog: MatDialog, private _sigesp: SigespService) {}
 

@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-tipo-uso.component.html',
   styleUrls: ['./plural-tipo-uso.component.scss'],
 })
-export class PluralTipoUsoComponent {}
+export class PluralTipoUsoComponent {
+  titulo = 'tipos de uso';
+}

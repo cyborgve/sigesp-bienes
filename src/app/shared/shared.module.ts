@@ -50,6 +50,7 @@ import { BuscadorCiudadComponent } from './components/buscador-ciudad/buscador-c
 import { DenominacionAseguradoraPipe } from './pipes/denominacion-aseguradora.pipe';
 import { DenominacionTipoCoberturaPipe } from './pipes/denominacion-tipo-cobertura.pipe';
 import { DenominacionTipoPolizaPipe } from './pipes/denominacion-tipo-poliza.pipe';
+import { DenominacionCategoriaUnidadAdministrativaPipe } from './pipes/denominacion-categoria-unidad-administrativa.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -106,8 +107,16 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DenominacionCategoriaUnidadAdministrativaPipe,
+  ],
   imports: [CommonModule, FormsModule, MaterialModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DenominacionCategoriaUnidadAdministrativaPipe,
+  ],
 })
 export class SharedModule {}

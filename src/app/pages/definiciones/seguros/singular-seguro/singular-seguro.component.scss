@@ -1,12 +1,18 @@
+.activoId,
+.codigo,
 .aseguradoraId,
-.tipoPoliza,
-.tipoCobertura,
+.tipoPolizaId,
+.tipoCoberturaId,
 .numeroPoliza,
 .monedaId,
 .monedaSecundariaId,
 .poseeRCV,
 .coberturaAdicional {
   @apply col-span-3;
+}
+
+.denominacion {
+  @apply col-span-9;
 }
 
 .montoAsegurado,
@@ -16,5 +22,5 @@
 }
 
 .descripcionCobertura {
-  @apply col-span-full;
+  @apply col-start-1 col-span-full;
 }

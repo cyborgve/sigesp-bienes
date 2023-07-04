@@ -1,37 +1,49 @@
 <form [formGroup]="formulario">
   <section class="contenido">
-    <!-- dias de garantia -->
-    <mat-form-field appearance="fill" class="diasGarantia">
-      <mat-label>Días garantía</mat-label>
-      <input type="text" matInput formControlName="diasGarantia" />
+    <!-- garantia -->
+    <mat-form-field appearance="fill" class="garantia">
+      <mat-label>Garantía</mat-label>
+      <input type="number" matInput formControlName="garantia" />
     </mat-form-field>
-    <!-- fecha inicio de la garantia -->
-    <mat-form-field appearance="fill" class="fechaInicioGarantia">
+    <!-- unidadGarantia -->
+    <mat-form-field appearance="fill" class="unidadGarantia">
+      <mat-label>Unidad de Garantia</mat-label>
+      <mat-select formControlName="unidadGarantia">
+        <mat-option value="" selected>Seleccionar</mat-option>
+        <mat-option
+          *ngFor="let unidad of unidadesMedidaTiempo"
+          [value]="unidad"
+          >{{ unidad | titlecase }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <!-- inicioGarantia -->
+    <mat-form-field appearance="fill" class="inicioGarantia">
       <mat-label>Inicio garantía</mat-label>
       <input
         matInput
-        [matDatepicker]="fechaInicioGarantiaPicker"
+        [matDatepicker]="inicioGarantiaPicker"
         formControlName="inicioGarantia"
         readonly="true" />
       <mat-datepicker-toggle
         matSuffix
-        [for]="fechaInicioGarantiaPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fechaInicioGarantiaPicker></mat-datepicker>
+        [for]="inicioGarantiaPicker"></mat-datepicker-toggle>
+      <mat-datepicker #inicioGarantiaPicker></mat-datepicker>
     </mat-form-field>
-    <!-- fecha fin de la garantia -->
-    <mat-form-field appearance="fill" class="fechaFinGarantia">
+    <!-- finGarantia -->
+    <mat-form-field appearance="fill" class="finGarantia">
       <mat-label>Fin garantía</mat-label>
       <input
         matInput
-        [matDatepicker]="fechaFinGarantiaPicker"
+        [matDatepicker]="finGarantiaPicker"
         formControlName="finGarantia"
         readonly="true" />
       <mat-datepicker-toggle
         matSuffix
-        [for]="fechaFinGarantiaPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fechaFinGarantiaPicker></mat-datepicker>
+        [for]="finGarantiaPicker"></mat-datepicker-toggle>
+      <mat-datepicker #finGarantiaPicker></mat-datepicker>
     </mat-form-field>
-    <!-- origen id -->
+    <!-- origenId -->
     <mat-form-field appearance="fill" class="origenId">
       <mat-label>Origen</mat-label>
       <input
@@ -48,28 +60,19 @@
     <mat-slide-toggle formControlName="asegurado" class="asegurado"
       >Asegurado</mat-slide-toggle
     >
-    <!-- seguro id -->
-    <mat-form-field appearance="fill" class="seguroId">
-      <mat-label>Seguro</mat-label>
-      <input
-        type="text"
-        matInput
-        formControlName="seguroId"
-        readonly="true"
-        [value]="formulario.value.seguroId | denominacionSeguro | async" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarSeguro()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <!-- fuente de financiamiento id -->
-    <mat-form-field appearance="fill" class="fuenteFinanciamientoId">
+    <!-- fuenteFinanciamiento -->
+    <mat-form-field appearance="fill" class="fuenteFinanciamiento">
       <mat-label>Fuente de financiamiento</mat-label>
       <input
         type="text"
         matInput
         formControlName="fuenteFinanciamiento"
+        readonly="true"
         [value]="
-          formulario.value.id | denominacionFuenteFinanciamiento | async
+          formulario.value.fuenteFinanciamiento
+            | denominacionFuenteFinanciamiento
+            | async
+            | corregirNinguno
         " />
       <button
         type="button"

@@ -5,7 +5,7 @@ import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
 import { Moneda } from '@core/models/moneda';
 import { Municipio } from '@core/models/municipio';
 import { pipe } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   MCity,
   MCountry,
@@ -19,7 +19,10 @@ import {
 export const filtrarValoresIniciales = () =>
   pipe(
     map((entidades: any[]) => entidades.filter(entidad => entidad.id !== '0')),
-    map((entidades: any[]) => entidades.filter(entidad => entidad.id !== '---'))
+    map((entidades: any[]) =>
+      entidades.filter(entidad => entidad.id !== '---')
+    ),
+    map((entidades: any[]) => entidades.filter(entidad => entidad.id !== '--'))
   );
 
 export const ordenarPorCodigo = () =>
@@ -80,8 +83,8 @@ export const adaptarFuentesFinanciemiento = () =>
         fuente =>
           <FuenteFinanciemiento>{
             empresaId: undefined,
-            id: fuente.codigoFuenteFinanciamiento,
-            codigo: fuente.codigo,
+            id: fuente['codigo'],
+            codigo: fuente['codigoFuenteFinanciamiento'],
             denominacion: fuente.denominacionFuenteFinanciamiento,
             explicacion: fuente.explicacionFuenteFinanciamiento,
             creado: new Date(),

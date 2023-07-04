@@ -1,6 +1,6 @@
 import { SigespService } from 'sigesp';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Id } from '@core/types/id';
 

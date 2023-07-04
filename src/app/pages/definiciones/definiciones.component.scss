@@ -27,3 +27,10 @@ mat-card-title {
 .titulo {
   @apply text-primary text-xl font-semibold;
 }
+
+mat-icon {
+  height: 80px;
+  width: 80px;
+  font-size: 80px;
+  color: #073763;
+}
