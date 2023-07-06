@@ -56,11 +56,6 @@
       <mat-label>Denominación</mat-label>
       <input type="text" matInput formControlName="denominacion" />
     </mat-form-field>
-    <!-- observaciones -->
-    <mat-form-field appearance="fill" class="observaciones">
-      <mat-label>Observaciones</mat-label>
-      <textarea rows="2" matInput formControlName="observaciones"></textarea>
-    </mat-form-field>
     <!-- fecha de adquisicion -->
     <mat-form-field appearance="fill" class="fechaAdquisicion">
       <mat-label>Fecha de adquisición</mat-label>
@@ -98,19 +93,6 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- marca id -->
-    <mat-form-field class="marcaId" appearance="fill">
-      <mat-label>Marca</mat-label>
-      <input
-        type="text"
-        matInput
-        formControlName="marcaId"
-        readonly="true"
-        [value]="formulario.value.marcaId | denominacionMarca | async" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarMarca()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
     <!-- modelo id -->
     <mat-form-field appearance="fill" class="modeloId">
       <mat-label>Modelo</mat-label>
@@ -119,7 +101,7 @@
         matInput
         formControlName="modeloId"
         readonly="true"
-        [value]="formulario.value.modeloId | denominacionModelo | async" />
+        [value]="formulario.value.modeloId | denominacionMarcaModelo | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarModelo()">
         <mat-icon>search</mat-icon>
       </button>
@@ -184,6 +166,11 @@
         (click)="buscarCategoria()">
         <mat-icon>search</mat-icon>
       </button>
+    </mat-form-field>
+    <!-- observaciones -->
+    <mat-form-field appearance="fill" class="observaciones">
+      <mat-label>Observaciones</mat-label>
+      <textarea rows="2" matInput formControlName="observaciones"></textarea>
     </mat-form-field>
   </article>
 </form>

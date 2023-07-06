@@ -115,9 +115,7 @@ export class SingularModeloComponent implements Entidad, OnDestroy {
 
   guardar() {
     let entidad: Modelo = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad)
         .pipe(first())

@@ -6,6 +6,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [TablaRazaComponent],
@@ -13,8 +15,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     RouterModule,
     SharedModule,
-    MatTableModule,
     MatCardModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     MatDialogModule,
   ],
   exports: [TablaRazaComponent],

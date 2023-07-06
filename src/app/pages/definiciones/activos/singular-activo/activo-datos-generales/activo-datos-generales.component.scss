@@ -1,9 +1,11 @@
+.modeloId,
+.monedaId,
 .unidadAdministrativaId,
 .responsableUsoId,
 .estadoUsoId,
-.serialRotulacion,
 .serialFabrica,
 .descripcionComponente,
+.serialRotulacion,
 .colorId,
 .categoriaId,
 .rotulacionId,
@@ -12,6 +14,7 @@
   @apply col-span-3;
 }
 
+.catalogoCuentas,
 .codigoCentroCostos,
 .valorRescate,
 .fuenteFinanciamientoId,
@@ -22,11 +25,8 @@
 .fechaFinGarantia,
 .claseId,
 .marcaId,
-.modeloId,
-.monedaId,
 .valorAdquisicion,
 .fechaAdquisicion,
-.catalogoCuentas,
 .tipoActivo,
 .diasGarantia,
 .anioFabricacion,

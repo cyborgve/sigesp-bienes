@@ -23,10 +23,13 @@ function normalizarObjeto(objeto: any): any {
  * @email richardiribarren@gmail.com
  */
 export class Utilidades {
-  /** @description Recibe una cadena con el nombre de una avariable,
+  /**
+   * @description Recibe una cadena con el nombre de una avariable,
    * usando como separador de palabras "_", y retorna la
    * misma cadena eliminando los separadores de palabra
    * y convirtiendola en camelCase.
+   * @param string // Nombre de variable con estilo base de dato ej: variable_ejemplo
+   * @returns string // Nombre de variable
    * @author Richard Iribarren
    * @email richardiribarren@gmail.com */
   static convertirCamelCase = (variable: string) =>

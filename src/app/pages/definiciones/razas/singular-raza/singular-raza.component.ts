@@ -1,3 +1,4 @@
+import { TipoAnimal } from '@core/models/tipo-animal';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
@@ -13,6 +14,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';
 
 @Component({
   selector: 'app-singular-raza',
@@ -38,6 +40,7 @@ export class SingularRazaComponent implements Entidad {
       empresaId: [''],
       id: [''],
       codigo: ['autogenerado'],
+      tipoAnimalId: [0],
       denominacion: ['', Validators.required],
       creado: [new Date()],
       modificado: [new Date()],
@@ -58,6 +61,7 @@ export class SingularRazaComponent implements Entidad {
               empresaId: entidad.empresaId,
               id: entidad.id,
               codigo: entidad.codigo,
+              tipoAnimalId: entidad.tipoAnimalId,
               denominacion: entidad.denominacion,
               creado: entidad.creado,
               modificado: entidad.modificado,
@@ -93,6 +97,7 @@ export class SingularRazaComponent implements Entidad {
       .pipe(
         tap((entidad: Raza) => {
           this.formulario.patchValue({
+            tipoAnimalId: entidad.tipoAnimalId,
             denominacion: entidad.denominacion,
           });
         })
@@ -147,5 +152,21 @@ export class SingularRazaComponent implements Entidad {
 
   salir() {
     throw new Error('Method not implemented.');
+  }
+
+  buscarTipoAnimal() {
+    let dialog = this._dialog.open(BuscadorTipoAnimalComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((tipoAnimal: TipoAnimal) =>
+          this.formulario.patchValue({ tipoAnimalId: tipoAnimal.id })
+        )
+      )
+      .subscribe();
   }
 }

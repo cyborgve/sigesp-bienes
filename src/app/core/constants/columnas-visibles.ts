@@ -91,7 +91,14 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  RAZAS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  RAZAS: [
+    'codigo',
+    'denominacion',
+    'tipoAnimalId',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   RESPONSABLES: [
     'tipo',
     'numeroCedula',
@@ -155,4 +162,5 @@ export const COLUMNAS_VISIBLES = {
   MUNICIPIOS: ['codigo', 'denominacion', 'creado', 'modificado'],
   CIUDADES: ['codigo', 'denominacion', 'creado', 'modificado'],
   FUENTES_FINANCIEMIENTO: ['codigo', 'denominacion', 'creado', 'modificado'],
+  CENTROS_COSTO: ['codigo', 'denominacion', 'creado', 'modificado'],
 };

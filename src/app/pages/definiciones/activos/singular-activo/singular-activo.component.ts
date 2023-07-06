@@ -1,5 +1,4 @@
-import { Basica } from './../../../../core/models/basica';
-import { take, tap, first, filter, switchMap, zipAll } from 'rxjs/operators';
+import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -49,11 +48,11 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     'ubicación',
   ];
   constructor(
-    private Activo: ActivoService,
-    private ActivoComponente: ActivoComponenteService,
-    private ActivoDepreciacion: ActivoDepreciacionService,
-    private ActivoDetalle: ActivoDetalleService,
-    private ActivoUbicacion: ActivoUbicacionService,
+    private _activo: ActivoService,
+    private _activoComponente: ActivoComponenteService,
+    private _activoDepreciacion: ActivoDepreciacionService,
+    private _activoDetalle: ActivoDetalleService,
+    private _activoUbicacion: ActivoUbicacionService,
     private ActivatedRoute: ActivatedRoute,
     private Router: Router,
     private _formBuilder: FormBuilder,
@@ -76,7 +75,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       fechaAdquisicion: [new Date()],
       valorAdquisicion: [0],
       monedaId: [0],
-      marcaId: [0],
       modeloId: [0],
       anioFabricacion: [String(new Date().getFullYear())],
       serialFabrica: [''],
@@ -173,7 +171,8 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
   private actualizarFormularios() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
-      this.Activo.buscarPorId(this.id)
+      this._activo
+        .buscarPorId(this.id)
         .pipe(
           take(1),
           tap(entidad =>
@@ -190,7 +189,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
               fechaAdquisicion: entidad.fechaAdquisicion,
               valorAdquisicion: entidad.valorAdquisicion,
               monedaId: entidad.monedaId,
-              marcaId: entidad.marcaId,
               modeloId: entidad.modeloId,
               anioFabricacion: entidad.anioFabricacion,
               serialFabrica: entidad.serialFabrica,
@@ -253,7 +251,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
               fechaAdquisicion: entidad.fechaAdquisicion,
               valorAdquisicion: entidad.valorAdquisicion,
               monedaId: entidad.modeloId,
-              marcaId: entidad.marcaId,
               modeloId: entidad.modeloId,
               anioFabricacion: entidad.anioFabricacion,
               serialFabrica: entidad.serialFabrica,
@@ -279,21 +276,27 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     const activoUbicacion: ActivoUbicacion = this.formularioUbicacion.value;
 
     if (this.modoFormulario === 'CREANDO') {
-      this.Activo.guardar(activoDatosGenerales)
+      this._activo
+        .guardar(activoDatosGenerales)
         .pipe(
           first(),
           tap(activo => {
-            const activoId = activo['id'];
-            activoDetalle.activoId = activoId;
-            activoComponentes.activoId = activoId;
-            activoDepreciacion.activoId = activoId;
-            activoUbicacion.activoId = activoId;
+            activoDetalle.activoId = activo['id'];
+            activoComponentes.activoId = activo['id'];
+            activoDepreciacion.activoId = activo['id'];
+            activoUbicacion.activoId = activo['id'];
           })
         )
         .subscribe(() => this.irAtras());
     } else {
-      this.Activo.actualizar(this.id, activoDatosGenerales)
-        .pipe(first())
+      this._activo
+        .actualizar(this.id, activoDatosGenerales)
+        .pipe(
+          first(),
+          switchMap(() =>
+            this._activoDetalle.actualizar(activoDetalle.id, activoDetalle)
+          )
+        )
         .subscribe(() => this.irAtras());
     }
   }
@@ -310,7 +313,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this.Activo.eliminar(this.formularioDatosGenerales.value.id)
+          this._activo.eliminar(this.formularioDatosGenerales.value.id)
         ),
         take(1)
       )

@@ -1,14 +1,22 @@
+.peso,
 .garantia,
+.verSeguro {
+  @apply col-span-1;
+}
+
+.unidadMedidaPeso,
 .unidadGarantia,
 .inicioGarantia,
 .finGarantia,
+.asegurado {
+  @apply col-span-2;
+}
+
 .origenId,
-.asegurado,
 .claseId,
 .descripcionOtraClase,
 .fuenteFinanciamiento,
 .codigoCentroCostos,
-.especificacionesTecnicas,
 .oficinaRegistro,
 .referenciaRegistro,
 .tomo,
@@ -17,33 +25,56 @@
 .numeroRegistro,
 .fechaRegistrado,
 .propietarioAnterior,
-.dependencias,
 .areaConstruccion,
 .unidadAreaConstruccion,
 .areaTerreno,
 .unidadAreaTerreno,
-.especificacionesInmueble,
 .perteneceASede,
-.sede_ubicacionId,
-.especificacionesColor,
+.sedeUbicacionId,
 .serialCarroceria,
 .serialMotor,
 .placas,
 .numeroTituloPropiedad,
 .capacidad,
-.nombre,
 .usoId,
-.tieneGps,
-.especificacionesGps,
 .tipoSemovienteId,
 .genero,
 .propositoSemovienteId,
-.peso,
-.unidadMedidaPeso,
 .numeroHierro,
-.especificacionesAnimal,
 .tipoAnimalId,
 .fechaNacimientoAnimal,
 .razaId {
   @apply col-span-3;
+}
+
+.dependencias,
+.especificacionesAnimal,
+.especificacionesColor,
+.especificacionesGPS,
+.especificacionesInmueble,
+.especificacionesTecnicas {
+  @apply col-span-full;
+}
+
+.tieneGPS,
+.seguro {
+  @apply col-span-2;
+  .asegurado {
+    margin-top: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+.perteneceUbicacion {
+  @apply col-span-6 w-full flex;
+  .perteneceASede {
+    @apply mr-8 mt-4;
+  }
+  .sedeUbicacionId {
+    @apply w-2/3;
+  }
+}
+
+.nombre {
+  @apply col-span-7;
 }

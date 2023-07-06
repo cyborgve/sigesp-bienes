@@ -26,7 +26,6 @@
         <mat-form-field appearance="fill" class="metodoDepreciacion">
           <mat-label>Método de depreciación</mat-label>
           <mat-select formControlName="metodoDepreciacion">
-            <mat-option value="" selected>Seleccionar</mat-option>
             <mat-option
               *ngFor="let metodo of metodosDepreciacion"
               [value]="metodo"
@@ -46,6 +45,7 @@
               formulario.value.cuentaContableGasto
                 | denominacionCuentaContable
                 | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -67,6 +67,7 @@
               formulario.value.cuentaContableDepreciacion
                 | denominacionCuentaContable
                 | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -85,7 +86,6 @@
         <mat-form-field appearance="fill" class="unidadVidaUtil">
           <mat-label>Unidad de Medida</mat-label>
           <mat-select formControlName="unidadVidaUtil">
-            <mat-option value="" selected>Seleccionar</mat-option>
             <mat-option *ngFor="let unidad of unidades" [value]="unidad">{{
               unidad | titlecase
             }}</mat-option>

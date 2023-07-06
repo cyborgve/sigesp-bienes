@@ -17,6 +17,25 @@
             formControlName="codigo"
             readonly="true" />
         </mat-form-field>
+        <!-- tipoAnimalId -->
+        <mat-form-field appearance="fill" class="tipoAnimalId">
+          <mat-label>Tipo animal</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="tipoAnimalId"
+            readonly="true"
+            [value]="
+              formulario.value.tipoAnimalId | denominacionTipoAnimal | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarTipoAnimal()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
           <mat-label>Denominación</mat-label>

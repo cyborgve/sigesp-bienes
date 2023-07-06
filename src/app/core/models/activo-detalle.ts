@@ -30,7 +30,7 @@ export interface ActivoDetalle extends Basica {
   unidadAreaTerreno: string;
   especificacionesInmueble: string;
   perteneceASede: Logico;
-  sede_ubicacionId: Id;
+  sedeUbicacionId: Id;
   especificacionesColor: string;
   serialCarroceria: string;
   serialMotor: string;

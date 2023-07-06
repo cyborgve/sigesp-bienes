@@ -56,10 +56,21 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-    <!-- asegurado -->
-    <mat-slide-toggle formControlName="asegurado" class="asegurado"
-      >Asegurado</mat-slide-toggle
-    >
+    <article class="seguro">
+      <!-- asegurado -->
+      <mat-slide-toggle formControlName="asegurado" class="asegurado"
+        >Asegurado</mat-slide-toggle
+      >
+      <!-- boton ver polizas -->
+      <button
+        type="button"
+        mat-mini-fab
+        color="primary"
+        class="verSeguro"
+        [disabled]="formulario.value.asegurado === 0">
+        ver
+      </button>
+    </article>
     <!-- fuenteFinanciamiento -->
     <mat-form-field appearance="fill" class="fuenteFinanciamiento">
       <mat-label>Fuente de financiamiento</mat-label>
@@ -103,7 +114,19 @@
     <!-- codigo centro costos  -->
     <mat-form-field appearance="fill" class="codigoCentroCostos">
       <mat-label>Centro de costos</mat-label>
-      <input type="text" matInput formControlName="codigoCentroCostos" />
+      <input
+        type="text"
+        matInput
+        formControlName="codigoCentroCostos"
+        readonly="true"
+        [value]="formulario.value.codigoCentroCostos" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCentroCosto()">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
     <!-- especificaciones tecnicas -->
     <mat-form-field appearance="fill" class="especificacionesTecnicas">
@@ -170,39 +193,44 @@
         <mat-label>Dependencias</mat-label>
         <input type="text" matInput formControlName="dependencias" />
       </mat-form-field>
-      <!-- metros cuadrados de area de construccion  -->
-      <mat-form-field appearance="fill" class="areaConstruccionM2">
-        <mat-label>M2 Área construcción</mat-label>
-        <input type="text" matInput formControlName="areaConstruccionM2" />
+      <!-- area de construccion  -->
+      <mat-form-field appearance="fill" class="areaConstruccion">
+        <mat-label>Área construcción</mat-label>
+        <input type="text" matInput formControlName="areaConstruccion" />
       </mat-form-field>
-      <!-- metros cuadrados de area del terreno  -->
-      <mat-form-field appearance="fill" class="areaTerrenoM2">
-        <mat-label>M2 Área terreno</mat-label>
-        <input type="text" matInput formControlName="areaTerrenoM2" />
+      <!-- area del terreno  -->
+      <mat-form-field appearance="fill" class="areaTerreno">
+        <mat-label>Área terreno</mat-label>
+        <input type="text" matInput formControlName="areaTerreno" />
       </mat-form-field>
-      <!-- pertenece a sede -->
-      <mat-slide-toggle formControlName="perteneceASede" class="perteneceASede"
-        >Pertenece a sede</mat-slide-toggle
-      >
-      <!-- sede ubicacion id -->
-      <mat-form-field appearance="fill" class="sedeUbicacionId">
-        <mat-label>Sede ubicación</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="sedeUbicacionId"
-          readonly="true"
-          [value]="
-            formulario.value.sedeUbicacionId | denominacionSede | async
-          " />
-        <button
-          type="button"
-          mat-icon-button
-          matSuffix
-          (click)="buscarSedeUbicacion()">
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
+      <article class="perteneceUbicacion">
+        <!-- pertenece a sede -->
+        <mat-slide-toggle
+          formControlName="perteneceASede"
+          class="perteneceASede"
+          >Pertenece a sede</mat-slide-toggle
+        >
+        <span class="spacer"></span>
+        <!-- sede ubicacion id -->
+        <mat-form-field appearance="fill" class="sedeUbicacionId">
+          <mat-label>Sede ubicación</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="sedeUbicacionId"
+            readonly="true"
+            [value]="
+              formulario.value.sedeUbicacionId | denominacionSede | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarSedeUbicacion()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </article>
       <!-- especificaciones del inmueble -->
       <mat-form-field appearance="fill" class="especificacionesInmueble">
         <mat-label>Especificaciones del inmueble</mat-label>
@@ -345,9 +373,9 @@
         <mat-label>Peso</mat-label>
         <input type="number" matInput formControlName="peso" />
       </mat-form-field>
-      <!-- unidad de medida id -->
-      <mat-form-field appearance="fill" class="unidadMedidaId">
-        <mat-label>Peso unidad</mat-label>
+      <!-- unidad de medida peso -->
+      <mat-form-field appearance="fill" class="unidadMedidaPeso">
+        <mat-label>Peso unidad de medida</mat-label>
         <mat-select formControlName="unidadMedidaPeso">
           <mat-option value="" selected>Seleccionar</mat-option>
           <mat-option

@@ -1,3 +1,4 @@
+import { CentroCosto } from '@core/models/centro-costo';
 import { Ciudad } from '@core/models/ciudad';
 import { CuentaContable } from '@core/models/cuenta-contable';
 import { Estado } from '@core/models/estado';
@@ -7,6 +8,7 @@ import { Municipio } from '@core/models/municipio';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
+  MCentroCosto,
   MCity,
   MCountry,
   MCuentaInstitucional,
@@ -162,6 +164,23 @@ export const adaptarCiudades = () =>
             estadoId: ciudad.stateCode,
             codigo: ciudad.code,
             denominacion: ciudad.name,
+            creado: new Date(),
+            modificado: new Date(),
+          }
+      )
+    )
+  );
+
+export const adaptarCentrosCosto = () =>
+  pipe(
+    map((centrosCosto: MCentroCosto[]) =>
+      centrosCosto.map(
+        centroCosto =>
+          <CentroCosto>{
+            empresaId: centroCosto.idEmpresa,
+            id: centroCosto.centro,
+            codigo: centroCosto.centro,
+            denominacion: centroCosto.denominacion,
             creado: new Date(),
             modificado: new Date(),
           }

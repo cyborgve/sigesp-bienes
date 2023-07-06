@@ -14,7 +14,6 @@ export interface Activo extends Basica {
   fechaAdquisicion: Date;
   valorAdquisicion: number;
   monedaId: string;
-  marcaId: Id;
   modeloId: Id;
   anioFabricacion: string;
   serialFabrica: string;

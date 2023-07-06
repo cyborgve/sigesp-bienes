@@ -17,6 +17,7 @@ import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-o
 import { SigespService } from 'sigesp';
 import { BuscadorFuenteFinanciemientoComponent } from '@shared/components/buscador-fuente-financiemiento/buscador-fuente-financiemiento.component';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
+import { BuscadorCentroCostoComponent } from '@shared/components/buscador-centro-costo/buscador-centro-costo.component';
 
 @Component({
   selector: 'app-activo-detalles',
@@ -201,5 +202,12 @@ export class ActivoDetallesComponent implements OnDestroy {
         )
         .subscribe()
     );
+  }
+
+  buscarCentroCosto() {
+    let dialog = this._dialog.open(BuscadorCentroCostoComponent, {
+      height: '95%',
+      width: '85%',
+    });
   }
 }

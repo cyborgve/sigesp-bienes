@@ -133,12 +133,12 @@ export const MENU: MenuItem[] = [
         icon: 'sound_detection_dog_barking',
         image: './assets/images/svg/sound_detection_dog_barking.svg',
       },
-      {
-        label: 'Responsables',
-        routerLink: 'responsables',
-        icon: 'assignment_ind',
-        image: './assets/images/svg/assignment_ind.svg',
-      },
+      // {
+      //   label: 'Responsables',
+      //   routerLink: 'responsables',
+      //   icon: 'assignment_ind',
+      //   image: './assets/images/svg/assignment_ind.svg',
+      // },
       {
         label: 'Rotulaciones',
         routerLink: 'rotulaciones',

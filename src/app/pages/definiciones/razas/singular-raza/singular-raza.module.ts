@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BuscadorRazaModule } from '../buscador-raza/buscador-raza.module';
+import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.module';
 
 @NgModule({
   declarations: [SingularRazaComponent],
@@ -19,6 +20,7 @@ import { BuscadorRazaModule } from '../buscador-raza/buscador-raza.module';
     ReactiveFormsModule,
     SingularRazaRoutingModule,
     BuscadorRazaModule,
+    BuscadorTipoAnimalModule,
     SharedModule,
     MatCardModule,
     MatInputModule,
