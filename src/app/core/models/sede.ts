@@ -1,4 +1,4 @@
-import { Basica } from '@core/models/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 import { Codigo } from '@core/types/codigo';
 import { Id } from '@core/types/id';
 

@@ -13,7 +13,7 @@ mat-card-title {
 }
 
 .definicion {
-  @apply p-4 hover:bg-primary hover:bg-opacity-10 hover:text-accent hover:shadow-xl;
+  @apply p-4 hover:bg-primary hover:bg-opacity-10 hover:text-accent hover:shadow-xl hover:scale-105 hover:transition-all;
 }
 
 .buscar {

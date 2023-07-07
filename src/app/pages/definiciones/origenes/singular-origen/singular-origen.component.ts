@@ -24,7 +24,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[11].nombre;
+  titulo = CORRELATIVOS[12].nombre;
   formulario: FormGroup;
   //TODO: preguntar por los tipos de adquisicion y los modos de adquisicion.
   modosAdquisicion: string[] = ['Modo 1', 'Modo 2', 'Modo 3'];
@@ -41,17 +41,17 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
-      id: ['autogenerado'],
-      codigo: ['', Validators.required],
-      fechaOrigen: [null, Validators.required],
-      fechaAdquisicion: [null],
-      modoAdquisicion: ['', Validators.required],
-      formaAdquisicion: ['', Validators.required],
+      id: [''],
+      codigo: ['autogenerado'],
+      fechaOrigen: [new Date()],
+      fechaAdquisicion: [new Date()],
+      modoAdquisicion: [''],
+      formaAdquisicion: [''],
       numeroFormaAdquisicion: [''],
       nombreFormaAdquisicion: [''],
-      fechaFactura: [null],
+      fechaFactura: [new Date()],
       numeroFactura: [''],
-      proveedorId: [''],
+      proveedorId: [0],
       tomo: [''],
       folio: [''],
       nombrePropietarioAnterior: [''],

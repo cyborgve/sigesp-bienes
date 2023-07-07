@@ -24,7 +24,7 @@ export class SingularTipoAnimalComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[24].nombre;
+  titulo = CORRELATIVOS[19].nombre;
   formulario: FormGroup;
   constructor(
     private _entidad: TipoAnimalService,

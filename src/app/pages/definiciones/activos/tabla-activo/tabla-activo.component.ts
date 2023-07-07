@@ -19,6 +19,7 @@ import { ActivoService } from '@core/services/activo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/tabla-entidad';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs';
 
 type ActivoList = Pick<
   Activo,
@@ -63,6 +64,7 @@ export class TablaActivoComponent
       .pipe(
         first(),
         map(entidades => entidades as ActivoList[]),
+        ordenarPorCodigo(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;

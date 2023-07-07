@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Basica } from '@core/models/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 import { ModeloServicio } from '@core/models/modelo-servicio';
 import { Id } from '@core/types/id';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs';

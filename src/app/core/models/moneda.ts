@@ -1,4 +1,4 @@
-import { Basica } from './basica';
+import { Basica } from './auxiliares/basica';
 import { Codigo } from '../types/codigo';
 
 export interface Moneda extends Basica {

@@ -1,4 +1,4 @@
-import { Basica } from './basica';
+import { Basica } from './auxiliares/basica';
 
 export interface Configuracion extends Basica {
   generarAsientosContables: boolean;

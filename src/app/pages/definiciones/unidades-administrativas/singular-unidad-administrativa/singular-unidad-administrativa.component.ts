@@ -24,7 +24,7 @@ import { Categoria } from '@core/models/categoria';
 export class SingularUnidadAdministrativaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[23].nombre;
+  titulo = CORRELATIVOS[27].nombre;
   formulario: FormGroup;
 
   constructor(

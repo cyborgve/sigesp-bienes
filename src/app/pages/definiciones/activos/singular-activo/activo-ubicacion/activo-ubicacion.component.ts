@@ -2,10 +2,9 @@ import { map, tap } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
-import { Basica } from '@core/models/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
-import { BuscadorResponsableComponent } from '@pages/definiciones/responsables/buscador-responsable/buscador-responsable.component';
 import { BuscadorEstadoConservacionComponent } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.component';
 import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.component';
 
@@ -46,29 +45,11 @@ export class ActivoUbicacionComponent {
   }
 
   buscarResponsable() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ responsableId: entidad.id })
-      )
-    );
+    alert('TODO');
   }
 
   buscarResponsableUso() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ responsableUsoId: entidad.id })
-      )
-    );
+    alert('TODO');
   }
 
   buscarEstadoConservacion() {

@@ -1,6 +1,6 @@
 import { Id } from '@core/types/id';
-import { Basica } from './basica';
 import { Codigo } from '@core/types/codigo';
+import { Basica } from './auxiliares/basica';
 
 export interface Ciudad extends Basica {
   paisId: Id;

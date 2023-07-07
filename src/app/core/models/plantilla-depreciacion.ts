@@ -1,5 +1,5 @@
 import { Id } from '@core/types/id';
-import { Basica } from './basica';
+import { Basica } from './auxiliares/basica';
 import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
 import { Codigo } from '@core/types/codigo';
 

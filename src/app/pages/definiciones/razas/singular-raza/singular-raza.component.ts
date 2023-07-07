@@ -24,7 +24,7 @@ import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/bu
 export class SingularRazaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[14].nombre;
+  titulo = CORRELATIVOS[15].nombre;
   formulario: FormGroup;
 
   constructor(

@@ -1,5 +1,5 @@
 import { Id } from '@core/types/id';
-import { Basica } from './basica';
+import { Basica } from './auxiliares/basica';
 
 export interface ActivoComponente extends Basica {
   activoId: Id;

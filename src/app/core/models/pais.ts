@@ -1,5 +1,5 @@
 import { Codigo } from '@core/types/codigo';
-import { Basica } from './basica';
+import { Basica } from './auxiliares/basica';
 
 export interface Pais extends Basica {
   codigo: Codigo;

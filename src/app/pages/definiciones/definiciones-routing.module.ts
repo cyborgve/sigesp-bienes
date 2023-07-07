@@ -44,20 +44,6 @@ const routes: Routes = [
       import('./colores/colores.module').then(m => m.ColoresModule),
   },
   {
-    path: 'componentes-estructura',
-    loadChildren: () =>
-      import('./componentes-estructura/componentes-estructura.module').then(
-        m => m.ComponentesEstructuraModule
-      ),
-  },
-  {
-    path: 'condiciones-compra',
-    loadChildren: () =>
-      import('./condiciones-compra/condiciones-compra.module').then(
-        m => m.CondicionesCompraModule
-      ),
-  },
-  {
     path: 'configuraciones',
     loadChildren: () =>
       import('./configuraciones/configuraciones.module').then(
@@ -103,13 +89,6 @@ const routes: Routes = [
     loadChildren: () => import('./razas/razas.module').then(m => m.RazasModule),
   },
   {
-    path: 'responsables',
-    loadChildren: () =>
-      import('./responsables/responsables.module').then(
-        m => m.ResponsablesModule
-      ),
-  },
-  {
     path: 'rotulaciones',
     loadChildren: () =>
       import('./rotulaciones/rotulaciones.module').then(
@@ -137,13 +116,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./tipos-componente/tipos-componente.module').then(
         m => m.TiposComponenteModule
-      ),
-  },
-  {
-    path: 'tipos-estructura',
-    loadChildren: () =>
-      import('./tipos-estructura/tipos-estructura.module').then(
-        m => m.TiposEstructuraModule
       ),
   },
   {
@@ -178,20 +150,9 @@ const routes: Routes = [
       import('./activos/activos.module').then(m => m.ActivosModule),
   },
   {
-    path: 'componentes-activo',
-    loadChildren: () =>
-      import('./componentes-activo/componentes-activo.module').then(
-        m => m.ComponentesActivoModule
-      ),
-  },
-  {
     path: 'tipos-marca',
     loadChildren: () =>
       import('./tipos-marca/tipos-marca.module').then(m => m.TiposMarcaModule),
-  },
-  {
-    path: 'usos',
-    loadChildren: () => import('./usos/usos.module').then(m => m.UsosModule),
   },
   {
     path: 'plantillas-depreciacion',
@@ -218,6 +179,13 @@ const routes: Routes = [
     path: 'tipos-uso',
     loadChildren: () =>
       import('./tipos-uso/tipos-uso.module').then(m => m.TiposUsoModule),
+  },
+  {
+    path: 'activos-componentes',
+    loadChildren: () =>
+      import('./activos-componentes/activos-componentes.module').then(
+        m => m.ActivosComponentesModule
+      ),
   },
 ];
 

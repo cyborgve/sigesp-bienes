@@ -53,6 +53,7 @@ import { DenominacionTipoPolizaPipe } from './pipes/denominacion-tipo-poliza.pip
 import { DenominacionCategoriaUnidadAdministrativaPipe } from './pipes/denominacion-categoria-unidad-administrativa.pipe';
 import { BuscadorCentroCostoComponent } from './components/buscador-centro-costo/buscador-centro-costo.component';
 import { DenominacionMarcaModeloPipe } from './pipes/denominacion-marca-modelo.pipe';
+import { DenominacionTipoComponentePipe } from './pipes/denominacion-tipo-componente.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -115,6 +116,7 @@ const sharedPipes = [
     DenominacionCategoriaUnidadAdministrativaPipe,
     BuscadorCentroCostoComponent,
     DenominacionMarcaModeloPipe,
+    DenominacionTipoComponentePipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -123,6 +125,7 @@ const sharedPipes = [
     DenominacionCategoriaUnidadAdministrativaPipe,
     BuscadorCentroCostoComponent,
     DenominacionMarcaModeloPipe,
+    DenominacionTipoComponentePipe,
   ],
 })
 export class SharedModule {}

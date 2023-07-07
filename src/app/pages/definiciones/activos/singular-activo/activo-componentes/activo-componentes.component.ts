@@ -1,15 +1,13 @@
 import { map, tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Basica } from '@core/models/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ComponenteActivo } from '@core/models/componente-activo';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { BuscadorComponenteActivoComponent } from '@pages/definiciones/componentes-activo/buscador-componente-activo/buscador-componente-activo.component';
 import { Subscription } from 'rxjs';
-import { SingularComponenteActivoComponent } from '@pages/definiciones/componentes-activo/singular-componente-activo/singular-componente-activo.component';
 
 @Component({
   selector: 'app-activo-componentes',
@@ -20,7 +18,7 @@ export class ActivoComponentesComponent implements OnDestroy {
   subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup = new FormGroup({});
   dataSource: MatTableDataSource<ComponenteActivo> = new MatTableDataSource();
-  columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES_ACTIVO;
+  columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES;
 
   constructor(private _dialog: MatDialog) {}
 
@@ -29,10 +27,7 @@ export class ActivoComponentesComponent implements OnDestroy {
   }
 
   agregarComponente() {
-    let dialog = this._dialog.open(SingularComponenteActivoComponent, {
-      width: '95%',
-      height: '50%',
-    });
+    alert('TODO');
   }
 
   buscarTipoComponente() {
@@ -49,16 +44,7 @@ export class ActivoComponentesComponent implements OnDestroy {
   }
 
   buscarComponenteActivo() {
-    let dialog = this._dialog.open(BuscadorComponenteActivoComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ componenteId: entidad.id })
-      )
-    );
+    alert('TODO');
   }
 
   editar(entidad: ComponenteActivo) {

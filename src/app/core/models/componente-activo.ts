@@ -1,9 +1,11 @@
-import { Basica } from '@core/models/basica';
+import { Codigo } from '@core/types/codigo';
+import { Basica } from './auxiliares/basica';
+import { Id } from '@core/types/id';
 
 export interface ComponenteActivo extends Basica {
-  codigo: string;
+  codigo: Codigo;
   denominacion: string;
-  tipo: string;
-  marcaId: string;
-  modeloId: string;
+  tipoComponenteId: Id;
+  modeloId: Id;
+  especificaciones: string;
 }

@@ -1,8 +1,8 @@
 export const COLUMNAS_VISIBLES = {
-  COMPONENTES_ACTIVO: [
+  COMPONENTES: [
     'codigo',
     'denominacion',
-    'tipo',
+    'tipoComponenteId',
     'creado',
     'modificado',
     'acciones',

@@ -1,4 +1,4 @@
-import { Basica } from '@core/models/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 import { Id } from '@core/types/id';
 
 export interface Raza extends Basica {

@@ -1,4 +1,4 @@
-import { take, tap, first, filter, switchMap, map } from 'rxjs/operators';
+import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,8 +14,7 @@ import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscad
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Basica } from '@core/models/basica';
-import { SigespService } from 'sigesp';
+import { Basica } from '@core/models/auxiliares/basica';
 import { Subscription } from 'rxjs';
 import { BuscadorPaisComponent } from '@shared/components/buscador-pais/buscador-pais.component';
 import { BuscadorEstadoComponent } from '@shared/components/buscador-estado/buscador-estado.component';
@@ -36,7 +35,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
 
   id: Id;
-  titulo = CORRELATIVOS[16].nombre;
+  titulo = CORRELATIVOS[17].nombre;
   formulario: FormGroup;
   tipos = ['Tipo 1', 'Tipo 2', 'Tipo 3'];
   localizaciones = ['Nacional', 'Internacional'];

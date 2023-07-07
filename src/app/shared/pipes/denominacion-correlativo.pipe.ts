@@ -6,10 +6,7 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
 })
 export class DenominacionCorrelativoPipe implements PipeTransform {
   transform(value: string): string {
-    if (value) {
-      let result = CORRELATIVOS.find(c => c.tabla === value).nombre || value;
-      return result;
-    }
-    return value;
+    let result = CORRELATIVOS.find(c => c.tabla === value);
+    return result ? result.nombre : value;
   }
 }

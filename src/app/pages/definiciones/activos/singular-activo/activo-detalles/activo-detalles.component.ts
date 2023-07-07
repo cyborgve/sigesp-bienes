@@ -2,8 +2,7 @@ import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
 import { map, tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Basica } from '@core/models/basica';
-import { BuscadorUsoComponent } from '@pages/definiciones/usos/buscador-uso/buscador-uso.component';
+import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
 import { BuscadorPropositoSemovienteComponent } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.component';
 import { BuscadorRazaComponent } from '@pages/definiciones/razas/buscador-raza/buscador-raza.component';
@@ -57,19 +56,7 @@ export class ActivoDetallesComponent implements OnDestroy {
   }
 
   buscarTipoUso() {
-    let dialog = this._dialog.open(BuscadorUsoComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          map(entidad => entidad as Basica),
-          tap(entidad => this.formulario.patchValue({ usoId: entidad.id }))
-        )
-        .subscribe()
-    );
+    alert('TODO');
   }
 
   buscarTipoSemoviente() {

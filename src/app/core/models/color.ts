@@ -1,4 +1,4 @@
-import { Basica } from '@core/models/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 
 export interface Color extends Basica {
   codigo: string;

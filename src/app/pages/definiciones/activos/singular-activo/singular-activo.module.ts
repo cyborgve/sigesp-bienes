@@ -25,14 +25,12 @@ import { ActivoUbicacionComponent } from './activo-ubicacion/activo-ubicacion.co
 import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.module';
 import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
-import { BuscadorResponsableModule } from '@pages/definiciones/responsables/buscador-responsable/buscador-responsable.module';
 import { BuscadorEstadoUsoModule } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.module';
 import { BuscadorEstadoConservacionModule } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.module';
 import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
 import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
 import { BuscadorColorModule } from '@pages/definiciones/colores/buscador-color/buscador-color.module';
 import { BuscadorClaseModule } from '@pages/definiciones/clases/buscador-clase/buscador-clase.module';
-import { BuscadorUsoModule } from '@pages/definiciones/usos/buscador-uso/buscador-uso.module';
 import { BuscadorTipoSemovienteModule } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.module';
 import { BuscadorPropositoSemovienteModule } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.module';
 import { BuscadorCategoriaModule } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.module';
@@ -41,10 +39,8 @@ import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/busc
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { BuscadorComponenteActivoModule } from '@pages/definiciones/componentes-activo/buscador-componente-activo/buscador-componente-activo.module';
 import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
 import { BuscadorPlantillaDepreciacionModule } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.module';
-import { SingularComponenteActivoModule } from '@pages/definiciones/componentes-activo/singular-componente-activo/singular-componente-activo.module';
 
 @NgModule({
   declarations: [
@@ -72,22 +68,18 @@ import { SingularComponenteActivoModule } from '@pages/definiciones/componentes-
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    SingularComponenteActivoModule,
     BuscadorOrigenModule,
     BuscadorUnidadAdministrativaModule,
     BuscadorSedeModule,
-    BuscadorResponsableModule,
     BuscadorEstadoUsoModule,
     BuscadorEstadoConservacionModule,
     BuscadorMarcaModule,
     BuscadorModeloModule,
     BuscadorColorModule,
     BuscadorClaseModule,
-    BuscadorUsoModule,
     BuscadorTipoSemovienteModule,
     BuscadorPropositoSemovienteModule,
     BuscadorCategoriaModule,
-    BuscadorComponenteActivoModule,
     BuscadorSeguroModule,
     BuscadorRazaModule,
     BuscadorRotulacionModule,

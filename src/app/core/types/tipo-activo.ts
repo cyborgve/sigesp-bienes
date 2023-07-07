@@ -4,4 +4,4 @@ export type TipoActivo =
   | 'TITULOS VALORES'
   | 'ACCIONES O PARTICIPACIONES'
   | 'SEMOVIENTE'
-  | 'VEHICULO';
+  | 'VEHÍCULO';

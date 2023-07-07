@@ -1,5 +1,5 @@
 import { Id } from '@core/types/id';
-import { Basica } from './basica';
+import { Basica } from './auxiliares/basica';
 import { Logico } from '@core/types/logico';
 
 export interface ActivoDetalle extends Basica {

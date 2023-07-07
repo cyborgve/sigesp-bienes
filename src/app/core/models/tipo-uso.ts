@@ -1,4 +1,4 @@
-import { Basica } from '@core/models/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 import { Codigo } from '@core/types/codigo';
 
 export interface TipoUso extends Basica {

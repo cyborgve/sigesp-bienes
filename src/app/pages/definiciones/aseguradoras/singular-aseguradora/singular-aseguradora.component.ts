@@ -24,7 +24,7 @@ export class SingularAseguradoraComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[1].nombre;
+  titulo = CORRELATIVOS[2].nombre;
   formulario: FormGroup;
   constructor(
     private _entidad: AseguradoraService,

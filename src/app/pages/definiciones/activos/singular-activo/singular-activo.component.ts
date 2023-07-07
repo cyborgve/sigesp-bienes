@@ -13,7 +13,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivoComponenteService } from '@core/services/activo-componente.service';
 import { ActivoDepreciacionService } from '@core/services/activo-depreciacion.service';
 import { ActivoDetalleService } from '@core/services/activo-detalle.service';
@@ -32,7 +32,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[0].nombre;
+  titulo = CORRELATIVOS[0]['nombre'];
 
   formularioDatosGenerales: FormGroup;
   formularioDetalles: FormGroup;
