@@ -1,24 +1,24 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
-import { Conservacion } from '@core/models/conservacion';
+import { Location } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
-  ViewChild,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
-  AfterViewInit,
+  ViewChild,
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Id } from '@core/types/id';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { Router } from '@angular/router';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { EstadoConservacion } from '@core/models/estado-conservacion';
 import { TablaEntidad } from '@core/models/tabla-entidad';
 import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
+import { Id } from '@core/types/id';
+import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-estado-conservacion',
@@ -26,21 +26,20 @@ import { EstadoConservacionService } from '@core/services/estado-conservacion.se
   styleUrls: ['./tabla-estado-conservacion.component.scss'],
 })
 export class TablaEstadoConservacionComponent
-  implements TablaEntidad<Conservacion>, AfterViewInit
+  implements TablaEntidad<EstadoConservacion>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
-  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CONSERVACION;
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ESTADOS_CONSERVACION;
   @Output() dobleClick = new EventEmitter();
-
-  dataSource: MatTableDataSource<Conservacion> = new MatTableDataSource();
 
   private urlPlural = '/definiciones/estados-conservacion';
   private urlSingular = this.urlPlural + '/estado-conservacion';
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/estado-conservacion/' + id;
+  dataSource: MatTableDataSource<EstadoConservacion> = new MatTableDataSource();
 
   constructor(
     private _entidad: EstadoConservacionService,
@@ -85,11 +84,11 @@ export class TablaEstadoConservacionComponent
     this._router.navigate([this.urlSingular]);
   }
 
-  editar(entidad: Conservacion) {
+  editar(entidad: EstadoConservacion) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
 
-  eliminar(entidad: Conservacion) {
+  eliminar(entidad: EstadoConservacion) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.codigo,

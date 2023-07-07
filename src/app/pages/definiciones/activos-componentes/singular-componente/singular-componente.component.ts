@@ -14,6 +14,13 @@ import { CorrelativoService } from '@core/services/correlativo.service';
 import { BuscadorComponenteComponent } from '../buscador-componente/buscador-componente.component';
 import { Componente } from '@core/models/componente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
+import { TipoActivo } from '@core/types/tipo-activo';
+import { TipoComponente } from '@core/models/tipo-componente';
+import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
+import { Activo } from '@core/models/activo';
+import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
+import { Modelo } from '@core/models/modelo';
 
 @Component({
   selector: 'app-singular-componente',
@@ -43,6 +50,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       denominacion: ['', Validators.required],
       tipoComponenteId: [0],
       modeloId: [0],
+      activoId: [0],
       especificaciones: [''],
       creado: [new Date()],
       modificado: [new Date()],
@@ -67,6 +75,10 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
               id: entidad.id,
               codigo: entidad.codigo,
               denominacion: entidad.denominacion,
+              tipoComponenteId: entidad.tipoComponenteId,
+              modeloId: entidad.modeloId,
+              activoId: entidad.activoId,
+              especificaciones: entidad.especificaciones,
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
@@ -103,6 +115,10 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
           tap((entidad: Componente) => {
             this.formulario.patchValue({
               denominacion: entidad.denominacion,
+              tipoComponenteId: entidad.tipoComponenteId,
+              modeloId: entidad.modeloId,
+              activoId: entidad.activoId,
+              especificaciones: entidad.especificaciones,
             });
           })
         )
@@ -160,6 +176,48 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
   }
 
   buscarTipoComponente() {
-    alert('TODO');
+    let dialog = this._dialog.open(BuscadorTipoComponenteComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((tipoComponente: TipoComponente) =>
+          this.formulario.patchValue({ tipoComponenteId: tipoComponente.id })
+        )
+      )
+      .subscribe();
+  }
+
+  buscarActivo() {
+    let dialog = this._dialog.open(BuscadorActivoComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((activo: Activo) =>
+          this.formulario.patchValue({ activoId: activo.id })
+        )
+      )
+      .subscribe();
+  }
+
+  buscarModelo() {
+    let dialog = this._dialog.open(BuscadorModeloComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((modelo: Modelo) =>
+          this.formulario.patchValue({ modeloId: modelo.id })
+        )
+      )
+      .subscribe();
   }
 }

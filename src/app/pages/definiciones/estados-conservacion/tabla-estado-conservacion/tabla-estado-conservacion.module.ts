@@ -4,10 +4,23 @@ import { TablaEstadoConservacionComponent } from './tabla-estado-conservacion.co
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { SharedModule } from '@shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [TablaEstadoConservacionComponent],
-  imports: [CommonModule, SharedModule, MatCardModule, MatTableModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SharedModule,
+    MatCardModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatDialogModule,
+  ],
   exports: [TablaEstadoConservacionComponent],
 })
 export class TablaEstadoConservacionModule {}

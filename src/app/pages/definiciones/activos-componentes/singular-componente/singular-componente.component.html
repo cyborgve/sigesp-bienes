@@ -25,7 +25,16 @@
         <!-- tipoComponenteId -->
         <mat-form-field appearance="fill" class="tipoComponenteId">
           <mat-label>Tipo de Componente</mat-label>
-          <input type="text" matInput formControlName="tipoComponenteId" />
+          <input
+            type="text"
+            matInput
+            formControlName="tipoComponenteId"
+            readonly="true"
+            [value]="
+              formulario.value.tipoComponenteId
+                | denominacionTipoComponente
+                | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -33,6 +42,50 @@
             (click)="buscarTipoComponente()">
             <mat-icon>search</mat-icon>
           </button>
+        </mat-form-field>
+        <!-- modeloId -->
+        <mat-form-field appearance="fill" class="modeloId">
+          <mat-label>Modelo</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="modeloId"
+            readonly="true"
+            [value]="
+              formulario.value.modeloId | denominacionMarcaModelo | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarModelo()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- activoId -->
+        <mat-form-field appearance="fill" class="activoId">
+          <mat-label>Activo</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="activoId"
+            readonly="true"
+            [value]="formulario.value.activoId | denominacionActivo | async" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarActivo()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- especificaciones -->
+        <mat-form-field appearance="fill" class="especificaciones">
+          <mat-label>Especificaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="especificaciones"></textarea>
         </mat-form-field>
       </article>
     </mat-card>

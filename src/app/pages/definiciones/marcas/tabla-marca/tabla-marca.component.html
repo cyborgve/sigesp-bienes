@@ -8,31 +8,31 @@
   <!-- tabla -->
   <table mat-table [dataSource]="dataSource" class="table" mat-sort>
     <!-- codigo -->
-    <ng-container matColumnDef="codigo">
+    <ng-container matColumnDef="codigo" class="codigo">
       <th mat-header-cell *matHeaderCellDef>Código</th>
       <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
     </ng-container>
     <!-- denominacion -->
-    <ng-container matColumnDef="denominacion">
+    <ng-container matColumnDef="denominacion" class="denominacion">
       <th mat-header-cell *matHeaderCellDef>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
     <!-- tipo -->
-    <ng-container matColumnDef="tipo">
+    <ng-container matColumnDef="tipo" class="tipo">
       <th mat-header-cell *matHeaderCellDef>Tipo</th>
       <td mat-cell *matCellDef="let row">
         {{ row.tipo | denominacionTipoMarca | async }}
       </td>
     </ng-container>
     <!-- creado -->
-    <ng-container matColumnDef="creado">
+    <ng-container matColumnDef="creado" class="creado">
       <th mat-header-cell *matHeaderCellDef>Creado</th>
       <td mat-cell *matCellDef="let row">
         {{ row.creado | date : 'medium' }}
       </td>
     </ng-container>
     <!-- modificado -->
-    <ng-container matColumnDef="modificado">
+    <ng-container matColumnDef="modificado" class="modificado">
       <th mat-header-cell *matHeaderCellDef>Modificado</th>
       <td mat-cell *matCellDef="let row">
         {{ row.modificado | date : 'medium' }}
@@ -40,7 +40,7 @@
     </ng-container>
 
     <!-- acciones -->
-    <ng-container matColumnDef="acciones">
+    <ng-container matColumnDef="acciones" class="acciones">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let row">
         <app-botones-acciones

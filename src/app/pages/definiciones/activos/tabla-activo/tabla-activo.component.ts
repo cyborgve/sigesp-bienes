@@ -1,3 +1,4 @@
+import { Basica } from '@core/models/auxiliares/basica';
 import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
@@ -21,11 +22,6 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { TablaEntidad } from '@core/models/tabla-entidad';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs';
 
-type ActivoList = Pick<
-  Activo,
-  'id' | 'codigo' | 'denominacion' | 'creado' | 'modificado'
->;
-
 @Component({
   selector: 'app-tabla-activo',
   templateUrl: './tabla-activo.component.html',
@@ -38,14 +34,14 @@ export class TablaActivoComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
-  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES['ACTIVOS'];
+  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTIVOS;
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/activos';
   private urlSingular = this.urlPlural + '/activo';
   private urlSingularId = (id: Id) => this.urlPlural + '/activo/' + id;
 
-  dataSource: MatTableDataSource<ActivoList> = new MatTableDataSource();
+  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
 
   constructor(
     private _entidad: ActivoService,
@@ -63,7 +59,7 @@ export class TablaActivoComponent
       .buscarTodos()
       .pipe(
         first(),
-        map(entidades => entidades as ActivoList[]),
+        map(activos => activos as Basica[]),
         ordenarPorCodigo(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
@@ -92,11 +88,11 @@ export class TablaActivoComponent
     this._router.navigate([this.urlSingular]);
   }
 
-  editar(entidad: ActivoList) {
+  editar(entidad: Activo) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
 
-  eliminar(entidad: ActivoList) {
+  eliminar(entidad: Activo) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.codigo,

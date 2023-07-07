@@ -7,5 +7,6 @@ export interface Componente extends Basica {
   denominacion: string;
   tipoComponenteId: Id;
   modeloId: Id;
+  activoId: Id;
   especificaciones: string;
 }

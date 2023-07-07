@@ -1,12 +1,11 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
-  ViewChild,
+  EventEmitter,
   Input,
   Output,
-  AfterViewInit,
-  EventEmitter,
+  ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,10 +14,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Color } from '@core/models/color';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 import { ColorService } from '@core/services/color.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-color',
@@ -36,7 +36,6 @@ export class TablaColorComponent implements TablaEntidad<Color>, AfterViewInit {
   private urlPlural = '/definiciones/colores';
   private urlSingular = this.urlPlural + '/color';
   private urlSingularId = (id: Id) => this.urlPlural + '/color/' + id;
-
   dataSource: MatTableDataSource<Color> = new MatTableDataSource();
 
   constructor(

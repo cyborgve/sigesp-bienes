@@ -11,6 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
+import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
+import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
 
 @NgModule({
   declarations: [SingularComponenteComponent],
@@ -20,6 +22,8 @@ import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componen
     SharedModule,
     BuscadorComponenteModule,
     BuscadorTipoComponenteModule,
+    BuscadorModeloModule,
+    BuscadorActivoModule,
     MatCardModule,
     MatInputModule,
     ReactiveFormsModule,

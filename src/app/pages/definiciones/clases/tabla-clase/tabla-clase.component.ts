@@ -1,12 +1,11 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
-  ViewChild,
+  EventEmitter,
   Input,
   Output,
-  AfterViewInit,
-  EventEmitter,
+  ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,10 +14,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Clase } from '@core/models/clase';
+import { TablaEntidad } from '@core/models/tabla-entidad';
 import { ClaseService } from '@core/services/clase.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-clase',
@@ -36,7 +36,6 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
   private urlPlural = '/definiciones/clases';
   private urlSingular = this.urlPlural + '/clase';
   private urlSingularId = (id: Id) => this.urlPlural + '/clase/' + id;
-
   dataSource: MatTableDataSource<Clase> = new MatTableDataSource();
 
   constructor(
