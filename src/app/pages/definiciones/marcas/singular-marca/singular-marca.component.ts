@@ -12,7 +12,7 @@ import { Marca } from '@core/models/marca';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorTipoMarcaComponent } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.component';
 import { TipoMarcaService } from '@core/services/tipo-marca.service';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { TipoMarca } from '@core/models/tipo-marca';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';

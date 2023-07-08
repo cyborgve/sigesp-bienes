@@ -10,7 +10,7 @@ import { Modelo } from '@core/models/modelo';
 import { BuscadorModeloComponent } from '../buscador-modelo/buscador-modelo.component';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { Marca } from '@core/models/marca';
 import { Subscription } from 'rxjs';
 import { CorrelativoService } from '@core/services/correlativo.service';

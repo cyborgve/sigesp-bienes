@@ -18,7 +18,7 @@ import { CausaMovimiento } from '@core/models/causa-movimiento';
 import { CausaMovimientoService } from '@core/services/causa-movimiento.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-causa-movimiento',

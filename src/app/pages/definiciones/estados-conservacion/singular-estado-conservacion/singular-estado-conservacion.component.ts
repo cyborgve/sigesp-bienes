@@ -7,13 +7,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorEstadoConservacionComponent } from '../buscador-estado-conservacion/buscador-estado-conservacion.component';
-import { Conservacion } from '@core/models/conservacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
 import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
+import { EstadoConservacion } from '@core/models/estado-conservacion';
 
 @Component({
   selector: 'app-singular-estado-conservacion',
@@ -98,9 +98,9 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((condicionCompra: Conservacion) => {
+          tap((estadoConcervacion: EstadoConservacion) => {
             this.formulario.patchValue({
-              denominacion: condicionCompra.denominacion,
+              denominacion: estadoConcervacion.denominacion,
             });
           })
         )
@@ -109,15 +109,15 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
   }
 
   guardar() {
-    let condicionCompra: Conservacion = this.formulario.value;
+    let estadoConservacion: EstadoConservacion = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(condicionCompra)
+        .guardar(estadoConservacion)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, condicionCompra)
+        .actualizar(this.id, estadoConservacion)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }

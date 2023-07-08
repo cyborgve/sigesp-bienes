@@ -10,7 +10,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorColorComponent } from '../buscador-color/buscador-color.component';
 import { Color } from '@core/models/color';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';

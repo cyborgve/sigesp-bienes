@@ -1,10 +1,10 @@
-import { CentroCosto } from '@core/models/centro-costo';
-import { Ciudad } from '@core/models/ciudad';
-import { CuentaContable } from '@core/models/cuenta-contable';
-import { Estado } from '@core/models/estado';
-import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
-import { Moneda } from '@core/models/moneda';
-import { Municipio } from '@core/models/municipio';
+import { CentroCosto } from '@core/models/otros-modulos/centro-costo';
+import { Ciudad } from '@core/models/otros-modulos/ciudad';
+import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
+import { Estado } from '@core/models/otros-modulos/estado';
+import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financiemiento';
+import { Moneda } from '@core/models/otros-modulos/moneda';
+import { Municipio } from '@core/models/otros-modulos/municipio';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';

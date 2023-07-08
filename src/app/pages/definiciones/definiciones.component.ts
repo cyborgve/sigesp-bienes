@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MENU } from '@core/constants/menu';
-import { MenuItem } from '@core/models/menu-item';
+import { MenuItem } from '@core/models/auxiliares/menu-item';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

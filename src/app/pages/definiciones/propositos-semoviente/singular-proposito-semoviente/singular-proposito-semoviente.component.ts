@@ -10,7 +10,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorPropositoSemovienteComponent } from '../buscador-proposito-semoviente/buscador-proposito-semoviente.component';
 import { PropositoSemoviente } from '@core/models/proposito-semoviente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';

@@ -18,7 +18,7 @@ import { Marca } from '@core/models/marca';
 import { MarcaService } from '@core/services/marca.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-marca',

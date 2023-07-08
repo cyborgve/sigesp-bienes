@@ -10,7 +10,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorClaseComponent } from '../buscador-clase/buscador-clase.component';
 import { Clase } from '@core/models/clase';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';

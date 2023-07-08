@@ -18,7 +18,7 @@ import { SeguroService } from '@core/services/seguro.service';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Location } from '@angular/common';
 import { Id } from '@core/types/id';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-seguro',

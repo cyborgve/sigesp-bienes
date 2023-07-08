@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy } from '@angular/core';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Id } from '@core/types/id';
 import { CORRELATIVOS } from '@core/constants/correlativos';

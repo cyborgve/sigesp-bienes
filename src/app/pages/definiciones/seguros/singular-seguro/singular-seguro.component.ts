@@ -1,4 +1,4 @@
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
@@ -20,7 +20,7 @@ import { TipoCobertura } from '@core/models/tipo-cobertura';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
-import { Moneda } from '@core/models/moneda';
+import { Moneda } from '@core/models/otros-modulos/moneda';
 
 @Component({
   selector: 'app-singular-seguro',

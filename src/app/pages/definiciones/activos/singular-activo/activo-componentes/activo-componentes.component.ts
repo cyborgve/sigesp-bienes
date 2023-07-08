@@ -5,9 +5,9 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ComponenteActivo } from '@core/models/componente-activo';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Subscription } from 'rxjs';
+import { Componente } from '@core/models/componente';
 
 @Component({
   selector: 'app-activo-componentes',
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 export class ActivoComponentesComponent implements OnDestroy {
   subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup = new FormGroup({});
-  dataSource: MatTableDataSource<ComponenteActivo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<Componente> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES;
 
   constructor(private _dialog: MatDialog) {}
@@ -47,10 +47,10 @@ export class ActivoComponentesComponent implements OnDestroy {
     alert('TODO');
   }
 
-  editar(entidad: ComponenteActivo) {
+  editar(entidad: Componente) {
     alert('TO-DO');
   }
-  eliminar(Entidad: ComponenteActivo) {
+  eliminar(Entidad: Componente) {
     alert('TO-DO');
   }
 }

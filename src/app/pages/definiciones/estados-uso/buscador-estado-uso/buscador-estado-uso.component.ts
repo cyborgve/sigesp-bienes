@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Conservacion } from '@core/models/conservacion';
 import { EstadoUso } from '@core/models/estado-uso';
-import { BuscadorEstadoConservacionComponent } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.component';
 
 @Component({
   selector: 'app-buscador-estado-uso',

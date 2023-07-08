@@ -1,4 +1,4 @@
-import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
+import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financiemiento';
 import { map, tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';

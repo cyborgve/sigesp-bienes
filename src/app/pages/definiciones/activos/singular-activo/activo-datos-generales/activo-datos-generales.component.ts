@@ -14,8 +14,8 @@ import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/bu
 import { Subscription } from 'rxjs';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
-import { Moneda } from '@core/models/moneda';
-import { CuentaContable } from '@core/models/cuenta-contable';
+import { Moneda } from '@core/models/otros-modulos/moneda';
+import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 
 @Component({
   selector: 'app-activo-datos-generales',

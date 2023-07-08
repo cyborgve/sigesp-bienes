@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Conservacion } from '@core/models/conservacion';
+import { EstadoConservacion } from '@core/models/estado-conservacion';
 
 @Component({
   selector: 'app-buscador-estado-conservacion',
@@ -18,7 +18,7 @@ export class BuscadorEstadoConservacionComponent {
     private _dialogRef: MatDialogRef<BuscadorEstadoConservacionComponent>
   ) {}
 
-  seleccionar = (conservacion: Conservacion) => {
+  seleccionar = (conservacion: EstadoConservacion) => {
     this._dialogRef.close(conservacion);
   };
 }

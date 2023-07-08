@@ -15,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Correlativo } from '@core/models/correlativo';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Id } from '@core/types/id';

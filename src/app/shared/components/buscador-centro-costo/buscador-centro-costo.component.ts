@@ -7,8 +7,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { CentroCosto } from '@core/models/centro-costo';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { CentroCosto } from '@core/models/otros-modulos/centro-costo';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { SigespService } from 'sigesp';
 import {
   adaptarCentrosCosto,

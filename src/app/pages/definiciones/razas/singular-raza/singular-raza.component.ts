@@ -11,7 +11,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorRazaComponent } from '../buscador-raza/buscador-raza.component';
 import { Raza } from '@core/models/raza';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { Entidad } from '@core/models/entidad';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';

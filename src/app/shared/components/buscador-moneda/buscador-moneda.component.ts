@@ -6,8 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TablaEntidad } from '@core/models/tabla-entidad';
-import { Moneda } from '@core/models/moneda';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
+import { Moneda } from '@core/models/otros-modulos/moneda';
 import { first, tap } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 import {

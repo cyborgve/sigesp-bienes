@@ -14,7 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { TipoUso } from '@core/models/tipo-uso';
 import { TipoUsoService } from '@core/services/tipo-uso.service';
 import { Id } from '@core/types/id';

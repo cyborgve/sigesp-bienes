@@ -8,7 +8,7 @@ import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cue
 import { BuscadorPlantillaDepreciacionComponent } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
 import { Subscription } from 'rxjs';
 import { MMoneda, SigespService } from 'sigesp';
-import { CuentaContable } from '@core/models/cuenta-contable';
+import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 
 @Component({
   selector: 'app-activo-depreciacion',

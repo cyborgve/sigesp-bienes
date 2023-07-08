@@ -1,7 +1,7 @@
 import { first, tap } from 'rxjs/operators';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import { Ciudad } from '@core/models/ciudad';
+import { Ciudad } from '@core/models/otros-modulos/ciudad';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';

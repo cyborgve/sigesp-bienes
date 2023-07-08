@@ -4,26 +4,25 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CORRELATIVOS } from '@core/constants/correlativos';
+import { Entidad } from '@core/models/auxiliares/entidad';
+import { Pais } from '@core/models/otros-modulos/pais';
+import { CorrelativoService } from '@core/services/correlativo.service';
 import { SedeService } from '@core/services/sede.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
+import { Subscription } from 'rxjs';
 import { BuscadorSedeComponent } from '../buscador-sede/buscador-sede.component';
 import { Sede } from '@core/models/sede';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
-import { Entidad } from '@core/models/entidad';
-import { CorrelativoService } from '@core/services/correlativo.service';
-import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Basica } from '@core/models/auxiliares/basica';
-import { Subscription } from 'rxjs';
 import { BuscadorPaisComponent } from '@shared/components/buscador-pais/buscador-pais.component';
 import { BuscadorEstadoComponent } from '@shared/components/buscador-estado/buscador-estado.component';
-import { Estado } from '@core/models/estado';
+import { Estado } from '@core/models/otros-modulos/estado';
 import { BuscadorMunicipioComponent } from '@shared/components/buscador-municipio/buscador-municipio.component';
-import { Municipio } from '@core/models/municipio';
+import { Municipio } from '@core/models/otros-modulos/municipio';
 import { BuscadorCiudadComponent } from '@shared/components/buscador-ciudad/buscador-ciudad.component';
-import { Ciudad } from '@core/models/ciudad';
-import { Pais } from '@core/models/pais';
+import { Ciudad } from '@core/models/otros-modulos/ciudad';
+import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
 import { TipoSede } from '@core/models/tipo-sede';
 
 @Component({
@@ -236,20 +235,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   }
 
   buscarMunicipio() {
-    let dialog = this._dialog.open(BuscadorMunicipioComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          tap((municipio: Municipio) =>
-            this.formulario.patchValue({ municipioId: municipio.id })
-          )
-        )
-        .subscribe()
-    );
+    alert('TODO');
   }
 
   buscarParroquia() {

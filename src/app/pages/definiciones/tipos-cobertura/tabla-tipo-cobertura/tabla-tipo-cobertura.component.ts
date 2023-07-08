@@ -18,7 +18,7 @@ import { TipoCobertura } from '@core/models/tipo-cobertura';
 import { TipoCoberturaService } from '@core/services/tipo-cobertura.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { TablaEntidad } from '@core/models/tabla-entidad';
+import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 
 @Component({
   selector: 'app-tabla-tipo-cobertura',
