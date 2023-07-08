@@ -56,6 +56,10 @@ import { DenominacionTipoComponentePipe } from './pipes/denominacion-tipo-compon
 import { DenominacionActivoPipe } from './pipes/denominacion-activo.pipe';
 import { BuscadorProveedorComponent } from './components/buscador-proveedor/buscador-proveedor.component';
 import { DenominacionProveedorPipe } from './pipes/denominacion-proveedor.pipe';
+import { DenominacionCategoriaUnidadAdministrativaPipe } from './pipes/denominacion-categoria-unidad-administrativa.pipe';
+import { BuscadorParroquiaComponent } from './components/buscador-parroquia/buscador-parroquia.component';
+import { DenominacionParroquiaPipe } from './pipes/denominacion-parroquia.pipe';
+import { CorregirPorDefectoPipe } from './pipes/corregir-por-defecto.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -118,8 +122,22 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DenominacionCategoriaUnidadAdministrativaPipe,
+    BuscadorParroquiaComponent,
+    DenominacionParroquiaPipe,
+    CorregirPorDefectoPipe,
+  ],
   imports: [CommonModule, FormsModule, MaterialModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DenominacionCategoriaUnidadAdministrativaPipe,
+    BuscadorParroquiaComponent,
+    DenominacionParroquiaPipe,
+    CorregirPorDefectoPipe,
+  ],
 })
 export class SharedModule {}

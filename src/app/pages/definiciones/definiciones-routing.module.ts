@@ -173,6 +173,20 @@ const routes: Routes = [
         m => m.ActivosComponentesModule
       ),
   },
+  {
+    path: 'categorias-unidad-administrativa',
+    loadChildren: () =>
+      import(
+        './categorias-unidad-administrativa/categorias-unidad-administrativa.module'
+      ).then(m => m.CategoriasUnidadAdministrativaModule),
+  },
+  {
+    path: 'unidades-administrativas',
+    loadChildren: () =>
+      import('./unidades-administrativas/unidades-administrativas.module').then(
+        m => m.UnidadesAdministrativasModule
+      ),
+  },
 ];
 
 @NgModule({

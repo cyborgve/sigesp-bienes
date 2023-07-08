@@ -5,6 +5,7 @@ import { Estado } from '@core/models/otros-modulos/estado';
 import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financiemiento';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { Municipio } from '@core/models/otros-modulos/municipio';
+import { Parroquia } from '@core/models/otros-modulos/parroquia';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,6 +17,7 @@ import {
   MFuenteFinanciamiento,
   MMoneda,
   MMunicipality,
+  MParish,
   MProveedor,
   MState,
 } from 'sigesp';
@@ -200,6 +202,23 @@ export const adaptarProveedores = () =>
             id: proveedor.codigo,
             codigo: proveedor.codigo,
             denominacion: proveedor.nombre,
+            creado: new Date(),
+            modificado: new Date(),
+          }
+      )
+    )
+  );
+
+export const adaptarParroquias = () =>
+  pipe(
+    map((parroquias: MParish[]) =>
+      parroquias.map(
+        parroquia =>
+          <Parroquia>{
+            empresaId: undefined,
+            id: parroquia.code,
+            codigo: parroquia.code,
+            denominacion: parroquia.name,
             creado: new Date(),
             modificado: new Date(),
           }

@@ -26,8 +26,8 @@ export abstract class GenericService<T extends Basica>
     return this._http.get<T[]>(this.apiUrl).pipe(
       map((res: any) =>
         res.data.map((ent: T) => Utilidades.normalizarObjeto(ent))
-      )
-      //filtrarValoresIniciales()
+      ),
+      filtrarValoresIniciales()
     );
   }
 

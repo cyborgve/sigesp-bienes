@@ -8,9 +8,9 @@ import { SigespService } from 'sigesp';
   name: 'denominacionEstado',
 })
 export class DenominacionEstadoPipe implements PipeTransform {
-  transform(value: Id): Observable<string> {
-    return this._sigesp.getStates(String(value)).pipe(
-      map(estados => estados[0]),
+  transform(value: string): Observable<string> {
+    return this._sigesp.getStates().pipe(
+      map(estados => estados.find(e => e.code === value)),
       map(estado => (estado ? estado['name'] : String(value)))
     );
   }

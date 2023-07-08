@@ -6,6 +6,8 @@ import { SharedModule } from '@shared/shared.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [TablaTipoSemovienteComponent],
@@ -15,6 +17,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     SharedModule,
     MatCardModule,
     MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     MatDialogModule,
   ],
   exports: [TablaTipoSemovienteComponent],

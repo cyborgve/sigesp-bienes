@@ -172,4 +172,5 @@ export const COLUMNAS_VISIBLES = {
   FUENTES_FINANCIEMIENTO: ['codigo', 'denominacion', 'creado', 'modificado'],
   CENTROS_COSTO: ['codigo', 'denominacion', 'creado', 'modificado'],
   PROVEEDORES: ['codigo', 'denominacion', 'creado', 'modificado'],
+  PARROQUIAS: ['codigo', 'denominacion', 'creado', 'modificado'],
 };

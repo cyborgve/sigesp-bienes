@@ -24,6 +24,8 @@ import { BuscadorCiudadComponent } from '@shared/components/buscador-ciudad/busc
 import { Ciudad } from '@core/models/otros-modulos/ciudad';
 import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
 import { TipoSede } from '@core/models/tipo-sede';
+import { BuscadorParroquiaComponent } from '@shared/components/buscador-parroquia/buscador-parroquia.component';
+import { Parroquia } from '@core/models/otros-modulos/parroquia';
 
 @Component({
   selector: 'app-singular-sede',
@@ -55,7 +57,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      tipoSedeId: [0, Validators.required],
+      tipoSedeId: [0],
       localizacion: [''],
       paisId: ['---'],
       estadoId: ['---'],
@@ -211,6 +213,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          take(1),
           tap((pais: Pais) => this.formulario.patchValue({ paisId: pais.id }))
         )
         .subscribe()
@@ -226,6 +229,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          take(1),
           tap((estado: Estado) =>
             this.formulario.patchValue({ estadoId: estado.id })
           )
@@ -235,11 +239,39 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   }
 
   buscarMunicipio() {
-    alert('TODO');
+    let dialog = this._dialog.open(BuscadorMunicipioComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          take(1),
+          tap((municipio: Municipio) =>
+            this.formulario.patchValue({ municipioId: municipio.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarParroquia() {
-    throw new Error('Method not implemented.');
+    let dialog = this._dialog.open(BuscadorParroquiaComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          take(1),
+          tap((parroquia: Parroquia) =>
+            this.formulario.patchValue({ parroquiaId: parroquia.id })
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarCiudad() {
@@ -251,6 +283,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          take(1),
           tap((ciudad: Ciudad) =>
             this.formulario.patchValue({ ciudadId: ciudad.id })
           )
@@ -267,6 +300,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
     dialog
       .afterClosed()
       .pipe(
+        take(1),
         tap((entidad: TipoSede) =>
           this.formulario.patchValue({ tipoSedeId: entidad.id })
         )
