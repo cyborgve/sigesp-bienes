@@ -82,6 +82,7 @@ export class SingularPlantillaDepreciacionComponent
               cuentaContableGasto: entidad.cuentaContableGasto,
               cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
               vidaUtil: entidad.vidaUtil,
+              unidadVidaUtil: entidad.unidadVidaUtil,
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
@@ -118,10 +119,11 @@ export class SingularPlantillaDepreciacionComponent
           tap((entidad: PlantillaDepreciacion) => {
             this.formulario.patchValue({
               denominacion: entidad.denominacion,
-              metodoDepreciacion: entidad.denominacion,
-              cuentaContableGasto: entidad.denominacion,
-              cuentaContableDepreciacion: entidad.denominacion,
-              vidaUtil: entidad.denominacion,
+              metodoDepreciacion: entidad.metodoDepreciacion,
+              cuentaContableGasto: entidad.cuentaContableGasto,
+              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+              vidaUtil: entidad.vidaUtil,
+              unidadVidaUtil: entidad.unidadVidaUtil,
             });
           })
         )

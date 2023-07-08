@@ -50,11 +50,12 @@ import { BuscadorCiudadComponent } from './components/buscador-ciudad/buscador-c
 import { DenominacionAseguradoraPipe } from './pipes/denominacion-aseguradora.pipe';
 import { DenominacionTipoCoberturaPipe } from './pipes/denominacion-tipo-cobertura.pipe';
 import { DenominacionTipoPolizaPipe } from './pipes/denominacion-tipo-poliza.pipe';
-import { DenominacionCategoriaUnidadAdministrativaPipe } from './pipes/denominacion-categoria-unidad-administrativa.pipe';
 import { BuscadorCentroCostoComponent } from './components/buscador-centro-costo/buscador-centro-costo.component';
 import { DenominacionMarcaModeloPipe } from './pipes/denominacion-marca-modelo.pipe';
 import { DenominacionTipoComponentePipe } from './pipes/denominacion-tipo-componente.pipe';
 import { DenominacionActivoPipe } from './pipes/denominacion-activo.pipe';
+import { BuscadorProveedorComponent } from './components/buscador-proveedor/buscador-proveedor.component';
+import { DenominacionProveedorPipe } from './pipes/denominacion-proveedor.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -72,6 +73,8 @@ const sharedComponents = [
   BuscadorEstadoComponent,
   BuscadorMunicipioComponent,
   BuscadorCiudadComponent,
+  BuscadorCentroCostoComponent,
+  BuscadorProveedorComponent,
 ];
 
 const sharedPipes = [
@@ -108,27 +111,15 @@ const sharedPipes = [
   DenominacionAseguradoraPipe,
   DenominacionTipoCoberturaPipe,
   DenominacionTipoPolizaPipe,
+  DenominacionMarcaModeloPipe,
+  DenominacionTipoComponentePipe,
+  DenominacionActivoPipe,
+  DenominacionProveedorPipe,
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    ...sharedPipes,
-    DenominacionCategoriaUnidadAdministrativaPipe,
-    BuscadorCentroCostoComponent,
-    DenominacionMarcaModeloPipe,
-    DenominacionTipoComponentePipe,
-    DenominacionActivoPipe,
-  ],
+  declarations: [...sharedComponents, ...sharedPipes],
   imports: [CommonModule, FormsModule, MaterialModule],
-  exports: [
-    ...sharedComponents,
-    ...sharedPipes,
-    DenominacionCategoriaUnidadAdministrativaPipe,
-    BuscadorCentroCostoComponent,
-    DenominacionMarcaModeloPipe,
-    DenominacionTipoComponentePipe,
-    DenominacionActivoPipe,
-  ],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}

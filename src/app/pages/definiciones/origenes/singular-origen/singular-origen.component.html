@@ -47,6 +47,7 @@
         <mat-form-field appearance="fill" class="modoAdquisicion">
           <mat-label>Modo Adquisicion</mat-label>
           <mat-select formControlName="modoAdquisicion">
+            <mat-option value="">Seleccionar</mat-option>
             <mat-option *ngFor="let modo of modosAdquisicion" [value]="modo">{{
               modo
             }}</mat-option>
@@ -56,6 +57,7 @@
         <mat-form-field appearance="fill" class="formaAdquisicion">
           <mat-label>Forma Adquisicion</mat-label>
           <mat-select formControlName="formaAdquisicion">
+            <mat-option value="">Seleccionar</mat-option>
             <mat-option
               *ngFor="let forma of formasAdquisicion"
               [value]="forma"
@@ -100,7 +102,24 @@
         <!-- proveedor -->
         <mat-form-field appearance="fill" class="proveedorId">
           <mat-label>Proveedor</mat-label>
-          <input type="text" matInput formControlName="proveedorId" />
+          <input
+            type="text"
+            matInput
+            formControlName="proveedorId"
+            readonly="true"
+            [value]="
+              formulario.value.proveedorId
+                | denominacionProveedor
+                | async
+                | corregirSeleccionar
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarProveedor()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- tomo -->
         <mat-form-field appearance="fill" class="tomo">

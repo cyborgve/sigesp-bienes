@@ -5,7 +5,7 @@ import { Id } from '@core/types/id';
 export interface Sede extends Basica {
   codigo: Codigo;
   denominacion: string;
-  tipoSede: string;
+  tipoSedeId: Id;
   localizacion: string;
   paisId: Id;
   estadoId: Id;

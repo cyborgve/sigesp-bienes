@@ -15,13 +15,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'categorias-unidad-administrativa',
-    loadChildren: () =>
-      import(
-        './categorias-unidad-administrativa/categorias-unidad-administrativa.module'
-      ).then(m => m.CategoriasUnidadAdministrativaModule),
-  },
-  {
     path: 'categorias',
     loadChildren: () =>
       import('./categorias/categorias.module').then(m => m.CategoriasModule),
@@ -135,13 +128,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./tipos-semoviente/tipos-semoviente.module').then(
         m => m.TiposSemovienteModule
-      ),
-  },
-  {
-    path: 'unidades-administrativas',
-    loadChildren: () =>
-      import('./unidades-administrativas/unidades-administrativas.module').then(
-        m => m.UnidadesAdministrativasModule
       ),
   },
   {

@@ -1,7 +1,6 @@
 import { map, tap } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
@@ -19,16 +18,7 @@ export class ActivoUbicacionComponent {
   constructor(private _dialog: MatDialog) {}
 
   buscarUnidadAdministrativa() {
-    let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ origenId: entidad.id })
-      )
-    );
+    alert('TODO');
   }
 
   buscarSede() {

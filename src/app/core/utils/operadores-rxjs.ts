@@ -5,6 +5,7 @@ import { Estado } from '@core/models/estado';
 import { FuenteFinanciemiento } from '@core/models/fuente-financiemiento';
 import { Moneda } from '@core/models/moneda';
 import { Municipio } from '@core/models/municipio';
+import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -15,6 +16,7 @@ import {
   MFuenteFinanciamiento,
   MMoneda,
   MMunicipality,
+  MProveedor,
   MState,
 } from 'sigesp';
 
@@ -181,6 +183,23 @@ export const adaptarCentrosCosto = () =>
             id: centroCosto.centro,
             codigo: centroCosto.centro,
             denominacion: centroCosto.denominacion,
+            creado: new Date(),
+            modificado: new Date(),
+          }
+      )
+    )
+  );
+
+export const adaptarProveedores = () =>
+  pipe(
+    map((proveedores: MProveedor[]) =>
+      proveedores.map(
+        proveedor =>
+          <Proveedor>{
+            empresaId: undefined,
+            id: proveedor.codigo,
+            codigo: proveedor.codigo,
+            denominacion: proveedor.nombre,
             creado: new Date(),
             modificado: new Date(),
           }

@@ -24,6 +24,7 @@ import { Municipio } from '@core/models/municipio';
 import { BuscadorCiudadComponent } from '@shared/components/buscador-ciudad/buscador-ciudad.component';
 import { Ciudad } from '@core/models/ciudad';
 import { Pais } from '@core/models/pais';
+import { TipoSede } from '@core/models/tipo-sede';
 
 @Component({
   selector: 'app-singular-sede',
@@ -55,7 +56,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      tipoSede: [0, Validators.required],
+      tipoSedeId: [0, Validators.required],
       localizacion: [''],
       paisId: ['---'],
       estadoId: ['---'],
@@ -90,7 +91,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
               id: entidad.id,
               codigo: entidad.codigo,
               denominacion: entidad.denominacion,
-              tipoSede: entidad.tipoSede,
+              tipoSedeId: entidad.tipoSedeId,
               localizacion: entidad.localizacion,
               paisId: entidad.paisId,
               estadoId: entidad.estadoId,
@@ -137,7 +138,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
           tap((entidad: Sede) => {
             this.formulario.patchValue({
               denominacion: entidad.denominacion,
-              tipoSede: entidad.tipoSede,
+              tipoSedeId: entidad.tipoSedeId,
               localizacion: entidad.localizacion,
               paisId: entidad.paisId,
               estadoId: entidad.estadoId,
@@ -280,8 +281,8 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({ tipoSede: entidad.id })
+        tap((entidad: TipoSede) =>
+          this.formulario.patchValue({ tipoSedeId: entidad.id })
         )
       )
       .subscribe();

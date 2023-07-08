@@ -119,6 +119,28 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
+        <!-- parroquiaId -->
+        <mat-form-field appearance="fill" class="parroquiaId">
+          <mat-label>Parroquia</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="parroquiaId"
+            readonly="true"
+            [value]="
+              formulario.value.parroquiaId
+                | denominacionMunicipio
+                | async
+                | corregirNinguno
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarMunicipio()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
         <!-- ciudadId -->
         <mat-form-field appearance="fill" class="ciudadId">
           <mat-label>Ciudad</mat-label>

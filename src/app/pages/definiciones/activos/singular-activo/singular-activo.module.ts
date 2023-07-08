@@ -23,7 +23,6 @@ import { ActivoDepreciacionComponent } from './activo-depreciacion/activo-deprec
 import { ActivoDetallesComponent } from './activo-detalles/activo-detalles.component';
 import { ActivoUbicacionComponent } from './activo-ubicacion/activo-ubicacion.component';
 import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.module';
-import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
 import { BuscadorEstadoUsoModule } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.module';
 import { BuscadorEstadoConservacionModule } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.module';
@@ -69,7 +68,6 @@ import { BuscadorPlantillaDepreciacionModule } from '@pages/definiciones/plantil
     MatSortModule,
     MatPaginatorModule,
     BuscadorOrigenModule,
-    BuscadorUnidadAdministrativaModule,
     BuscadorSedeModule,
     BuscadorEstadoUsoModule,
     BuscadorEstadoConservacionModule,

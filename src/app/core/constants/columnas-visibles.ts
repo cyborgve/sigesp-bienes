@@ -150,6 +150,7 @@ export const COLUMNAS_VISIBLES = {
   UNIDADES_ADMINISTRATIVAS: [
     'codigo',
     'denominacion',
+    'categoria',
     'creado',
     'modificado',
     'acciones',
@@ -170,4 +171,5 @@ export const COLUMNAS_VISIBLES = {
   CIUDADES: ['codigo', 'denominacion', 'creado', 'modificado'],
   FUENTES_FINANCIEMIENTO: ['codigo', 'denominacion', 'creado', 'modificado'],
   CENTROS_COSTO: ['codigo', 'denominacion', 'creado', 'modificado'],
+  PROVEEDORES: ['codigo', 'denominacion', 'creado', 'modificado'],
 };
