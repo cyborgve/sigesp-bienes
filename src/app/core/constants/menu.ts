@@ -294,8 +294,8 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/stat_minus_3.svg',
       },
       {
-        label: 'Inventario de bienes',
-        routerLink: 'inventario-bienes',
+        label: 'Inventario de Activos - Bienes',
+        routerLink: 'inventario-activos',
         icon: 'inventory',
         image: './assets/images/svg/inventory.svg',
       },
