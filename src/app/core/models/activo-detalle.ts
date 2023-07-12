@@ -1,19 +1,17 @@
 import { Id } from '@core/types/id';
 import { Basica } from './auxiliares/basica';
-import { Logico } from '@core/types/logico';
 
 export interface ActivoDetalle extends Basica {
-  activoId: Id;
   garantia: number;
   unidadGarantia: string;
-  inicioGarantia: Date;
+  iniciogarantia: Date;
   finGarantia: Date;
-  origenId: Id;
-  asegurado: Logico;
+  asegurado: number;
   claseId: Id;
+  origenId: Id;
   descripcionOtraClase: string;
-  fuenteFinanciamiento: string;
-  codigoCentroCostos: string;
+  fuenteFinanciamiento: Id;
+  codigoCentroCostos: Id;
   especificacionesTecnicas: string;
   oficinaRegistro: string;
   referenciaRegistro: string;
@@ -29,8 +27,7 @@ export interface ActivoDetalle extends Basica {
   areaTerreno: number;
   unidadAreaTerreno: string;
   especificacionesInmueble: string;
-  perteneceASede: Logico;
-  sedeUbicacionId: Id;
+  perteneceASede: number;
   especificacionesColor: string;
   serialCarroceria: string;
   serialMotor: string;
@@ -39,7 +36,7 @@ export interface ActivoDetalle extends Basica {
   capacidad: string;
   nombre: string;
   usoId: Id;
-  tieneGps: Logico;
+  tieneGps: number;
   especificacionesGps: string;
   tipoSemovienteId: Id;
   genero: string;
@@ -48,7 +45,6 @@ export interface ActivoDetalle extends Basica {
   unidadMedidaPeso: string;
   numeroHierro: string;
   especificacionesAnimal: string;
-  tipoAnimalId: Id;
   fechaNacimientoAnimal: Date;
   razaId: Id;
 }

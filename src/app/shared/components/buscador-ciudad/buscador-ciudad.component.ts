@@ -7,14 +7,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SigespService } from 'sigesp';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import {
-  adaptarCiudades,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
+import { CiudadService } from '@core/services/otros-modulos/ciudad.service';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-buscador-ciudad',
@@ -33,7 +30,7 @@ export class BuscadorCiudadComponent
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorCiudadComponent>,
-    private _sigesp: SigespService,
+    private _ciudad: CiudadService,
     private _location: Location,
     private _router: Router
   ) {}
@@ -43,11 +40,10 @@ export class BuscadorCiudadComponent
   }
 
   private recargarDatos() {
-    this._sigesp
-      .getCity()
+    this._ciudad
+      .buscarTodos()
       .pipe(
         first(),
-        adaptarCiudades(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
         tap(cuentas => {

@@ -28,21 +28,21 @@
             >
           </mat-select>
         </mat-form-field>
-        <!-- longitud maxima en catalogo de cuentas -->
-        <mat-form-field appearance="fill" class="longitudMaximaCatalogoCuenta">
-          <mat-label>Longitud máx. cat. cuentas</mat-label>
+        <!-- longitud catalogo de cuentas -->
+        <mat-form-field appearance="fill" class="longitudCatalogoCuentas">
+          <mat-label>Longitud catálogo cuentas</mat-label>
           <input
             type="number"
             matInput
-            formControlName="longitudMaximaCatalogoCuenta" />
+            formControlName="longitudCatalogoCuentas" />
         </mat-form-field>
-        <!-- longitud maxima en codigo institucional -->
-        <mat-form-field appearance="fill" class="longitudMaximaCodigoInstituc">
+        <!-- longitud codigo institucional -->
+        <mat-form-field appearance="fill" class="longitudCodigoInstitucional">
           <mat-label>Longitud máx. cód. institucional</mat-label>
           <input
             type="number"
             matInput
-            formControlName="longitudMaximaCodigoInstituc" />
+            formControlName="longitudCodigoInstitucional" />
         </mat-form-field>
         <article class="toggle">
           <!-- generar asientos contables -->
@@ -59,8 +59,8 @@
           >
           <!-- usar mascara codigo -->
           <mat-slide-toggle
-            formControlName="separadorMascaraCodigo"
-            class="separadorMascaraCodigo"
+            formControlName="usarMascaraCodigoActivo"
+            class="usarMascaraCodigoActivo"
             >Usar máscara en el código del activo</mat-slide-toggle
           >
         </article>

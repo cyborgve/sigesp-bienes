@@ -7,8 +7,10 @@ import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { BuscadorPlantillaDepreciacionComponent } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
 import { Subscription } from 'rxjs';
-import { MMoneda, SigespService } from 'sigesp';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
+import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
+import { Basica } from '@core/models/auxiliares/basica';
+import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -20,17 +22,9 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   @Input() formulario: FormGroup = new FormGroup({});
 
   metodosDepreciacion = METODOS_DEPRECIACION;
-  monedas: MMoneda[] = [];
+  unidadesTiempo = UNIDADES_MEDIDA['TIEMPO'];
 
-  constructor(private _dialog: MatDialog, private _sigesp: SigespService) {
-    this._sigesp
-      .getMonedas('todas')
-      .pipe(
-        take(1),
-        tap(monedas => (this.monedas = monedas))
-      )
-      .subscribe();
-  }
+  constructor(private _dialog: MatDialog) {}
 
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
@@ -92,5 +86,21 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         )
         .subscribe()
     );
+  }
+
+  buscarMoneda() {
+    let dialog = this._dialog.open(BuscadorMonedaComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((entidad: Basica) =>
+          this.formulario.patchValue({ monedaIdValorRescate: entidad.id })
+        )
+      )
+      .subscribe();
   }
 }

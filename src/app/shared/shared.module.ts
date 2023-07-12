@@ -60,6 +60,11 @@ import { DenominacionCategoriaUnidadAdministrativaPipe } from './pipes/denominac
 import { BuscadorParroquiaComponent } from './components/buscador-parroquia/buscador-parroquia.component';
 import { DenominacionParroquiaPipe } from './pipes/denominacion-parroquia.pipe';
 import { CorregirPorDefectoPipe } from './pipes/corregir-por-defecto.pipe';
+import { DenominacionUnidadAdministrativaPipe } from './pipes/denominacion-unidad-administrativa.pipe';
+import { DenominacionEstadoUsoPipe } from './pipes/denominacion-estado-uso.pipe';
+import { DenominacionEstadoConservacionPipe } from './pipes/denominacion-estado-conservacion.pipe';
+import { BuscadorResponsableComponent } from './components/buscador-responsable/buscador-responsable.component';
+import { DenominacionResponsablePipe } from './pipes/denominacion-responsable.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -129,6 +134,11 @@ const sharedPipes = [
     BuscadorParroquiaComponent,
     DenominacionParroquiaPipe,
     CorregirPorDefectoPipe,
+    DenominacionUnidadAdministrativaPipe,
+    DenominacionEstadoUsoPipe,
+    DenominacionEstadoConservacionPipe,
+    BuscadorResponsableComponent,
+    DenominacionResponsablePipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -138,6 +148,11 @@ const sharedPipes = [
     BuscadorParroquiaComponent,
     DenominacionParroquiaPipe,
     CorregirPorDefectoPipe,
+    DenominacionUnidadAdministrativaPipe,
+    DenominacionEstadoUsoPipe,
+    DenominacionEstadoConservacionPipe,
+    BuscadorResponsableComponent,
+    DenominacionResponsablePipe,
   ],
 })
 export class SharedModule {}

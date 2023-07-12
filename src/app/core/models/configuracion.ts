@@ -1,15 +1,15 @@
 import { Basica } from './auxiliares/basica';
 
 export interface Configuracion extends Basica {
-  generarAsientosContables: boolean;
-  fechaIncorporacionAutomatica: boolean;
-  afectacionDepreciacion: string;
   normativaActivos: string;
-  separadorMascaraCodigo: string;
-  longitudMaximaCatalogoCuenta: number;
-  longitudMaximaCodigoInstituc: number;
+  afectacionDepreciacion: string;
+  longitudCatalogoCuentas: number;
+  longitudCodigoInstitucional: number;
   formatoCatalogoCuentaGeneral: string;
   formatoCodigoInstitucional: string;
+  generarAsientosContables: boolean;
+  fechaIncorporacionAutomatica: boolean;
+  usarMascaraCodigoActivo: boolean;
   activarPaginacion: boolean;
   opcionesPaginacion: number[];
 }

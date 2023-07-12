@@ -45,7 +45,7 @@
         <mat-form-field appearance="fill" class="localizacion">
           <mat-label>Localizacion</mat-label>
           <mat-select formControlName="localizacion">
-            <mat-option value="" selected>Seleccionar</mat-option>
+            <mat-option value="S" selected>Seleccionar</mat-option>
             <mat-option
               *ngFor="let localizacion of localizaciones"
               [value]="localizacion.charAt(0)"

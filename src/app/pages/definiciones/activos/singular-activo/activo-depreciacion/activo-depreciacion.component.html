@@ -7,7 +7,7 @@
     <!-- plantilla de depreciacion -->
     <mat-form-field appearance="fill" class="plantillaDepreciacion">
       <mat-label>Plantilla depreciación</mat-label>
-      <input type="text" matInput />
+      <input type="text" matInput value="Seleccionar" readonly="true" />
       <button
         type="button"
         mat-icon-button
@@ -20,6 +20,7 @@
     <mat-form-field appearance="fill" class="metodoDepreciacion">
       <mat-label>Método de depreciación</mat-label>
       <mat-select formControlName="metodoDepreciacion">
+        <mat-option value="" selected>Seleccionar</mat-option>
         <mat-option
           *ngFor="let metodo of metodosDepreciacion"
           [value]="metodo"
@@ -32,10 +33,30 @@
       <mat-label>Vida útil</mat-label>
       <input type="text" matInput formControlName="vidaUtil" />
     </mat-form-field>
+    <!-- unidad vida util -->
+    <mat-form-field appearance="fill" class="unidadVidaUtil">
+      <mat-label>Unidad vida útil</mat-label>
+      <mat-select formControlName="unidadVidaUtil">
+        <mat-option value="">Seleccionar</mat-option>
+        <mat-option *ngFor="let unidad of unidadesTiempo" [value]="unidad">{{
+          unidad | titlecase
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <!-- cuenta contable del gasto -->
     <mat-form-field appearance="fill" class="cuentaContableGasto">
       <mat-label>Cuenta de gasto</mat-label>
-      <input type="text" matInput formControlName="cuentaContableGasto" />
+      <input
+        type="text"
+        matInput
+        formControlName="cuentaContableGasto"
+        readonly="true"
+        [value]="
+          formulario.value.cuentaContableGasto
+            | denominacionCuentaContable
+            | async
+            | corregirSeleccionar
+        " />
       <button
         type="button"
         mat-icon-button
@@ -50,7 +71,14 @@
       <input
         type="text"
         matInput
-        formControlName="cuentaContableDepreciacion" />
+        formControlName="cuentaContableDepreciacion"
+        readonly="true"
+        [value]="
+          formulario.value.cuentaContableDepreciacion
+            | denominacionCuentaContable
+            | async
+            | corregirSeleccionar
+        " />
       <button
         type="button"
         mat-icon-button
@@ -62,16 +90,27 @@
     <!-- valor rescate  -->
     <mat-form-field appearance="fill" class="valorRescate">
       <mat-label>Valor de rescate</mat-label>
-      <input type="text" matInput formControlName="valorRescate" />
+      <input type="number" matInput formControlName="valorRescate" />
     </mat-form-field>
     <!-- valor rescate moneda id  -->
     <mat-form-field appearance="fill" class="monedaIdValorRescate">
-      <mat-label>Moneda Valor de rescate</mat-label>
-      <mat-select formControlName="monedaIdValorRescate">
-        <mat-option *ngFor="let moneda of monedas" [value]="moneda.codigo">{{
-          moneda.denominacion | titlecase
-        }}</mat-option>
-      </mat-select>
+      <mat-label>Moneda</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="monedaIdValorRescate"
+        readonly="true"
+        [value]="
+          formulario.value.monedaIdValorRescate
+            | denominacionMoneda
+            | async
+            | corregirSeleccionar
+            | titlecase
+        " />
+      <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
   </section>
 </form>
+<pre>{{ formulario.value | json }}</pre>

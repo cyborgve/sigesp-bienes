@@ -9,12 +9,9 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Pais } from '@core/models/otros-modulos/pais';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { SigespService } from 'sigesp';
-import {
-  adaptarPaises,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
+import { PaisService } from '@core/services/otros-modulos/pais.service';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-buscador-pais',
@@ -33,7 +30,7 @@ export class BuscadorPaisComponent
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorPaisComponent>,
-    private _sigesp: SigespService,
+    private _pais: PaisService,
     private _location: Location,
     private _router: Router
   ) {}
@@ -43,11 +40,10 @@ export class BuscadorPaisComponent
   }
 
   private recargarDatos() {
-    this._sigesp
-      .getCountries()
+    this._pais
+      .buscarTodos()
       .pipe(
         first(),
-        adaptarPaises(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
         tap(cuentas => {

@@ -9,12 +9,9 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
-import { SigespService } from 'sigesp';
-import {
-  adaptarParroquias,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
+import { ParroquiaService } from '@core/services/otros-modulos/parroquia.service';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-buscador-parroquia',
@@ -33,7 +30,7 @@ export class BuscadorParroquiaComponent
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorParroquiaComponent>,
-    private _sigesp: SigespService,
+    private _parroquias: ParroquiaService,
     private _location: Location,
     private _router: Router
   ) {}
@@ -43,11 +40,10 @@ export class BuscadorParroquiaComponent
   }
 
   private recargarDatos() {
-    this._sigesp
-      .getParishes()
+    this._parroquias
+      .buscarTodos()
       .pipe(
         first(),
-        adaptarParroquias(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
         tap(cuentas => {

@@ -1,4 +1,13 @@
-import { take, tap, first, filter, switchMap } from 'rxjs/operators';
+import { AdaptadorBoolean } from './../../../../core/types/adaptadorBoolean';
+import {
+  take,
+  tap,
+  first,
+  filter,
+  switchMap,
+  mergeMap,
+  map,
+} from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +22,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { ActivoComponenteService } from '@core/services/activo-componente.service';
 import { ActivoDepreciacionService } from '@core/services/activo-depreciacion.service';
 import { ActivoDetalleService } from '@core/services/activo-detalle.service';
@@ -22,6 +31,9 @@ import { ActivoDetalle } from '@core/models/activo-detalle';
 import { ActivoComponente } from '@core/models/activo-componente';
 import { ActivoDepreciacion } from '@core/models/activo-depreciacion';
 import { ActivoUbicacion } from '@core/models/activo-ubicacion';
+import { Basica } from '@core/models/auxiliares/basica';
+
+type DepreciacionAdaptada = AdaptadorBoolean<ActivoDepreciacion, 'depreciable'>;
 
 @Component({
   selector: 'app-singular-activo',
@@ -48,19 +60,20 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     'ubicación',
   ];
   constructor(
+    private ActivatedRoute: ActivatedRoute,
+    private Router: Router,
     private _activo: ActivoService,
     private _activoComponente: ActivoComponenteService,
     private _activoDepreciacion: ActivoDepreciacionService,
     private _activoDetalle: ActivoDetalleService,
     private _activoUbicacion: ActivoUbicacionService,
-    private ActivatedRoute: ActivatedRoute,
-    private Router: Router,
-    private _formBuilder: FormBuilder,
-    private _location: Location,
+    private _correlativo: CorrelativoService,
     private _dialog: MatDialog,
-    private Correlativo: CorrelativoService
+    private _formBuilder: FormBuilder,
+    private _location: Location
   ) {
     this.id = this.ActivatedRoute.snapshot.params['id'];
+
     /* formulario datos generales */
     this.formularioDatosGenerales = this._formBuilder.group({
       empresaId: [''],
@@ -81,24 +94,27 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       colorId: [0],
       rotulacionId: [0],
       categoriaId: [0],
+      activosDetalleId: [0],
+      activosDepreciacionId: [0],
+      activosUbicacionId: [0],
       creado: [new Date()],
       modificado: [new Date()],
     });
+
     /* formulario detalles */
     this.formularioDetalles = this._formBuilder.group({
       empresaId: [0],
-      activoId: [0],
       id: [0],
       garantia: [0],
       unidadGarantia: [''],
       inicioGarantia: [new Date()],
       finGarantia: [new Date()],
-      origenId: [0],
       asegurado: [0],
       claseId: [0],
+      origenId: [0],
       descripcionOtraClase: [''],
       fuenteFinanciamiento: ['--'],
-      codigoCentroCostos: [''],
+      codigoCentroCostos: ['--'],
       especificacionesTecnicas: [''],
       oficinaRegistro: [''],
       referenciaRegistro: [''],
@@ -115,7 +131,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       unidadAreaTerreno: [''],
       especificacionesInmueble: [''],
       perteneceASede: [0],
-      sedeUbicacionId: [0],
       especificacionesColor: [''],
       serialCarroceria: [''],
       serialMotor: [''],
@@ -127,44 +142,55 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       tieneGps: [0],
       especificacionesGps: [''],
       tipoSemovienteId: [0],
-      genero: [''],
+      genero: ['S'],
       propositoSemovienteId: [0],
       peso: [0],
       unidadMedidaPeso: [''],
       numeroHierro: [''],
       especificacionesAnimal: [''],
-      tipoAnimalId: [0],
       fechaNacimientoAnimal: [new Date()],
       razaId: [0],
       creado: [new Date()],
       modificado: [new Date()],
     });
+
     /* formulario componentes */
     this.formularioComponentes = this._formBuilder.group({
       componentes: [[]],
     });
+
     /* formulario depreciacion */
     this.formularioDepreciacion = this._formBuilder.group({
-      depreciable: [''],
-      //plantillaDepreciacion: [''],
+      empresaId: [0],
+      id: [0],
+      depreciable: [false],
       metodoDepreciacion: [''],
-      cuentaContableGasto: [''],
-      cuentaContableDepreciacion: [''],
-      vidaUtil: [''],
-      valorRescate: [''],
-      monedaIdValorRescate: [''],
+      cuentaContableGasto: ['---'],
+      cuentaContableDepreciacion: ['---'],
+      vidaUtil: [0],
+      unidadVidaUtil: [''],
+      valorRescate: [0],
+      monedaIdValorRescate: [0],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
+
     /* formulario ubicacion */
     this.formularioUbicacion = this._formBuilder.group({
-      sedeId: [''],
-      unidadAdministrativaId: [''],
-      fechaIngreso: [''],
-      responsableId: [''],
-      responsableUsoId: [''],
-      estadoUsoId: [''],
-      conservacion: [''],
+      empresaId: [0],
+      id: [0],
+      sedeId: [0],
+      unidadAdministrativaId: [0],
+      fechaIngreso: [new Date()],
+      estadoUsoId: [0],
+      estadoConservacionId: [0],
       descripcionEstadoConservacion: [''],
+      responsableId: [0],
+      responsableUsoId: [0],
+      creado: [new Date()],
+      modificado: [new Date()],
     });
+
     this.actualizarFormularios();
   }
 
@@ -175,40 +201,99 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         .buscarPorId(this.id)
         .pipe(
           take(1),
-          tap(entidad =>
+          tap(activo =>
             this.formularioDatosGenerales.patchValue({
-              empresaId: entidad.empresaId,
-              id: entidad.id,
-              codigo: entidad.codigo,
-              tipoActivo: entidad.tipoActivo,
-              fechaRegistro: entidad.fechaRegistro,
-              catalogoCuentas: entidad.catalogoCuentas,
-              serialRotulacion: entidad.serialRotulacion,
-              denominacion: entidad.denominacion,
-              observaciones: entidad.observaciones,
-              fechaAdquisicion: entidad.fechaAdquisicion,
-              valorAdquisicion: entidad.valorAdquisicion,
-              monedaId: entidad.monedaId,
-              modeloId: entidad.modeloId,
-              anioFabricacion: entidad.anioFabricacion,
-              serialFabrica: entidad.serialFabrica,
-              colorId: entidad.colorId,
-              categoriaId: entidad.categoriaId,
-              rotulacionId: entidad.rotulacionId,
-              creado: entidad.creado,
-              modificado: entidad.modificado,
+              empresaId: activo.empresaId,
+              id: activo.id,
+              codigo: activo.codigo,
+              tipoActivo: activo.tipoActivo,
+              fechaRegistro: activo.fechaRegistro,
+              catalogoCuentas: activo.catalogoCuentas,
+              serialRotulacion: activo.serialRotulacion,
+              denominacion: activo.denominacion,
+              observaciones: activo.observaciones,
+              fechaAdquisicion: activo.fechaAdquisicion,
+              valorAdquisicion: activo.valorAdquisicion,
+              monedaId: activo.monedaId,
+              modeloId: activo.modeloId,
+              anioFabricacion: activo.anioFabricacion,
+              serialFabrica: activo.serialFabrica,
+              colorId: activo.colorId,
+              categoriaId: activo.categoriaId,
+              rotulacionId: activo.rotulacionId,
+              activosDetalleId: activo.activosDetalleId,
+              activosDepreciacionId: activo.activosDepreciacionId,
+              activosUbicacionId: activo.activosUbicacionId,
+              creado: activo.creado,
+              modificado: activo.modificado,
             })
           ),
-          tap(entidad => this.formularioDetalles.patchValue({})),
-          tap(entidad => this.formularioComponentes.patchValue({})),
-          tap(entidad => this.formularioDepreciacion.patchValue({})),
-          tap(entidad => this.formularioUbicacion.patchValue({}))
+          switchMap((activo: Activo) =>
+            this._activoDetalle.buscarPorId(activo.activosDetalleId)
+          ),
+          tap(detalle =>
+            this.formularioDetalles.patchValue({
+              empresaId: detalle.empresaId,
+              id: detalle.id,
+              garantia: detalle.garantia,
+              unidadGarantia: detalle.unidadGarantia,
+              inicioGarantia: detalle.iniciogarantia,
+              finGarantia: detalle.finGarantia,
+              asegurado: detalle.asegurado,
+              claseId: detalle.claseId,
+              origenId: detalle.origenId,
+              descripcionOtraClase: detalle.descripcionOtraClase,
+              fuenteFinanciamiento: detalle.fuenteFinanciamiento,
+              codigoCentroCostos: detalle.codigoCentroCostos,
+              especificacionesTecnicas: detalle.especificacionesTecnicas,
+              oficinaRegistro: detalle.oficinaRegistro,
+              referenciaRegistro: detalle.referenciaRegistro,
+              tomo: detalle.tomo,
+              folio: detalle.folio,
+              protocolo: detalle.protocolo,
+              numeroRegistro: detalle.numeroRegistro,
+              fechaRegistrado: detalle.fechaRegistrado,
+              propietarioAnterior: detalle.propietarioAnterior,
+              dependencias: detalle.dependencias,
+              areaConstruccion: detalle.areaConstruccion,
+              unidadAreaConstruccion: detalle.unidadAreaConstruccion,
+              areaTerreno: detalle.areaTerreno,
+              unidadAreaTerreno: detalle.unidadAreaTerreno,
+              especificacionesInmueble: detalle.especificacionesInmueble,
+              perteneceASede: detalle.perteneceASede,
+              especificacionesColor: detalle.especificacionesColor,
+              serialCarroceria: detalle.serialCarroceria,
+              serialMotor: detalle.serialMotor,
+              placas: detalle.placas,
+              numeroTituloPropiedad: detalle.numeroTituloPropiedad,
+              capacidad: detalle.capacidad,
+              nombre: detalle.nombre,
+              usoId: detalle.usoId,
+              tieneGPS: detalle.tieneGps,
+              especificacionesGPS: detalle.especificacionesGps,
+              tipoSemovienteId: detalle.tipoSemovienteId,
+              genero: detalle.genero,
+              propositoSemovienteId: detalle.propositoSemovienteId,
+              peso: detalle.peso,
+              unidadMedidaPeso: detalle.unidadMedidaPeso,
+              numeroHierro: detalle.numeroHierro,
+              especificacionesAnimal: detalle.especificacionesAnimal,
+              fechaNacimientoAnimal: detalle.fechaNacimientoAnimal,
+              razaId: detalle.razaId,
+              creado: detalle.creado,
+              modificado: detalle.modificado,
+            })
+          ),
+          switchMap(() =>
+            this._activoDepreciacion.buscarPorId(
+              this.formularioDatosGenerales.value
+            )
+          )
         )
         .subscribe();
     } else {
-      this.Correlativo.buscarPorId(
-        CORRELATIVOS.find(c => c.nombre === this.titulo).id
-      )
+      this._correlativo
+        .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
           take(1),
           tap(categoria =>
@@ -239,9 +324,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         .pipe(
           tap((entidad: Activo) =>
             this.formularioDatosGenerales.patchValue({
-              empresaId: entidad.empresaId,
-              id: entidad.id,
-              codigo: entidad.codigo,
               tipoActivo: entidad.tipoActivo,
               fechaRegistro: entidad.fechaRegistro,
               catalogoCuentas: entidad.catalogoCuentas,
@@ -257,8 +339,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
               colorId: entidad.colorId,
               rotulacionId: entidad.rotulacionId,
               categoriaId: entidad.categoriaId,
-              creado: entidad.creado,
-              modificado: entidad.modificado,
             })
           )
         )
@@ -267,25 +347,28 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
   }
 
   guardar() {
-    const activoDatosGenerales: Activo = this.formularioDatosGenerales.value;
+    const activoDatosGenerales = this.formularioDatosGenerales.value;
     const activoDetalle: ActivoDetalle = this.formularioDetalles.value;
-    const activoComponentes: ActivoComponente =
-      this.formularioComponentes.value;
     const activoDepreciacion: ActivoDepreciacion =
       this.formularioDepreciacion.value;
     const activoUbicacion: ActivoUbicacion = this.formularioUbicacion.value;
-
     if (this.modoFormulario === 'CREANDO') {
-      this._activo
-        .guardar(activoDatosGenerales)
+      this._activoDetalle
+        .guardar(activoDetalle)
         .pipe(
           first(),
-          tap(activo => {
-            activoDetalle.activoId = activo['id'];
-            activoComponentes.activoId = activo['id'];
-            activoDepreciacion.activoId = activo['id'];
-            activoUbicacion.activoId = activo['id'];
-          })
+          tap(detalle => (activoDatosGenerales.activosDetalleId = detalle.id)),
+          mergeMap(() => this._activoDepreciacion.guardar(activoDepreciacion)),
+          tap(
+            depreciacion =>
+              (activoDatosGenerales.activosDepreciacionId = depreciacion.id)
+          ),
+          mergeMap(() => this._activoUbicacion.guardar(activoUbicacion)),
+          tap(
+            ubicacion =>
+              (activoDatosGenerales.activosUbicacionId = ubicacion.id)
+          ),
+          mergeMap(() => this._activo.guardar(activoDatosGenerales))
         )
         .subscribe(() => this.irAtras());
     } else {
@@ -293,11 +376,23 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         .actualizar(this.id, activoDatosGenerales)
         .pipe(
           first(),
-          switchMap(() =>
+          mergeMap(() =>
             this._activoDetalle.actualizar(activoDetalle.id, activoDetalle)
+          ),
+          mergeMap(() =>
+            this._activoDepreciacion.actualizar(
+              activoDepreciacion.id,
+              activoDepreciacion
+            )
+          ),
+          mergeMap(() =>
+            this._activoUbicacion.actualizar(
+              activoUbicacion.id,
+              activoUbicacion
+            )
           )
         )
-        .subscribe(() => this.irAtras());
+        .subscribe();
     }
   }
 

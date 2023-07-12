@@ -1,0 +1,37 @@
+.reporte {
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
+
+mat-card-title {
+  font-size: small;
+  font-weight: 600;
+}
+
+.reporte {
+  @apply p-4 hover:text-accent hover:shadow-xl hover:scale-105 
+  hover:transition-all hover:outline hover:outline-1  hover:outline-offset-1;
+}
+
+.buscar {
+  @apply flex justify-end pr-2 px-4 items-center;
+}
+
+.buscador {
+  @apply w-72 mt-4;
+}
+
+.titulo {
+  @apply text-primary text-xl font-semibold;
+}
+
+mat-icon {
+  height: 80px;
+  width: 80px;
+  font-size: 80px;
+  color: #073763;
+}

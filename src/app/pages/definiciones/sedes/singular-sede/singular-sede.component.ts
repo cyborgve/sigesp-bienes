@@ -58,7 +58,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       tipoSedeId: [0],
-      localizacion: [''],
+      localizacion: ['S', Validators.required],
       paisId: ['---'],
       estadoId: ['---'],
       municipioId: ['---'],

@@ -1,4 +1,4 @@
-import { map, tap } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { BuscadorEstadoConservacionComponent } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.component';
 import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.component';
+import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
+import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -18,7 +20,16 @@ export class ActivoUbicacionComponent {
   constructor(private _dialog: MatDialog) {}
 
   buscarUnidadAdministrativa() {
-    alert('TODO');
+    let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      take(1),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ unidadAdministrativaId: entidad.id })
+      )
+    );
   }
 
   buscarSede() {
@@ -27,7 +38,7 @@ export class ActivoUbicacionComponent {
       width: '85%',
     });
     dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
+      take(1),
       tap((entidad: Basica) =>
         this.formulario.patchValue({ sedeId: entidad.id })
       )
@@ -35,11 +46,29 @@ export class ActivoUbicacionComponent {
   }
 
   buscarResponsable() {
-    alert('TODO');
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      take(1),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ responsableId: entidad.id })
+      )
+    );
   }
 
   buscarResponsableUso() {
-    alert('TODO');
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog.afterClosed().pipe(
+      take(1),
+      tap((entidad: Basica) =>
+        this.formulario.patchValue({ responsableUsoId: entidad.id })
+      )
+    );
   }
 
   buscarEstadoConservacion() {
@@ -48,9 +77,9 @@ export class ActivoUbicacionComponent {
       width: '85%',
     });
     dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
+      take(1),
       tap((entidad: Basica) =>
-        this.formulario.patchValue({ conservacion: entidad.id })
+        this.formulario.patchValue({ estadoConservacionId: entidad.id })
       )
     );
   }
@@ -61,7 +90,7 @@ export class ActivoUbicacionComponent {
       width: '85%',
     });
     dialog.afterClosed().pipe(
-      map(entidad => entidad as Basica),
+      take(1),
       tap((entidad: Basica) =>
         this.formulario.patchValue({ estadoUsoId: entidad.id })
       )

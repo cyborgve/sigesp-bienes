@@ -8,13 +8,11 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Moneda } from '@core/models/otros-modulos/moneda';
+import { adaptarMonedas } from '@core/utils/adaptadores-rxjs.ts/adaptar-monedas';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { first, tap } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
-import {
-  adaptarMonedas,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
 
 @Component({
   selector: 'app-buscador-moneda',

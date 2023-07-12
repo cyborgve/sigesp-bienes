@@ -5,7 +5,7 @@ import { GenericService } from './generic.service';
 import { ActivoDetalle } from '@core/models/activo-detalle';
 import { Observable } from 'rxjs';
 import { Id } from '@core/types/id';
-import { Utilidades } from '@core/utils/utilidades';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class ActivoDetalleService extends GenericService<ActivoDetalle> {
   buscarPorActivoId(activoId: Id): Observable<ActivoDetalle> {
     return this._http.get<ActivoDetalle>(this.apiUrlActivoId(activoId)).pipe(
       map((res: any) => res.data as ActivoDetalle[]),
-      map((res: any) => Utilidades.normalizarObjeto(res[0]))
+      map((res: any) => normalizarObjeto(res[0]))
     );
   }
 }

@@ -20,7 +20,7 @@ import { ActivoService } from '@core/services/activo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { ordenarPorCodigo } from '@core/utils/operadores-rxjs';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-tabla-activo',

@@ -15,7 +15,6 @@ import { BuscadorComponenteComponent } from '../buscador-componente/buscador-com
 import { Componente } from '@core/models/componente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
-import { TipoActivo } from '@core/types/tipo-activo';
 import { TipoComponente } from '@core/models/tipo-componente';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { Activo } from '@core/models/activo';

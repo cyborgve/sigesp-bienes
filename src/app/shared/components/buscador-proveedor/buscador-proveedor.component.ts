@@ -10,11 +10,9 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { SigespService } from 'sigesp';
-import {
-  adaptarProveedores,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
+import { adaptarProveedores } from '@core/utils/adaptadores-rxjs.ts/adaptar-proveedores';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-buscador-proveedor',

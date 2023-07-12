@@ -2,8 +2,6 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { Id } from '@core/types/id';
 
 export interface Activo extends Basica {
-  empresaId: number;
-  id: Id;
   codigo: string;
   tipoActivo: string;
   fechaRegistro: Date;
@@ -20,6 +18,7 @@ export interface Activo extends Basica {
   colorId: Id;
   rotulacionId: Id;
   categoriaId: Id;
-  creado: Date;
-  modificado: Date;
+  activosDetalleId: Id;
+  activosDepreciacionId: Id;
+  activosUbicacionId: Id;
 }

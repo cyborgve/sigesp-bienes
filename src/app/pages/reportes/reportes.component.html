@@ -1,1 +1,31 @@
-<p>reportes works!</p>
+<section class="contenedor">
+  <mat-card>
+    <article class="buscar">
+      <span class="titulo">{{ titulo | titlecase }}</span>
+      <span class="spacer"></span>
+    </article>
+    <article class="grid grid-cols-5">
+      <a *ngFor="let reporte of menuItems" [routerLink]="reporte.routerLink">
+        <mat-card class="reporte">
+          <img [src]="reporte.image" alt="image" width="80px" />
+          <mat-card-title>{{ reporte.label }}</mat-card-title>
+          <mat-card-subtitle>{{ titulo }}</mat-card-subtitle>
+        </mat-card>
+      </a>
+      <!-- <span class="spacer"></span> -->
+      <!-- buscar -->
+      <!-- <mat-form-field class="buscador"> -->
+      <!-- <mat-label>Buscar</mat-label> -->
+      <!-- <input type="text" #buscar matInput (keyup)="filtrarDatos($event)" /> -->
+      <!-- <button -->
+      <!-- mat-icon-button -->
+      <!-- type="button" -->
+      <!-- matSuffix -->
+      <!-- *ngIf="buscar.value" -->
+      <!-- (click)="limpiarBuscador()"> -->
+      <!-- <mat-icon color="primary">close</mat-icon> -->
+      <!-- </button> -->
+      <!-- </mat-form-field> -->
+    </article>
+  </mat-card>
+</section>

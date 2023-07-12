@@ -1,10 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NORMATIVAS_ACTIVO } from '@core/constants/normativas-activo';
 import { ConfiguracionService } from '@core/services/configuracion.service';
 import { Id } from '@core/types/id';
-import { first, take, tap } from 'rxjs/operators';
+import { first, take, tap, map } from 'rxjs/operators';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { Location } from '@angular/common';
 import { Configuracion } from '@core/models/configuracion';
@@ -36,29 +36,17 @@ export class ConfiguracionesComponent implements Entidad {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
+      normativaActivos: [''],
+      afectacionDepreciacion: [''],
+      longitudCatalogoCuentas: [0],
+      longitudCodigoInstitucional: [0],
+      formatoCatalogoCuentaGeneral: [''],
+      formatoCodigoInstitucional: [''],
       generarAsientosContables: [false],
       fechaIncorporacionAutomatica: [false],
-      separadorMascaraCodigo: [false],
-      afectacionDepreciacion: ['', Validators.required],
-      normativaActivos: ['', Validators.required],
-      longitudMaximaCatalogoCuenta: [
-        8,
-        [Validators.max(32), Validators.min(1)],
-      ],
-      longitudMaximaCodigoInstituc: [
-        8,
-        [Validators.max(32), Validators.min(1)],
-      ],
-      formatoCatalogoCuentaGeneral: [
-        '########',
-        [Validators.max(32), Validators.min(8)],
-      ],
-      formatoCodigoInstitucional: [
-        '########',
-        [Validators.max(32), Validators.min(8)],
-      ],
+      usarMascaraCodigoActivo: [false],
       activarPaginacion: [false],
-      opcionesPaginacion: [''],
+      opcionesPaginacion: [[]],
       creado: [new Date()],
       modificado: [new Date()],
     });
@@ -91,25 +79,24 @@ export class ConfiguracionesComponent implements Entidad {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
               id: entidad.id,
-              generarAsientosContables: entidad.generarAsientosContables,
-              fechaIncorporacionAutomatica:
-                entidad.fechaIncorporacionAutomatica,
-              separadorMascaraCodigo: entidad.separadorMascaraCodigo,
-              afectacionDepreciacion: entidad.afectacionDepreciacion,
               normativaActivos: entidad.normativaActivos,
-              longitudMaximaCatalogoCuenta:
-                entidad.longitudMaximaCatalogoCuenta,
-              longitudMaximaCodigoInstituc:
-                entidad.longitudMaximaCodigoInstituc,
+              afectacionDepreciacion: entidad.afectacionDepreciacion,
+              longitudCatalogoCuentas: entidad.longitudCatalogoCuentas,
+              longitudCodigoInstitucional: entidad.longitudCodigoInstitucional,
               formatoCatalogoCuentaGeneral:
                 entidad.formatoCatalogoCuentaGeneral,
               formatoCodigoInstitucional: entidad.formatoCodigoInstitucional,
+              generarAsientosContables: entidad.generarAsientosContables,
+              fechaIncorporacionAutomatica:
+                entidad.fechaIncorporacionAutomatica,
+              usarMascaraCodigoActivo: entidad.usarMascaraCodigoActivo,
               activarPaginacion: entidad.activarPaginacion,
               opcionesPaginacion: entidad.opcionesPaginacion,
               creado: entidad.creado,
               modificado: entidad.modificado,
             })
-          )
+          ),
+          tap(() => console.log('objeto recuparedo:', this.formulario.value))
         )
         .subscribe();
     }
@@ -120,7 +107,7 @@ export class ConfiguracionesComponent implements Entidad {
   }
 
   guardar(): void {
-    let configuracion: Configuracion = this.formulario.value as Configuracion;
+    let configuracion = this.formulario.value as Configuracion;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(configuracion)

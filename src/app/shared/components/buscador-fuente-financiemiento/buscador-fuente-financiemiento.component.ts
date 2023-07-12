@@ -1,10 +1,5 @@
-import {
-  adaptarFuentesFinanciemiento,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -15,6 +10,9 @@ import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financie
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { first, tap } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
+import { adaptarFuentesFinanciemiento } from '@core/utils/adaptadores-rxjs.ts/adaptar-fuentes-financiamiento';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-buscador-fuente-financiemiento',

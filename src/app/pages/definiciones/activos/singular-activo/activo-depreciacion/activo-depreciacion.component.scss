@@ -1,8 +1,12 @@
 .vidaUtil {
-  @apply col-span-2;
+  @apply col-span-1;
 }
 
 .valorRescate,
+.unidadVidaUtil {
+  @apply col-span-2;
+}
+
 .monedaIdValorRescate,
 .plantillaDepreciacion,
 .metodoDepreciacion,
@@ -16,5 +20,5 @@
 }
 
 .plantillaDepreciacion {
-  @apply col-start-5;
+  @apply col-start-10;
 }

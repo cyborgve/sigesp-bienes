@@ -40,6 +40,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
 import { BuscadorPlantillaDepreciacionModule } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.module';
+import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { BuscadorPlantillaDepreciacionModule } from '@pages/definiciones/plantil
     BuscadorRazaModule,
     BuscadorRotulacionModule,
     BuscadorPlantillaDepreciacionModule,
+    BuscadorUnidadAdministrativaModule,
   ],
 })
 export class SingularActivoModule {}

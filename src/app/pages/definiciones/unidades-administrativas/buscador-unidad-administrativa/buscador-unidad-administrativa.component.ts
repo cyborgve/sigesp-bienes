@@ -9,7 +9,7 @@ import { UnidadAdministrativa } from '@core/models/unidad-administrativa';
   styleUrls: ['./buscador-unidad-administrativa.component.scss'],
 })
 export class BuscadorUnidadAdministrativaComponent {
-  titulo = 'buscador de aseguradoras';
+  titulo = 'buscador de unidades administrativas';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.UNIDADES_ADMINISTRATIVAS.filter(
     c => c !== 'acciones'

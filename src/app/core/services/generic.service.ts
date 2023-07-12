@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Basica } from '@core/models/auxiliares/basica';
 import { ModeloServicio } from '@core/models/auxiliares/modelo-servicio';
 import { Id } from '@core/types/id';
-import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs';
-import { Utilidades } from '@core/utils/utilidades';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
@@ -20,13 +20,11 @@ export abstract class GenericService<T extends Basica>
 
   protected abstract getEntidadUrl(): string;
 
-  constructor(protected _http: HttpClient, private _sigesp: SigespService) {}
+  constructor(protected _http: HttpClient, protected _sigesp: SigespService) {}
 
   buscarTodos(): Observable<T[]> {
     return this._http.get<T[]>(this.apiUrl).pipe(
-      map((res: any) =>
-        res.data.map((ent: T) => Utilidades.normalizarObjeto(ent))
-      ),
+      map((res: any) => res.data.map((ent: T) => normalizarObjeto(ent))),
       filtrarValoresIniciales()
     );
   }
@@ -34,14 +32,14 @@ export abstract class GenericService<T extends Basica>
   buscarPorId(id: Id): Observable<T> {
     return this._http.get<T>(this.apiUrlId(id)).pipe(
       map((res: any) => res.data as T[]),
-      map(data => Utilidades.normalizarObjeto(data[0]))
+      map(data => normalizarObjeto(data[0]))
     );
   }
 
   guardar(entidad: T): Observable<T> {
     return this._http
       .post<T>(this.apiUrl, entidad)
-      .pipe(map(respuesta => Utilidades.normalizarObjeto(respuesta)));
+      .pipe(map(respuesta => normalizarObjeto(respuesta)));
   }
 
   actualizar(id: Id, entidad: T): Observable<Number> {

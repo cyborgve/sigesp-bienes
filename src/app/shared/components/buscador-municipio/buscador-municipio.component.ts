@@ -9,12 +9,9 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Municipio } from '@core/models/otros-modulos/municipio';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { SigespService } from 'sigesp';
-import {
-  adaptarMunicipios,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
+import { MunicipioService } from '@core/services/otros-modulos/municipio.service';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-buscador-municipio',
@@ -33,7 +30,7 @@ export class BuscadorMunicipioComponent
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorMunicipioComponent>,
-    private _sigesp: SigespService,
+    private _municipio: MunicipioService,
     private _location: Location,
     private _router: Router
   ) {}
@@ -43,11 +40,10 @@ export class BuscadorMunicipioComponent
   }
 
   private recargarDatos() {
-    this._sigesp
-      .getMunicipalities()
+    this._municipio
+      .buscarTodos()
       .pipe(
         first(),
-        adaptarMunicipios(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
         tap(cuentas => {

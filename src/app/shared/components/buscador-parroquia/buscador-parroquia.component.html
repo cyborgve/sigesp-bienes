@@ -15,10 +15,12 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion | titlecase }}</td>
     </ng-container>
-    <!-- iso -->
-    <ng-container matColumnDef="iso">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ISO</th>
-      <td mat-cell *matCellDef="let row">{{ row.iso }}</td>
+    <!-- municipioId -->
+    <ng-container matColumnDef="municipioId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Municipio</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.municipioId | denominacionMunicipio | async | titlecase }}
+      </td>
     </ng-container>
     <!-- creado -->
     <ng-container matColumnDef="creado">

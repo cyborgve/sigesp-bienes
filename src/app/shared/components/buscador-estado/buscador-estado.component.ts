@@ -9,12 +9,9 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Estado } from '@core/models/otros-modulos/estado';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { SigespService } from 'sigesp';
-import {
-  adaptarEstados,
-  filtrarValoresIniciales,
-  ordenarPorCodigo,
-} from '@core/utils/operadores-rxjs';
+import { EstadoService } from '@core/services/otros-modulos/estado.service';
+import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 
 @Component({
   selector: 'app-buscador-estado',
@@ -33,7 +30,7 @@ export class BuscadorEstadoComponent
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorEstadoComponent>,
-    private _sigesp: SigespService,
+    private _estado: EstadoService,
     private _location: Location,
     private _router: Router
   ) {}
@@ -43,11 +40,10 @@ export class BuscadorEstadoComponent
   }
 
   private recargarDatos() {
-    this._sigesp
-      .getStates()
+    this._estado
+      .buscarTodos()
       .pipe(
         first(),
-        adaptarEstados(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
         tap(cuentas => {
