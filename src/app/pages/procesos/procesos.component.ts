@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MENU } from '@core/constants/menu';
 
 @Component({
@@ -10,5 +10,5 @@ export class ProcesosComponent {
   titulo = 'Procesos';
   menuItems = MENU.find(
     m => m.label.toLowerCase() === this.titulo.toLowerCase()
-  ).items;
+  ).items.sort((a, b) => (a.label < b.label ? -1 : 1));
 }

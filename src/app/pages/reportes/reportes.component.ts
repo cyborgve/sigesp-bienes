@@ -10,5 +10,5 @@ export class ReportesComponent {
   titulo = 'reportes';
   menuItems = MENU.find(
     m => m.label.toLowerCase() === this.titulo.toLowerCase()
-  ).items;
+  ).items.sort((a, b) => (a.label < b.label ? -1 : 1));
 }

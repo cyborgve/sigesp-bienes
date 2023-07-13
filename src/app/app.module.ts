@@ -17,7 +17,7 @@ import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
-import { HeaderHttpInterceptor } from '@shared/interceptors/header-http.interceptor';
+import { HeaderHttpInterceptor } from '@core/interceptors/header-http.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
