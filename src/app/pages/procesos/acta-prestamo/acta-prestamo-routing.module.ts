@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActaPrestamoComponent } from './acta-prestamo.component';
 
-const routes: Routes = [{ path: '', component: ActaPrestamoComponent }];
+const routes: Routes = [
+  { path: '', component: ActaPrestamoComponent },
+  { path: ':id', component: ActaPrestamoComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

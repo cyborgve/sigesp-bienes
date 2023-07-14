@@ -1,10 +1,11 @@
-<section class="padding">
-  <mat-card>
-    <p class="titulo">{{ titulo | titlecase }}</p>
-    <span class="espaciador"></span>
-    <article class="comprobante">
-      <p>Comprobante N° {{ numeroComprobante | numeroCorrelativo }}</p>
-      <p>{{ creado | date : 'medium' }}</p>
-    </article>
-  </mat-card>
-</section>
+<mat-card>
+  <p class="titulo">{{ titulo | titlecase }}</p>
+  <span class="espaciador"></span>
+  <article class="comprobante">
+    <p>Comprobante N°{{ numeroComprobante | numeroCorrelativo }}</p>
+    <p class="creado-modificado">Creado: {{ creado | date : 'medium' }}</p>
+    <p class="creado-modificado">
+      Modificado: {{ modificado | date : 'medium' }}
+    </p>
+  </article>
+</mat-card>

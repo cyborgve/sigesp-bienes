@@ -1,27 +1,34 @@
-.card-titulo {
-  @apply mb-1 p-8;
+.unidadAdministrativaCedente,
+.unidadAdministrativaReceptora {
+  @apply col-span-8;
 }
 
-.contenido {
-  @apply flex w-full items-center;
+.unidadCedenteResponsable,
+.unidadReceptoraResponsable,
+.testigo {
+  @apply col-span-4;
+}
+
+.notas {
+  @apply col-start-1 col-span-full;
+}
+
+.superior {
+  @apply pb-0;
+}
+
+.inferior {
+  @apply pt-1;
 }
 
 .titulo {
-  @apply text-primary text-xl font-semibold pl-4;
+  @apply text-lg font-semibold text-primary ml-12;
 }
 
-.comprobante {
-  @apply text-primary text-lg font-semibold pl-4 text-end;
+.encabezadoTabla {
+  @apply flex items-center;
 }
 
-.fecha {
-  @apply text-primary text-lg font-medium pl-4 text-end;
-}
-
-.espaciador {
-  flex: 1 1 auto;
-}
-
-.padding {
-  @apply p-4;
+.agregarActivo {
+  @apply h-14 w-64;
 }

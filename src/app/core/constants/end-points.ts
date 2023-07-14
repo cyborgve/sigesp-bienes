@@ -1,4 +1,5 @@
 export const END_POINTS: { clave: string; valor: string }[] = [
+  /** definiciones */
   { clave: 'activo', valor: 'dao/sbn/activo-dao.php' },
   { clave: 'activoComponente', valor: 'dao/sbn/activo-componente-dao.php' },
   { clave: 'activoDepreciacion', valor: 'dao/sbn/activo-depreciacion-dao.php' },
@@ -52,4 +53,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     valor: 'dao/sbn/unidad-administrativa-dao.php',
   },
   { clave: 'tipoUso', valor: 'dao/sbn/tipo-uso-dao.php' },
+
+  /** procesos */
+  { clave: 'actaPrestamo', valor: 'dao/sbn/procesos/acta-prestamo-dao.php' },
 ];

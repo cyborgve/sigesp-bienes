@@ -41,7 +41,6 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService
   ) {
-    this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
@@ -54,6 +53,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       creado: [new Date()],
       modificado: [new Date()],
     });
+    this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
 
