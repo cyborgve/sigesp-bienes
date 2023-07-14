@@ -1,0 +1,15 @@
+.padding {
+  @apply p-4;
+}
+
+.titulo {
+  @apply text-2xl font-bold text-primary ml-8;
+}
+
+mat-card {
+  @apply flex items-center;
+}
+
+.comprobante {
+  @apply text-right text-xl font-bold text-primary;
+}

@@ -1,1 +1,7 @@
-<p>acta-prestamo works!</p>
+<form [formGroup]="formulario">
+  <app-encabezado-procesos
+    [titulo]="titulo"
+    [numeroComprobante]="formulario.value.comprobante"
+    [creado]="formulario.value.creado"></app-encabezado-procesos>
+  <section></section>
+</form>
