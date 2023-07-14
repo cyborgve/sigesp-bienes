@@ -1,5 +1,6 @@
 import { Basica } from '@core/models/auxiliares/basica';
 import { Id } from '@core/types/id';
+import { ActaPrestamoActivo } from './acta-prestamo-activos';
 
 export interface ActaPrestamo extends Basica {
   comprobante: number;
@@ -9,4 +10,5 @@ export interface ActaPrestamo extends Basica {
   unidadReceptoraResponsable: Id;
   testigo: Id;
   notas: string;
+  activos: ActaPrestamoActivo[];
 }

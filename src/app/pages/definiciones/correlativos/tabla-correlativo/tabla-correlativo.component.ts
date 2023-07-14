@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -19,6 +19,8 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Id } from '@core/types/id';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { ordenarPorId } from '@core/utils/operadores-rxjs/ordenar-por-id';
 
 @Component({
   selector: 'app-tabla-correlativo',
@@ -57,6 +59,7 @@ export class TablaCorrelativoComponent
       .buscarTodos()
       .pipe(
         first(),
+        ordenarPorId(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;

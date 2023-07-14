@@ -81,14 +81,11 @@ export class SingularUnidadAdministrativaComponent
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
           take(1),
-          tap(categoria =>
-            this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+          tap(correlativo => {
+            let serie = correlativo.serie.toString().padStart(4, '0');
+            let codigo = correlativo.correlativo.toString().padStart(8, '0');
+            this.formulario.patchValue({ codigo: serie + '-' + codigo });
+          })
         )
         .subscribe();
     }

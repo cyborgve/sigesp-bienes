@@ -66,16 +66,14 @@ import { DenominacionEstadoConservacionPipe } from './pipes/denominacion-estado-
 import { BuscadorResponsableComponent } from './components/buscador-responsable/buscador-responsable.component';
 import { DenominacionResponsablePipe } from './pipes/denominacion-responsable.pipe';
 import { EncabezadoProcesosComponent } from './components/encabezado-procesos/encabezado-procesos.component';
+import { CorregirCodigoPipe } from './pipes/corregir-codigo.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
   ToolbarComponent,
   BotonesAccionesComponent,
-  DialogoEliminarComponent,
-  EncabezadoDefinicionComponent,
   BotonesDefinicionComponent,
   BotonesDefinicionesComponent,
-  EncabezadoDefinicionesComponent,
   BuscadorCuentaContableComponent,
   BuscadorMonedaComponent,
   BuscadorFuenteFinanciemientoComponent,
@@ -87,12 +85,17 @@ const sharedComponents = [
   BuscadorProveedorComponent,
   BuscadorParroquiaComponent,
   BuscadorResponsableComponent,
+  DialogoEliminarComponent,
+  EncabezadoDefinicionComponent,
+  EncabezadoDefinicionesComponent,
+  EncabezadoProcesosComponent,
 ];
 
 const sharedPipes = [
   IsoCurrencyPipe,
   CorregirSeleccionarPipe,
   CorregirNingunoPipe,
+  CorregirCodigoPipe,
   CorregirPorDefectoPipe,
   NumeroSeriePipe,
   NumeroCorrelativoPipe,
@@ -137,12 +140,8 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    ...sharedPipes,
-    EncabezadoProcesosComponent,
-  ],
+  declarations: [...sharedComponents, ...sharedPipes],
   imports: [CommonModule, FormsModule, MaterialModule],
-  exports: [...sharedComponents, ...sharedPipes, EncabezadoProcesosComponent],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}

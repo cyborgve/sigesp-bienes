@@ -3,5 +3,7 @@ import { pipe } from 'rxjs';
 
 export const ordenarPorId = () =>
   pipe(
-    map((entidades: any[]) => entidades.sort((a, b) => (a.id > b.id ? 1 : -1)))
+    map((entidades: any[]) =>
+      entidades.sort((a, b) => (Number(a.id) < Number(b.id) ? -1 : 1))
+    )
   );

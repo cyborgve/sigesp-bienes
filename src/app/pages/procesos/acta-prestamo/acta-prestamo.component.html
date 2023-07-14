@@ -15,7 +15,11 @@
             matInput
             formControlName="unidadAdministrativaCedente"
             readonly="true"
-            [value]="formulario.value.unidadAdministrativaCedente" />
+            [value]="
+              formulario.value.unidadAdministrativaCedente
+                | denominacionUnidadAdministrativa
+                | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -49,7 +53,11 @@
             matInput
             formControlName="unidadAdministrativaReceptora"
             readonly="true"
-            [value]="formulario.value.unidadAdministrativaReceptora" />
+            [value]="
+              formulario.value.unidadAdministrativaReceptora
+                | denominacionUnidadAdministrativa
+                | async
+            " />
           <button
             type="button"
             mat-icon-button
