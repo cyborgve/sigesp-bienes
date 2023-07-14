@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Rotulacion } from '@core/models/rotulacion';
+import { Rotulacion } from '@core/models/definiciones/rotulacion';
 
 @Component({
   selector: 'app-buscador-rotulacion',

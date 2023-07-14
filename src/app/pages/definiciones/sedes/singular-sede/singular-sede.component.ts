@@ -13,7 +13,7 @@ import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Subscription } from 'rxjs';
 import { BuscadorSedeComponent } from '../buscador-sede/buscador-sede.component';
-import { Sede } from '@core/models/sede';
+import { Sede } from '@core/models/definiciones/sede';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorPaisComponent } from '@shared/components/buscador-pais/buscador-pais.component';
 import { BuscadorEstadoComponent } from '@shared/components/buscador-estado/buscador-estado.component';
@@ -23,7 +23,7 @@ import { Municipio } from '@core/models/otros-modulos/municipio';
 import { BuscadorCiudadComponent } from '@shared/components/buscador-ciudad/buscador-ciudad.component';
 import { Ciudad } from '@core/models/otros-modulos/ciudad';
 import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
-import { TipoSede } from '@core/models/tipo-sede';
+import { TipoSede } from '@core/models/definiciones/tipo-sede';
 import { BuscadorParroquiaComponent } from '@shared/components/buscador-parroquia/buscador-parroquia.component';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { EstadoUso } from '@core/models/estado-uso';
+import { EstadoUso } from '@core/models/definiciones/estado-uso';
 
 @Component({
   selector: 'app-buscador-estado-uso',

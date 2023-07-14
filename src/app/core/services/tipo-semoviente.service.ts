@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { TipoSemoviente } from '@core/models/tipo-semoviente';
+import { TipoSemoviente } from '@core/models/definiciones/tipo-semoviente';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

@@ -12,14 +12,14 @@ import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { BuscadorComponenteComponent } from '../buscador-componente/buscador-componente.component';
-import { Componente } from '@core/models/componente';
+import { Componente } from '@core/models/definiciones/componente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
-import { TipoComponente } from '@core/models/tipo-componente';
+import { TipoComponente } from '@core/models/definiciones/tipo-componente';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
-import { Activo } from '@core/models/activo';
+import { Activo } from '@core/models/definiciones/activo';
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
-import { Modelo } from '@core/models/modelo';
+import { Modelo } from '@core/models/definiciones/modelo';
 
 @Component({
   selector: 'app-singular-componente',

@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorTipoAnimalComponent } from '../buscador-tipo-animal/buscador-tipo-animal.component';
-import { TipoAnimal } from '@core/models/tipo-animal';
+import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Configuracion } from '@core/models/configuracion';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 const booleanLogico = (booleano: boolean) => (booleano ? 1 : 0);
 /**

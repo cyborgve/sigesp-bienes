@@ -8,7 +8,7 @@ import { OrigenService } from '@core/services/origen.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorOrigenComponent } from '../buscador-origen/buscador-origen.component';
-import { Origen } from '@core/models/origen';
+import { Origen } from '@core/models/definiciones/origen';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';

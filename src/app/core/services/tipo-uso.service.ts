@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TipoUso } from '@core/models/tipo-uso';
+import { TipoUso } from '@core/models/definiciones/tipo-uso';
 import { GenericService } from './generic.service';
 import { END_POINTS } from '@core/constants/end-points';
 

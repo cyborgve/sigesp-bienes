@@ -8,7 +8,7 @@ import { CategoriaService } from '@core/services/categoria.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorCategoriaComponent } from '../buscador-categoria/buscador-categoria.component';
-import { Categoria } from '@core/models/categoria';
+import { Categoria } from '@core/models/definiciones/categoria';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';

@@ -1,4 +1,4 @@
-import { TipoAnimal } from '@core/models/tipo-animal';
+import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
@@ -9,7 +9,7 @@ import { RazaService } from '@core/services/raza.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorRazaComponent } from '../buscador-raza/buscador-raza.component';
-import { Raza } from '@core/models/raza';
+import { Raza } from '@core/models/definiciones/raza';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';

@@ -8,8 +8,9 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { Correlativo } from '@core/models/correlativo';
+import { Correlativo } from '@core/models/definiciones/correlativo';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { AdvertenciaCorrelativoComponent } from './advertencia-correlativo.component';
 
 @Component({
   selector: 'app-singular-correlativo',
@@ -27,7 +28,8 @@ export class SingularCorrelativoComponent implements Entidad {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
-    private _correlativo: CorrelativoService
+    private _correlativo: CorrelativoService,
+    private _dialog: MatDialog
   ) {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
@@ -85,18 +87,31 @@ export class SingularCorrelativoComponent implements Entidad {
   }
 
   guardar() {
-    let entidad: Correlativo = this.formulario.value;
-    if (this.modoFormulario === 'CREANDO') {
-      this._entidad
-        .guardar(entidad)
-        .pipe(first())
-        .subscribe(() => this.irAtras());
-    } else {
-      this._entidad
-        .actualizar(this.id, entidad)
-        .pipe(first())
-        .subscribe(() => this.irAtras());
-    }
+    let dialog = this._dialog.open(AdvertenciaCorrelativoComponent, {
+      width: '35%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((continuar: boolean) => {
+          if (continuar) {
+            let entidad: Correlativo = this.formulario.value;
+            if (this.modoFormulario === 'CREANDO') {
+              this._entidad
+                .guardar(entidad)
+                .pipe(first())
+                .subscribe(() => this.irAtras());
+            } else {
+              this._entidad
+                .actualizar(this.id, entidad)
+                .pipe(first())
+                .subscribe(() => this.irAtras());
+            }
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
   borrar() {

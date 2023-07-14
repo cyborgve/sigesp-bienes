@@ -7,7 +7,7 @@ import { CausaMovimientoService } from '@core/services/causa-movimiento.service'
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorCausaMovimientoComponent } from '../buscador-causa-movimiento/buscador-causa-movimiento.component';
-import { CausaMovimiento } from '@core/models/causa-movimiento';
+import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Location } from '@angular/common';
 import { TIPOS_CAUSA_MOVIMIENTO } from '@core/constants/tipos-causa-movimiento';

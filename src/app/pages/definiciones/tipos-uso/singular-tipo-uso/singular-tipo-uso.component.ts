@@ -11,7 +11,7 @@ import { TipoUsoService } from '@core/services/tipo-uso.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoUsoComponent } from '../buscador-tipo-uso/buscador-tipo-uso.component';
-import { TipoUso } from '@core/models/tipo-uso';
+import { TipoUso } from '@core/models/definiciones/tipo-uso';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
 @Component({

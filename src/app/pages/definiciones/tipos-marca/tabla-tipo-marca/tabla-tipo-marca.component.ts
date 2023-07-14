@@ -14,7 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoMarca } from '@core/models/tipo-marca';
+import { TipoMarca } from '@core/models/definiciones/tipo-marca';
 import { TipoMarcaService } from '@core/services/tipo-marca.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';

@@ -1,7 +1,7 @@
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Seguro } from '@core/models/seguro';
+import { Seguro } from '@core/models/definiciones/seguro';
 
 @Component({
   selector: 'app-buscador-seguro',

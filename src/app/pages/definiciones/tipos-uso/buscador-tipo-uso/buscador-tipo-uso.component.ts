@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoUso } from '@core/models/tipo-uso';
+import { TipoUso } from '@core/models/definiciones/tipo-uso';
 
 @Component({
   selector: 'app-buscador-tipo-uso',

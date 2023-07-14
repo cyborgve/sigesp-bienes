@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Clase } from '@core/models/clase';
+import { Clase } from '@core/models/definiciones/clase';
 
 @Component({
   selector: 'app-buscador-clase',

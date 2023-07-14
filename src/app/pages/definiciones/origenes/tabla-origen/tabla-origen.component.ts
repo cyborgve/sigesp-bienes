@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Origen } from '@core/models/origen';
+import { Origen } from '@core/models/definiciones/origen';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { OrigenService } from '@core/services/origen.service';
 import { Id } from '@core/types/id';

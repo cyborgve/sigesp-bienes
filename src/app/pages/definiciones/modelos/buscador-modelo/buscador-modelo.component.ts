@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Modelo } from '@core/models/modelo';
+import { Modelo } from '@core/models/definiciones/modelo';
 
 @Component({
   selector: 'app-buscador-modelo',

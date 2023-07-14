@@ -7,7 +7,7 @@ import { Id } from '@core/types/id';
 import { first, take, tap, map } from 'rxjs/operators';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { Location } from '@angular/common';
-import { Configuracion } from '@core/models/configuracion';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
 

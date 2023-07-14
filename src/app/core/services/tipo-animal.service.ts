@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { TipoAnimal } from '@core/models/tipo-animal';
+import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

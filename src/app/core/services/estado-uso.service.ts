@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { EstadoUso } from '@core/models/estado-uso';
+import { EstadoUso } from '@core/models/definiciones/estado-uso';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

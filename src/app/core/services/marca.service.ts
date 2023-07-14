@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { Marca } from '@core/models/marca';
+import { Marca } from '@core/models/definiciones/marca';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

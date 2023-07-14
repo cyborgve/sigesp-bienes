@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Aseguradora } from '@core/models/aseguradora';
+import { Aseguradora } from '@core/models/definiciones/aseguradora';
 
 @Component({
   selector: 'app-buscador-aseguradora',

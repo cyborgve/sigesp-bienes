@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Sede } from '@core/models/sede';
+import { Sede } from '@core/models/definiciones/sede';
 
 @Component({
   selector: 'app-buscador-sede',

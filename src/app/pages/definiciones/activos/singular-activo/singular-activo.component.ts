@@ -17,7 +17,7 @@ import { ActivoService } from '@core/services/activo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorActivoComponent } from '../buscador-activo/buscador-activo.component';
-import { Activo } from '@core/models/activo';
+import { Activo } from '@core/models/definiciones/activo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
@@ -27,10 +27,10 @@ import { ActivoComponenteService } from '@core/services/activo-componente.servic
 import { ActivoDepreciacionService } from '@core/services/activo-depreciacion.service';
 import { ActivoDetalleService } from '@core/services/activo-detalle.service';
 import { ActivoUbicacionService } from '@core/services/activo-ubicacion.service';
-import { ActivoDetalle } from '@core/models/activo-detalle';
-import { ActivoComponente } from '@core/models/activo-componente';
-import { ActivoDepreciacion } from '@core/models/activo-depreciacion';
-import { ActivoUbicacion } from '@core/models/activo-ubicacion';
+import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
+import { ActivoComponente } from '@core/models/definiciones/activo-componente';
+import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
+import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { Basica } from '@core/models/auxiliares/basica';
 
 type DepreciacionAdaptada = AdaptadorBoolean<ActivoDepreciacion, 'depreciable'>;

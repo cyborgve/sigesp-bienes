@@ -14,7 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoCobertura } from '@core/models/tipo-cobertura';
+import { TipoCobertura } from '@core/models/definiciones/tipo-cobertura';
 import { TipoCoberturaService } from '@core/services/tipo-cobertura.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';

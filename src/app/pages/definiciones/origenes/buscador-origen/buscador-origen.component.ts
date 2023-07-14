@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Origen } from '@core/models/origen';
+import { Origen } from '@core/models/definiciones/origen';
 
 @Component({
   selector: 'app-buscador-origen',

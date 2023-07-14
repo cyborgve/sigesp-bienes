@@ -8,7 +8,7 @@ import { TipoSemovienteService } from '@core/services/tipo-semoviente.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoSemovienteComponent } from '../buscador-tipo-semoviente/buscador-tipo-semoviente.component';
-import { TipoSemoviente } from '@core/models/tipo-semoviente';
+import { TipoSemoviente } from '@core/models/definiciones/tipo-semoviente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';

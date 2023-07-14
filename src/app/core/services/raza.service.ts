@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { Raza } from '@core/models/raza';
+import { Raza } from '@core/models/definiciones/raza';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

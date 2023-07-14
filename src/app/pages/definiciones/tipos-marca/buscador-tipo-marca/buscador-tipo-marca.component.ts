@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoMarca } from '@core/models/tipo-marca';
+import { TipoMarca } from '@core/models/definiciones/tipo-marca';
 
 @Component({
   selector: 'app-buscador-tipo-marca',

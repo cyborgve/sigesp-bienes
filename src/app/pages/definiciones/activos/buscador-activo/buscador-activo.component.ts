@@ -1,7 +1,7 @@
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Activo } from '@core/models/activo';
+import { Activo } from '@core/models/definiciones/activo';
 
 @Component({
   selector: 'app-buscador-activo',

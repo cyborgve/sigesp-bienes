@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from './generic.service';
-import { ActivoUbicacion } from '@core/models/activo-ubicacion';
+import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 
 @Injectable({
   providedIn: 'root',

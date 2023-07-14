@@ -9,9 +9,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
 import { BuscadorCorrelativoModule } from '../buscador-correlativo/buscador-correlativo.module';
+import { AdvertenciaCorrelativoComponent } from './advertencia-correlativo.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [SingularCorrelativoComponent],
+  declarations: [SingularCorrelativoComponent, AdvertenciaCorrelativoComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -21,6 +23,7 @@ import { BuscadorCorrelativoModule } from '../buscador-correlativo/buscador-corr
     MatCardModule,
     MatInputModule,
     MatDialogModule,
+    MatButtonModule,
   ],
 })
 export class SingularCorrelativoModule {}

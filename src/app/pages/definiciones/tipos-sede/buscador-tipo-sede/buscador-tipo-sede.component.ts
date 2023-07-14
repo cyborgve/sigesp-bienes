@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoSede } from '@core/models/tipo-sede';
+import { TipoSede } from '@core/models/definiciones/tipo-sede';
 
 @Component({
   selector: 'app-buscador-tipo-sede',

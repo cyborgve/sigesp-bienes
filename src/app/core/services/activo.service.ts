@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { Activo } from '@core/models/activo';
+import { Activo } from '@core/models/definiciones/activo';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

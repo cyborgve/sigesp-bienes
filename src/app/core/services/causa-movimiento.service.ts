@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { CausaMovimiento } from '@core/models/causa-movimiento';
+import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

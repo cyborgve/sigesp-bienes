@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { EstadoConservacion } from '@core/models/estado-conservacion';
+import { EstadoConservacion } from '@core/models/definiciones/estado-conservacion';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
 import { Id } from '@core/types/id';

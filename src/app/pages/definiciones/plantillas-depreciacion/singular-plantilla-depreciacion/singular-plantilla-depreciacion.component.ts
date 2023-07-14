@@ -9,7 +9,7 @@ import { PlantillaDepreciacionService } from '@core/services/plantilla-depreciac
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorPlantillaDepreciacionComponent } from '../buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
-import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
+import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { Subscription } from 'rxjs';

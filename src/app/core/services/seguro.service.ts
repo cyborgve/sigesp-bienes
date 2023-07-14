@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { Seguro } from '@core/models/seguro';
+import { Seguro } from '@core/models/definiciones/seguro';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

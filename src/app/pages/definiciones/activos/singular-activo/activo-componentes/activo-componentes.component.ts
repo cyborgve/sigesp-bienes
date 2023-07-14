@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Subscription } from 'rxjs';
-import { Componente } from '@core/models/componente';
+import { Componente } from '@core/models/definiciones/componente';
 
 @Component({
   selector: 'app-activo-componentes',

@@ -9,7 +9,7 @@ import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorRotulacionComponent } from '../buscador-rotulacion/buscador-rotulacion.component';
-import { Rotulacion } from '@core/models/rotulacion';
+import { Rotulacion } from '@core/models/definiciones/rotulacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';

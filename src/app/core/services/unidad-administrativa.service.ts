@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
 import { END_POINTS } from '@core/constants/end-points';
-import { UnidadAdministrativa } from '@core/models/unidad-administrativa';
+import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 
 @Injectable({
   providedIn: 'root',

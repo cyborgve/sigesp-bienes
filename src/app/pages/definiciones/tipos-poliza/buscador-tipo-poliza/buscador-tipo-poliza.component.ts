@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoPoliza } from '@core/models/tipo-poliza';
+import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
 
 @Component({
   selector: 'app-buscador-tipo-poliza',

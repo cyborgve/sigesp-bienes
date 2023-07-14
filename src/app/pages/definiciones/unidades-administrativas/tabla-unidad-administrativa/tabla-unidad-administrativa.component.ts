@@ -15,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { UnidadAdministrativa } from '@core/models/unidad-administrativa';
+import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { UnidadAdministrativaService } from '@core/services/unidad-administrativa.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';

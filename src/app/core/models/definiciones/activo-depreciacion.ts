@@ -1,4 +1,4 @@
-import { Basica } from './auxiliares/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 
 export interface ActivoDepreciacion extends Basica {
   depreciable: boolean;

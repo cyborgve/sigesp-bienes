@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Raza } from '@core/models/raza';
+import { Raza } from '@core/models/definiciones/raza';
 
 @Component({
   selector: 'app-buscador-raza',

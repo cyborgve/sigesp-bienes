@@ -8,7 +8,7 @@ import { TipoMarcaService } from '@core/services/tipo-marca.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoMarcaComponent } from '../buscador-tipo-marca/buscador-tipo-marca.component';
-import { TipoMarca } from '@core/models/tipo-marca';
+import { TipoMarca } from '@core/models/definiciones/tipo-marca';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CORRELATIVOS } from '@core/constants/correlativos';

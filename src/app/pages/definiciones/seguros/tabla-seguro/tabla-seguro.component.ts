@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Seguro } from '@core/models/seguro';
+import { Seguro } from '@core/models/definiciones/seguro';
 import { SeguroService } from '@core/services/seguro.service';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Location } from '@angular/common';

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
+import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
 
 @Component({
   selector: 'app-buscador-plantilla-depreciacion',

@@ -1,5 +1,5 @@
 import { first, tap, filter, switchMap, take } from 'rxjs/operators';
-import { EstadoUso } from '@core/models/estado-uso';
+import { EstadoUso } from '@core/models/definiciones/estado-uso';
 import {
   Component,
   ViewChild,

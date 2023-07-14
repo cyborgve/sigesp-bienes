@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { PropositoSemoviente } from '@core/models/proposito-semoviente';
+import { PropositoSemoviente } from '@core/models/definiciones/proposito-semoviente';
 
 @Component({
   selector: 'app-buscador-proposito-semoviente',

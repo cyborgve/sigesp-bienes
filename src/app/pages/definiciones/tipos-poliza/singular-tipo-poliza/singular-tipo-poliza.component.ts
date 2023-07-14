@@ -9,7 +9,7 @@ import { TipoPolizaService } from '@core/services/tipo-poliza.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoPolizaComponent } from '../buscador-tipo-poliza/buscador-tipo-poliza.component';
-import { TipoPoliza } from '@core/models/tipo-poliza';
+import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';

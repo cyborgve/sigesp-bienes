@@ -1,5 +1,5 @@
 import { Id } from '@core/types/id';
-import { Basica } from './auxiliares/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 
 export interface ActivoUbicacion extends Basica {
   sedeId: Id;

@@ -6,3 +6,15 @@
 .correlativo {
   @apply col-span-2;
 }
+
+.advertencia-titulo {
+  @apply w-full text-center text-red-500 font-semibold text-3xl mb-4;
+}
+
+mat-dialog-content {
+  @apply flex w-full text-justify font-semibold;
+}
+
+.botones-dialog {
+  @apply flex justify-end mt-4 gap-x-2;
+}

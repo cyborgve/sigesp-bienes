@@ -14,7 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
+import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { PlantillaDepreciacionService } from '@core/services/plantilla-depreciacion.service';
 import { Id } from '@core/types/id';

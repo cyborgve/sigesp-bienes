@@ -1,4 +1,4 @@
-import { PlantillaDepreciacion } from '@core/models/plantilla-depreciacion';
+import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
 import { tap, take } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';

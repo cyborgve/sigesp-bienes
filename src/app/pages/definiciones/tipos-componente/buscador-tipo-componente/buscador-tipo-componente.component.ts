@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoComponente } from '@core/models/tipo-componente';
+import { TipoComponente } from '@core/models/definiciones/tipo-componente';
 
 @Component({
   selector: 'app-buscador-tipo-componente',

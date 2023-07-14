@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { BuscadorCategoriaUnidadComponent } from '../buscador-categoria-unidad/buscador-categoria-unidad.component';
-import { CategoriaUnidadAdministrativa } from '@core/models/categoria-unidad-administrativa';
+import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
 @Component({

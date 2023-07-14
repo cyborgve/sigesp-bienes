@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
 import { END_POINTS } from '@core/constants/end-points';
-import { EstadoConservacion } from '@core/models/estado-conservacion';
+import { EstadoConservacion } from '@core/models/definiciones/estado-conservacion';
 
 @Injectable({
   providedIn: 'root',

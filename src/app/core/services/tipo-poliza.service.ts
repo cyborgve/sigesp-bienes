@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { TipoPoliza } from '@core/models/tipo-poliza';
+import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

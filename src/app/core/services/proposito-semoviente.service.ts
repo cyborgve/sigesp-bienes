@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { PropositoSemoviente } from '@core/models/proposito-semoviente';
+import { PropositoSemoviente } from '@core/models/definiciones/proposito-semoviente';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

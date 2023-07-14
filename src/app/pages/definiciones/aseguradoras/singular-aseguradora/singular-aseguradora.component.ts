@@ -1,4 +1,4 @@
-import { Aseguradora } from '@core/models/aseguradora';
+import { Aseguradora } from '@core/models/definiciones/aseguradora';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';

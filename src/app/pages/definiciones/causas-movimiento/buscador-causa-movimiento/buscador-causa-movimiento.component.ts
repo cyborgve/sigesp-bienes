@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { CausaMovimiento } from '@core/models/causa-movimiento';
+import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 
 @Component({
   selector: 'app-buscador-causa-movimiento',

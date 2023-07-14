@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { Correlativo } from '@core/models/correlativo';
+import { Correlativo } from '@core/models/definiciones/correlativo';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

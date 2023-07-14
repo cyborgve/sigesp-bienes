@@ -14,7 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { TipoAnimal } from '@core/models/tipo-animal';
+import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { TipoAnimalService } from '@core/services/tipo-animal.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';

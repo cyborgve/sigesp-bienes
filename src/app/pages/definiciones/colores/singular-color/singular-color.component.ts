@@ -8,7 +8,7 @@ import { ColorService } from '@core/services/color.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorColorComponent } from '../buscador-color/buscador-color.component';
-import { Color } from '@core/models/color';
+import { Color } from '@core/models/definiciones/color';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';

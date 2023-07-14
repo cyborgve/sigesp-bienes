@@ -1,4 +1,4 @@
-import { Basica } from './auxiliares/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 
 export interface Configuracion extends Basica {
   normativaActivos: string;

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoCobertura } from '@core/models/tipo-cobertura';
+import { TipoCobertura } from '@core/models/definiciones/tipo-cobertura';
 
 @Component({
   selector: 'app-buscador-tipo-cobertura',

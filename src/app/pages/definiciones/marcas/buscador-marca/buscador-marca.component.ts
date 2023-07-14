@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Marca } from '@core/models/marca';
+import { Marca } from '@core/models/definiciones/marca';
 
 @Component({
   selector: 'app-buscador-marca',

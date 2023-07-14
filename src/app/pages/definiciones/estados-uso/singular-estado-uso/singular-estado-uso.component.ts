@@ -9,7 +9,7 @@ import { EstadoUsoService } from '@core/services/estado-uso.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorEstadoUsoComponent } from '../buscador-estado-uso/buscador-estado-uso.component';
-import { EstadoUso } from '@core/models/estado-uso';
+import { EstadoUso } from '@core/models/definiciones/estado-uso';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';

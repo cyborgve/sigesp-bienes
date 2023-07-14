@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { CategoriaUnidadAdministrativa } from '@core/models/categoria-unidad-administrativa';
+import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
 
 @Component({
   selector: 'app-buscador-categoria-unidad',

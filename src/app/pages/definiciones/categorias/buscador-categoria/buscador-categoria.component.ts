@@ -1,4 +1,4 @@
-import { Categoria } from '@core/models/categoria';
+import { Categoria } from '@core/models/definiciones/categoria';
 import { Component } from '@angular/core';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { MatDialogRef } from '@angular/material/dialog';

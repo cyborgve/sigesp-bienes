@@ -12,7 +12,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { Subscription } from 'rxjs';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorTipoComponenteComponent } from '../buscador-tipo-componente/buscador-tipo-componente.component';
-import { TipoComponente } from '@core/models/tipo-componente';
+import { TipoComponente } from '@core/models/definiciones/tipo-componente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Correlativo } from '@core/models/correlativo';
+import { Correlativo } from '@core/models/definiciones/correlativo';
 
 @Component({
   selector: 'app-buscador-correlativo',

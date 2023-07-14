@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Rotulacion } from '@core/models/rotulacion';
+import { Rotulacion } from '@core/models/definiciones/rotulacion';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { RotulacionService } from '@core/services/rotulacion.service';
 import { Id } from '@core/types/id';

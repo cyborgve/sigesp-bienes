@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TipoSemoviente } from '@core/models/tipo-semoviente';
+import { TipoSemoviente } from '@core/models/definiciones/tipo-semoviente';
 
 @Component({
   selector: 'app-buscador-tipo-semoviente',

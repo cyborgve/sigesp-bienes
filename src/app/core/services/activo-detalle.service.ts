@@ -2,7 +2,7 @@ import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from './generic.service';
-import { ActivoDetalle } from '@core/models/activo-detalle';
+import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { Observable } from 'rxjs';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';

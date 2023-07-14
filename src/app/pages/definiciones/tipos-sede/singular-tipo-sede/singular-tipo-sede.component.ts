@@ -8,7 +8,7 @@ import { TipoSedeService } from '@core/services/tipo-sede.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoSedeComponent } from '../buscador-tipo-sede/buscador-tipo-sede.component';
-import { TipoSede } from '@core/models/tipo-sede';
+import { TipoSede } from '@core/models/definiciones/tipo-sede';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';

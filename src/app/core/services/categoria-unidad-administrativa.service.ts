@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
-import { CategoriaUnidadAdministrativa } from '@core/models/categoria-unidad-administrativa';
+import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

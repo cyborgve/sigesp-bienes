@@ -13,7 +13,7 @@ import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
 import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
-import { EstadoConservacion } from '@core/models/estado-conservacion';
+import { EstadoConservacion } from '@core/models/definiciones/estado-conservacion';
 
 @Component({
   selector: 'app-singular-estado-conservacion',

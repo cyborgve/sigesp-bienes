@@ -12,10 +12,10 @@ import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Subscription } from 'rxjs';
 import { BuscadorUnidadAdministrativaComponent } from '../buscador-unidad-administrativa/buscador-unidad-administrativa.component';
-import { UnidadAdministrativa } from '@core/models/unidad-administrativa';
+import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorCategoriaUnidadComponent } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad/buscador-categoria-unidad.component';
-import { CategoriaUnidadAdministrativa } from '@core/models/categoria-unidad-administrativa';
+import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
 
 @Component({
   selector: 'app-singular-unidad-administrativa',

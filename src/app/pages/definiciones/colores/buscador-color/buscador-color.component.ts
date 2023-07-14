@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Color } from '@core/models/color';
+import { Color } from '@core/models/definiciones/color';
 
 @Component({
   selector: 'app-buscador-color',
