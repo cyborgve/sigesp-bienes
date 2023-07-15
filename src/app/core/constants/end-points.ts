@@ -55,5 +55,5 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'tipoUso', valor: 'dao/sbn/tipo-uso-dao.php' },
 
   /** procesos */
-  { clave: 'actaPrestamo', valor: 'dao/sbn/procesos/acta-prestamo-dao.php' },
+  { clave: 'actaPrestamo', valor: 'dao/sbn/acta-prestamo-dao.php' },
 ];

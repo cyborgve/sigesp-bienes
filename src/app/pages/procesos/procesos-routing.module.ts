@@ -8,6 +8,20 @@ const routes: Routes = [
     component: ProcesosComponent,
   },
   {
+    path: 'actas-prestamo',
+    loadChildren: () =>
+      import('./actas-prestamo/actas-prestamo.module').then(
+        m => m.ActasPrestamoModule
+      ),
+  },
+  {
+    path: 'autorizaciones-salida',
+    loadChildren: () =>
+      import('./autorizaciones-salida/autorizaciones-salida.module').then(
+        m => m.AutorizacionesSalidaModule
+      ),
+  },
+  {
     path: 'incorporaciones',
     loadChildren: () =>
       import('./incorporaciones/incorporaciones.module').then(
@@ -36,48 +50,35 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'cambio-responsable',
+    path: 'cambios-responsable',
     loadChildren: () =>
-      import('./cambio-responsable/cambio-responsable.module').then(
-        m => m.CambioResponsableModule
+      import('./cambios-responsable/cambios-responsable.module').then(
+        m => m.CambiosResponsableModule
       ),
   },
   {
-    path: 'entrega-unidad',
+    path: 'entregas-unidad',
     loadChildren: () =>
-      import('./entrega-unidad/entrega-unidad.module').then(
-        m => m.EntregaUnidadModule
+      import('./entregas-unidad/entregas-unidad.module').then(
+        m => m.EntregasUnidadModule
       ),
   },
   {
-    path: 'acta-prestamo',
+    path: 'retornos-activo',
     loadChildren: () =>
-      import('./acta-prestamo/acta-prestamo.module').then(
-        m => m.ActaPrestamoModule
+      import('./retornos-activo/retornos-activo.module').then(
+        m => m.RetornosActivoModule
       ),
   },
   {
-    path: 'autorizacion-salida',
+    path: 'depreciaciones-activo',
     loadChildren: () =>
-      import('./autorizacion-salida/autorizacion-salida.module').then(
-        m => m.AutorizacionSalidaModule
-      ),
-  },
-  {
-    path: 'retorno-activo',
-    loadChildren: () =>
-      import('./retorno-activo/retorno-activo.module').then(
-        m => m.RetornoActivoModule
-      ),
-  },
-  {
-    path: 'depreciacion-activo',
-    loadChildren: () =>
-      import('./depreciacion-activo/depreciacion-activo.module').then(
-        m => m.DepreciacionActivoModule
+      import('./depreciaciones-activo/depreciaciones-activo.module').then(
+        m => m.DepreciacionesActivoModule
       ),
   },
 ];
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

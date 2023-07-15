@@ -47,4 +47,5 @@ export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
     id: 28,
     tabla: 'sbn_unidades_administrativas',
   },
+  { nombre: 'acta de préstamo', id: 29, tabla: 'sbn_actas_prestamo' },
 ];

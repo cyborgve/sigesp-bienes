@@ -169,4 +169,13 @@ export const COLUMNAS_VISIBLES = {
   CENTROS_COSTO: ['codigo', 'denominacion', 'creado', 'modificado'],
   PROVEEDORES: ['codigo', 'denominacion', 'creado', 'modificado'],
   PARROQUIAS: ['codigo', 'denominacion', 'municipioId', 'creado', 'modificado'],
+
+  /** PROCESOS */
+  ACTAS_PRESTAMO: [
+    'comprobante',
+    'unidadAdministrativaCedente',
+    'unidadAdministrativaReceptora',
+    'creado',
+    'modificado',
+  ],
 };

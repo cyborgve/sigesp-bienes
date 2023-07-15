@@ -1,0 +1,75 @@
+<app-encabezado-definiciones
+  [titulo]="titulo"
+  [ocultarNuevo]="ocultarNuevo"
+  (nuevo)="nuevo()"
+  (filtrarDatos)="filtrar($event)"
+  (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
+<mat-card class="card-table">
+  <!-- tabla -->
+  <table mat-table [dataSource]="dataSource" class="table" matSort>
+    <!-- comprobante -->
+    <ng-container matColumnDef="comprobante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
+      <td mat-cell *matCellDef="let row">{{ row.comprobante }}</td>
+    </ng-container>
+    <!-- unidadAdministrativaCedente -->
+    <ng-container matColumnDef="unidadAdministrativaCedente">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Unidad administrativa cedente
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.unidadAdministrativaCedente }}
+      </td>
+    </ng-container>
+    <!-- unidadAdministrativaReceptora -->
+    <ng-container matColumnDef="unidadAdministrativaReceptora">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Unidad administrativa receptora
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.unidadAdministrativaReceptora }}
+      </td>
+    </ng-container>
+    <!-- creado -->
+    <ng-container matColumnDef="creado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.creado | date : 'medium' }}
+      </td>
+    </ng-container>
+    <!-- modificado -->
+    <ng-container matColumnDef="modificado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.modificado | date : 'medium' }}
+      </td>
+    </ng-container>
+
+    <!-- acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let row">
+        <app-botones-acciones
+          (editar)="editar(row)"
+          (eliminar)="eliminar(row)"></app-botones-acciones>
+      </td>
+    </ng-container>
+
+    <!-- ejecuta el armado de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: columnasVisibles"
+      class="row-hover"
+      (dblclick)="dobleClick.emit(row)"></tr>
+
+    <!-- mostrar cuando no hay datos que coincidan -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No hay datos para mostrar que concidan con la busqueda "{{
+          dataSource.filter
+        }}"
+      </td>
+    </tr>
+  </table>
+</mat-card>
