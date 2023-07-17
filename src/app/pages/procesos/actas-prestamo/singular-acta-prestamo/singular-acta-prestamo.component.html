@@ -2,7 +2,7 @@
   <section class="contenedor-singular superior">
     <app-encabezado-procesos
       [titulo]="titulo"
-      [numeroComprobante]="formulario.value.comprobante"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
       [creado]="formulario.value.creado"
       [modificado]="formulario.value.modificado"></app-encabezado-procesos>
     <mat-card>

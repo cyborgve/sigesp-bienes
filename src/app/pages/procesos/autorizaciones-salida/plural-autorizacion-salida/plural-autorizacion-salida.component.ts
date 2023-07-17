@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-autorizacion-salida.component.html',
   styleUrls: ['./plural-autorizacion-salida.component.scss'],
 })
-export class PluralAutorizacionSalidaComponent {}
+export class PluralAutorizacionSalidaComponent {
+  titulo = 'autorizaciones de salida';
+}

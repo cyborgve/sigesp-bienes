@@ -56,4 +56,13 @@ export const END_POINTS: { clave: string; valor: string }[] = [
 
   /** procesos */
   { clave: 'actaPrestamo', valor: 'dao/sbn/acta-prestamo-dao.php' },
+  { clave: 'autorizacionSalida', valor: 'dao/sbn/autorizacion-salida-dao.php' },
+  { clave: 'cambioResponsable', valor: 'dao/sbn/cambio-responsable-dao.php' },
+  { clave: 'depreciacion', valor: 'dao/sbn/depreciacion-dao.php' },
+  { clave: 'desincorporacion', valor: 'dao/sbn/desincorporacion-dao.php' },
+  { clave: 'entregaUnidad', valor: 'dao/sbn/entrega-unidad-dao.php' },
+  { clave: 'incorporacion', valor: 'dao/sbn/incorporacion-dao.php' },
+  { clave: 'modificacion', valor: 'dao/sbn/modificacion-dao.php' },
+  { clave: 'reasignacion', valor: 'dao/sbn/reasignacion-dao.php' },
+  { clave: 'retorno', valor: 'dao/sbn/retorno-dao.php' },
 ];

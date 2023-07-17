@@ -250,14 +250,14 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/real_estate_agent.svg',
       },
       {
-        label: 'Retornos de activo',
-        routerLink: 'retornos-activo',
+        label: 'Retornos',
+        routerLink: 'retornos',
         icon: 'assignment_returned',
         image: './assets/images/svg/assignment_returned.svg',
       },
       {
-        label: 'Depreciaciones de activo',
-        routerLink: 'depreciaciones-activo',
+        label: 'Depreciaciones',
+        routerLink: 'depreciaciones',
         icon: 'network_intelligence_update',
         image: './assets/images/svg/network_intelligence_update.svg',
       },

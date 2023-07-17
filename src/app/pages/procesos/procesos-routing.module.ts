@@ -64,18 +64,16 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'retornos-activo',
+    path: 'depreciaciones',
     loadChildren: () =>
-      import('./retornos-activo/retornos-activo.module').then(
-        m => m.RetornosActivoModule
+      import('./depreciaciones/depreciaciones.module').then(
+        m => m.DepreciacionesModule
       ),
   },
   {
-    path: 'depreciaciones-activo',
+    path: 'retornos',
     loadChildren: () =>
-      import('./depreciaciones-activo/depreciaciones-activo.module').then(
-        m => m.DepreciacionesActivoModule
-      ),
+      import('./retornos/retornos.module').then(m => m.RetornosModule),
   },
 ];
 

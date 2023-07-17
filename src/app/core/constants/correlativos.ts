@@ -47,5 +47,29 @@ export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
     id: 28,
     tabla: 'sbn_unidades_administrativas',
   },
+  /*****************************/
+  /** P  R  O  C  E  S  O  S  **/
+  /*****************************/
   { nombre: 'acta de préstamo', id: 29, tabla: 'sbn_actas_prestamo' },
+  {
+    nombre: 'autorización de salida',
+    id: 30,
+    tabla: 'sbn_autorizaciones_salida',
+  },
+  {
+    nombre: 'cambio de responsable',
+    id: 31,
+    tabla: 'sbn_cambios_responsable',
+  },
+  { nombre: 'depreciacion', id: 32, tabla: 'sbn_depreciaciones' },
+  {
+    nombre: 'desincorporacion',
+    id: 33,
+    tabla: 'sbn_desincorporaciones',
+  },
+  { nombre: 'entrega de unidad', id: 34, tabla: 'sbn_entregas_unidad' },
+  { nombre: 'incorporacion', id: 35, tabla: 'sbn_incorporaciones' },
+  { nombre: 'modificacion', id: 36, tabla: 'sbn_modificaciones' },
+  { nombre: 'reasignacion', id: 37, tabla: 'sbn_reasignaciones' },
+  { nombre: 'retorno', id: 38, tabla: 'sbn_retornos' },
 ];

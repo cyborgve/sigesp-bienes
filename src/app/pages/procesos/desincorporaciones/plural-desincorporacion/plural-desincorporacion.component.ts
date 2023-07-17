@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-desincorporacion.component.html',
   styleUrls: ['./plural-desincorporacion.component.scss'],
 })
-export class PluralDesincorporacionComponent {}
+export class PluralDesincorporacionComponent {
+  titulo = 'desincorporaciones';
+}

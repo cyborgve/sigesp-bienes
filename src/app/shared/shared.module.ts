@@ -54,7 +54,6 @@ import { BuscadorCentroCostoComponent } from './components/buscador-centro-costo
 import { DenominacionMarcaModeloPipe } from './pipes/denominacion-marca-modelo.pipe';
 import { DenominacionTipoComponentePipe } from './pipes/denominacion-tipo-componente.pipe';
 import { DenominacionActivoPipe } from './pipes/denominacion-activo.pipe';
-import { BuscadorProveedorComponent } from './components/buscador-proveedor/buscador-proveedor.component';
 import { DenominacionProveedorPipe } from './pipes/denominacion-proveedor.pipe';
 import { DenominacionCategoriaUnidadAdministrativaPipe } from './pipes/denominacion-categoria-unidad-administrativa.pipe';
 import { BuscadorParroquiaComponent } from './components/buscador-parroquia/buscador-parroquia.component';
@@ -82,7 +81,6 @@ const sharedComponents = [
   BuscadorMunicipioComponent,
   BuscadorCiudadComponent,
   BuscadorCentroCostoComponent,
-  BuscadorProveedorComponent,
   BuscadorParroquiaComponent,
   BuscadorResponsableComponent,
   DialogoEliminarComponent,

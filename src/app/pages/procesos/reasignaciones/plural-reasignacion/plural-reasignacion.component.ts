@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-reasignacion.component.html',
   styleUrls: ['./plural-reasignacion.component.scss'],
 })
-export class PluralReasignacionComponent {}
+export class PluralReasignacionComponent {
+  titulo = 'reasignaciones';
+}

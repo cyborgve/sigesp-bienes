@@ -14,7 +14,6 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
-import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedor/buscador-proveedor.component';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 
 @Component({
@@ -205,18 +204,6 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   }
 
   buscarProveedor() {
-    let dialog = this._dialog.open(BuscadorProveedorComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        take(1),
-        tap((proveedor: Proveedor) =>
-          this.formulario.patchValue({ proveedorId: proveedor.id })
-        )
-      )
-      .subscribe();
+    alert('TODO');
   }
 }

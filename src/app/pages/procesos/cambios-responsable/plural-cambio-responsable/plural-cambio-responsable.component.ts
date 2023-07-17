@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './plural-cambio-responsable.component.html',
   styleUrls: ['./plural-cambio-responsable.component.scss'],
 })
-export class PluralCambioResponsableComponent {}
+export class PluralCambioResponsableComponent {
+  titulo = 'cambios de responsable';
+}
