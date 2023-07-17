@@ -1,0 +1,18 @@
+.activo {
+  @apply col-span-3;
+}
+
+.tipoResponsable,
+.responsableActual,
+.nuevoResponsable,
+.identificador {
+  @apply col-span-4;
+}
+
+.serial {
+  @apply col-span-5;
+}
+
+.observaciones {
+  @apply col-start-1 col-span-full;
+}

@@ -1,0 +1,19 @@
+.comprobante,
+.unidadAdministrativaCedente,
+.empresaPersonaEntrega,
+.representanteEmpresa {
+  @apply col-span-4;
+}
+
+.explicacion,
+.observaciones {
+  @apply col-start-1 col-span-full;
+}
+
+.superior {
+  @apply pb-0;
+}
+
+.inferior {
+  @apply pt-1;
+}

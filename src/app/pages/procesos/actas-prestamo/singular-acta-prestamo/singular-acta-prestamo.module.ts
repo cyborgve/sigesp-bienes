@@ -28,7 +28,6 @@ import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activ
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatTableModule,
   ],
 })
 export class SingularActaPrestamoModule {}

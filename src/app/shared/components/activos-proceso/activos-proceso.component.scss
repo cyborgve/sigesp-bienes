@@ -1,0 +1,11 @@
+.titulo {
+  @apply text-lg font-semibold text-primary ml-12;
+}
+
+.encabezado {
+  @apply flex items-center;
+}
+
+.agregarActivo {
+  @apply h-14 w-64;
+}

@@ -91,7 +91,7 @@ export class TablaDepreciacionComponent
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.comprobante,
-        denominacion: entidad.causaMovimiento,
+        denominacion: 'Depreciación',
       },
     });
     dialog

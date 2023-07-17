@@ -9,18 +9,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '@shared/shared.module';
+import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
 
 @NgModule({
   declarations: [SingularAutorizacionSalidaComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SingularAutorizacionSalidaRoutingModule,
     BuscadorAutorizacionSalidaModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    BuscadorActivoModule,
   ],
 })
 export class SingularAutorizacionSalidaModule {}

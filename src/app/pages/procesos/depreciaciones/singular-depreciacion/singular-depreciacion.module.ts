@@ -9,11 +9,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SingularDepreciacionComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SingularDepreciacionRoutingModule,
     BuscadorDepreciacionModule,
     MatCardModule,

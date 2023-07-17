@@ -1,1 +1,113 @@
-<p>singular-cambio-responsable works!</p>
+<form [formGroup]="formulario">
+  <section class="contenedor-singular superior">
+    <app-encabezado-procesos
+      [titulo]="titulo"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-procesos>
+    <mat-card>
+      <article class="contenido">
+        <!-- activo -->
+        <mat-form-field appearance="fill" class="activo">
+          <mat-label>Activo</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="activo"
+            readonly="true"
+            [value]="formulario.value.activo" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarActivo()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- identificador -->
+        <mat-form-field appearance="fill" class="identificador">
+          <mat-label>Identificador</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="identificador"
+            readonly="true" />
+        </mat-form-field>
+        <!-- serial -->
+        <mat-form-field appearance="fill" class="serial">
+          <mat-label>Serial</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="serial"
+            readonly="true" />
+        </mat-form-field>
+        <!-- tipoResponsable -->
+        <mat-form-field appearance="fill" class="tipoResponsable">
+          <mat-label>Tipo de responsable</mat-label>
+          <mat-select formControlName="tipoResponsable">
+            <mat-option value="">Seleccionar</mat-option>
+            <mat-option *ngFor="let tipo of tiposResponsable" [value]="tipo">{{
+              tipo | titlecase
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- responsableActual -->
+        <mat-form-field appearance="fill" class="responsableActual">
+          <mat-label>Responsable actual</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="responsableActual"
+            readonly="true"
+            [value]="formulario.value.responsableActual" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarResponsableActual()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- nuevoResponsable -->
+        <mat-form-field appearance="fill" class="nuevoResponsable">
+          <mat-label>Responsable actual</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="nuevoResponsable"
+            readonly="true"
+            [value]="formulario.value.nuevoResponsable" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarNuevoResponsable()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </article>
+    </mat-card>
+  </section>
+</form>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

@@ -35,10 +35,10 @@ export class TablaCambioResponsableComponent
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CAMBIOS_RESPONSABLE;
   @Output() dobleClick = new EventEmitter();
 
-  private urlPlural = '/procesos/autorizaciones-salida';
-  private urlSingular = this.urlPlural + '/autorizacion-salida';
+  private urlPlural = '/procesos/cambios-responsable';
+  private urlSingular = this.urlPlural + '/cambio-responsable';
   private urlSingularId = (id: Id) =>
-    this.urlPlural + '/autorizacion-salida/' + id;
+    this.urlPlural + '/cambio-responsable/' + id;
   dataSource: MatTableDataSource<CambioResponsable> = new MatTableDataSource();
 
   constructor(

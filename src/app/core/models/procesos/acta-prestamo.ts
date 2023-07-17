@@ -9,6 +9,6 @@ export interface ActaPrestamo extends Basica {
   unidadAdministrativaReceptora: Id;
   unidadReceptoraResponsable: Id;
   testigo: Id;
-  notas: string;
+  observaciones: string;
   activos: ActaPrestamoActivo[];
 }

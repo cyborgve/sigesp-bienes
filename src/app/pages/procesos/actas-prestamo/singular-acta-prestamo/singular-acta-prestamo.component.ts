@@ -81,7 +81,6 @@ export class SingularActaPrestamoComponent implements Entidad {
                 entidad.unidadAdministrativaReceptora,
               unidadReceptoraResponsable: entidad.unidadReceptoraResponsable,
               testigo: entidad.testigo,
-              notas: entidad.notas,
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
@@ -122,7 +121,6 @@ export class SingularActaPrestamoComponent implements Entidad {
               entidad.unidadAdministrativaReceptora,
             unidadReceptoraResponsable: entidad.unidadReceptoraResponsable,
             testigo: entidad.testigo,
-            notas: entidad.notas,
           });
         }),
         take(1)

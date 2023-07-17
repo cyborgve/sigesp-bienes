@@ -66,6 +66,7 @@ import { BuscadorResponsableComponent } from './components/buscador-responsable/
 import { DenominacionResponsablePipe } from './pipes/denominacion-responsable.pipe';
 import { EncabezadoProcesosComponent } from './components/encabezado-procesos/encabezado-procesos.component';
 import { CorregirCodigoPipe } from './pipes/corregir-codigo.pipe';
+import { ActivosProcesoComponent } from './components/activos-proceso/activos-proceso.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -138,8 +139,8 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [...sharedComponents, ...sharedPipes, ActivosProcesoComponent],
   imports: [CommonModule, FormsModule, MaterialModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [...sharedComponents, ...sharedPipes, ActivosProcesoComponent],
 })
 export class SharedModule {}

@@ -9,18 +9,26 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SharedModule } from '@shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [SingularCambioResponsableComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SingularCambioResponsableRoutingModule,
     BuscadorCambioResponsableModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
+    MatSelectModule,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    BuscadorActivoModule,
   ],
 })
 export class SingularCambioResponsableModule {}
