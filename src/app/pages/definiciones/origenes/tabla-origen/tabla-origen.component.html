@@ -10,7 +10,7 @@
     <!-- codigo -->
     <ng-container matColumnDef="codigo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
-      <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.codigo | corregirCodigo }}</td>
     </ng-container>
     <!-- modo adquisicion -->
     <ng-container matColumnDef="modoAdquisicion">

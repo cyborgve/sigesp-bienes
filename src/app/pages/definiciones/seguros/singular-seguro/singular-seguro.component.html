@@ -15,7 +15,8 @@
             type="text"
             matInput
             formControlName="codigo"
-            readonly="true" />
+            readonly="true"
+            [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
