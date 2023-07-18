@@ -69,6 +69,7 @@ import { CorregirCodigoPipe } from './pipes/corregir-codigo.pipe';
 import { ActivosProcesoComponent } from './components/activos-proceso/activos-proceso.component';
 import { DenominacionCausaMovimientoPipe } from './pipes/denominacion-causa-movimiento.pipe';
 import { CuentasContablesProcesoComponent } from './components/cuentas-contables-proceso/cuentas-contables-proceso.component';
+import { ComponentesProcesoComponent } from './components/componentes-proceso/componentes-proceso.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -147,6 +148,7 @@ const sharedPipes = [
     ActivosProcesoComponent,
     DenominacionCausaMovimientoPipe,
     CuentasContablesProcesoComponent,
+    ComponentesProcesoComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -155,6 +157,7 @@ const sharedPipes = [
     ActivosProcesoComponent,
     DenominacionCausaMovimientoPipe,
     CuentasContablesProcesoComponent,
+    ComponentesProcesoComponent,
   ],
 })
 export class SharedModule {}

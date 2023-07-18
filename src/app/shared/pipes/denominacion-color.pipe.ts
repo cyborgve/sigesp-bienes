@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ColorService } from '@core/services/color.service';
 
@@ -8,9 +8,11 @@ import { ColorService } from '@core/services/color.service';
 })
 export class DenominacionColorPipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    return this._color
-      .buscarPorId(value)
-      .pipe(map(color => (color ? color['denominacion'] : String(value))));
+    return value
+      ? this._color
+          .buscarPorId(value)
+          .pipe(map(color => (color ? color['denominacion'] : String(value))))
+      : of('no aplica');
   }
   constructor(private _color: ColorService) {}
 }

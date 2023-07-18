@@ -10,8 +10,6 @@ import { CorrelativoService } from '@core/services/correlativo.service';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
-import { ActivoCompleto } from '@core/models/auxiliares/activo-comleto';
 import { BuscadorDesincorporacionComponent } from '../buscador-desincorporacion/buscador-desincorporacion.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { Desincorporacion } from '@core/models/procesos/desincorporacion';

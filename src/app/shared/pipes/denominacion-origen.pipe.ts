@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { OrigenService } from '@core/services/origen.service';
 
@@ -8,9 +8,11 @@ import { OrigenService } from '@core/services/origen.service';
 })
 export class DenominacionOrigenPipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    return this._origen
-      .buscarPorId(value)
-      .pipe(map(origen => (origen ? origen.denominacion : String(value))));
+    return value
+      ? this._origen
+          .buscarPorId(value)
+          .pipe(map(origen => (origen ? origen.denominacion : String(value))))
+      : of('no aplica');
   }
 
   constructor(private _origen: OrigenService) {}

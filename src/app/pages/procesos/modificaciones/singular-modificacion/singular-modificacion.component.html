@@ -1,1 +1,96 @@
-<p>singular-modificacion works!</p>
+<form [formGroup]="formulario">
+  <section class="contenedor-singular superior">
+    <app-encabezado-procesos
+      [titulo]="titulo"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-procesos>
+  </section>
+  <section class="contenedor-singular superior inferior">
+    <mat-card>
+      <article class="contenido">
+        <!-- causaMovimiento -->
+        <mat-form-field appearance="fill" class="causaMovimiento">
+          <mat-label>Causa de movimiento</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="causaMovimiento"
+            readonly="true"
+            [value]="
+              formulario.value.causaMovimiento
+                | denominacionCausaMovimiento
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCausaMovimiento()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- activo -->
+        <mat-form-field appearance="fill" class="activo">
+          <mat-label>Activo</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="activo"
+            readonly="true"
+            [value]="formulario.value.activo | denominacionActivo | async" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarActivo()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- identificador -->
+        <mat-form-field appearance="fill" class="identificador">
+          <mat-label>Identificador</mat-label>
+          <input type="text" matInput formControlName="identificador" />
+        </mat-form-field>
+        <!-- serial -->
+        <mat-form-field appearance="fill" class="serial">
+          <mat-label>Identificador</mat-label>
+          <input type="text" matInput formControlName="serial" />
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </article>
+    </mat-card>
+  </section>
+</form>
+<section class="contenedor-singular superior inferior">
+  <app-componentes-proceso
+    (agregarComponente)="agregarComponente()"
+    (removerComponente)="removerComponente($event)"
+    [dataSource]="dataComponentes"></app-componentes-proceso>
+</section>
+<section class="contenedor-singular inferior">
+  <app-cuentas-contables-proceso
+    (agregarCuentaContable)="agregarCuentaContable()"
+    (removerCuentaContable)="removerCuentaContable($event)"
+    [dataSource]="dataCuentasContables"></app-cuentas-contables-proceso>
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

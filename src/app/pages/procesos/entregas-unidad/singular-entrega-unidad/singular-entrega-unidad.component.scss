@@ -1,0 +1,17 @@
+.superior {
+  @apply pb-0;
+}
+
+.inferior {
+  @apply pt-0 mt-1;
+}
+
+.nuevoResponsable,
+.responsableActual {
+  @apply col-span-6;
+}
+
+.sede,
+.observaciones {
+  @apply col-start-1 col-span-full;
+}

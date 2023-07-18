@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TipoSemovienteService } from '@core/services/tipo-semoviente.service';
 
@@ -8,9 +8,11 @@ import { TipoSemovienteService } from '@core/services/tipo-semoviente.service';
 })
 export class DenominacionTipoSemovientePipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    return this._tipoSemoviente
-      .buscarPorId(value)
-      .pipe(map(tipo => (tipo ? tipo['denominacion'] : String(value))));
+    return value
+      ? this._tipoSemoviente
+          .buscarPorId(value)
+          .pipe(map(tipo => (tipo ? tipo['denominacion'] : String(value))))
+      : of('no aplica');
   }
 
   constructor(private _tipoSemoviente: TipoSemovienteService) {}

@@ -1,1 +1,95 @@
-<p>singular-entrega-unidad works!</p>
+<form [formGroup]="formulario">
+  <section class="contenedor-singular superior">
+    <app-encabezado-procesos
+      [titulo]="titulo"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-procesos>
+  </section>
+  <section class="contenedor-singular inferior">
+    <mat-card>
+      <article class="contenido">
+        <!-- sede -->
+        <mat-form-field appearance="fill" class="sede">
+          <mat-label>Sede</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="sede"
+            readonly="true"
+            [value]="formulario.value.sede | denominacionSede | async" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarSede()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- responsableActual -->
+        <mat-form-field appearance="fill" class="responsableActual">
+          <mat-label>Responsable actual</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="responsableActual"
+            readonly="true"
+            [value]="
+              formulario.value.responsableActual
+                | denominacionResponsable
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarResponsableActual()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- nuevoResponsable -->
+        <mat-form-field appearance="fill" class="nuevoResponsable">
+          <mat-label>Nuevo responsable</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="nuevoResponsable"
+            readonly="true"
+            [value]="
+              formulario.value.nuevoResponsable
+                | denominacionResponsable
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarNuevoResponsable()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </article>
+    </mat-card>
+  </section>
+</form>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

@@ -35,7 +35,7 @@ export class TablaEntregaUnidadComponent
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ENTREGA_UNIDAD;
   @Output() dobleClick = new EventEmitter();
 
-  private urlPlural = '/procesos/entragas-unidad';
+  private urlPlural = '/procesos/entregas-unidad';
   private urlSingular = this.urlPlural + '/entrega-unidad';
   private urlSingularId = (id: Id) => this.urlPlural + '/entrega-unidad/' + id;
   dataSource: MatTableDataSource<EntregaUnidad> = new MatTableDataSource();

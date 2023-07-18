@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { PaisService } from '@core/services/otros-modulos/pais.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Pipe({
@@ -10,10 +10,12 @@ export class DenominacionPaisPipe implements PipeTransform {
   transform(value: string): Observable<string> {
     if (value) {
       {
-        return this._pais.buscarTodos().pipe(
-          map(paises => paises.find(pais => pais.id === value)),
-          map(pais => (pais ? pais['denominacion'] : String(value)))
-        );
+        return value
+          ? this._pais.buscarTodos().pipe(
+              map(paises => paises.find(pais => pais.id === value)),
+              map(pais => (pais ? pais['denominacion'] : String(value)))
+            )
+          : of('no aplica');
       }
     }
   }

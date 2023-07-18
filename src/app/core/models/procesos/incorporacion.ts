@@ -10,5 +10,10 @@ export interface Incorporacion extends Basica {
   sede: Id;
   fechaEntrega: Date;
   observaciones: string;
-  activos: Id[];
+  activos: IncorporacionActivo[];
+}
+
+export interface IncorporacionActivo extends Basica {
+  incorporacion: Id;
+  activo: Id;
 }

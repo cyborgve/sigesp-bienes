@@ -1,33 +1,35 @@
 <mat-card>
   <article class="encabezado">
-    <p class="titulo">Activos</p>
+    <p class="titulo">Componentes</p>
     <span class="spacer"></span>
     <button
       type="button"
       mat-stroked-button
       color="primary"
-      class="agregarActivo"
-      (click)="agregarActivo.emit()">
+      class="agregarComponente"
+      (click)="agregarComponente.emit()">
       <mat-icon>add</mat-icon>
-      Agregar activo
+      Agregar componente
     </button>
   </article>
-  <!-- tabla activos -->
-  <table mat-table [dataSource]="dataSource" class="table">
+  <!-- tabla componentes -->
+  <table mat-table [dataSource]="dataSource" class="tabla">
     <!-- codigo -->
     <ng-container matColumnDef="codigo">
       <th mat-header-cell *matHeaderCellDef>Código</th>
-      <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.codigo | corregirCodigo }}</td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
       <th mat-header-cell *matHeaderCellDef>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
-    <!-- tipoActivo -->
-    <ng-container matColumnDef="tipoActivo">
+    <!-- tipoComponenteId -->
+    <ng-container matColumnDef="tipoComponenteId">
       <th mat-header-cell *matHeaderCellDef>Tipo</th>
-      <td mat-cell *matCellDef="let row">{{ row.tipoActivo }}</td>
+      <td mat-cell *matCellDef="let row">
+        {{ row.tipoComponenteId | denominacionTipoComponente | async }}
+      </td>
     </ng-container>
     <!-- creado -->
     <ng-container matColumnDef="creado">
@@ -43,13 +45,14 @@
         {{ row.modificado | date : 'medium' }}
       </td>
     </ng-container>
+
     <!-- acciones -->
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let row">
         <app-botones-acciones
-          (eliminar)="removerActivo.emit(row)"
-          deshabilitarEditar="true"></app-botones-acciones>
+          [deshabilitarEditar]="true"
+          (eliminar)="removerComponente.emit(row)"></app-botones-acciones>
       </td>
     </ng-container>
 
@@ -64,5 +67,5 @@
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="6">No hay datos para mostrar</td>
     </tr>
-  </table>
-</mat-card>
+  </table></mat-card
+>

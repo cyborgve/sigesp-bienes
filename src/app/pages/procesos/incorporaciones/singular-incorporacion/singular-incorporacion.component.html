@@ -1,1 +1,154 @@
-<p>singular-incorporacion works!</p>
+<form [formGroup]="formulario">
+  <section class="contenedor-singular superior">
+    <app-encabezado-procesos
+      [titulo]="titulo"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-procesos>
+  </section>
+  <section class="contenedor-singular superior inferior">
+    <mat-card>
+      <article class="contenido">
+        <!-- causaMovimiento -->
+        <mat-form-field appearance="fill" class="causaMovimiento">
+          <mat-label>Causa de movimiento</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="causaMovimiento"
+            readonly="true"
+            [value]="
+              formulario.value.causaMovimiento
+                | denominacionCausaMovimiento
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCausaMovimiento()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- unidadAdministrativa -->
+        <mat-form-field appearance="fill" class="unidadAdministrativa">
+          <mat-label>Unidad administrativa</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="unidadAdministrativa"
+            readonly="true"
+            [value]="
+              formulario.value.unidadAdministrativa
+                | denominacionUnidadAdministrativa
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarUnidadAdministrativa()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- sede -->
+        <mat-form-field appearance="fill" class="sede">
+          <mat-label>Sede</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="sede"
+            readonly="true"
+            [value]="formulario.value.sede | denominacionSede | async" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarSede()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- fechaEntrega -->
+        <mat-form-field appearance="fill" class="fechaEntrega">
+          <mat-label>Fecha de entrega</mat-label>
+          <input
+            matInput
+            formControlName="fechaEntrega"
+            [matDatepicker]="pickerFechaEntrega"
+            readonly="true" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaEntrega"
+            disabled="true">
+          </mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaEntrega></mat-datepicker>
+        </mat-form-field>
+        <!-- responsablePrimario -->
+        <mat-form-field appearance="fill" class="responsablePrimario">
+          <mat-label>Responsable primario</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="responsablePrimario"
+            readonly="true"
+            [value]="
+              formulario.value.responsablePrimario
+                | denominacionResponsable
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarResponsablePrimario()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- responsableUso -->
+        <mat-form-field appearance="fill" class="responsableUso">
+          <mat-label>Responsable de uso</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="responsableUso"
+            readonly="true"
+            [value]="
+              formulario.value.responsableUso | denominacionResponsable | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarResponsableUso()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </article>
+    </mat-card>
+  </section>
+  <section class="contenedor-singular inferior">
+    <app-activos-proceso
+      (agregarActivo)="agregarActivo()"></app-activos-proceso>
+  </section>
+</form>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

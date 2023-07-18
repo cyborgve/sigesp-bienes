@@ -35,10 +35,9 @@ export class TablaIncorporacionComponent
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.INCORPORACIONES;
   @Output() dobleClick = new EventEmitter();
 
-  private urlPlural = '/procesos/autorizaciones-salida';
-  private urlSingular = this.urlPlural + '/autorizacion-salida';
-  private urlSingularId = (id: Id) =>
-    this.urlPlural + '/autorizacion-salida/' + id;
+  private urlPlural = '/procesos/incorporaciones';
+  private urlSingular = this.urlPlural + '/incorporacion';
+  private urlSingularId = (id: Id) => this.urlPlural + '/incorporacion/' + id;
   dataSource: MatTableDataSource<Incorporacion> = new MatTableDataSource();
 
   constructor(

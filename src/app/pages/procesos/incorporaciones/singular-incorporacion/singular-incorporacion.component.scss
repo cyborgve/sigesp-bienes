@@ -1,0 +1,28 @@
+.superior {
+  @apply pb-0;
+}
+
+.inferior {
+  @apply pt-0 mt-1;
+}
+
+.fechaEntrega {
+  @apply col-span-2;
+}
+
+.observaciones {
+  @apply col-start-1 col-span-full;
+}
+
+.causaMovimiento,
+.unidadAdministrativa {
+  @apply col-span-6;
+}
+.responsablePrimario,
+.responsableUso {
+  @apply col-span-3;
+}
+
+.sede {
+  @apply col-span-4;
+}
