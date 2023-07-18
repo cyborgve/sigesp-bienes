@@ -1,0 +1,16 @@
+.superior {
+  @apply pb-0;
+}
+
+.inferior {
+  @apply pt-0 mt-1;
+}
+
+.causaMovimiento,
+.unidadAdministrativa {
+  @apply col-span-6;
+}
+
+.observaciones {
+  @apply col-start-1 col-span-full;
+}

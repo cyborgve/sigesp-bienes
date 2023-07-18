@@ -17,6 +17,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { TipoAnimalService } from '@core/services/tipo-animal.service';
 import { Id } from '@core/types/id';
+import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
@@ -56,6 +57,7 @@ export class TablaTipoAnimalComponent
       .buscarTodos()
       .pipe(
         first(),
+        ordenarPorCodigo(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;

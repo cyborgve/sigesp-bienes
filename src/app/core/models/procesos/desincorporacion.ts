@@ -7,5 +7,9 @@ export interface Desincorporacion extends Basica {
   unidadAdministrativa: Id;
   observaciones: string;
   activos: Id[];
+  total: number;
   cuentasContables: Id[];
+  debe: number;
+  haber: number;
+  diferencia: number;
 }

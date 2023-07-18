@@ -1,1 +1,161 @@
-<p>singular-depreciacion works!</p>
+<form [formGroup]="formulario">
+  <section class="contenedor-singular">
+    <app-encabezado-procesos
+      [titulo]="titulo"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-procesos>
+    <mat-card>
+      <article class="contenido">
+        <!-- activo -->
+        <mat-form-field appearance="fill" class="activo">
+          <mat-label>Activo</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="activo"
+            readonly="true"
+            [value]="formulario.value.activo | denominacionActivo | async" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarActivo()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- identificador -->
+        <mat-form-field appearance="fill" class="identificador">
+          <mat-label>Identificador</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="identificador"
+            readonly="true" />
+        </mat-form-field>
+        <!-- serial -->
+        <mat-form-field appearance="fill" class="serial">
+          <mat-label>Serial</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="serial"
+            readonly="true" />
+        </mat-form-field>
+        <!-- metodo -->
+        <mat-form-field appearance="fill" class="metodo">
+          <mat-label>Método de depreciación</mat-label>
+          <input type="text" matInput formControlName="metodo" />
+        </mat-form-field>
+        <!-- fechaCompra -->
+        <mat-form-field appearance="fill" class="fechaCompra">
+          <mat-label>Fecha de compra</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFechaCompra"
+            readonly="true"
+            formControlName="fechaCompra" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaCompra"
+            disabled="true"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaCompra></mat-datepicker>
+        </mat-form-field>
+        <!-- fechaIncorporacion -->
+        <mat-form-field appearance="fill" class="fechaIncorporacion">
+          <mat-label>Fecha de incorporación</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFechaIncorporacion"
+            readonly="true"
+            formControlName="fechaIncorporacion" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaIncorporacion"
+            disabled="true"></mat-datepicker-toggle>
+          <mat-datepicker
+            #pickerFechaIncorporacion></mat-datepicker> </mat-form-field
+        ><!-- costo -->
+        <mat-form-field appearance="fill" class="costo">
+          <mat-label>Costo</mat-label>
+          <input
+            matInput
+            formControlName="costo"
+            readonly="true"
+            value="formulario.value.costo | number : '1,2-2'" />
+        </mat-form-field>
+        <!-- valorRescate -->
+        <mat-form-field appearance="fill" class="valorRescate">
+          <mat-label>Valor de rescate</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="valorRescate"
+            readonly="true" />
+        </mat-form-field>
+        <!-- montoDepreciar -->
+        <mat-form-field appearance="fill" class="montoDepreciar">
+          <mat-label>Monto a depreciar</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="montoDepreciar"
+            readonly="true" />
+        </mat-form-field>
+        <!-- vidaUtil -->
+        <mat-form-field appearance="fill" class="vidaUtil">
+          <mat-label>Meses de vida útil</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="vidaUtil"
+            readonly="true" />
+        </mat-form-field>
+        <!-- depreciacionMensual -->
+        <mat-form-field appearance="fill" class="depreciacionMensual">
+          <mat-label>Deppreciación mensual</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="depreciacionMensual"
+            readonly="true"
+            [value]="this.formulario.value.depreciacionMensual" />
+        </mat-form-field>
+        <!-- depreciacionAnual -->
+        <mat-form-field appearance="fill" class="depreciacionAnual">
+          <mat-label>Depreciación anual</mat-label>
+          <input
+            type="number"
+            matInput
+            formControlName="depreciacionAnual"
+            readonly="true" />
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </article>
+    </mat-card>
+    <!-- detalle depreciacion -->
+    <article class="detalle">
+      <app-detalle [dataSource]="dataSource"></app-detalle>
+    </article>
+  </section>
+</form>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

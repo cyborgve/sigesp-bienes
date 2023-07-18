@@ -1,0 +1,60 @@
+<mat-card>
+  <p class="detalleDepreciacion">{{ titulo }}</p>
+  <table mat-table [dataSource]="dataSource" class="tabla">
+    <!-- fechaDepreciacion -->
+    <ng-container matColumnDef="fechaDepreciacion">
+      <th mat-header-cell *matHeaderCellDef>Fecha depreciación</th>
+      <td mat-cell *matCellDef="let row">{{ row.fechaDepreciacion | date }}</td>
+    </ng-container>
+    <!-- meses -->
+    <ng-container matColumnDef="meses">
+      <th mat-header-cell *matHeaderCellDef>Meses</th>
+      <td mat-cell *matCellDef="let row">{{ row.meses }}</td>
+    </ng-container>
+    <!-- dias -->
+    <ng-container matColumnDef="dias">
+      <th mat-header-cell *matHeaderCellDef>Días</th>
+      <td mat-cell *matCellDef="let row">{{ row.dias }}</td>
+    </ng-container>
+    <!-- depreciacionMensual -->
+    <ng-container matColumnDef="depreciacionMensual">
+      <th mat-header-cell *matHeaderCellDef>Depreciación mensual</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.depreciacionMensual | currency : 'VES' }}
+      </td>
+    </ng-container>
+    <!-- depreciacionAnual -->
+    <ng-container matColumnDef="depreciacionAnual">
+      <th mat-header-cell *matHeaderCellDef>Depreciación anual</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.depreciacionAnual | currency : 'VES' }}
+      </td>
+    </ng-container>
+    <!-- depreciacionAcumulada -->
+    <ng-container matColumnDef="depreciacionAcumulada">
+      <th mat-header-cell *matHeaderCellDef>Depreciación acumulada</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.depreciacionAcumulada | currency : 'VES' }}
+      </td>
+    </ng-container>
+    <!-- valorContable -->
+    <ng-container matColumnDef="valorContable">
+      <th mat-header-cell *matHeaderCellDef>Valor contable</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.valorContable | currency : 'VES' }}
+      </td>
+    </ng-container>
+
+    <!-- ejecuta el armado de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: columnasVisibles"
+      class="row-hover"></tr>
+
+    <!-- mostrar cuando no hay datos que coincidan -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No hay datos para mostrar</td>
+    </tr>
+  </table>
+</mat-card>

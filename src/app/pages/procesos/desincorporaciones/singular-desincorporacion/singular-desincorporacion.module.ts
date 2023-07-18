@@ -9,14 +9,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '@shared/shared.module';
+import { BuscadorCausaMovimientoModule } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.module';
+import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 
 @NgModule({
   declarations: [SingularDesincorporacionComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SingularDesincorporacionRoutingModule,
     BuscadorDesincorporacionModule,
-    BuscadorDesincorporacionModule,
+    BuscadorCausaMovimientoModule,
+    BuscadorUnidadAdministrativaModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,

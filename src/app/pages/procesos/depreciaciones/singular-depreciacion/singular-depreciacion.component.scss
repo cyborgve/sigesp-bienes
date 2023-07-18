@@ -1,0 +1,36 @@
+.metodo,
+.costo,
+.valorRescate,
+.montoDepreciar,
+.vidaUtil,
+.depreciacionMensual,
+.depreciacionAnual,
+.fechaCompra,
+.fechaIncorporacion {
+  @apply col-span-2;
+}
+
+.identificador,
+.serial {
+  @apply col-span-3;
+}
+
+.activo,
+.observaciones {
+  @apply col-start-1 col-span-full;
+}
+
+.detalle {
+  @apply pt-1;
+}
+
+.costo,
+.valorRescate,
+.montoDepreciar,
+.vidaUtil,
+.depreciacionMensual,
+.depreciacionAnual {
+  input {
+    @apply text-right;
+  }
+}

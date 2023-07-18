@@ -1,5 +1,4 @@
 export type MetodoDepreciacion =
-  | 'SELECCIONAR'
   | 'LINEAL'
   | 'SUMA DE DÍGITOS'
   | 'SALDOS DECRECIENTES'

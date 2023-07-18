@@ -199,6 +199,15 @@ export const COLUMNAS_VISIBLES = {
     'creado',
     'modificado',
   ],
+  DEPRECIACIONES_DETALLE: [
+    'fechaDepreciacion',
+    'meses',
+    'dias',
+    'depreciacionMensual',
+    'depreciacionAnual',
+    'depreciacionAcumulada',
+    'valorContable',
+  ],
   DESINCORPORACIONES: [
     'comprobante',
     'causaMovimiento',

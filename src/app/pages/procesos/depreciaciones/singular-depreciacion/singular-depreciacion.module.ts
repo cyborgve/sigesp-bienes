@@ -10,19 +10,32 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '@shared/shared.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
+import { DetalleComponent } from './detalle/detalle.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
-  declarations: [SingularDepreciacionComponent],
+  declarations: [SingularDepreciacionComponent, DetalleComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SingularDepreciacionRoutingModule,
     BuscadorDepreciacionModule,
+    BuscadorActivoModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatTableModule,
   ],
 })
 export class SingularDepreciacionModule {}

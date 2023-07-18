@@ -1,19 +1,19 @@
 <mat-card>
   <article class="encabezado">
-    <p class="titulo">Activos</p>
+    <p class="titulo">Cuentas Contables</p>
     <span class="spacer"></span>
     <button
       type="button"
       mat-stroked-button
       color="primary"
-      class="agregarActivo"
-      (click)="agregarActivo.emit()">
+      class="agregarCuentaContable"
+      (click)="agregarCuentaContable.emit()">
       <mat-icon>add</mat-icon>
-      Agregar activo
+      Agregar cuenta contable
     </button>
   </article>
   <!-- tabla activos -->
-  <table mat-table [dataSource]="dataSource" class="table">
+  <table mat-table [dataSource]="dataSource" class="tabla">
     <!-- codigo -->
     <ng-container matColumnDef="codigo">
       <th mat-header-cell *matHeaderCellDef>Código</th>
@@ -23,11 +23,6 @@
     <ng-container matColumnDef="denominacion">
       <th mat-header-cell *matHeaderCellDef>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
-    </ng-container>
-    <!-- tipoActivo -->
-    <ng-container matColumnDef="tipoActivo">
-      <th mat-header-cell *matHeaderCellDef>Tipo</th>
-      <td mat-cell *matCellDef="let row">{{ row.tipoActivo }}</td>
     </ng-container>
     <!-- creado -->
     <ng-container matColumnDef="creado">
@@ -43,15 +38,6 @@
         {{ row.modificado | date : 'medium' }}
       </td>
     </ng-container>
-    <!-- acciones -->
-    <ng-container matColumnDef="acciones">
-      <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let row">
-        <app-botones-acciones
-          (eliminar)="removerActivo.emit(row)"
-          deshabilitarEditar="true"></app-botones-acciones>
-      </td>
-    </ng-container>
 
     <!-- ejecuta el armado de la tabla -->
     <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
@@ -62,7 +48,7 @@
 
     <!-- mostrar cuando no hay datos que coincidan -->
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No se han agregado activos al acta</td>
+      <td class="mat-cell" colspan="4">No hay datos para mostrar</td>
     </tr>
-  </table>
-</mat-card>
+  </table></mat-card
+>

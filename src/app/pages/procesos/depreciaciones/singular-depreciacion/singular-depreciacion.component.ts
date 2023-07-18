@@ -3,13 +3,9 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { Activo } from '@core/models/definiciones/activo';
-import { ActivoService } from '@core/services/activo.service';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { Id } from '@core/types/id';
@@ -18,6 +14,12 @@ import { BuscadorDepreciacionComponent } from '../buscador-depreciacion/buscador
 import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
+import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
+import { MatTableDataSource } from '@angular/material/table';
+import { DepreciacionDetalle } from '@core/models/procesos/depreciacion';
+import { DepreciacionDetalleService } from '@core/services/procesos/depreciacion-detalle.service';
+import { Basica } from '@core/models/auxiliares/basica';
+import { ActivoCompleto } from '@core/models/auxiliares/activo-comleto';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -29,8 +31,9 @@ export class SingularDepreciacionComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[31].nombre;
   formulario: FormGroup;
-  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
-  columnasVisibles = COLUMNAS_VISIBLES.DEPRECIACIONES;
+  metodosDepreciacion = METODOS_DEPRECIACION;
+  dataSource: MatTableDataSource<DepreciacionDetalle> =
+    new MatTableDataSource();
 
   constructor(
     private _entidad: DepreciacionService,
@@ -40,13 +43,26 @@ export class SingularDepreciacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _depreciacionDetalle: DepreciacionDetalleService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
       comprobante: ['AUTOGENERADO'],
-      activos: [[]],
+      activo: ['', Validators.required],
+      serial: [''],
+      identificador: [''],
+      fechaCompra: [''],
+      fechaIncorporacion: [''],
+      metodo: [''],
+      costo: [0],
+      valorRescate: [0],
+      montoDepreciar: [0],
+      vidaUtil: [0],
+      depreciacionMensual: [0],
+      depreciacionAnual: [0],
+      observaciones: [''],
+      detalles: [[]],
       creado: [new Date()],
       modificado: [new Date()],
     });
@@ -57,7 +73,38 @@ export class SingularDepreciacionComponent implements Entidad {
   private actualizarFormulario() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
-      this._entidad.buscarPorId(this.id).pipe(take(1)).subscribe();
+      this._entidad
+        .buscarPorId(this.id)
+        .pipe(
+          tap(entidad =>
+            this.formulario.patchValue({
+              empresaId: entidad.empresaId,
+              id: entidad.id,
+              comprobante: entidad.comprobante,
+              activo: entidad.activo,
+              serial: entidad.serial,
+              identificador: entidad.identificador,
+              fechaCompra: entidad.fechaCompra,
+              fechaIncorporacion: entidad.fechaIncorporacion,
+              metodo: entidad.metodo,
+              costo: entidad.costo,
+              valorRescate: entidad.valorRescate,
+              montoDepreciar: entidad.montoDepreciar,
+              vidaUtil: entidad.vidaUtil,
+              depreciacionMensual: entidad.depreciacionMensual,
+              depreciacionAnual: entidad.depreciacionAnual,
+              observaciones: entidad.observaciones,
+              creado: entidad.creado,
+              modificado: entidad.modificado,
+            })
+          ),
+          switchMap(depreciacion =>
+            this._depreciacionDetalle.buscarPorId(depreciacion.id)
+          ),
+          tap(detalles => this.formulario.patchValue({ detalles: detalles })),
+          take(1)
+        )
+        .subscribe();
     } else {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
@@ -80,7 +127,32 @@ export class SingularDepreciacionComponent implements Entidad {
       width: '95%',
       height: '85%',
     });
-    dialog.afterClosed().pipe(take(1)).subscribe();
+    dialog
+      .afterClosed()
+      .pipe(
+        switchMap((depreciacion: Basica) =>
+          this._entidad.buscarPorId(depreciacion.id)
+        ),
+        tap(entidad =>
+          this.formulario.patchValue({
+            activo: entidad.activo,
+            serial: entidad.serial,
+            identificador: entidad.identificador,
+            fechaCompra: entidad.fechaCompra,
+            fechaIncorporacion: entidad.fechaIncorporacion,
+            metodo: entidad.metodo,
+            costo: entidad.costo,
+            valorRescate: entidad.valorRescate,
+            montoDepreciar: entidad.montoDepreciar,
+            vidaUtil: entidad.vidaUtil,
+            depreciacionMensual: entidad.depreciacionMensual,
+            depreciacionAnual: entidad.depreciacionAnual,
+            observaciones: entidad.observaciones,
+          })
+        ),
+        take(1)
+      )
+      .subscribe();
   }
 
   guardar() {
@@ -136,12 +208,16 @@ export class SingularDepreciacionComponent implements Entidad {
       width: '85%',
     });
     dialog.afterClosed().pipe(
-      tap((activo: Activo) => {
+      tap((activo: ActivoCompleto) => {
         if (activo) {
           this.formulario.patchValue({
             activo: activo.id,
             identificador: activo.serialRotulacion,
             serial: activo.serialFabrica,
+            fechaCompra: activo.fechaAdquisicion,
+            costo: activo.valorAdquisicion,
+            valorRescate: activo.valorRescate,
+            vidaUtil: activo.vidaUtil,
           });
         }
       })

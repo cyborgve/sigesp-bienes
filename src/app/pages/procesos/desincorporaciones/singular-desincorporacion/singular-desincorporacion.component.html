@@ -1,1 +1,84 @@
-<p>singular-desincorporacion works!</p>
+<form [formGroup]="formulario">
+  <section class="contenedor-singular superior">
+    <app-encabezado-procesos
+      [titulo]="titulo"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-procesos>
+  </section>
+  <section class="contenedor-singular superior inferior">
+    <mat-card>
+      <article class="contenido">
+        <!-- causaMovimiento -->
+        <mat-form-field appearance="fill" class="causaMovimiento">
+          <mat-label>Causa de movimiento</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="causaMovimiento"
+            readonly="true"
+            [value]="
+              formulario.value.causaMovimiento
+                | denominacionCausaMovimiento
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCausaMovimiento()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- unidadAdministrativa -->
+        <mat-form-field appearance="fill" class="unidadAdministrativa">
+          <mat-label>Unidad administrativa</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="unidadAdministrativa"
+            readonly="true"
+            [value]="
+              formulario.value.unidadAdministrativa
+                | denominacionUnidadAdministrativa
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarUnidadAdministrativa()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </article>
+    </mat-card>
+  </section>
+  <section class="contenedor-singular superior inferior">
+    <app-activos-proceso></app-activos-proceso>
+  </section>
+  <section class="contenedor-singular inferior">
+    <app-cuentas-contables-proceso></app-cuentas-contables-proceso>
+  </section>
+</form>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>
