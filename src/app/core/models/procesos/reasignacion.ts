@@ -9,5 +9,10 @@ export interface Reasignacion extends Basica {
   sede: Id;
   fechaEntrega: Date;
   observaciones: string;
-  activos: Id[];
+  activos: ReasignacionActivo[];
+}
+
+export interface ReasignacionActivo extends Basica {
+  reasignacion: Id;
+  activo: Id;
 }

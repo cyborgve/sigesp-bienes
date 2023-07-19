@@ -12,6 +12,8 @@ import { BuscadorModificacionModule } from '../buscador-modificacion/buscador-mo
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { BuscadorComponenteModule } from '@pages/definiciones/activos-componentes/buscador-componente/buscador-componente.module';
+import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
+import { BuscadorCausaMovimientoModule } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.module';
 
 @NgModule({
   declarations: [SingularModificacionComponent],
@@ -21,6 +23,8 @@ import { BuscadorComponenteModule } from '@pages/definiciones/activos-componente
     SingularModificacionRoutingModule,
     BuscadorModificacionModule,
     BuscadorComponenteModule,
+    BuscadorActivoModule,
+    BuscadorCausaMovimientoModule,
     SharedModule,
     MatCardModule,
     MatInputModule,

@@ -16,8 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
 import { DetalleComponent } from './detalle/detalle.component';
 import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [SingularDepreciacionComponent, DetalleComponent],

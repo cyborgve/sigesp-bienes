@@ -9,17 +9,25 @@ import { BuscadorRetornoModule } from '../buscador-retorno/buscador-retorno.modu
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
+import { SharedModule } from '@shared/shared.module';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [SingularRetornoComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SingularRetornoRoutingModule,
     BuscadorRetornoModule,
+    BuscadorActivoModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
     MatDialogModule,
   ],
 })

@@ -1,0 +1,24 @@
+.superior {
+  @apply pb-0;
+}
+
+.inferior {
+  @apply pt-0 mt-1;
+}
+
+.causaMovimiento,
+.responsablePrimario,
+.responsableUso {
+  @apply col-span-4;
+}
+
+.sede {
+  @apply col-span-10;
+}
+.fechaEntrega {
+  @apply col-span-2;
+}
+
+.observaciones {
+  @apply col-start-1 col-span-full;
+}

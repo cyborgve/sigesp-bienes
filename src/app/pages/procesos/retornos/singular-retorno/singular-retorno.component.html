@@ -1,1 +1,73 @@
-<p>singular-retorno works!</p>
+<form [formGroup]="formulario">
+  <section class="contenedor-singular superior">
+    <app-encabezado-procesos
+      [titulo]="titulo"
+      [numeroComprobante]="formulario.value.comprobante | corregirCodigo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-procesos>
+  </section>
+  <section class="contenedor-singular superior inferior">
+    <mat-card>
+      <article class="contenido">
+        <!-- beneficiario -->
+        <mat-form-field appearance="fill" class="beneficiario">
+          <mat-label>Beneficiario</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="beneficiario"
+            readonly="true"
+            [value]="
+              formulario.value.beneficiario | denominacionBeneficiario | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarBeneficiario()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- tipoComprobante -->
+        <mat-form-field appearance="fill" class="tipoComprobante">
+          <mat-label>Tipo de comprobante</mat-label>
+          <mat-select formControlName="tipoComprobante">
+            <mat-option value="">Seleccionar</mat-option>
+            <mat-option
+              *ngFor="let tComprobante of tiposComprobante"
+              [value]="tComprobante"
+              >{{ tComprobante | titlecase }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <!-- observaciones -->
+        <mat-form-field appearance="fill" class="observaciones">
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            rows="2"
+            formControlName="observaciones"></textarea>
+        </mat-form-field>
+      </article>
+    </mat-card>
+  </section>
+</form>
+<section class="contenedor-singular inferior">
+  <app-activos-proceso
+    (agregarActivo)="agregarActivo()"
+    (removerActivo)="removerActivo($event)"
+    [dataSource]="dataActivos"></app-activos-proceso>
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

@@ -10,16 +10,20 @@
   @apply col-span-6;
 }
 
-.causaMovimiento,
+.activo,
 .observaciones {
   @apply col-span-full col-start-1;
 }
 
-.activo {
-  @apply col-span-8;
+.causaMovimiento {
+  @apply col-span-6;
 }
 
 .identificador,
 .serial {
   @apply col-span-2;
+}
+
+.boton-depreciar {
+  @apply col-span-2 h-14;
 }

@@ -4,5 +4,6 @@ import { Basica } from '../auxiliares/basica';
 export interface Retorno extends Basica {
   comprobante: Id;
   beneficiario: Id;
+  observaciones: string;
   activos: Id[];
 }
