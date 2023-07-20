@@ -286,9 +286,9 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
-            this.formularioDatosGenerales.patchValue({
-              comprobante: `${ser}-${doc}`,
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
+            return this.formularioDatosGenerales.patchValue({
+              codigo: `${ser}-${cor}`,
             });
           }),
           take(1)

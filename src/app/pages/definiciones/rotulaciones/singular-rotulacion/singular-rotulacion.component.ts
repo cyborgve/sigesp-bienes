@@ -92,7 +92,7 @@ export class SingularRotulacionComponent implements Entidad {
         tap((entidad: Rotulacion) =>
           entidad
             ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
+                codigo: entidad.denominacion,
               })
             : undefined
         )

@@ -93,7 +93,7 @@ export class SingularTipoSemovienteComponent implements Entidad {
         tap((entidad: TipoSemoviente) =>
           entidad
             ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
+                codigo: entidad.denominacion,
               })
             : undefined
         ),

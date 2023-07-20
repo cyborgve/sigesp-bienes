@@ -76,9 +76,9 @@ export class SingularAseguradoraComponent implements Entidad, OnDestroy {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
-            this.formulario.patchValue({
-              comprobante: `${ser}-${doc}`,
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
+            return this.formulario.patchValue({
+              codigo: `${ser}-${cor}`,
             });
           }),
           take(1)

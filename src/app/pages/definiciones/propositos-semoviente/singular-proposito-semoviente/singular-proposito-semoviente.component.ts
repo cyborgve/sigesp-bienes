@@ -83,7 +83,7 @@ export class SingularPropositoSemovienteComponent
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              comprobante: `${ser}-${doc}`,
+              codigo: `${ser}-${doc}`,
             });
           }),
           take(1)

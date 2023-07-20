@@ -93,7 +93,7 @@ export class SingularTipoSedeComponent implements Entidad {
         tap((entidad: TipoSede) =>
           entidad
             ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
+                codigo: entidad.denominacion,
               })
             : undefined
         ),
