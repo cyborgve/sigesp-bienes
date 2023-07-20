@@ -23,13 +23,13 @@
           <mat-label>Denominacion</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
-        <!-- tipo sede-->
-        <mat-form-field appearance="fill" class="tipo">
+        <!-- tipoSedeId-->
+        <mat-form-field appearance="fill" class="tipoSedeId">
           <mat-label>Tipo</mat-label>
           <input
             type="text"
             matInput
-            formControlName="tipoSede"
+            formControlName="tipoSedeId"
             readonly="true"
             [value]="
               formulario.value.tipoSedeId | denominacionTipoSede | async

@@ -26,7 +26,6 @@ import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-orig
 import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
 import { BuscadorEstadoUsoModule } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.module';
 import { BuscadorEstadoConservacionModule } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.module';
-import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
 import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
 import { BuscadorColorModule } from '@pages/definiciones/colores/buscador-color/buscador-color.module';
 import { BuscadorClaseModule } from '@pages/definiciones/clases/buscador-clase/buscador-clase.module';
@@ -72,7 +71,6 @@ import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades
     BuscadorSedeModule,
     BuscadorEstadoUsoModule,
     BuscadorEstadoConservacionModule,
-    BuscadorMarcaModule,
     BuscadorModeloModule,
     BuscadorColorModule,
     BuscadorClaseModule,

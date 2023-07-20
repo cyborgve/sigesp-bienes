@@ -1,13 +1,5 @@
-import { AdaptadorBoolean } from './../../../../core/types/adaptadorBoolean';
-import {
-  take,
-  tap,
-  first,
-  filter,
-  switchMap,
-  mergeMap,
-  map,
-} from 'rxjs/operators';
+import { AdaptadorBoolean } from '@core/types/adaptadorBoolean';
+import { take, tap, first, filter, switchMap, mergeMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,16 +14,14 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivoComponenteService } from '@core/services/activo-componente.service';
 import { ActivoDepreciacionService } from '@core/services/activo-depreciacion.service';
 import { ActivoDetalleService } from '@core/services/activo-detalle.service';
 import { ActivoUbicacionService } from '@core/services/activo-ubicacion.service';
 import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
-import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
-import { Basica } from '@core/models/auxiliares/basica';
 
 type DepreciacionAdaptada = AdaptadorBoolean<ActivoDepreciacion, 'depreciable'>;
 
@@ -190,7 +180,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       creado: [new Date()],
       modificado: [new Date()],
     });
-
     this.actualizarFormularios();
   }
 
@@ -295,15 +284,14 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formularioDatosGenerales.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -323,23 +311,25 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           tap((entidad: Activo) =>
-            this.formularioDatosGenerales.patchValue({
-              tipoActivo: entidad.tipoActivo,
-              fechaRegistro: entidad.fechaRegistro,
-              catalogoCuentas: entidad.catalogoCuentas,
-              serialRotulacion: entidad.serialRotulacion,
-              denominacion: entidad.denominacion,
-              observaciones: entidad.observaciones,
-              fechaAdquisicion: entidad.fechaAdquisicion,
-              valorAdquisicion: entidad.valorAdquisicion,
-              monedaId: entidad.modeloId,
-              modeloId: entidad.modeloId,
-              anioFabricacion: entidad.anioFabricacion,
-              serialFabrica: entidad.serialFabrica,
-              colorId: entidad.colorId,
-              rotulacionId: entidad.rotulacionId,
-              categoriaId: entidad.categoriaId,
-            })
+            entidad
+              ? this.formularioDatosGenerales.patchValue({
+                  tipoActivo: entidad.tipoActivo,
+                  fechaRegistro: entidad.fechaRegistro,
+                  catalogoCuentas: entidad.catalogoCuentas,
+                  serialRotulacion: entidad.serialRotulacion,
+                  denominacion: entidad.denominacion,
+                  observaciones: entidad.observaciones,
+                  fechaAdquisicion: entidad.fechaAdquisicion,
+                  valorAdquisicion: entidad.valorAdquisicion,
+                  monedaId: entidad.modeloId,
+                  modeloId: entidad.modeloId,
+                  anioFabricacion: entidad.anioFabricacion,
+                  serialFabrica: entidad.serialFabrica,
+                  colorId: entidad.colorId,
+                  rotulacionId: entidad.rotulacionId,
+                  categoriaId: entidad.categoriaId,
+                })
+              : undefined
           )
         )
         .subscribe()

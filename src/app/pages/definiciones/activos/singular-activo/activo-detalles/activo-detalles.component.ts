@@ -17,6 +17,7 @@ import { SigespService } from 'sigesp';
 import { BuscadorFuenteFinanciemientoComponent } from '@shared/components/buscador-fuente-financiemiento/buscador-fuente-financiemiento.component';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 import { BuscadorCentroCostoComponent } from '@shared/components/buscador-centro-costo/buscador-centro-costo.component';
+import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';
 
 @Component({
   selector: 'app-activo-detalles',
@@ -48,15 +49,13 @@ export class ActivoDetallesComponent implements OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap(entidad =>
-            this.formulario.patchValue({ sedeUbicacionId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ sedeUbicacionId: entidad.id })
+              : undefined
           )
         )
         .subscribe()
     );
-  }
-
-  buscarTipoUso() {
-    alert('TODO');
   }
 
   buscarTipoSemoviente() {
@@ -70,7 +69,9 @@ export class ActivoDetallesComponent implements OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap(entidad =>
-            this.formulario.patchValue({ tipoSemovienteId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ tipoSemovienteId: entidad.id })
+              : undefined
           )
         )
         .subscribe()
@@ -88,21 +89,35 @@ export class ActivoDetallesComponent implements OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap(entidad =>
-            this.formulario.patchValue({ propositoSemovienteId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({
+                  propositoSemovienteId: entidad.id,
+                })
+              : undefined
           )
         )
         .subscribe()
     );
   }
 
-  buscarUnidadMedida() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
-  }
-
   buscarTipoAnimal() {
-    TODO: 'preguntar de donde se obtienen estos datos';
-    alert('TO-DO');
+    let dialog = this._dialog.open(BuscadorTipoAnimalComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(tipoAnimal => tipoAnimal as Basica),
+          tap(entidad =>
+            entidad
+              ? this.formulario.patchValue({ tipoAnimal: entidad.id })
+              : undefined
+          )
+        )
+        .subscribe()
+    );
   }
 
   buscarRaza() {
@@ -115,11 +130,16 @@ export class ActivoDetallesComponent implements OnDestroy {
         .afterClosed()
         .pipe(
           map(entidad => entidad as Basica),
-          tap(entidad => this.formulario.patchValue({ razaId: entidad.id }))
+          tap(entidad =>
+            entidad
+              ? this.formulario.patchValue({ razaId: entidad.id })
+              : undefined
+          )
         )
         .subscribe()
     );
   }
+
   buscarSeguro() {
     let dialog = this._dialog.open(BuscadorSeguroComponent, {
       height: '95%',
@@ -131,7 +151,9 @@ export class ActivoDetallesComponent implements OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
-            this.formulario.patchValue({ seguroId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ seguroId: entidad.id })
+              : undefined
           )
         )
         .subscribe()
@@ -148,7 +170,9 @@ export class ActivoDetallesComponent implements OnDestroy {
         .afterClosed()
         .pipe(
           tap((fuente: FuenteFinanciemiento) =>
-            this.formulario.patchValue({ fuenteFinanciamiento: fuente.id })
+            fuente
+              ? this.formulario.patchValue({ fuenteFinanciamiento: fuente.id })
+              : undefined
           )
         )
         .subscribe()
@@ -166,7 +190,9 @@ export class ActivoDetallesComponent implements OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
-            this.formulario.patchValue({ claseId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ claseId: entidad.id })
+              : undefined
           )
         )
         .subscribe()
@@ -184,7 +210,9 @@ export class ActivoDetallesComponent implements OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap((origen: Basica) =>
-            this.formulario.patchValue({ origenId: origen.id })
+            origen
+              ? this.formulario.patchValue({ origenId: origen.id })
+              : undefined
           )
         )
         .subscribe()
@@ -196,5 +224,18 @@ export class ActivoDetallesComponent implements OnDestroy {
       height: '95%',
       width: '85%',
     });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          map(entidad => entidad as Basica),
+          tap(entidad =>
+            entidad
+              ? this.formulario.patchValue({ centroCosto: entidad.id })
+              : undefined
+          )
+        )
+        .subscribe()
+    );
   }
 }

@@ -49,11 +49,11 @@ export class SingularPlantillaDepreciacionComponent
       id: [''],
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
-      metodoDepreciacion: ['SELECCIONAR'],
+      metodoDepreciacion: [''],
       cuentaContableGasto: ['---'],
       cuentaContableDepreciacion: ['---'],
       vidaUtil: [0],
-      unidadVidaUtil: ['SELECCIONAR'],
+      unidadVidaUtil: [''],
       creado: [new Date()],
       modificado: [new Date()],
     });
@@ -93,15 +93,14 @@ export class SingularPlantillaDepreciacionComponent
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -116,16 +115,19 @@ export class SingularPlantillaDepreciacionComponent
       dialog
         .afterClosed()
         .pipe(
-          tap((entidad: PlantillaDepreciacion) => {
-            this.formulario.patchValue({
-              denominacion: entidad.denominacion,
-              metodoDepreciacion: entidad.metodoDepreciacion,
-              cuentaContableGasto: entidad.cuentaContableGasto,
-              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-              vidaUtil: entidad.vidaUtil,
-              unidadVidaUtil: entidad.unidadVidaUtil,
-            });
-          })
+          tap((entidad: PlantillaDepreciacion) =>
+            entidad
+              ? this.formulario.patchValue({
+                  denominacion: entidad.denominacion,
+                  metodoDepreciacion: entidad.metodoDepreciacion,
+                  cuentaContableGasto: entidad.cuentaContableGasto,
+                  cuentaContableDepreciacion:
+                    entidad.cuentaContableDepreciacion,
+                  vidaUtil: entidad.vidaUtil,
+                  unidadVidaUtil: entidad.unidadVidaUtil,
+                })
+              : undefined
+          )
         )
         .subscribe()
     );

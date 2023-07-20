@@ -73,7 +73,6 @@ export class SingularSeguroComponent implements Entidad {
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          take(1),
           tap(entidad => {
             this.formulario.patchValue({
               empresa_id: entidad.empresaId,
@@ -96,22 +95,22 @@ export class SingularSeguroComponent implements Entidad {
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
-          })
+          }),
+          take(1)
         )
         .subscribe();
     } else {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -125,24 +124,26 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
-        tap((entidad: Seguro) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-            aseguradoraId: entidad.aseguradoraId,
-            tipoPolizaId: entidad.tipoPolizaId,
-            tipoCoberturaId: entidad.tipoCoberturaId,
-            numeroPoliza: entidad.numeroPoliza,
-            montoAsegurado: entidad.montoAsegurado,
-            fechaInicioPoliza: entidad.fechaInicioPoliza,
-            fechaFinPoliza: entidad.fechaFinPoliza,
-            monedaId: entidad.monedaId,
-            monedaSecundariaId: entidad.monedaSecundariaId,
-            poseeRCV: entidad.poseeRCV === 1 ? true : false,
-            descripcionCobertura: entidad.descripcionCobertura,
-            coberturaAdicional: entidad.coberturaAdicional,
-          });
-        })
+        tap((entidad: Seguro) =>
+          entidad
+            ? this.formulario.patchValue({
+                denominacion: entidad.denominacion,
+                aseguradoraId: entidad.aseguradoraId,
+                tipoPolizaId: entidad.tipoPolizaId,
+                tipoCoberturaId: entidad.tipoCoberturaId,
+                numeroPoliza: entidad.numeroPoliza,
+                montoAsegurado: entidad.montoAsegurado,
+                fechaInicioPoliza: entidad.fechaInicioPoliza,
+                fechaFinPoliza: entidad.fechaFinPoliza,
+                monedaId: entidad.monedaId,
+                monedaSecundariaId: entidad.monedaSecundariaId,
+                poseeRCV: entidad.poseeRCV === 1 ? true : false,
+                descripcionCobertura: entidad.descripcionCobertura,
+                coberturaAdicional: entidad.coberturaAdicional,
+              })
+            : undefined
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -203,12 +204,14 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
         tap((entidad: Aseguradora) =>
-          this.formulario.patchValue({
-            aseguradoraId: entidad.id,
-          })
-        )
+          entidad
+            ? this.formulario.patchValue({
+                aseguradoraId: entidad.id,
+              })
+            : undefined
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -221,12 +224,14 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
         tap((entidad: TipoPoliza) =>
-          this.formulario.patchValue({
-            tipoPolizaId: entidad.id,
-          })
-        )
+          entidad
+            ? this.formulario.patchValue({
+                tipoPolizaId: entidad.id,
+              })
+            : undefined
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -239,10 +244,12 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
         tap((entidad: TipoCobertura) =>
-          this.formulario.patchValue({ tipoCoberturaId: entidad.id })
-        )
+          entidad
+            ? this.formulario.patchValue({ tipoCoberturaId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -255,10 +262,12 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
         tap((entidad: TipoCobertura) =>
-          this.formulario.patchValue({ coberturaAdicional: entidad.id })
-        )
+          entidad
+            ? this.formulario.patchValue({ coberturaAdicional: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -271,10 +280,12 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
         tap((entidad: Moneda) =>
-          this.formulario.patchValue({ monedaId: entidad.id })
-        )
+          entidad
+            ? this.formulario.patchValue({ monedaId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -287,10 +298,12 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
         tap((entidad: Moneda) =>
-          this.formulario.patchValue({ monedaSecundariaId: entidad.id })
-        )
+          entidad
+            ? this.formulario.patchValue({ monedaSecundariaId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
       .subscribe();
   }

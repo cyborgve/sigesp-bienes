@@ -88,15 +88,14 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -111,15 +110,17 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((entidad: Componente) => {
-            this.formulario.patchValue({
-              denominacion: entidad.denominacion,
-              tipoComponenteId: entidad.tipoComponenteId,
-              modeloId: entidad.modeloId,
-              activoId: entidad.activoId,
-              especificaciones: entidad.especificaciones,
-            });
-          })
+          tap((entidad: Componente) =>
+            entidad
+              ? this.formulario.patchValue({
+                  denominacion: entidad.denominacion,
+                  tipoComponenteId: entidad.tipoComponenteId,
+                  modeloId: entidad.modeloId,
+                  activoId: entidad.activoId,
+                  especificaciones: entidad.especificaciones,
+                })
+              : undefined
+          )
         )
         .subscribe()
     );
@@ -179,14 +180,20 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       width: '85%',
       height: '95%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((tipoComponente: TipoComponente) =>
-          this.formulario.patchValue({ tipoComponenteId: tipoComponente.id })
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((tipoComponente: TipoComponente) =>
+            tipoComponente
+              ? this.formulario.patchValue({
+                  tipoComponenteId: tipoComponente.id,
+                })
+              : undefined
+          )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 
   buscarActivo() {
@@ -194,15 +201,18 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       width: '85%',
       height: '95%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        take(1),
-        tap((activo: Activo) =>
-          this.formulario.patchValue({ activoId: activo.id })
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((activo: Activo) =>
+            activo
+              ? this.formulario.patchValue({ activoId: activo.id })
+              : undefined
+          )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 
   buscarModelo() {
@@ -210,13 +220,17 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       width: '85%',
       height: '95%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((modelo: Modelo) =>
-          this.formulario.patchValue({ modeloId: modelo.id })
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((modelo: Modelo) =>
+            modelo
+              ? this.formulario.patchValue({ modeloId: modelo.id })
+              : undefined
+          )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 }

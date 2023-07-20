@@ -113,15 +113,14 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -136,22 +135,24 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((entidad: Sede) => {
-            this.formulario.patchValue({
-              denominacion: entidad.denominacion,
-              tipoSedeId: entidad.tipoSedeId,
-              localizacion: entidad.localizacion,
-              paisId: entidad.paisId,
-              estadoId: entidad.estadoId,
-              municipioId: entidad.municipioId,
-              parroquiaId: entidad.parroquiaId,
-              ciudadId: entidad.ciudadId,
-              urbanizacion: entidad.urbanizacion,
-              calleAvenida: entidad.calleAvenida,
-              casaEdificio: entidad.casaEdificio,
-              piso: entidad.piso,
-            });
-          })
+          tap((entidad: Sede) =>
+            entidad
+              ? this.formulario.patchValue({
+                  denominacion: entidad.denominacion,
+                  tipoSedeId: entidad.tipoSedeId,
+                  localizacion: entidad.localizacion,
+                  paisId: entidad.paisId,
+                  estadoId: entidad.estadoId,
+                  municipioId: entidad.municipioId,
+                  parroquiaId: entidad.parroquiaId,
+                  ciudadId: entidad.ciudadId,
+                  urbanizacion: entidad.urbanizacion,
+                  calleAvenida: entidad.calleAvenida,
+                  casaEdificio: entidad.casaEdificio,
+                  piso: entidad.piso,
+                })
+              : undefined
+          )
         )
         .subscribe()
     );
@@ -213,8 +214,9 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          take(1),
-          tap((pais: Pais) => this.formulario.patchValue({ paisId: pais.id }))
+          tap((pais: Pais) =>
+            pais ? this.formulario.patchValue({ paisId: pais.id }) : undefined
+          )
         )
         .subscribe()
     );
@@ -229,9 +231,10 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          take(1),
           tap((estado: Estado) =>
-            this.formulario.patchValue({ estadoId: estado.id })
+            estado
+              ? this.formulario.patchValue({ estadoId: estado.id })
+              : undefined
           )
         )
         .subscribe()
@@ -247,9 +250,10 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          take(1),
           tap((municipio: Municipio) =>
-            this.formulario.patchValue({ municipioId: municipio.id })
+            municipio
+              ? this.formulario.patchValue({ municipioId: municipio.id })
+              : undefined
           )
         )
         .subscribe()
@@ -265,9 +269,10 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          take(1),
           tap((parroquia: Parroquia) =>
-            this.formulario.patchValue({ parroquiaId: parroquia.id })
+            parroquia
+              ? this.formulario.patchValue({ parroquiaId: parroquia.id })
+              : undefined
           )
         )
         .subscribe()
@@ -283,9 +288,10 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          take(1),
           tap((ciudad: Ciudad) =>
-            this.formulario.patchValue({ ciudadId: ciudad.id })
+            ciudad
+              ? this.formulario.patchValue({ ciudadId: ciudad.id })
+              : undefined
           )
         )
         .subscribe()
@@ -297,14 +303,17 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
       width: '85%',
       height: '95%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        take(1),
-        tap((entidad: TipoSede) =>
-          this.formulario.patchValue({ tipoSedeId: entidad.id })
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((entidad: TipoSede) =>
+            entidad
+              ? this.formulario.patchValue({ tipoSedeId: entidad.id })
+              : undefined
+          )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 }

@@ -68,15 +68,14 @@ export class SingularRotulacionComponent implements Entidad {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -90,11 +89,13 @@ export class SingularRotulacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Rotulacion) => {
-          this.formulario.patchValue({
-            denominacion: entidad.denominacion,
-          });
-        })
+        tap((entidad: Rotulacion) =>
+          entidad
+            ? this.formulario.patchValue({
+                denominacion: entidad.denominacion,
+              })
+            : undefined
+        )
       )
       .subscribe();
   }

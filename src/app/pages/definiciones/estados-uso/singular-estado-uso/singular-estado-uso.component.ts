@@ -75,15 +75,14 @@ export class SingularEstadoUsoComponent implements Entidad, OnDestroy {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -98,11 +97,13 @@ export class SingularEstadoUsoComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((estadoUso: EstadoUso) => {
-            this.formulario.patchValue({
-              denominacion: estadoUso.denominacion,
-            });
-          })
+          tap((estadoUso: EstadoUso) =>
+            estadoUso
+              ? this.formulario.patchValue({
+                  denominacion: estadoUso.denominacion,
+                })
+              : undefined
+          )
         )
         .subscribe()
     );

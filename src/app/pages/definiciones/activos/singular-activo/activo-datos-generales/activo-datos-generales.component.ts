@@ -57,9 +57,11 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           tap((cuentaContable: CuentaContable) =>
-            this.formulario.patchValue({
-              catalogoCuentas: cuentaContable.id,
-            })
+            cuentaContable
+              ? this.formulario.patchValue({
+                  catalogoCuentas: cuentaContable.id,
+                })
+              : undefined
           )
         )
         .subscribe()
@@ -76,25 +78,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           tap((moneda: Moneda) =>
-            this.formulario.patchValue({ monedaId: moneda.id })
-          )
-        )
-        .subscribe()
-    );
-  }
-
-  buscarMarca() {
-    let dialog = this._dialog.open(BuscadorMarcaComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          map(entidad => entidad as Basica),
-          tap((entidad: Basica) =>
-            this.formulario.patchValue({ marcaId: entidad.id })
+            moneda
+              ? this.formulario.patchValue({ monedaId: moneda.id })
+              : undefined
           )
         )
         .subscribe()
@@ -112,7 +98,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
-            this.formulario.patchValue({ modeloId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ modeloId: entidad.id })
+              : undefined
           )
         )
         .subscribe()
@@ -130,7 +118,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
-            this.formulario.patchValue({ colorId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ colorId: entidad.id })
+              : undefined
           )
         )
         .subscribe()
@@ -148,7 +138,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap(entidad =>
-            this.formulario.patchValue({ rotulacionId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ rotulacionId: entidad.id })
+              : undefined
           )
         )
         .subscribe()
@@ -166,7 +158,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .pipe(
           map(entidad => entidad as Basica),
           tap(entidad =>
-            this.formulario.patchValue({ categoriaId: entidad.id })
+            entidad
+              ? this.formulario.patchValue({ categoriaId: entidad.id })
+              : undefined
           )
         )
         .subscribe()

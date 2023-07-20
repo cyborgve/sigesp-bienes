@@ -39,8 +39,12 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((cc: CuentaContable) =>
-            this.formulario.patchValue({ cuentaContableGasto: cc.id })
+          tap((cuentaContable: CuentaContable) =>
+            cuentaContable
+              ? this.formulario.patchValue({
+                  cuentaContableGasto: cuentaContable.id,
+                })
+              : undefined
           )
         )
         .subscribe()
@@ -56,10 +60,12 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((cc: CuentaContable) =>
-            this.formulario.patchValue({
-              cuentaContableDepreciacion: cc.id,
-            })
+          tap((cuentaContable: CuentaContable) =>
+            cuentaContable
+              ? this.formulario.patchValue({
+                  cuentaContableDepreciacion: cuentaContable.id,
+                })
+              : undefined
           )
         )
         .subscribe()
@@ -76,12 +82,15 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         .afterClosed()
         .pipe(
           tap((entidad: PlantillaDepreciacion) =>
-            this.formulario.patchValue({
-              metodoDepreciacion: entidad.metodoDepreciacion,
-              cuentaContableGasto: entidad.cuentaContableGasto,
-              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-              vidaUtil: entidad.vidaUtil,
-            })
+            entidad
+              ? this.formulario.patchValue({
+                  metodoDepreciacion: entidad.metodoDepreciacion,
+                  cuentaContableGasto: entidad.cuentaContableGasto,
+                  cuentaContableDepreciacion:
+                    entidad.cuentaContableDepreciacion,
+                  vidaUtil: entidad.vidaUtil,
+                })
+              : undefined
           )
         )
         .subscribe()
@@ -98,7 +107,9 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       .pipe(
         take(1),
         tap((entidad: Basica) =>
-          this.formulario.patchValue({ monedaIdValorRescate: entidad.id })
+          entidad
+            ? this.formulario.patchValue({ monedaIdValorRescate: entidad.id })
+            : undefined
         )
       )
       .subscribe();

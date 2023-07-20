@@ -14,7 +14,6 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
-import { Proveedor } from '@core/models/otros-modulos/proveedor';
 
 @Component({
   selector: 'app-singular-origen',
@@ -108,15 +107,14 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(categoria =>
+          tap(correlativo => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo:
-                categoria.serie.toString().padStart(4, '0') +
-                '-' +
-                categoria.correlativo.toString().padStart(8, '0'),
-            })
-          )
+              comprobante: `${ser}-${doc}`,
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }
@@ -132,24 +130,26 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           tap((entidad: Origen) =>
-            this.formulario.patchValue({
-              denominacion: entidad.denominacion,
-              fechaOrigen: entidad.fechaOrigen,
-              fechaAdquisicion: entidad.fechaAdquisicion,
-              modoAdquisicion: entidad.modoAdquisicion,
-              formaAdquisicion: entidad.formaAdquisicion,
-              numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
-              nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
-              fechaFactura: entidad.fechaFactura,
-              numeroFactura: entidad.numeroFactura,
-              proveedorId: entidad.proveedorId,
-              tomo: entidad.tomo,
-              folio: entidad.folio,
-              nombrePropietarioAnterior: entidad.nombrePropietarioAnterior,
-              nombreBenefactor: entidad.nombreBenefactor,
-              nombreBeneficiario: entidad.nombreBeneficiario,
-              observaciones: entidad.observaciones,
-            })
+            entidad
+              ? this.formulario.patchValue({
+                  denominacion: entidad.denominacion,
+                  fechaOrigen: entidad.fechaOrigen,
+                  fechaAdquisicion: entidad.fechaAdquisicion,
+                  modoAdquisicion: entidad.modoAdquisicion,
+                  formaAdquisicion: entidad.formaAdquisicion,
+                  numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
+                  nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
+                  fechaFactura: entidad.fechaFactura,
+                  numeroFactura: entidad.numeroFactura,
+                  proveedorId: entidad.proveedorId,
+                  tomo: entidad.tomo,
+                  folio: entidad.folio,
+                  nombrePropietarioAnterior: entidad.nombrePropietarioAnterior,
+                  nombreBenefactor: entidad.nombreBenefactor,
+                  nombreBeneficiario: entidad.nombreBeneficiario,
+                  observaciones: entidad.observaciones,
+                })
+              : undefined
           )
         )
         .subscribe()

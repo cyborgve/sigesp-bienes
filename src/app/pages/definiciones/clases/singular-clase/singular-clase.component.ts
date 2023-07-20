@@ -98,11 +98,13 @@ export class SingularClaseComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((entidad: Clase) => {
-            this.formulario.patchValue({
-              denominacion: entidad.denominacion,
-            });
-          })
+          tap((entidad: Clase) =>
+            entidad
+              ? this.formulario.patchValue({
+                  denominacion: entidad.denominacion,
+                })
+              : undefined
+          )
         )
         .subscribe()
     );

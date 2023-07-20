@@ -100,12 +100,14 @@ export class SingularUnidadAdministrativaComponent
       dialog
         .afterClosed()
         .pipe(
-          tap((entidad: UnidadAdministrativa) => {
-            this.formulario.patchValue({
-              denominacion: entidad.denominacion,
-              categoria: entidad.categoria,
-            });
-          })
+          tap((entidad: UnidadAdministrativa) =>
+            entidad
+              ? this.formulario.patchValue({
+                  denominacion: entidad.denominacion,
+                  categoria: entidad.categoria,
+                })
+              : undefined
+          )
         )
         .subscribe()
     );
@@ -165,14 +167,17 @@ export class SingularUnidadAdministrativaComponent
       height: '95%',
       width: '85%',
     });
-    dialog
-      .afterClosed()
-      .pipe(
-        take(1),
-        tap((categoria: CategoriaUnidadAdministrativa) =>
-          this.formulario.patchValue({ categoria: categoria.id })
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          tap((categoria: CategoriaUnidadAdministrativa) =>
+            categoria
+              ? this.formulario.patchValue({ categoria: categoria.id })
+              : undefined
+          )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 }
