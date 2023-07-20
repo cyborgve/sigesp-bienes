@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { AseguradoraService } from '@core/services/aseguradora.service';
 
@@ -8,15 +8,13 @@ import { AseguradoraService } from '@core/services/aseguradora.service';
 })
 export class DenominacionAseguradoraPipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    return value
-      ? this._aseguradora
-          .buscarPorId(value)
-          .pipe(
-            map(aseguradora =>
-              aseguradora ? aseguradora['denominacion'] : String(value)
-            )
-          )
-      : of('no aplica');
+    return this._aseguradora
+      .buscarPorId(value)
+      .pipe(
+        map(aseguradora =>
+          aseguradora ? aseguradora['denominacion'] : String(value)
+        )
+      );
   }
   constructor(private _aseguradora: AseguradoraService) {}
 }
