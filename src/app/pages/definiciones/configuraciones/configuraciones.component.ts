@@ -10,6 +10,8 @@ import { Location } from '@angular/common';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
+import { prepararConfiguracion } from '@core/utils/funciones/preparar-configuracion';
+import { adaptarConfiguracion } from '@core/utils/funciones/adaptar-configuracion';
 
 @Component({
   selector: 'app-configuraciones',
@@ -74,29 +76,31 @@ export class ConfiguracionesComponent implements Entidad {
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          take(1),
-          tap(entidad =>
-            this.formulario.patchValue({
-              empresaId: entidad.empresaId,
-              id: entidad.id,
-              normativaActivos: entidad.normativaActivos,
-              afectacionDepreciacion: entidad.afectacionDepreciacion,
-              longitudCatalogoCuentas: entidad.longitudCatalogoCuentas,
-              longitudCodigoInstitucional: entidad.longitudCodigoInstitucional,
-              formatoCatalogoCuentaGeneral:
-                entidad.formatoCatalogoCuentaGeneral,
-              formatoCodigoInstitucional: entidad.formatoCodigoInstitucional,
-              generarAsientosContables: entidad.generarAsientosContables,
-              fechaIncorporacionAutomatica:
-                entidad.fechaIncorporacionAutomatica,
-              usarMascaraCodigoActivo: entidad.usarMascaraCodigoActivo,
-              activarPaginacion: entidad.activarPaginacion,
-              opcionesPaginacion: entidad.opcionesPaginacion,
-              creado: entidad.creado,
-              modificado: entidad.modificado,
-            })
-          ),
-          tap(() => console.log('objeto recuparedo:', this.formulario.value))
+          map(configuracion => adaptarConfiguracion(configuracion)),
+          tap(
+            entidad =>
+              this.formulario.patchValue({
+                empresaId: entidad.empresaId,
+                id: entidad.id,
+                normativaActivos: entidad.normativaActivos,
+                afectacionDepreciacion: entidad.afectacionDepreciacion,
+                longitudCatalogoCuentas: entidad.longitudCatalogoCuentas,
+                longitudCodigoInstitucional:
+                  entidad.longitudCodigoInstitucional,
+                formatoCatalogoCuentaGeneral:
+                  entidad.formatoCatalogoCuentaGeneral,
+                formatoCodigoInstitucional: entidad.formatoCodigoInstitucional,
+                generarAsientosContables: entidad.generarAsientosContables,
+                fechaIncorporacionAutomatica:
+                  entidad.fechaIncorporacionAutomatica,
+                usarMascaraCodigoActivo: entidad.usarMascaraCodigoActivo,
+                activarPaginacion: entidad.activarPaginacion,
+                opcionesPaginacion: entidad.opcionesPaginacion,
+                creado: entidad.creado,
+                modificado: entidad.modificado,
+              }),
+            take(1)
+          )
         )
         .subscribe();
     }
@@ -107,7 +111,7 @@ export class ConfiguracionesComponent implements Entidad {
   }
 
   guardar(): void {
-    let configuracion = this.formulario.value as Configuracion;
+    let configuracion = prepararConfiguracion(this.formulario.value);
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(configuracion)

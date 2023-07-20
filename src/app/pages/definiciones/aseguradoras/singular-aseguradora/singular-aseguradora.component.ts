@@ -110,7 +110,7 @@ export class SingularAseguradoraComponent implements Entidad, OnDestroy {
     let entidad: Aseguradora = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad)
+        .guardar(entidad, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {

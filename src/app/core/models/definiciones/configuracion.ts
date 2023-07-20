@@ -7,9 +7,9 @@ export interface Configuracion extends Basica {
   longitudCodigoInstitucional: number;
   formatoCatalogoCuentaGeneral: string;
   formatoCodigoInstitucional: string;
-  generarAsientosContables: boolean;
-  fechaIncorporacionAutomatica: boolean;
-  usarMascaraCodigoActivo: boolean;
-  activarPaginacion: boolean;
+  generarAsientosContables: number;
+  fechaIncorporacionAutomatica: number;
+  usarMascaraCodigoActivo: number;
+  activarPaginacion: number;
   opcionesPaginacion: number[];
 }

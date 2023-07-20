@@ -5,10 +5,10 @@
   <p>
     {{
       'Esta seguro de que quiere eliminar ' +
-        data.denominacion +
-        ': "codigo ' +
-        data.codigo +
-        '"'
+        ' CODIGO: ' +
+        data.codigo.substring(5) +
+        ' ' +
+        data.denominacion
     }}
   </p>
 </mat-dialog-content>
