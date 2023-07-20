@@ -130,7 +130,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
     let entidad: Componente = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad)
+        .guardar(entidad, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {

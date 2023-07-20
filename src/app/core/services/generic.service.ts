@@ -52,7 +52,7 @@ export abstract class GenericService<T extends Basica>
           this.snackBarMessage(
             `${tipoDato}: ${String(
               entidad.denominacion
-            )}, Guardado correactamente bajo el Código: ${
+            )}, guardado correactamente bajo el Código: ${
               String(entidad.codigo).split('-')[1]
             }`
           );

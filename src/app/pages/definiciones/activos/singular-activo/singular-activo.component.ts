@@ -338,40 +338,16 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
 
   guardar() {
     const activoDatosGenerales = this.formularioDatosGenerales.value;
-    const activoDetalle: ActivoDetalle = this.formularioDetalles.value;
-    const activoDepreciacion: ActivoDepreciacion =
-      this.formularioDepreciacion.value;
-    const activoUbicacion: ActivoUbicacion = this.formularioUbicacion.value;
     if (this.modoFormulario === 'CREANDO') {
-      this._activoDetalle
-        .guardar(activoDetalle)
-        .pipe(
-          first(),
-          mergeMap(() => this._activo.guardar(activoDatosGenerales))
-        )
+      this._activo
+        .guardar(activoDatosGenerales, this.titulo)
+        .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._activo
         .actualizar(this.id, activoDatosGenerales)
-        .pipe(
-          first(),
-          mergeMap(() =>
-            this._activoDetalle.actualizar(activoDetalle.id, activoDetalle)
-          ),
-          mergeMap(() =>
-            this._activoDepreciacion.actualizar(
-              activoDepreciacion.id,
-              activoDepreciacion
-            )
-          ),
-          mergeMap(() =>
-            this._activoUbicacion.actualizar(
-              activoUbicacion.id,
-              activoUbicacion
-            )
-          )
-        )
-        .subscribe();
+        .pipe(first())
+        .subscribe(() => this.irAtras());
     }
   }
 
