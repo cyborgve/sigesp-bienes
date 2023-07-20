@@ -347,17 +347,6 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         .guardar(activoDetalle)
         .pipe(
           first(),
-          tap(detalle => (activoDatosGenerales.activosDetalleId = detalle.id)),
-          mergeMap(() => this._activoDepreciacion.guardar(activoDepreciacion)),
-          tap(
-            depreciacion =>
-              (activoDatosGenerales.activosDepreciacionId = depreciacion.id)
-          ),
-          mergeMap(() => this._activoUbicacion.guardar(activoUbicacion)),
-          tap(
-            ubicacion =>
-              (activoDatosGenerales.activosUbicacionId = ubicacion.id)
-          ),
           mergeMap(() => this._activo.guardar(activoDatosGenerales))
         )
         .subscribe(() => this.irAtras());
