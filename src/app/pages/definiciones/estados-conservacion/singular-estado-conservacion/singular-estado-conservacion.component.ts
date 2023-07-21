@@ -113,12 +113,12 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
     let estadoConservacion: EstadoConservacion = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(estadoConservacion)
+        .guardar(estadoConservacion, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, estadoConservacion)
+        .actualizar(this.id, estadoConservacion, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -136,7 +136,12 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
         .beforeClosed()
         .pipe(
           filter(todo => !!todo),
-          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          switchMap(() =>
+            this._entidad.eliminar(
+              this.formulario.value.id,
+              this.titulo.toUpperCase()
+            )
+          ),
           take(1)
         )
         .subscribe(() => this.irAtras())

@@ -6,6 +6,7 @@ import { ModeloServicio } from '@core/models/auxiliares/modelo-servicio';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
+import { ordenarPorId } from '@core/utils/operadores-rxjs/ordenar-por-id';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
@@ -32,7 +33,8 @@ export abstract class GenericService<T extends Basica>
   buscarTodos(): Observable<T[]> {
     return this._http.get<T[]>(this.apiUrl).pipe(
       map((res: any) => res.data.map((ent: T) => normalizarObjeto(ent))),
-      filtrarValoresIniciales()
+      filtrarValoresIniciales(),
+      ordenarPorId()
     );
   }
 
@@ -43,16 +45,16 @@ export abstract class GenericService<T extends Basica>
     );
   }
 
-  guardar(entidad: T, tipoDato?: string): Observable<T> {
+  guardar(entidad: T, tipoDato: string): Observable<T> {
     return this._http.post<T>(this.apiUrl, entidad).pipe(
       map(respuesta => normalizarObjeto(respuesta)),
       tap(respuesta => {
-        if (respuesta) {
+        if (respuesta.data.length > 0) {
           let entidad = respuesta.data[0];
           this.snackBarMessage(
-            `${tipoDato}: ${String(
+            `Registro de ${tipoDato}: ${String(
               entidad.denominacion
-            )}, guardado correactamente bajo el Código: ${
+            )}, guardado correactamente bajo el CODIGO: ${
               String(entidad.codigo).split('-')[1]
             }`
           );
@@ -61,16 +63,30 @@ export abstract class GenericService<T extends Basica>
     );
   }
 
-  actualizar(id: Id, entidad: T): Observable<Number> {
-    return this._http
-      .put<Number>(this.apiUrlId(id), entidad)
-      .pipe(tap((respuesta: any) => console.log(respuesta.data)));
+  actualizar(id: Id, entidad: T, tipoDato: string): Observable<Number> {
+    return this._http.put<Number>(this.apiUrlId(id), entidad).pipe(
+      tap((respuesta: any) => {
+        if (respuesta.data > 0) {
+          let ent = entidad as any;
+          this.snackBarMessage(
+            `Registro de ${tipoDato}: ${ent.denominacion} CODIGO: ${String(
+              ent.codigo
+            ).substring(5)}, actualizado correctamente`
+          );
+        }
+      })
+    );
   }
 
-  eliminar(id: Id): Observable<T> {
-    return this._http
-      .delete<T>(this.apiUrlId(id))
-      .pipe(tap((respuesta: any) => console.log(respuesta.data)));
+  eliminar(id: Id, tipoDato: string): Observable<T> {
+    return this._http.delete<T>(this.apiUrlId(id)).pipe(
+      tap(eliminado => {
+        if (eliminado)
+          this.snackBarMessage(
+            `Registro de ${tipoDato} eliminado correctamente`
+          );
+      })
+    );
   }
 
   existe(id: Id): Observable<boolean> {

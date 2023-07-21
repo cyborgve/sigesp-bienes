@@ -117,12 +117,12 @@ export class SingularPropositoSemovienteComponent
     let entidad: PropositoSemoviente = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad)
+        .guardar(entidad, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, entidad)
+        .actualizar(this.id, entidad, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -139,7 +139,12 @@ export class SingularPropositoSemovienteComponent
       .beforeClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+        switchMap(() =>
+          this._entidad.eliminar(
+            this.formulario.value.id,
+            this.titulo.toUpperCase()
+          )
+        ),
         take(1)
       )
       .subscribe();

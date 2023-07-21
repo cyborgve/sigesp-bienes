@@ -103,7 +103,7 @@ export class TablaActivoComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'ACTIVO')),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

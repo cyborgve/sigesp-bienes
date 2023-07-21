@@ -115,12 +115,12 @@ export class SingularEstadoUsoComponent implements Entidad, OnDestroy {
     if (this.modoFormulario === 'CREANDO') {
       estadoUso.creado = new Date();
       this._entidad
-        .guardar(estadoUso)
+        .guardar(estadoUso, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, estadoUso)
+        .actualizar(this.id, estadoUso, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -138,7 +138,12 @@ export class SingularEstadoUsoComponent implements Entidad, OnDestroy {
         .beforeClosed()
         .pipe(
           filter(todo => !!todo),
-          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          switchMap(() =>
+            this._entidad.eliminar(
+              this.formulario.value.id,
+              this.titulo.toUpperCase()
+            )
+          ),
           take(1)
         )
         .subscribe(() => this.irAtras())

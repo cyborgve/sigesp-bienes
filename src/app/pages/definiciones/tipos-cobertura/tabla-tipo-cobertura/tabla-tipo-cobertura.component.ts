@@ -99,7 +99,9 @@ export class TablaTipoCoberturaComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() =>
+          this._entidad.eliminar(entidad.id, 'TIPO DE COBERTURA')
+        ),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

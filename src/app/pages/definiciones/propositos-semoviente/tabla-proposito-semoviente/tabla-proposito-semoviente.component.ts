@@ -101,7 +101,9 @@ export class TablaPropositoSemovienteComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() =>
+          this._entidad.eliminar(entidad.id, 'PROPOSITO SEMOVIENTE')
+        ),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

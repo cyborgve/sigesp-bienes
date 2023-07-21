@@ -113,12 +113,12 @@ export class SingularColorComponent implements Entidad, OnDestroy {
     let color: Color = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(color)
+        .guardar(color, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, color)
+        .actualizar(this.id, color, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -136,7 +136,12 @@ export class SingularColorComponent implements Entidad, OnDestroy {
         .beforeClosed()
         .pipe(
           filter(todo => !!todo),
-          switchMap(() => this._entidad.eliminar(this.formulario.value.id)),
+          switchMap(() =>
+            this._entidad.eliminar(
+              this.formulario.value.id,
+              this.titulo.toUpperCase()
+            )
+          ),
           take(1)
         )
         .subscribe(() => this.irAtras())

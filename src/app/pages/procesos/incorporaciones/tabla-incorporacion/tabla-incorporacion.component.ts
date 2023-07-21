@@ -98,7 +98,7 @@ export class TablaIncorporacionComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'INCORPORACION')),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

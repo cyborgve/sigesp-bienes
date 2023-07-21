@@ -340,12 +340,12 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     const activoDatosGenerales = this.formularioDatosGenerales.value;
     if (this.modoFormulario === 'CREANDO') {
       this._activo
-        .guardar(activoDatosGenerales, this.titulo)
+        .guardar(activoDatosGenerales, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._activo
-        .actualizar(this.id, activoDatosGenerales)
+        .actualizar(this.id, activoDatosGenerales, this.titulo.toUpperCase())
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -363,7 +363,10 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._activo.eliminar(this.formularioDatosGenerales.value.id)
+          this._activo.eliminar(
+            this.formularioDatosGenerales.value.id,
+            this.titulo.toUpperCase()
+          )
         ),
         take(1)
       )

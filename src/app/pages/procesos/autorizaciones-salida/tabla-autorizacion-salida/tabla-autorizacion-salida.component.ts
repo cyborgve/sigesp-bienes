@@ -99,7 +99,9 @@ export class TablaAutorizacionSalidaComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() =>
+          this._entidad.eliminar(entidad.id, 'AUTORIZACION DE SALIDA')
+        ),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

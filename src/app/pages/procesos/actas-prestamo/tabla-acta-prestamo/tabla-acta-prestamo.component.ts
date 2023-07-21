@@ -98,7 +98,7 @@ export class TablaActaPrestamoComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'ACTA DE PRESTAMO')),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

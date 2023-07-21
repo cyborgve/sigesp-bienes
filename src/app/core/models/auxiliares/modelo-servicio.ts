@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 export interface ModeloServicio<T> {
   buscarTodos(): Observable<T[]>;
   buscarPorId(id: Id): Observable<T>;
-  guardar(entity: T): Observable<T>;
-  actualizar(id: Id, entity: T): Observable<Number>;
-  eliminar(id: Id): Observable<T>;
+  guardar(entity: T, tipoDato: string): Observable<T>;
+  actualizar(id: Id, entity: T, tipoDato: string): Observable<Number>;
+  eliminar(id: Id, tipoDato: string): Observable<T>;
   existe(id: Id): Observable<boolean>;
 }

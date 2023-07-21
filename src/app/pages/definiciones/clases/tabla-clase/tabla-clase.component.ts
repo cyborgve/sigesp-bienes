@@ -96,7 +96,7 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'CLASE')),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

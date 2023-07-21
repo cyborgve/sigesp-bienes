@@ -101,7 +101,12 @@ export class TablaCategoriaUnidadComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() =>
+          this._entidad.eliminar(
+            entidad.id,
+            'CATEGORIA DE UNIDAD ADMINISTRATIVA'
+          )
+        ),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

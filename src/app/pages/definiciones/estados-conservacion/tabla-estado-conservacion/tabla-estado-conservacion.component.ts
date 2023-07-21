@@ -99,7 +99,9 @@ export class TablaEstadoConservacionComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id)),
+        switchMap(() =>
+          this._entidad.eliminar(entidad.id, 'ESTADO DE CONSERVACION')
+        ),
         take(1)
       )
       .subscribe(() => this.recargarDatos());
