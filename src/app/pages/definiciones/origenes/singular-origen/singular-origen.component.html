@@ -18,6 +18,11 @@
             readonly="true"
             [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominación</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
         <!-- fecha origen -->
         <mat-form-field appearance="fill" class="fechaOrigen">
           <mat-label>Fecha Origen</mat-label>
@@ -49,23 +54,14 @@
           <mat-label>Modo Adquisicion</mat-label>
           <mat-select formControlName="modoAdquisicion">
             <mat-option value="">Seleccionar</mat-option>
-            <mat-option *ngFor="let modo of modosAdquisicion" [value]="modo">{{
-              modo
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <!-- forma adquisicion -->
-        <mat-form-field appearance="fill" class="formaAdquisicion">
-          <mat-label>Forma Adquisicion</mat-label>
-          <mat-select formControlName="formaAdquisicion">
-            <mat-option value="">Seleccionar</mat-option>
             <mat-option
-              *ngFor="let forma of formasAdquisicion"
-              [value]="forma"
-              >{{ forma }}</mat-option
+              *ngFor="let modo of modosAdquisicion"
+              [value]="modo[0]"
+              >{{ modo[1] | titlecase }}</mat-option
             >
           </mat-select>
         </mat-form-field>
+
         <!-- numero forma adquisicion -->
         <mat-form-field appearance="fill" class="numeroFormaAdquisicion">
           <mat-label>Numero Forma de Adquisicion</mat-label>

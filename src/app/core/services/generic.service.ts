@@ -46,44 +46,59 @@ export abstract class GenericService<T extends Basica>
     );
   }
 
-  guardar(entidad: T, tipoDato: string): Observable<T> {
+  guardar(
+    entidad: T,
+    tipoDato: string,
+    notificar: boolean = true
+  ): Observable<T> {
     return this._http.post<T>(this.apiUrl, entidad).pipe(
       map(respuesta => normalizarObjeto(respuesta)),
       tap(respuesta => {
-        if (respuesta.data.length > 0) {
-          let entidad = respuesta.data[0];
-          this.snackBarMessage(
-            `${tipoOracion(tipoDato)}:  "${
-              String(entidad.codigo).split('-')[1]
-            }-${String(entidad.denominacion)}", guardado correactamente`
-          );
+        if (notificar) {
+          if (respuesta.data.length > 0) {
+            let entidad = respuesta.data[0];
+            this.snackBarMessage(
+              `${tipoOracion(tipoDato)}:  "${
+                String(entidad.codigo).split('-')[1]
+              }-${String(entidad.denominacion)}", guardado correactamente`
+            );
+          }
         }
       })
     );
   }
 
-  actualizar(id: Id, entidad: T, tipoDato: string): Observable<Number> {
+  actualizar(
+    id: Id,
+    entidad: T,
+    tipoDato: string,
+    notificar: boolean = true
+  ): Observable<Number> {
     return this._http.put<Number>(this.apiUrlId(id), entidad).pipe(
       tap((respuesta: any) => {
-        if (respuesta.data > 0) {
-          let ent = entidad as any;
-          this.snackBarMessage(
-            `${tipoOracion(tipoDato)}: "${String(ent.codigo).split('-')[1]}-${
-              ent.denominacion
-            }", actualizado correctamente`
-          );
+        if (notificar) {
+          if (respuesta.data > 0) {
+            let ent = entidad as any;
+            this.snackBarMessage(
+              `${tipoOracion(tipoDato)}: "${String(ent.codigo).split('-')[1]}-${
+                ent.denominacion
+              }", actualizado correctamente`
+            );
+          }
         }
       })
     );
   }
 
-  eliminar(id: Id, tipoDato: string): Observable<T> {
+  eliminar(id: Id, tipoDato: string, notificar: boolean = true): Observable<T> {
     return this._http.delete<T>(this.apiUrlId(id)).pipe(
       tap(eliminado => {
-        if (eliminado)
-          this.snackBarMessage(
-            `${tipoOracion(tipoDato)} eliminado correctamente`
-          );
+        if (notificar) {
+          if (eliminado)
+            this.snackBarMessage(
+              `${tipoOracion(tipoDato)} eliminado correctamente`
+            );
+        }
       })
     );
   }

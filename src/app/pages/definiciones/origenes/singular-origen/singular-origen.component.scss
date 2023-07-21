@@ -15,10 +15,17 @@
   @apply col-span-3;
 }
 
-.nombrePropietarioAnterior,
+.nombrePropietarioAnterior {
+  @apply col-span-4;
+}
+
 .nombreBeneficiario,
 .nombreBenefactor {
   @apply col-span-6;
+}
+
+.denominacion {
+  @apply col-span-5;
 }
 
 .observaciones {

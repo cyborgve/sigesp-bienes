@@ -113,12 +113,12 @@ export class SingularCategoriaComponent implements Entidad, OnDestroy {
     let entidad: Categoria = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
+        .guardar(entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+        .actualizar(this.id, entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }

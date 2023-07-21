@@ -14,6 +14,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
+import { MODOS_ADQUISICION } from '@core/constants/modos-adquisicion';
 
 @Component({
   selector: 'app-singular-origen',
@@ -26,9 +27,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   id: Id;
   titulo = CORRELATIVOS[12].nombre;
   formulario: FormGroup;
-  //TODO: preguntar por los tipos de adquisicion y los modos de adquisicion.
-  modosAdquisicion: string[] = ['Modo 1', 'Modo 2', 'Modo 3'];
-  formasAdquisicion: string[] = ['Forma 1', 'Forma 2', 'Forma 3'];
+  modosAdquisicion = MODOS_ADQUISICION;
 
   constructor(
     private _entidad: OrigenService,
@@ -43,9 +42,10 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       empresaId: [''],
       id: [''],
       codigo: ['autogenerado'],
+      denominacion: ['', Validators.required],
       fechaOrigen: [new Date()],
       fechaAdquisicion: [new Date()],
-      modoAdquisicion: ['', Validators.required],
+      modoAdquisicion: [''],
       formaAdquisicion: [''],
       numeroFormaAdquisicion: [''],
       nombreFormaAdquisicion: [''],
@@ -160,12 +160,12 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
     let entidad: Origen = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
+        .guardar(entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+        .actualizar(this.id, entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -183,10 +183,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._entidad.eliminar(
-            this.formulario.value.id,
-            this.titulo.toUpperCase()
-          )
+          this._entidad.eliminar(this.formulario.value.id, this.titulo)
         ),
         take(1)
       )

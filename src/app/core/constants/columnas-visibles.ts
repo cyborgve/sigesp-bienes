@@ -76,7 +76,14 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  ORIGENES: ['codigo', 'modoAdquisicion', 'creado', 'modificado', 'acciones'],
+  ORIGENES: [
+    'codigo',
+    'denominacion',
+    'modoAdquisicion',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   PLANTILLAS_DEPRECIACION: [
     'codigo',
     'denominacion',
