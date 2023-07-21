@@ -71,14 +71,12 @@
             matInput
             formControlName="activoId"
             readonly="true"
-            [value]="formulario.value.activoId | denominacionActivo | async" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarActivo()">
-            <mat-icon>search</mat-icon>
-          </button>
+            [value]="
+              formulario.value.activoId
+                | denominacionActivo
+                | async
+                | corregirNoAsignado
+            " />
         </mat-form-field>
         <!-- especificaciones -->
         <mat-form-field appearance="fill" class="especificaciones">

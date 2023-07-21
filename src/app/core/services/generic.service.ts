@@ -5,6 +5,7 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { ModeloServicio } from '@core/models/auxiliares/modelo-servicio';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorId } from '@core/utils/operadores-rxjs/ordenar-por-id';
 import { Observable, of } from 'rxjs';
@@ -52,11 +53,9 @@ export abstract class GenericService<T extends Basica>
         if (respuesta.data.length > 0) {
           let entidad = respuesta.data[0];
           this.snackBarMessage(
-            `Registro de ${tipoDato}: ${String(
-              entidad.denominacion
-            )}, guardado correactamente bajo el CODIGO: ${
+            `${tipoOracion(tipoDato)}:  "${
               String(entidad.codigo).split('-')[1]
-            }`
+            }-${String(entidad.denominacion)}", guardado correactamente`
           );
         }
       })
@@ -69,9 +68,9 @@ export abstract class GenericService<T extends Basica>
         if (respuesta.data > 0) {
           let ent = entidad as any;
           this.snackBarMessage(
-            `Registro de ${tipoDato}: ${ent.denominacion} CODIGO: ${String(
-              ent.codigo
-            ).substring(5)}, actualizado correctamente`
+            `${tipoOracion(tipoDato)}: "${String(ent.codigo).split('-')[1]}-${
+              ent.denominacion
+            }", actualizado correctamente`
           );
         }
       })
@@ -83,7 +82,7 @@ export abstract class GenericService<T extends Basica>
       tap(eliminado => {
         if (eliminado)
           this.snackBarMessage(
-            `Registro de ${tipoDato} eliminado correctamente`
+            `${tipoOracion(tipoDato)} eliminado correctamente`
           );
       })
     );
