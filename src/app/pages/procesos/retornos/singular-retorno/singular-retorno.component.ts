@@ -104,13 +104,17 @@ export class SingularRetornoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        switchMap((retorno: Basica) => this._entidad.buscarPorId(retorno.id)),
+        switchMap((retorno: Basica) =>
+          retorno ? this._entidad.buscarPorId(retorno.id) : undefined
+        ),
         tap(entidad =>
-          this.formulario.patchValue({
-            beneficiario: entidad.beneficiario,
-            observaciones: entidad.observaciones,
-            activos: entidad.activos,
-          })
+          entidad
+            ? this.formulario.patchValue({
+                beneficiario: entidad.beneficiario,
+                observaciones: entidad.observaciones,
+                activos: entidad.activos,
+              })
+            : undefined
         ),
         take(1)
       )

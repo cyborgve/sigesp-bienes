@@ -112,14 +112,16 @@ export class SingularCambioResponsableComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: CambioResponsable) => {
-          this.formulario.patchValue({
-            tipoResponsable: entidad.tipoResponsable,
-            responsableActual: entidad.responsableActual,
-            nuevoResponsable: entidad.nuevoResponsable,
-            observaciones: entidad.observaciones,
-          });
-        }),
+        tap((entidad: CambioResponsable) =>
+          entidad
+            ? this.formulario.patchValue({
+                tipoResponsable: entidad.tipoResponsable,
+                responsableActual: entidad.responsableActual,
+                nuevoResponsable: entidad.nuevoResponsable,
+                observaciones: entidad.observaciones,
+              })
+            : undefined
+        ),
         take(1)
       )
       .subscribe();

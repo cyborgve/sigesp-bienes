@@ -203,7 +203,7 @@ export const MENU: MenuItem[] = [
     items: [
       {
         label: 'Incorporaciones',
-        routerLink: 'incorporaciones/incorporarion',
+        routerLink: 'incorporaciones/incorporacion',
         icon: 'contract',
         image: './assets/images/svg/contract.svg',
       },
@@ -251,7 +251,7 @@ export const MENU: MenuItem[] = [
       },
       {
         label: 'Retornos',
-        routerLink: 'retornos/rotulacion',
+        routerLink: 'retornos/retorno',
         icon: 'assignment_returned',
         image: './assets/images/svg/assignment_returned.svg',
       },

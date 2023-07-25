@@ -47,9 +47,11 @@
           <mat-label>Tipo de responsable</mat-label>
           <mat-select formControlName="tipoResponsable">
             <mat-option value="">Seleccionar</mat-option>
-            <mat-option *ngFor="let tipo of tiposResponsable" [value]="tipo">{{
-              tipo | titlecase
-            }}</mat-option>
+            <mat-option
+              *ngFor="let tipo of tiposResponsable; let pos = index"
+              [value]="pos"
+              >{{ tipo | titlecase }}</mat-option
+            >
           </mat-select>
         </mat-form-field>
         <!-- responsableActual -->

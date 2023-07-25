@@ -116,16 +116,18 @@ export class SingularModificacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         switchMap((modificacion: Basica) =>
-          this._entidad.buscarPorId(modificacion.id)
+          modificacion ? this._entidad.buscarPorId(modificacion.id) : undefined
         ),
         tap(entidad =>
-          this.formulario.patchValue({
-            causaMovimiento: entidad.causaMovimiento,
-            activo: entidad.activo,
-            identificador: entidad.identificador,
-            serial: entidad.serial,
-            observaciones: entidad.observaciones,
-          })
+          entidad
+            ? this.formulario.patchValue({
+                causaMovimiento: entidad.causaMovimiento,
+                activo: entidad.activo,
+                identificador: entidad.identificador,
+                serial: entidad.serial,
+                observaciones: entidad.observaciones,
+              })
+            : undefined
         ),
         take(1)
       )

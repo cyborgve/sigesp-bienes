@@ -42,7 +42,7 @@ export class BuscadorCentroCostoComponent
 
   private recargarDatos() {
     this._sigesp
-      .getCentroCosto()
+      .getCentroCosto('all')
       .pipe(
         first(),
         adaptarCentrosCosto(),

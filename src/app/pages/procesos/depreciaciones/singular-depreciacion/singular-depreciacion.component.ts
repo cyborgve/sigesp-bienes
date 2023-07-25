@@ -131,24 +131,26 @@ export class SingularDepreciacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         switchMap((depreciacion: Basica) =>
-          this._entidad.buscarPorId(depreciacion.id)
+          depreciacion ? this._entidad.buscarPorId(depreciacion.id) : undefined
         ),
         tap(entidad =>
-          this.formulario.patchValue({
-            activo: entidad.activo,
-            serial: entidad.serial,
-            identificador: entidad.identificador,
-            fechaCompra: entidad.fechaCompra,
-            fechaIncorporacion: entidad.fechaIncorporacion,
-            metodo: entidad.metodo,
-            costo: entidad.costo,
-            valorRescate: entidad.valorRescate,
-            montoDepreciar: entidad.montoDepreciar,
-            vidaUtil: entidad.vidaUtil,
-            depreciacionMensual: entidad.depreciacionMensual,
-            depreciacionAnual: entidad.depreciacionAnual,
-            observaciones: entidad.observaciones,
-          })
+          entidad
+            ? this.formulario.patchValue({
+                activo: entidad.activo,
+                serial: entidad.serial,
+                identificador: entidad.identificador,
+                fechaCompra: entidad.fechaCompra,
+                fechaIncorporacion: entidad.fechaIncorporacion,
+                metodo: entidad.metodo,
+                costo: entidad.costo,
+                valorRescate: entidad.valorRescate,
+                montoDepreciar: entidad.montoDepreciar,
+                vidaUtil: entidad.vidaUtil,
+                depreciacionMensual: entidad.depreciacionMensual,
+                depreciacionAnual: entidad.depreciacionAnual,
+                observaciones: entidad.observaciones,
+              })
+            : undefined
         ),
         take(1)
       )

@@ -113,20 +113,22 @@ export class SingularDesincorporacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         switchMap((depreciacion: Basica) =>
-          this._entidad.buscarPorId(depreciacion.id)
+          depreciacion ? this._entidad.buscarPorId(depreciacion.id) : undefined
         ),
         tap(entidad =>
-          this.formulario.patchValue({
-            causaMovimiento: entidad.causaMovimiento,
-            unidadAdministrativa: entidad.unidadAdministrativa,
-            observaciones: entidad.observaciones,
-            activos: entidad.activos,
-            total: entidad.total,
-            cuentasContables: entidad.cuentasContables,
-            debe: entidad.debe,
-            haber: entidad.haber,
-            diferencia: entidad.diferencia,
-          })
+          entidad
+            ? this.formulario.patchValue({
+                causaMovimiento: entidad.causaMovimiento,
+                unidadAdministrativa: entidad.unidadAdministrativa,
+                observaciones: entidad.observaciones,
+                activos: entidad.activos,
+                total: entidad.total,
+                cuentasContables: entidad.cuentasContables,
+                debe: entidad.debe,
+                haber: entidad.haber,
+                diferencia: entidad.diferencia,
+              })
+            : undefined
         ),
         take(1)
       )

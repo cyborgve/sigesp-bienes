@@ -113,16 +113,19 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: ActaPrestamo) => {
-          this.formulario.patchValue({
-            unidadAdministrativaCedente: entidad.unidadAdministrativaCedente,
-            unidadCedenteResponsable: entidad.unidadCedenteResponsable,
-            unidadAdministrativaReceptora:
-              entidad.unidadAdministrativaReceptora,
-            unidadReceptoraResponsable: entidad.unidadReceptoraResponsable,
-            testigo: entidad.testigo,
-          });
-        }),
+        tap((entidad: ActaPrestamo) =>
+          entidad
+            ? this.formulario.patchValue({
+                unidadAdministrativaCedente:
+                  entidad.unidadAdministrativaCedente,
+                unidadCedenteResponsable: entidad.unidadCedenteResponsable,
+                unidadAdministrativaReceptora:
+                  entidad.unidadAdministrativaReceptora,
+                unidadReceptoraResponsable: entidad.unidadReceptoraResponsable,
+                testigo: entidad.testigo,
+              })
+            : undefined
+        ),
         take(1)
       )
       .subscribe();

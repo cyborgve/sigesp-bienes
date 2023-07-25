@@ -14,7 +14,7 @@ export interface Modificacion extends Basica {
 
 export interface ModificacionActivo extends Basica {
   modificacion: Id;
-  activo: Id;
+  componente: Id;
 }
 
 export interface ModificacionCuentaContable extends Basica {

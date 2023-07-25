@@ -1,3 +1,4 @@
+import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -7,11 +8,10 @@ import { Id } from '@core/types/id';
 import { first, take, tap, map } from 'rxjs/operators';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { Location } from '@angular/common';
-import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
 import { prepararConfiguracion } from '@core/utils/funciones/preparar-configuracion';
-import { adaptarConfiguracion } from '@core/utils/funciones/adaptar-configuracion';
+import { adaptarConfiguracion } from '@core/utils/adaptadores-rxjs.ts/adaptar-configuracion';
 
 @Component({
   selector: 'app-configuraciones',
@@ -44,29 +44,15 @@ export class ConfiguracionesComponent implements Entidad {
       longitudCodigoInstitucional: [0],
       formatoCatalogoCuentaGeneral: [''],
       formatoCodigoInstitucional: [''],
-      generarAsientosContables: [false],
-      fechaIncorporacionAutomatica: [false],
-      usarMascaraCodigoActivo: [false],
-      activarPaginacion: [false],
-      opcionesPaginacion: [[]],
+      generarAsientosContables: 0,
+      fechaIncorporacionAutomatica: 0,
+      usarMascaraCodigoActivo: 0,
+      activarPaginacion: 0,
+      opcionesPaginacion: [[8, 20, 50, 100]],
       creado: [new Date()],
       modificado: [new Date()],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
-
-    /* Verifica que exista una configuracion almacenada, si no existe
-    entonces re-enruta la solicitud al mismo end-point pero sin id */
-    this._entidad
-      .existe(this.id)
-      .pipe(
-        first(),
-        tap(existe => {
-          if (!existe) {
-            this._router.navigate(['/definiciones/configuraciones']);
-          }
-        })
-      )
-      .subscribe();
     this.actualizarFormulario();
   }
 
@@ -76,28 +62,25 @@ export class ConfiguracionesComponent implements Entidad {
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          map(configuracion => adaptarConfiguracion(configuracion)),
+          adaptarConfiguracion(),
           tap(
-            entidad =>
+            (ent: Configuracion) =>
               this.formulario.patchValue({
-                empresaId: entidad.empresaId,
-                id: entidad.id,
-                normativaActivos: entidad.normativaActivos,
-                afectacionDepreciacion: entidad.afectacionDepreciacion,
-                longitudCatalogoCuentas: entidad.longitudCatalogoCuentas,
-                longitudCodigoInstitucional:
-                  entidad.longitudCodigoInstitucional,
-                formatoCatalogoCuentaGeneral:
-                  entidad.formatoCatalogoCuentaGeneral,
-                formatoCodigoInstitucional: entidad.formatoCodigoInstitucional,
-                generarAsientosContables: entidad.generarAsientosContables,
-                fechaIncorporacionAutomatica:
-                  entidad.fechaIncorporacionAutomatica,
-                usarMascaraCodigoActivo: entidad.usarMascaraCodigoActivo,
-                activarPaginacion: entidad.activarPaginacion,
-                opcionesPaginacion: entidad.opcionesPaginacion,
-                creado: entidad.creado,
-                modificado: entidad.modificado,
+                empresaId: ent.empresaId,
+                id: ent.id,
+                normativaActivos: ent.normativaActivos,
+                afectacionDepreciacion: ent.afectacionDepreciacion,
+                longitudCatalogoCuentas: ent.longitudCatalogoCuentas,
+                longitudCodigoInstitucional: ent.longitudCodigoInstitucional,
+                formatoCatalogoCuentaGeneral: ent.formatoCatalogoCuentaGeneral,
+                formatoCodigoInstitucional: ent.formatoCodigoInstitucional,
+                generarAsientosContables: ent.generarAsientosContables,
+                fechaIncorporacionAutomatica: ent.fechaIncorporacionAutomatica,
+                usarMascaraCodigoActivo: ent.usarMascaraCodigoActivo,
+                activarPaginacion: ent.activarPaginacion,
+                opcionesPaginacion: ent.opcionesPaginacion,
+                creado: ent.creado,
+                modificado: ent.modificado,
               }),
             take(1)
           )

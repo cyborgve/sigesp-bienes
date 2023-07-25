@@ -5,5 +5,10 @@ export interface Retorno extends Basica {
   comprobante: Id;
   beneficiario: Id;
   observaciones: string;
-  activos: Id[];
+  activos: RetornoActivo[];
+}
+
+export interface RetornoActivo extends Basica {
+  retorno: Id;
+  activo: Id;
 }

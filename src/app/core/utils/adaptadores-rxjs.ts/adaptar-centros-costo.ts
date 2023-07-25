@@ -10,7 +10,7 @@ export const adaptarCentrosCosto = () =>
           <CentroCosto>{
             empresaId: centroCosto.idEmpresa,
             id: centroCosto.centro,
-            codigo: centroCosto.centro,
+            codigo: Number(centroCosto.centro),
             denominacion: centroCosto.denominacion,
             creado: new Date(),
             modificado: new Date(),

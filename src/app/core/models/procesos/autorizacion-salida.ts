@@ -9,3 +9,8 @@ export interface AutorizacionSalida extends Basica {
   explicacion: string;
   observaciones: string;
 }
+
+export interface AutorizacionSalidaActivo extends Basica {
+  autorizacionSalida: Id;
+  activo: Id;
+}

@@ -21,7 +21,7 @@ export interface Depreciacion extends Basica {
 }
 
 export interface DepreciacionDetalle extends Basica {
-  comprobante: Id;
+  depreciacion: Id;
   fecha: Date;
   meses: number;
   dias: number;

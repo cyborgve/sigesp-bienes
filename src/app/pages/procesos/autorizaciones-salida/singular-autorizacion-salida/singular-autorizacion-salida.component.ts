@@ -110,15 +110,18 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: AutorizacionSalida) => {
-          this.formulario.patchValue({
-            unidadAdministrativaCedente: entidad.unidadAdministrativaCedente,
-            empresaPresonalEntrega: entidad.empresaPersonaEntrega,
-            representanteEmpresa: entidad.representanteEmpresa,
-            explicacion: entidad.explicacion,
-            observaciones: entidad.observaciones,
-          });
-        }),
+        tap((entidad: AutorizacionSalida) =>
+          entidad
+            ? this.formulario.patchValue({
+                unidadAdministrativaCedente:
+                  entidad.unidadAdministrativaCedente,
+                empresaPresonalEntrega: entidad.empresaPersonaEntrega,
+                representanteEmpresa: entidad.representanteEmpresa,
+                explicacion: entidad.explicacion,
+                observaciones: entidad.observaciones,
+              })
+            : undefined
+        ),
         take(1)
       )
       .subscribe();

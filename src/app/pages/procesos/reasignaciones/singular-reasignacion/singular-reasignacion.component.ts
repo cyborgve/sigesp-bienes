@@ -116,16 +116,18 @@ export class SingularReasignacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         switchMap((modificacion: Basica) =>
-          this._entidad.buscarPorId(modificacion.id)
+          modificacion ? this._entidad.buscarPorId(modificacion.id) : undefined
         ),
         tap(entidad =>
-          this.formulario.patchValue({
-            causaMovimiento: entidad.causaMovimiento,
-            responsablePrimario: entidad.responsablePrimario,
-            responsableUso: entidad.responsableUso,
-            sede: entidad.sede,
-            observaciones: entidad.observaciones,
-          })
+          entidad
+            ? this.formulario.patchValue({
+                causaMovimiento: entidad.causaMovimiento,
+                responsablePrimario: entidad.responsablePrimario,
+                responsableUso: entidad.responsableUso,
+                sede: entidad.sede,
+                observaciones: entidad.observaciones,
+              })
+            : undefined
         ),
         take(1)
       )

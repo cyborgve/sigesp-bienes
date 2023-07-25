@@ -116,18 +116,20 @@ export class SingularIncorporacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         switchMap((depreciacion: Basica) =>
-          this._entidad.buscarPorId(depreciacion.id)
+          depreciacion ? this._entidad.buscarPorId(depreciacion.id) : undefined
         ),
         tap(entidad =>
-          this.formulario.patchValue({
-            causaMovimiento: entidad.causaMovimiento,
-            responsablePrimario: entidad.responsablePrimario,
-            responsableUso: entidad.responsableUso,
-            unidadAdministrativa: entidad.unidadAdministrativa,
-            sede: entidad.sede,
-            fechaEntrega: entidad.fechaEntrega,
-            observaciones: entidad.observaciones,
-          })
+          entidad
+            ? this.formulario.patchValue({
+                causaMovimiento: entidad.causaMovimiento,
+                responsablePrimario: entidad.responsablePrimario,
+                responsableUso: entidad.responsableUso,
+                unidadAdministrativa: entidad.unidadAdministrativa,
+                sede: entidad.sede,
+                fechaEntrega: entidad.fechaEntrega,
+                observaciones: entidad.observaciones,
+              })
+            : undefined
         ),
         take(1)
       )

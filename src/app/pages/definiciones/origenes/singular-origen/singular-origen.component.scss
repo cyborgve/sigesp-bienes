@@ -2,19 +2,19 @@
 .numeroFormaAdquisicion,
 .fechaAdquisicion,
 .fechaFactura,
-.numeroFactura,
-.proveedorId {
+.tomo,
+.folio,
+.numeroFactura {
   @apply col-span-2;
 }
 
 .modoAdquisicion,
 .formaAdquisicion,
-.nombreFormaAdquisicion,
-.tomo,
-.folio {
+.nombreFormaAdquisicion {
   @apply col-span-3;
 }
 
+.proveedorId,
 .nombrePropietarioAnterior {
   @apply col-span-4;
 }

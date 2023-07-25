@@ -102,15 +102,17 @@ export class SingularEntregaUnidadComponent implements Entidad {
       .afterClosed()
       .pipe(
         switchMap((depreciacion: Basica) =>
-          this._entidad.buscarPorId(depreciacion.id)
+          depreciacion ? this._entidad.buscarPorId(depreciacion.id) : undefined
         ),
         tap(entidad =>
-          this.formulario.patchValue({
-            sede: entidad.sede,
-            responsableActual: entidad.responsableActual,
-            nuevoResponsable: entidad.nuevoResponsable,
-            observaciones: entidad.obervaciones,
-          })
+          entidad
+            ? this.formulario.patchValue({
+                sede: entidad.sede,
+                responsableActual: entidad.responsableActual,
+                nuevoResponsable: entidad.nuevoResponsable,
+                observaciones: entidad.obervaciones,
+              })
+            : undefined
         ),
         take(1)
       )
