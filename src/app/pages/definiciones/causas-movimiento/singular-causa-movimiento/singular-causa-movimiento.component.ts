@@ -15,6 +15,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { Subscription } from 'rxjs';
+import { adaptarCausaMovimiento } from '@core/utils/adaptadores-rxjs.ts/adaptar-causa-movimiento';
 
 @Component({
   selector: 'app-singular-causa-movimiento',
@@ -64,6 +65,7 @@ export class SingularCausaMovimientoComponent implements Entidad, OnDestroy {
         .buscarPorId(this.id)
         .pipe(
           take(1),
+          adaptarCausaMovimiento(),
           tap(entidad => {
             this.formulario = this._formBuilder.group({
               empresaId: [entidad.empresaId],
