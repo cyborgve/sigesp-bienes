@@ -1,9 +1,8 @@
 import { Basica } from '@core/models/auxiliares/basica';
-import { Codigo } from '@core/types/codigo';
 import { Id } from '@core/types/id';
 
 export interface Sede extends Basica {
-  codigo: Codigo;
+  codigo: string;
   denominacion: string;
   tipoSedeId: Id;
   localizacion: string;

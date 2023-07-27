@@ -2,23 +2,38 @@
   @apply col-span-1;
 }
 
+.monedaIdValorRescate,
 .valorRescate,
 .unidadVidaUtil {
   @apply col-span-2;
 }
 
-.monedaIdValorRescate,
 .plantillaDepreciacion,
-.metodoDepreciacion,
-.cuentaContableGasto,
-.cuentaContableDepreciacion {
+.metodoDepreciacion {
   @apply col-span-3;
 }
 
-.depreciable {
-  @apply col-span-2 pt-4;
+.metodoDepreciacion {
+  @apply col-start-7;
 }
 
-.plantillaDepreciacion {
-  @apply col-start-10;
+.cuentaContableGasto,
+.cuentaContableDepreciacion {
+  @apply col-span-4;
+}
+
+.depreciable {
+  @apply col-span-full pb-4;
+}
+
+.depreciable-sub {
+  @apply text-green-800 text-lg font-medium underline;
+}
+
+.noDepreciable-sub {
+  @apply text-red-700 text-lg font-medium pl-2;
+}
+
+.cuentaContableGasto {
+  @apply col-start-1;
 }

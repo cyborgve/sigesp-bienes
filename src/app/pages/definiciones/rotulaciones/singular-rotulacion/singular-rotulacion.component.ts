@@ -70,9 +70,9 @@ export class SingularRotulacionComponent implements Entidad {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
-            this.formulario.patchValue({
-              comprobante: `${ser}-${doc}`,
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
+            return this.formulario.patchValue({
+              codigo: `${ser}-${cor}`,
             });
           }),
           take(1)
@@ -102,9 +102,7 @@ export class SingularRotulacionComponent implements Entidad {
 
   guardar() {
     let entidad: Rotulacion = this.formulario.value;
-    entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
-      entidad.creado = new Date();
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())
         .pipe(first())

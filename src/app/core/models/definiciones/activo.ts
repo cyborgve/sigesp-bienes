@@ -1,5 +1,9 @@
 import { Basica } from '@core/models/auxiliares/basica';
 import { Id } from '@core/types/id';
+import { ActivoComponente } from './activo-componente';
+import { ActivoDepreciacion } from './activo-depreciacion';
+import { ActivoDetalle } from './activo-detalle';
+import { ActivoUbicacion } from './activo-ubicacion';
 
 export interface Activo extends Basica {
   codigo: string;
@@ -18,7 +22,8 @@ export interface Activo extends Basica {
   colorId: Id;
   rotulacionId: Id;
   categoriaId: Id;
-  activosDetalleId: Id;
-  activosDepreciacionId: Id;
-  activosUbicacionId: Id;
+  detalle: ActivoDetalle;
+  componentes: ActivoComponente[];
+  depreciacion: ActivoDepreciacion;
+  ubicacion: ActivoUbicacion;
 }

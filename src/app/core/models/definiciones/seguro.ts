@@ -1,10 +1,9 @@
-import { Codigo } from '@core/types/codigo';
 import { Id } from '@core/types/id';
 import { Basica } from '@core/models/auxiliares/basica';
 
 export interface Seguro extends Basica {
   activoId: Id;
-  codigo: Codigo;
+  codigo: string;
   denominacion: string;
   aseguradoraId: Id;
   tipoPolizaId: Id;

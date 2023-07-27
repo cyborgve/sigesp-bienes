@@ -2,9 +2,10 @@ import { Id } from '@core/types/id';
 import { Basica } from '@core/models/auxiliares/basica';
 
 export interface ActivoDetalle extends Basica {
+  activoId: Id;
   garantia: number;
   unidadGarantia: string;
-  iniciogarantia: Date;
+  inicioGarantia: Date;
   finGarantia: Date;
   asegurado: number;
   claseId: Id;

@@ -1,9 +1,19 @@
 <form [formGroup]="formulario">
   <section class="contenido">
     <!-- depreciable -->
-    <mat-slide-toggle formControlName="depreciable" class="depreciable"
-      >Depreciable</mat-slide-toggle
-    >
+    <article class="depreciable">
+      <ng-container
+        *ngIf="formulario.value.depreciable === 1; else noDepreciable">
+        <span class="depreciable-sub">Este activo es depreciable </span>
+        <mat-icon class="depreciable-sub">check</mat-icon>
+      </ng-container>
+      <ng-template #noDepreciable
+        ><span class="noDepreciable-sub"
+          >Este activo aun no es depreciable, llene todos los datos para hacerlo
+          depreciable.</span
+        ></ng-template
+      >
+    </article>
     <!-- plantilla de depreciacion -->
     <mat-form-field appearance="fill" class="plantillaDepreciacion">
       <mat-label>Plantilla depreciación</mat-label>
@@ -31,7 +41,7 @@
     <!-- vida util  -->
     <mat-form-field appearance="fill" class="vidaUtil">
       <mat-label>Vida útil</mat-label>
-      <input type="text" matInput formControlName="vidaUtil" />
+      <input type="number" matInput formControlName="vidaUtil" />
     </mat-form-field>
     <!-- unidad vida util -->
     <mat-form-field appearance="fill" class="unidadVidaUtil">
