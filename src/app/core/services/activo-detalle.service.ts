@@ -17,7 +17,7 @@ export class ActivoDetalleService extends GenericService<ActivoDetalle> {
     return END_POINTS.find(ep => ep.clave === 'activoDetalle').valor;
   }
 
-  buscarPorActivoId(activoId: Id): Observable<ActivoDetalle> {
+  buscarPorActivo(activoId: Id): Observable<ActivoDetalle> {
     return this._http.get<ActivoDetalle>(this.apiUrlActivoId(activoId)).pipe(
       map((res: any) => res.data as ActivoDetalle[]),
       map((res: any) => normalizarObjeto(res[0]))

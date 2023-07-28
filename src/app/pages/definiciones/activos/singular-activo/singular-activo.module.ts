@@ -40,6 +40,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
 import { BuscadorPlantillaDepreciacionModule } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.module';
 import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
+import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.module';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades
     BuscadorColorModule,
     BuscadorClaseModule,
     BuscadorTipoSemovienteModule,
+    BuscadorTipoAnimalModule,
     BuscadorPropositoSemovienteModule,
     BuscadorCategoriaModule,
     BuscadorSeguroModule,

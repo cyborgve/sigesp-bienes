@@ -119,7 +119,13 @@
         matInput
         formControlName="codigoCentroCostos"
         readonly="true"
-        [value]="formulario.value.codigoCentroCostos" />
+        [value]="
+          formulario.value.codigoCentroCostos
+            | denominacionCentroCostos
+            | async
+            | titlecase
+            | corregirSeleccionar
+        " />
       <button
         type="button"
         mat-icon-button
@@ -212,16 +218,13 @@
         >
         <span class="spacer"></span>
         <!-- sede ubicacion id -->
-        <mat-form-field appearance="fill" class="sedeUbicacionId">
+        <mat-form-field appearance="fill" class="sedeId">
           <mat-label>Sede ubicación</mat-label>
           <input
             type="text"
             matInput
-            formControlName="sedeUbicacionId"
             readonly="true"
-            [value]="
-              formulario.value.sedeUbicacionId | denominacionSede | async
-            " />
+            [value]="formulario.value.sedeId | denominacionSede | async" />
           <button
             type="button"
             mat-icon-button
@@ -291,16 +294,16 @@
         </button>
       </mat-form-field> -->
       <!-- tiene gps -->
-      <mat-slide-toggle formControlName="tieneGPS" class="tieneGPS"
-        >Tiene GPS</mat-slide-toggle
+      <mat-slide-toggle formControlName="tieneGps" class="tieneGps"
+        >Tiene Gps</mat-slide-toggle
       >
       <!-- especificaciones gps -->
-      <mat-form-field appearance="fill" class="especificacionesGPS">
-        <mat-label>Especificaciones GPS</mat-label>
+      <mat-form-field appearance="fill" class="especificacionesGps">
+        <mat-label>Especificaciones Gps</mat-label>
         <textarea
           rows="2"
           matInput
-          formControlName="especificacionesGPS"></textarea>
+          formControlName="especificacionesGps"></textarea>
       </mat-form-field>
       <!-- especificaciones del color -->
       <mat-form-field appearance="fill" class="especificacionesColor">
@@ -446,3 +449,4 @@
     </section>
   </ng-container>
 </form>
+<pre>{{ formulario.value | json }}</pre>

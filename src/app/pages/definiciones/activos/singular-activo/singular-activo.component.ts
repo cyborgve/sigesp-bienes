@@ -15,15 +15,6 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
-import { ActivoComponenteService } from '@core/services/activo-componente.service';
-import { ActivoDepreciacionService } from '@core/services/activo-depreciacion.service';
-import { ActivoDetalleService } from '@core/services/activo-detalle.service';
-import { ActivoUbicacionService } from '@core/services/activo-ubicacion.service';
-import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
-import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
-import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
-
-type DepreciacionAdaptada = AdaptadorBoolean<ActivoDepreciacion, 'depreciable'>;
 
 @Component({
   selector: 'app-singular-activo',
@@ -132,6 +123,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       numeroHierro: [''],
       especificacionesAnimal: [''],
       fechaNacimientoAnimal: [new Date()],
+      tipoAnimalId: [0],
       razaId: [0],
       creado: [new Date()],
       modificado: [new Date()],
@@ -266,15 +258,18 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
   }
 
   guardar() {
-    const activoDatosGenerales = this.formularioDatosGenerales.value;
+    let activo: Activo = this.formularioDatosGenerales.value;
+    activo.detalle = this.formularioDetalles.value;
+    activo.depreciacion = this.formularioDepreciacion.value;
+    activo.ubicacion = this.formularioUbicacion.value;
     if (this.modoFormulario === 'CREANDO') {
       this._activo
-        .guardar(activoDatosGenerales, this.titulo.toUpperCase())
+        .guardar(activo, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._activo
-        .actualizar(this.id, activoDatosGenerales, this.titulo.toUpperCase())
+        .actualizar(this.id, activo, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }

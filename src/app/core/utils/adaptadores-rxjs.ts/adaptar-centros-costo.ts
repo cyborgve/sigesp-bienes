@@ -1,10 +1,9 @@
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CentroCosto } from '@core/models/otros-modulos/centro-costo';
 import { pipe } from 'rxjs';
 import { MCentroCosto } from 'sigesp';
 export const adaptarCentrosCosto = () =>
   pipe(
-    tap(centros => console.log(centros)),
     map((centrosCosto: MCentroCosto[]) =>
       centrosCosto.map(
         centroCosto =>

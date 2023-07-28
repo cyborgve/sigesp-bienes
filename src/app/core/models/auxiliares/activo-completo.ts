@@ -13,7 +13,7 @@ type Depreciacion = Omit<
   'empresaId' | 'id' | 'creado' | 'modificado'
 >;
 
-type Ubucacion = Omit<
+type Ubicacion = Omit<
   ActivoUbicacion,
   'empresaId' | 'id' | 'creado' | 'modificado'
 >;
@@ -22,4 +22,4 @@ export interface ActivoCompleto
   extends Activo,
     Detalle,
     Depreciacion,
-    Ubucacion {}
+    Ubicacion {}

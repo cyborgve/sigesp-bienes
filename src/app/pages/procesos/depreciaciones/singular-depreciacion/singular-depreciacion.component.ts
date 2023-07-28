@@ -19,7 +19,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DepreciacionDetalle } from '@core/models/procesos/depreciacion';
 import { DepreciacionDetalleService } from '@core/services/procesos/depreciacion-detalle.service';
 import { Basica } from '@core/models/auxiliares/basica';
-import { ActivoCompleto } from '@core/models/auxiliares/activo-comleto';
+import { ActivoCompleto } from '@core/models/auxiliares/activo-completo';
 
 @Component({
   selector: 'app-singular-depreciacion',

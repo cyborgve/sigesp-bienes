@@ -228,10 +228,9 @@ export class ActivoDetallesComponent implements OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          map(entidad => entidad as Basica),
           tap(entidad =>
             entidad
-              ? this.formulario.patchValue({ centroCosto: entidad.id })
+              ? this.formulario.patchValue({ codigoCentroCostos: entidad.id })
               : undefined
           )
         )

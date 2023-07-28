@@ -50,13 +50,13 @@
 .dependencias,
 .especificacionesAnimal,
 .especificacionesColor,
-.especificacionesGPS,
+.especificacionesGps,
 .especificacionesInmueble,
 .especificacionesTecnicas {
   @apply col-span-full;
 }
 
-.tieneGPS,
+.tieneGps,
 .seguro {
   @apply col-span-2;
   .asegurado {
