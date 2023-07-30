@@ -29,6 +29,7 @@ export interface ActivoDetalle extends Basica {
   unidadAreaTerreno: string;
   especificacionesInmueble: string;
   perteneceASede: number;
+  sedeUbicacionId: Id;
   especificacionesColor: string;
   serialCarroceria: string;
   serialMotor: string;
@@ -39,6 +40,7 @@ export interface ActivoDetalle extends Basica {
   usoId: Id;
   tieneGps: number;
   especificacionesGps: string;
+  tipoAnimalId: Id;
   tipoSemovienteId: Id;
   genero: string;
   propositoSemovienteId: Id;

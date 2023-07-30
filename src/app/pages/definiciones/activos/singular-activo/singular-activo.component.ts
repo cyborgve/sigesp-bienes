@@ -1,28 +1,26 @@
-import { AdaptadorBoolean } from '@core/types/adaptadorBoolean';
-import { take, tap, first, filter, switchMap, mergeMap } from 'rxjs/operators';
+import { tap, first, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivoService } from '@core/services/activo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { BuscadorActivoComponent } from '../buscador-activo/buscador-activo.component';
-import { Activo } from '@core/models/definiciones/activo';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Subscription } from 'rxjs';
+import { Activo } from '@core/models/definiciones/activo';
+import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
+import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
+import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 
 @Component({
   selector: 'app-singular-activo',
   templateUrl: './singular-activo.component.html',
   styleUrls: ['./singular-activo.component.scss'],
 })
-export class SingularActivoComponent implements Entidad, OnDestroy {
-  private subscripciones: Subscription[] = [];
+export class SingularActivoComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[0]['nombre'];
@@ -41,21 +39,18 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     'ubicación',
   ];
   constructor(
-    private ActivatedRoute: ActivatedRoute,
-    private Router: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
     private _activo: ActivoService,
     private _correlativo: CorrelativoService,
     private _dialog: MatDialog,
     private _formBuilder: FormBuilder,
     private _location: Location
   ) {
-    this.id = this.ActivatedRoute.snapshot.params['id'];
-
-    /* formulario datos generales */
     this.formularioDatosGenerales = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['autogenerado'],
+      codigo: ['AUTOGENERADO'],
       tipoActivo: ['', Validators.required],
       fechaRegistro: [new Date()],
       catalogoCuentas: ['Seleccionar'],
@@ -64,21 +59,25 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       observaciones: [''],
       fechaAdquisicion: [new Date()],
       valorAdquisicion: [0],
-      monedaId: [0],
+      monedaId: ['0'],
       modeloId: [0],
-      anioFabricacion: [String(new Date().getFullYear())],
+      anioFabricacion: [new Date().getFullYear()],
       serialFabrica: [''],
       colorId: [0],
       rotulacionId: [0],
       categoriaId: [0],
+      detalle: [undefined],
+      componentes: [[]],
+      depreciacion: [undefined],
+      ubicacion: [undefined],
       creado: [new Date()],
       modificado: [new Date()],
     });
 
-    /* formulario detalles */
     this.formularioDetalles = this._formBuilder.group({
-      empresaId: [0],
-      id: [0],
+      empresaId: [''],
+      id: [''],
+      activoId: [0],
       garantia: [0],
       unidadGarantia: [''],
       inicioGarantia: [new Date()],
@@ -105,6 +104,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       unidadAreaTerreno: [''],
       especificacionesInmueble: [''],
       perteneceASede: [0],
+      sedeUbicacionId: [0],
       especificacionesColor: [''],
       serialCarroceria: [''],
       serialMotor: [''],
@@ -115,6 +115,7 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       usoId: [0],
       tieneGps: [0],
       especificacionesGps: [''],
+      tipoAnimalId: [0],
       tipoSemovienteId: [0],
       genero: ['S'],
       propositoSemovienteId: [0],
@@ -123,37 +124,35 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       numeroHierro: [''],
       especificacionesAnimal: [''],
       fechaNacimientoAnimal: [new Date()],
-      tipoAnimalId: [0],
       razaId: [0],
       creado: [new Date()],
       modificado: [new Date()],
     });
 
-    /* formulario componentes */
     this.formularioComponentes = this._formBuilder.group({
       componentes: [[]],
     });
 
-    /* formulario depreciacion */
     this.formularioDepreciacion = this._formBuilder.group({
-      empresaId: [0],
-      id: [0],
-      depreciable: [false],
-      metodoDepreciacion: [''],
-      cuentaContableGasto: ['---'],
-      cuentaContableDepreciacion: ['---'],
-      vidaUtil: [0],
-      unidadVidaUtil: [''],
-      valorRescate: [0],
-      monedaIdValorRescate: [0],
+      empresaId: [''],
+      id: [''],
+      activoId: [0],
+      depreciable: [0],
+      metodoDepreciacion: ['SELECCIONAR', Validators.required],
+      cuentaContableGasto: ['--', Validators.required],
+      cuentaContableDepreciacion: ['--', Validators.required],
+      vidaUtil: [0, Validators.required],
+      unidadVidaUtil: ['', Validators.required],
+      valorRescate: [0, Validators.required],
+      monedaValorRescate: ['--', Validators.required],
       creado: [new Date()],
       modificado: [new Date()],
     });
 
-    /* formulario ubicacion */
     this.formularioUbicacion = this._formBuilder.group({
-      empresaId: [0],
-      id: [0],
+      empresaId: [''],
+      id: [''],
+      activoId: [0],
       sedeId: [0],
       unidadAdministrativaId: [0],
       fechaIngreso: [new Date()],
@@ -165,16 +164,17 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
       creado: [new Date()],
       modificado: [new Date()],
     });
-    this.actualizarFormularios();
+
+    this.id = this._activatedRoute.snapshot.params['id'];
+    this.actualizarFormulario();
   }
 
-  private actualizarFormularios() {
+  private actualizarFormulario() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
       this._activo
         .buscarPorId(this.id)
         .pipe(
-          take(1),
           tap(activo =>
             this.formularioDatosGenerales.patchValue({
               empresaId: activo.empresaId,
@@ -193,12 +193,109 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
               anioFabricacion: activo.anioFabricacion,
               serialFabrica: activo.serialFabrica,
               colorId: activo.colorId,
-              categoriaId: activo.categoriaId,
               rotulacionId: activo.rotulacionId,
+              categoriaId: activo.categoriaId,
+              detalle: activo.detalle,
+              componentes: activo.componentes,
+              depreciacion: activo.depreciacion,
+              ubicacion: activo.ubicacion,
               creado: activo.creado,
               modificado: activo.modificado,
             })
-          )
+          ),
+          tap(activo =>
+            this.formularioDetalles.patchValue({
+              empresaId: activo.detalle.empresaId,
+              id: activo.detalle.id,
+              activoId: activo.detalle.activoId,
+              garantia: activo.detalle.garantia,
+              unidadGarantia: activo.detalle.unidadGarantia,
+              inicioGarantia: activo.detalle.inicioGarantia,
+              finGarantia: activo.detalle.finGarantia,
+              asegurado: activo.detalle.asegurado,
+              claseId: activo.detalle.claseId,
+              origenId: activo.detalle.origenId,
+              descripcionOtraClase: activo.detalle.descripcionOtraClase,
+              fuenteFinanciamiento: activo.detalle.fuenteFinanciamiento,
+              codigoCentroCostos: activo.detalle.codigoCentroCostos,
+              especificacionesTecnicas: activo.detalle.especificacionesTecnicas,
+              oficinaRegistro: activo.detalle.oficinaRegistro,
+              referenciaRegistro: activo.detalle.referenciaRegistro,
+              tomo: activo.detalle.tomo,
+              folio: activo.detalle.folio,
+              protocolo: activo.detalle.protocolo,
+              numeroRegistro: activo.detalle.numeroRegistro,
+              fechaRegistrado: activo.detalle.fechaRegistrado,
+              propietarioAnterior: activo.detalle.propietarioAnterior,
+              dependencias: activo.detalle.dependencias,
+              areaConstruccion: activo.detalle.areaConstruccion,
+              unidadAreaConstruccion: activo.detalle.unidadAreaConstruccion,
+              areaTerreno: activo.detalle.areaTerreno,
+              unidadAreaTerreno: activo.detalle.unidadAreaTerreno,
+              especificacionesInmueble: activo.detalle.especificacionesInmueble,
+              perteneceASede: activo.detalle.perteneceASede,
+              sedeUbicacionId: activo.detalle.sedeUbicacionId,
+              especificacionesColor: activo.detalle.especificacionesColor,
+              serialCarroceria: activo.detalle.serialCarroceria,
+              serialMotor: activo.detalle.serialMotor,
+              placas: activo.detalle.placas,
+              numeroTituloPropiedad: activo.detalle.numeroTituloPropiedad,
+              capacidad: activo.detalle.capacidad,
+              nombre: activo.detalle.nombre,
+              usoId: activo.detalle.usoId,
+              tieneGps: activo.detalle.tieneGps,
+              especificacionesGps: activo.detalle.especificacionesGps,
+              tipoAnimalId: activo.detalle.tipoAnimalId,
+              tipoSemovienteId: activo.detalle.tipoSemovienteId,
+              genero: activo.detalle.genero,
+              propositoSemovienteId: activo.detalle.propositoSemovienteId,
+              peso: activo.detalle.peso,
+              unidadMedidaPeso: activo.detalle.unidadMedidaPeso,
+              numeroHierro: activo.detalle.numeroHierro,
+              especificacionesAnimal: activo.detalle.especificacionesAnimal,
+              fechaNacimientoAnimal: activo.detalle.fechaNacimientoAnimal,
+              razaId: activo.detalle.razaId,
+              creado: activo.detalle.creado,
+              modificado: activo.detalle.modificado,
+            })
+          ),
+          tap(activo =>
+            this.formularioDepreciacion.patchValue({
+              empresaId: activo.depreciacion.empresaId,
+              id: activo.depreciacion.id,
+              activoId: activo.depreciacion.activoId,
+              depreciable: activo.depreciacion.depreciable,
+              metodoDepreciacion: activo.depreciacion.metodoDepreciacion,
+              cuentaContableGasto: activo.depreciacion.cuentaContableGasto,
+              cuentaContableDepreciacion:
+                activo.depreciacion.cuentaContableDepreciacion,
+              vidaUtil: activo.depreciacion.vidaUtil,
+              unidadVidaUtil: activo.depreciacion.unidadVidaUtil,
+              valorRescate: activo.depreciacion.valorRescate,
+              monedaValorRescate: activo.depreciacion.monedaValorRescate,
+              creado: activo.depreciacion.creado,
+              modificado: activo.depreciacion.modificado,
+            })
+          ),
+          tap(activo =>
+            this.formularioUbicacion.patchValue({
+              empresaId: activo.ubicacion.empresaId,
+              id: activo.ubicacion.id,
+              activoId: activo.ubicacion.activoId,
+              sedeId: activo.ubicacion.sedeId,
+              unidadAdministrativaId: activo.ubicacion.unidadAdministrativaId,
+              fechaIngreso: activo.ubicacion.fechaIngreso,
+              estadoUsoId: activo.ubicacion.estadoUsoId,
+              estadoConservacionId: activo.ubicacion.estadoConservacionId,
+              descripcionEstadoConservacion:
+                activo.ubicacion.descripcionEstadoConservacion,
+              responsableId: activo.ubicacion.responsableId,
+              responsableUsoId: activo.ubicacion.responsableUsoId,
+              creado: activo.ubicacion.creado,
+              modificado: activo.ubicacion.modificado,
+            })
+          ),
+          take(1)
         )
         .subscribe();
     } else {
@@ -218,50 +315,15 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
+  importar(): void {
+    throw new Error('Method not implemented.');
   }
-
-  importar() {
-    let dialog = this._dialog.open(BuscadorActivoComponent, {
-      width: '95%',
-      height: '85%',
-    });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          tap((entidad: Activo) =>
-            entidad
-              ? this.formularioDatosGenerales.patchValue({
-                  tipoActivo: entidad.tipoActivo,
-                  fechaRegistro: entidad.fechaRegistro,
-                  catalogoCuentas: entidad.catalogoCuentas,
-                  serialRotulacion: entidad.serialRotulacion,
-                  denominacion: entidad.denominacion,
-                  observaciones: entidad.observaciones,
-                  fechaAdquisicion: entidad.fechaAdquisicion,
-                  valorAdquisicion: entidad.valorAdquisicion,
-                  monedaId: entidad.modeloId,
-                  modeloId: entidad.modeloId,
-                  anioFabricacion: entidad.anioFabricacion,
-                  serialFabrica: entidad.serialFabrica,
-                  colorId: entidad.colorId,
-                  rotulacionId: entidad.rotulacionId,
-                  categoriaId: entidad.categoriaId,
-                })
-              : undefined
-          )
-        )
-        .subscribe()
-    );
-  }
-
-  guardar() {
-    let activo: Activo = this.formularioDatosGenerales.value;
-    activo.detalle = this.formularioDetalles.value;
-    activo.depreciacion = this.formularioDepreciacion.value;
-    activo.ubicacion = this.formularioUbicacion.value;
+  guardar(): void {
+    let activo = this.formularioDatosGenerales.value as Activo;
+    activo.detalle = this.formularioDetalles.value as ActivoDetalle;
+    activo.depreciacion = this.formularioDepreciacion
+      .value as ActivoDepreciacion;
+    activo.ubicacion = this.formularioUbicacion.value as ActivoUbicacion;
     if (this.modoFormulario === 'CREANDO') {
       this._activo
         .guardar(activo, this.titulo)
@@ -274,41 +336,19 @@ export class SingularActivoComponent implements Entidad, OnDestroy {
         .subscribe(() => this.irAtras());
     }
   }
-
-  borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
-      data: {
-        codigo: this.formularioDatosGenerales.value.codigo,
-        denominacion: this.formularioDatosGenerales.value.denominacion,
-      },
-    });
-    dialog
-      .beforeClosed()
-      .pipe(
-        filter(todo => !!todo),
-        switchMap(() =>
-          this._activo.eliminar(
-            this.formularioDatosGenerales.value.id,
-            this.titulo.toUpperCase()
-          )
-        ),
-        take(1)
-      )
-      .subscribe(() => this.irAtras());
-  }
-
-  imprimir() {
+  borrar(): void {
     throw new Error('Method not implemented.');
   }
-
-  irAtras() {
+  imprimir(): void {
+    throw new Error('Method not implemented.');
+  }
+  irAtras(): void {
     this._location.back();
   }
-  irAlInicio() {
-    this.Router.navigate(['/definiciones']);
+  irAlInicio(): void {
+    this._router.navigate(['/definiciones']);
   }
-
-  salir() {
+  salir(): void {
     throw new Error('Method not implemented.');
   }
 }

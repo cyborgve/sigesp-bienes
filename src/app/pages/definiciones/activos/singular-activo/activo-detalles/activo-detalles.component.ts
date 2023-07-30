@@ -1,6 +1,7 @@
+import { ActivoDepreciacion } from './../../../../../core/models/definiciones/activo-depreciacion';
 import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financiemiento';
 import { map, tap } from 'rxjs/operators';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
@@ -24,7 +25,7 @@ import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/bu
   templateUrl: './activo-detalles.component.html',
   styleUrls: ['./activo-detalles.component.scss'],
 })
-export class ActivoDetallesComponent implements OnDestroy {
+export class ActivoDetallesComponent implements OnInit, OnDestroy {
   private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup = new FormGroup({});
   @Input() tipoActivo: TipoActivo = 'INMUEBLE';
@@ -33,6 +34,17 @@ export class ActivoDetallesComponent implements OnDestroy {
   unidadesMedidaTiempo = UNIDADES_MEDIDA['TIEMPO'];
 
   constructor(private _dialog: MatDialog, private _sigesp: SigespService) {}
+
+  ngOnInit(): void {
+    this.formulario.valueChanges
+      .pipe(
+        tap(() => {
+          if (this.formulario.valid)
+            this.formulario.patchValue({ depreciable: true });
+        })
+      )
+      .subscribe();
+  }
 
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());

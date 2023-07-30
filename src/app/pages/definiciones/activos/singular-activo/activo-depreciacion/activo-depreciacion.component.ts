@@ -108,7 +108,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         take(1),
         tap((entidad: Basica) =>
           entidad
-            ? this.formulario.patchValue({ monedaIdValorRescate: entidad.id })
+            ? this.formulario.patchValue({ monedaValorRescate: entidad.id })
             : undefined
         )
       )

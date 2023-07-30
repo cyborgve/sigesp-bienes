@@ -9,8 +9,8 @@
       </ng-container>
       <ng-template #noDepreciable
         ><span class="noDepreciable-sub"
-          >Este activo aun no es depreciable, llene todos los datos para hacerlo
-          depreciable.</span
+          >Este activo aun no es depreciable, llene todos los campos para
+          hacerlo depreciable.</span
         ></ng-template
       >
     </article>
@@ -30,7 +30,6 @@
     <mat-form-field appearance="fill" class="metodoDepreciacion">
       <mat-label>Método de depreciación</mat-label>
       <mat-select formControlName="metodoDepreciacion">
-        <mat-option value="" selected>Seleccionar</mat-option>
         <mat-option
           *ngFor="let metodo of metodosDepreciacion"
           [value]="metodo"
@@ -103,15 +102,15 @@
       <input type="number" matInput formControlName="valorRescate" />
     </mat-form-field>
     <!-- valor rescate moneda id  -->
-    <mat-form-field appearance="fill" class="monedaIdValorRescate">
+    <mat-form-field appearance="fill" class="monedaValorRescate">
       <mat-label>Moneda</mat-label>
       <input
         type="text"
         matInput
-        formControlName="monedaIdValorRescate"
+        formControlName="monedaValorRescate"
         readonly="true"
         [value]="
-          formulario.value.monedaIdValorRescate
+          formulario.value.monedaValorRescate
             | denominacionMoneda
             | async
             | corregirSeleccionar
@@ -123,5 +122,6 @@
     </mat-form-field>
   </section>
 </form>
+<pre>Formulario valido: {{ formulario.valid }}</pre>
 
 <pre>{{ formulario.value | json }}</pre>

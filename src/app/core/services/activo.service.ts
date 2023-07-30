@@ -1,4 +1,4 @@
-import { switchMap, mergeMap, zipAll, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
@@ -17,6 +17,7 @@ import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
+import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 
 @Injectable({
   providedIn: 'root',
@@ -61,15 +62,15 @@ export class ActivoService extends GenericService<Activo> {
           this._activoUbicacion.buscarPorActivo(activo.id),
         ]).pipe(
           map(([detalle, componentes, depreciacion, ubicacion]) => {
-            activo.detalle = detalle;
-            activo.componentes = componentes;
-            activo.depreciacion = depreciacion;
-            activo.ubicacion = ubicacion;
+            activo.detalle = detalle as ActivoDetalle;
+            activo.componentes = componentes as ActivoComponente[];
+            activo.depreciacion = depreciacion as ActivoDepreciacion;
+            activo.ubicacion = ubicacion as ActivoUbicacion;
             return activo;
-          })
+          }),
+          adaptarActivo()
         )
-      ),
-      adaptarActivo()
+      )
     );
   }
 
@@ -85,26 +86,37 @@ export class ActivoService extends GenericService<Activo> {
     tipoDato: string,
     notificar: boolean = true
   ): Observable<Activo> {
+    /*  primera fase de guardado, en esta se almacenan solo los datos generales, que vienen del 
+    proceso de la clase GenericService y luego se obtienen los datos basicos del activo para 
+    preparar las siguientes fases de guardado */
     return super.guardar(activo, tipoDato, notificar).pipe(
+      /* con el operador switchMap enlazamos el resultado del observable que viene de guardar los
+      datos generales (activoGuardado) y preparamos las peticiones para guardar el resto de datos
+      del activo dentro del arreglo peticionesGuardar (detalles, deprecicacion, ubicacion) */
       switchMap(activoGuardado => {
         let peticionesGuardar = [];
-        if (activo.detalle)
-          peticionesGuardar.push(
-            this._activoDetalle.guardar(activo.detalle, tipoDato, false)
-          );
-        if (activo.depreciacion)
-          peticionesGuardar.push(
-            this._activoDepreciacion.guardar(
-              activo.depreciacion,
-              tipoDato,
-              false
-            )
-          );
-        if (activo.ubicacion)
+        // if (activo.detalle)
+        //   peticionesGuardar.push(
+        //     this._activoDetalle.guardar(activo.detalle, tipoDato, false)
+        //   );
+        // if (activo.depreciacion)
+        //   peticionesGuardar.push(
+        //     this._activoDepreciacion.guardar(
+        //       activo.depreciacion,
+        //       tipoDato,
+        //       false
+        //     )
+        //   );
+        if (activo.ubicacion) {
+          activo.ubicacion.activoId = activoGuardado.id;
           peticionesGuardar.push(
             this._activoUbicacion.guardar(activo.ubicacion, tipoDato, false)
           );
-
+        }
+        /* se utiliza el operador forkJoin para ejecutar las peticiones en el orden dado y 
+        se obtiene un arreglo con los datos basicos de cada una de las peticiones ejecutadas
+        en el orden en que fueron dadas y por ultimo con el operador map se moldea el resultado
+        a un activo con todos los datos basicos en cada uno de los resultados que corresponda. */
         return forkJoin(peticionesGuardar).pipe(
           map(respuestas => {
             if (activoGuardado.detalle) {

@@ -218,13 +218,15 @@
         >
         <span class="spacer"></span>
         <!-- sede ubicacion id -->
-        <mat-form-field appearance="fill" class="sedeId">
+        <mat-form-field appearance="fill" class="sedeUbicacionId">
           <mat-label>Sede ubicación</mat-label>
           <input
             type="text"
             matInput
             readonly="true"
-            [value]="formulario.value.sedeId | denominacionSede | async" />
+            [value]="
+              formulario.value.sedeUbicacionId | denominacionSede | async
+            " />
           <button
             type="button"
             mat-icon-button
@@ -342,7 +344,7 @@
       <mat-form-field appearance="fill" class="genero">
         <mat-label>Género</mat-label>
         <mat-select formControlName="genero">
-          <mat-option [value]="'S'">Seleccionar</mat-option>
+          <mat-option value="S">Seleccionar</mat-option>
           <mat-option
             *ngFor="let genero of ['masculino', 'femenino']"
             [value]="genero"
