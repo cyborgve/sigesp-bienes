@@ -1,4 +1,4 @@
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, tap, take, first } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
@@ -17,7 +17,7 @@ import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
-import { ActivoComponente } from '@core/models/definiciones/activo-componente';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
   providedIn: 'root',
@@ -48,29 +48,32 @@ export class ActivoService extends GenericService<Activo> {
   }
 
   /**
-   * @description Obtiene todos los datos generales de un activo.
+   * @description Obtiene todos los datos de un activo.
    * @param id string | number
    * @returns Observable<Activo>
    */
-  buscsarPorId(id: Id): Observable<Activo> {
+  buscarPorId(id: Id): Observable<Activo> {
     return super.buscarPorId(id).pipe(
-      switchMap((activo: Activo) =>
-        forkJoin([
-          this._activoDetalle.buscarPorActivo(activo.id),
-          this._activoComponente.buscarPorActivo(activo.id),
-          this._activoDepreciacion.buscarPorActivo(activo.id),
-          this._activoUbicacion.buscarPorActivo(activo.id),
-        ]).pipe(
-          map(([detalle, componentes, depreciacion, ubicacion]) => {
-            activo.detalle = detalle as ActivoDetalle;
-            activo.componentes = componentes as ActivoComponente[];
-            activo.depreciacion = depreciacion as ActivoDepreciacion;
-            activo.ubicacion = ubicacion as ActivoUbicacion;
-            return activo;
-          }),
-          adaptarActivo()
-        )
-      )
+      switchMap(activo => {
+        let buscarComplementos = [
+          this._activoDetalle.buscarPorActivo(id),
+          this._activoDepreciacion.buscarPorActivo(id),
+          this._activoUbicacion.buscarPorActivo(id),
+        ];
+        return forkJoin(buscarComplementos).pipe(
+          map(([detalle, depreciacion, ubicacion]) => {
+            let activoCompleto: Activo = {
+              ...activo,
+              detalle: detalle as ActivoDetalle,
+              depreciacion: depreciacion as ActivoDepreciacion,
+              ubicacion: ubicacion as ActivoUbicacion,
+            };
+            return activoCompleto;
+          })
+        );
+      }),
+      tap(activo => console.log(activo)),
+      take(1)
     );
   }
 
@@ -81,65 +84,83 @@ export class ActivoService extends GenericService<Activo> {
    * @param notificar boolean
    * @returns Observable<Activo>
    */
-  guardar(
-    activo: Activo,
-    tipoDato: string,
-    notificar: boolean = true
-  ): Observable<Activo> {
-    /*  primera fase de guardado, en esta se almacenan solo los datos generales, que vienen del 
-    proceso de la clase GenericService y luego se obtienen los datos basicos del activo para 
-    preparar las siguientes fases de guardado */
-    return super.guardar(activo, tipoDato, notificar).pipe(
-      /* con el operador switchMap enlazamos el resultado del observable que viene de guardar los
-      datos generales (activoGuardado) y preparamos las peticiones para guardar el resto de datos
-      del activo dentro del arreglo peticionesGuardar (detalles, deprecicacion, ubicacion) */
-      switchMap(activoGuardado => {
-        let peticionesGuardar = [];
-        // if (activo.detalle)
-        //   peticionesGuardar.push(
-        //     this._activoDetalle.guardar(activo.detalle, tipoDato, false)
-        //   );
-        // if (activo.depreciacion)
-        //   peticionesGuardar.push(
-        //     this._activoDepreciacion.guardar(
-        //       activo.depreciacion,
-        //       tipoDato,
-        //       false
-        //     )
-        //   );
-        if (activo.ubicacion) {
-          activo.ubicacion.activoId = activoGuardado.id;
-          peticionesGuardar.push(
-            this._activoUbicacion.guardar(activo.ubicacion, tipoDato, false)
-          );
-        }
-        /* se utiliza el operador forkJoin para ejecutar las peticiones en el orden dado y 
-        se obtiene un arreglo con los datos basicos de cada una de las peticiones ejecutadas
-        en el orden en que fueron dadas y por ultimo con el operador map se moldea el resultado
-        a un activo con todos los datos basicos en cada uno de los resultados que corresponda. */
-        return forkJoin(peticionesGuardar).pipe(
-          map(respuestas => {
-            if (activoGuardado.detalle) {
-              activoGuardado.detalle = respuestas.shift() as ActivoDetalle;
-            }
-            if (activoGuardado.depreciacion) {
-              activoGuardado.depreciacion =
-                respuestas.shift() as ActivoDepreciacion;
-            }
-            if (activoGuardado.ubicacion) {
-              activoGuardado.ubicacion = respuestas.shift() as ActivoUbicacion;
-            }
-            if (notificar) {
-              this.snackBarMessage(
-                `${tipoOracion(tipoDato)} "${activoGuardado.codigo}-${
-                  activoGuardado.denominacion
-                }", guardado correctamente`
-              );
-            }
-            return activoGuardado;
+  guardar(activoIn: Activo, tipoDato: string): Observable<Activo> {
+    return super.guardar(activoIn, tipoDato).pipe(
+      map((res: any) => res.data[0]),
+      map(res => normalizarObjeto(res)),
+      switchMap((activoGuardado: any) => {
+        activoIn.detalle.activoId = activoGuardado.Id;
+        console.log(['detalle', activoIn.detalle]);
+        activoIn.depreciacion.activoId = activoGuardado.Id;
+        activoIn.ubicacion.activoId = activoGuardado.id;
+        let complementosGuardar = [
+          this._activoDetalle.guardar(activoIn.detalle, '', false).pipe(
+            map((res: any) => res.data[0]),
+            map(res => normalizarObjeto(res))
+          ),
+        ];
+        return forkJoin(complementosGuardar).pipe(
+          map(([detalle]) => {
+            return { ...activoGuardado, detalle: detalle };
           })
         );
-      })
+      }),
+      tap(activo => console.log(activo)),
+      first()
+    );
+    // return super.guardar(activo, tipoDato, false).pipe(
+    //   map((respuesta: any) => respuesta.data[0]),
+    //   map(valor => (valor ? normalizarObjeto(valor) : valor)),
+    //   tap(activo => console.log(activo)),
+    //   switchMap((activoGuardado: Activo) => {
+    //     activo.detalle.activoId = Number(activoGuardado.id);
+    //     activo.depreciacion.activoId = Number(activoGuardado.id);
+    //     activo.ubicacion.activoId = Number(activoGuardado.id);
+    //     let peticionesGuardar = [
+    //       this._activoDetalle.guardar(activo.detalle, tipoDato, false).pipe(
+    //         map((resultado: any) => resultado.data[0]),
+    //         map(objeto => normalizarObjeto(objeto))
+    //       ),
+    //       this._activoDepreciacion
+    //         .guardar(activo.depreciacion, tipoDato, false)
+    //         .pipe(
+    //           map((resultado: any) => resultado.data[0]),
+    //           map(objeto => normalizarObjeto(objeto))
+    //         ),
+    //       this._activoUbicacion.guardar(activo.ubicacion, tipoDato, false).pipe(
+    //         map((resultado: any) => resultado.data[0]),
+    //         map(objeto => normalizarObjeto(objeto))
+    //       ),
+    //     ];
+    //     return forkJoin(peticionesGuardar).pipe(
+    //       map(([detalle, depreciacion, ubicacion]) => {
+    //         activoGuardado.detalle = detalle as ActivoDetalle;
+    //         activoGuardado.depreciacion = depreciacion as ActivoDepreciacion;
+    //         activoGuardado.ubicacion = ubicacion as ActivoUbicacion;
+    //         this.snackBarMessage(
+    //           `${tipoOracion(tipoDato)} "${activoGuardado.codigo}-${
+    //             activoGuardado.denominacion
+    //           }", guardado correctamente`
+    //         );
+    //         return activoGuardado;
+    //       })
+    //     );
+    //   }),
+    //   take(1)
+  }
+
+  actualizar(id: Id, entidad: Activo, tipoDato: string): Observable<Number> {
+    return super.actualizar(id, entidad, tipoDato, false).pipe(
+      tap((respuesta: any) => {
+        if (respuesta.data > 0) {
+          this.snackBarMessage(
+            `${tipoOracion(tipoDato)}: "${
+              String(entidad.codigo).split('-')[1]
+            }-${entidad.denominacion}", actualizado correctamente`
+          );
+        }
+      }),
+      take(1)
     );
   }
 }

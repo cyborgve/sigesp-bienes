@@ -40,7 +40,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       .pipe(
         tap(() => {
           if (this.formulario.valid)
-            this.formulario.patchValue({ depreciable: true });
+            this.formulario.patchValue({ depreciable: 1 });
         })
       )
       .subscribe();
