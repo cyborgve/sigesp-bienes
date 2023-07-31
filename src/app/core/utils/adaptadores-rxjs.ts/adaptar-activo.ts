@@ -29,16 +29,10 @@ export const adaptarActivo = () =>
           colorId: Number(activo.colorId),
           rotulacionId: Number(activo.rotulacionId),
           categoriaId: Number(activo.categoriaId),
-          detalle: activo.detalle ? adaptarDetalle(activo.detalles) : null,
-          componentes: activo.componentes
-            ? adaptarComponentes(activo.componentes)
-            : null,
-          depreciacion: activo.depreciacion
-            ? adaptarDepreciacion(activo.depreciacion)
-            : null,
-          ubicacion: activo.ubicacion
-            ? adaptarUbicacion(activo.ubicacion)
-            : null,
+          detalle: adaptarDetalle(activo.detalles),
+          componentes: adaptarComponentes(activo.componentes),
+          depreciacion: adaptarDepreciacion(activo.depreciacion),
+          ubicacion: adaptarUbicacion(activo.ubicacion),
           creado: activo.creado,
           modificado: activo.modificado,
         }
@@ -123,5 +117,19 @@ function adaptarDepreciacion(depreciacion: any): ActivoDepreciacion {
 }
 
 function adaptarUbicacion(ubicacion: any): ActivoUbicacion {
-  return <ActivoUbicacion>{};
+  return <ActivoUbicacion>{
+    empresaId: Number(ubicacion.empresaId),
+    id: Number(ubicacion.id),
+    activoId: Number(ubicacion.activoId),
+    sedeId: Number(ubicacion.sedeId),
+    unidadAdministrativaId: Number(ubicacion.unidadAdministrativaId),
+    fechaIngreso: ubicacion.fechaIngreso,
+    estadoUsoId: Number(ubicacion.estadoUsoId),
+    estadoConservacionId: Number(ubicacion.estadoConservacionId),
+    descripcionEstadoConservacion: ubicacion.descripcionEstadoConservacion,
+    responsableId: ubicacion.responsableId,
+    responsableUsoId: ubicacion.responsableUsoId,
+    creado: ubicacion.creado,
+    modificado: ubicacion.modificado,
+  };
 }

@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from './generic.service';
@@ -19,8 +19,8 @@ export class ActivoDetalleService extends GenericService<ActivoDetalle> {
 
   buscarPorActivo(activoId: Id): Observable<ActivoDetalle> {
     return this._http.get<ActivoDetalle>(this.apiUrlActivoId(activoId)).pipe(
-      map((res: any) => res.data as ActivoDetalle[]),
-      map((res: any) => normalizarObjeto(res[0]))
+      map((res: any) => res.data),
+      map((actDets: any[]) => normalizarObjeto(actDets[0]))
     );
   }
 }
