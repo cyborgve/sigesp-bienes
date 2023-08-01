@@ -15,9 +15,11 @@
       <mat-label>Tipo de activo</mat-label>
       <mat-select formControlName="tipoActivo">
         <mat-option value="" selected>Seleccionar</mat-option>
-        <mat-option *ngFor="let tipo of tiposActivo" [value]="tipo">{{
-          tipo | titlecase
-        }}</mat-option>
+        <mat-option
+          *ngFor="let tipo of tiposActivo"
+          [value]="tipo.substring(0, 3)"
+          >{{ tipo | titlecase }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
     <!-- fecha de registro -->

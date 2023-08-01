@@ -11,7 +11,9 @@ export const adaptarActivoDepreciacion = () =>
           id: Number(depreciacion.id),
           activoId: Number(depreciacion.activoId),
           depreciable: Number(depreciacion.depreciable),
-          metodoDepreciacion: depreciacion.metodoDepreciacion,
+          metodoDepreciacion: depreciacion.metodoDepreciacion
+            ? depreciacion.metodoDepreciacion
+            : '',
           cuentaContableGasto: depreciacion.cuentaContableGasto,
           cuentaContableDepreciacion: depreciacion.cuentaContableDepreciacion,
           vidaUtil: Number(depreciacion.vidaUtil),

@@ -30,9 +30,10 @@
     <mat-form-field appearance="fill" class="metodoDepreciacion">
       <mat-label>Método de depreciación</mat-label>
       <mat-select formControlName="metodoDepreciacion">
+        <mat-option value="">Seleccionar</mat-option>
         <mat-option
           *ngFor="let metodo of metodosDepreciacion"
-          [value]="metodo"
+          [value]="metodo.substring(0, 3)"
           >{{ metodo | titlecase }}</mat-option
         >
       </mat-select>
