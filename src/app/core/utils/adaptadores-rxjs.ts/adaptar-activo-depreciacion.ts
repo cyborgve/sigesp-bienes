@@ -7,7 +7,7 @@ export const adaptarActivoDepreciacion = () =>
     map(
       (depreciacion: any) =>
         <ActivoDepreciacion>{
-          empresaId: Number(depreciacion.empresaId),
+          empresaId: depreciacion.empresaId,
           id: Number(depreciacion.id),
           activoId: Number(depreciacion.activoId),
           depreciable: Number(depreciacion.depreciable),

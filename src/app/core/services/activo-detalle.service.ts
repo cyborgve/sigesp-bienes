@@ -20,9 +20,8 @@ export class ActivoDetalleService extends GenericService<ActivoDetalle> {
 
   buscarPorActivo(activoId: Id): Observable<ActivoDetalle> {
     return this._http.get<ActivoDetalle>(this.apiUrlActivoId(activoId)).pipe(
-      map((res: any) => res.data),
-      map((actDets: any[]) => normalizarObjeto(actDets[0])),
-      adaptarActivoDetalle()
+      map((res: any) => res.data[0]),
+      map(actDet => normalizarObjeto(actDet))
     );
   }
 }

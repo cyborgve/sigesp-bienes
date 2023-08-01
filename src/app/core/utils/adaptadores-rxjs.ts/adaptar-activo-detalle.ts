@@ -6,7 +6,7 @@ export const adaptarActivoDetalle = () =>
     map(
       (detalle: any) =>
         <ActivoDetalle>{
-          empresaId: Number(detalle.empresaId),
+          empresaId: detalle.empresaId,
           id: Number(detalle.id),
           activoId: Number(detalle.activoId),
           garantia: Number(detalle.garantia),

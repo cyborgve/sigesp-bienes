@@ -1,4 +1,4 @@
-import { switchMap, map, tap, take, first } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
@@ -15,11 +15,14 @@ import { ActivoUbicacionService } from './activo-ubicacion.service';
 import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
-import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { prepararActivoDetalle } from '@core/utils/funciones/preparar-activo-detalle';
 import { prepararActivoDepreciacion } from '@core/utils/funciones/preparar-activo-depreciacion';
 import { prepararActivoUbicacion } from '@core/utils/funciones/preparar-activo-ubicacion';
+import { adaptarActivo } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo';
+import { adaptarActivoDetalle } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-detalle';
+import { adaptarActivoDepreciacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-depreciacion';
+import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-ubicacion';
 
 @Injectable({
   providedIn: 'root',
@@ -56,11 +59,18 @@ export class ActivoService extends GenericService<Activo> {
    */
   buscarPorId(id: Id): Observable<Activo> {
     return super.buscarPorId(id).pipe(
+      adaptarActivo(),
       switchMap(activo => {
         let buscarComplementos = [
-          this._activoDetalle.buscarPorActivo(id),
-          this._activoDepreciacion.buscarPorActivo(id),
-          this._activoUbicacion.buscarPorActivo(id),
+          this._activoDetalle
+            .buscarPorActivo(activo.id)
+            .pipe(adaptarActivoDetalle()),
+          this._activoDepreciacion
+            .buscarPorActivo(activo.id)
+            .pipe(adaptarActivoDepreciacion()),
+          this._activoUbicacion
+            .buscarPorActivo(activo.id)
+            .pipe(adaptarActivoUbicacion()),
         ];
         return forkJoin(buscarComplementos).pipe(
           map(([detalle, depreciacion, ubicacion]) => {
@@ -73,9 +83,7 @@ export class ActivoService extends GenericService<Activo> {
             return activoCompleto;
           })
         );
-      }),
-      // tap(activo => console.log(activo)),
-      take(1)
+      })
     );
   }
 
@@ -121,23 +129,28 @@ export class ActivoService extends GenericService<Activo> {
             };
           })
         );
-      }),
-      first()
+      })
     );
   }
 
-  actualizar(id: Id, entidad: Activo, tipoDato: string): Observable<Number> {
-    return super.actualizar(id, entidad, tipoDato, false).pipe(
-      tap((respuesta: any) => {
-        if (respuesta.data > 0) {
-          this.snackBarMessage(
-            `${tipoOracion(tipoDato)}: "${
-              String(entidad.codigo).split('-')[1]
-            }-${entidad.denominacion}", actualizado correctamente`
-          );
-        }
-      }),
-      take(1)
+  actualizar(id: Id, activo: Activo, tipoDato: string): Observable<Number> {
+    let peticionesActualizar = [
+      super.actualizar(id, activo, tipoDato),
+      this._activoDetalle.actualizar(id, activo.detalle, '', false),
+      this._activoDepreciacion.actualizar(id, activo.depreciacion, '', false),
+      this._activoUbicacion.actualizar(id, activo.ubicacion, '', false),
+    ];
+    return forkJoin(peticionesActualizar).pipe(
+      map(([act, det, dep, ubi]) => {
+        if (
+          Number(act) > 0 &&
+          Number(det) > 0 &&
+          Number(dep) > 0 &&
+          Number(ubi) > 0
+        )
+          return 1;
+        else return 0;
+      })
     );
   }
 }

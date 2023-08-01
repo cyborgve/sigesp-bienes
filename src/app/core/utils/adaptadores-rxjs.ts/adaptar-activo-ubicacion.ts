@@ -6,7 +6,7 @@ export const adaptarActivoUbicacion = () =>
     map(
       (ubicacion: any) =>
         <ActivoUbicacion>{
-          empresaId: Number(ubicacion.empresaId),
+          empresaId: ubicacion.empresaId,
           id: Number(ubicacion.id),
           activoId: Number(ubicacion.activoId),
           sedeId: Number(ubicacion.sedeId),
