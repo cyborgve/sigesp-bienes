@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from './generic.service';
@@ -6,12 +6,14 @@ import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacio
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { adaptarActivoDepreciacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-depreciacion';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActivoDepreciacionService extends GenericService<ActivoDepreciacion> {
-  private apiUrlActivoId = (id: Id) => `${this.apiUrl}?activo_id=${id}`;
+  private apiUrlActivoId = (activoId: Id) =>
+    `${this.apiUrl}?activo_id=${activoId}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'activoDepreciacion').valor;
   }
@@ -20,8 +22,10 @@ export class ActivoDepreciacionService extends GenericService<ActivoDepreciacion
     return this._http
       .get<ActivoDepreciacion>(this.apiUrlActivoId(activoId))
       .pipe(
-        map((res: any) => res.data as ActivoDepreciacion[]),
-        map((res: any) => normalizarObjeto(res[0]))
+        tap(res => console.log(res)),
+        map((res: any) => res.data),
+        map((res: any) => normalizarObjeto(res[0])),
+        adaptarActivoDepreciacion()
       );
   }
 }

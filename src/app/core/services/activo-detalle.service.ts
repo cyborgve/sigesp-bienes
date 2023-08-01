@@ -6,6 +6,7 @@ import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { Observable } from 'rxjs';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { adaptarActivoDetalle } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-detalle';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,8 @@ export class ActivoDetalleService extends GenericService<ActivoDetalle> {
   buscarPorActivo(activoId: Id): Observable<ActivoDetalle> {
     return this._http.get<ActivoDetalle>(this.apiUrlActivoId(activoId)).pipe(
       map((res: any) => res.data),
-      map((actDets: any[]) => normalizarObjeto(actDets[0]))
+      map((actDets: any[]) => normalizarObjeto(actDets[0])),
+      adaptarActivoDetalle()
     );
   }
 }
