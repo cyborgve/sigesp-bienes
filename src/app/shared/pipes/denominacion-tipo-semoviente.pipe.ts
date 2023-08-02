@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { TipoSemovienteService } from '@core/services/tipo-semoviente.service';
+import { TipoSemovienteService } from '@core/services/definiciones/tipo-semoviente.service';
 
 @Pipe({
   name: 'denominacionTipoSemoviente',

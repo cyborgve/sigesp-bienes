@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { PlantillaDepreciacionService } from '@core/services/plantilla-depreciacion.service';
+import { PlantillaDepreciacionService } from '@core/services/definiciones/plantilla-depreciacion.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorPlantillaDepreciacionComponent } from '../buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
@@ -14,7 +14,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { Subscription } from 'rxjs';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';

@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ColorService } from '@core/services/color.service';
+import { ColorService } from '@core/services/definiciones/color.service';
 
 @Pipe({
   name: 'denominacionColor',

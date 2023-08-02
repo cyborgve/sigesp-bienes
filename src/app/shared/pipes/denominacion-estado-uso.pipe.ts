@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { EstadoUsoService } from '@core/services/estado-uso.service';
+import { EstadoUsoService } from '@core/services/definiciones/estado-uso.service';
 
 @Pipe({
   name: 'denominacionEstadoUso',

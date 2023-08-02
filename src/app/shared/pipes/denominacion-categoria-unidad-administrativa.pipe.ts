@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
-import { CategoriaUnidadAdministrativaService } from '@core/services/categoria-unidad-administrativa.service';
+import { CategoriaUnidadAdministrativaService } from '@core/services/definiciones/categoria-unidad-administrativa.service';
 import { Observable } from 'rxjs';
 
 @Pipe({

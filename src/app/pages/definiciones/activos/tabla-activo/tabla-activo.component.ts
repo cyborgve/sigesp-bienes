@@ -16,7 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Activo } from '@core/models/definiciones/activo';
-import { ActivoService } from '@core/services/activo.service';
+import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';

@@ -15,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
-import { CausaMovimientoService } from '@core/services/causa-movimiento.service';
+import { CausaMovimientoService } from '@core/services/definiciones/causa-movimiento.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';

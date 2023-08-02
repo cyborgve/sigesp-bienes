@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { TipoCoberturaService } from '@core/services/tipo-cobertura.service';
+import { TipoCoberturaService } from '@core/services/definiciones/tipo-cobertura.service';
 
 @Pipe({
   name: 'denominacionTipoCobertura',

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SeguroService } from '@core/services/seguro.service';
+import { SeguroService } from '@core/services/definiciones/seguro.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorSeguroComponent } from '../buscador-seguro/buscador-seguro.component';
@@ -17,7 +17,7 @@ import { BuscadorTipoCoberturaComponent } from '@pages/definiciones/tipos-cobert
 import { Aseguradora } from '@core/models/definiciones/aseguradora';
 import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
 import { TipoCobertura } from '@core/models/definiciones/tipo-cobertura';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { Moneda } from '@core/models/otros-modulos/moneda';

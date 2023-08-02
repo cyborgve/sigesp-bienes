@@ -4,14 +4,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TipoCoberturaService } from '@core/services/tipo-cobertura.service';
+import { TipoCoberturaService } from '@core/services/definiciones/tipo-cobertura.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoCoberturaComponent } from '../buscador-tipo-cobertura/buscador-tipo-cobertura.component';
 import { TipoCobertura } from '@core/models/definiciones/tipo-cobertura';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({

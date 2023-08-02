@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
-import { CausaMovimientoService } from '@core/services/causa-movimiento.service';
+import { CausaMovimientoService } from '@core/services/definiciones/causa-movimiento.service';
 import { Observable } from 'rxjs';
 
 @Pipe({

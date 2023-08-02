@@ -16,10 +16,9 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Correlativo } from '@core/models/definiciones/correlativo';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Id } from '@core/types/id';
-import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { ordenarPorId } from '@core/utils/operadores-rxjs/ordenar-por-id';
 
 @Component({

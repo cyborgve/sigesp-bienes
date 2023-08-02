@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TipoSedeService } from '@core/services/tipo-sede.service';
+import { TipoSedeService } from '@core/services/definiciones/tipo-sede.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

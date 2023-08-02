@@ -12,7 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Categoria } from '@core/models/definiciones/categoria';
 import { MatTableDataSource } from '@angular/material/table';
-import { CategoriaService } from '@core/services/categoria.service';
+import { CategoriaService } from '@core/services/definiciones/categoria.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Id } from '@core/types/id';

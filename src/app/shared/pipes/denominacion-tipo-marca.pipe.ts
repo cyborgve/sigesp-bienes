@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TipoMarcaService } from '@core/services/tipo-marca.service';
+import { TipoMarcaService } from '@core/services/definiciones/tipo-marca.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

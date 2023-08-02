@@ -3,7 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModeloService } from '@core/services/modelo.service';
+import { ModeloService } from '@core/services/definiciones/modelo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Modelo } from '@core/models/definiciones/modelo';
@@ -13,7 +13,7 @@ import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marc
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { Marca } from '@core/models/definiciones/marca';
 import { Subscription } from 'rxjs';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Location } from '@angular/common';
 

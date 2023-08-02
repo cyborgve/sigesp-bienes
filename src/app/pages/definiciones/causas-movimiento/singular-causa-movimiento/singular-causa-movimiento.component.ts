@@ -3,7 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CausaMovimientoService } from '@core/services/causa-movimiento.service';
+import { CausaMovimientoService } from '@core/services/definiciones/causa-movimiento.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorCausaMovimientoComponent } from '../buscador-causa-movimiento/buscador-causa-movimiento.component';
@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
 import { TIPOS_CAUSA_MOVIMIENTO } from '@core/constants/tipos-causa-movimiento';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { Subscription } from 'rxjs';
 import { adaptarCausaMovimiento } from '@core/utils/adaptadores-rxjs.ts/adaptar-causa-movimiento';
 

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
-import { TipoAnimalService } from '@core/services/tipo-animal.service';
+import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 import { Id } from '@core/types/id';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';

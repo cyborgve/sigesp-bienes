@@ -15,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
-import { TipoSedeService } from '@core/services/tipo-sede.service';
+import { TipoSedeService } from '@core/services/definiciones/tipo-sede.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';

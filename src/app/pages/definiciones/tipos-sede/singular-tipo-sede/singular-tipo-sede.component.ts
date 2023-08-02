@@ -4,14 +4,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TipoSedeService } from '@core/services/tipo-sede.service';
+import { TipoSedeService } from '@core/services/definiciones/tipo-sede.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoSedeComponent } from '../buscador-tipo-sede/buscador-tipo-sede.component';
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({

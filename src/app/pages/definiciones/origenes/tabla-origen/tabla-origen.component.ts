@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Origen } from '@core/models/definiciones/origen';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { OrigenService } from '@core/services/origen.service';
+import { OrigenService } from '@core/services/definiciones/origen.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';

@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { TipoAnimalService } from '@core/services/tipo-animal.service';
+import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 
 @Pipe({
   name: 'denominacionTipoAnimal',

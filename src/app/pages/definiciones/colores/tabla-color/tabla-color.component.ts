@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Color } from '@core/models/definiciones/color';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { ColorService } from '@core/services/color.service';
+import { ColorService } from '@core/services/definiciones/color.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';

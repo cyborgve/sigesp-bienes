@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ModeloService } from '@core/services/modelo.service';
+import { ModeloService } from '@core/services/definiciones/modelo.service';
 import { Observable } from 'rxjs';
 
 @Pipe({

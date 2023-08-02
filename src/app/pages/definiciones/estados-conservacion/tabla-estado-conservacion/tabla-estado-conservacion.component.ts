@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { EstadoConservacion } from '@core/models/definiciones/estado-conservacion';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
+import { EstadoConservacionService } from '@core/services/definiciones/estado-conservacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';

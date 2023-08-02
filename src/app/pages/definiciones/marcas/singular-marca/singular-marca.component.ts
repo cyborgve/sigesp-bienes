@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MarcaService } from '@core/services/marca.service';
+import { MarcaService } from '@core/services/definiciones/marca.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorMarcaComponent } from '../buscador-marca/buscador-marca.component';
@@ -13,7 +13,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { BuscadorTipoMarcaComponent } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { TipoMarca } from '@core/models/definiciones/tipo-marca';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { TIPOS_MARCA } from '@core/constants/tipos-marca';
 import { Basica } from '@core/models/auxiliares/basica';

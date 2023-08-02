@@ -4,14 +4,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { RotulacionService } from '@core/services/rotulacion.service';
+import { RotulacionService } from '@core/services/definiciones/rotulacion.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorRotulacionComponent } from '../buscador-rotulacion/buscador-rotulacion.component';
 import { Rotulacion } from '@core/models/definiciones/rotulacion';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 
 @Component({

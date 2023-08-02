@@ -12,7 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Aseguradora } from '@core/models/definiciones/aseguradora';
 import { MatTableDataSource } from '@angular/material/table';
-import { AseguradoraService } from '@core/services/aseguradora.service';
+import { AseguradoraService } from '@core/services/definiciones/aseguradora.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Id } from '@core/types/id';

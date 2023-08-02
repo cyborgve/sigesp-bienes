@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NORMATIVAS_ACTIVO } from '@core/constants/normativas-activo';
-import { ConfiguracionService } from '@core/services/configuracion.service';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Id } from '@core/types/id';
 import { first, take, tap, map } from 'rxjs/operators';
 import { Entidad } from '@core/models/auxiliares/entidad';

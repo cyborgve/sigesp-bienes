@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { ReasignacionService } from '@core/services/procesos/reasignacion.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
@@ -22,7 +22,7 @@ import { BuscadorResponsableComponent } from '@shared/components/buscador-respon
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { Activo } from '@core/models/definiciones/activo';
-import { ActivoService } from '@core/services/activo.service';
+import { ActivoService } from '@core/services/definiciones/activo.service';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({

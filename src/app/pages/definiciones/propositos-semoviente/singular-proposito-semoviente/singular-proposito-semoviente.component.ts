@@ -4,14 +4,14 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PropositoSemovienteService } from '@core/services/proposito-semoviente.service';
+import { PropositoSemovienteService } from '@core/services/definiciones/proposito-semoviente.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorPropositoSemovienteComponent } from '../buscador-proposito-semoviente/buscador-proposito-semoviente.component';
 import { PropositoSemoviente } from '@core/models/definiciones/proposito-semoviente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { CorrelativoService } from '@core/services/correlativo.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
 

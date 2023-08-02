@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { GenericService } from '../generic.service';
 import { Desincorporacion } from '@core/models/procesos/desincorporacion';
 import { END_POINTS } from '@core/constants/end-points';
+import { GenericService } from '@core/services/definiciones/generic.service';
 
 @Injectable({
   providedIn: 'root',

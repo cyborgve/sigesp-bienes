@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { MarcaService } from '@core/services/marca.service';
+import { MarcaService } from '@core/services/definiciones/marca.service';
 
 @Pipe({
   name: 'denominacionMarca',

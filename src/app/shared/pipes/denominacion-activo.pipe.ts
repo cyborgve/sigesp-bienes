@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ActivoService } from '@core/services/activo.service';
 import { map } from 'rxjs/operators';
+import { ActivoService } from '@core/services/definiciones/activo.service';
 
 @Pipe({
   name: 'denominacionActivo',

@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { PropositoSemovienteService } from '@core/services/proposito-semoviente.service';
+import { PropositoSemovienteService } from '@core/services/definiciones/proposito-semoviente.service';
 
 @Pipe({
   name: 'denominacionPropositoSemoviente',

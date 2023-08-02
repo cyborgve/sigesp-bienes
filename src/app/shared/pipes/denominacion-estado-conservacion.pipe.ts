@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { EstadoConservacionService } from '@core/services/estado-conservacion.service';
+import { EstadoConservacionService } from '@core/services/definiciones/estado-conservacion.service';
 
 @Pipe({
   name: 'denominacionEstadoConservacion',

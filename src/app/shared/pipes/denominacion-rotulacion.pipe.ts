@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { RotulacionService } from '@core/services/rotulacion.service';
+import { RotulacionService } from '@core/services/definiciones/rotulacion.service';
 
 @Pipe({
   name: 'denominacionRotulacion',
