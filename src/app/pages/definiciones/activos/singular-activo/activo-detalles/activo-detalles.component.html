@@ -145,7 +145,7 @@
   </section>
   <ng-container [ngSwitch]="tipoActivo">
     <!-- detalles inmueble -->
-    <section class="contenido" *ngSwitchCase="'INMUEBLE'">
+    <section class="contenido" *ngSwitchCase="'INM'">
       <!-- oficina de registro -->
       <mat-form-field appearance="fill" class="oficinaRegistro">
         <mat-label>Oficina de registro</mat-label>
@@ -247,7 +247,7 @@
     </section>
 
     <!-- detalles vehiculo -->
-    <section class="contenido" *ngSwitchCase="'VEHÍCULO'">
+    <section class="contenido" *ngSwitchCase="'VEH'">
       <!-- serial carroceria -->
       <mat-form-field appearance="fill" class="serialCarroceria">
         <mat-label>Serial de carrocería</mat-label>
@@ -318,7 +318,7 @@
     </section>
 
     <!-- detalles semoviente -->
-    <section class="contenido" *ngSwitchCase="'SEMOVIENTE'">
+    <section class="contenido" *ngSwitchCase="'SEM'">
       <!-- tipo semoviente id -->
       <mat-form-field appearance="fill" class="tipoSemovienteId">
         <mat-label>Tipo de semoviente</mat-label>
