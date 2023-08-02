@@ -351,7 +351,8 @@ export class SingularActivoComponent implements Entidad {
         switchMap(() =>
           this._activo.eliminar(
             this.formularioDatosGenerales.value.id,
-            this.titulo.toUpperCase()
+            this.titulo,
+            true
           )
         ),
         take(1)

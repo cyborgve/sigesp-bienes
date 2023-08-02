@@ -97,12 +97,12 @@ export class SingularCorrelativoComponent implements Entidad {
             let entidad: Correlativo = this.formulario.value;
             if (this.modoFormulario === 'CREANDO') {
               this._entidad
-                .guardar(entidad, this.titulo.toUpperCase())
+                .guardar(entidad, this.titulo, false)
                 .pipe(first())
                 .subscribe(() => this.irAtras());
             } else {
               this._entidad
-                .actualizar(this.id, entidad, this.titulo.toUpperCase())
+                .actualizar(this.id, entidad, this.titulo, false)
                 .pipe(first())
                 .subscribe(() => this.irAtras());
             }

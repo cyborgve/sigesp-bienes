@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from './generic.service';
@@ -7,6 +7,7 @@ import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-ubicacion';
+import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,24 @@ export class ActivoUbicacionService extends GenericService<ActivoUbicacion> {
     return this._http.get<ActivoUbicacion>(this.apiUrlActivoId(activoId)).pipe(
       map((res: any) => res.data as ActivoUbicacion[]),
       map((res: any) => normalizarObjeto(res[0]))
+    );
+  }
+
+  eliminarPorActivo(
+    activo_id: Id,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<boolean> {
+    return this._http.delete<boolean>(this.apiUrlActivoId(activo_id)).pipe(
+      map((res: any) => res.data[0]),
+      tap(eliminado => {
+        if (eliminado && notificar)
+          this.snackBarMessage(
+            `${tipoOracion(
+              tipoDato
+            )}: ${activo_id}, fue eliminado correctamente`
+          );
+      })
     );
   }
 }

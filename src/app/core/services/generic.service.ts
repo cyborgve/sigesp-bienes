@@ -90,13 +90,17 @@ export abstract class GenericService<T extends Basica>
     );
   }
 
-  eliminar(id: Id, tipoDato: string, notificar: boolean = true): Observable<T> {
-    return this._http.delete<T>(this.apiUrlId(id)).pipe(
+  eliminar(
+    id: Id,
+    tipoDato: string,
+    notificar: boolean = true
+  ): Observable<boolean> {
+    return this._http.delete<boolean>(this.apiUrlId(id)).pipe(
       tap(eliminado => {
         if (notificar) {
           if (eliminado)
             this.snackBarMessage(
-              `${tipoOracion(tipoDato)} eliminado correctamente`
+              `${tipoOracion(tipoDato)}: ${id}, fue eliminado correctamente`
             );
         }
       })

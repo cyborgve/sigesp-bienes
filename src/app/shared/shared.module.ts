@@ -75,6 +75,8 @@ import { DenominacionBeneficiarioPipe } from './pipes/denominacion-beneficiario.
 import { CorregirNoAsignadoPipe } from './pipes/corregir-no-asignado.pipe';
 import { DenominacionModoAdquisicionPipe } from './pipes/denominacion-modo-adquisicion.pipe';
 import { DenominacionCentroCostosPipe } from './pipes/denominacion-centro-costos.pipe';
+import { DenominacionTipoActivoPipe } from './pipes/denominacion-tipo-activo.pipe';
+import { BuscadorProveedorComponent } from './components/buscador-proveedor/buscador-proveedor.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -159,6 +161,8 @@ const sharedPipes = [
     CorregirNoAsignadoPipe,
     DenominacionModoAdquisicionPipe,
     DenominacionCentroCostosPipe,
+    DenominacionTipoActivoPipe,
+    BuscadorProveedorComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -173,6 +177,8 @@ const sharedPipes = [
     CorregirNoAsignadoPipe,
     DenominacionModoAdquisicionPipe,
     DenominacionCentroCostosPipe,
+    DenominacionTipoActivoPipe,
+    BuscadorProveedorComponent,
   ],
 })
 export class SharedModule {}

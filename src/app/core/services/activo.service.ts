@@ -133,6 +133,13 @@ export class ActivoService extends GenericService<Activo> {
     );
   }
 
+  /**
+   * @description actualiza todos los datos que pueden ser reasignados del activo
+   * @param id number
+   * @param activo Activo
+   * @param tipoDato string
+   * @returns 1 | 0 (verdadero o falso) si se ejecuto la actualizacion.
+   */
   actualizar(id: Id, activo: Activo, tipoDato: string): Observable<Number> {
     let peticionesActualizar = [
       super.actualizar(id, activo, tipoDato),
@@ -150,6 +157,21 @@ export class ActivoService extends GenericService<Activo> {
         )
           return 1;
         else return 0;
+      })
+    );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    let peticionesEliminar = [
+      super.eliminar(id, tipoDato, notificar),
+      this._activoDetalle.eliminarPorActivo(id, '', false),
+      this._activoDepreciacion.eliminarPorActivo(id, '', false),
+      this._activoUbicacion.eliminarPorActivo(id, '', false),
+    ];
+    return forkJoin(peticionesEliminar).pipe(
+      map(([activo, detalle, depreciacion, ubicacion]) => {
+        if (activo && detalle && depreciacion && ubicacion) return true;
+        else false;
       })
     );
   }

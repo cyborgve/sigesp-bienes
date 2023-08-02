@@ -97,12 +97,12 @@ export class ConfiguracionesComponent implements Entidad {
     let configuracion = prepararConfiguracion(this.formulario.value);
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(configuracion, this.titulo.toUpperCase())
+        .guardar(configuracion, this.titulo, false)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, configuracion, this.titulo.toUpperCase())
+        .actualizar(this.id, configuracion, this.titulo, false)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }

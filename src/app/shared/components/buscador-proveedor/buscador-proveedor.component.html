@@ -1,27 +1,25 @@
 <app-encabezado-definiciones
   [titulo]="titulo"
-  [ocultarNuevo]="ocultarNuevo"
-  (nuevo)="nuevo()"
+  ocultarNuevo="true"
   (filtrarDatos)="filtrar($event)"
   (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
 <mat-card class="card-table">
-  <!-- tabla -->
   <table mat-table [dataSource]="dataSource" class="table" matSort>
     <!-- codigo -->
     <ng-container matColumnDef="codigo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
-      <td mat-cell *matCellDef="let row">{{ row.codigo | corregirCodigo }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
-      <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.denominacion | titlecase }}</td>
     </ng-container>
-    <!-- tipo activo -->
-    <ng-container matColumnDef="tipoActivo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+    <!-- municipioId -->
+    <ng-container matColumnDef="municipioId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Municipio</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.tipoActivo | denominacionTipoActivo | titlecase }}
+        {{ row.municipioId | denominacionMunicipio | async | titlecase }}
       </td>
     </ng-container>
     <!-- creado -->
@@ -39,23 +37,13 @@
       </td>
     </ng-container>
 
-    <!-- acciones -->
-    <ng-container matColumnDef="acciones">
-      <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let row">
-        <app-botones-acciones
-          (editar)="editar(row)"
-          (eliminar)="eliminar(row)"></app-botones-acciones>
-      </td>
-    </ng-container>
-
     <!-- ejecuta el armado de la tabla -->
     <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
     <tr
       mat-row
       *matRowDef="let row; columns: columnasVisibles"
       class="row-hover"
-      (dblclick)="dobleClick.emit(row)"></tr>
+      (dblclick)="seleccionar(row)"></tr>
 
     <!-- mostrar cuando no hay datos que coincidan -->
     <tr class="mat-row" *matNoDataRow>

@@ -15,6 +15,8 @@ import { CorrelativoService } from '@core/services/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Subscription } from 'rxjs';
 import { MODOS_ADQUISICION } from '@core/constants/modos-adquisicion';
+import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedor/buscador-proveedor.component';
+import { Proveedor } from '@core/models/otros-modulos/proveedor';
 
 @Component({
   selector: 'app-singular-origen',
@@ -206,6 +208,20 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   }
 
   buscarProveedor() {
-    alert('TODO');
+    let dialog = this._dialog.open(BuscadorProveedorComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((proveedor: Proveedor) => {
+          if (proveedor) {
+            this.formulario.patchValue({ proveedorId: proveedor.id });
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 }

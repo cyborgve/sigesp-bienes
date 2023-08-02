@@ -6,6 +6,7 @@ import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacio
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +25,23 @@ export class ActivoDepreciacionService extends GenericService<ActivoDepreciacion
         map((res: any) => res.data[0]),
         map((res: any) => normalizarObjeto(res))
       );
+  }
+
+  eliminarPorActivo(
+    activo_id: Id,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<boolean> {
+    return this._http.delete<boolean>(this.apiUrlActivoId(activo_id)).pipe(
+      map((res: any) => res.data[0]),
+      tap(eliminado => {
+        if (eliminado && notificar)
+          this.snackBarMessage(
+            `${tipoOracion(
+              tipoDato
+            )}: ${activo_id}, fue eliminado correctamente`
+          );
+      })
+    );
   }
 }
