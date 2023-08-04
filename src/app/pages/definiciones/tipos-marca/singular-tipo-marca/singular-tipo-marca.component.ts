@@ -22,7 +22,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 export class SingularTipoMarcaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[22].nombre;
+  titulo = CORRELATIVOS[23].nombre;
   formulario: FormGroup;
 
   constructor(

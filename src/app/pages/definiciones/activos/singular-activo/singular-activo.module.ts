@@ -1,3 +1,4 @@
+import { BuscadorCatalogoGeneralModule } from './../../catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -84,6 +85,7 @@ import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/busca
     BuscadorRotulacionModule,
     BuscadorPlantillaDepreciacionModule,
     BuscadorUnidadAdministrativaModule,
+    BuscadorCatalogoGeneralModule,
   ],
 })
 export class SingularActivoModule {}

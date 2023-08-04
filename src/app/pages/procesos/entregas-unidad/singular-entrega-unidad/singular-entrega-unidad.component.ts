@@ -27,7 +27,7 @@ import { Sede } from '@core/models/definiciones/sede';
 export class SingularEntregaUnidadComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[33].nombre;
+  titulo = CORRELATIVOS[34].nombre;
   formulario: FormGroup;
 
   constructor(

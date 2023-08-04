@@ -24,7 +24,7 @@ export class SingularTipoComponenteComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[21].nombre;
+  titulo = CORRELATIVOS[22].nombre;
   formulario: FormGroup;
   constructor(
     private _entidad: TipoComponenteService,

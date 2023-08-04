@@ -22,7 +22,7 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
 export class SingularTipoCoberturaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[20].nombre;
+  titulo = CORRELATIVOS[21].nombre;
   formulario: FormGroup;
 
   constructor(

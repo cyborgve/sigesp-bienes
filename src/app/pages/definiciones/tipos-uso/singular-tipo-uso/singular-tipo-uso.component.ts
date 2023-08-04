@@ -22,7 +22,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 export class SingularTipoUsoComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[26].nombre;
+  titulo = CORRELATIVOS[27].nombre;
   formulario: FormGroup;
 
   constructor(

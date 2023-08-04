@@ -14,11 +14,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Componente } from '@core/models/definiciones/componente';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ComponenteService } from '@core/services/definiciones/componente.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 
 @Component({
   selector: 'app-tabla-componente',
@@ -26,7 +26,7 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
   styleUrls: ['./tabla-componente.component.scss'],
 })
 export class TablaComponenteComponent
-  implements TablaEntidad<Componente>, AfterViewInit
+  implements TablaEntidad<ActivoComponente>, AfterViewInit
 {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -39,7 +39,7 @@ export class TablaComponenteComponent
   private urlSingular = this.urlPlural + '/activos-componente';
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/activos-componente/' + id;
-  dataSource: MatTableDataSource<Componente> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoComponente> = new MatTableDataSource();
 
   constructor(
     private _entidad: ComponenteService,
@@ -84,11 +84,11 @@ export class TablaComponenteComponent
     this._router.navigate([this.urlSingular]);
   }
 
-  editar(entidad: Componente) {
+  editar(entidad: ActivoComponente) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
 
-  eliminar(entidad: Componente) {
+  eliminar(entidad: ActivoComponente) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.codigo,

@@ -12,10 +12,11 @@ import { MMoneda, SigespService } from 'sigesp';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.component';
 import { Subscription } from 'rxjs';
-import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
+import { BuscadorCatalogoGeneralComponent } from '@pages/definiciones/catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.component';
+import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -48,7 +49,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
   }
 
   buscarCatalogoCuentas() {
-    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+    let dialog = this._dialog.open(BuscadorCatalogoGeneralComponent, {
       width: '85%',
       height: '95%',
     });
@@ -56,10 +57,10 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((cuentaContable: CuentaContable) =>
-            cuentaContable
+          tap((catalogoGeneral: CatalogoGeneral) =>
+            catalogoGeneral
               ? this.formulario.patchValue({
-                  catalogoCuentas: cuentaContable.id,
+                  catalogoCuentas: catalogoGeneral.id,
                 })
               : undefined
           )

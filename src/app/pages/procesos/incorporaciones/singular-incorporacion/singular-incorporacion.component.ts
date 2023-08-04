@@ -33,7 +33,7 @@ import { Activo } from '@core/models/definiciones/activo';
 export class SingularIncorporacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[34].nombre;
+  titulo = CORRELATIVOS[35].nombre;
   formulario: FormGroup;
 
   constructor(

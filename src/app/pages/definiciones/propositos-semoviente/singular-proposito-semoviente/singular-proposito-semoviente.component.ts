@@ -26,7 +26,7 @@ export class SingularPropositoSemovienteComponent
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[14].nombre;
+  titulo = CORRELATIVOS[15].nombre;
   formulario: FormGroup;
   modosAdquisicion: string[] = [];
   formasAdquisicion: string[] = [];

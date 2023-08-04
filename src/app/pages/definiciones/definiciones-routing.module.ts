@@ -187,6 +187,13 @@ const routes: Routes = [
         m => m.UnidadesAdministrativasModule
       ),
   },
+  {
+    path: 'catalogos-generales',
+    loadChildren: () =>
+      import('./catalogos-generales/catalogos-generales.module').then(
+        m => m.CatalogosGeneralesModule
+      ),
+  },
 ];
 
 @NgModule({

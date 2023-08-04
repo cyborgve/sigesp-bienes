@@ -37,7 +37,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
 
   id: Id;
-  titulo = CORRELATIVOS[17].nombre;
+  titulo = CORRELATIVOS[18].nombre;
   formulario: FormGroup;
   tipos = ['Tipo 1', 'Tipo 2', 'Tipo 3'];
   localizaciones = ['Nacional', 'Internacional'];

@@ -29,7 +29,7 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 export class SingularAutorizacionSalidaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[29].nombre;
+  titulo = CORRELATIVOS[30].nombre;
   formulario: FormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.AUTORIZACIONES_SALIDA;

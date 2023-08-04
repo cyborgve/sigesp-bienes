@@ -6,6 +6,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'activoDetalle', valor: 'dao/sbn/activo-detalle-dao.php' },
   { clave: 'activoUbicacion', valor: 'dao/sbn/activo-ubicacion-dao.php' },
   { clave: 'aseguradoras', valor: 'dao/sbn/aseguradora-dao.php' },
+  { clave: 'catalogoGeneral', valor: 'dao/sbn/catalogo-general-dao.php' },
   { clave: 'categoria', valor: 'dao/sbn/categoria-dao.php' },
   {
     clave: 'categoriaUnidadAdministrativa',
@@ -56,6 +57,10 @@ export const END_POINTS: { clave: string; valor: string }[] = [
 
   /** procesos */
   { clave: 'actaPrestamo', valor: 'dao/sbn/acta-prestamo-dao.php' },
+  {
+    clave: 'actaPrestamoActivo',
+    valor: 'dao/sbn/acta-prestamo-activo-dao.php',
+  },
   { clave: 'autorizacionSalida', valor: 'dao/sbn/autorizacion-salida-dao.php' },
   { clave: 'cambioResponsable', valor: 'dao/sbn/cambio-responsable-dao.php' },
   { clave: 'depreciacion', valor: 'dao/sbn/depreciacion-dao.php' },

@@ -1,0 +1,78 @@
+<section class="contenedor-singular">
+  <form [formGroup]="formulario">
+    <!-- encabezado -->
+    <app-encabezado-definicion
+      [titulo]="titulo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-definicion>
+    <!-- datos -->
+    <mat-card>
+      <article class="contenido">
+        <!-- codigo -->
+        <mat-form-field appearance="fill" class="codigo">
+          <mat-label>Código</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="codigo"
+            readonly="true"
+            [value]="formulario.value.codigo | corregirCodigo" />
+        </mat-form-field>
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominación</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
+        <!-- catalogoCuentas -->
+        <mat-form-field appearance="fill" class="catalogoCuentas">
+          <mat-label>Catálogo de Cuentas</mat-label>
+          <input type="text" matInput formControlName="catalogoCuentas" />
+        </mat-form-field>
+        <!-- cuentaReferencia -->
+        <mat-form-field appearance="fill" class="cuentaReferencia">
+          <mat-label>Cuenta de referencia</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="cuentaReferencia"
+            readonly="true"
+            [value]="
+              formulario.value.cuentaReferencia
+                | denominacionCuentaContable
+                | async
+                | titlecase
+                | corregirSeleccionar
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCuentaReferencia()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- estadoMovimiento -->
+        <mat-form-field appearance="fill" class="estadoMovimiento">
+          <mat-label>Estado del movimiento</mat-label>
+          <mat-select type="text" formControlName="estadoMovimiento">
+            <mat-option value="">Seleccionar</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </article>
+    </mat-card>
+    <!-- botones -->
+  </form>
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarImprimir]="false"
+  [mostrarSalir]="false"></app-toolbar>

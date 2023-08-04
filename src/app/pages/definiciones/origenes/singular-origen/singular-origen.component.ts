@@ -27,7 +27,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[12].nombre;
+  titulo = CORRELATIVOS[13].nombre;
   formulario: FormGroup;
   modosAdquisicion = MODOS_ADQUISICION;
 

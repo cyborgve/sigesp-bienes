@@ -26,7 +26,7 @@ import { Basica } from '@core/models/auxiliares/basica';
 export class SingularMarcaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[10].nombre;
+  titulo = CORRELATIVOS[11].nombre;
   formulario: FormGroup;
   tiposMarca = TIPOS_MARCA;
 

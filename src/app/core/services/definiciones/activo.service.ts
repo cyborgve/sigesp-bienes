@@ -23,6 +23,8 @@ import { adaptarActivo } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo';
 import { adaptarActivoDetalle } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-detalle';
 import { adaptarActivoDepreciacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-depreciacion';
 import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-ubicacion';
+import { ActivoComponente } from '@core/models/definiciones/activo-componente';
+import { adaptarComponentes } from '@core/utils/adaptadores-rxjs.ts/adaptar-componentes';
 
 @Injectable({
   providedIn: 'root',
@@ -71,14 +73,18 @@ export class ActivoService extends GenericService<Activo> {
           this._activoUbicacion
             .buscarPorActivo(activo.id)
             .pipe(adaptarActivoUbicacion()),
+          this._activoComponente
+            .buscarPorActivo(activo.id)
+            .pipe(adaptarComponentes()),
         ];
         return forkJoin(buscarComplementos).pipe(
-          map(([detalle, depreciacion, ubicacion]) => {
+          map(([detalle, depreciacion, ubicacion, componentes]) => {
             let activoCompleto: Activo = {
               ...activo,
               detalle: detalle as ActivoDetalle,
               depreciacion: depreciacion as ActivoDepreciacion,
               ubicacion: ubicacion as ActivoUbicacion,
+              componentes: componentes as ActivoComponente[],
             };
             return activoCompleto;
           })

@@ -22,7 +22,7 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
 export class SingularRotulacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[16].nombre;
+  titulo = CORRELATIVOS[17].nombre;
   formulario: FormGroup;
   constructor(
     private _entidad: RotulacionService,

@@ -19,10 +19,10 @@ import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { Activo } from '@core/models/definiciones/activo';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { BuscadorComponenteComponent } from '@pages/definiciones/activos-componentes/buscador-componente/buscador-componente.component';
-import { Componente } from '@core/models/definiciones/componente';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 
 @Component({
   selector: 'app-singular-modificacion',
@@ -32,9 +32,10 @@ import { MatTableDataSource } from '@angular/material/table';
 export class SingularModificacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[35].nombre;
+  titulo = CORRELATIVOS[36].nombre;
   formulario: FormGroup;
-  dataComponentes: MatTableDataSource<Componente> = new MatTableDataSource();
+  dataComponentes: MatTableDataSource<ActivoComponente> =
+    new MatTableDataSource();
   dataCuentasContables: MatTableDataSource<CuentaContable> =
     new MatTableDataSource();
 
@@ -242,7 +243,7 @@ export class SingularModificacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((componente: Componente) => {
+        tap((componente: ActivoComponente) => {
           if (componente) {
             this.formulario.patchValue({
               componentes: [...this.formulario.value.componentes, componente],

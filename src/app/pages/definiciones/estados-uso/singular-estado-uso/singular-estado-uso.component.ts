@@ -24,7 +24,7 @@ export class SingularEstadoUsoComponent implements Entidad, OnDestroy {
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[9].nombre;
+  titulo = CORRELATIVOS[10].nombre;
   formulario: FormGroup;
 
   constructor(

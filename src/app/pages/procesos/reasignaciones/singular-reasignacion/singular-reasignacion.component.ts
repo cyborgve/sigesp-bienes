@@ -33,7 +33,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class SingularReasignacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[36].nombre;
+  titulo = CORRELATIVOS[37].nombre;
   formulario: FormGroup;
   dataActivos: MatTableDataSource<Activo> = new MatTableDataSource();
 

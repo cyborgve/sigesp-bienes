@@ -29,7 +29,7 @@ import { ActivoCompleto } from '@core/models/auxiliares/activo-completo';
 export class SingularDepreciacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[31].nombre;
+  titulo = CORRELATIVOS[32].nombre;
   formulario: FormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
   dataSource: MatTableDataSource<DepreciacionDetalle> =

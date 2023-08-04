@@ -31,7 +31,7 @@ import { Activo } from '@core/models/definiciones/activo';
 export class SingularActaPrestamoComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[28].nombre;
+  titulo = CORRELATIVOS[29].nombre;
   formulario: FormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'];
@@ -50,11 +50,11 @@ export class SingularActaPrestamoComponent implements Entidad {
       empresaId: [''],
       id: [''],
       comprobante: ['AUTOGENERADO'],
-      unidadAdministrativaCedente: ['', Validators.required],
-      unidadCedenteResponsable: ['', Validators.required],
-      unidadAdministrativaReceptora: ['', Validators.required],
-      unidadReceptoraResponsable: ['', Validators.required],
-      testigo: ['', Validators.required],
+      unidadAdministrativaCedente: [0, Validators.required],
+      unidadCedenteResponsable: ['---', Validators.required],
+      unidadAdministrativaReceptora: [0, Validators.required],
+      unidadReceptoraResponsable: ['---', Validators.required],
+      testigo: ['---', Validators.required],
       notas: [''],
       activos: [[]],
       creado: [new Date()],

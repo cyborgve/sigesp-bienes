@@ -28,7 +28,7 @@ import { TIPOS_COMPROBANTE } from '@core/constants/tipos-comprobante';
 export class SingularRetornoComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[37].nombre;
+  titulo = CORRELATIVOS[38].nombre;
   formulario: FormGroup;
   dataActivos: MatTableDataSource<Activo> = new MatTableDataSource();
   tiposComprobante = TIPOS_COMPROBANTE;

@@ -30,7 +30,7 @@ export class SingularPlantillaDepreciacionComponent
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[13].nombre;
+  titulo = CORRELATIVOS[14].nombre;
   formulario: FormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
   unidades = UNIDADES_MEDIDA['TIEMPO'];

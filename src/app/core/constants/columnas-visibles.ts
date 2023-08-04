@@ -9,6 +9,14 @@ export const COLUMNAS_VISIBLES = {
   ],
   ASEGURADORAS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   CATEGORIAS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
+  CATALOGO_GENERAL: [
+    'codigo',
+    'denominacion',
+    'catalogoCuentas',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   CATEGORIAS_UNIDAD_ADMINISTRATIVA: [
     'codigo',
     'denominacion',

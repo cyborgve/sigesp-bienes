@@ -12,7 +12,6 @@ import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { BuscadorComponenteComponent } from '../buscador-componente/buscador-componente.component';
-import { Componente } from '@core/models/definiciones/componente';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
 import { TipoComponente } from '@core/models/definiciones/tipo-componente';
@@ -20,6 +19,7 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { Activo } from '@core/models/definiciones/activo';
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
 import { Modelo } from '@core/models/definiciones/modelo';
+import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 
 @Component({
   selector: 'app-singular-componente',
@@ -110,7 +110,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((entidad: Componente) =>
+          tap((entidad: ActivoComponente) =>
             entidad
               ? this.formulario.patchValue({
                   denominacion: entidad.denominacion,
@@ -127,7 +127,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
   }
 
   guardar() {
-    let entidad: Componente = this.formulario.value;
+    let entidad: ActivoComponente = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())

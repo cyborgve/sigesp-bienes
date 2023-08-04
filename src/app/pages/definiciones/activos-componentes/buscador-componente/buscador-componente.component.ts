@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Componente } from '@core/models/definiciones/componente';
+import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 
 @Component({
   selector: 'app-buscador-componente',
@@ -16,7 +16,7 @@ export class BuscadorComponenteComponent {
   );
   constructor(private _dialogRef: MatDialogRef<BuscadorComponenteComponent>) {}
 
-  seleccionar = (entidad: Componente) => {
+  seleccionar = (entidad: ActivoComponente) => {
     this._dialogRef.close(entidad);
   };
 }

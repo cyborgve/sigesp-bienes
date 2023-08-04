@@ -30,7 +30,7 @@ import { Moneda } from '@core/models/otros-modulos/moneda';
 export class SingularSeguroComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[18].nombre;
+  titulo = CORRELATIVOS[19].nombre;
   formulario: FormGroup;
 
   constructor(

@@ -28,7 +28,7 @@ export class SingularUnidadAdministrativaComponent
   private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[27].nombre;
+  titulo = CORRELATIVOS[28].nombre;
   formulario: FormGroup;
   constructor(
     private _entidad: UnidadAdministrativaService,

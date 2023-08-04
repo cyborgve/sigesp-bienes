@@ -32,6 +32,12 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/category.svg',
       },
       {
+        label: 'Catálogos Generales',
+        routerLink: 'catalogos-generales',
+        icon: 'account_tree',
+        image: './assets/images/svg/account_tree.svg',
+      },
+      {
         label: 'Categorías de Unidad Adm.',
         routerLink: 'categorias-unidad-administrativa',
         icon: 'folder_copy',

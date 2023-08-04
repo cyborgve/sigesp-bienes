@@ -28,7 +28,7 @@ import { TIPOS_RESPONSABLE } from '@core/constants/tipos-responsable';
 export class SingularCambioResponsableComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[30].nombre;
+  titulo = CORRELATIVOS[31].nombre;
   formulario: FormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.CAMBIOS_RESPONSABLE;

@@ -27,7 +27,7 @@ import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 export class SingularDesincorporacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
-  titulo = CORRELATIVOS[32].nombre;
+  titulo = CORRELATIVOS[33].nombre;
   formulario: FormGroup;
 
   constructor(
