@@ -1,8 +1,8 @@
 import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
 
 export const METODOS_DEPRECIACION: MetodoDepreciacion[] = [
-  'LINEAL',
+  'LINEA RECTA',
   'SUMA DE DIGITOS',
-  'SALDOS DECRECIENTES',
-  'UNIDADES DE PRODUCCIÓN',
+  'SALDO DECRECIENTE',
+  'UNIDADES DE PRODUCCION',
 ];

@@ -9,7 +9,7 @@ export interface Activo extends Basica {
   codigo: string;
   tipoActivo: string;
   fechaRegistro: Date;
-  catalogoCuentas: string;
+  catalogoCuentas: Id;
   serialRotulacion: string;
   denominacion: string;
   observaciones: string;

@@ -19,6 +19,8 @@ import { BuscadorCambioResponsableComponent } from '../buscador-cambio-responsab
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { TIPOS_RESPONSABLE } from '@core/constants/tipos-responsable';
+import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
+import { Responsable } from '@core/models/otros-modulos/responsable';
 
 @Component({
   selector: 'app-singular-cambio-responsable',
@@ -184,18 +186,52 @@ export class SingularCambioResponsableComponent implements Entidad {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      tap((activo: Activo) => {
-        if (activo) {
-          this.formulario.patchValue({
-            activo: activo.id,
-            identificador: activo.serialRotulacion,
-            serial: activo.serialFabrica,
-          });
-        }
-      })
-    );
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((activo: Activo) => {
+          if (activo) {
+            this.formulario.patchValue({
+              activo: activo.id,
+              identificador: activo.serialRotulacion,
+              serial: activo.serialFabrica,
+            });
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
   }
-  buscarResponsableActual() {}
-  buscarNuevoResponsable() {}
+  buscarResponsableActual() {
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((responsable: Responsable) => {
+          if (responsable) {
+            this.formulario.patchValue({ responsableActual: responsable.id });
+          }
+        })
+      )
+      .subscribe();
+  }
+  buscarNuevoResponsable() {
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((responsable: Responsable) => {
+          if (responsable) {
+            this.formulario.patchValue({ nuevoResponsable: responsable.id });
+          }
+        })
+      )
+      .subscribe();
+  }
 }

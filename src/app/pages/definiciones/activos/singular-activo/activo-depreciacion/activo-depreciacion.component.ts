@@ -1,6 +1,6 @@
 import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
 import { tap, take } from 'rxjs/operators';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
@@ -17,7 +17,7 @@ import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
   templateUrl: './activo-depreciacion.component.html',
   styleUrls: ['./activo-depreciacion.component.scss'],
 })
-export class ActivoDepreciacionComponent implements OnDestroy {
+export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
   private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup = new FormGroup({});
 
@@ -25,6 +25,21 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   unidadesTiempo = UNIDADES_MEDIDA['TIEMPO'];
 
   constructor(private _dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.subscripciones.push(
+      this.formulario.valueChanges
+        .pipe(
+          tap(() =>
+            this.formulario.patchValue(
+              { depreciable: this.formulario.valid },
+              { emitEvent: false }
+            )
+          )
+        )
+        .subscribe()
+    );
+  }
 
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());

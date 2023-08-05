@@ -28,6 +28,8 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
   id: Id;
   titulo = CORRELATIVOS[3].nombre;
   formulario: FormGroup;
+  estadosMovimiento = ['S preguntar significado', 'C preguntar significado'];
+
   constructor(
     private _entidad: CatalogoGeneralService,
     private _activatedRoute: ActivatedRoute,

@@ -45,7 +45,14 @@
         <!-- metodo -->
         <mat-form-field appearance="fill" class="metodo">
           <mat-label>Método de depreciación</mat-label>
-          <input type="text" matInput formControlName="metodo" />
+          <input
+            type="text"
+            matInput
+            formControlName="metodo"
+            readonly="true"
+            [value]="
+              formulario.value.metodo | corregirMetodoDepreciacion | titlecase
+            " />
         </mat-form-field>
         <!-- fechaCompra -->
         <mat-form-field appearance="fill" class="fechaCompra">
@@ -82,7 +89,7 @@
             matInput
             formControlName="costo"
             readonly="true"
-            value="formulario.value.costo | number : '1,2-2'" />
+            [value]="formulario.value.costo | number : '1.2-2'" />
         </mat-form-field>
         <!-- valorRescate -->
         <mat-form-field appearance="fill" class="valorRescate">
@@ -91,7 +98,8 @@
             type="text"
             matInput
             formControlName="valorRescate"
-            readonly="true" />
+            readonly="true"
+            [value]="formulario.value.valorRescate | number : '1.2-2'" />
         </mat-form-field>
         <!-- montoDepreciar -->
         <mat-form-field appearance="fill" class="montoDepreciar">
@@ -100,35 +108,33 @@
             type="text"
             matInput
             formControlName="montoDepreciar"
-            readonly="true" />
+            readonly="true"
+            [value]="formulario.value.montoDepreciar | number : '1.2-2'" />
         </mat-form-field>
         <!-- vidaUtil -->
         <mat-form-field appearance="fill" class="vidaUtil">
-          <mat-label>Meses de vida útil</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="vidaUtil"
-            readonly="true" />
+          <mat-label>Vida útil</mat-label>
+          <input matInput formControlName="vidaUtil" readonly="true" />
         </mat-form-field>
         <!-- depreciacionMensual -->
         <mat-form-field appearance="fill" class="depreciacionMensual">
           <mat-label>Deppreciación mensual</mat-label>
           <input
-            type="text"
             matInput
             formControlName="depreciacionMensual"
             readonly="true"
-            [value]="this.formulario.value.depreciacionMensual" />
+            [value]="
+              this.formulario.value.depreciacionMensual | number : '1.2-2'
+            " />
         </mat-form-field>
         <!-- depreciacionAnual -->
         <mat-form-field appearance="fill" class="depreciacionAnual">
           <mat-label>Depreciación anual</mat-label>
           <input
-            type="number"
             matInput
             formControlName="depreciacionAnual"
-            readonly="true" />
+            readonly="true"
+            [value]="formulario.value.depreciacionAnual | number : '1.2-2'" />
         </mat-form-field>
         <!-- observaciones -->
         <mat-form-field appearance="fill" class="observaciones">

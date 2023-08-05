@@ -30,7 +30,7 @@
             <mat-option value="">Seleccionar</mat-option>
             <mat-option
               *ngFor="let metodo of metodosDepreciacion"
-              [value]="metodo"
+              [value]="metodo.substring(0, 3)"
               >{{ metodo | titlecase }}</mat-option
             >
           </mat-select>

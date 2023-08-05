@@ -2,8 +2,7 @@
   <section class="contenido">
     <!-- depreciable -->
     <article class="depreciable">
-      <ng-container
-        *ngIf="formulario.value.depreciable === 1; else noDepreciable">
+      <ng-container *ngIf="formulario.valid; else noDepreciable">
         <span class="depreciable-sub">Este activo es depreciable </span>
         <mat-icon class="depreciable-sub">check</mat-icon>
       </ng-container>

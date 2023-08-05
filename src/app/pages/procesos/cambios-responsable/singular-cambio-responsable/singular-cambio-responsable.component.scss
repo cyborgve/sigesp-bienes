@@ -1,16 +1,16 @@
-.activo {
+.identificador,
+.serial {
   @apply col-span-3;
 }
 
 .tipoResponsable,
 .responsableActual,
-.nuevoResponsable,
-.identificador {
+.nuevoResponsable {
   @apply col-span-4;
 }
 
-.serial {
-  @apply col-span-5;
+.activo {
+  @apply col-span-6;
 }
 
 .observaciones {

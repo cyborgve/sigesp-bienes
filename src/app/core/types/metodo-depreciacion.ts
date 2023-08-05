@@ -1,6 +1,5 @@
 export type MetodoDepreciacion =
-  | 'SELECCIONAR'
-  | 'LINEAL'
+  | 'LINEA RECTA'
   | 'SUMA DE DIGITOS'
-  | 'SALDOS DECRECIENTES'
-  | 'UNIDADES DE PRODUCCIÓN';
+  | 'SALDO DECRECIENTE'
+  | 'UNIDADES DE PRODUCCION';

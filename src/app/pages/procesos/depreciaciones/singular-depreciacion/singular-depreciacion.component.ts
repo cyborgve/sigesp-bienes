@@ -19,7 +19,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DepreciacionDetalle } from '@core/models/procesos/depreciacion';
 import { DepreciacionDetalleService } from '@core/services/procesos/depreciacion-detalle.service';
 import { Basica } from '@core/models/auxiliares/basica';
-import { ActivoCompleto } from '@core/models/auxiliares/activo-completo';
+import { ActivoService } from '@core/services/definiciones/activo.service';
+import { Activo } from '@core/models/definiciones/activo';
+import { convertirUnidadTiempo } from '@core/utils/funciones/convertir-unidad-tiempo';
+import { calcularDepreciacion } from '@core/utils/funciones/calcular-depreciacion';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -43,7 +46,8 @@ export class SingularDepreciacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _depreciacionDetalle: DepreciacionDetalleService
+    private _depreciacionDetalle: DepreciacionDetalleService,
+    private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -55,12 +59,12 @@ export class SingularDepreciacionComponent implements Entidad {
       fechaCompra: [''],
       fechaIncorporacion: [''],
       metodo: [''],
-      costo: [0],
-      valorRescate: [0],
-      montoDepreciar: [0],
-      vidaUtil: [0],
-      depreciacionMensual: [0],
-      depreciacionAnual: [0],
+      costo: [''],
+      valorRescate: [''],
+      montoDepreciar: [''],
+      vidaUtil: [''],
+      depreciacionMensual: [''],
+      depreciacionAnual: [''],
       observaciones: [''],
       detalles: [[]],
       creado: [new Date()],
@@ -161,12 +165,12 @@ export class SingularDepreciacionComponent implements Entidad {
     let entidad: Depreciacion = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
+        .guardar(entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
       this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+        .actualizar(this.id, entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -214,20 +218,58 @@ export class SingularDepreciacionComponent implements Entidad {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      tap((activo: ActivoCompleto) => {
-        if (activo) {
+    dialog
+      .afterClosed()
+      .pipe(
+        switchMap((activoParcial: Activo) =>
+          this._activo.buscarPorId(activoParcial.id)
+        ),
+        tap(activo => {
+          let vidaUtilMeses = convertirUnidadTiempo(
+            activo.depreciacion.vidaUtil,
+            activo.depreciacion.unidadVidaUtil,
+            'MESES'
+          );
+          let vidaUtilAnios = convertirUnidadTiempo(
+            activo.depreciacion.vidaUtil,
+            activo.depreciacion.unidadVidaUtil,
+            'AÑOS'
+          );
+          let metodosDepreciacionAux = METODOS_DEPRECIACION.find(
+            md => md.substring(0, 3) === activo.depreciacion.metodoDepreciacion
+          );
+          let tiempoAux =
+            (new Date().getTime() -
+              new Date(activo.fechaAdquisicion).getTime()) /
+            (1000 * 60 * 60 * 24 * 30.44);
+          let depreciacionTotal = calcularDepreciacion(
+            activo.valorAdquisicion,
+            vidaUtilAnios,
+            metodosDepreciacionAux,
+            tiempoAux,
+            true
+          );
           this.formulario.patchValue({
             activo: activo.id,
-            identificador: activo.serialRotulacion,
             serial: activo.serialFabrica,
+            identificador: activo.serialRotulacion,
             fechaCompra: activo.fechaAdquisicion,
+            fechaIncorporacion: activo.detalle.fechaRegistrado,
+            metodo: activo.depreciacion.metodoDepreciacion,
             costo: activo.valorAdquisicion,
-            valorRescate: activo.valorRescate,
-            vidaUtil: activo.vidaUtil,
+            valorRescate: activo.depreciacion.valorRescate,
+            montoDepreciar: depreciacionTotal,
+            vidaUtil: vidaUtilMeses + ' Meses',
+            depreciacionMensual: depreciacionTotal / tiempoAux,
+            depreciacionAnual: (depreciacionTotal / tiempoAux) * 12,
+            observaciones:
+              'Meses trancurridos desde la fecha de compra: ' +
+              tiempoAux.toFixed(2) +
+              ' Meses',
           });
-        }
-      })
-    );
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 }

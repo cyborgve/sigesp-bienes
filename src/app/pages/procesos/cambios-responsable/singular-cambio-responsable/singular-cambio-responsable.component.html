@@ -15,7 +15,7 @@
             matInput
             formControlName="activo"
             readonly="true"
-            [value]="formulario.value.activo" />
+            [value]="formulario.value.activo | denominacionActivo | async" />
           <button
             type="button"
             mat-icon-button

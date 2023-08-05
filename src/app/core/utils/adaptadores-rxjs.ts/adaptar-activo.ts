@@ -13,7 +13,7 @@ export const adaptarActivo = () =>
           codigo: activo.codigo,
           tipoActivo: activo.tipoActivo,
           fechaRegistro: activo.fechaRegistro,
-          catalogoCuentas: activo.catalogoCuentas,
+          catalogoCuentas: Number(activo.catalogoCuentas),
           serialRotulacion: activo.serialRotulacion,
           denominacion: activo.denominacion,
           observaciones: activo.observaciones,
