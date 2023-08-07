@@ -1,4 +1,4 @@
-import { Basica } from './../../../../core/models/auxiliares/basica';
+import { Basica } from '@core/models/auxiliares/basica';
 import { tap, first, take, filter, switchMap, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';

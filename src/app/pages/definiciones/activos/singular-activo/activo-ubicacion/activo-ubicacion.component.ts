@@ -24,12 +24,17 @@ export class ActivoUbicacionComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      take(1),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ unidadAdministrativaId: entidad.id })
+    dialog
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((entidad: Basica) =>
+          entidad
+            ? this.formulario.patchValue({ unidadAdministrativaId: entidad.id })
+            : undefined
+        )
       )
-    );
+      .subscribe();
   }
 
   buscarSede() {
@@ -37,12 +42,17 @@ export class ActivoUbicacionComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      take(1),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ sedeId: entidad.id })
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Basica) =>
+          entidad
+            ? this.formulario.patchValue({ sedeId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
-    );
+      .subscribe();
   }
 
   buscarResponsable() {
@@ -50,12 +60,17 @@ export class ActivoUbicacionComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      take(1),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ responsableId: entidad.id })
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Basica) =>
+          entidad
+            ? this.formulario.patchValue({ responsableId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
-    );
+      .subscribe();
   }
 
   buscarResponsableUso() {
@@ -63,12 +78,17 @@ export class ActivoUbicacionComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      take(1),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ responsableUsoId: entidad.id })
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Basica) =>
+          entidad
+            ? this.formulario.patchValue({ responsableUsoId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
-    );
+      .subscribe();
   }
 
   buscarEstadoConservacion() {
@@ -76,12 +96,17 @@ export class ActivoUbicacionComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      take(1),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ estadoConservacionId: entidad.id })
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Basica) =>
+          entidad
+            ? this.formulario.patchValue({ estadoConservacionId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
-    );
+      .subscribe();
   }
 
   buscarEstadoUso() {
@@ -89,11 +114,16 @@ export class ActivoUbicacionComponent {
       height: '95%',
       width: '85%',
     });
-    dialog.afterClosed().pipe(
-      take(1),
-      tap((entidad: Basica) =>
-        this.formulario.patchValue({ estadoUsoId: entidad.id })
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((entidad: Basica) =>
+          entidad
+            ? this.formulario.patchValue({ estadoUsoId: entidad.id })
+            : undefined
+        ),
+        take(1)
       )
-    );
+      .subscribe();
   }
 }
