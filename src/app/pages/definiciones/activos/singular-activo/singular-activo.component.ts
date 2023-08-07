@@ -325,13 +325,8 @@ export class SingularActivoComponent implements Entidad {
         switchMap((activo: Basica) => this._activo.buscarPorId(activo.id)),
         tap(activo =>
           this.formularioDatosGenerales.patchValue({
-            empresaId: activo.empresaId,
-            id: activo.id,
-            codigo: activo.codigo,
             tipoActivo: activo.tipoActivo,
-            fechaRegistro: activo.fechaRegistro,
             catalogoCuentas: activo.catalogoCuentas,
-            serialRotulacion: activo.serialRotulacion,
             denominacion: activo.denominacion,
             observaciones: activo.observaciones,
             fechaAdquisicion: activo.fechaAdquisicion,
@@ -339,24 +334,15 @@ export class SingularActivoComponent implements Entidad {
             monedaId: activo.monedaId,
             modeloId: activo.modeloId,
             anioFabricacion: activo.anioFabricacion,
-            serialFabrica: activo.serialFabrica,
             colorId: activo.colorId,
             rotulacionId: activo.rotulacionId,
             categoriaId: activo.categoriaId,
-            creado: activo.creado,
-            modificado: activo.modificado,
           })
         ),
         tap(activo =>
           this.formularioDetalles.patchValue({
-            empresaId: activo.detalle.empresaId,
-            id: activo.detalle.id,
-            activoId: activo.detalle.activoId,
             garantia: activo.detalle.garantia,
             unidadGarantia: activo.detalle.unidadGarantia,
-            inicioGarantia: activo.detalle.inicioGarantia,
-            finGarantia: activo.detalle.finGarantia,
-            asegurado: activo.detalle.asegurado,
             claseId: activo.detalle.claseId,
             origenId: activo.detalle.origenId,
             descripcionOtraClase: activo.detalle.descripcionOtraClase,
@@ -380,9 +366,6 @@ export class SingularActivoComponent implements Entidad {
             perteneceASede: activo.detalle.perteneceASede,
             sedeUbicacionId: activo.detalle.sedeUbicacionId,
             especificacionesColor: activo.detalle.especificacionesColor,
-            serialCarroceria: activo.detalle.serialCarroceria,
-            serialMotor: activo.detalle.serialMotor,
-            placas: activo.detalle.placas,
             numeroTituloPropiedad: activo.detalle.numeroTituloPropiedad,
             capacidad: activo.detalle.capacidad,
             nombre: activo.detalle.nombre,
@@ -399,15 +382,10 @@ export class SingularActivoComponent implements Entidad {
             especificacionesAnimal: activo.detalle.especificacionesAnimal,
             fechaNacimientoAnimal: activo.detalle.fechaNacimientoAnimal,
             razaId: activo.detalle.razaId,
-            creado: activo.detalle.creado,
-            modificado: activo.detalle.modificado,
           })
         ),
         tap(activo =>
           this.formularioDepreciacion.patchValue({
-            empresaId: activo.depreciacion.empresaId,
-            id: activo.depreciacion.id,
-            activoId: activo.depreciacion.activoId,
             depreciable: activo.depreciacion.depreciable,
             metodoDepreciacion: activo.depreciacion.metodoDepreciacion,
             cuentaContableGasto: activo.depreciacion.cuentaContableGasto,
@@ -417,26 +395,18 @@ export class SingularActivoComponent implements Entidad {
             unidadVidaUtil: activo.depreciacion.unidadVidaUtil,
             valorRescate: activo.depreciacion.valorRescate,
             monedaValorRescate: activo.depreciacion.monedaValorRescate,
-            creado: activo.depreciacion.creado,
-            modificado: activo.depreciacion.modificado,
           })
         ),
         tap(activo =>
           this.formularioUbicacion.patchValue({
-            empresaId: activo.ubicacion.empresaId,
-            id: activo.ubicacion.id,
-            activoId: activo.ubicacion.activoId,
             sedeId: activo.ubicacion.sedeId,
             unidadAdministrativaId: activo.ubicacion.unidadAdministrativaId,
-            fechaIngreso: activo.ubicacion.fechaIngreso,
             estadoUsoId: activo.ubicacion.estadoUsoId,
             estadoConservacionId: activo.ubicacion.estadoConservacionId,
             descripcionEstadoConservacion:
               activo.ubicacion.descripcionEstadoConservacion,
             responsableId: activo.ubicacion.responsableId,
             responsableUsoId: activo.ubicacion.responsableUsoId,
-            creado: activo.ubicacion.creado,
-            modificado: activo.ubicacion.modificado,
           })
         ),
         take(1)

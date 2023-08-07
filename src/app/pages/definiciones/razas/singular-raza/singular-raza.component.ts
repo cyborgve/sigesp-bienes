@@ -171,7 +171,9 @@ export class SingularRazaComponent implements Entidad {
       .pipe(
         take(1),
         tap((tipoAnimal: TipoAnimal) =>
-          this.formulario.patchValue({ tipoAnimalId: tipoAnimal.id })
+          tipoAnimal
+            ? this.formulario.patchValue({ tipoAnimalId: tipoAnimal.id })
+            : undefined
         )
       )
       .subscribe();

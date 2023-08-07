@@ -263,9 +263,8 @@ export class SingularDepreciacionComponent implements Entidad {
             depreciacionMensual: depreciacionTotal / tiempoAux,
             depreciacionAnual: (depreciacionTotal / tiempoAux) * 12,
             observaciones:
-              'Meses trancurridos desde la fecha de compra: ' +
               tiempoAux.toFixed(2) +
-              ' Meses',
+              ' meses trancurridos desde la fecha de compra: ',
           });
         }),
         take(1)

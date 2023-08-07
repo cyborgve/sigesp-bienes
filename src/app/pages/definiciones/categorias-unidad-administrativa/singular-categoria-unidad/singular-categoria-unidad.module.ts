@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { BuscadorCategoriaUnidadModule } from '../buscador-categoria-unidad/buscador-categoria-unidad.module';
 
 @NgModule({
   declarations: [SingularCategoriaUnidadComponent],
@@ -17,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     ReactiveFormsModule,
     SingularCategoriaUnidadRoutingModule,
+    BuscadorCategoriaUnidadModule,
     SharedModule,
     MatCardModule,
     MatInputModule,

@@ -104,6 +104,7 @@ export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
                   cuentaContableDepreciacion:
                     entidad.cuentaContableDepreciacion,
                   vidaUtil: entidad.vidaUtil,
+                  unidadVidaUtil: entidad.unidadVidaUtil,
                 })
               : undefined
           )
