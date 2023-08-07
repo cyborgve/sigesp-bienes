@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { GenericService } from './generic.service';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { END_POINTS } from '@core/constants/end-points';
+import { GenericService } from '@core/services/auxiliares/generic.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
-import { GenericService } from '@core/services/definiciones/generic.service';
+import { GenericService } from '@core/services/auxiliares/generic.service';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';

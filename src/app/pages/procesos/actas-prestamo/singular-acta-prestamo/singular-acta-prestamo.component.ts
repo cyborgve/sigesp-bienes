@@ -47,16 +47,16 @@ export class SingularActaPrestamoComponent implements Entidad {
     private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
+      empresaId: [undefined],
+      id: [undefined],
       comprobante: ['AUTOGENERADO'],
-      unidadAdministrativaCedente: [0, Validators.required],
+      unidadAdministrativaCedente: [undefined, Validators.required],
       unidadCedenteResponsable: ['---', Validators.required],
-      unidadAdministrativaReceptora: [0, Validators.required],
+      unidadAdministrativaReceptora: [undefined, Validators.required],
       unidadReceptoraResponsable: ['---', Validators.required],
       testigo: ['---', Validators.required],
-      notas: [''],
-      activos: [[]],
+      notas: [undefined],
+      activos: [undefined],
       creado: [new Date()],
       modificado: [new Date()],
     });
@@ -135,14 +135,14 @@ export class SingularActaPrestamoComponent implements Entidad {
     let entidad: ActaPrestamo = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
-        .pipe(first())
-        .subscribe(() => this.irAtras());
+        .guardar(entidad, this.titulo)
+        .pipe(tap(console.log), first())
+        .subscribe();
     } else {
       this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+        .actualizar(this.id, entidad, this.titulo)
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe();
     }
   }
 

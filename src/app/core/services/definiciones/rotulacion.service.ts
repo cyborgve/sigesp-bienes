@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Rotulacion } from '@core/models/definiciones/rotulacion';
-import { GenericService } from '@core/services/definiciones/generic.service';
+import { GenericService } from '@core/services/auxiliares/generic.service';
 import { END_POINTS } from '@core/constants/end-points';
 
 @Injectable({

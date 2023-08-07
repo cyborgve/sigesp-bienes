@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GenericService } from '@core/services/definiciones/generic.service';
+import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Seguro } from '@core/models/definiciones/seguro';
 import { END_POINTS } from '@core/constants/end-points';
 

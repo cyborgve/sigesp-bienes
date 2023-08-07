@@ -1,7 +1,7 @@
 import { switchMap, map, tap } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { GenericService } from '@core/services/definiciones/generic.service';
+import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Activo } from '@core/models/definiciones/activo';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';

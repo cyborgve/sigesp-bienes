@@ -11,7 +11,6 @@
         <mat-form-field appearance="fill" class="unidadAdministrativaCedente">
           <mat-label>Unidad administrativa cedente</mat-label>
           <input
-            type="text"
             matInput
             formControlName="unidadAdministrativaCedente"
             readonly="true"
@@ -32,7 +31,6 @@
         <mat-form-field appearance="fill" class="unidadCedenteResponsable">
           <mat-label>Responsable unidad administrativa cedente</mat-label>
           <input
-            type="text"
             matInput
             formControlName="unidadCedenteResponsable"
             readonly="true"
@@ -51,7 +49,6 @@
         <mat-form-field appearance="fill" class="unidadAdministrativaReceptora">
           <mat-label>Unidad administrativa receptora</mat-label>
           <input
-            type="text"
             matInput
             formControlName="unidadAdministrativaReceptora"
             readonly="true"
@@ -72,7 +69,6 @@
         <mat-form-field appearance="fill" class="unidadReceptoraResponsable">
           <mat-label>Responsable unidad administrativa receptora</mat-label>
           <input
-            type="text"
             matInput
             formControlName="unidadReceptoraResponsable"
             readonly="true"
@@ -91,7 +87,6 @@
         <mat-form-field appearance="fill" class="testigo">
           <mat-label>Testigo</mat-label>
           <input
-            type="text"
             matInput
             formControlName="testigo"
             readonly="true"
@@ -110,6 +105,7 @@
           <textarea matInput rows="2" formControlName="notas"></textarea>
         </mat-form-field>
       </article>
+      <pre>{{ formulario.value | json }}</pre>
     </mat-card>
   </section>
 </form>
