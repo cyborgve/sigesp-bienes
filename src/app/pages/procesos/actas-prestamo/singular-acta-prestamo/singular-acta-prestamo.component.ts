@@ -9,7 +9,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -22,6 +22,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Activo } from '@core/models/definiciones/activo';
+import { prepararActaPrestamo } from '@core/utils/funciones/preparar-acta-prestamo';
+import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs.ts/adaptar-acta-prestamo';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -70,6 +72,7 @@ export class SingularActaPrestamoComponent implements Entidad {
       this._entidad
         .buscarPorId(this.id)
         .pipe(
+          adaptarActaPrestamo(),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -132,12 +135,14 @@ export class SingularActaPrestamoComponent implements Entidad {
   }
 
   guardar() {
-    let entidad: ActaPrestamo = this.formulario.value;
+    let entidad = prepararActaPrestamo(this.formulario.value);
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo)
-        .pipe(tap(console.log), first())
-        .subscribe();
+        .pipe(first())
+        .subscribe(actaPrestamo =>
+          actaPrestamo ? this.formulario.reset() : undefined
+        );
     } else {
       this._entidad
         .actualizar(this.id, entidad, this.titulo)

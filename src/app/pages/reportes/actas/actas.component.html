@@ -1,1 +1,26 @@
-<p>actas works!</p>
+<section class="contenedor-singular superior">
+  <!-- encabezado reporte -->
+  <app-encabezado-reportes
+    [titulo]="titulo"
+    [fechaEmision]="fechaEmision"></app-encabezado-reportes>
+</section>
+<section class="contenedor-singular inferior">
+  <mat-card>
+    <article class="contenido">
+      <!-- tipo proceso -->
+      <mat-form-field appearance="fill" class="tipoProceso">
+        <mat-label>Tipo de proceso</mat-label>
+        <mat-select>
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let proceso of procesos" [value]="proceso">{{
+            proceso | tipoOracion
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-rango-fechas
+        [formulario]="formularioRangoFechas"
+        class="rangoFechas"></app-rango-fechas>
+    </article>
+  </mat-card>
+</section>
+<app-toolbar></app-toolbar>

@@ -4,7 +4,7 @@
  * @returns string
  * @example 'La Fria MADRUGADA' => 'La fria madrugada'
  */
-export function tipoOracion(texto: string): string {
+export function convertirTipoOracion(texto: string): string {
   return (
     texto.charAt(0).toLocaleUpperCase() + texto.substring(1).toLocaleLowerCase()
   );

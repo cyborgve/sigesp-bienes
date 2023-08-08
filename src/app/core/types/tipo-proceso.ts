@@ -1,4 +1,4 @@
-export type TipoComprobante =
+export type TipoProceso =
   | 'ACTA DE PRESTAMO'
   | 'AUTORIZACIÓN DE SALIDA'
   | 'CAMBIO DE RESPONSABLE'

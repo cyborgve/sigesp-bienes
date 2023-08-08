@@ -5,7 +5,7 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { ModeloServicio } from '@core/models/auxiliares/modelo-servicio';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
+import { convertirTipoOracion } from '@core/utils/funciones/convertir-tipo-oracion';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorId } from '@core/utils/operadores-rxjs/ordenar-por-id';
 import { Observable, of } from 'rxjs';
@@ -33,7 +33,9 @@ export abstract class GenericService<T extends Basica>
 
   buscarTodos(): Observable<T[]> {
     return this._http.get<T[]>(this.apiUrl).pipe(
-      map((res: any) => res.data.map((ent: T) => normalizarObjeto(ent))),
+      map((resultado: any) => resultado.data),
+      map(resultado => resultado.map(entidad => normalizarObjeto(entidad))),
+      map(resultado => resultado as T[]),
       filtrarValoresIniciales(),
       ordenarPorId()
     );
@@ -41,8 +43,9 @@ export abstract class GenericService<T extends Basica>
 
   buscarPorId(id: Id): Observable<T> {
     return this._http.get<T>(this.apiUrlId(id)).pipe(
-      map((res: any) => res.data as T[]),
-      map(data => normalizarObjeto(data[0]))
+      map((resultado: any) => resultado.data[0]),
+      map(resultado => normalizarObjeto(resultado)),
+      map(resultado => resultado as T)
     );
   }
 
@@ -52,17 +55,29 @@ export abstract class GenericService<T extends Basica>
     notificar: boolean = true
   ): Observable<T> {
     return this._http.post<T>(this.apiUrl, entidad).pipe(
-      map(respuesta => normalizarObjeto(respuesta)),
-      tap(respuesta => {
+      map((resultado: any) => resultado.data[0]),
+      map(resultado => normalizarObjeto(resultado)),
+      map(resultado => resultado),
+      tap(resultado => {
         if (notificar) {
-          if (respuesta.data.length > 0) {
-            let entidad = respuesta.data[0];
-            this.snackBarMessage(
-              `${tipoOracion(tipoDato)}:  "${
-                String(entidad.codigo).split('-')[1]
-              }-${String(entidad.denominacion)}", guardado correactamente`
-            );
+          let mensaje = convertirTipoOracion(tipoDato) + ':';
+          if (resultado) {
+            if (resultado.codigo) {
+              mensaje += String(resultado.codigo).split('-')[1];
+              if (resultado.denominacion) {
+                mensaje += ` - ${resultado.denominacion}`;
+              }
+              mensaje += ', guardado correctamente';
+            }
+            if (resultado.comprobante) {
+              mensaje += String(resultado.comprobante).split('-')[1];
+              if (resultado.denominacion) {
+                mensaje += ` - ${resultado.denominacion}`;
+              }
+              mensaje = mensaje + ', procesado correctamente';
+            }
           }
+          this.snackBarMessage(mensaje);
         }
       })
     );
@@ -75,15 +90,18 @@ export abstract class GenericService<T extends Basica>
     notificar: boolean = true
   ): Observable<Number> {
     return this._http.put<Number>(this.apiUrlId(id), entidad).pipe(
-      tap((respuesta: any) => {
+      map((resultado: any) => resultado.data),
+      tap((resultado: number) => {
         if (notificar) {
-          if (respuesta.data > 0) {
+          // let mensaje =
+          if (resultado > 0) {
             let ent = entidad as any;
-            this.snackBarMessage(
-              `${tipoOracion(tipoDato)}: "${String(ent.codigo).split('-')[1]}-${
-                ent.denominacion
-              }", actualizado correctamente`
-            );
+            if (ent.codigo)
+              this.snackBarMessage(
+                `${convertirTipoOracion(tipoDato)}: "${
+                  String(ent.codigo).split('-')[1]
+                }-${ent.denominacion}", actualizado correctamente`
+              );
           }
         }
       })
@@ -100,7 +118,9 @@ export abstract class GenericService<T extends Basica>
         if (notificar) {
           if (eliminado)
             this.snackBarMessage(
-              `${tipoOracion(tipoDato)}: ${id}, fue eliminado correctamente`
+              `${convertirTipoOracion(
+                tipoDato
+              )}: ${id}, fue eliminado correctamente`
             );
         }
       })

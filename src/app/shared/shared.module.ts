@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { IsoCurrencyPipe } from './pipes/iso-currency.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BotonesAccionesComponent } from './components/botones-acciones/botones-acciones.component';
 import { MaterialModule } from '../material/material.module';
 import { DialogoEliminarComponent } from './components/dialogo-eliminar/dialogo-eliminar.component';
@@ -79,6 +79,9 @@ import { DenominacionTipoActivoPipe } from './pipes/denominacion-tipo-activo.pip
 import { BuscadorProveedorComponent } from './components/buscador-proveedor/buscador-proveedor.component';
 import { DenominacionCatalogoGeneralPipe } from './pipes/denominacion-catalogo-general.pipe';
 import { CorregirMetodoDepreciacionPipe } from './pipes/corregir-metodo-depreciacion.pipe';
+import { EncabezadoReportesComponent } from './components/encabezado-reportes/encabezado-reportes.component';
+import { TipoOracionPipe } from './pipes/tipo-oracion.pipe';
+import { RangoFechasComponent } from './components/rango-fechas/rango-fechas.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -167,8 +170,11 @@ const sharedPipes = [
     BuscadorProveedorComponent,
     DenominacionCatalogoGeneralPipe,
     CorregirMetodoDepreciacionPipe,
+    EncabezadoReportesComponent,
+    TipoOracionPipe,
+    RangoFechasComponent,
   ],
-  imports: [CommonModule, FormsModule, MaterialModule],
+  imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
   exports: [
     ...sharedComponents,
     ...sharedPipes,
@@ -185,6 +191,9 @@ const sharedPipes = [
     BuscadorProveedorComponent,
     DenominacionCatalogoGeneralPipe,
     CorregirMetodoDepreciacionPipe,
+    EncabezadoReportesComponent,
+    TipoOracionPipe,
+    RangoFechasComponent,
   ],
 })
 export class SharedModule {}

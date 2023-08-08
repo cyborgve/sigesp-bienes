@@ -28,15 +28,15 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- tipoComprobante -->
+        <!-- tipoProceso -->
         <mat-form-field appearance="fill" class="tipoComprobante">
-          <mat-label>Tipo de comprobante</mat-label>
+          <mat-label>Tipo de Proceso</mat-label>
           <mat-select formControlName="tipoComprobante">
             <mat-option value="">Seleccionar</mat-option>
             <mat-option
-              *ngFor="let tComprobante of tiposComprobante"
-              [value]="tComprobante"
-              >{{ tComprobante | titlecase }}</mat-option
+              *ngFor="let proceso of tiposProceso"
+              [value]="proceso"
+              >{{ proceso | titlecase }}</mat-option
             >
           </mat-select>
         </mat-form-field>

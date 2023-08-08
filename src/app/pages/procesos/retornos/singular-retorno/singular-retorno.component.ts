@@ -18,7 +18,7 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { Retorno } from '@core/models/procesos/retorno';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
-import { TIPOS_COMPROBANTE } from '@core/constants/tipos-comprobante';
+import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 
 @Component({
   selector: 'app-singular-retorno',
@@ -31,7 +31,7 @@ export class SingularRetornoComponent implements Entidad {
   titulo = CORRELATIVOS[38].nombre;
   formulario: FormGroup;
   dataActivos: MatTableDataSource<Activo> = new MatTableDataSource();
-  tiposComprobante = TIPOS_COMPROBANTE;
+  tiposProceso = TIPOS_PROCESO;
 
   constructor(
     private _entidad: RetornoService,

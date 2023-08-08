@@ -1,0 +1,11 @@
+.rangoFechas {
+  @apply w-full grid grid-cols-7 gap-x-4;
+}
+
+.rango {
+  @apply col-span-4;
+}
+
+.fechas {
+  @apply col-span-3;
+}

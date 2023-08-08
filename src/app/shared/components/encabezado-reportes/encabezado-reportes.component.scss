@@ -1,0 +1,12 @@
+mat-card {
+  @apply flex items-center;
+}
+
+.titulo,
+.fechaEmision {
+  @apply text-xl font-semibold text-primary;
+}
+
+.fechaEmision {
+  @apply font-normal text-lg;
+}

@@ -8,11 +8,14 @@ import { convertirCamelCase } from './convertir-camel-case';
  * @returns objetoTransformado La entidad transformada con los nombres de propiedades en estilo camelCase.
  */
 export function normalizarObjeto(objeto: any): any {
-  let objetoTransformado: typeof objeto = {};
-  let claves = Object.keys(objeto);
-  for (let clave of claves) {
-    let claveTransformada = convertirCamelCase(clave);
-    objetoTransformado[claveTransformada] = objeto[clave];
+  if (objeto) {
+    let objetoTransformado: typeof objeto = {};
+    let claves = Object.keys(objeto);
+    for (let clave of claves) {
+      let claveTransformada = convertirCamelCase(clave);
+      objetoTransformado[claveTransformada] = objeto[clave];
+    }
+    return objetoTransformado;
   }
-  return objetoTransformado;
+  return undefined;
 }

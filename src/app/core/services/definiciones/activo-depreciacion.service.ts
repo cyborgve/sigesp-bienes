@@ -6,7 +6,7 @@ import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacio
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { tipoOracion } from '@core/utils/funciones/tipo-oracion';
+import { convertirTipoOracion } from '@core/utils/funciones/convertir-tipo-oracion';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class ActivoDepreciacionService extends GenericService<ActivoDepreciacion
       tap(eliminado => {
         if (eliminado && notificar)
           this.snackBarMessage(
-            `${tipoOracion(
+            `${convertirTipoOracion(
               tipoDato
             )}: ${activo_id}, fue eliminado correctamente`
           );

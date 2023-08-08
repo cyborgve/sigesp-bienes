@@ -1,0 +1,28 @@
+<form [formGroup]="formulario">
+  <section class="rangoFechas">
+    <!-- rando de fechas -->
+    <mat-form-field appearance="fill" class="rango">
+      <mat-label>Rango de fechas</mat-label>
+      <mat-select formControlName="rango">
+        <mat-option
+          *ngFor="let rangoFecha of rangosFechas"
+          [value]="rangoFecha"
+          >{{ rangoFecha | tipoOracion }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <!-- rango personalizado -->
+    <mat-form-field appearance="fill" class="fechas">
+      <mat-label>Rango Personalizado</mat-label>
+      <mat-date-range-input [rangePicker]="rangoPersPicker">
+        <input matStartDate formControlName="fechaInicio" readonly="true" />
+        <input matEndDate formControlName="fechaFin" readonly="true" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="rangoPersPicker"
+        [disabled]="rangoPersonalizado()"></mat-datepicker-toggle>
+      <mat-date-range-picker #rangoPersPicker></mat-date-range-picker>
+    </mat-form-field>
+  </section>
+</form>
