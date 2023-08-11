@@ -30,6 +30,7 @@ export class TablaRazaComponent implements TablaEntidad<Raza>, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.RAZAS;
   @Output() dobleClick = new EventEmitter();
 

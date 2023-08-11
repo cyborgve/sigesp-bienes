@@ -32,6 +32,7 @@ export class TablaCatalogoGeneralComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CATALOGO_GENERAL;
   @Output() dobleClick = new EventEmitter();
 

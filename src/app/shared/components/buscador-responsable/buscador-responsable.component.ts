@@ -1,4 +1,4 @@
-import { first, tap } from 'rxjs/operators';
+import { first, tap, map } from 'rxjs/operators';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -41,16 +41,17 @@ export class BuscadorResponsableComponent
 
   private recargarDatos() {
     this._sigesp
-      .getPersonal('catalogo')
+      .getPersonal('responsables')
       .pipe(
-        first(),
+        map((resultado: any) => resultado.data),
         adaptarResposables(),
         filtrarValoresIniciales(),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
+        tap(responsables => {
+          this.dataSource = new MatTableDataSource(responsables);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

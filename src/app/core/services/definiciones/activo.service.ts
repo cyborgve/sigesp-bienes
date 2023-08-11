@@ -30,6 +30,8 @@ import { adaptarComponentes } from '@core/utils/adaptadores-rxjs.ts/adaptar-comp
   providedIn: 'root',
 })
 export class ActivoService extends GenericService<Activo> {
+  private apiUrlEstadoUso = (estadoUso: Id) =>
+    `${this.apiUrl}?estado_uso_id=${estadoUso}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'activo').valor;
   }
@@ -179,6 +181,13 @@ export class ActivoService extends GenericService<Activo> {
         if (activo && detalle && depreciacion && ubicacion) return true;
         else false;
       })
+    );
+  }
+
+  buscarTodosPorEstadoUso(estadoUso: Id): Observable<Activo[]> {
+    return this._http.get<Activo[]>(this.apiUrlEstadoUso(estadoUso)).pipe(
+      map((resultados: any) => resultados.data),
+      map(resultados => resultados.map(res => normalizarObjeto(res)))
     );
   }
 }

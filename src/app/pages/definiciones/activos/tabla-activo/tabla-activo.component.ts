@@ -35,6 +35,7 @@ export class TablaActivoComponent
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTIVOS;
+  @Input() ocultarEncabezado: boolean = false;
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/activos';

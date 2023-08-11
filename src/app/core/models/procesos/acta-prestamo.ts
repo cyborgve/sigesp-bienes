@@ -1,5 +1,6 @@
 import { Basica } from '@core/models/auxiliares/basica';
 import { Id } from '@core/types/id';
+import { TipoActivo } from '@core/types/tipo-activo';
 
 export interface ActaPrestamo extends Basica {
   comprobante: number;
@@ -15,4 +16,7 @@ export interface ActaPrestamo extends Basica {
 export interface ActaPrestamoActivo extends Basica {
   actaPrestamo: Id;
   activo: Id;
+  codigo: string;
+  tipoActivo: TipoActivo;
+  denominacion: string;
 }

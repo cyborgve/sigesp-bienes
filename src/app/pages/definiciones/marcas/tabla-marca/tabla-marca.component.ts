@@ -30,6 +30,7 @@ export class TablaMarcaComponent implements TablaEntidad<Marca>, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.MARCAS;
   @Output() dobleClick = new EventEmitter();
 

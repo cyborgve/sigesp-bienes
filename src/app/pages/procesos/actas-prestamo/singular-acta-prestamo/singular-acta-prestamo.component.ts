@@ -1,17 +1,20 @@
+import { Activo } from '@core/models/definiciones/activo';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
-import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
+import {
+  ActaPrestamo,
+  ActaPrestamoActivo,
+} from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { Basica } from '@core/models/auxiliares/basica';
@@ -21,9 +24,10 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { Activo } from '@core/models/definiciones/activo';
 import { prepararActaPrestamo } from '@core/utils/funciones/preparar-acta-prestamo';
 import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs.ts/adaptar-acta-prestamo';
+import { convertirActaPrestamoActivo } from '@core/utils/funciones/convertir-acta-prestamo-activo';
+import { Entidad } from '@core/models/auxiliares/entidad';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -35,11 +39,11 @@ export class SingularActaPrestamoComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[29].nombre;
   formulario: FormGroup;
-  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActaPrestamoActivo> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'];
 
   constructor(
-    private _entidad: ActaPrestamoService,
+    private _actaPrestamo: ActaPrestamoService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _formBuilder: FormBuilder,
@@ -53,12 +57,12 @@ export class SingularActaPrestamoComponent implements Entidad {
       id: [undefined],
       comprobante: ['AUTOGENERADO'],
       unidadAdministrativaCedente: [undefined, Validators.required],
-      unidadCedenteResponsable: ['---', Validators.required],
+      unidadCedenteResponsable: [undefined, Validators.required],
       unidadAdministrativaReceptora: [undefined, Validators.required],
-      unidadReceptoraResponsable: ['---', Validators.required],
-      testigo: ['---', Validators.required],
+      unidadReceptoraResponsable: [undefined, Validators.required],
+      testigo: [undefined, Validators.required],
       notas: [undefined],
-      activos: [undefined],
+      activos: [[]],
       creado: [new Date()],
       modificado: [new Date()],
     });
@@ -69,25 +73,31 @@ export class SingularActaPrestamoComponent implements Entidad {
   private actualizarFormulario() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
-      this._entidad
+      this._actaPrestamo
         .buscarPorId(this.id)
         .pipe(
           adaptarActaPrestamo(),
-          tap(entidad => {
+          tap(actaPrestamo => {
             this.formulario.patchValue({
-              empresaId: entidad.empresaId,
-              id: entidad.id,
-              comprobante: entidad.comprobante,
-              unidadAdministrativaCedente: entidad.unidadAdministrativaCedente,
-              unidadCedenteResponsable: entidad.unidadCedenteResponsable,
+              empresaId: actaPrestamo.empresaId,
+              id: actaPrestamo.id,
+              comprobante: actaPrestamo.comprobante,
+              unidadAdministrativaCedente:
+                actaPrestamo.unidadAdministrativaCedente,
+              unidadCedenteResponsable: actaPrestamo.unidadCedenteResponsable,
               unidadAdministrativaReceptora:
-                entidad.unidadAdministrativaReceptora,
-              unidadReceptoraResponsable: entidad.unidadReceptoraResponsable,
-              testigo: entidad.testigo,
-              creado: entidad.creado,
-              modificado: entidad.modificado,
+                actaPrestamo.unidadAdministrativaReceptora,
+              unidadReceptoraResponsable:
+                actaPrestamo.unidadReceptoraResponsable,
+              testigo: actaPrestamo.testigo,
+              creado: actaPrestamo.creado,
+              modificado: actaPrestamo.modificado,
             });
           }),
+          tap(
+            actaPrestamo =>
+              (this.dataSource = new MatTableDataSource(actaPrestamo.activos))
+          ),
           take(1)
         )
         .subscribe();
@@ -116,16 +126,17 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: ActaPrestamo) =>
-          entidad
+        tap((actaPrestamo: ActaPrestamo) =>
+          actaPrestamo
             ? this.formulario.patchValue({
                 unidadAdministrativaCedente:
-                  entidad.unidadAdministrativaCedente,
-                unidadCedenteResponsable: entidad.unidadCedenteResponsable,
+                  actaPrestamo.unidadAdministrativaCedente,
+                unidadCedenteResponsable: actaPrestamo.unidadCedenteResponsable,
                 unidadAdministrativaReceptora:
-                  entidad.unidadAdministrativaReceptora,
-                unidadReceptoraResponsable: entidad.unidadReceptoraResponsable,
-                testigo: entidad.testigo,
+                  actaPrestamo.unidadAdministrativaReceptora,
+                unidadReceptoraResponsable:
+                  actaPrestamo.unidadReceptoraResponsable,
+                testigo: actaPrestamo.testigo,
               })
             : undefined
         ),
@@ -135,19 +146,22 @@ export class SingularActaPrestamoComponent implements Entidad {
   }
 
   guardar() {
-    let entidad = prepararActaPrestamo(this.formulario.value);
+    let actaPrestamo = prepararActaPrestamo(this.formulario.value);
+    actaPrestamo.activos = this.dataSource.data;
     if (this.modoFormulario === 'CREANDO') {
-      this._entidad
-        .guardar(entidad, this.titulo)
+      this._actaPrestamo
+        .guardar(actaPrestamo, this.titulo)
         .pipe(first())
         .subscribe(actaPrestamo =>
-          actaPrestamo ? this.formulario.reset() : undefined
+          actaPrestamo ? this.reiniciarFormulario() : undefined
         );
     } else {
-      this._entidad
-        .actualizar(this.id, entidad, this.titulo)
+      this._actaPrestamo
+        .actualizar(this.id, actaPrestamo, this.titulo)
         .pipe(first())
-        .subscribe();
+        .subscribe(actaPrestamo =>
+          actaPrestamo ? this.reiniciarFormulario() : undefined
+        );
     }
   }
 
@@ -163,7 +177,7 @@ export class SingularActaPrestamoComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._entidad.eliminar(
+          this._actaPrestamo.eliminar(
             this.formulario.value.id,
             this.titulo.toUpperCase()
           )
@@ -196,10 +210,12 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({
-            unidadAdministrativaCedente: entidad.id,
-          })
+        tap(unidadAdministrativa =>
+          unidadAdministrativa
+            ? this.formulario.patchValue({
+                unidadAdministrativaCedente: unidadAdministrativa.id,
+              })
+            : undefined
         ),
         take(1)
       )
@@ -214,10 +230,12 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({
-            unidadCedenteResponsable: entidad.id,
-          })
+        tap(responsable =>
+          responsable
+            ? this.formulario.patchValue({
+                unidadCedenteResponsable: responsable.id,
+              })
+            : undefined
         ),
         take(1)
       )
@@ -232,10 +250,12 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((unidadAdministrativa: UnidadAdministrativa) =>
-          this.formulario.patchValue({
-            unidadAdministrativaReceptora: unidadAdministrativa.id,
-          })
+        tap(unidadAdministrativa =>
+          unidadAdministrativa
+            ? this.formulario.patchValue({
+                unidadAdministrativaReceptora: unidadAdministrativa.id,
+              })
+            : undefined
         ),
         take(1)
       )
@@ -250,10 +270,12 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({
-            unidadReceptoraResponsable: entidad.id,
-          })
+        tap(responsable =>
+          responsable
+            ? this.formulario.patchValue({
+                unidadReceptoraResponsable: responsable.id,
+              })
+            : undefined
         ),
         take(1)
       )
@@ -268,10 +290,12 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({
-            testigo: entidad.id,
-          })
+        tap(responsable =>
+          responsable
+            ? this.formulario.patchValue({
+                testigo: responsable.id,
+              })
+            : undefined
         ),
         take(1)
       )
@@ -286,18 +310,54 @@ export class SingularActaPrestamoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        switchMap((basica: Basica) => this._activo.buscarPorId(basica.id)),
-        tap(
-          activo =>
-            (this.dataSource = new MatTableDataSource([
-              ...this.dataSource.data,
-              activo,
-            ]))
+        switchMap(activo =>
+          activo ? this._activo.buscarPorId(activo.id) : activo
+        ),
+        tap((activo: Activo) =>
+          activo
+            ? (this.dataSource = new MatTableDataSource([
+                ...this.dataSource.data,
+                convertirActaPrestamoActivo(activo),
+              ]))
+            : undefined
+        ),
+        tap(activo =>
+          this.formulario.patchValue({
+            activos: [
+              ...this.formulario.value.activos,
+              <ActaPrestamoActivo>{
+                empresaId: activo.id,
+                id: undefined,
+                actaPrestamo: undefined,
+                activo: activo.id,
+                creado: new Date(),
+                modificado: new Date(),
+              },
+            ],
+          })
         ),
         take(1)
       )
       .subscribe();
   }
 
-  eliminarActivo(row: any) {}
+  eliminarActivo(activo: Activo) {
+    let activos = this.formulario.value.activos as ActaPrestamoActivo[];
+    activos.splice(activos.findIndex(a => a.activo === activo.id));
+    this.dataSource = new MatTableDataSource(activos);
+  }
+
+  formularioActivo() {
+    return this.formulario.valid && this.dataSource.data.length > 0;
+  }
+
+  reiniciarFormulario() {
+    this.formulario.reset();
+    this.formulario.patchValue({
+      creado: [new Date()],
+      modificado: [new Date()],
+    });
+    this.dataSource = new MatTableDataSource();
+    this.actualizarFormulario();
+  }
 }

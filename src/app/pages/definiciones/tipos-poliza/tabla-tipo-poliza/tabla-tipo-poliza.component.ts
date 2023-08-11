@@ -32,6 +32,7 @@ export class TablaTipoPolizaComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.TIPOS_POLIZA;
   @Output() dobleClick = new EventEmitter();
 

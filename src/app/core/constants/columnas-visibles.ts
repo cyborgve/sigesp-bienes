@@ -114,7 +114,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  RESPONSABLES: ['cedula', 'nombreCompleto', 'cargo', 'creado', 'modificado'],
+  RESPONSABLES: ['codigo', 'nombre', 'apellido', 'creado', 'modificado'],
   ROTULACIONES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   SEDES: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],
   SEGUROS: ['codigo', 'denominacion', 'creado', 'modificado', 'acciones'],

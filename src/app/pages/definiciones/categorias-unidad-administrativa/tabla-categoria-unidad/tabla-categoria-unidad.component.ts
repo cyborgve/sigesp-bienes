@@ -32,6 +32,7 @@ export class TablaCategoriaUnidadComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] =
     COLUMNAS_VISIBLES.CATEGORIAS_UNIDAD_ADMINISTRATIVA;
   @Output() dobleClick = new EventEmitter();

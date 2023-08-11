@@ -30,6 +30,7 @@ export class TablaColorComponent implements TablaEntidad<Color>, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.COLORES;
   @Output() dobleClick = new EventEmitter();
 

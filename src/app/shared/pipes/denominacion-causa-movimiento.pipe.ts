@@ -8,13 +8,15 @@ import { Observable } from 'rxjs';
 })
 export class DenominacionCausaMovimientoPipe implements PipeTransform {
   transform(value: number): Observable<String> {
-    return this._causaMovimiento
-      .buscarPorId(value)
-      .pipe(
-        map(causaMovimiento =>
-          causaMovimiento ? causaMovimiento['denominacion'] : String(value)
-        )
-      );
+    return value
+      ? this._causaMovimiento
+          .buscarPorId(value)
+          .pipe(
+            map(causaMovimiento =>
+              causaMovimiento ? causaMovimiento['denominacion'] : String(value)
+            )
+          )
+      : undefined;
   }
 
   constructor(private _causaMovimiento: CausaMovimientoService) {}

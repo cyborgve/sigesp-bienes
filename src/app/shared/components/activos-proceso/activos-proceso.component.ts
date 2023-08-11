@@ -12,6 +12,7 @@ export class ActivosProcesoComponent {
   @Output() agregarActivo = new EventEmitter();
   @Output() removerActivo = new EventEmitter();
   @Input() dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
+  @Input() agregarActivoDeshabilitado: boolean = true;
 
   columnasVisibles = COLUMNAS_VISIBLES.ACTIVOS;
 }

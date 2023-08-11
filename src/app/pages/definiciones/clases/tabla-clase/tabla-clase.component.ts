@@ -30,6 +30,7 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CLASES;
   @Output() dobleClick = new EventEmitter();
 

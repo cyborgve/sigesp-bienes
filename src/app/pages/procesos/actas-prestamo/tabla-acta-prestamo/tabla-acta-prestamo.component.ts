@@ -33,6 +33,7 @@ export class TablaActaPrestamoComponent
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTAS_PRESTAMO;
+  @Input() ocultarEncabezado = false;
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/procesos/actas-prestamo';

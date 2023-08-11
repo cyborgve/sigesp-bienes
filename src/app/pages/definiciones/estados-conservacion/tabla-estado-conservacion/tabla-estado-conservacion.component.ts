@@ -32,6 +32,7 @@ export class TablaEstadoConservacionComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ESTADOS_CONSERVACION;
   @Output() dobleClick = new EventEmitter();
 

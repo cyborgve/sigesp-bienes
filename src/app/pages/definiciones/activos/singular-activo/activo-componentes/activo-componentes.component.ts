@@ -3,15 +3,13 @@ import { FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-activo-componentes',
   templateUrl: './activo-componentes.component.html',
   styleUrls: ['./activo-componentes.component.scss'],
 })
-export class ActivoComponentesComponent implements AfterViewInit, OnDestroy {
-  subscripciones: Subscription[] = [];
+export class ActivoComponentesComponent implements AfterViewInit {
   @Input() formulario: FormGroup = new FormGroup({});
   dataSource: MatTableDataSource<ActivoComponente> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES.filter(
@@ -19,13 +17,12 @@ export class ActivoComponentesComponent implements AfterViewInit, OnDestroy {
   );
 
   ngAfterViewInit(): void {
-    this.dataSource = new MatTableDataSource(
-      this.formulario.value.componentes as ActivoComponente[]
+    this.formulario.valueChanges.subscribe(
+      () =>
+        (this.dataSource = new MatTableDataSource(
+          this.formulario.value.componentes as ActivoComponente[]
+        ))
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   agregarComponente() {
@@ -39,6 +36,7 @@ export class ActivoComponentesComponent implements AfterViewInit, OnDestroy {
   editar(entidad: ActivoComponente) {
     alert('TO-DO');
   }
+
   eliminar(Entidad: ActivoComponente) {
     alert('TO-DO');
   }

@@ -4,23 +4,20 @@
     [titulo]="titulo"
     [fechaEmision]="fechaEmision"></app-encabezado-reportes>
 </section>
-<section class="contenedor-singular inferior">
+<section class="contenedor-singular inferior superior">
   <mat-card>
     <article class="contenido">
-      <!-- tipo proceso -->
-      <mat-form-field appearance="fill" class="tipoProceso">
-        <mat-label>Tipo de proceso</mat-label>
-        <mat-select>
-          <mat-option value="">Todos</mat-option>
-          <mat-option *ngFor="let proceso of procesos" [value]="proceso">{{
-            proceso | tipoOracion
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
       <app-rango-fechas
         [formulario]="formularioRangoFechas"
         class="rangoFechas"></app-rango-fechas>
     </article>
   </mat-card>
+  <article class="inferior">
+    <app-tabla-acta-prestamo
+      [ocultarEncabezado]="true"></app-tabla-acta-prestamo>
+  </article>
 </section>
-<app-toolbar></app-toolbar>
+<app-toolbar
+  [mostrarImportar]="false"
+  [mostrarBorrar]="false"
+  [mostrarSalir]="false"></app-toolbar>

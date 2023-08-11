@@ -259,6 +259,11 @@ export class SingularActivoComponent implements Entidad {
             })
           ),
           tap(activo =>
+            this.formularioComponentes.patchValue({
+              componentes: activo.componentes,
+            })
+          ),
+          tap(activo =>
             this.formularioDepreciacion.patchValue({
               empresaId: activo.depreciacion.empresaId,
               id: activo.depreciacion.id,

@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TablaActaPrestamoModule } from '@pages/procesos/actas-prestamo/tabla-acta-prestamo/tabla-acta-prestamo.module';
 
 @NgModule({
   declarations: [ActasComponent],
@@ -19,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
+    TablaActaPrestamoModule,
   ],
 })
 export class ActasModule {}

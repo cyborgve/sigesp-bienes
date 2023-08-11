@@ -28,7 +28,7 @@ export abstract class GenericService<T extends Basica>
   constructor(
     protected _http: HttpClient,
     protected _sigesp: SigespService,
-    private _snackBar: MatSnackBar
+    protected _snackBar: MatSnackBar
   ) {}
 
   buscarTodos(): Observable<T[]> {

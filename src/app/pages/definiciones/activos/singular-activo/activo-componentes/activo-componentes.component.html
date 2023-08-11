@@ -5,7 +5,9 @@
       <!-- codigo -->
       <ng-container matColumnDef="codigo">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
-        <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
+        <td mat-cell *matCellDef="let row">
+          {{ row.codigo | corregirCodigo }}
+        </td>
       </ng-container>
       <!-- denominacion -->
       <ng-container matColumnDef="denominacion">
@@ -17,7 +19,9 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Tipo componente
         </th>
-        <td mat-cell *matCellDef="let row">{{ row.tipoComponenteId }}</td>
+        <td mat-cell *matCellDef="let row">
+          {{ row.tipoComponenteId | denominacionTipoComponente | async }}
+        </td>
       </ng-container>
       <!-- creado -->
       <ng-container matColumnDef="creado">

@@ -32,6 +32,7 @@ export class TablaTipoMarcaComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.TIPOS_MARCA;
   @Output() dobleClick = new EventEmitter();
 

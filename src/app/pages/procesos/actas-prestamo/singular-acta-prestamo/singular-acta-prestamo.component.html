@@ -35,7 +35,10 @@
             formControlName="unidadCedenteResponsable"
             readonly="true"
             [value]="
-              formulario.value.unidadCedenteResponsable | corregirSeleccionar
+              formulario.value.unidadCedenteResponsable
+                | denominacionResponsable
+                | async
+                | titlecase
             " />
           <button
             type="button"
@@ -73,7 +76,10 @@
             formControlName="unidadReceptoraResponsable"
             readonly="true"
             [value]="
-              formulario.value.unidadReceptoraResponsable | corregirSeleccionar
+              formulario.value.unidadReceptoraResponsable
+                | denominacionResponsable
+                | async
+                | titlecase
             " />
           <button
             type="button"
@@ -90,7 +96,12 @@
             matInput
             formControlName="testigo"
             readonly="true"
-            [value]="formulario.value.testigo | corregirSeleccionar" />
+            [value]="
+              formulario.value.testigo
+                | denominacionResponsable
+                | async
+                | titlecase
+            " />
           <button
             type="button"
             mat-icon-button
@@ -105,14 +116,15 @@
           <textarea matInput rows="2" formControlName="notas"></textarea>
         </mat-form-field>
       </article>
-      <pre>{{ formulario.value | json }}</pre>
     </mat-card>
   </section>
 </form>
 <section class="contenedor-singular inferior">
   <app-activos-proceso
     [dataSource]="dataSource"
-    (agregarActivo)="agregarActivo()"></app-activos-proceso>
+    [agregarActivoDeshabilitado]="formulario.invalid"
+    (agregarActivo)="agregarActivo()"
+    (removerActivo)="eliminarActivo($event)"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->
 <app-toolbar
@@ -123,7 +135,7 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarGuardar]="!formularioActivo()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
   [mostrarSalir]="false"></app-toolbar>

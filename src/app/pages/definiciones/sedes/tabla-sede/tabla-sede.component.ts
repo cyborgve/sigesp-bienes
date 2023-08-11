@@ -30,6 +30,7 @@ export class TablaSedeComponent implements TablaEntidad<Sede>, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.SEDES;
   @Output() dobleClick = new EventEmitter();
 

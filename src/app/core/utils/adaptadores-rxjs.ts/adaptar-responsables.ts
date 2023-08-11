@@ -10,10 +10,11 @@ export const adaptarResposables = () =>
           <Responsable>{
             empresaId: responsable.idEmpresa,
             id: responsable.idPersonal,
+            codigo: responsable.codigoPersonal,
             cedula: responsable.cedulaPersonal,
+            rif: responsable.rifPersonal,
             nombre: responsable.nombrePersonal,
             apellido: responsable.apellidoPersonal,
-            cargo: responsable.cargoOriginalPersonal,
             creado: new Date(),
             modificado: new Date(),
           }

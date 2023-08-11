@@ -32,6 +32,7 @@ export class TablaEstadoUsoComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
+  @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ESTADOS_USO;
   @Output() dobleClick = new EventEmitter();
 

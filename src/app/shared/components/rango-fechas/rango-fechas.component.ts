@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 import { Component, Input, OnInit } from '@angular/core';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-rango-fechas',
