@@ -69,7 +69,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
     actaPrestamo: ActaPrestamo,
     tipoDato: string,
     notificar?: boolean
-  ): Observable<ActaPrestamo> {
+  ): Observable<number> {
     if (!notificar) notificar = true;
     return super
       .actualizar(actaPrestamo.id, actaPrestamo, tipoDato, notificar)
@@ -83,8 +83,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
               return actaPrestamoActivos.length;
             })
           );
-        }),
-        tap(console.log)
+        })
       );
   }
 }

@@ -5,7 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CorregirCodigoPipe implements PipeTransform {
   transform(value: string): string {
-    if (value.toUpperCase() !== 'AUTOGENERADO') return value.substring(5);
-    return value.toUpperCase();
+    if (value) {
+      if (value.toUpperCase() !== 'AUTOGENERADO') return value.substring(5);
+      return value;
+    }
   }
 }

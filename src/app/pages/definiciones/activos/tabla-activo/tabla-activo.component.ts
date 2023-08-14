@@ -1,4 +1,3 @@
-import { Basica } from '@core/models/auxiliares/basica';
 import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
@@ -21,6 +20,10 @@ import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+
+const inicioFiltros = () => pipe(map((activos: Activo[]) => activos));
 
 @Component({
   selector: 'app-tabla-activo',
@@ -36,6 +39,7 @@ export class TablaActivoComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTIVOS;
   @Input() ocultarEncabezado: boolean = false;
+  @Input() filtros = [inicioFiltros()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/activos';
@@ -56,19 +60,18 @@ export class TablaActivoComponent
   }
 
   private recargarDatos() {
-    this._entidad
-      .buscarTodos()
-      .pipe(
-        first(),
-        map(activos => activos as Basica[]),
-        ordenarPorCodigo(),
-        tap(entidades => {
-          this.dataSource = new MatTableDataSource(entidades);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        })
-      )
-      .subscribe();
+    let observable = this._entidad.buscarTodos().pipe(
+      ordenarPorCodigo(),
+      pipeFromArray(this.filtros),
+      tap((entidades: Activo[]) => {
+        this.dataSource = new MatTableDataSource(entidades);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }),
+      first()
+    );
+
+    observable.subscribe();
   }
 
   irAtras() {

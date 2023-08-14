@@ -104,8 +104,7 @@ export class ActivoService extends GenericService<Activo> {
    */
   guardar(activoIn: Activo, tipoDato: string): Observable<Activo> {
     return super.guardar(activoIn, tipoDato).pipe(
-      map((res: any) => res.data[0]),
-      map(res => normalizarObjeto(res)),
+      adaptarActivo(),
       switchMap((activoGuardado: any) => {
         let detalle = prepararActivoDetalle(activoIn.detalle);
         let depreciacion = prepararActivoDepreciacion(activoIn.depreciacion);
@@ -114,18 +113,9 @@ export class ActivoService extends GenericService<Activo> {
         depreciacion.activoId = Number(activoGuardado.id);
         ubicacion.activoId = Number(activoGuardado.id);
         let complementosGuardar = [
-          this._activoDetalle.guardar(detalle, '', false).pipe(
-            map((res: any) => res.data[0]),
-            map(res => normalizarObjeto(res))
-          ),
-          this._activoDepreciacion.guardar(depreciacion, '', false).pipe(
-            map((res: any) => res.data[0]),
-            map(res => normalizarObjeto(res))
-          ),
-          this._activoUbicacion.guardar(ubicacion, '', false).pipe(
-            map((res: any) => res.data[0]),
-            map(res => normalizarObjeto(res))
-          ),
+          this._activoDetalle.guardar(detalle, '', false),
+          this._activoDepreciacion.guardar(depreciacion, '', false),
+          this._activoUbicacion.guardar(ubicacion, '', false),
         ];
         return forkJoin(complementosGuardar).pipe(
           map(([detalle, depreciacion, ubicacion]) => {

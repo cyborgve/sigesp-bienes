@@ -137,7 +137,10 @@
   </section>
   <section class="contenedor-singular inferior">
     <app-activos-proceso
-      (agregarActivo)="agregarActivo()"></app-activos-proceso>
+      (agregarActivo)="agregarActivo()"
+      (removerActivo)="eliminarActivo($event)"
+      [agregarActivoDeshabilitado]="formulario.invalid"
+      [dataSource]="dataSource"></app-activos-proceso>
   </section>
 </form>
 <!-- barra de herramientas lateral -->
@@ -149,7 +152,7 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarGuardar]="!formularioValido()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
   [mostrarSalir]="false"></app-toolbar>

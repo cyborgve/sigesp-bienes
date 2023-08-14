@@ -9,17 +9,13 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
-import {
-  ActaPrestamo,
-  ActaPrestamoActivo,
-} from '@core/models/procesos/acta-prestamo';
+import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
+import { ActaPrestamoActivo } from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
-import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
-import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoService } from '@core/services/definiciones/activo.service';
