@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
 
@@ -12,7 +12,15 @@ export class BuscadorTipoSedeComponent {
   titulo = 'buscador de tipos de sede';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.TIPOS_SEDE.filter(c => c !== 'acciones');
-  constructor(private _dialogRef: MatDialogRef<BuscadorTipoSedeComponent>) {}
+  filtros: any[] = [];
+
+  constructor(
+    private _dialogRef: MatDialogRef<BuscadorTipoSedeComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    private data: { filtros: any[] }
+  ) {
+    if (this.data && this.data.filtros) this.filtros = this.data.filtros;
+  }
 
   seleccionar = (entidad: TipoSede) => {
     this._dialogRef.close(entidad);

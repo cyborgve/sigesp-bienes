@@ -1,5 +1,6 @@
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,11 +9,15 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financiemiento';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { first, tap } from 'rxjs/operators';
+import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 import { adaptarFuentesFinanciemiento } from '@core/utils/adaptadores-rxjs.ts/adaptar-fuentes-financiamiento';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () =>
+  pipe(map((fuentes: FuenteFinanciemiento[]) => fuentes));
 
 @Component({
   selector: 'app-buscador-fuente-financiemiento',
@@ -29,6 +34,7 @@ export class BuscadorFuenteFinanciemientoComponent
   columnasVisibles = COLUMNAS_VISIBLES['FUENTES_FINANCIEMIENTO'];
   dataSource: MatTableDataSource<FuenteFinanciemiento> =
     new MatTableDataSource();
+  @Input() filtros = [filtroInicial()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorFuenteFinanciemientoComponent>,
@@ -45,15 +51,16 @@ export class BuscadorFuenteFinanciemientoComponent
     this._sigesp
       .getFuenteFinanciamiento()
       .pipe(
-        first(),
         adaptarFuentesFinanciemiento(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
+        pipeFromArray(this.filtros),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

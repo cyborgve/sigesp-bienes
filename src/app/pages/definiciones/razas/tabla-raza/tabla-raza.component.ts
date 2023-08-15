@@ -1,4 +1,5 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -19,6 +20,9 @@ import { RazaService } from '@core/services/definiciones/raza.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () => pipe(map((razas: Raza[]) => razas));
 
 @Component({
   selector: 'app-tabla-raza',
@@ -32,6 +36,7 @@ export class TablaRazaComponent implements TablaEntidad<Raza>, AfterViewInit {
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.RAZAS;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/razas';
@@ -55,12 +60,13 @@ export class TablaRazaComponent implements TablaEntidad<Raza>, AfterViewInit {
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

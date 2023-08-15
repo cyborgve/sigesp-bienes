@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { EstadoUso } from '@core/models/definiciones/estado-uso';
 import {
   Component,
@@ -19,6 +19,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+
+const filtroInicial = () => pipe(map((estadosUso: EstadoUso[]) => estadosUso));
 
 @Component({
   selector: 'app-tabla-estado-uso',
@@ -34,6 +38,7 @@ export class TablaEstadoUsoComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ESTADOS_USO;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/estados-uso';
@@ -57,12 +62,13 @@ export class TablaEstadoUsoComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

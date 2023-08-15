@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 
@@ -14,9 +14,15 @@ export class BuscadorUnidadAdministrativaComponent {
   columnasVisibles = COLUMNAS_VISIBLES.UNIDADES_ADMINISTRATIVAS.filter(
     c => c !== 'acciones'
   );
+  filtros: any[] = [];
+
   constructor(
-    private _dialogRef: MatDialogRef<BuscadorUnidadAdministrativaComponent>
-  ) {}
+    private _dialogRef: MatDialogRef<BuscadorUnidadAdministrativaComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    private data: { filtros: any[] }
+  ) {
+    if (this.data && this.data.filtros) this.filtros = this.data.filtros;
+  }
 
   seleccionar = (entidad: UnidadAdministrativa) => {
     this._dialogRef.close(entidad);

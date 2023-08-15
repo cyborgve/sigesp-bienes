@@ -1,4 +1,5 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -19,6 +20,10 @@ import { PropositoSemovienteService } from '@core/services/definiciones/proposit
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () =>
+  pipe(map((propositos: PropositoSemoviente[]) => propositos));
 
 @Component({
   selector: 'app-tabla-proposito-semoviente',
@@ -34,6 +39,7 @@ export class TablaPropositoSemovienteComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.PROPOSITOS_SEMOVIENTE;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/propositos-semoviente';
@@ -59,12 +65,13 @@ export class TablaPropositoSemovienteComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

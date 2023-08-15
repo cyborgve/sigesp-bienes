@@ -1,5 +1,12 @@
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -10,8 +17,12 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
-import { first, tap } from 'rxjs/operators';
+import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () =>
+  pipe(map((proveedores: Proveedor[]) => proveedores));
 
 @Component({
   selector: 'app-buscador-proveedor',
@@ -27,6 +38,7 @@ export class BuscadorProveedorComponent
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['PROVEEDORES'];
   dataSource: MatTableDataSource<Proveedor> = new MatTableDataSource();
+  @Input() filtros = [filtroInicial()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorProveedorComponent>,
@@ -45,6 +57,7 @@ export class BuscadorProveedorComponent
       .pipe(
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
+        pipeFromArray(this.filtros),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;

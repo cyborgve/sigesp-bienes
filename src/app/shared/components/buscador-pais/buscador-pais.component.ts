@@ -1,6 +1,7 @@
-import { first, tap } from 'rxjs/operators';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import { first, tap, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,6 +13,9 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { PaisService } from '@core/services/otros-modulos/pais.service';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () => pipe(map((paises: Pais[]) => paises));
 
 @Component({
   selector: 'app-buscador-pais',
@@ -27,6 +31,7 @@ export class BuscadorPaisComponent
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['PAISES'];
   dataSource: MatTableDataSource<Pais> = new MatTableDataSource();
+  @Input() filtros = [filtroInicial()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorPaisComponent>,
@@ -43,14 +48,15 @@ export class BuscadorPaisComponent
     this._pais
       .buscarTodos()
       .pipe(
-        first(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
+        pipeFromArray(this.filtros),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

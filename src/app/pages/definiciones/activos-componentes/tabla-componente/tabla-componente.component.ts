@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -19,6 +19,11 @@ import { ComponenteService } from '@core/services/definiciones/componente.servic
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+
+const filtroInicial = () =>
+  pipe(map((componentes: ActivoComponente[]) => componentes));
 
 @Component({
   selector: 'app-tabla-componente',
@@ -34,6 +39,7 @@ export class TablaComponenteComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.COMPONENTES;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/activos-componentes';
@@ -57,12 +63,13 @@ export class TablaComponenteComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

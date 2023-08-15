@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { EstadoConservacion } from '@core/models/definiciones/estado-conservacion';
 
@@ -14,9 +14,15 @@ export class BuscadorEstadoConservacionComponent {
   columnasVisibles = COLUMNAS_VISIBLES.ESTADOS_CONSERVACION.filter(
     c => c !== 'acciones'
   );
+  filtros: any[] = [];
+
   constructor(
-    private _dialogRef: MatDialogRef<BuscadorEstadoConservacionComponent>
-  ) {}
+    private _dialogRef: MatDialogRef<BuscadorEstadoConservacionComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    private data: { filtros: any[] }
+  ) {
+    if (this.data && this.data.filtros) this.filtros = this.data.filtros;
+  }
 
   seleccionar = (conservacion: EstadoConservacion) => {
     this._dialogRef.close(conservacion);

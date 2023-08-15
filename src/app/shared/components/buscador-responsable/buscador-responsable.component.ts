@@ -1,5 +1,6 @@
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { first, tap, map } from 'rxjs/operators';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,6 +13,10 @@ import { SigespService } from 'sigesp';
 import { adaptarResposables } from '@core/utils/adaptadores-rxjs.ts/adaptar-responsables';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { Location } from '@angular/common';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () =>
+  pipe(map((responsables: Responsable[]) => responsables));
 
 @Component({
   selector: 'app-buscador-responsable',
@@ -27,6 +32,7 @@ export class BuscadorResponsableComponent
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['RESPONSABLES'];
   dataSource: MatTableDataSource<Responsable> = new MatTableDataSource();
+  @Input() filtros = [filtroInicial()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorResponsableComponent>,
@@ -46,6 +52,7 @@ export class BuscadorResponsableComponent
         map((resultado: any) => resultado.data),
         adaptarResposables(),
         filtrarValoresIniciales(),
+        pipeFromArray(this.filtros),
         tap(responsables => {
           this.dataSource = new MatTableDataSource(responsables);
           this.dataSource.sort = this.matSort;

@@ -18,7 +18,11 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ColorService } from '@core/services/definiciones/color.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+
+const filtroInicial = () => pipe(map((colores: Color[]) => colores));
 
 @Component({
   selector: 'app-tabla-color',
@@ -32,6 +36,7 @@ export class TablaColorComponent implements TablaEntidad<Color>, AfterViewInit {
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.COLORES;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/colores';
@@ -54,12 +59,13 @@ export class TablaColorComponent implements TablaEntidad<Color>, AfterViewInit {
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

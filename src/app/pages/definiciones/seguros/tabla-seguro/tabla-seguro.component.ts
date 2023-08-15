@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -19,6 +19,10 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { Location } from '@angular/common';
 import { Id } from '@core/types/id';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+
+const filtroInicial = () => pipe(map((seguros: Seguro[]) => seguros));
 
 @Component({
   selector: 'app-tabla-seguro',
@@ -34,6 +38,7 @@ export class TablaSeguroComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.SEGUROS;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/seguros';
@@ -57,12 +62,13 @@ export class TablaSeguroComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

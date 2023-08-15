@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Clase } from '@core/models/definiciones/clase';
 
@@ -12,7 +12,15 @@ export class BuscadorClaseComponent {
   titulo = 'buscador de clases';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CLASES.filter(c => c !== 'acciones');
-  constructor(private _dialogRef: MatDialogRef<BuscadorClaseComponent>) {}
+  filtros: any[] = [];
+
+  constructor(
+    private _dialogRef: MatDialogRef<BuscadorClaseComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    private data: { filtros: any[] }
+  ) {
+    if (this.data && this.data.filtros) this.filtros = this.data.filtros;
+  }
 
   seleccionar = (clase: Clase) => {
     this._dialogRef.close(clase);

@@ -1,6 +1,7 @@
-import { first, tap } from 'rxjs/operators';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import { first, tap, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,6 +14,9 @@ import { SigespService } from 'sigesp';
 import { adaptarCentrosCosto } from '@core/utils/adaptadores-rxjs.ts/adaptar-centros-costo';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () => pipe(map((centros: CentroCosto[]) => centros));
 
 @Component({
   selector: 'app-buscador-centro-costo',
@@ -28,6 +32,7 @@ export class BuscadorCentroCostoComponent
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['CENTROS_COSTO'];
   dataSource: MatTableDataSource<CentroCosto> = new MatTableDataSource();
+  @Input() filtros = [filtroInicial()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorCentroCostoComponent>,
@@ -44,15 +49,16 @@ export class BuscadorCentroCostoComponent
     this._sigesp
       .getCentroCosto('all')
       .pipe(
-        first(),
         adaptarCentrosCosto(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
+        pipeFromArray(this.filtros),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

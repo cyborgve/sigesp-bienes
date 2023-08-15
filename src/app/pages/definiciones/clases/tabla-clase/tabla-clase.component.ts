@@ -18,7 +18,11 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ClaseService } from '@core/services/definiciones/clase.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+
+const filtroInicial = () => pipe(map((clases: Clase[]) => clases));
 
 @Component({
   selector: 'app-tabla-clase',
@@ -32,6 +36,7 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CLASES;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/clases';
@@ -54,12 +59,13 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

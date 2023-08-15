@@ -1,5 +1,6 @@
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -11,8 +12,11 @@ import { Moneda } from '@core/models/otros-modulos/moneda';
 import { adaptarMonedas } from '@core/utils/adaptadores-rxjs.ts/adaptar-monedas';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
-import { first, tap } from 'rxjs/operators';
+import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () => pipe(map((monedas: Moneda[]) => monedas));
 
 @Component({
   selector: 'app-buscador-moneda',
@@ -28,6 +32,7 @@ export class BuscadorMonedaComponent
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['MONEDAS'];
   dataSource: MatTableDataSource<Moneda> = new MatTableDataSource();
+  @Input() filtros = [filtroInicial()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorMonedaComponent>,
@@ -44,15 +49,16 @@ export class BuscadorMonedaComponent
     this._sigesp
       .getMonedas('todas')
       .pipe(
-        first(),
         adaptarMonedas(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
+        pipeFromArray(this.filtros),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

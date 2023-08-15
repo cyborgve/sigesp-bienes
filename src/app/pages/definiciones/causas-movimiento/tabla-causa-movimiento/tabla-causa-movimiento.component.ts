@@ -22,7 +22,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
 
-const iniciarFiltros = () =>
+const filtroInicial = () =>
   pipe(map((causasMovimiento: CausaMovimiento[]) => causasMovimiento));
 
 @Component({
@@ -39,7 +39,7 @@ export class TablaCausaMovimientoComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CAUSAS_MOVIMIENTO;
-  @Input() filtros = [iniciarFiltros()];
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/causas-movimiento';

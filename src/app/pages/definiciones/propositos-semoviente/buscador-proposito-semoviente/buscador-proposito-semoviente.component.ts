@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { PropositoSemoviente } from '@core/models/definiciones/proposito-semoviente';
 
@@ -14,9 +14,15 @@ export class BuscadorPropositoSemovienteComponent {
   columnasVisibles = COLUMNAS_VISIBLES.PROPOSITOS_SEMOVIENTE.filter(
     c => c !== 'acciones'
   );
+  filtros: any[] = [];
+
   constructor(
-    private _dialogRef: MatDialogRef<BuscadorPropositoSemovienteComponent>
-  ) {}
+    private _dialogRef: MatDialogRef<BuscadorPropositoSemovienteComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    private data: { filtros: any[] }
+  ) {
+    if (this.data && this.data.filtros) this.filtros = this.data.filtros;
+  }
 
   seleccionar = (entidad: PropositoSemoviente) => {
     this._dialogRef.close(entidad);

@@ -1,5 +1,6 @@
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,11 +9,14 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { first, tap } from 'rxjs/operators';
+import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 import { adaptarCuentasContables } from '@core/utils/adaptadores-rxjs.ts/adaptar-cuentas-contables';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () => pipe(map((cuentas: CuentaContable[]) => cuentas));
 
 @Component({
   selector: 'app-buscador-cuenta-contable',
@@ -28,6 +32,7 @@ export class BuscadorCuentaContableComponent
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CUENTAS_CONTABLES;
   dataSource: MatTableDataSource<CuentaContable> = new MatTableDataSource();
+  @Input() filtros = [filtroInicial()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorCuentaContableComponent>,
@@ -44,15 +49,16 @@ export class BuscadorCuentaContableComponent
     this._sigesp
       .getCuentasInstitucionales()
       .pipe(
-        first(),
         adaptarCuentasContables(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
+        pipeFromArray(this.filtros),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

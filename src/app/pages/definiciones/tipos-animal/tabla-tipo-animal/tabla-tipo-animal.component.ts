@@ -19,7 +19,12 @@ import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.servi
 import { Id } from '@core/types/id';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+
+const filtroInicial = () =>
+  pipe(map((tiposAnimal: TipoAnimal[]) => tiposAnimal));
 
 @Component({
   selector: 'app-tabla-tipo-animal',
@@ -35,6 +40,7 @@ export class TablaTipoAnimalComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.TIPOS_ANIMAL;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/tipos-animal';
@@ -57,13 +63,14 @@ export class TablaTipoAnimalComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         ordenarPorCodigo(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }
