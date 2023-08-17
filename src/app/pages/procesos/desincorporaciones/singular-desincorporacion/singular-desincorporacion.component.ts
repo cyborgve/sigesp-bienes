@@ -1,4 +1,4 @@
-import { tap, switchMap, take, first, filter } from 'rxjs/operators';
+import { tap, switchMap, take, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,6 +18,7 @@ import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unida
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
+import { pipe } from 'rxjs';
 
 @Component({
   selector: 'app-singular-desincorporacion',
@@ -207,9 +208,16 @@ export class SingularDesincorporacionComponent implements Entidad {
   }
 
   buscarCausaMovimiento() {
+    const filtroCausas = () =>
+      pipe(
+        map((causas: CausaMovimiento[]) =>
+          causas.filter(causa => causa.tipo === 'D')
+        )
+      );
     let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [filtroCausas()] },
     });
     dialog
       .afterClosed()

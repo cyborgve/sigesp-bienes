@@ -1,4 +1,5 @@
-import { tap, take, switchMap, first, filter } from 'rxjs/operators';
+import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
+import { pipe } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -212,9 +213,16 @@ export class SingularReasignacionComponent implements Entidad {
   removerActivo(event: any) {}
 
   buscarCausaMovimiento() {
+    const filtroCausas = () =>
+      pipe(
+        map((causas: CausaMovimiento[]) =>
+          causas.filter(causa => causa.tipo === 'R')
+        )
+      );
     let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [filtroCausas()] },
     });
     dialog
       .afterClosed()
