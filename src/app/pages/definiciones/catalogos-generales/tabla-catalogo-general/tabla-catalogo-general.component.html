@@ -8,10 +8,14 @@
 <mat-card class="card-table">
   <!-- tabla -->
   <table mat-table [dataSource]="dataSource" class="table" matSort>
-    <!-- codigo -->
-    <ng-container matColumnDef="codigo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
-      <td mat-cell *matCellDef="let row">{{ row.codigo | corregirCodigo }}</td>
+    <!-- estadoMovimiento -->
+    <ng-container matColumnDef="estadoMovimiento">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Estado del movimiento
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.estadoMovimiento | estadoMovimientoCatalogo }}
+      </td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">

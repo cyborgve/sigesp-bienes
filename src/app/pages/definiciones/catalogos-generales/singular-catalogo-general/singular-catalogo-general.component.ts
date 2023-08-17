@@ -14,8 +14,7 @@ import { Subscription } from 'rxjs';
 import { BuscadorCatalogoGeneralComponent } from '../buscador-catalogo-general/buscador-catalogo-general.component';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
-import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
+import { ESTADOS_MOVIMIENTO_CATALOGO } from '@core/constants/estado-movimiento-catalogo';
 
 @Component({
   selector: 'app-singular-catalogo-general',
@@ -28,7 +27,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
   id: Id;
   titulo = CORRELATIVOS[3].nombre;
   formulario: FormGroup;
-  estadosMovimiento = ['S preguntar significado', 'C preguntar significado'];
+  estadosMovimiento = ESTADOS_MOVIMIENTO_CATALOGO;
 
   constructor(
     private _entidad: CatalogoGeneralService,
@@ -46,7 +45,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
       codigo: ['autogenerado'],
       denominacion: ['', Validators.required],
       catalogoCuentas: ['', Validators.required],
-      cuentaReferencia: ['---'],
+      cuentaReferencia: [0],
       estadoMovimiento: [''],
       creado: [new Date()],
       modificado: [new Date()],
@@ -173,7 +172,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
   }
 
   buscarCuentaReferencia() {
-    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+    let dialog = this._dialog.open(BuscadorCatalogoGeneralComponent, {
       height: '95%',
       width: '85%',
     });
@@ -181,10 +180,10 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((cuentaContable: CuentaContable) => {
-            if (cuentaContable) {
+          tap((catalogoGeneral: CatalogoGeneral) => {
+            if (catalogoGeneral) {
               this.formulario.patchValue({
-                cuentaReferencia: cuentaContable.id,
+                cuentaReferencia: catalogoGeneral.id,
               });
             }
           })

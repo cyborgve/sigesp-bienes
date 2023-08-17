@@ -12,20 +12,18 @@ import { Responsable } from '@core/models/otros-modulos/responsable';
 })
 export class DenominacionResponsablePipe implements PipeTransform {
   transform(value: Id): Observable<string> {
-    return value
-      ? this._sigesp.getPersonal('responsables').pipe(
-          map((resultado: any) => resultado.data),
-          adaptarResposables(),
-          map(responsables =>
-            responsables.find(responsable => responsable.id === value)
-          ),
-          map(responsable =>
-            responsable
-              ? `${responsable.rif} - ${responsable.nombre} ${responsable.apellido}`
-              : undefined
-          )
-        )
-      : undefined;
+    return this._sigesp.getPersonal('responsables').pipe(
+      map((resultado: any) => resultado.data),
+      adaptarResposables(),
+      map(responsables =>
+        responsables.find(responsable => responsable.id === value)
+      ),
+      map(responsable =>
+        responsable
+          ? `${responsable.rif} - ${responsable.nombre} ${responsable.apellido}`
+          : String(value)
+      )
+    );
   }
   constructor(private _sigesp: SigespService) {}
 }

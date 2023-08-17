@@ -12,7 +12,7 @@ export class DenominacionCatalogoGeneralPipe implements PipeTransform {
       .buscarPorId(value)
       .pipe(
         map(catalogoGeneral =>
-          catalogoGeneral ? catalogoGeneral['catalogoCuentas'] : String(value)
+          catalogoGeneral ? catalogoGeneral['denominacion'] : String(value)
         )
       );
   }

@@ -8,15 +8,13 @@ import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.servi
 })
 export class DenominacionTipoAnimalPipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    return value
-      ? this._tipoAnimal
-          .buscarPorId(value)
-          .pipe(
-            map(tipoAnimal =>
-              tipoAnimal ? tipoAnimal['denominacion'] : String(value)
-            )
-          )
-      : undefined;
+    return this._tipoAnimal
+      .buscarPorId(value)
+      .pipe(
+        map(tipoAnimal =>
+          tipoAnimal ? tipoAnimal['denominacion'] : String(value)
+        )
+      );
   }
 
   constructor(private _tipoAnimal: TipoAnimalService) {}

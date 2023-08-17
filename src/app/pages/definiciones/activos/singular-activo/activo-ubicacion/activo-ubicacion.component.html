@@ -55,7 +55,13 @@
         matInput
         formControlName="responsableId"
         readonly="true"
-        [value]="formulario.value.responsableId" />
+        [value]="
+          formulario.value.responsableId
+            | denominacionResponsable
+            | async
+            | titlecase
+            | corregirSeleccionar
+        " />
       <button
         type="button"
         mat-icon-button
@@ -72,7 +78,13 @@
         matInput
         formControlName="responsableUsoId"
         readonly="true"
-        [value]="formulario.value.responsableUsoId" />
+        [value]="
+          formulario.value.responsableUsoId
+            | denominacionResponsable
+            | async
+            | titlecase
+            | corregirSeleccionar
+        " />
       <button
         type="button"
         mat-icon-button

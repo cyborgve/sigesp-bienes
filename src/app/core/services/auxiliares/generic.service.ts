@@ -60,7 +60,7 @@ export abstract class GenericService<T extends Basica>
       map(resultado => resultado),
       tap(resultado => {
         if (notificar) {
-          let mensaje = convertirTipoOracion(tipoDato) + ':';
+          let mensaje = convertirTipoOracion(tipoDato) + ': ';
           if (resultado) {
             if (resultado.codigo) {
               mensaje += String(resultado.codigo).split('-')[1];

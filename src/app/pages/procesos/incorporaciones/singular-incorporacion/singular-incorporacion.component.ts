@@ -41,12 +41,7 @@ export class SingularIncorporacionComponent implements Entidad {
   formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource([]);
 
-  private filtroCausasMovimiento = () =>
-    pipe(
-      map((causasMovimiento: CausaMovimiento[]) =>
-        causasMovimiento.filter(cm => cm.tipo === 'I')
-      )
-    );
+  private;
 
   constructor(
     private _incorporacion: IncorporacionService,
@@ -58,16 +53,16 @@ export class SingularIncorporacionComponent implements Entidad {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [undefined],
-      id: [undefined],
+      empresaId: [''],
+      id: [''],
       comprobante: ['AUTOGENERADO'],
-      causaMovimiento: [undefined, Validators.required],
-      responsablePrimario: [undefined, Validators.required],
-      responsableUso: [undefined, Validators.required],
-      unidadAdministrativa: [undefined, Validators.required],
-      sede: [undefined, Validators.required],
-      fechaEntrega: [undefined, Validators.required],
-      observaciones: [undefined],
+      causaMovimiento: ['', Validators.required],
+      responsablePrimario: ['', Validators.required],
+      responsableUso: ['', Validators.required],
+      unidadAdministrativa: ['', Validators.required],
+      sede: ['', Validators.required],
+      fechaEntrega: ['', Validators.required],
+      observaciones: [''],
       activos: [[]],
       creado: [new Date()],
       modificado: [new Date()],
@@ -251,10 +246,16 @@ export class SingularIncorporacionComponent implements Entidad {
   }
 
   buscarCausaMovimiento() {
+    const filtroCausasMovimiento = () =>
+      pipe(
+        map((causasMovimiento: CausaMovimiento[]) =>
+          causasMovimiento.filter(cm => cm.tipo === 'I')
+        )
+      );
     let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [this.filtroCausasMovimiento()] },
+      data: { filtros: [filtroCausasMovimiento()] },
     });
     dialog
       .afterClosed()

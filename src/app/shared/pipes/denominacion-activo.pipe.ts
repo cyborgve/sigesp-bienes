@@ -8,11 +8,9 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 })
 export class DenominacionActivoPipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    if (value)
-      return this._activo
-        .buscarPorId(value)
-        .pipe(map(activo => (activo ? activo['denominacion'] : String(value))));
-    return undefined;
+    return this._activo
+      .buscarPorId(value)
+      .pipe(map(activo => (activo ? activo['denominacion'] : String(value))));
   }
   constructor(private _activo: ActivoService) {}
 }

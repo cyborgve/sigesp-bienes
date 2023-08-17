@@ -82,6 +82,7 @@ import { CorregirMetodoDepreciacionPipe } from './pipes/corregir-metodo-deprecia
 import { EncabezadoReportesComponent } from './components/encabezado-reportes/encabezado-reportes.component';
 import { TipoOracionPipe } from './pipes/tipo-oracion.pipe';
 import { RangoFechasComponent } from './components/rango-fechas/rango-fechas.component';
+import { EstadoMovimientoCatalogoPipe } from './pipes/estado-movimiento-catalogo.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -103,6 +104,12 @@ const sharedComponents = [
   EncabezadoDefinicionComponent,
   EncabezadoDefinicionesComponent,
   EncabezadoProcesosComponent,
+  ActivosProcesoComponent,
+  RangoFechasComponent,
+  BuscadorProveedorComponent,
+  CuentasContablesProcesoComponent,
+  EncabezadoReportesComponent,
+  ComponentesProcesoComponent,
 ];
 
 const sharedPipes = [
@@ -151,49 +158,22 @@ const sharedPipes = [
   DenominacionEstadoUsoPipe,
   DenominacionEstadoConservacionPipe,
   DenominacionResponsablePipe,
+  DenominacionCausaMovimientoPipe,
+  DenominacionRetornoPipe,
+  DenominacionBeneficiarioPipe,
+  CorregirNoAsignadoPipe,
+  DenominacionModoAdquisicionPipe,
+  DenominacionCentroCostosPipe,
+  DenominacionTipoActivoPipe,
+  DenominacionCatalogoGeneralPipe,
+  CorregirMetodoDepreciacionPipe,
+  TipoOracionPipe,
+  EstadoMovimientoCatalogoPipe,
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    ...sharedPipes,
-    ActivosProcesoComponent,
-    DenominacionCausaMovimientoPipe,
-    CuentasContablesProcesoComponent,
-    ComponentesProcesoComponent,
-    DenominacionRetornoPipe,
-    DenominacionBeneficiarioPipe,
-    CorregirNoAsignadoPipe,
-    DenominacionModoAdquisicionPipe,
-    DenominacionCentroCostosPipe,
-    DenominacionTipoActivoPipe,
-    BuscadorProveedorComponent,
-    DenominacionCatalogoGeneralPipe,
-    CorregirMetodoDepreciacionPipe,
-    EncabezadoReportesComponent,
-    TipoOracionPipe,
-    RangoFechasComponent,
-  ],
+  declarations: [...sharedComponents, ...sharedPipes],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [
-    ...sharedComponents,
-    ...sharedPipes,
-    ActivosProcesoComponent,
-    DenominacionCausaMovimientoPipe,
-    CuentasContablesProcesoComponent,
-    ComponentesProcesoComponent,
-    DenominacionRetornoPipe,
-    DenominacionBeneficiarioPipe,
-    CorregirNoAsignadoPipe,
-    DenominacionModoAdquisicionPipe,
-    DenominacionCentroCostosPipe,
-    DenominacionTipoActivoPipe,
-    BuscadorProveedorComponent,
-    DenominacionCatalogoGeneralPipe,
-    CorregirMetodoDepreciacionPipe,
-    EncabezadoReportesComponent,
-    TipoOracionPipe,
-    RangoFechasComponent,
-  ],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}

@@ -8,11 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class DenominacionSedePipe implements PipeTransform {
   transform(value: number): Observable<string> {
-    return value
-      ? this._sede
-          .buscarPorId(value)
-          .pipe(map(sede => (sede ? sede['denominacion'] : String(value))))
-      : undefined;
+    return this._sede
+      .buscarPorId(value)
+      .pipe(map(sede => (sede ? sede['denominacion'] : String(value))));
   }
 
   constructor(private _sede: SedeService) {}

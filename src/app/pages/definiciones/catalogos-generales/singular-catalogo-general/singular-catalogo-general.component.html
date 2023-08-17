@@ -28,29 +28,6 @@
           <mat-label>Catálogo de Cuentas</mat-label>
           <input type="text" matInput formControlName="catalogoCuentas" />
         </mat-form-field>
-        <!-- cuentaReferencia -->
-        <mat-form-field appearance="fill" class="cuentaReferencia">
-          <mat-label>Cuenta de referencia</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="cuentaReferencia"
-            readonly="true"
-            [value]="
-              formulario.value.cuentaReferencia
-                | denominacionCuentaContable
-                | async
-                | titlecase
-                | corregirSeleccionar
-            " />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarCuentaReferencia()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
         <!-- estadoMovimiento -->
         <mat-form-field appearance="fill" class="estadoMovimiento">
           <mat-label>Estado del movimiento</mat-label>
@@ -62,6 +39,27 @@
               >{{ estado }}</mat-option
             >
           </mat-select>
+        </mat-form-field>
+        <!-- cuentaReferencia -->
+        <mat-form-field appearance="fill" class="cuentaReferencia">
+          <mat-label>Cuenta de referencia</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="cuentaReferencia"
+            readonly="true"
+            [value]="
+              formulario.value.cuentaReferencia
+                | denominacionCatalogoGeneral
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCuentaReferencia()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
       </article>
     </mat-card>

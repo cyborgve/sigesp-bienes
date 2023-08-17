@@ -43,14 +43,13 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['autogenerado'],
+      codigo: ['AUTOGENERADO'],
       denominacion: ['', Validators.required],
       fechaOrigen: [new Date()],
       fechaAdquisicion: [new Date()],
       modoAdquisicion: [''],
-      formaAdquisicion: [''],
-      numeroFormaAdquisicion: [''],
-      nombreFormaAdquisicion: [''],
+      numeroFormaAdquisicion: ['', Validators.maxLength(16)],
+      nombreFormaAdquisicion: ['', Validators.maxLength(16)],
       fechaFactura: [new Date()],
       numeroFactura: [''],
       proveedorId: ['---'],
@@ -77,7 +76,6 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          take(1),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -87,7 +85,6 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
               fechaOrigen: entidad.fechaOrigen,
               fechaAdquisicion: entidad.fechaAdquisicion,
               modoAdquisicion: entidad.modoAdquisicion,
-              formaAdquisicion: entidad.formaAdquisicion,
               numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
               nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
               fechaFactura: entidad.fechaFactura,
@@ -102,7 +99,8 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
-          })
+          }),
+          take(1)
         )
         .subscribe();
     } else {
@@ -138,7 +136,6 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
                   fechaOrigen: entidad.fechaOrigen,
                   fechaAdquisicion: entidad.fechaAdquisicion,
                   modoAdquisicion: entidad.modoAdquisicion,
-                  formaAdquisicion: entidad.formaAdquisicion,
                   numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
                   nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
                   fechaFactura: entidad.fechaFactura,

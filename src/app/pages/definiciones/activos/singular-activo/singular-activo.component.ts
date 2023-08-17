@@ -162,8 +162,8 @@ export class SingularActivoComponent implements Entidad {
       estadoUsoId: [0],
       estadoConservacionId: [0],
       descripcionEstadoConservacion: [''],
-      responsableId: [0],
-      responsableUsoId: [0],
+      responsableId: ['---'],
+      responsableUsoId: ['---'],
       creado: [new Date()],
       modificado: [new Date()],
     });

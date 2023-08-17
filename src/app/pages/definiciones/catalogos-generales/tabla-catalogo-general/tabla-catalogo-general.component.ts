@@ -1,4 +1,5 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   AfterViewInit,
@@ -19,6 +20,10 @@ import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { CatalogoGeneralService } from '@core/services/definiciones/catalogo-general.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { pipe } from 'rxjs';
+
+const filtroInicial = () =>
+  pipe(map((catalogos: CatalogoGeneral[]) => catalogos));
 
 @Component({
   selector: 'app-tabla-catalogo-general',
@@ -34,6 +39,7 @@ export class TablaCatalogoGeneralComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CATALOGO_GENERAL;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/catalogos-generales';
@@ -57,12 +63,13 @@ export class TablaCatalogoGeneralComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

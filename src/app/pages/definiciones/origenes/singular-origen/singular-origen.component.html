@@ -103,13 +103,7 @@
             type="text"
             matInput
             formControlName="proveedorId"
-            readonly="true"
-            [value]="
-              formulario.value.proveedorId
-                | denominacionProveedor
-                | async
-                | corregirSeleccionar
-            " />
+            readonly="true" />
           <button
             type="button"
             mat-icon-button
