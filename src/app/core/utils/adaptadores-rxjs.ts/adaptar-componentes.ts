@@ -5,19 +5,21 @@ export const adaptarComponentes = () =>
   pipe(
     map((componentes: any[]) =>
       componentes.map(
-        componente =>
-          <ActivoComponente>{
-            empresaId: componente.empresaId,
-            id: Number(componente.id),
-            tipoComponenteId: Number(componente.tipoComponenteId),
-            activoId: Number(componente.activoId),
-            codigo: componente.codigo,
-            denominacion: componente.denominacion,
-            modeloId: Number(componente.modeloId),
-            especificaciones: componente.especificaciones,
-            creado: componente.creado,
-            modificado: componente.modificado,
-          }
+        componentes
+          ? componente =>
+              <ActivoComponente>{
+                empresaId: componente.empresaId,
+                id: Number(componente.id),
+                tipoComponenteId: Number(componente.tipoComponenteId),
+                activoId: Number(componente.activoId),
+                codigo: componente.codigo,
+                denominacion: componente.denominacion,
+                modeloId: Number(componente.modeloId),
+                especificaciones: componente.especificaciones,
+                creado: componente.creado,
+                modificado: componente.modificado,
+              }
+          : undefined
       )
     )
   );

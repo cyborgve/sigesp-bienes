@@ -32,7 +32,7 @@ export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
         .pipe(
           tap(() =>
             this.formulario.patchValue(
-              { depreciable: this.formulario.valid },
+              { depreciable: Number(this.formulario.valid) },
               { emitEvent: false }
             )
           )

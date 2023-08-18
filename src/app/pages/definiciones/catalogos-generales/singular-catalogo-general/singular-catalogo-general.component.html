@@ -8,25 +8,15 @@
     <!-- datos -->
     <mat-card>
       <article class="contenido">
-        <!-- codigo -->
-        <mat-form-field appearance="fill" class="codigo">
-          <mat-label>Código</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="codigo"
-            readonly="true"
-            [value]="formulario.value.codigo | corregirCodigo" />
+        <!-- catalogoCuentas -->
+        <mat-form-field appearance="fill" class="catalogoCuentas">
+          <mat-label>Catálogo de Cuentas</mat-label>
+          <input type="text" matInput formControlName="catalogoCuentas" />
         </mat-form-field>
         <!-- denominacion -->
         <mat-form-field appearance="fill" class="denominacion">
           <mat-label>Denominación</mat-label>
           <input type="text" matInput formControlName="denominacion" />
-        </mat-form-field>
-        <!-- catalogoCuentas -->
-        <mat-form-field appearance="fill" class="catalogoCuentas">
-          <mat-label>Catálogo de Cuentas</mat-label>
-          <input type="text" matInput formControlName="catalogoCuentas" />
         </mat-form-field>
         <!-- estadoMovimiento -->
         <mat-form-field appearance="fill" class="estadoMovimiento">

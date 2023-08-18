@@ -1,5 +1,7 @@
-.catalogoCuentas,
+.catalogoCuentas {
+  @apply col-span-3;
+}
 .cuentaReferencia,
 .estadoMovimiento {
-  @apply col-span-4;
+  @apply col-span-6;
 }

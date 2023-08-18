@@ -1,4 +1,4 @@
-import { take, tap, first, filter, switchMap } from 'rxjs/operators';
+import { take, tap, first, filter, switchMap, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,7 +10,7 @@ import { CatalogoGeneralService } from '@core/services/definiciones/catalogo-gen
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { Subscription } from 'rxjs';
+import { Subscription, pipe } from 'rxjs';
 import { BuscadorCatalogoGeneralComponent } from '../buscador-catalogo-general/buscador-catalogo-general.component';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -28,6 +28,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
   titulo = CORRELATIVOS[3].nombre;
   formulario: FormGroup;
   estadosMovimiento = ESTADOS_MOVIMIENTO_CATALOGO;
+  deshabilitarCuentaReferencia: boolean;
 
   constructor(
     private _entidad: CatalogoGeneralService,
@@ -42,7 +43,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
-      codigo: ['autogenerado'],
+      codigo: ['AUTOGENERADO'],
       denominacion: ['', Validators.required],
       catalogoCuentas: ['', Validators.required],
       cuentaReferencia: [0],
@@ -172,9 +173,16 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
   }
 
   buscarCuentaReferencia() {
+    const filtroCuentas = () =>
+      pipe(
+        map((catalogos: CatalogoGeneral[]) =>
+          catalogos.filter(catalogo => catalogo.estadoMovimiento === 'Sum')
+        )
+      );
     let dialog = this._dialog.open(BuscadorCatalogoGeneralComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [filtroCuentas()] },
     });
     this.subscripciones.push(
       dialog

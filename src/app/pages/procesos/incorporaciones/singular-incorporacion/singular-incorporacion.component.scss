@@ -14,11 +14,17 @@
   @apply col-start-1 col-span-full;
 }
 
-.causaMovimiento,
-.unidadAdministrativa,
+.causaMovimiento {
+  @apply col-span-5;
+}
+
 .responsablePrimario,
 .responsableUso {
   @apply col-span-6;
+}
+
+.unidadAdministrativa {
+  @apply col-span-7;
 }
 
 .sede {

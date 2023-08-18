@@ -1,4 +1,3 @@
-import { Activo } from '@core/models/definiciones/activo';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
@@ -93,6 +92,11 @@ export class SingularIncorporacionComponent implements Entidad {
               creado: entidad.creado,
               modificado: entidad.modificado,
             })
+          ),
+          tap(entidad =>
+            entidad
+              ? (this.dataSource = new MatTableDataSource(entidad.activos))
+              : undefined
           ),
           take(1)
         )

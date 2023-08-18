@@ -25,6 +25,13 @@ import { pipe } from 'rxjs';
 const filtroInicial = () =>
   pipe(map((catalogos: CatalogoGeneral[]) => catalogos));
 
+const ordenarPorCatalogoCuentas = () =>
+  pipe(
+    map((catalogos: CatalogoGeneral[]) =>
+      catalogos.sort((a, b) => (a.catalogoCuentas > b.catalogoCuentas ? 1 : -1))
+    )
+  );
+
 @Component({
   selector: 'app-tabla-catalogo-general',
   templateUrl: './tabla-catalogo-general.component.html',
@@ -63,12 +70,18 @@ export class TablaCatalogoGeneralComponent
     this._entidad
       .buscarTodos()
       .pipe(
+        ordenarPorCatalogoCuentas(),
         pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         }),
+        map(catalogos =>
+          catalogos.sort((a, b) =>
+            a.catalogoCuentas > b.catalogoCuentas ? 1 : -1
+          )
+        ),
         first()
       )
       .subscribe();
