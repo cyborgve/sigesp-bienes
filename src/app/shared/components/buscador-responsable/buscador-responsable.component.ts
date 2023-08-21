@@ -1,5 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, take } from 'rxjs/operators';
 import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,6 +14,7 @@ import { adaptarResposables } from '@core/utils/adaptadores-rxjs.ts/adaptar-resp
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { Location } from '@angular/common';
 import { pipe } from 'rxjs';
+import { ResponsableService } from '@core/services/otros-modulos/responsable.service';
 
 const filtroInicial = () =>
   pipe(map((responsables: Responsable[]) => responsables));
@@ -38,7 +39,8 @@ export class BuscadorResponsableComponent
     private _dialogRef: MatDialogRef<BuscadorResponsableComponent>,
     private _sigesp: SigespService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _responsable: ResponsableService
   ) {}
 
   ngAfterViewInit(): void {
@@ -46,19 +48,16 @@ export class BuscadorResponsableComponent
   }
 
   private recargarDatos() {
-    this._sigesp
-      .getPersonal('responsables')
+    this._responsable
+      .buscarTodos()
       .pipe(
-        map((resultado: any) => resultado.data),
-        adaptarResposables(),
-        filtrarValoresIniciales(),
         pipeFromArray(this.filtros),
         tap(responsables => {
           this.dataSource = new MatTableDataSource(responsables);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
         }),
-        first()
+        take(1)
       )
       .subscribe();
   }

@@ -26,7 +26,10 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { prepararIncorporacion } from '@core/utils/funciones/preparar-incorporacion';
 import { prepararActivoProceso } from '@core/utils/funciones/preparar-activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
-import { pipe } from 'rxjs';
+import { pipe, forkJoin } from 'rxjs';
+import { Activo } from '@core/models/definiciones/activo';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -49,7 +52,8 @@ export class SingularIncorporacionComponent implements Entidad {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService
+    private _correlativo: CorrelativoService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -158,9 +162,6 @@ export class SingularIncorporacionComponent implements Entidad {
                 activos: [],
               })
             : undefined;
-          incorporacion
-            ? (this.dataSource = new MatTableDataSource(incorporacion.activos))
-            : undefined;
         }),
         take(1)
       )
@@ -225,9 +226,31 @@ export class SingularIncorporacionComponent implements Entidad {
   }
 
   agregarActivo() {
+    let filtrarNoIncorporados = () =>
+      pipe(
+        switchMap((activos: Activo[]) => {
+          let ubicacionesPeticiones = activos.map(activo =>
+            this._activoUbicacion.buscarPorActivo(activo.id)
+          );
+          return forkJoin(ubicacionesPeticiones).pipe(
+            map(ubicaciones => {
+              return activos.map(activo => {
+                activo.ubicacion = ubicaciones.find(
+                  ubicacion => ubicacion.activoId === activo.id
+                );
+                return activo;
+              });
+            })
+          );
+        }),
+        map(activos =>
+          activos.filter(activo => !activoIncorporado(activo.ubicacion))
+        )
+      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [filtrarNoIncorporados()] },
     });
     dialog
       .afterClosed()

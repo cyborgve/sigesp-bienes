@@ -11,6 +11,9 @@ import { Observable, forkJoin } from 'rxjs';
 import { adaptarIncorporaciones } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporaciones';
 import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporacion';
+import { generarDocumentoPDF } from '@core/utils/funciones/generar-documento-pdf';
+import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +27,8 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _http: HttpClient,
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
-    private _incorporacionActivo: IncorporacionActivoService
+    private _incorporacionActivo: IncorporacionActivoService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -66,7 +70,6 @@ export class IncorporacionService extends GenericService<Incorporacion> {
           .map(activo =>
             this._incorporacionActivo.guardar(activo, undefined, false)
           );
-
         return forkJoin(activosGuardar).pipe(
           map(activos => {
             incorporacionGuardada.activos = activos;

@@ -1,23 +1,16 @@
 import { map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MPersonal, SigespService } from 'sigesp';
 import { Id } from '@core/types/id';
-import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarResposables } from '@core/utils/adaptadores-rxjs.ts/adaptar-responsables';
-import { Responsable } from '@core/models/otros-modulos/responsable';
+import { ResponsableService } from '@core/services/otros-modulos/responsable.service';
 
 @Pipe({
   name: 'denominacionResponsable',
 })
 export class DenominacionResponsablePipe implements PipeTransform {
   transform(value: Id): Observable<string> {
-    return this._sigesp.getPersonal('responsables').pipe(
-      map((resultado: any) => resultado.data),
-      adaptarResposables(),
-      map(responsables =>
-        responsables.find(responsable => responsable.id === value)
-      ),
+    return this._responsable.buscarTodos().pipe(
+      map(responsables => responsables.find(res => res.id === value)),
       map(responsable =>
         responsable
           ? `${responsable.rif} - ${responsable.nombre} ${responsable.apellido}`
@@ -25,5 +18,5 @@ export class DenominacionResponsablePipe implements PipeTransform {
       )
     );
   }
-  constructor(private _sigesp: SigespService) {}
+  constructor(private _responsable: ResponsableService) {}
 }

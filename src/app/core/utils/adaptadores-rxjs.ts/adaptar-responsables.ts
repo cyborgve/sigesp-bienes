@@ -1,20 +1,19 @@
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
-import { MPersonal, MProveedor } from 'sigesp';
 export const adaptarResposables = () =>
   pipe(
-    map((responsables: MPersonal[]) =>
+    map((responsables: any[]) =>
       responsables.map(
         responsable =>
           <Responsable>{
-            empresaId: responsable.idEmpresa,
-            id: responsable.idPersonal,
-            codigo: responsable.codigoPersonal,
-            cedula: responsable.cedulaPersonal,
-            rif: responsable.rifPersonal,
-            nombre: responsable.nombrePersonal,
-            apellido: responsable.apellidoPersonal,
+            empresaId: responsable.id_empresa,
+            id: responsable.id_personal,
+            codigo: responsable.codper,
+            cedula: responsable.cedper,
+            rif: responsable.rifper,
+            nombre: responsable.nomper,
+            apellido: responsable.apeper,
             creado: new Date(),
             modificado: new Date(),
           }
