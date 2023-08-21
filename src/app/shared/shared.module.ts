@@ -83,6 +83,7 @@ import { EncabezadoReportesComponent } from './components/encabezado-reportes/en
 import { TipoOracionPipe } from './pipes/tipo-oracion.pipe';
 import { RangoFechasComponent } from './components/rango-fechas/rango-fechas.component';
 import { EstadoMovimientoCatalogoPipe } from './pipes/estado-movimiento-catalogo.pipe';
+import { PieReporteComponent } from './components/pie-reporte/pie-reporte.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -172,8 +173,8 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [...sharedComponents, ...sharedPipes, PieReporteComponent],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [...sharedComponents, ...sharedPipes, PieReporteComponent],
 })
 export class SharedModule {}

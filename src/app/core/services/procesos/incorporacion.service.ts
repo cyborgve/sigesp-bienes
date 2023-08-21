@@ -14,6 +14,7 @@ import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-in
 import { generarDocumentoPDF } from '@core/utils/funciones/generar-documento-pdf';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { XLSXService } from '../auxiliares/xlsx.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,8 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _incorporacionActivo: IncorporacionActivoService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activoUbicacion: ActivoUbicacionService,
+    private _xlsx: XLSXService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -76,7 +78,14 @@ export class IncorporacionService extends GenericService<Incorporacion> {
             return incorporacionGuardada;
           })
         );
-      })
+      }),
+      tap(incorporacion =>
+        this._xlsx.exportarProcesoExcel(
+          [incorporacion],
+          'INCORPORACIÓN',
+          String(incorporacion.comprobante).substring(5)
+        )
+      )
     );
   }
 }
