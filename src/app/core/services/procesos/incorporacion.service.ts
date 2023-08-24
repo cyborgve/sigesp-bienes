@@ -11,10 +11,8 @@ import { Observable, forkJoin } from 'rxjs';
 import { adaptarIncorporaciones } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporaciones';
 import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporacion';
-import { generarDocumentoPDF } from '@core/utils/funciones/generar-documento-pdf';
-import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
-import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { XLSXService } from '../auxiliares/xlsx.service';
+import { PdfService } from '../auxiliares/pdf.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +27,8 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _incorporacionActivo: IncorporacionActivoService,
-    private _activoUbicacion: ActivoUbicacionService,
-    private _xlsx: XLSXService
+    private _xlsx: XLSXService,
+    private _pdf: PdfService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -79,13 +77,14 @@ export class IncorporacionService extends GenericService<Incorporacion> {
           })
         );
       }),
-      tap(incorporacion =>
+      tap(incorporacion => {
         this._xlsx.exportarProcesoExcel(
-          [incorporacion],
+          incorporacion,
           'INCORPORACIÓN',
           String(incorporacion.comprobante).substring(5)
-        )
-      )
+        );
+      }),
+      tap(incorporacion => this._pdf.generarIncorporacion(incorporacion))
     );
   }
 }

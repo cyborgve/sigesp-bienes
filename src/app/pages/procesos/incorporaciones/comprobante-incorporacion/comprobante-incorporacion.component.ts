@@ -1,4 +1,4 @@
-import { tap, take, switchMap } from 'rxjs/operators';
+import { tap, take, switchMap, map } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { Empresa } from '@core/models/otros-modulos/empresa';
 import { EmpresaService } from '@core/services/otros-modulos/empresa.service';
@@ -28,15 +28,13 @@ export class ComprobanteIncorporacionComponent {
     private _incorporacion: IncorporacionService
   ) {
     this._empresa
-      .datosGenerales()
+      .datosGeneralesTodasLasEmpresas()
       .pipe(
+        map(empresas => empresas[0]),
         tap(empresa => (this.empresa = empresa)),
         switchMap(() => this._incorporacion.buscarPorId(this.id)),
         tap(incorporacion => (this.proceso = incorporacion)),
-        tap(
-          incorporacion =>
-            (this.dataSource = new MatTableDataSource(incorporacion.activos))
-        ),
+        tap(inc => (this.dataSource = new MatTableDataSource(inc.activos))),
         take(1)
       )
       .subscribe();

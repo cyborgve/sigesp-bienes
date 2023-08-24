@@ -30,6 +30,7 @@ import { pipe, forkJoin } from 'rxjs';
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
+import { Incorporacion } from '@core/models/procesos/incorporacion';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -142,9 +143,18 @@ export class SingularIncorporacionComponent implements Entidad {
   }
 
   importar() {
+    let ordenarPorComprobanteAscendente = () =>
+      pipe(
+        map((incorporaciones: Incorporacion[]) =>
+          incorporaciones.sort((a, b) =>
+            a.comprobante > b.comprobante ? 1 : -1
+          )
+        )
+      );
     let dialog = this._dialog.open(BuscadorIncorporacionComponent, {
       width: '95%',
       height: '85%',
+      data: { filtros: [ordenarPorComprobanteAscendente()] },
     });
     dialog
       .afterClosed()

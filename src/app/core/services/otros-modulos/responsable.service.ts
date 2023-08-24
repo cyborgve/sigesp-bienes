@@ -22,8 +22,15 @@ export class ResponsableService {
     return this._http.get<Responsable[]>(this.apiUrl).pipe(
       map((respuesta: any) => respuesta.data),
       adaptarResposables(),
-      filtrarValoresIniciales(),
       ordenarPorId()
+    );
+  }
+
+  buscarPorId(id: Id): Observable<Responsable> {
+    return this.buscarTodos().pipe(
+      map(responsables =>
+        responsables.find(responsable => responsable.id === id)
+      )
     );
   }
 }

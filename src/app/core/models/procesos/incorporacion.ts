@@ -4,11 +4,11 @@ import { ActivoProceso } from '../auxiliares/activo-proceso';
 
 export interface Incorporacion extends Basica {
   comprobante: Id;
-  causaMovimiento: Id;
+  causaMovimiento: any;
   responsablePrimario: Id;
   responsableUso: Id;
-  unidadAdministrativa: Id;
-  sede: Id;
+  unidadAdministrativa: any;
+  sede: any;
   fechaEntrega: Date;
   observaciones: string;
   activos: ActivoProceso[];
