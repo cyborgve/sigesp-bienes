@@ -22,6 +22,20 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
+    <!-- fecha de ingreso -->
+    <mat-form-field appearance="fill" class="fechaIngreso">
+      <mat-label>Fecha ingreso</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fechaIngresoPicker"
+        formControlName="fechaIngreso"
+        readonly="true" />
+      <mat-datepicker-toggle
+        *ngIf="modoFormulario === 'CREANDO'"
+        matSuffix
+        [for]="fechaIngresoPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fechaIngresoPicker></mat-datepicker>
+    </mat-form-field>
     <!-- sede id -->
     <mat-form-field appearance="fill" class="sedeId">
       <mat-label>Sede</mat-label>
@@ -39,20 +53,6 @@
         (click)="buscarSede()">
         <mat-icon>search</mat-icon>
       </button>
-    </mat-form-field>
-    <!-- fecha de ingreso -->
-    <mat-form-field appearance="fill" class="fechaIngreso">
-      <mat-label>Fecha ingreso</mat-label>
-      <input
-        matInput
-        [matDatepicker]="fechaIngresoPicker"
-        formControlName="fechaIngreso"
-        readonly="true" />
-      <mat-datepicker-toggle
-        *ngIf="modoFormulario === 'CREANDO'"
-        matSuffix
-        [for]="fechaIngresoPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fechaIngresoPicker></mat-datepicker>
     </mat-form-field>
     <!-- responsable id -->
     <mat-form-field appearance="fill" class="responsableId">
@@ -114,6 +114,7 @@
           formulario.value.estadoUsoId | denominacionEstadoUso | async
         " />
       <button
+        *ngIf="modoFormulario === 'CREANDO'"
         type="button"
         mat-icon-button
         matSuffix
@@ -135,6 +136,7 @@
             | async
         " />
       <button
+        *ngIf="modoFormulario === 'CREANDO'"
         type="button"
         mat-icon-button
         matSuffix

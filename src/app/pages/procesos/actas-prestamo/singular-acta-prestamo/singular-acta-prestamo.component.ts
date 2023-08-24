@@ -49,14 +49,14 @@ export class SingularActaPrestamoComponent implements Entidad {
     private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [undefined],
-      id: [undefined],
+      empresaId: [''],
+      id: [''],
       comprobante: ['AUTOGENERADO'],
-      unidadAdministrativaCedente: [undefined, Validators.required],
-      unidadCedenteResponsable: [undefined, Validators.required],
-      unidadAdministrativaReceptora: [undefined, Validators.required],
-      unidadReceptoraResponsable: [undefined, Validators.required],
-      testigo: [undefined, Validators.required],
+      unidadAdministrativaCedente: ['', Validators.required],
+      unidadCedenteResponsable: ['', Validators.required],
+      unidadAdministrativaReceptora: ['', Validators.required],
+      unidadReceptoraResponsable: ['', Validators.required],
+      testigo: ['', Validators.required],
       notas: [undefined],
       activos: [[]],
       creado: [new Date()],
@@ -350,8 +350,17 @@ export class SingularActaPrestamoComponent implements Entidad {
   reiniciarFormulario() {
     this.formulario.reset();
     this.formulario.patchValue({
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: '',
+      id: '',
+      comprobante: 'AUTOGENERADO',
+      unidadAdministrativaCedente: '',
+      unidadCedenteResponsable: '',
+      unidadAdministrativaReceptora: '',
+      unidadReceptoraResponsable: '',
+      testigo: '',
+      activos: [],
+      creado: new Date(),
+      modificado: new Date(),
     });
     this.dataSource = new MatTableDataSource();
     this.actualizarFormulario();
