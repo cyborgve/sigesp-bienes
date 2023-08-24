@@ -1,18 +1,5 @@
 <form [formGroup]="formulario">
   <section class="contenido">
-    <!-- sede id -->
-    <mat-form-field appearance="fill" class="sedeId">
-      <mat-label>Sede</mat-label>
-      <input
-        type="text"
-        matInput
-        formControlName="sedeId"
-        readonly="true"
-        [value]="formulario.value.sedeId | denominacionSede | async" />
-      <button type="button" mat-icon-button matSuffix (click)="buscarSede()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
     <!-- unidad administrativa id -->
     <mat-form-field appearance="fill" class="unidadAdministrativaId">
       <mat-label>Unidad administrativa</mat-label>
@@ -27,10 +14,29 @@
             | async
         " />
       <button
+        *ngIf="modoFormulario === 'CREANDO'"
         type="button"
         mat-icon-button
         matSuffix
         (click)="buscarUnidadAdministrativa()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- sede id -->
+    <mat-form-field appearance="fill" class="sedeId">
+      <mat-label>Sede</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="sedeId"
+        readonly="true"
+        [value]="formulario.value.sedeId | denominacionSede | async" />
+      <button
+        *ngIf="modoFormulario === 'CREANDO'"
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarSede()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
@@ -43,6 +49,7 @@
         formControlName="fechaIngreso"
         readonly="true" />
       <mat-datepicker-toggle
+        *ngIf="modoFormulario === 'CREANDO'"
         matSuffix
         [for]="fechaIngresoPicker"></mat-datepicker-toggle>
       <mat-datepicker #fechaIngresoPicker></mat-datepicker>
@@ -63,6 +70,7 @@
             | corregirSeleccionar
         " />
       <button
+        *ngIf="modoFormulario === 'CREANDO'"
         type="button"
         mat-icon-button
         matSuffix
@@ -86,6 +94,7 @@
             | corregirSeleccionar
         " />
       <button
+        *ngIf="modoFormulario === 'CREANDO'"
         type="button"
         mat-icon-button
         matSuffix

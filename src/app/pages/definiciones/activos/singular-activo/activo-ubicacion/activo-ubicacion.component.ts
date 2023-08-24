@@ -8,6 +8,7 @@ import { BuscadorEstadoConservacionComponent } from '@pages/definiciones/estados
 import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.component';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
+import { ModoFormulario } from '@core/types/modo-formulario';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -16,6 +17,7 @@ import { BuscadorResponsableComponent } from '@shared/components/buscador-respon
 })
 export class ActivoUbicacionComponent {
   @Input() formulario: FormGroup = new FormGroup({});
+  @Input() modoFormulario: ModoFormulario;
 
   constructor(private _dialog: MatDialog) {}
 

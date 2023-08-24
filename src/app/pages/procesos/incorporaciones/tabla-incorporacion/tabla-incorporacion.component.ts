@@ -18,7 +18,12 @@ import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { IncorporacionService } from '@core/services/procesos/incorporacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { pipe } from 'rxjs';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+
+const filtroInicial = () =>
+  pipe(map((incorporacioes: Incorporacion[]) => incorporacioes));
 
 @Component({
   selector: 'app-tabla-incorporacion',
@@ -33,6 +38,7 @@ export class TablaIncorporacionComponent
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.INCORPORACIONES;
+  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/procesos/incorporaciones';
@@ -55,12 +61,13 @@ export class TablaIncorporacionComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

@@ -33,7 +33,8 @@
               [formulario]="formularioDepreciacion"></app-activo-depreciacion>
             <app-activo-ubicacion
               *ngSwitchCase="'ubicación'"
-              [formulario]="formularioUbicacion"></app-activo-ubicacion>
+              [formulario]="formularioUbicacion"
+              [modoFormulario]="modoFormulario"></app-activo-ubicacion>
           </ng-container>
         </article>
       </mat-tab>

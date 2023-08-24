@@ -147,7 +147,7 @@ export class SingularIncorporacionComponent implements Entidad {
       pipe(
         map((incorporaciones: Incorporacion[]) =>
           incorporaciones.sort((a, b) =>
-            a.comprobante > b.comprobante ? 1 : -1
+            a.comprobante > b.comprobante ? -1 : 1
           )
         )
       );

@@ -13,18 +13,14 @@ import { Observable } from 'rxjs';
 export class XLSXService {
   constructor(private _informacionProceso: InformacionProcesoService) {}
 
-  exportarProcesoExcel(
-    data: any,
-    tipo: TipoProceso,
-    comprobante: string
-  ): void {
+  exportarProcesoExcel(data: any, tipo: TipoProceso): void {
     this._informacionProceso
       .obtener(data, tipo)
       .pipe(
         tap((proceso: any) => {
           let fileName = `sbn_${prepararNombreArchivo(
             tipo
-          )}_${comprobante}.xlsx`;
+          )}_${data.comprobante.substring(5)}.xlsx`;
           let workBook = XLSX.utils.book_new();
           let parseWorkSheet = () => XLSX.utils.json_to_sheet([proceso]);
           let writeFile = (fileName: string) =>

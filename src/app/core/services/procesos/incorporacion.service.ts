@@ -13,6 +13,7 @@ import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporacion';
 import { XLSXService } from '../auxiliares/xlsx.service';
 import { PdfService } from '../auxiliares/pdf.service';
+import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,8 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _snackBar: MatSnackBar,
     private _incorporacionActivo: IncorporacionActivoService,
     private _xlsx: XLSXService,
-    private _pdf: PdfService
+    private _pdf: PdfService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -77,12 +79,35 @@ export class IncorporacionService extends GenericService<Incorporacion> {
           })
         );
       }),
-      tap(incorporacion => {
-        this._xlsx.exportarProcesoExcel(
-          incorporacion,
-          'INCORPORACIÓN',
-          String(incorporacion.comprobante).substring(5)
+      switchMap(incorporacionGuardada => {
+        let peticionActivos = incorporacionGuardada.activos.map(activoProceso =>
+          this._activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
+            map(activoUbicacion => {
+              activoUbicacion.unidadAdministrativaId =
+                incorporacionGuardada.unidadAdministrativa;
+              activoUbicacion.sedeId = incorporacionGuardada.sede;
+              activoUbicacion.responsableId =
+                incorporacionGuardada.responsablePrimario;
+              activoUbicacion.responsableUsoId =
+                incorporacionGuardada.responsableUso;
+              activoUbicacion.fechaIngreso = incorporacionGuardada.fechaEntrega;
+              return activoUbicacion;
+            })
+          )
         );
+        return forkJoin(peticionActivos).pipe(
+          switchMap(activosIncorporar => {
+            let incorporarActivos = activosIncorporar.map(act =>
+              this._activoUbicacion.actualizar(act.id, act, undefined, false)
+            );
+            return forkJoin(incorporarActivos).pipe(
+              map(() => incorporacionGuardada)
+            );
+          })
+        );
+      }),
+      tap(incorporacion => {
+        this._xlsx.exportarProcesoExcel(incorporacion, 'INCORPORACIÓN');
       }),
       tap(incorporacion => this._pdf.generarIncorporacion(incorporacion))
     );
