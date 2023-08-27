@@ -1,4 +1,5 @@
-import { tap, take, first, filter, switchMap } from 'rxjs/operators';
+import { tap, take, first, filter, switchMap, map } from 'rxjs/operators';
+import { forkJoin, pipe } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,6 +24,7 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Activo } from '@core/models/definiciones/activo';
 import { convertirUnidadTiempo } from '@core/utils/funciones/convertir-unidad-tiempo';
 import { calcularDepreciacion } from '@core/utils/funciones/calcular-depreciacion';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -47,7 +49,8 @@ export class SingularDepreciacionComponent implements Entidad {
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
     private _depreciacionDetalle: DepreciacionDetalleService,
-    private _activo: ActivoService
+    private _activo: ActivoService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -214,6 +217,17 @@ export class SingularDepreciacionComponent implements Entidad {
   }
 
   buscarActivo() {
+    let activosDepreciables = () =>
+      pipe(
+        switchMap((activosParciales: Activo[]) => {
+          let ubicacionesPeticiones = activosParciales.map(activoParcial =>
+            this._activoUbicacion.buscarPorActivo(activoParcial.id)
+          );
+          return forkJoin(ubicacionesPeticiones).pipe(
+            map(([ubicaciones]) => ubicaciones)
+          );
+        })
+      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',

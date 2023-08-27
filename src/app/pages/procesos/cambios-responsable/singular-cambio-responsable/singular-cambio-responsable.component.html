@@ -62,24 +62,25 @@
             matInput
             formControlName="responsableActual"
             readonly="true"
-            [value]="formulario.value.responsableActual" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarResponsableActual()">
-            <mat-icon>search</mat-icon>
-          </button>
+            [value]="
+              formulario.value.responsableActual
+                | denominacionResponsable
+                | async
+            " />
         </mat-form-field>
         <!-- nuevoResponsable -->
         <mat-form-field appearance="fill" class="nuevoResponsable">
-          <mat-label>Responsable actual</mat-label>
+          <mat-label>Nuevo responsable</mat-label>
           <input
             type="text"
             matInput
             formControlName="nuevoResponsable"
             readonly="true"
-            [value]="formulario.value.nuevoResponsable" />
+            [value]="
+              formulario.value.nuevoResponsable
+                | denominacionResponsable
+                | async
+            " />
           <button
             type="button"
             mat-icon-button

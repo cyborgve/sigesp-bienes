@@ -14,7 +14,8 @@ export function calcularDepreciacion(
   vidaUtil: number,
   metodo: MetodoDepreciacion,
   tiempo: number,
-  enMeses: boolean = false
+  enMeses: boolean = false,
+  valorSalvamento?: number
 ): number {
   // Si el tiempo se proporciona en meses, lo convertimos a años para un cálculo uniforme.
   const tiempoEnAnios = enMeses ? tiempo / 12 : tiempo;
@@ -41,7 +42,8 @@ export function calcularDepreciacion(
       return calcularDepreciacionSaldoDecreciente(
         valorInicial,
         vidaUtil,
-        tiempoEnAnios
+        tiempoEnAnios,
+        valorSalvamento
       );
     case 'SUMA DE DIGITOS':
       return calcularDepreciacionSumaDigitos(
@@ -86,12 +88,14 @@ function calcularDepreciacionLineaRecta(
 function calcularDepreciacionSaldoDecreciente(
   valorInicial: number,
   vidaUtil: number,
-  tiempo: number
+  tiempo: number,
+  valorSalvamento: number
 ): number {
-  const tasa = 1.5; // Tasa de depreciación (ajustar según el caso)
+  const tasaDepreciacion =
+    1 - Math.pow(valorSalvamento / valorInicial, 1 / vidaUtil);
   let valorLibro = valorInicial;
   for (let i = 1; i <= tiempo; i++) {
-    valorLibro -= valorLibro * (tasa / 100);
+    valorLibro -= valorLibro * tasaDepreciacion;
   }
   return valorInicial - valorLibro;
 }

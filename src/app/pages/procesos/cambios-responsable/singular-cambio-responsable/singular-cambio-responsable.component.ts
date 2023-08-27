@@ -1,5 +1,6 @@
+import { TipoResponsable } from '@core/types/tipo-responsable';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,20 +15,24 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { CambioResponsableService } from '@core/services/procesos/cambio-responsable.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { BuscadorCambioResponsableComponent } from '../buscador-cambio-responsable/buscador-cambio-responsable.component';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { TIPOS_RESPONSABLE } from '@core/constants/tipos-responsable';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { Responsable } from '@core/models/otros-modulos/responsable';
+import { Subscription, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-singular-cambio-responsable',
   templateUrl: './singular-cambio-responsable.component.html',
   styleUrls: ['./singular-cambio-responsable.component.scss'],
 })
-export class SingularCambioResponsableComponent implements Entidad {
+export class SingularCambioResponsableComponent
+  implements Entidad, OnInit, OnDestroy
+{
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[31].nombre;
@@ -35,6 +40,11 @@ export class SingularCambioResponsableComponent implements Entidad {
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.CAMBIOS_RESPONSABLE;
   tiposResponsable = TIPOS_RESPONSABLE;
+
+  responsables: { responsablePrimario: Id; responsableUso: Id } = {
+    responsablePrimario: '',
+    responsableUso: '',
+  };
 
   constructor(
     private _entidad: CambioResponsableService,
@@ -62,6 +72,31 @@ export class SingularCambioResponsableComponent implements Entidad {
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnInit(): void {
+    this.subscripciones.push(
+      this.formulario.controls['tipoResponsable'].valueChanges
+        .pipe(
+          tap(console.log),
+          tap((tipoResponsable: any) =>
+            tipoResponsable === 1
+              ? this.formulario.patchValue({
+                  responsableActual: this.responsables.responsableUso,
+                })
+              : tipoResponsable === 0
+              ? this.formulario.patchValue({
+                  responsableActual: this.responsables.responsablePrimario,
+                })
+              : undefined
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(sub => sub.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -173,6 +208,7 @@ export class SingularCambioResponsableComponent implements Entidad {
   irAtras() {
     this._location.back();
   }
+
   irAlInicio() {
     this._router.navigate(['/procesos']);
   }
@@ -189,6 +225,13 @@ export class SingularCambioResponsableComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        switchMap((activo: Activo) => {
+          if (activo) {
+            let solicitarActivo = this._activo.buscarPorId(activo.id);
+            return forkJoin([solicitarActivo]).pipe(map(([activo]) => activo));
+          }
+          return undefined;
+        }),
         tap((activo: Activo) => {
           if (activo) {
             this.formulario.patchValue({
@@ -196,28 +239,17 @@ export class SingularCambioResponsableComponent implements Entidad {
               identificador: activo.serialRotulacion,
               serial: activo.serialFabrica,
             });
+            this.responsables = {
+              responsablePrimario: activo.ubicacion.responsableId,
+              responsableUso: activo.ubicacion.responsableUsoId,
+            };
           }
         }),
         take(1)
       )
       .subscribe();
   }
-  buscarResponsableActual() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        tap((responsable: Responsable) => {
-          if (responsable) {
-            this.formulario.patchValue({ responsableActual: responsable.id });
-          }
-        })
-      )
-      .subscribe();
-  }
+
   buscarNuevoResponsable() {
     let dialog = this._dialog.open(BuscadorResponsableComponent, {
       height: '95%',
