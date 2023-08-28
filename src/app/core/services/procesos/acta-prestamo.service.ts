@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActaPrestamoActivoService } from './acta-prestamo-activo.service';
+import { XLSXService } from '../auxiliares/xlsx.service';
+import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,9 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
     protected _http: HttpClient,
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
-    private _actaPrestamoActivo: ActaPrestamoActivoService
+    private _actaPrestamoActivo: ActaPrestamoActivoService,
+    private _activoUbicacion: ActivoUbicacionService,
+    private _xslx: XLSXService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -50,18 +54,53 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
   ): Observable<ActaPrestamo> {
     if (!notificar) notificar = true;
     return super.guardar(actaPrestamo, tipoDato, notificar).pipe(
-      switchMap(acta => {
-        let guardarActivos = actaPrestamo.activos.map(apa => {
-          apa.actaPrestamo = acta.id;
-          return this._actaPrestamoActivo.guardar(apa, undefined, false);
+      switchMap(actaPrestamoGuardada => {
+        let guardarActivos = actaPrestamo.activos.map(activoProceso => {
+          activoProceso.proceso = actaPrestamoGuardada.id;
+          return this._actaPrestamoActivo.guardar(
+            activoProceso,
+            undefined,
+            false
+          );
         });
         return forkJoin(guardarActivos).pipe(
-          map(actaPrestamoActivos => {
-            acta.activos = actaPrestamoActivos;
-            return acta;
+          map(activosGuardados => {
+            actaPrestamoGuardada.activos = activosGuardados;
+            return actaPrestamoGuardada;
           })
         );
-      })
+      }),
+      switchMap(actaPrestamoGuardada => {
+        let ubicacionActivos = actaPrestamoGuardada.activos.map(activoProceso =>
+          this._activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
+            map(activoUbicacion => {
+              activoUbicacion.unidadAdministrativaId =
+                actaPrestamoGuardada.unidadAdministrativaReceptora;
+              activoUbicacion.responsableUsoId =
+                actaPrestamoGuardada.unidadReceptoraResponsable;
+              return activoUbicacion;
+            })
+          )
+        );
+        return forkJoin(ubicacionActivos).pipe(
+          switchMap(activosUbicados => {
+            let prestarActivos = activosUbicados.map(activoUbicado =>
+              this._activoUbicacion.actualizar(
+                activoUbicado.id,
+                activoUbicado,
+                undefined,
+                false
+              )
+            );
+            return forkJoin(prestarActivos).pipe(
+              map(() => actaPrestamoGuardada)
+            );
+          })
+        );
+      }),
+      tap(actaPrestamo =>
+        this._xslx.exportarProcesoExcel(actaPrestamo, 'ACTA DE PRESTAMO')
+      )
     );
   }
 

@@ -78,7 +78,6 @@ export class SingularCambioResponsableComponent
     this.subscripciones.push(
       this.formulario.controls['tipoResponsable'].valueChanges
         .pipe(
-          tap(console.log),
           tap((tipoResponsable: any) =>
             tipoResponsable === 1
               ? this.formulario.patchValue({

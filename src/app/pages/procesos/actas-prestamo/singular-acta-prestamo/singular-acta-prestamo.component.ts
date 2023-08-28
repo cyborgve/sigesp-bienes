@@ -12,7 +12,6 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
-import { ActaPrestamoActivo } from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
@@ -22,8 +21,9 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { prepararActaPrestamo } from '@core/utils/funciones/preparar-acta-prestamo';
 import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs.ts/adaptar-acta-prestamo';
-import { convertirActaPrestamoActivo } from '@core/utils/funciones/convertir-acta-prestamo-activo';
 import { Entidad } from '@core/models/auxiliares/entidad';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -35,7 +35,7 @@ export class SingularActaPrestamoComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[29].nombre;
   formulario: FormGroup;
-  dataSource: MatTableDataSource<ActaPrestamoActivo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'];
 
   constructor(
@@ -313,7 +313,7 @@ export class SingularActaPrestamoComponent implements Entidad {
           activo
             ? (this.dataSource = new MatTableDataSource([
                 ...this.dataSource.data,
-                convertirActaPrestamoActivo(activo),
+                convertirActivoProceso(activo),
               ]))
             : undefined
         ),
@@ -321,11 +321,14 @@ export class SingularActaPrestamoComponent implements Entidad {
           this.formulario.patchValue({
             activos: [
               ...this.formulario.value.activos,
-              <ActaPrestamoActivo>{
+              <ActivoProceso>{
                 empresaId: activo.id,
                 id: undefined,
-                actaPrestamo: undefined,
+                proceso: undefined,
                 activo: activo.id,
+                codigo: activo.codigo,
+                tipoActivo: activo.tipoActivo,
+                denominacion: activo.denominacion,
                 creado: new Date(),
                 modificado: new Date(),
               },
@@ -338,7 +341,7 @@ export class SingularActaPrestamoComponent implements Entidad {
   }
 
   eliminarActivo(activo: Activo) {
-    let activos = this.formulario.value.activos as ActaPrestamoActivo[];
+    let activos = this.formulario.value.activos as ActivoProceso[];
     activos.splice(activos.findIndex(a => a.activo === activo.id));
     this.dataSource = new MatTableDataSource(activos);
   }

@@ -1,6 +1,4 @@
 import { Retorno } from '@core/models/procesos/retorno';
-import { RetornoActivo } from './../../models/procesos/retorno';
-import { TipoResponsable } from '@core/types/tipo-responsable';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
@@ -8,7 +6,6 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { Id } from '@core/types/id';
 import { TipoProceso } from '@core/types/tipo-proceso';
-import { IncorporacionService } from '../procesos/incorporacion.service';
 import { EmpresaService } from '../otros-modulos/empresa.service';
 import { CausaMovimientoService } from '../definiciones/causa-movimiento.service';
 import { ResponsableService } from '../otros-modulos/responsable.service';
@@ -23,6 +20,8 @@ import { Desincorporacion } from '@core/models/procesos/desincorporacion';
 import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
 import { Modificacion } from '@core/models/procesos/modificacion';
 import { Reasignacion } from '@core/models/procesos/reasignacion';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +103,22 @@ export class InformacionProcesoService {
 
   private activo = (id: Id) => this.denominacionEntidad(this._activo, id);
 
+  private tipoActivo = (tipoAct: string) =>
+    TIPOS_ACTIVO.find(tipoActivo => tipoActivo.substring(0, 3) === tipoAct);
+
+  private activosProceso = (activosProceso: ActivoProceso[], empresa: string) =>
+    activosProceso.map(activoProceso => ({
+      empresaId: empresa,
+      id: activoProceso.id,
+      proceso: activoProceso.proceso,
+      activo: activoProceso.proceso,
+      tipoActivo: this.tipoActivo(activoProceso.tipoActivo),
+      codigo: activoProceso.codigo.substring(5),
+      denominacion: activoProceso.denominacion,
+      creado: new Date(activoProceso.creado),
+      modificado: new Date(activoProceso.modificado),
+    }));
+
   private actaPrestamo(actaPrestamo: ActaPrestamo): Observable<any> {
     let obtenerInformacion = [
       this.empresa(actaPrestamo.empresaId),
@@ -122,20 +137,23 @@ export class InformacionProcesoService {
           unidadReceptora,
           responsableReceptora,
           testigo,
-        ]) => ({
-          empresa: empresa,
-          id: actaPrestamo.id,
-          comprobante: actaPrestamo.comprobante.toString().substring(5),
-          unidadAdministrativaCedente: unidadCedente,
-          unidadCedenteResponsable: responsableCedente,
-          unidadAdministrativaReceptora: unidadReceptora,
-          unidadReceptoraResponsable: responsableReceptora,
-          testigo: testigo,
-          notas: actaPrestamo.notas,
-          activos: actaPrestamo.activos,
-          creado: new Date(actaPrestamo.creado),
-          modificado: new Date(actaPrestamo.modificado),
-        })
+        ]) => {
+          let informacionActaPrestamo = {
+            empresa: empresa,
+            id: actaPrestamo.id,
+            comprobante: actaPrestamo.comprobante.toString().substring(5),
+            unidadAdministrativaCedente: unidadCedente,
+            unidadCedenteResponsable: responsableCedente,
+            unidadAdministrativaReceptora: unidadReceptora,
+            unidadReceptoraResponsable: responsableReceptora,
+            testigo: testigo,
+            notas: actaPrestamo.notas,
+            activos: this.activosProceso(actaPrestamo.activos, empresa),
+            creado: new Date(actaPrestamo.creado),
+            modificado: new Date(actaPrestamo.modificado),
+          };
+          return informacionActaPrestamo;
+        }
       )
     );
   }
@@ -281,7 +299,7 @@ export class InformacionProcesoService {
   }
 
   private incorporacion(incorporacion: Incorporacion): Observable<any> {
-    const obtenerDenominaciones = [
+    let obtenerinformacion = [
       this.empresa(incorporacion.empresaId),
       this.causaMovimiento(incorporacion.causaMovimiento),
       this.responsable(incorporacion.responsablePrimario),
@@ -289,7 +307,7 @@ export class InformacionProcesoService {
       this.unidadAdministrativa(incorporacion.unidadAdministrativa),
       this.sede(incorporacion.sede),
     ];
-    return forkJoin(obtenerDenominaciones).pipe(
+    return forkJoin(obtenerinformacion).pipe(
       map(
         ([
           empresa,
@@ -298,32 +316,35 @@ export class InformacionProcesoService {
           responsableUso,
           unidadAdministrativa,
           sede,
-        ]) => ({
-          empresaId: empresa,
-          id: incorporacion.id,
-          comprobante: incorporacion.comprobante.toString().substring(5),
-          causaMovimiento: causaMovimiento,
-          responsablePrimario: responsablePrimario,
-          responsableUso: responsableUso,
-          unidadAdministrativa: unidadAdministrativa,
-          sede: sede,
-          fechaEntrega: incorporacion.fechaEntrega,
-          observaciones: incorporacion.observaciones,
-          activos: incorporacion.activos,
-          creado: incorporacion.creado,
-          modificado: incorporacion.modificado,
-        })
+        ]) => {
+          let informacionIncorporacion = {
+            empresaId: empresa,
+            id: incorporacion.id,
+            comprobante: incorporacion.comprobante.toString().substring(5),
+            causaMovimiento: causaMovimiento,
+            responsablePrimario: responsablePrimario,
+            responsableUso: responsableUso,
+            unidadAdministrativa: unidadAdministrativa,
+            sede: sede,
+            fechaEntrega: incorporacion.fechaEntrega,
+            observaciones: incorporacion.observaciones,
+            activos: this.activosProceso(incorporacion.activos, empresa),
+            creado: incorporacion.creado,
+            modificado: incorporacion.modificado,
+          };
+          return informacionIncorporacion;
+        }
       )
     );
   }
 
   private modificacion(modificacion: Modificacion): Observable<any> {
-    let buscarInformacion = [
+    let obtenerInformacion = [
       this.empresa(modificacion.empresaId),
       this.causaMovimiento(modificacion.causaMovimiento),
       this.activo(modificacion.activo),
     ];
-    return forkJoin(buscarInformacion).pipe(
+    return forkJoin(obtenerInformacion).pipe(
       map(([empresa, causaMovimiento, activo]) => ({
         empresaId: empresa,
         id: modificacion.id,

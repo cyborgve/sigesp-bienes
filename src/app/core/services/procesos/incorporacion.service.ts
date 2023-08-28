@@ -29,7 +29,6 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _snackBar: MatSnackBar,
     private _incorporacionActivo: IncorporacionActivoService,
     private _xlsx: XLSXService,
-    private _pdf: PdfService,
     private _activoUbicacion: ActivoUbicacionService
   ) {
     super(_http, _sigesp, _snackBar);
@@ -80,24 +79,26 @@ export class IncorporacionService extends GenericService<Incorporacion> {
         );
       }),
       switchMap(incorporacionGuardada => {
-        let peticionActivos = incorporacionGuardada.activos.map(activoProceso =>
-          this._activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
-            map(activoUbicacion => {
-              activoUbicacion.unidadAdministrativaId =
-                incorporacionGuardada.unidadAdministrativa;
-              activoUbicacion.sedeId = incorporacionGuardada.sede;
-              activoUbicacion.responsableId =
-                incorporacionGuardada.responsablePrimario;
-              activoUbicacion.responsableUsoId =
-                incorporacionGuardada.responsableUso;
-              activoUbicacion.fechaIngreso = incorporacionGuardada.fechaEntrega;
-              return activoUbicacion;
-            })
-          )
+        let ubicacionActivos = incorporacionGuardada.activos.map(
+          activoProceso =>
+            this._activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
+              map(activoUbicacion => {
+                activoUbicacion.unidadAdministrativaId =
+                  incorporacionGuardada.unidadAdministrativa;
+                activoUbicacion.sedeId = incorporacionGuardada.sede;
+                activoUbicacion.responsableId =
+                  incorporacionGuardada.responsablePrimario;
+                activoUbicacion.responsableUsoId =
+                  incorporacionGuardada.responsableUso;
+                activoUbicacion.fechaIngreso =
+                  incorporacionGuardada.fechaEntrega;
+                return activoUbicacion;
+              })
+            )
         );
-        return forkJoin(peticionActivos).pipe(
-          switchMap(activosIncorporar => {
-            let incorporarActivos = activosIncorporar.map(act =>
+        return forkJoin(ubicacionActivos).pipe(
+          switchMap(activosUbicados => {
+            let incorporarActivos = activosUbicados.map(act =>
               this._activoUbicacion.actualizar(act.id, act, undefined, false)
             );
             return forkJoin(incorporarActivos).pipe(
@@ -109,7 +110,6 @@ export class IncorporacionService extends GenericService<Incorporacion> {
       tap(incorporacion => {
         this._xlsx.exportarProcesoExcel(incorporacion, 'INCORPORACIÓN');
       })
-      //tap(incorporacion => this._pdf.generarIncorporacion(incorporacion))
     );
   }
 }
