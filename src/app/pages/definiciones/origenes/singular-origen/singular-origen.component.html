@@ -103,7 +103,13 @@
             type="text"
             matInput
             formControlName="proveedorId"
-            readonly="true" />
+            readonly="true"
+            [value]="
+              formulario.value.proveedorId
+                | denominacionProveedor
+                | async
+                | titlecase
+            " />
           <button
             type="button"
             mat-icon-button
@@ -133,12 +139,46 @@
         <!-- nombreBenefactor -->
         <mat-form-field appearance="fill" class="nombreBenefactor">
           <mat-label>Nombre del Benefactor</mat-label>
-          <input type="text" matInput formControlName="nombreBenefactor" />
+          <input
+            type="text"
+            matInput
+            formControlName="nombreBenefactor"
+            readonly="true"
+            [value]="
+              formulario.value.nombreBenefactor
+                | denominacionBeneficiario
+                | async
+                | titlecase
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarBenefactor()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- nombreBeneficiario -->
         <mat-form-field appearance="fill" class="nombreBeneficiario">
           <mat-label>Nombre del Beneficiario</mat-label>
-          <input type="text" matInput formControlName="nombreBeneficiario" />
+          <input
+            type="text"
+            matInput
+            formControlName="nombreBeneficiario"
+            readonly="true"
+            [value]="
+              formulario.value.nombreBeneficiario
+                | denominacionBeneficiario
+                | async
+                | titlecase
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarBeneficiario()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- observaciones -->
         <mat-form-field appearance="fill" class="observaciones">

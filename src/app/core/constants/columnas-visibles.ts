@@ -182,7 +182,8 @@ export const COLUMNAS_VISIBLES = {
   CIUDADES: ['codigo', 'denominacion', 'estadoId', 'creado', 'modificado'],
   FUENTES_FINANCIEMIENTO: ['codigo', 'denominacion', 'creado', 'modificado'],
   CENTROS_COSTO: ['codigo', 'denominacion', 'creado', 'modificado'],
-  PROVEEDORES: ['codigo', 'denominacion', 'creado', 'modificado'],
+  PROVEEDORES: ['rif', 'denominacion', 'creado', 'modificado'],
+  BENEFICIARIOS: ['cedula', 'nombre', 'creado', 'modificado'],
   PARROQUIAS: ['codigo', 'denominacion', 'municipioId', 'creado', 'modificado'],
 
   /** PROCESOS */
@@ -195,8 +196,8 @@ export const COLUMNAS_VISIBLES = {
   ],
   AUTORIZACIONES_SALIDA: [
     'comprobante',
-    'unidadAdministrativaCedente',
-    'empresaPersonalEntrega',
+    'unidadAdministrativa',
+    'empresaAutorizada',
     'creado',
     'modificado',
   ],

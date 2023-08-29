@@ -1,10 +1,9 @@
-.comprobante,
-.unidadAdministrativaCedente,
-.empresaPersonaEntrega,
-.representanteEmpresa {
-  @apply col-span-4;
+.empresaAutorizada,
+.personaAutorizada {
+  @apply col-span-6;
 }
 
+.unidadAdministrativa,
 .explicacion,
 .observaciones {
   @apply col-start-1 col-span-full;

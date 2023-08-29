@@ -190,18 +190,19 @@ export class InformacionProcesoService {
   ): Observable<any> {
     let obtenerInformacion = [
       this.empresa(autorizacionSalida.empresaId),
-      this.unidadAdministrativa(autorizacionSalida.unidadAdministrativaCedente),
+      this.unidadAdministrativa(autorizacionSalida.unidadAdministrativa),
     ];
     return forkJoin(obtenerInformacion).pipe(
       map(([empresa, unidadAdministrativaCedente]) => ({
         empresaId: empresa,
         id: autorizacionSalida.id,
         comprobante: autorizacionSalida.comprobante.toString().substring(5),
-        unidadAdministrativaCedente: unidadAdministrativaCedente,
-        empresaPersonaEntrega: autorizacionSalida.empresaPersonaEntrega,
-        representanteEmpresa: autorizacionSalida.representanteEmpresa,
+        unidadAdministrativa: unidadAdministrativaCedente,
+        empresaAutorizada: autorizacionSalida.empresaAutorizada,
+        personaAutorizada: autorizacionSalida.personaAutorizada,
         explicacion: autorizacionSalida.explicacion,
         observaciones: autorizacionSalida.observaciones,
+        activos: this.activosProceso(autorizacionSalida.activos, empresa),
         creado: new Date(autorizacionSalida.creado),
         modificado: new Date(autorizacionSalida.modificado),
       }))

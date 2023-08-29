@@ -1,16 +1,13 @@
 import { Id } from '@core/types/id';
 import { Basica } from '../auxiliares/basica';
+import { ActivoProceso } from '../auxiliares/activo-proceso';
 
 export interface AutorizacionSalida extends Basica {
-  comprobante: Id;
-  unidadAdministrativaCedente: Id;
-  empresaPersonaEntrega: Id;
-  representanteEmpresa: Id;
+  comprobante: string;
+  unidadAdministrativa: Id;
+  empresaAutorizada: Id;
+  personaAutorizada: Id;
   explicacion: string;
   observaciones: string;
-}
-
-export interface AutorizacionSalidaActivo extends Basica {
-  autorizacionSalida: Id;
-  activo: Id;
+  activos: ActivoProceso[];
 }

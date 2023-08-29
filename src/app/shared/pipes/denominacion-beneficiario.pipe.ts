@@ -1,4 +1,6 @@
+import { map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
+import { BeneficiarioService } from '@core/services/otros-modulos/beneficiario.service';
 import { Id } from '@core/types/id';
 import { Observable, of } from 'rxjs';
 
@@ -7,7 +9,15 @@ import { Observable, of } from 'rxjs';
 })
 export class DenominacionBeneficiarioPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
-    return of(String(value));
+    return this._beneficiario
+      .buscarPorId(value)
+      .pipe(
+        map(beneficiario =>
+          beneficiario
+            ? beneficiario.cedula + ' ' + beneficiario.nombre
+            : String(value)
+        )
+      );
   }
-  constructor() {}
+  constructor(private _beneficiario: BeneficiarioService) {}
 }

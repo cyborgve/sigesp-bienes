@@ -1,0 +1,11 @@
+1. Proceso Acta de prestamo:
+    En el proceso interno de prestar un activo, solo se asigna un responsable al que coloque el responsable de uso,
+    asumiendo que aunque el prestamo se hace entre unidades el responsable de uso define quien tiene el activo en
+    ese momento o en el ultimo registro, tambien me gustaria cambiar el estado de uso del activo pero como ese campo
+     es variable no hay en este momento de donde obtener esa informacion.
+    Pretendo agregar filtros en la seleccion de unidad administrativa cedente(debe poseer activos asignados para prestar);
+    tambien en la unidad administrativa receptora, que no debe mostrar como opcion la unidad administrativa cedente, en 
+    los activos a agregar deben salir solo los que esten asignados a la unidad cedente y que esten disponobles para prestar.
+    Solicitar ayuda a los desarrolladores para generar los movimientos contables.
+
+2.

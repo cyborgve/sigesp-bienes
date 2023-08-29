@@ -62,6 +62,10 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     valor: 'dao/sbn/acta-prestamo-activo-dao.php',
   },
   { clave: 'autorizacionSalida', valor: 'dao/sbn/autorizacion-salida-dao.php' },
+  {
+    clave: 'autorizacionSalidaActivo',
+    valor: 'dao/sbn/autorizacion-salida-activo-dao.php',
+  },
   { clave: 'cambioResponsable', valor: 'dao/sbn/cambio-responsable-dao.php' },
   { clave: 'depreciacion', valor: 'dao/sbn/depreciacion-dao.php' },
   {

@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs';
 import { MODOS_ADQUISICION } from '@core/constants/modos-adquisicion';
 import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedor/buscador-proveedor.component';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
+import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
+import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
 
 @Component({
   selector: 'app-singular-origen',
@@ -52,7 +54,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       nombreFormaAdquisicion: ['', Validators.maxLength(16)],
       fechaFactura: [new Date()],
       numeroFactura: [''],
-      proveedorId: ['---'],
+      proveedorId: [''],
       tomo: [''],
       folio: [''],
       nombrePropietarioAnterior: [''],
@@ -215,6 +217,42 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
         tap((proveedor: Proveedor) => {
           if (proveedor) {
             this.formulario.patchValue({ proveedorId: proveedor.id });
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  buscarBenefactor() {
+    let dialog = this._dialog.open(BuscadorBeneficiarioComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((beneficiario: Beneficiario) => {
+          if (beneficiario) {
+            this.formulario.patchValue({ nombreBenefactor: beneficiario.id });
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  buscarBeneficiario() {
+    let dialog = this._dialog.open(BuscadorBeneficiarioComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((beneficiario: Beneficiario) => {
+          if (beneficiario) {
+            this.formulario.patchValue({ nombreBeneficiario: beneficiario.id });
           }
         }),
         take(1)

@@ -8,7 +8,6 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { Activo } from '@core/models/definiciones/activo';
-import { ActivoService } from '@core/services/definiciones/activo.service';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { Id } from '@core/types/id';
@@ -20,6 +19,8 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 
 @Component({
   selector: 'app-singular-autorizacion-salida',
@@ -31,7 +32,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[30].nombre;
   formulario: FormGroup;
-  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.AUTORIZACIONES_SALIDA;
 
   constructor(
@@ -41,17 +42,16 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
       comprobante: ['AUTOGENERADO'],
-      unidadAdministrativaCedente: ['', Validators.required],
-      empresaPersonaEntrega: ['', Validators.required],
-      representanteEmpresa: ['', Validators.required],
-      explicacion: [''],
+      unidadAdministrativa: ['', Validators.required],
+      empresaAutorizada: ['', Validators.required],
+      personaAutorizada: ['', Validators.required],
+      explicacion: ['', Validators.required],
       observaciones: [''],
       activos: [[]],
       creado: [new Date()],
@@ -72,9 +72,9 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
               empresaId: entidad.empresaId,
               id: entidad.id,
               comprobante: entidad.comprobante,
-              unidadAdministrativaCedente: entidad.unidadAdministrativaCedente,
-              empresaPresonaEntrega: entidad.empresaPersonaEntrega,
-              representanteEmpresa: entidad.representanteEmpresa,
+              unidadAdministrativa: entidad.unidadAdministrativa,
+              empresaAutorizada: entidad.empresaAutorizada,
+              personaAutorizada: entidad.personaAutorizada,
               explicacion: entidad.explicacion,
               observaciones: entidad.observaciones,
               activos: [],
@@ -102,6 +102,10 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
     }
   }
 
+  listoParaGuardar() {
+    return this.formulario.valid && this.dataSource.data.length > 0;
+  }
+
   importar() {
     let dialog = this._dialog.open(BuscadorAutorizacionSalidaComponent, {
       width: '95%',
@@ -113,10 +117,9 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
         tap((entidad: AutorizacionSalida) =>
           entidad
             ? this.formulario.patchValue({
-                unidadAdministrativaCedente:
-                  entidad.unidadAdministrativaCedente,
-                empresaPresonalEntrega: entidad.empresaPersonaEntrega,
-                representanteEmpresa: entidad.representanteEmpresa,
+                unidadAdministrativa: entidad.unidadAdministrativa,
+                empresaAutorizada: entidad.empresaAutorizada,
+                personaAutorizada: entidad.personaAutorizada,
                 explicacion: entidad.explicacion,
                 observaciones: entidad.observaciones,
               })
@@ -129,16 +132,19 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
 
   guardar() {
     let entidad: AutorizacionSalida = this.formulario.value;
+    entidad.activos = this.dataSource.data;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe(autorizacion => {
+          if (autorizacion) this.reiniciarFormulario();
+        });
     } else {
       this._entidad
         .actualizar(this.id, entidad, this.titulo.toUpperCase())
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe();
     }
   }
 
@@ -146,7 +152,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: this.formulario.value.codigo,
-        denominacion: this.formulario.value.denominacion,
+        denominacion: this.titulo,
       },
     });
     dialog
@@ -191,7 +197,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
           if (activo) {
             this.dataSource = new MatTableDataSource([
               ...this.dataSource.data,
-              activo,
+              convertirActivoProceso(activo),
             ]);
           }
         }),
@@ -202,7 +208,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
 
   eliminarActivo(row: any) {}
 
-  buscarUnidadAdministrativaCedente() {
+  buscarUnidadAdministrativa() {
     let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
       height: '95%',
       width: '95%',
@@ -212,7 +218,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
       .pipe(
         tap((entidad: Basica) =>
           this.formulario.patchValue({
-            unidadAdministrativaCedente: entidad.id,
+            unidadAdministrativa: entidad.id,
           })
         ),
         take(1)
@@ -220,11 +226,21 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
       .subscribe();
   }
 
-  buscarEmpresaPersonaEntrega() {
-    alert('TODO');
-  }
-
-  buscarRepresentanteEmpresa() {
-    alert('TODO');
+  private reiniciarFormulario() {
+    this.formulario.reset({
+      empresaId: '',
+      id: '',
+      comprobante: 'AUTOGENERADO',
+      unidadAdministrativa: '',
+      empresaAutorizada: '',
+      personaAutorizada: '',
+      explicacion: '',
+      observaciones: '',
+      activos: [],
+      creado: new Date(),
+      modificado: new Date(),
+    });
+    this.dataSource = new MatTableDataSource();
+    this.actualizarFormulario();
   }
 }

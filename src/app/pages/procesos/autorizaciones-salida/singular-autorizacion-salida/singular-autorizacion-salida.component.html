@@ -7,16 +7,16 @@
       [modificado]="formulario.value.modificado"></app-encabezado-procesos>
     <mat-card>
       <article class="contenido">
-        <!-- unidadAdministrativaCedente -->
-        <mat-form-field appearance="fill" class="unidadAdministrativaCedente">
-          <mat-label>Unidad administrativa cedente</mat-label>
+        <!-- unidadAdministrativa -->
+        <mat-form-field appearance="fill" class="unidadAdministrativa">
+          <mat-label>Unidad administrativa</mat-label>
           <input
             type="text"
             matInput
-            formControlName="unidadAdministrativaCedente"
+            formControlName="unidadAdministrativa"
             readonly="true"
             [value]="
-              formulario.value.unidadAdministrativaCedente
+              formulario.value.unidadAdministrativa
                 | denominacionUnidadAdministrativa
                 | async
             " />
@@ -24,43 +24,19 @@
             type="button"
             mat-icon-button
             matSuffix
-            (click)="buscarUnidadAdministrativaCedente()">
+            (click)="buscarUnidadAdministrativa()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- empresaPersonaEntrega -->
-        <mat-form-field appearance="fill" class="empresaPersonaEntrega">
-          <mat-label>Empresa/Persona entrega</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="empresaPersonaEntrega"
-            readonly="true"
-            [value]="formulario.value.empresaPersonaEntrega" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarEmpresaPersonaEntrega()">
-            <mat-icon>search</mat-icon>
-          </button>
+        <!-- empresaAutorizada -->
+        <mat-form-field appearance="fill" class="empresaAutorizada">
+          <mat-label>Empresa autorizada</mat-label>
+          <input type="text" matInput formControlName="empresaAutorizada" />
         </mat-form-field>
-        <!-- representanteEmpresa -->
-        <mat-form-field appearance="fill" class="representanteEmpresa">
-          <mat-label>Representante empresa</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="representanteEmpresa"
-            readonly="true"
-            [value]="formulario.value.representanteEmpresa" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarRepresentanteEmpresa()">
-            <mat-icon>search</mat-icon>
-          </button>
+        <!-- personaAutorizada -->
+        <mat-form-field appearance="fill" class="personaAutorizada">
+          <mat-label>Persona autorizada</mat-label>
+          <input type="text" matInput formControlName="personaAutorizada" />
         </mat-form-field>
         <!-- explicacion -->
         <mat-form-field appearance="fill" class="explicacion">
@@ -83,6 +59,7 @@
 <section class="contenedor-singular inferior">
   <app-activos-proceso
     [dataSource]="dataSource"
+    [agregarActivoDeshabilitado]="formulario.invalid"
     (agregarActivo)="agregarActivo()"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->
@@ -94,7 +71,7 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarGuardar]="!listoParaGuardar()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
   [mostrarSalir]="false"></app-toolbar>

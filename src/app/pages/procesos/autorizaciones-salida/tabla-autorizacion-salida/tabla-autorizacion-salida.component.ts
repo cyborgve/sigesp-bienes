@@ -92,7 +92,7 @@ export class TablaAutorizacionSalidaComponent
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {
         codigo: entidad.comprobante,
-        denominacion: entidad.unidadAdministrativaCedente,
+        denominacion: entidad.unidadAdministrativa,
       },
     });
     dialog

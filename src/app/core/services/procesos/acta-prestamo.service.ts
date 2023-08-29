@@ -34,7 +34,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
   buscarPorId(id: Id): Observable<ActaPrestamo> {
     return super.buscarPorId(id).pipe(
       switchMap(actaPrestamo => {
-        let buscarActivos = this._actaPrestamoActivo.buscarTodosPorActaPrestamo(
+        let buscarActivos = this._actaPrestamoActivo.buscarTodosPorProceso(
           actaPrestamo.id
         );
         return forkJoin([buscarActivos]).pipe(

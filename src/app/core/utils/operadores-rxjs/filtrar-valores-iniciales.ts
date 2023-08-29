@@ -7,5 +7,6 @@ export const filtrarValoresIniciales = () =>
     map((entidades: any[]) =>
       entidades.filter(entidad => entidad.id !== '---')
     ),
-    map((entidades: any[]) => entidades.filter(entidad => entidad.id !== '--'))
+    map((entidades: any[]) => entidades.filter(entidad => entidad.id !== '--')),
+    map((entidades: any[]) => entidades.filter(entidad => entidad.id !== 0))
   );

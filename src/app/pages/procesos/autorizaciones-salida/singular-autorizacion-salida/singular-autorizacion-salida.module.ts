@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
+import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 
 @NgModule({
   declarations: [SingularAutorizacionSalidaComponent],
@@ -27,6 +28,7 @@ import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activ
     MatIconModule,
     MatDialogModule,
     BuscadorActivoModule,
+    BuscadorUnidadAdministrativaModule,
   ],
 })
 export class SingularAutorizacionSalidaModule {}
