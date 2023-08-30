@@ -175,7 +175,10 @@ export class InformacionProcesoService {
         activo: activo,
         identificador: cambioResponsable.identificador,
         serial: cambioResponsable.serial,
-        tipoResponsable: cambioResponsable.tipoResponsable,
+        tipoResponsable:
+          Number(cambioResponsable.tipoResponsable) === 0
+            ? 'Responsable Primario'
+            : 'Responsable de Uso',
         responsableActual: responsableActual,
         nuevoResponsable: nuevoResponsable,
         observaciones: cambioResponsable.observaciones,

@@ -55,9 +55,10 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
         );
       }),
       tap(autorizacionSalida =>
-        this._xlsx.exportarProcesoExcel(
+        this._xlsx.exportarProceso(
           autorizacionSalida,
-          'AUTORIZACIÓN DE SALIDA'
+          'AUTORIZACIÓN DE SALIDA',
+          true
         )
       )
     );

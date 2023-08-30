@@ -19,6 +19,8 @@ import { Retorno } from '@core/models/procesos/retorno';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
+import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
+import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
 
 @Component({
   selector: 'app-singular-retorno',
@@ -198,5 +200,21 @@ export class SingularRetornoComponent implements Entidad {
 
   removerActivo(event: any) {}
 
-  buscarBeneficiario() {}
+  buscarBeneficiario() {
+    let dialog = this._dialog.open(BuscadorBeneficiarioComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((beneficiario: Beneficiario) =>
+          beneficiario
+            ? this.formulario.patchValue({ beneficiario: beneficiario.id })
+            : undefined
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 }

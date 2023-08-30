@@ -11,11 +11,15 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 export class XLSXService {
   constructor(private _informacionProceso: InformacionProcesoService) {}
 
-  exportarProcesoExcel(data: any, tipo: TipoProceso): void {
+  exportarProceso(
+    data: any,
+    tipo: TipoProceso,
+    activosMultiples: boolean
+  ): void {
     this._informacionProceso.obtener(data, tipo).subscribe((proceso: any) => {
       const fileName = this.generarNombreArchivo(tipo, data.comprobante);
       const workBook = this.crearWorkBook(proceso);
-      this.agregarHojaActivos(workBook, proceso.activos);
+      if (activosMultiples) this.agregarHojaActivos(workBook, proceso.activos);
       this.guardarArchivo(workBook, fileName);
     });
   }

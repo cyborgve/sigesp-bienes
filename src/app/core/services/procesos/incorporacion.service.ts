@@ -108,7 +108,7 @@ export class IncorporacionService extends GenericService<Incorporacion> {
         );
       }),
       tap(incorporacion => {
-        this._xlsx.exportarProcesoExcel(incorporacion, 'INCORPORACIÓN');
+        this._xlsx.exportarProceso(incorporacion, 'INCORPORACIÓN', true);
       })
     );
   }

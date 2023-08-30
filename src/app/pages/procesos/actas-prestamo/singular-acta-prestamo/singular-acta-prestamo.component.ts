@@ -9,7 +9,8 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { forkJoin, pipe } from 'rxjs';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -25,6 +26,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -301,9 +303,31 @@ export class SingularActaPrestamoComponent implements Entidad {
   }
 
   agregarActivo() {
+    let filtrarIncorporados = () =>
+      pipe(
+        switchMap((activos: Activo[]) => {
+          let ubicacionesPeticiones = activos.map(activo =>
+            this._activoUbicacion.buscarPorActivo(activo.id)
+          );
+          return forkJoin(ubicacionesPeticiones).pipe(
+            map(ubicaciones => {
+              return activos.map(activo => {
+                activo.ubicacion = ubicaciones.find(
+                  ubicacion => ubicacion.activoId === activo.id
+                );
+                return activo;
+              });
+            })
+          );
+        }),
+        map(activos =>
+          activos.filter(activo => activoIncorporado(activo.ubicacion))
+        )
+      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [filtrarIncorporados()] },
     });
     dialog
       .afterClosed()

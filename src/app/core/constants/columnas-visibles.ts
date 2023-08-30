@@ -203,8 +203,8 @@ export const COLUMNAS_VISIBLES = {
   ],
   CAMBIOS_RESPONSABLE: [
     'comprobante',
-    'unidadAdministrativaCedente',
-    'unidadAdministrativaReceptora',
+    'activo',
+    'nuevoResponsable',
     'creado',
     'modificado',
   ],

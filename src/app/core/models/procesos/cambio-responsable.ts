@@ -7,7 +7,7 @@ export interface CambioResponsable extends Basica {
   activo: Id;
   identificador: string;
   serial: string;
-  tipoResponsable: TipoResponsable;
+  tipoResponsable: number;
   responsableActual: Id;
   nuevoResponsable: Id;
   observaciones: string;

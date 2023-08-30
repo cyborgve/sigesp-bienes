@@ -1,3 +1,4 @@
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { TipoResponsable } from '@core/types/tipo-responsable';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -22,7 +23,9 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { TIPOS_RESPONSABLE } from '@core/constants/tipos-responsable';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { Responsable } from '@core/models/otros-modulos/responsable';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription, forkJoin, pipe } from 'rxjs';
+import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
+import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
 @Component({
   selector: 'app-singular-cambio-responsable',
@@ -41,32 +44,29 @@ export class SingularCambioResponsableComponent
   columnasVisibles = COLUMNAS_VISIBLES.CAMBIOS_RESPONSABLE;
   tiposResponsable = TIPOS_RESPONSABLE;
 
-  responsables: { responsablePrimario: Id; responsableUso: Id } = {
-    responsablePrimario: '',
-    responsableUso: '',
-  };
+  activoUbicacionActual: ActivoUbicacion = <ActivoUbicacion>{};
 
   constructor(
-    private _entidad: CambioResponsableService,
+    private _cambioResponsable: CambioResponsableService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
       id: [''],
       comprobante: ['AUTOGENERADO'],
       activo: ['', Validators.required],
-      identificador: ['', Validators.required],
-      serial: ['', Validators.required],
+      identificador: [''],
+      serial: [''],
       tipoResponsable: ['', Validators.required],
-      responsableActual: ['', Validators.required],
+      responsableActual: [''],
       nuevoResponsable: ['', Validators.required],
-      observaciones: ['', Validators.required],
+      observaciones: [''],
       creado: [new Date()],
       modificado: [new Date()],
     });
@@ -81,11 +81,12 @@ export class SingularCambioResponsableComponent
           tap((tipoResponsable: any) =>
             tipoResponsable === 1
               ? this.formulario.patchValue({
-                  responsableActual: this.responsables.responsableUso,
+                  responsableActual:
+                    this.activoUbicacionActual.responsableUsoId,
                 })
               : tipoResponsable === 0
               ? this.formulario.patchValue({
-                  responsableActual: this.responsables.responsablePrimario,
+                  responsableActual: this.activoUbicacionActual.responsableId,
                 })
               : undefined
           )
@@ -101,7 +102,7 @@ export class SingularCambioResponsableComponent
   private actualizarFormulario() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
-      this._entidad
+      this._cambioResponsable
         .buscarPorId(this.id)
         .pipe(
           tap((entidad: CambioResponsable) =>
@@ -151,6 +152,9 @@ export class SingularCambioResponsableComponent
         tap((entidad: CambioResponsable) =>
           entidad
             ? this.formulario.patchValue({
+                activo: entidad.activo,
+                identificador: entidad.identificador,
+                serial: entidad.serial,
                 tipoResponsable: entidad.tipoResponsable,
                 responsableActual: entidad.responsableActual,
                 nuevoResponsable: entidad.nuevoResponsable,
@@ -158,23 +162,41 @@ export class SingularCambioResponsableComponent
               })
             : undefined
         ),
+        switchMap(cambioResponsable => {
+          if (cambioResponsable) {
+            let buscarUbicacion = this._activoUbicacion.buscarPorActivo(
+              cambioResponsable.activo
+            );
+            return forkJoin([buscarUbicacion]);
+          } else return undefined;
+        }),
+        tap(([ubicacionActivo]) => {
+          if (ubicacionActivo) {
+            this.activoUbicacionActual = ubicacionActivo;
+          }
+        }),
         take(1)
       )
       .subscribe();
   }
 
   guardar() {
-    let entidad: CambioResponsable = this.formulario.value;
+    let cambioResponsable: CambioResponsable = this.formulario.value;
+
     if (this.modoFormulario === 'CREANDO') {
-      this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
+      this._cambioResponsable
+        .guardar(cambioResponsable, this.titulo)
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe(cambioResponsable => {
+          if (cambioResponsable) this.reiniciarFormulario();
+        });
     } else {
-      this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+      this._cambioResponsable
+        .actualizar(this.id, cambioResponsable, this.titulo)
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe(cambioResponsable => {
+          if (cambioResponsable) this.reiniciarFormulario();
+        });
     }
   }
 
@@ -190,9 +212,9 @@ export class SingularCambioResponsableComponent
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._entidad.eliminar(
+          this._cambioResponsable.eliminar(
             this.formulario.value.id,
-            this.titulo.toUpperCase()
+            this.titulo
           )
         ),
         take(1)
@@ -217,31 +239,55 @@ export class SingularCambioResponsableComponent
   }
 
   buscarActivo() {
+    let filtrarIncorporados = () =>
+      pipe(
+        switchMap((activos: Activo[]) => {
+          let ubicacionesPeticiones = activos.map(activo =>
+            this._activoUbicacion.buscarPorActivo(activo.id)
+          );
+          return forkJoin(ubicacionesPeticiones).pipe(
+            map(ubicaciones => {
+              return activos.map(activo => {
+                activo.ubicacion = ubicaciones.find(
+                  ubicacion => ubicacion.activoId === activo.id
+                );
+                return activo;
+              });
+            })
+          );
+        }),
+        map(activos =>
+          activos.filter(activo => activoIncorporado(activo.ubicacion))
+        )
+      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [filtrarIncorporados()] },
     });
     dialog
       .afterClosed()
       .pipe(
+        tap((activo: Activo) => {
+          activo
+            ? this.formulario.patchValue({
+                activo: activo.id,
+                identificador: activo.serialRotulacion,
+                serial: activo.serialFabrica,
+              })
+            : undefined;
+        }),
         switchMap((activo: Activo) => {
           if (activo) {
-            let solicitarActivo = this._activo.buscarPorId(activo.id);
-            return forkJoin([solicitarActivo]).pipe(map(([activo]) => activo));
-          }
-          return undefined;
+            let buscarUbicacion = this._activoUbicacion.buscarPorActivo(
+              activo.id
+            );
+            return forkJoin([buscarUbicacion]);
+          } else return undefined;
         }),
-        tap((activo: Activo) => {
-          if (activo) {
-            this.formulario.patchValue({
-              activo: activo.id,
-              identificador: activo.serialRotulacion,
-              serial: activo.serialFabrica,
-            });
-            this.responsables = {
-              responsablePrimario: activo.ubicacion.responsableId,
-              responsableUso: activo.ubicacion.responsableUsoId,
-            };
+        tap(([ubicacionActivo]) => {
+          if (ubicacionActivo) {
+            this.activoUbicacionActual = ubicacionActivo;
           }
         }),
         take(1)
@@ -264,5 +310,24 @@ export class SingularCambioResponsableComponent
         })
       )
       .subscribe();
+  }
+
+  private reiniciarFormulario() {
+    this.formulario.reset({
+      empresaId: '',
+      id: '',
+      comprobante: 'AUTOGENERADO',
+      activo: '',
+      identificador: '',
+      serial: '',
+      tipoResponsable: '',
+      responsableActual: '',
+      nuevoResponsable: '',
+      observaciones: '',
+      creado: new Date(),
+      modificado: new Date(),
+    });
+    this.activoUbicacionActual = <ActivoUbicacion>{};
+    this.actualizarFormulario();
   }
 }

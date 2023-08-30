@@ -12,7 +12,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { BuscadorAutorizacionSalidaComponent } from '../buscador-autorizacion-salida/buscador-autorizacion-salida.component';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -21,6 +21,9 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
+import { pipe, forkJoin } from 'rxjs';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
 @Component({
   selector: 'app-singular-autorizacion-salida',
@@ -42,7 +45,8 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService
+    private _correlativo: CorrelativoService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -186,9 +190,31 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
   }
 
   agregarActivo() {
+    let filtrarIncorporados = () =>
+      pipe(
+        switchMap((activos: Activo[]) => {
+          let ubicacionesPeticiones = activos.map(activo =>
+            this._activoUbicacion.buscarPorActivo(activo.id)
+          );
+          return forkJoin(ubicacionesPeticiones).pipe(
+            map(ubicaciones => {
+              return activos.map(activo => {
+                activo.ubicacion = ubicaciones.find(
+                  ubicacion => ubicacion.activoId === activo.id
+                );
+                return activo;
+              });
+            })
+          );
+        }),
+        map(activos =>
+          activos.filter(activo => activoIncorporado(activo.ubicacion))
+        )
+      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [filtrarIncorporados()] },
     });
     dialog
       .afterClosed()

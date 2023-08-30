@@ -49,8 +49,7 @@ export class SingularDepreciacionComponent implements Entidad {
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
     private _depreciacionDetalle: DepreciacionDetalleService,
-    private _activo: ActivoService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -170,7 +169,9 @@ export class SingularDepreciacionComponent implements Entidad {
       this._entidad
         .guardar(entidad, this.titulo)
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe(depreciacion =>
+          depreciacion ? this.reiniciarFormulario() : undefined
+        );
     } else {
       this._entidad
         .actualizar(this.id, entidad, this.titulo)
@@ -217,17 +218,6 @@ export class SingularDepreciacionComponent implements Entidad {
   }
 
   buscarActivo() {
-    let activosDepreciables = () =>
-      pipe(
-        switchMap((activosParciales: Activo[]) => {
-          let ubicacionesPeticiones = activosParciales.map(activoParcial =>
-            this._activoUbicacion.buscarPorActivo(activoParcial.id)
-          );
-          return forkJoin(ubicacionesPeticiones).pipe(
-            map(([ubicaciones]) => ubicaciones)
-          );
-        })
-      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
@@ -261,7 +251,8 @@ export class SingularDepreciacionComponent implements Entidad {
             vidaUtilAnios,
             metodosDepreciacionAux,
             tiempoAux,
-            true
+            true,
+            activo.depreciacion.valorRescate
           );
           this.formulario.patchValue({
             activo: activo.id,
@@ -284,5 +275,31 @@ export class SingularDepreciacionComponent implements Entidad {
         take(1)
       )
       .subscribe();
+  }
+
+  private reiniciarFormulario() {
+    this.formulario.reset({
+      empresaId: '',
+      id: '',
+      comprobante: 'AUTOGENERADO',
+      activo: '',
+      serial: '',
+      identificador: '',
+      fechaCompra: '',
+      fechaIncorporacion: '',
+      metodo: '',
+      costo: '',
+      valorRescate: '',
+      montoDepreciar: '',
+      vidaUtil: '',
+      depreciacionMensual: '',
+      depreciacionAnual: '',
+      observaciones: '',
+      detalles: '',
+      creado: new Date(),
+      modificado: new Date(),
+    });
+    this.dataSource = new MatTableDataSource();
+    this.actualizarFormulario();
   }
 }

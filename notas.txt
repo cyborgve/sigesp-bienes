@@ -8,4 +8,8 @@
     los activos a agregar deben salir solo los que esten asignados a la unidad cedente y que esten disponobles para prestar.
     Solicitar ayuda a los desarrolladores para generar los movimientos contables.
 
-2.
+2. Tabla Component(revisar todas):
+    Para mejorar el rendimiento de las tablas en necesario cambier el momento en el que se traducen los datos que se, es decir,
+    los datos que vienen de la base de datos en algunos casos son los id de algun campo que tengan referenciado y la obtencion
+    de la informacion que se quiere mostrar se realiza directamente el la vista(html), debo cambiar esto al metodo de recargagar
+    datos para que se transformen antes de mostrar ya que seria una sola solicitud con todos los datos.

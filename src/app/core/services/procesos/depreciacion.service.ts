@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { END_POINTS } from '@core/constants/end-points';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,5 +10,17 @@ import { END_POINTS } from '@core/constants/end-points';
 export class DepreciacionService extends GenericService<Depreciacion> {
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'depreciacion').valor;
+  }
+
+  guardar(
+    depreciacion: Depreciacion,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<Depreciacion> {
+    depreciacion.vidaUtil = Number(
+      depreciacion.vidaUtil.toString().split(' ')[0]
+    );
+    console.log(depreciacion);
+    return super.guardar(depreciacion, tipoDato, notificar);
   }
 }
