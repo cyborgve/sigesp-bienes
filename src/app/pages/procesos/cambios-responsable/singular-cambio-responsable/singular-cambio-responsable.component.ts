@@ -1,5 +1,4 @@
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
-import { TipoResponsable } from '@core/types/tipo-responsable';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +10,6 @@ import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { Activo } from '@core/models/definiciones/activo';
 import { CambioResponsable } from '@core/models/procesos/cambio-responsable';
-import { ActivoService } from '@core/services/definiciones/activo.service';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CambioResponsableService } from '@core/services/procesos/cambio-responsable.service';
 import { Id } from '@core/types/id';
@@ -60,12 +58,12 @@ export class SingularCambioResponsableComponent
       empresaId: [''],
       id: [''],
       comprobante: ['AUTOGENERADO'],
-      activo: ['', Validators.required],
+      activo: ['0', Validators.required],
       identificador: [''],
       serial: [''],
       tipoResponsable: ['', Validators.required],
-      responsableActual: [''],
-      nuevoResponsable: ['', Validators.required],
+      responsableActual: ['---'],
+      nuevoResponsable: ['---', Validators.required],
       observaciones: [''],
       creado: [new Date()],
       modificado: [new Date()],
@@ -317,12 +315,12 @@ export class SingularCambioResponsableComponent
       empresaId: '',
       id: '',
       comprobante: 'AUTOGENERADO',
-      activo: '',
+      activo: '0',
       identificador: '',
       serial: '',
       tipoResponsable: '',
-      responsableActual: '',
-      nuevoResponsable: '',
+      responsableActual: '---',
+      nuevoResponsable: '---',
       observaciones: '',
       creado: new Date(),
       modificado: new Date(),

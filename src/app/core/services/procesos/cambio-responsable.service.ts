@@ -35,31 +35,33 @@ export class CambioResponsableService extends GenericService<CambioResponsable> 
   ): Observable<CambioResponsable> {
     return super.guardar(cambioResponsable, tipoDato, notificar).pipe(
       switchMap(cambioResponsableGuardado => {
-        let cambiarResponsable = this._activoUbicacion
-          .buscarPorActivo(cambioResponsableGuardado.activo)
+        let ubicarActivo = this._activoUbicacion
+          .buscarPorActivo(cambioResponsable.activo)
           .pipe(
+            tap(console.log),
             map(activoUbicacion => {
-              if (cambioResponsableGuardado.tipoResponsable === 0) {
+              if (Number(cambioResponsableGuardado.tipoResponsable) === 0)
                 activoUbicacion.responsableId =
-                  cambioResponsableGuardado.responsableActual;
-              } else if (cambioResponsableGuardado.tipoResponsable === 1) {
+                  cambioResponsableGuardado.nuevoResponsable;
+              else if (Number(cambioResponsableGuardado.tipoResponsable) === 1)
                 activoUbicacion.responsableUsoId =
-                  cambioResponsableGuardado.responsableActual;
-              }
-              return forkJoin([
-                this._activoUbicacion.actualizar(
-                  activoUbicacion.id,
-                  activoUbicacion,
-                  undefined,
-                  false
-                ),
-              ]).pipe(map(ejecutado => (ejecutado.length > 0 ? true : false)));
-            })
+                  cambioResponsableGuardado.nuevoResponsable;
+              return activoUbicacion;
+            }),
+            tap(console.log)
           );
-        return forkJoin([cambiarResponsable]).pipe(
-          map(([procesado]) =>
-            procesado ? cambioResponsableGuardado : undefined
-          )
+        return forkJoin([ubicarActivo]).pipe(
+          switchMap(([activoUbicado]) => {
+            let cambiarResponsable = this._activoUbicacion.actualizar(
+              activoUbicado.id,
+              activoUbicado,
+              undefined,
+              false
+            );
+            return forkJoin([cambiarResponsable]).pipe(
+              map(() => cambioResponsableGuardado)
+            );
+          })
         );
       }),
       tap(cambioResponsableprocesado =>

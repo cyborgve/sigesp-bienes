@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { BuscadorCausaMovimientoModule } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.module';
 import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
+import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
 
 @NgModule({
   declarations: [SingularDesincorporacionComponent],
@@ -23,6 +24,7 @@ import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades
     BuscadorDesincorporacionModule,
     BuscadorCausaMovimientoModule,
     BuscadorUnidadAdministrativaModule,
+    BuscadorActivoModule,
     SharedModule,
     MatCardModule,
     MatInputModule,

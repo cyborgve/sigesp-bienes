@@ -70,19 +70,19 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
           })
         );
       }),
-      switchMap(actaPrestamoGuardada => {
-        let ubicacionActivos = actaPrestamoGuardada.activos.map(activoProceso =>
-          this._activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
+      switchMap(actaPrestamoGuradada => {
+        let ubicarActivos = actaPrestamoGuradada.activos.map(activoProceso =>
+          this._activoUbicacion.buscarPorId(activoProceso.activo).pipe(
             map(activoUbicacion => {
               activoUbicacion.unidadAdministrativaId =
-                actaPrestamoGuardada.unidadAdministrativaReceptora;
+                actaPrestamoGuradada.unidadAdministrativaReceptora;
               activoUbicacion.responsableUsoId =
-                actaPrestamoGuardada.unidadReceptoraResponsable;
+                actaPrestamoGuradada.unidadReceptoraResponsable;
               return activoUbicacion;
             })
           )
         );
-        return forkJoin(ubicacionActivos).pipe(
+        return forkJoin(ubicarActivos).pipe(
           switchMap(activosUbicados => {
             let prestarActivos = activosUbicados.map(activoUbicado =>
               this._activoUbicacion.actualizar(
@@ -93,7 +93,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
               )
             );
             return forkJoin(prestarActivos).pipe(
-              map(() => actaPrestamoGuardada)
+              map(() => actaPrestamoGuradada)
             );
           })
         );

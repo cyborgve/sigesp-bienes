@@ -63,7 +63,10 @@
     </mat-card>
   </section>
   <section class="contenedor-singular superior inferior">
-    <app-activos-proceso></app-activos-proceso>
+    <app-activos-proceso
+      (agregarActivo)="agregarActivo()"
+      [dataSource]="activosDataSource"
+      [agregarActivoDeshabilitado]="formulario.invalid"></app-activos-proceso>
   </section>
   <section class="contenedor-singular inferior">
     <app-cuentas-contables-proceso></app-cuentas-contables-proceso>

@@ -18,7 +18,14 @@ import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unida
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
-import { pipe } from 'rxjs';
+import { pipe, forkJoin } from 'rxjs';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { Activo } from '@core/models/definiciones/activo';
+import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
+import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 
 @Component({
   selector: 'app-singular-desincorporacion',
@@ -30,6 +37,8 @@ export class SingularDesincorporacionComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[33].nombre;
   formulario: FormGroup;
+  activosDataSource: MatTableDataSource<ActivoProceso> =
+    new MatTableDataSource();
 
   constructor(
     private _entidad: DesincorporacionService,
@@ -38,7 +47,8 @@ export class SingularDesincorporacionComponent implements Entidad {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService
+    private _correlativo: CorrelativoService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [''],
@@ -202,7 +212,8 @@ export class SingularDesincorporacionComponent implements Entidad {
               unidadAdministrativa: unidadAdministrativa.id,
             });
           }
-        })
+        }),
+        take(1)
       )
       .subscribe();
   }
@@ -228,7 +239,78 @@ export class SingularDesincorporacionComponent implements Entidad {
               causaMovimiento: causaMovimiento.id,
             });
           }
-        })
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  agregarActivo() {
+    let filtrarIncorporados = () =>
+      pipe(
+        switchMap((activos: Activo[]) => {
+          let ubicacionesPeticiones = activos.map(activo =>
+            this._activoUbicacion.buscarPorActivo(activo.id)
+          );
+          return forkJoin(ubicacionesPeticiones).pipe(
+            map(ubicaciones => {
+              return activos.map(activo => {
+                activo.ubicacion = ubicaciones.find(
+                  ubicacion => ubicacion.activoId === activo.id
+                );
+                return activo;
+              });
+            })
+          );
+        }),
+        map(activos =>
+          activos.filter(activo => activoIncorporado(activo.ubicacion))
+        )
+      );
+    let filtrarPorUnidadAdministrativa = () =>
+      pipe(
+        switchMap((activos: Activo[]) => {
+          let ubicacionesPeticiones = activos.map(activo =>
+            this._activoUbicacion.buscarPorActivo(activo.id)
+          );
+          return forkJoin(ubicacionesPeticiones).pipe(
+            map(ubicaciones => {
+              return activos.map(activo => {
+                activo.ubicacion = ubicaciones.find(
+                  ubicacion => ubicacion.activoId === activo.id
+                );
+                return activo;
+              });
+            })
+          );
+        }),
+        map(activos =>
+          activos.filter(
+            activo =>
+              Number(activo.ubicacion.unidadAdministrativaId) ===
+              Number(this.formulario.value.unidadAdministrativa)
+          )
+        )
+      );
+    let dialog = this._dialog.open(BuscadorActivoComponent, {
+      height: '95%',
+      width: '85%',
+      data: {
+        filtros: [filtrarIncorporados(), filtrarPorUnidadAdministrativa()],
+      },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap(activo => {
+          activo
+            ? (this.activosDataSource = new MatTableDataSource([
+                ...this.activosDataSource.data,
+                convertirActivoProceso(activo),
+              ]))
+            : undefined;
+        }),
+        take(1)
       )
       .subscribe();
   }

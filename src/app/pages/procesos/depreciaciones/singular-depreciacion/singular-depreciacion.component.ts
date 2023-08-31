@@ -1,5 +1,4 @@
-import { tap, take, first, filter, switchMap, map } from 'rxjs/operators';
-import { forkJoin, pipe } from 'rxjs';
+import { tap, take, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,14 +16,11 @@ import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/di
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { MatTableDataSource } from '@angular/material/table';
-import { DepreciacionDetalle } from '@core/models/procesos/depreciacion';
-import { DepreciacionDetalleService } from '@core/services/procesos/depreciacion-detalle.service';
 import { Basica } from '@core/models/auxiliares/basica';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Activo } from '@core/models/definiciones/activo';
 import { convertirUnidadTiempo } from '@core/utils/funciones/convertir-unidad-tiempo';
 import { calcularDepreciacion } from '@core/utils/funciones/calcular-depreciacion';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -37,8 +33,7 @@ export class SingularDepreciacionComponent implements Entidad {
   titulo = CORRELATIVOS[32].nombre;
   formulario: FormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
-  dataSource: MatTableDataSource<DepreciacionDetalle> =
-    new MatTableDataSource();
+  dataSource: MatTableDataSource<Depreciacion> = new MatTableDataSource();
 
   constructor(
     private _entidad: DepreciacionService,
@@ -48,7 +43,6 @@ export class SingularDepreciacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _depreciacionDetalle: DepreciacionDetalleService,
     private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
@@ -105,9 +99,11 @@ export class SingularDepreciacionComponent implements Entidad {
             })
           ),
           switchMap(depreciacion =>
-            this._depreciacionDetalle.buscarPorId(depreciacion.id)
+            this._entidad.buscarTodosPorActivo(depreciacion.activo)
           ),
-          tap(detalles => this.formulario.patchValue({ detalles: detalles })),
+          tap(depreciaciones => {
+            this.dataSource = new MatTableDataSource(depreciaciones);
+          }),
           take(1)
         )
         .subscribe();
@@ -165,6 +161,7 @@ export class SingularDepreciacionComponent implements Entidad {
 
   guardar() {
     let entidad: Depreciacion = this.formulario.value;
+    entidad.vidaUtil = Number(entidad.vidaUtil.toString().split(' ')[0]);
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo)
@@ -192,10 +189,7 @@ export class SingularDepreciacionComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._entidad.eliminar(
-            this.formulario.value.id,
-            this.titulo.toUpperCase()
-          )
+          this._entidad.eliminar(this.formulario.value.id, this.titulo)
         ),
         take(1)
       )
@@ -271,6 +265,10 @@ export class SingularDepreciacionComponent implements Entidad {
               tiempoAux.toFixed(2) +
               ' meses trancurridos desde la fecha de compra.',
           });
+        }),
+        switchMap(activo => this._entidad.buscarTodosPorActivo(activo.id)),
+        tap(depreciaciones => {
+          this.dataSource = new MatTableDataSource(depreciaciones);
         }),
         take(1)
       )

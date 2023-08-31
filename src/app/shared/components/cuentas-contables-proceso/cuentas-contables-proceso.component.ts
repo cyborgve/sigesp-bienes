@@ -13,6 +13,7 @@ export class CuentasContablesProcesoComponent {
   @Output() removerCuentaContable = new EventEmitter();
   @Input() dataSource: MatTableDataSource<CuentaContable> =
     new MatTableDataSource();
+  @Input() agregarCuentaContableDeshabilitado: boolean = true;
 
   columnasVisibles = COLUMNAS_VISIBLES.CUENTAS_CONTABLES;
 }

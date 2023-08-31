@@ -73,6 +73,10 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     valor: 'dao/sbn/depreciacion-detalle-dao.php',
   },
   { clave: 'desincorporacion', valor: 'dao/sbn/desincorporacion-dao.php' },
+  {
+    clave: 'desincorporacionActivo',
+    valor: 'dao/sbn/desincorporacion-activo-dao.php',
+  },
   { clave: 'entregaUnidad', valor: 'dao/sbn/entrega-unidad-dao.php' },
   { clave: 'incorporacion', valor: 'dao/sbn/incorporacion-dao.php' },
   {

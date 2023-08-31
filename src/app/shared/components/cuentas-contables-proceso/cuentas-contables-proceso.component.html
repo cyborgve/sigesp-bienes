@@ -7,7 +7,8 @@
       mat-stroked-button
       color="primary"
       class="agregarCuentaContable"
-      (click)="agregarCuentaContable.emit()">
+      (click)="agregarCuentaContable.emit()"
+      [disabled]="agregarCuentaContableDeshabilitado">
       <mat-icon>add</mat-icon>
       Agregar cuenta contable
     </button>
