@@ -229,6 +229,12 @@ td.mat-column-codigo {
   width: 12rem;
 }
 
+th.mat-column-acciones-proceso,
+td.mat-column-acciones-proceso {
+  width: 11.5rem !important;
+  text-align: center !important;
+}
+
 th.mat-column-acciones,
 td.mat-column-acciones {
   width: 8rem !important;

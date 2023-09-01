@@ -1,4 +1,14 @@
-<section class="contenedor">
-  <app-tabla-depreciacion [titulo]="titulo"></app-tabla-depreciacion>
-  <app-botones-definiciones></app-botones-definiciones>
+<section class="contenedor-singular">
+  <app-tabla-depreciacion
+    [titulo]="titulo"
+    [ocultarNuevo]="true"></app-tabla-depreciacion>
+  <app-toolbar
+    [mostrarBorrar]="false"
+    [mostrarBuscar]="false"
+    [mostrarGuardar]="false"
+    [mostrarImportar]="false"
+    [mostrarSalir]="false"
+    [mostrarImprimir]="false"
+    (irAtras)="irAtras()"
+    (irAlInicio)="irAlInicio()"></app-toolbar>
 </section>

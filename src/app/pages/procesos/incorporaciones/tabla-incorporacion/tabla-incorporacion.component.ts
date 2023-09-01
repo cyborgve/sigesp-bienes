@@ -79,6 +79,8 @@ export class TablaIncorporacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
+  imprimir(entidad: Incorporacion) {}
+  previsualizar(entidad: Incorporacion) {}
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

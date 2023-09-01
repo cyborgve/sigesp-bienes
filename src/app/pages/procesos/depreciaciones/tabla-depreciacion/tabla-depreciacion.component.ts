@@ -86,6 +86,8 @@ export class TablaDepreciacionComponent
   editar(entidad: Depreciacion) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
+  imprimir(entidad: Depreciacion) {}
+  previsualizar(entidad: Depreciacion) {}
 
   eliminar(entidad: Depreciacion) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {

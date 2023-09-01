@@ -72,6 +72,8 @@ export class TablaModificacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
+  imprimir(entidad: Modificacion) {}
+  previsualizar(entidad: Modificacion) {}
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

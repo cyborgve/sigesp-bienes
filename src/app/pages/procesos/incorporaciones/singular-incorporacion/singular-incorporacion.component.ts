@@ -225,6 +225,10 @@ export class SingularIncorporacionComponent implements Entidad {
       .subscribe(() => this.irAtras());
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/incorporaciones']);
+  }
+
   imprimir() {
     throw new Error('Method not implemented.');
   }

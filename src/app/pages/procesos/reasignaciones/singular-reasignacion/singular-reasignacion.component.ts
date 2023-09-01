@@ -172,6 +172,10 @@ export class SingularReasignacionComponent implements Entidad {
       .subscribe(() => this.irAtras());
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/reasignaciones']);
+  }
+
   imprimir() {
     throw new Error('Method not implemented.');
   }

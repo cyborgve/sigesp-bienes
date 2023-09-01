@@ -196,6 +196,10 @@ export class SingularDepreciacionComponent implements Entidad {
       .subscribe(() => this.irAtras());
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/depreciaciones']);
+  }
+
   imprimir() {
     throw new Error('Method not implemented.');
   }

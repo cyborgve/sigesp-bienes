@@ -9,6 +9,16 @@
       <i class="material-icons">save</i>
     </button>
   </ng-container>
+  <!-- buscar -->
+  <ng-container *ngIf="mostrarBuscar">
+    <button
+      mat-button
+      type="button"
+      (click)="buscar.emit()"
+      [disabled]="desabilitarBuscar">
+      <i class="material-icons">search</i>
+    </button>
+  </ng-container>
   <!-- borrar -->
   <ng-container *ngIf="mostrarBorrar">
     <button

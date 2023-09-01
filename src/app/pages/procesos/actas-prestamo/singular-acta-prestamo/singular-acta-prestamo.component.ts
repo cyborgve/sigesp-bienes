@@ -165,6 +165,10 @@ export class SingularActaPrestamoComponent implements Entidad {
     }
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/actas-prestamo']);
+  }
+
   borrar() {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {

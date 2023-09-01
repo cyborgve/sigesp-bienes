@@ -73,6 +73,8 @@ export class TablaCambioResponsableComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
+  imprimir(entidad: CambioResponsable) {}
+  previsualizar(entidad: CambioResponsable) {}
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

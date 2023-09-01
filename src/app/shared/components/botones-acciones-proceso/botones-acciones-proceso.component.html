@@ -1,0 +1,36 @@
+<button
+  type="button"
+  mat-icon-button
+  color="primary"
+  (click)="previsualizar.emit()"
+  class="editar"
+  [disabled]="deshabilitarPrevisualizar">
+  <mat-icon>preview</mat-icon>
+</button>
+<button
+  type="button"
+  mat-icon-button
+  color="primary"
+  (click)="imprimir.emit()"
+  class="editar"
+  [disabled]="deshabilitarImprimir">
+  <mat-icon>print</mat-icon>
+</button>
+<button
+  type="button"
+  mat-icon-button
+  color="primary"
+  (click)="editar.emit()"
+  class="editar"
+  [disabled]="deshabilitarEditar">
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  type="button"
+  mat-icon-button
+  color="primary"
+  (click)="eliminar.emit()"
+  class="eliminar"
+  [disabled]="deshabilitarEliminar">
+  <mat-icon>delete</mat-icon>
+</button>

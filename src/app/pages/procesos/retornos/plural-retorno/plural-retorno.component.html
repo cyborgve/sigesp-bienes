@@ -1,4 +1,14 @@
-<section class="contenedor">
-  <app-tabla-retorno [titulo]="titulo"></app-tabla-retorno>
-  <app-botones-definiciones></app-botones-definiciones>
+<section class="contenedor-singular">
+  <app-tabla-retorno
+    [titulo]="titulo"
+    [ocultarNuevo]="true"></app-tabla-retorno>
+  <app-toolbar
+    [mostrarBorrar]="false"
+    [mostrarBuscar]="false"
+    [mostrarGuardar]="false"
+    [mostrarImportar]="false"
+    [mostrarSalir]="false"
+    [mostrarImprimir]="false"
+    (irAtras)="irAtras()"
+    (irAlInicio)="irAlInicio()"></app-toolbar>
 </section>

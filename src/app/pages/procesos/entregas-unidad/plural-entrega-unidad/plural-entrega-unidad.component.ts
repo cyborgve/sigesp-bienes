@@ -1,4 +1,6 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plural-entrega-unidad',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class PluralEntregaUnidadComponent {
   titulo = 'entregas de unidad';
+  constructor(private _router: Router, private _location: Location) {}
+
+  irAtras = () => this._location.back();
+
+  irAlInicio = () => this._router.navigate(['/procesos']);
 }

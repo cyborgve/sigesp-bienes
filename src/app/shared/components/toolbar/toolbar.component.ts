@@ -22,6 +22,7 @@ export class ToolbarComponent implements OnInit {
     }
   }
 
+  @Input() mostrarBuscar: boolean = true;
   @Input() mostrarImportar: boolean = true;
   @Input() mostrarGuardar: boolean = true;
   @Input() mostrarBorrar: boolean = true;
@@ -30,6 +31,7 @@ export class ToolbarComponent implements OnInit {
   @Input() mostrarIrAlInicio: boolean = true;
   @Input() mostrarSalir: boolean = true;
 
+  @Input() desabilitarBuscar: boolean = false;
   @Input() desabilitarImportar: boolean = false;
   @Input() desabilitarGuardar: boolean = false;
   @Input() desabilitarBorrar: boolean = false;
@@ -38,6 +40,7 @@ export class ToolbarComponent implements OnInit {
   @Input() desabilitarIrAlInicio: boolean = false;
   @Input() desabilitarSalir: boolean = false;
 
+  @Output() buscar = new EventEmitter();
   @Output() importar = new EventEmitter();
   @Output() guardar = new EventEmitter();
   @Output() borrar = new EventEmitter();

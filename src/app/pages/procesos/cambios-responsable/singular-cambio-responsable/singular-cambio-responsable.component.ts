@@ -220,6 +220,10 @@ export class SingularCambioResponsableComponent
       .subscribe(() => this.irAtras());
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/cambios-responsable']);
+  }
+
   imprimir() {
     throw new Error('Method not implemented.');
   }

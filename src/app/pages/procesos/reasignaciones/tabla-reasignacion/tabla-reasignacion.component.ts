@@ -72,6 +72,8 @@ export class TablaReasignacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
+  imprimir(entidad: Reasignacion) {}
+  previsualizar(entidad: Reasignacion) {}
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

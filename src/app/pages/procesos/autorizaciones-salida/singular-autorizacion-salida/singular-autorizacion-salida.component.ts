@@ -134,6 +134,10 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
       .subscribe();
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/autorizaciones-salida']);
+  }
+
   guardar() {
     let entidad: AutorizacionSalida = this.formulario.value;
     entidad.activos = this.dataSource.data;

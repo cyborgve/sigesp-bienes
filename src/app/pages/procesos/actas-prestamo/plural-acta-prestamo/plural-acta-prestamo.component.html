@@ -1,4 +1,14 @@
-<section class="contenedor">
-  <app-tabla-acta-prestamo [titulo]="titulo"></app-tabla-acta-prestamo>
-  <app-botones-definiciones></app-botones-definiciones>
+<section class="contenedor-singular">
+  <app-tabla-acta-prestamo
+    [titulo]="titulo"
+    [ocultarNuevo]="true"></app-tabla-acta-prestamo>
 </section>
+<app-toolbar
+  [mostrarBorrar]="false"
+  [mostrarBuscar]="false"
+  [mostrarGuardar]="false"
+  [mostrarImportar]="false"
+  [mostrarSalir]="false"
+  [mostrarImprimir]="false"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"></app-toolbar>

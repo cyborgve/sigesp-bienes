@@ -1,4 +1,14 @@
-<section class="contenedor">
-  <app-tabla-incorporacion [titulo]="titulo"></app-tabla-incorporacion>
-  <app-botones-definiciones></app-botones-definiciones>
+<section class="contenedor-singular">
+  <app-tabla-incorporacion
+    [titulo]="titulo"
+    [ocultarNuevo]="true"></app-tabla-incorporacion>
+  <app-toolbar
+    [mostrarBorrar]="false"
+    [mostrarBuscar]="false"
+    [mostrarGuardar]="false"
+    [mostrarImportar]="false"
+    [mostrarSalir]="false"
+    [mostrarImprimir]="false"
+    (irAtras)="irAtras()"
+    (irAlInicio)="irAlInicio()"></app-toolbar>
 </section>

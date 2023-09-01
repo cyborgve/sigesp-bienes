@@ -73,6 +73,8 @@ export class TablaDesincorporacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
+  imprimir(entidad: Desincorporacion) {}
+  previsualizar(entidad: Desincorporacion) {}
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

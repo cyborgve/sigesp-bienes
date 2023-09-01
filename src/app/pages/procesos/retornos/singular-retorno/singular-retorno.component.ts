@@ -138,6 +138,10 @@ export class SingularRetornoComponent implements Entidad {
     }
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/retornos']);
+  }
+
   borrar() {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {

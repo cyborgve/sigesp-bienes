@@ -173,6 +173,10 @@ export class SingularModificacionComponent implements Entidad {
       .subscribe(() => this.irAtras());
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/modificaciones']);
+  }
+
   imprimir() {
     throw new Error('Method not implemented.');
   }

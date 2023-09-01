@@ -1,1 +1,21 @@
-<p>listado-activos works!</p>
+<section class="contenedor-singular superior">
+  <!-- encabezado -->
+  <app-encabezado-reportes
+    [titulo]="titulo"
+    [fechaEmision]="fechaEmision"></app-encabezado-reportes>
+</section>
+<section class="contenedor-singular inferior superior">
+  <mat-card class="card">
+    <article class="contenido">
+      <app-rango-fechas
+        [formulario]="formularioRangoFechas"
+        class="rangoFechas"></app-rango-fechas>
+    </article>
+  </mat-card>
+  <article class="inferior">
+    <app-tabla-activo
+      [ocultarEncabezado]="true"
+      [columnasVisibles]="columnasVisibles"></app-tabla-activo>
+  </article>
+</section>
+<app-toolbar></app-toolbar>

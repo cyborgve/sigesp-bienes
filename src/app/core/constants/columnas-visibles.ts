@@ -193,6 +193,7 @@ export const COLUMNAS_VISIBLES = {
     'unidadAdministrativaReceptora',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   AUTORIZACIONES_SALIDA: [
     'comprobante',
@@ -200,6 +201,7 @@ export const COLUMNAS_VISIBLES = {
     'empresaAutorizada',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   CAMBIOS_RESPONSABLE: [
     'comprobante',
@@ -207,6 +209,7 @@ export const COLUMNAS_VISIBLES = {
     'nuevoResponsable',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   DEPRECIACIONES: [
     'comprobante',
@@ -214,6 +217,7 @@ export const COLUMNAS_VISIBLES = {
     'unidadAdministrativa',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   DEPRECIACIONES_DETALLE: [
     'fechaDepreciacion',
@@ -230,6 +234,7 @@ export const COLUMNAS_VISIBLES = {
     'unidadAdministrativa',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   ENTREGA_UNIDAD: [
     'comprobante',
@@ -237,6 +242,7 @@ export const COLUMNAS_VISIBLES = {
     'sede',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   INCORPORACIONES: [
     'comprobante',
@@ -244,6 +250,7 @@ export const COLUMNAS_VISIBLES = {
     'unidadAdministrativa',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   MODIFICACIONES: [
     'comprobante',
@@ -251,6 +258,7 @@ export const COLUMNAS_VISIBLES = {
     'activo',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
   REASIGNACIONES: [
     'comprobante',
@@ -258,6 +266,13 @@ export const COLUMNAS_VISIBLES = {
     'sede',
     'creado',
     'modificado',
+    'acciones-proceso',
   ],
-  RETORNOS: ['comprobante', 'beneficiario', 'creado', 'modificado'],
+  RETORNOS: [
+    'comprobante',
+    'beneficiario',
+    'creado',
+    'modificado',
+    'acciones-proceso',
+  ],
 };

@@ -74,6 +74,9 @@ export class TablaActaPrestamoComponent
     this._router.navigate(['/']);
   }
 
+  imprimir(entidad: ActaPrestamo) {}
+  previsualizar(entidad: ActaPrestamo) {}
+
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
     this.dataSource.filter = valorFiltro.trim().toLowerCase();

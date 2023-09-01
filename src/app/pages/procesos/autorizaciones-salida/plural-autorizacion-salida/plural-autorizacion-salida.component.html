@@ -1,5 +1,14 @@
-<section class="contenedor">
+<section class="contenedor-singular">
   <app-tabla-autorizacion-salida
+    [ocultarNuevo]="true"
     [titulo]="titulo"></app-tabla-autorizacion-salida>
-  <app-botones-definiciones></app-botones-definiciones>
+  <app-toolbar
+    [mostrarBorrar]="false"
+    [mostrarBuscar]="false"
+    [mostrarGuardar]="false"
+    [mostrarImportar]="false"
+    [mostrarSalir]="false"
+    [mostrarImprimir]="false"
+    (irAtras)="irAtras()"
+    (irAlInicio)="irAlInicio()"></app-toolbar>
 </section>

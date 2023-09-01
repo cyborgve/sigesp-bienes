@@ -65,6 +65,8 @@ export class TablaAutorizacionSalidaComponent
       )
       .subscribe();
   }
+  imprimir(entidad: AutorizacionSalida) {}
+  previsualizar(entidad: AutorizacionSalida) {}
 
   irAtras() {
     this._location.back();

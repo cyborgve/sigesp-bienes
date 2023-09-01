@@ -134,6 +134,10 @@ export class SingularEntregaUnidadComponent implements Entidad {
     }
   }
 
+  buscar() {
+    this._router.navigate(['/procesos/entregas-unidad']);
+  }
+
   borrar() {
     let dialog = this._dialog.open(DialogoEliminarComponent, {
       data: {

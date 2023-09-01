@@ -86,6 +86,8 @@ export class TablaEntregaUnidadComponent
   editar(entidad: EntregaUnidad) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
+  imprimir(entidad: EntregaUnidad) {}
+  previsualizar(entidad: EntregaUnidad) {}
 
   eliminar(entidad: EntregaUnidad) {
     let dialog = this._dialog.open(DialogoEliminarComponent, {

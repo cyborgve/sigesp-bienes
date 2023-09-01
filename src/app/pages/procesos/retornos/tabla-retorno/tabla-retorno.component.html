@@ -34,13 +34,15 @@
       </td>
     </ng-container>
 
-    <!-- acciones -->
-    <ng-container matColumnDef="acciones">
+    <!-- acciones-proceso -->
+    <ng-container matColumnDef="acciones-proceso">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let row">
-        <app-botones-acciones
+        <app-botones-acciones-proceso
           (editar)="editar(row)"
-          (eliminar)="eliminar(row)"></app-botones-acciones>
+          (eliminar)="eliminar(row)"
+          (imprimir)="imprimir(row)"
+          (previsualizar)="previsualizar(row)"></app-botones-acciones-proceso>
       </td>
     </ng-container>
 

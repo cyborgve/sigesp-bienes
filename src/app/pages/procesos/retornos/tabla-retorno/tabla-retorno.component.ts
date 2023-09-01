@@ -72,6 +72,8 @@ export class TablaRetornoComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
+  imprimir(entidad: Retorno) {}
+  previsualizar(entidad: Retorno) {}
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

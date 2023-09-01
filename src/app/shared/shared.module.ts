@@ -85,6 +85,7 @@ import { RangoFechasComponent } from './components/rango-fechas/rango-fechas.com
 import { EstadoMovimientoCatalogoPipe } from './pipes/estado-movimiento-catalogo.pipe';
 import { PieReporteComponent } from './components/pie-reporte/pie-reporte.component';
 import { BuscadorBeneficiarioComponent } from './components/buscador-beneficiario/buscador-beneficiario.component';
+import { BotonesAccionesProcesoComponent } from './components/botones-acciones-proceso/botones-acciones-proceso.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -179,6 +180,7 @@ const sharedPipes = [
     ...sharedPipes,
     PieReporteComponent,
     BuscadorBeneficiarioComponent,
+    BotonesAccionesProcesoComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
   exports: [
@@ -186,6 +188,7 @@ const sharedPipes = [
     ...sharedPipes,
     PieReporteComponent,
     BuscadorBeneficiarioComponent,
+    BotonesAccionesProcesoComponent,
   ],
 })
 export class SharedModule {}

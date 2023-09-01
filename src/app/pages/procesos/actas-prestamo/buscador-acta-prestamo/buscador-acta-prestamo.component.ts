@@ -12,7 +12,7 @@ export class BuscadorActaPrestamoComponent {
   titulo = 'buscador de actas de préstamo';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.ACTAS_PRESTAMO.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   constructor(
     private _dialogRef: MatDialogRef<BuscadorActaPrestamoComponent>
