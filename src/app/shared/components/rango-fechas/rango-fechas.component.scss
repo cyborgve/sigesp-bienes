@@ -1,5 +1,5 @@
 .rangoFechas {
-  @apply w-full grid grid-cols-7 gap-x-4;
+  @apply w-full grid grid-cols-10 gap-x-4;
 }
 
 .rango {
@@ -8,4 +8,11 @@
 
 .fechas {
   @apply col-span-3;
+}
+.fechaReferencia {
+  @apply col-span-3;
+}
+
+mat-datepicker-toggle {
+  @apply text-primary;
 }

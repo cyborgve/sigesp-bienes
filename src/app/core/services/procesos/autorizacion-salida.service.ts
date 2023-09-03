@@ -53,14 +53,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
             return autorizacionGuardada;
           })
         );
-      }),
-      tap(autorizacionSalida =>
-        this._xlsx.exportarProceso(
-          autorizacionSalida,
-          'AUTORIZACIÓN DE SALIDA',
-          true
-        )
-      )
+      })
     );
   }
 }

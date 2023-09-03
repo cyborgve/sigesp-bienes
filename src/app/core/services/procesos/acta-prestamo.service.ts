@@ -97,10 +97,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
             );
           })
         );
-      }),
-      tap(actaPrestamo =>
-        this._xslx.exportarProceso(actaPrestamo, 'ACTA DE PRESTAMO', true)
-      )
+      })
     );
   }
 

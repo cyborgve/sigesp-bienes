@@ -1,0 +1,12 @@
+.titulo-propiedades {
+  @apply text-base text-primary;
+}
+
+.contenedor {
+  @apply flex gap-x-8;
+}
+
+.disponibles,
+.seleccionadas {
+  @apply w-1/2;
+}

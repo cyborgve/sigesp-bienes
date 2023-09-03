@@ -5,17 +5,16 @@
     [fechaEmision]="fechaEmision"></app-encabezado-reportes>
 </section>
 <section class="contenedor-singular inferior superior">
-  <mat-card class="card">
-    <article class="contenido">
-      <app-rango-fechas
-        [formulario]="formularioRangoFechas"
-        class="rangoFechas"></app-rango-fechas>
-    </article>
-  </mat-card>
-  <article class="inferior">
-    <app-tabla-activo
-      [ocultarEncabezado]="true"
-      [columnasVisibles]="columnasVisibles"></app-tabla-activo>
-  </article>
+  <app-propiedades-activo></app-propiedades-activo>
 </section>
-<app-toolbar></app-toolbar>
+<section class="contenedor-singular inferior superior">
+  <app-rango-fechas
+    [formulario]="formularioRangoFechas"
+    class="rangoFechas"></app-rango-fechas>
+</section>
+<section class="contenedor-singular inferior">
+  <app-tabla-activo
+    [ocultarEncabezado]="true"
+    [columnasVisibles]="columnasVisibles"></app-tabla-activo>
+</section>
+<app-toolbar [mostrarImportar]="false"></app-toolbar>

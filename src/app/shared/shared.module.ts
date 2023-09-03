@@ -86,6 +86,7 @@ import { EstadoMovimientoCatalogoPipe } from './pipes/estado-movimiento-catalogo
 import { PieReporteComponent } from './components/pie-reporte/pie-reporte.component';
 import { BuscadorBeneficiarioComponent } from './components/buscador-beneficiario/buscador-beneficiario.component';
 import { BotonesAccionesProcesoComponent } from './components/botones-acciones-proceso/botones-acciones-proceso.component';
+import { PropiedadesActivoComponent } from './components/propiedades-activo/propiedades-activo.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -181,6 +182,7 @@ const sharedPipes = [
     PieReporteComponent,
     BuscadorBeneficiarioComponent,
     BotonesAccionesProcesoComponent,
+    PropiedadesActivoComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
   exports: [
@@ -189,6 +191,7 @@ const sharedPipes = [
     PieReporteComponent,
     BuscadorBeneficiarioComponent,
     BotonesAccionesProcesoComponent,
+    PropiedadesActivoComponent,
   ],
 })
 export class SharedModule {}

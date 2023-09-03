@@ -48,7 +48,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
+import { PaginadorPersonalizadoIntl } from './paginador-personalizado-intl';
 
 const materialModules = [
   MatButtonModule,
@@ -102,13 +102,7 @@ const materialModules = [
   imports: [...materialModules],
   exports: [...materialModules],
   providers: [
-    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-Ve' },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE],
-    },
+    { provide: MatPaginatorIntl, useClass: PaginadorPersonalizadoIntl },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
 })

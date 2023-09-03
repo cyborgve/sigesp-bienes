@@ -97,9 +97,6 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
             return forkJoin(desincorporar).pipe(map(() => desincorporacion));
           })
         );
-      }),
-      tap(desincorporacion => {
-        this._xlsx.exportarProceso(desincorporacion, 'DESINCORPORACIÓN', true);
       })
     );
   }

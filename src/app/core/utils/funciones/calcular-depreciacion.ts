@@ -15,7 +15,7 @@ export function calcularDepreciacion(
   metodo: MetodoDepreciacion,
   tiempo: number,
   enMeses: boolean = false,
-  valorSalvamento?: number
+  valorRescate: number
 ): number {
   // Si el tiempo se proporciona en meses, lo convertimos a años para un cálculo uniforme.
   const tiempoEnAnios = enMeses ? tiempo / 12 : tiempo;
@@ -43,7 +43,7 @@ export function calcularDepreciacion(
         valorInicial,
         vidaUtil,
         tiempoEnAnios,
-        valorSalvamento
+        valorRescate
       );
     case 'SUMA DE DIGITOS':
       return calcularDepreciacionSumaDigitos(
@@ -89,10 +89,10 @@ function calcularDepreciacionSaldoDecreciente(
   valorInicial: number,
   vidaUtil: number,
   tiempo: number,
-  valorSalvamento: number
+  valorRescate: number
 ): number {
   const tasaDepreciacion =
-    1 - Math.pow(valorSalvamento / valorInicial, 1 / vidaUtil);
+    1 - Math.pow(valorRescate / valorInicial, 1 / vidaUtil);
   let valorLibro = valorInicial;
   for (let i = 1; i <= tiempo; i++) {
     valorLibro -= valorLibro * tasaDepreciacion;
@@ -133,4 +133,67 @@ function calcularDepreciacionUnidadesProduccion(
   const unidadesProducidasEnAnoN = 200; // Unidades producidas en el año "tiempo" (ajustar según el caso)
   const depreciacionPorUnidad = valorInicial / totalUnidadesProducidas;
   return unidadesProducidasEnAnoN * depreciacionPorUnidad;
+}
+
+interface RegistroDepreciacion {
+  fechaDepreciacion: string;
+  meses: number;
+  dias: number;
+  depreciacionMensual: number;
+  depreciacionAnual: number;
+  depreciacionAcumulada: number;
+  valorContable: number;
+}
+
+export function detalleDepreciaciones(
+  valorInicial: number,
+  vidaUtil: number,
+  metodo: MetodoDepreciacion,
+  enMeses: boolean = false,
+  valorSalvamento: number
+): RegistroDepreciacion[] {
+  let detalleDepreciaciones: RegistroDepreciacion[] = [];
+  let depreciacionAcumulada = 0;
+  let valorContable = valorInicial;
+
+  for (let tiempo = 1; tiempo <= vidaUtil; tiempo++) {
+    const meses = enMeses ? tiempo : tiempo * 12;
+    const dias = enMeses ? tiempo * 30 : tiempo * 365; // Asumiendo 30 días por mes y 365 días por año
+    const depreciacionMensual = calcularDepreciacion(
+      valorInicial,
+      vidaUtil,
+      metodo,
+      meses,
+      enMeses,
+      valorSalvamento
+    );
+    const depreciacionAnual = enMeses
+      ? 0 // No aplica si se calcula en meses
+      : calcularDepreciacion(
+          valorInicial,
+          vidaUtil,
+          metodo,
+          tiempo,
+          false,
+          valorSalvamento
+        );
+
+    depreciacionAcumulada += depreciacionMensual;
+    valorContable -= depreciacionMensual;
+
+    // Formatea la fecha de depreciación según tus preferencias
+    const fechaDepreciacion = enMeses ? `Mes ${meses}` : `Año ${tiempo}`;
+
+    detalleDepreciaciones.push({
+      fechaDepreciacion,
+      meses,
+      dias,
+      depreciacionMensual,
+      depreciacionAnual,
+      depreciacionAcumulada,
+      valorContable,
+    });
+  }
+
+  return detalleDepreciaciones;
 }

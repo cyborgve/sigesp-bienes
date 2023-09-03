@@ -277,3 +277,11 @@ mat-datepicker-toggle {
 .contenido-reporte {
   @apply py-8 pl-16 pr-8;
 }
+
+.titulo-filtro {
+  @apply text-lg text-primary font-semibold mb-0;
+}
+
+.descripcion-filtro {
+  @apply text-sm mt-0 pt-0 pb-2 font-thin;
+}

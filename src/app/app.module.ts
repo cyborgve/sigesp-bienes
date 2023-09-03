@@ -9,6 +9,8 @@ import { AppModule as SigespModule } from 'sigesp';
 import { HeaderHttpInterceptor } from '@core/interceptors/header-http.interceptor';
 import { registerLocaleData } from '@angular/common';
 import esVE from '@angular/common/locales/es-VE';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { PaginadorPersonalizadoIntl } from './material/paginador-personalizado-intl';
 
 registerLocaleData(esVE, 'es-VE');
 
@@ -29,6 +31,7 @@ registerLocaleData(esVE, 'es-VE');
       useClass: HeaderHttpInterceptor,
       multi: true,
     },
+    { provide: MatPaginatorIntl, useClass: PaginadorPersonalizadoIntl },
   ],
   bootstrap: [AppComponent],
 })

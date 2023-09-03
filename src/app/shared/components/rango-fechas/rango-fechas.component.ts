@@ -24,6 +24,7 @@ export class RangoFechasComponent implements OnInit {
           this.formulario.patchValue({
             fechaInicio: FECHAS_CALCULADAS[rango][0],
             fechaFin: FECHAS_CALCULADAS[rango][1],
+            fechaReferencia: 'CREADO',
           });
         })
       )

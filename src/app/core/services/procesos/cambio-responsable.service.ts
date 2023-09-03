@@ -63,16 +63,7 @@ export class CambioResponsableService extends GenericService<CambioResponsable> 
             );
           })
         );
-      }),
-      tap(cambioResponsableprocesado =>
-        cambioResponsableprocesado
-          ? this._xlsx.exportarProceso(
-              cambioResponsableprocesado,
-              'CAMBIO DE RESPONSABLE',
-              false
-            )
-          : undefined
-      )
+      })
     );
   }
 }

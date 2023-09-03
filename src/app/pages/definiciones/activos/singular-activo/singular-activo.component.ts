@@ -299,7 +299,8 @@ export class SingularActivoComponent implements Entidad {
               modificado: activo.ubicacion.modificado,
             })
           ),
-          take(1)
+          take(1),
+          tap(activo => console.log(Object.keys(activo)))
         )
         .subscribe();
     } else {
