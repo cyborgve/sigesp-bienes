@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TablaActaPrestamoModule } from '@pages/procesos/actas-prestamo/tabla-acta-prestamo/tabla-acta-prestamo.module';
+import { FiltrosReportesModule } from '@pages/reportes/filtros-reportes/filtros-reportes.module';
 
 @NgModule({
   declarations: [ActasComponent],
@@ -21,6 +22,7 @@ import { TablaActaPrestamoModule } from '@pages/procesos/actas-prestamo/tabla-ac
     MatSelectModule,
     MatDatepickerModule,
     TablaActaPrestamoModule,
+    FiltrosReportesModule,
   ],
 })
 export class ActasModule {}

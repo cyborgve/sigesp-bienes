@@ -5,13 +5,9 @@
     [fechaEmision]="fechaEmision"></app-encabezado-reportes>
 </section>
 <section class="contenedor-singular inferior superior">
-  <mat-card>
-    <article class="contenido">
-      <app-rango-fechas
-        [formulario]="formularioRangoFechas"
-        class="rangoFechas"></app-rango-fechas>
-    </article>
-  </mat-card>
+  <app-filtro-rango-fechas
+    [formulario]="formularioRangoFechas"
+    class="rangoFechas"></app-filtro-rango-fechas>
   <article class="inferior">
     <app-tabla-acta-prestamo
       [ocultarEncabezado]="true"></app-tabla-acta-prestamo>
