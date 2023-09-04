@@ -1,0 +1,39 @@
+<!-- filtro -->
+<ng-container *ngIf="sinDecorar; else decorado">
+  <ng-container *ngTemplateOutlet="contenido"></ng-container>
+</ng-container>
+
+<!-- decorado -->
+<ng-template #decorado>
+  <mat-card class="filtro-card">
+    <mat-card-title class="filtro-titulo"
+      >Filtrar por Tipo de Cobertura</mat-card-title
+    >
+    <p class="filtro-descripcion">
+      Seleccione la tipo de cobertura para el grupo de activos, si no selecciona
+      ninguna se muestran todos los registros
+    </p>
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </mat-card>
+</ng-template>
+
+<!-- contenido -->
+<ng-template #contenido>
+  <section>
+    <mat-form-field appearance="fill" class="filtro-input">
+      <mat-label>Tipo de Cobertura</mat-label>
+      <input
+        matInput
+        type="text"
+        readonly="true"
+        [value]="tipoCobertura.value | denominacionTipoCobertura | async" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarTipoCobertura()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </section>
+</ng-template>

@@ -19,6 +19,7 @@ export class ListadoActivosComponent {
   formularioRangoFechas: FormGroup;
   procesos = TIPOS_PROCESO;
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'].filter(c => c !== 'acciones');
+  filtrosSinDecorar = false;
 
   activo = <Activo>{};
 

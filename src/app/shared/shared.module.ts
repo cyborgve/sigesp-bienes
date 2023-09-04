@@ -33,14 +33,13 @@ import { BuscadorMonedaComponent } from './components/buscador-moneda/buscador-m
 import { DenominacionMonedaPipe } from './pipes/denominacion-moneda.pipe';
 import { CorregirSeleccionarPipe } from './pipes/corregir-seleccionar.pipe';
 import { DenominacionCuentaContablePipe } from './pipes/denominacion-cuenta-contable.pipe';
-import { BuscadorFuenteFinanciemientoComponent } from './components/buscador-fuente-financiemiento/buscador-fuente-financiemiento.component';
+import { BuscadorFuenteFinanciamientoComponent } from './components/buscador-fuente-financiamiento/buscador-fuente-financiamiento.component';
 import { DenominacionFuenteFinanciamientoPipe } from './pipes/denominacion-fuente-financiamiento.pipe';
 import { TipoCausaMovimientoPipe } from './pipes/tipo-causa-movimiento.pipe';
 import { DenominacionTipoMarcaPipe } from './pipes/denominacion-tipo-marca.pipe';
 import { DenominacionTipoSedePipe } from './pipes/denominacion-tipo-sede.pipe';
 import { BuscadorPaisComponent } from './components/buscador-pais/buscador-pais.component';
 import { DenominacionPaisPipe } from './pipes/denominacion-pais.pipe';
-import { CorregirNingunoPipe } from './pipes/corregir-ninguno.pipe';
 import { DenominacionEstadoPipe } from './pipes/denominacion-estado.pipe';
 import { DenominacionMunicipioPipe } from './pipes/denominacion-municipio.pipe';
 import { DenominacionCiudadPipe } from './pipes/denominacion-ciudad.pipe';
@@ -81,7 +80,6 @@ import { DenominacionCatalogoGeneralPipe } from './pipes/denominacion-catalogo-g
 import { CorregirMetodoDepreciacionPipe } from './pipes/corregir-metodo-depreciacion.pipe';
 import { EncabezadoReportesComponent } from './components/encabezado-reportes/encabezado-reportes.component';
 import { TipoOracionPipe } from './pipes/tipo-oracion.pipe';
-import { RangoFechasComponent } from './components/rango-fechas/rango-fechas.component';
 import { EstadoMovimientoCatalogoPipe } from './pipes/estado-movimiento-catalogo.pipe';
 import { PieReporteComponent } from './components/pie-reporte/pie-reporte.component';
 import { BuscadorBeneficiarioComponent } from './components/buscador-beneficiario/buscador-beneficiario.component';
@@ -96,7 +94,7 @@ const sharedComponents = [
   BotonesDefinicionesComponent,
   BuscadorCuentaContableComponent,
   BuscadorMonedaComponent,
-  BuscadorFuenteFinanciemientoComponent,
+  BuscadorFuenteFinanciamientoComponent,
   BuscadorPaisComponent,
   BuscadorEstadoComponent,
   BuscadorMunicipioComponent,
@@ -109,17 +107,19 @@ const sharedComponents = [
   EncabezadoDefinicionesComponent,
   EncabezadoProcesosComponent,
   ActivosProcesoComponent,
-  RangoFechasComponent,
   BuscadorProveedorComponent,
   CuentasContablesProcesoComponent,
   EncabezadoReportesComponent,
   ComponentesProcesoComponent,
+  PieReporteComponent,
+  BuscadorBeneficiarioComponent,
+  BotonesAccionesProcesoComponent,
+  PropiedadesActivoComponent,
 ];
 
 const sharedPipes = [
   IsoCurrencyPipe,
   CorregirSeleccionarPipe,
-  CorregirNingunoPipe,
   CorregirCodigoPipe,
   CorregirPorDefectoPipe,
   NumeroSeriePipe,
@@ -176,22 +176,8 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    ...sharedPipes,
-    PieReporteComponent,
-    BuscadorBeneficiarioComponent,
-    BotonesAccionesProcesoComponent,
-    PropiedadesActivoComponent,
-  ],
+  declarations: [...sharedComponents, ...sharedPipes],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [
-    ...sharedComponents,
-    ...sharedPipes,
-    PieReporteComponent,
-    BuscadorBeneficiarioComponent,
-    BotonesAccionesProcesoComponent,
-    PropiedadesActivoComponent,
-  ],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}

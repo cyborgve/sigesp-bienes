@@ -1,5 +1,4 @@
-import { ActivoDepreciacion } from './../../../../../core/models/definiciones/activo-depreciacion';
-import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financiemiento';
+import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financiamiento';
 import { map, tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -15,7 +14,7 @@ import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-se
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
 import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
 import { SigespService } from 'sigesp';
-import { BuscadorFuenteFinanciemientoComponent } from '@shared/components/buscador-fuente-financiemiento/buscador-fuente-financiemiento.component';
+import { BuscadorFuenteFinanciamientoComponent } from '@shared/components/buscador-fuente-financiamiento/buscador-fuente-financiamiento.component';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 import { BuscadorCentroCostoComponent } from '@shared/components/buscador-centro-costo/buscador-centro-costo.component';
 import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';
@@ -173,7 +172,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
   }
 
   buscarFuenteFinanciamiento() {
-    let dialog = this._dialog.open(BuscadorFuenteFinanciemientoComponent, {
+    let dialog = this._dialog.open(BuscadorFuenteFinanciamientoComponent, {
       height: '95%',
       width: '85%',
     });
@@ -181,7 +180,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          tap((fuente: FuenteFinanciemiento) =>
+          tap((fuente: FuenteFinanciamiento) =>
             fuente
               ? this.formulario.patchValue({ fuenteFinanciamiento: fuente.id })
               : undefined

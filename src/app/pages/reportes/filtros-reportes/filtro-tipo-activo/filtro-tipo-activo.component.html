@@ -1,0 +1,19 @@
+<mat-card class="filtro-card">
+  <mat-card-title class="filtro-titulo"
+    >Filtrar por Tipo de Activo</mat-card-title
+  >
+  <p class="filtro-descripcion">
+    Seleccione el tipo de activo, si no selecciona ninguno se muestran todos los
+    registros
+  </p>
+  <section>
+    <mat-form-field appearance="fill" class="filtro-input">
+      <mat-label>Tipo de Activo</mat-label>
+      <mat-select formControl="tipoActivo">
+        <mat-option *ngFor="let tipo of tiposActivo">{{
+          tipo | titlecase
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+</mat-card>

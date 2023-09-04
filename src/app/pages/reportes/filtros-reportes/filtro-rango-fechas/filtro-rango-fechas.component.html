@@ -1,0 +1,58 @@
+<!-- componente filtro -->
+<ng-container *ngIf="sinDecorar; else decorado">
+  <ng-container *ngTemplateOutlet="contenido"></ng-container>
+</ng-container>
+
+<!-- decorado -->
+<ng-template #decorado>
+  <mat-card class="filtro-card">
+    <mat-card-title class="filtro-titulo"
+      >Filtrar por rango de fechas</mat-card-title
+    >
+    <p class="filtro-descripcion">
+      Seleccione el rango y la fecha de referencia para filtrar. Si elige el
+      rango personalizado, también debe seleccionar las fechas de inicio y
+      final. Por defecto se muestran todos los resultados.
+    </p>
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </mat-card>
+</ng-template>
+
+<ng-template #contenido>
+  <form [formGroup]="formulario">
+    <section class="rangoFechas">
+      <!-- rando de fechas -->
+      <mat-form-field appearance="fill" class="rango">
+        <mat-label>Rango de fechas</mat-label>
+        <mat-select formControlName="rango">
+          <mat-option
+            *ngFor="let rangoFecha of rangosFechas"
+            [value]="rangoFecha"
+            >{{ rangoFecha | tipoOracion }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <!-- rango personalizado -->
+      <mat-form-field appearance="fill" class="fechas">
+        <mat-label>Fechas seleccionadas</mat-label>
+        <mat-date-range-input [rangePicker]="rangoPersPicker">
+          <input matStartDate formControlName="fechaInicio" readonly="true" />
+          <input matEndDate formControlName="fechaFin" readonly="true" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="rangoPersPicker"
+          [disabled]="rangoPersonalizado()"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangoPersPicker></mat-date-range-picker>
+      </mat-form-field>
+      <!-- fecha referencia -->
+      <mat-form-field appearance="fill" class="fechaReferencia">
+        <mat-label>Fecha de referencia</mat-label>
+        <mat-select formControlName="fechaReferencia">
+          <mat-option value="CREADO">Fecha de creación</mat-option>
+          <mat-option value="MODIFICADO">Fecha de modificación</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+  </form>
+</ng-template>

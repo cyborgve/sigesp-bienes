@@ -15,7 +15,6 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { TipoMarca } from '@core/models/definiciones/tipo-marca';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { TIPOS_MARCA } from '@core/constants/tipos-marca';
 import { Basica } from '@core/models/auxiliares/basica';
 
 @Component({
@@ -28,7 +27,6 @@ export class SingularMarcaComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[11].nombre;
   formulario: FormGroup;
-  tiposMarca = TIPOS_MARCA;
 
   constructor(
     private _entidad: MarcaService,

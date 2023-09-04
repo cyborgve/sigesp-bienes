@@ -5,6 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CorregirSeleccionarPipe implements PipeTransform {
   transform(value: string): string {
-    return value === '---' || value === '--' ? 'Seleccionar' : value;
+    if (value)
+      return value === '---' ||
+        value === '--' ||
+        value.toLowerCase() === 'ninguno' ||
+        value.toLowerCase() === 'ninguna'
+        ? 'Seleccionar'
+        : value;
   }
 }

@@ -1,13 +1,13 @@
 import { map } from 'rxjs/operators';
-import { FuenteFinanciemiento } from '@core/models/otros-modulos/fuente-financiemiento';
+import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financiamiento';
 import { pipe } from 'rxjs';
 import { MFuenteFinanciamiento } from 'sigesp';
-export const adaptarFuentesFinanciemiento = () =>
+export const adaptarFuentesFinanciamiento = () =>
   pipe(
     map((fuentes: MFuenteFinanciamiento[]) =>
       fuentes.map(
         fuente =>
-          <FuenteFinanciemiento>{
+          <FuenteFinanciamiento>{
             empresaId: undefined,
             id: fuente['codigo'],
             codigo: fuente['codigoFuenteFinanciamiento'],
