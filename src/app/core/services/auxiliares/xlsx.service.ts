@@ -1,15 +1,23 @@
+import { take, tap } from 'rxjs/operators';
+import { pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { prepararNombreArchivo } from '@core/utils/funciones/preparar-nombre-archivo';
 import * as XLSX from 'xlsx';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { Activo } from '@core/models/definiciones/activo';
+import { InformacionDefinicionService } from './informacion-definicion.service';
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class XLSXService {
-  constructor(private _informacionProceso: InformacionProcesoService) {}
+  constructor(
+    private _informacionProceso: InformacionProcesoService,
+    private _informacionDefinicion: InformacionDefinicionService
+  ) {}
 
   exportarProceso(
     data: any,
@@ -22,6 +30,35 @@ export class XLSXService {
       if (activosMultiples) this.agregarHojaActivos(workBook, proceso.activos);
       this.guardarArchivo(workBook, fileName);
     });
+  }
+
+  exportarListaActivos(activos: Activo[]) {
+    let fecha = new Date();
+    let ids = activos.map(activo => activo.id);
+    this._informacionDefinicion
+      .obtenerActivos(ids)
+      .pipe(
+        tap(console.log),
+        tap(activos => {
+          let workBook = XLSX.utils.book_new();
+          let workSheet = XLSX.utils.json_to_sheet([activos]);
+          XLSX.utils.book_append_sheet(workBook, workSheet, 'Activos');
+          let nombreArchivo = `sbn_listado-activos_${String(
+            fecha.getDay()
+          ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
+            2,
+            '0'
+          )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+            2,
+            '0'
+          )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+            fecha.getSeconds()
+          ).padStart(2, '0')}.xlsx`;
+          XLSX.writeFile(workBook, nombreArchivo);
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
   private generarNombreArchivo(tipo: TipoProceso, comprobante: string): string {
