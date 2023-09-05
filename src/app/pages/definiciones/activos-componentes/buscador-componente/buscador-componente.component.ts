@@ -9,7 +9,7 @@ import { ActivoComponente } from '@core/models/definiciones/activo-componente';
   styleUrls: ['./buscador-componente.component.scss'],
 })
 export class BuscadorComponenteComponent {
-  titulo = 'buscador de componentes de activos';
+  titulo = 'buscador de componentes de bienes';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES.filter(
     c => c !== 'acciones'

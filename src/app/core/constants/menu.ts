@@ -14,7 +14,7 @@ export const MENU: MenuItem[] = [
     image: './assets/images/svg/description.svg',
     items: [
       {
-        label: 'Activos - Bienes',
+        label: 'Bienes',
         routerLink: 'activos',
         icon: 'home_work',
         image: './assets/images/svg/home_work.svg',
@@ -62,7 +62,7 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/palette.svg',
       },
       {
-        label: 'Activos - Componente',
+        label: 'Bienes - Componente',
         routerLink: 'activos-componentes',
         icon: 'crop_square',
         image: './assets/images/svg/crop_square.svg',

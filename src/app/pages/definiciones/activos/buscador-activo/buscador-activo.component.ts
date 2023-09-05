@@ -10,7 +10,7 @@ import { Activo } from '@core/models/definiciones/activo';
 })
 export class BuscadorActivoComponent {
   filtros: any[] = [];
-  titulo = 'buscador de activos';
+  titulo = 'buscador de bienes';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.ACTIVOS.filter(c => c !== 'acciones');
   constructor(

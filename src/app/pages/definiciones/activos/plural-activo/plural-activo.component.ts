@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./plural-activo.component.scss'],
 })
 export class PluralActivoComponent {
-  titulo = 'activos';
+  titulo = 'bienes';
 }
