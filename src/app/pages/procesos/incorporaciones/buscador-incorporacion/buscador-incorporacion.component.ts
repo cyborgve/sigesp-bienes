@@ -12,7 +12,7 @@ export class BuscadorIncorporacionComponent {
   titulo = 'buscador de incorporaciones';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.INCORPORACIONES.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   filtros: any[] = [];
   constructor(

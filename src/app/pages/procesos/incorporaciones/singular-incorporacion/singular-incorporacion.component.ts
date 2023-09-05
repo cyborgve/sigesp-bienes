@@ -215,10 +215,7 @@ export class SingularIncorporacionComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._incorporacion.eliminar(
-            this.formulario.value.id,
-            this.titulo.toUpperCase()
-          )
+          this._incorporacion.eliminar(this.formulario.value.id, this.titulo)
         ),
         take(1)
       )
@@ -288,7 +285,10 @@ export class SingularIncorporacionComponent implements Entidad {
   }
 
   eliminarActivo(event: any) {
+    let activo: ActivoProceso = event;
     let data = this.dataSource.data;
+    data.splice(data.indexOf(activo), 1);
+    this.dataSource = new MatTableDataSource(data);
   }
 
   buscarCausaMovimiento() {

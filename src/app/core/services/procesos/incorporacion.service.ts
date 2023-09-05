@@ -7,13 +7,15 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IncorporacionActivoService } from './incorporacion-activo.service';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, of, pipe } from 'rxjs';
 import { adaptarIncorporaciones } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporaciones';
 import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporacion';
 import { XLSXService } from '../auxiliares/xlsx.service';
 import { PdfService } from '../auxiliares/pdf.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +106,57 @@ export class IncorporacionService extends GenericService<Incorporacion> {
             return forkJoin(incorporarActivos).pipe(
               map(() => incorporacionGuardada)
             );
+          })
+        );
+      })
+    );
+  }
+
+  actualizar(
+    id: Id,
+    entidad: Incorporacion,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<number> {
+    return super.actualizar(id, entidad, tipoDato, notificar);
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(incorporacion => {
+        return super.eliminar(id, tipoDato, notificar).pipe(
+          switchMap(incorporacionEliminada => {
+            if (!incorporacionEliminada) return of(false);
+            else {
+              let ubicarActivos = incorporacion.activos.map(ap =>
+                this._activoUbicacion.buscarPorId(ap.activo)
+              );
+              return forkJoin(ubicarActivos).pipe(
+                switchMap(activosUbicados => {
+                  let desincorporarActivos = activosUbicados.map(au => {
+                    au.responsableId = '---';
+                    au.responsableUsoId = '---';
+                    au.unidadAdministrativaId = 0;
+                    au.sedeId = 0;
+                    au.fechaIngreso = undefined;
+                    return this._activoUbicacion.actualizar(
+                      au.id,
+                      au,
+                      undefined,
+                      false
+                    );
+                  });
+                  return forkJoin(desincorporarActivos).pipe(
+                    map(activosDesincorporados => {
+                      let todosDesincorporados = activosDesincorporados.every(
+                        des => des > 0
+                      );
+                      return todosDesincorporados;
+                    })
+                  );
+                })
+              );
+            }
           })
         );
       })

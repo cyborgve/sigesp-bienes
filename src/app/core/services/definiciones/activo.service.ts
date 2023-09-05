@@ -138,7 +138,7 @@ export class ActivoService extends GenericService<Activo> {
    * @param tipoDato string
    * @returns 1 | 0 (verdadero o falso) si se ejecuto la actualizacion.
    */
-  actualizar(id: Id, activo: Activo, tipoDato: string): Observable<Number> {
+  actualizar(id: Id, activo: Activo, tipoDato: string): Observable<number> {
     let peticionesActualizar = [
       super.actualizar(id, activo, tipoDato),
       this._activoDetalle.actualizar(id, activo.detalle, '', false),

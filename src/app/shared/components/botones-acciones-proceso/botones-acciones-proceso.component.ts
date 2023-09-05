@@ -11,7 +11,7 @@ export class BotonesAccionesProcesoComponent {
   @Output() editar = new EventEmitter();
   @Output() eliminar = new EventEmitter();
   @Input() deshabilitarEliminar: boolean = false;
-  @Input() deshabilitarEditar: boolean = false;
+  @Input() deshabilitarEditar: boolean = true;
   @Input() deshabilitarPrevisualizar: boolean = false;
   @Input() deshabilitarImprimir: boolean = false;
 }

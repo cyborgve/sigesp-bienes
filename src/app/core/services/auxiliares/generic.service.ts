@@ -88,7 +88,7 @@ export abstract class GenericService<T extends Basica>
     entidad: T,
     tipoDato: string,
     notificar: boolean = true
-  ): Observable<Number> {
+  ): Observable<number> {
     return this._http.put<Number>(this.apiUrlId(id), entidad).pipe(
       map((resultado: any) => resultado.data),
       tap((resultado: number) => {
