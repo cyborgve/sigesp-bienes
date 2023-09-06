@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { IncorporacionService } from '@core/services/procesos/incorporacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -50,7 +51,8 @@ export class TablaIncorporacionComponent
     private _entidad: IncorporacionService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -80,7 +82,19 @@ export class TablaIncorporacionComponent
     this._router.navigate(['/']);
   }
   imprimir(entidad: Incorporacion) {}
-  previsualizar(entidad: Incorporacion) {}
+
+  previsualizar(entidad: Incorporacion) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(console.log),
+        tap(incorporacion =>
+          this._pdf.abrirDocumento(incorporacion, 'INCORPORACION')
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

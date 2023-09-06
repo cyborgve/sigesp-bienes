@@ -12,10 +12,8 @@ import { adaptarIncorporaciones } from '@core/utils/adaptadores-rxjs.ts/adaptar-
 import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-incorporacion';
 import { XLSXService } from '../auxiliares/xlsx.service';
-import { PdfService } from '../auxiliares/pdf.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
-import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
-import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
+import { PDFService } from '../auxiliares/pdf.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +29,8 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _snackBar: MatSnackBar,
     private _incorporacionActivo: IncorporacionActivoService,
     private _xlsx: XLSXService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activoUbicacion: ActivoUbicacionService,
+    private _pdf: PDFService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -108,7 +107,12 @@ export class IncorporacionService extends GenericService<Incorporacion> {
             );
           })
         );
-      })
+      }),
+      tap(incorporacion =>
+        incorporacion
+          ? this._pdf.abrirDocumento(incorporacion, 'INCORPORACION')
+          : undefined
+      )
     );
   }
 
