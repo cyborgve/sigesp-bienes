@@ -7,7 +7,13 @@ import { Id } from '@core/types/id';
 export class CorregirCodigoPipe implements PipeTransform {
   transform(value: Id): string {
     return value?.toString().toUpperCase() !== 'AUTOGENERADO'
-      ? String(value).substring(5)
+      ? corregirCodigo(value)
       : String(value);
   }
 }
+
+const corregirCodigo = (codigo: Id) => {
+  let codigoEntrada = String(codigo);
+  if (codigoEntrada.length < 8) return codigoEntrada.padStart(8, '0');
+  else return codigoEntrada.substring(5);
+};

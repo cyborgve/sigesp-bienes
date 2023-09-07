@@ -1,5 +1,4 @@
 import { take, tap } from 'rxjs/operators';
-import { pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { prepararNombreArchivo } from '@core/utils/funciones/preparar-nombre-archivo';
@@ -8,7 +7,6 @@ import { InformacionProcesoService } from './informacion-proceso.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { Activo } from '@core/models/definiciones/activo';
 import { InformacionDefinicionService } from './informacion-definicion.service';
-import moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +36,6 @@ export class XLSXService {
     this._informacionDefinicion
       .obtenerActivos(ids)
       .pipe(
-        tap(console.log),
         tap(activos => {
           let workBook = XLSX.utils.book_new();
           let workSheet = XLSX.utils.json_to_sheet([activos]);

@@ -14,4 +14,8 @@ export class BotonesAccionesProcesoComponent {
   @Input() deshabilitarEditar: boolean = true;
   @Input() deshabilitarPrevisualizar: boolean = false;
   @Input() deshabilitarImprimir: boolean = false;
+  @Input() ocultarEliminar: boolean = false;
+  @Input() ocultarEditar: boolean = false;
+  @Input() ocultarPrevisualizar: boolean = false;
+  @Input() ocultarImprimir: boolean = true;
 }

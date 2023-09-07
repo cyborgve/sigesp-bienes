@@ -38,7 +38,6 @@ export class CambioResponsableService extends GenericService<CambioResponsable> 
         let ubicarActivo = this._activoUbicacion
           .buscarPorActivo(cambioResponsable.activo)
           .pipe(
-            tap(console.log),
             map(activoUbicacion => {
               if (Number(cambioResponsableGuardado.tipoResponsable) === 0)
                 activoUbicacion.responsableId =
@@ -47,8 +46,7 @@ export class CambioResponsableService extends GenericService<CambioResponsable> 
                 activoUbicacion.responsableUsoId =
                   cambioResponsableGuardado.nuevoResponsable;
               return activoUbicacion;
-            }),
-            tap(console.log)
+            })
           );
         return forkJoin([ubicarActivo]).pipe(
           switchMap(([activoUbicado]) => {

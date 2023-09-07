@@ -22,6 +22,7 @@ import { Modificacion } from '@core/models/procesos/modificacion';
 import { Reasignacion } from '@core/models/procesos/reasignacion';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
+import { MonedaService } from '../otros-modulos/moneda.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,8 @@ export class InformacionProcesoService {
     private _responsable: ResponsableService,
     private _unidadAdministrativa: UnidadAdministrativaService,
     private _sede: SedeService,
-    private _activo: ActivoService
+    private _activo: ActivoService,
+    private _moneda: MonedaService
   ) {}
 
   /**
@@ -106,18 +108,49 @@ export class InformacionProcesoService {
   private tipoActivo = (tipoAct: string) =>
     TIPOS_ACTIVO.find(tipoActivo => tipoActivo.substring(0, 3) === tipoAct);
 
-  private activosProceso = (activosProceso: ActivoProceso[], empresa: string) =>
-    activosProceso.map(activoProceso => ({
-      empresaId: empresa,
-      id: activoProceso.id,
-      proceso: activoProceso.proceso,
-      activo: activoProceso.proceso,
-      tipoActivo: this.tipoActivo(activoProceso.tipoActivo),
-      codigo: activoProceso.codigo.substring(5),
-      denominacion: activoProceso.denominacion,
-      creado: new Date(activoProceso.creado),
-      modificado: new Date(activoProceso.modificado),
-    }));
+  private valorActivo = (id: Id) =>
+    this._activo.buscarPorId(id).pipe(map(activo => activo.valorAdquisicion));
+
+  private identificadorActivo = (id: Id) =>
+    this._activo.buscarPorId(id).pipe(map(activo => activo.serialRotulacion));
+
+  private isoMonedaActivo = (id: Id) =>
+    this._activo
+      .buscarPorId(id)
+      .pipe(
+        switchMap(activo =>
+          this._moneda
+            .buscarPorId(activo.monedaId)
+            .pipe(map(moneda => moneda.iso))
+        )
+      );
+
+  private activoProceso = (activoProceso: ActivoProceso) => {
+    let buscarInformacion = [
+      this.empresa(activoProceso.empresaId),
+      this.valorActivo(activoProceso.activo),
+      this.isoMonedaActivo(activoProceso.activo),
+      this.identificadorActivo(activoProceso.activo),
+    ];
+    return forkJoin(buscarInformacion).pipe(
+      map(([empresa, valorActivo, isoMoneda, identificador]) => ({
+        empresaId: empresa,
+        id: activoProceso.id,
+        proceso: activoProceso.proceso,
+        activo: activoProceso.proceso,
+        tipoActivo: this.tipoActivo(activoProceso.tipoActivo),
+        codigo: activoProceso.codigo.substring(5),
+        denominacion: activoProceso.denominacion,
+        identificador: identificador,
+        valor: Number(valorActivo).toFixed(2) + ' ' + isoMoneda,
+        creado: new Date(activoProceso.creado),
+        modificado: new Date(activoProceso.modificado),
+      }))
+    );
+  };
+
+  private activosProceso = (activosProceso: ActivoProceso[]) =>
+    forkJoin(activosProceso.map(ap => this.activoProceso(ap)));
 
   private actaPrestamo(actaPrestamo: ActaPrestamo): Observable<any> {
     let obtenerInformacion = [
@@ -127,6 +160,7 @@ export class InformacionProcesoService {
       this.unidadAdministrativa(actaPrestamo.unidadAdministrativaReceptora),
       this.responsable(actaPrestamo.unidadReceptoraResponsable),
       this.responsable(actaPrestamo.testigo),
+      this.activosProceso(actaPrestamo.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
       map(
@@ -137,6 +171,7 @@ export class InformacionProcesoService {
           unidadReceptora,
           responsableReceptora,
           testigo,
+          activos,
         ]) => {
           let informacionActaPrestamo = {
             empresa: empresa,
@@ -148,7 +183,7 @@ export class InformacionProcesoService {
             unidadReceptoraResponsable: responsableReceptora,
             testigo: testigo,
             notas: actaPrestamo.notas,
-            activos: this.activosProceso(actaPrestamo.activos, empresa),
+            activos: activos,
             creado: new Date(actaPrestamo.creado),
             modificado: new Date(actaPrestamo.modificado),
           };
@@ -194,9 +229,10 @@ export class InformacionProcesoService {
     let obtenerInformacion = [
       this.empresa(autorizacionSalida.empresaId),
       this.unidadAdministrativa(autorizacionSalida.unidadAdministrativa),
+      this.activosProceso(autorizacionSalida.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
-      map(([empresa, unidadAdministrativaCedente]) => ({
+      map(([empresa, unidadAdministrativaCedente, activos]) => ({
         empresaId: empresa,
         id: autorizacionSalida.id,
         comprobante: autorizacionSalida.comprobante.toString().substring(5),
@@ -205,7 +241,7 @@ export class InformacionProcesoService {
         personaAutorizada: autorizacionSalida.personaAutorizada,
         explicacion: autorizacionSalida.explicacion,
         observaciones: autorizacionSalida.observaciones,
-        activos: this.activosProceso(autorizacionSalida.activos, empresa),
+        activos: activos,
         creado: new Date(autorizacionSalida.creado),
         modificado: new Date(autorizacionSalida.modificado),
       }))
@@ -249,16 +285,17 @@ export class InformacionProcesoService {
       this.empresa(desincorporacion.empresaId),
       this.causaMovimiento(desincorporacion.causaMovimiento),
       this.unidadAdministrativa(desincorporacion.unidadAdministrativa),
+      this.activosProceso(desincorporacion.activos),
     ];
     return forkJoin(buscarInformacion).pipe(
-      map(([empresa, causaMovimiento, unidadAdministrativa]) => ({
+      map(([empresa, causaMovimiento, unidadAdministrativa, activos]) => ({
         empresaId: empresa,
         id: desincorporacion.id,
         comprobante: desincorporacion.comprobante.toString().substring(5),
         causaMovimiento: causaMovimiento,
         unidadAdministrativa: unidadAdministrativa,
         observaciones: desincorporacion.observaciones,
-        activos: desincorporacion.activos,
+        activos: activos,
         total: desincorporacion.total,
         cuentasContables: desincorporacion.cuentasContables,
         debe: desincorporacion.debe,
@@ -310,6 +347,7 @@ export class InformacionProcesoService {
       this.responsable(incorporacion.responsableUso),
       this.unidadAdministrativa(incorporacion.unidadAdministrativa),
       this.sede(incorporacion.sede),
+      this.activosProceso(incorporacion.activos),
     ];
     return forkJoin(obtenerinformacion).pipe(
       map(
@@ -320,6 +358,7 @@ export class InformacionProcesoService {
           responsableUso,
           unidadAdministrativa,
           sede,
+          activos,
         ]) => {
           let informacionIncorporacion = {
             empresaId: empresa,
@@ -332,7 +371,7 @@ export class InformacionProcesoService {
             sede: sede,
             fechaEntrega: incorporacion.fechaEntrega,
             observaciones: incorporacion.observaciones,
-            activos: this.activosProceso(incorporacion.activos, empresa),
+            activos: activos,
             creado: incorporacion.creado,
             modificado: incorporacion.modificado,
           };

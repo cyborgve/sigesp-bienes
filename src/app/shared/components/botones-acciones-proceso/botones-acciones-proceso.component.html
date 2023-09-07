@@ -4,6 +4,7 @@
   color="primary"
   (click)="previsualizar.emit()"
   class="editar"
+  [hidden]="ocultarPrevisualizar"
   [disabled]="deshabilitarPrevisualizar">
   <mat-icon>preview</mat-icon>
 </button>
@@ -13,6 +14,7 @@
   color="primary"
   (click)="imprimir.emit()"
   class="editar"
+  [hidden]="ocultarImprimir"
   [disabled]="deshabilitarImprimir">
   <mat-icon>print</mat-icon>
 </button>
@@ -22,6 +24,7 @@
   color="primary"
   (click)="editar.emit()"
   class="editar"
+  [hidden]="ocultarEditar"
   [disabled]="deshabilitarEditar">
   <mat-icon>edit</mat-icon>
 </button>
@@ -31,6 +34,7 @@
   color="primary"
   (click)="eliminar.emit()"
   class="eliminar"
+  [hidden]="ocultarEliminar"
   [disabled]="deshabilitarEliminar">
   <mat-icon>delete</mat-icon>
 </button>

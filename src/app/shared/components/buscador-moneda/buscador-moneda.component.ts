@@ -15,6 +15,7 @@ import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo
 import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 import { pipe } from 'rxjs';
+import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 
 const filtroInicial = () => pipe(map((monedas: Moneda[]) => monedas));
 
@@ -36,9 +37,9 @@ export class BuscadorMonedaComponent
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorMonedaComponent>,
-    private _sigesp: SigespService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _moneda: MonedaService
   ) {}
 
   ngAfterViewInit(): void {
@@ -46,12 +47,9 @@ export class BuscadorMonedaComponent
   }
 
   private recargarDatos() {
-    this._sigesp
-      .getMonedas('todas')
+    this._moneda
+      .buscarTodos()
       .pipe(
-        adaptarMonedas(),
-        filtrarValoresIniciales(),
-        ordenarPorCodigo(),
         pipeFromArray(this.filtros),
         tap(cuentas => {
           this.dataSource = new MatTableDataSource(cuentas);
