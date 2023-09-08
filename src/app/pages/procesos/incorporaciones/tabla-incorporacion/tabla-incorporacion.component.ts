@@ -81,11 +81,8 @@ export class TablaIncorporacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
-  imprimir(entidad: Incorporacion) {
-    this._pdf.guardarDocumento(entidad, 'INCORPORACION');
-  }
 
-  previsualizar(entidad: Incorporacion) {
+  imprimir(entidad: Incorporacion) {
     this._entidad
       .buscarPorId(entidad.id)
       .pipe(
