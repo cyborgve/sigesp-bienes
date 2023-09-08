@@ -9,8 +9,10 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActaPrestamoActivoService } from './acta-prestamo-activo.service';
-import { XLSXService } from '../auxiliares/xlsx.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
+import { adaptarActasPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-actas-prestamo';
+import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-prestamo';
+import { PDFService } from '../auxiliares/pdf.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +28,13 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
     protected _snackBar: MatSnackBar,
     private _actaPrestamoActivo: ActaPrestamoActivoService,
     private _activoUbicacion: ActivoUbicacionService,
-    private _xslx: XLSXService
+    private _pdf: PDFService
   ) {
     super(_http, _sigesp, _snackBar);
+  }
+
+  buscarTodos(): Observable<ActaPrestamo[]> {
+    return super.buscarTodos().pipe(adaptarActasPrestamo());
   }
 
   buscarPorId(id: Id): Observable<ActaPrestamo> {
@@ -43,7 +49,8 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
             return actaPrestamo;
           })
         );
-      })
+      }),
+      adaptarActaPrestamo()
     );
   }
 
@@ -97,7 +104,10 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
             );
           })
         );
-      })
+      }),
+      tap(actaPrestamo =>
+        this._pdf.abrirProceso(actaPrestamo, 'ACTA DE PRESTAMO')
+      )
     );
   }
 

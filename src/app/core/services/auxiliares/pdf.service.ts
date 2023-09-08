@@ -1,5 +1,4 @@
-import { style } from '@angular/animations';
-import { tap, take } from 'rxjs/operators';
+import { tap, take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -8,6 +7,7 @@ import { Empresa } from '@core/models/otros-modulos/empresa';
 import { SigespService } from 'sigesp';
 import { combineLatest } from 'rxjs';
 import { InformacionProcesoService } from './informacion-proceso.service';
+import { TipoProceso } from '@core/types/tipo-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -16,83 +16,52 @@ export class PDFService {
   constructor(
     private _empresa: EmpresaService,
     private _sigesp: SigespService,
-    private _infoProceso: InformacionProcesoService
+    private _infoReporte: InformacionProcesoService
   ) {
     (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
   }
 
-  abrirDocumento(documento: any, tipoDocumento: string) {
+  abrirProceso(proceso: any, tipoProceso: TipoProceso) {
     combineLatest([
-      this._empresa.datosGenerales(documento.empresaId),
-      this._infoProceso.obtener(documento, 'INCORPORACIÓN'),
+      this._empresa.datosGenerales(proceso.empresaId),
+      this._infoReporte.obtener(proceso, tipoProceso),
     ])
       .pipe(
-        tap(([empresa, infoDocumento]) => {
-          console.log(infoDocumento);
-          let documentoPDF = this.documentoPDF(
-            empresa,
-            infoDocumento,
-            tipoDocumento
-          );
-          pdfMake.createPdf(documentoPDF).open();
+        tap(([empresa, infoReporte]) => {
+          let reportePDF = this.reportePDF(empresa, infoReporte, tipoProceso);
+          pdfMake.createPdf(reportePDF).open();
         }),
         take(1)
       )
       .subscribe();
   }
 
-  guardarDocumento(documento, tipoDocumento: string) {
-    this._empresa
-      .datosGenerales(documento.empresaId)
-      .pipe(
-        tap(empresa => {
-          let titulo = this.documentoPDF(empresa, documento, tipoDocumento);
-          pdfMake.createPdf(titulo).download('sbn_incorporacion.pdf');
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  imprimirDocumento(documento, tipoDocumento: string) {
-    this._empresa
-      .datosGenerales(documento.empresaId)
-      .pipe(
-        tap(empresa => {
-          let titulo = this.documentoPDF(empresa, documento, tipoDocumento);
-          pdfMake.createPdf(titulo).print();
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  private documentoPDF = (
+  private reportePDF = (
     empresa: Empresa,
-    documento: any,
-    tipoDocumento: string
+    proceso: any,
+    tipoProceso: TipoProceso
   ) => ({
     pageSize: 'letter',
     pageOrientation: 'portrait',
-    info: this.infoDocumento(documento, tipoDocumento),
-    footer: this.piePagina,
+    info: this.infoReporte(proceso, tipoProceso),
+    footer: this.piePagina(),
     content: [
-      this.encabezado(empresa, documento, tipoDocumento),
-      this.datosDocumento(documento),
-      this.detalleDocumento(documento),
-      this.firmasDocumento,
+      this.encabezado(empresa, proceso, tipoProceso),
+      this.datosProceso(proceso),
+      this.detalleProceso(proceso),
+      this.firmasProceso(),
     ],
-    styles: this.estilosDocumento,
+    styles: this.estilosProceso,
   });
 
-  private infoDocumento = (documento: any, tipoDocumento: string) => ({
-    title: `${tipoDocumento}-${documento.comprobante}`,
+  private infoReporte = (proceso: any, tipoProceso: TipoProceso) => ({
+    title: `${tipoProceso}-${proceso.comprobante}`,
     subject: 'Comprobante de ejecucion de proceso',
     author: `${this._sigesp.usuarioActivo.nombre} ${this._sigesp.usuarioActivo.apellido}`,
     creator: 'Sigesp ERP - Bienes Nacionales',
   });
 
-  private estilosDocumento = {
+  private estilosProceso = {
     nombreEmpresa: {
       fontSize: 12,
       bold: true,
@@ -102,18 +71,22 @@ export class PDFService {
       fontSize: 6,
       alignment: 'center',
     },
-    tipoDocumento: {
+    tituloProceso: {
       fontSize: 12,
       bold: true,
       alignment: 'right',
     },
-    datosDocumento: {
+    datosProcesoFecha: {
+      fontSize: 10,
+      alignment: 'right',
+    },
+    datosProceso: {
       fontSize: 8,
       margin: [0, 0, 0, 3],
     },
-    fechaDocumento: {
-      fontSize: 10,
-      alignment: 'right',
+    datosProcesoTitulo: {
+      fontSize: 8,
+      bold: true,
     },
     estilosTabla: {
       fontSize: 8,
@@ -132,7 +105,7 @@ export class PDFService {
       alignment: 'right',
       margin: [0, 0, 40, 0],
     },
-    firmasDocumento: {
+    firmasProceso: {
       fontSize: 7,
       bold: true,
       margin: [0, 100, 0, 0],
@@ -144,29 +117,29 @@ export class PDFService {
 
   private encabezado = (
     empresa: Empresa,
-    documento: any,
-    tipoDocumento: string
+    proceso: any,
+    tipoProceso: TipoProceso
   ) => ({
     columns: [
       {
         width: '50%',
-        stack: this.tituloDocumento(empresa),
+        stack: this.datosEmpresa(empresa),
       },
       {
         width: '50%',
-        stack: this.tituloDatosDoccumento(documento, tipoDocumento),
+        stack: this.tituloProceso(proceso, tipoProceso),
       },
     ],
   });
 
-  private piePagina = [
+  private piePagina = () => [
     {
       text: 'Generado por Sigesp - Bienes Nacionales',
       style: 'footer',
     },
   ];
 
-  private tituloDocumento = (empresa: Empresa) => [
+  private datosEmpresa = (empresa: Empresa) => [
     {
       text: empresa.nombre + ' ' + empresa.rif,
       style: 'nombreEmpresa',
@@ -185,13 +158,13 @@ export class PDFService {
     },
   ];
 
-  private tituloDatosDoccumento = (documento: any, tipoDocumento: string) => [
+  private tituloProceso = (proceso: any, tipoProceso: TipoProceso) => [
     {
-      text: `${tipoDocumento} N° ${documento.comprobante}`,
-      style: 'tipoDocumento',
+      text: `${tipoProceso} N° ${proceso.comprobante}`,
+      style: 'tituloProceso',
     },
     {
-      text: `Fecha de Emisión: ${new Date(documento.creado).toLocaleDateString(
+      text: `Fecha de Emisión: ${new Date(proceso.creado).toLocaleDateString(
         undefined,
         {
           day: '2-digit',
@@ -199,10 +172,10 @@ export class PDFService {
           year: 'numeric',
         }
       )}`,
-      style: 'fechaDocumento',
+      style: 'datosProcesoFecha',
     },
     {
-      text: `Hora de Emisión: ${new Date(documento.creado).toLocaleTimeString(
+      text: `Hora de Emisión: ${new Date(proceso.creado).toLocaleTimeString(
         undefined,
         {
           hour12: true,
@@ -210,11 +183,11 @@ export class PDFService {
           minute: '2-digit',
         }
       )}`,
-      style: 'fechaDocumento',
+      style: 'datosProcesoFecha',
     },
   ];
 
-  private datosDocumento = (documento: any) => ({
+  private datosProceso = (proceso: any) => ({
     margin: [0, 10, 0, 0],
     columns: [
       {
@@ -222,16 +195,60 @@ export class PDFService {
         margin: [0, 0, 5, 0],
         stack: [
           {
-            text: 'Causa de Movimiento: ' + documento.causaMovimiento,
-            style: 'datosDocumento',
+            columns: [
+              {
+                margin: [0, 0, 3, 0],
+                width: 'auto',
+                stack: [
+                  {
+                    text: 'Causa de Movimiento:',
+                    style: 'datosProcesoTitulo',
+                  },
+                ],
+              },
+              {
+                width: 'auto',
+                stack: [
+                  { text: proceso.causaMovimiento, style: 'datosProceso' },
+                ],
+              },
+            ],
           },
           {
-            text: 'Sede: ' + documento.sede,
-            style: 'datosDocumento',
+            columns: [
+              {
+                margin: [0, 0, 3, 0],
+                width: 'auto',
+                stack: [{ text: 'Sede:', style: 'datosProcesoTitulo' }],
+              },
+              {
+                width: 'auto',
+                stack: [{ text: proceso.sede, style: 'datosProceso' }],
+              },
+            ],
           },
           {
-            text: 'Responsable Primario: ' + documento.responsablePrimario,
-            style: 'datosDocumento',
+            columns: [
+              {
+                margin: [0, 0, 3, 0],
+                width: 'auto',
+                stack: [
+                  {
+                    text: 'Responsable Primario: ',
+                    style: 'datosProcesoTitulo',
+                  },
+                ],
+              },
+              {
+                width: 'auto',
+                stack: [
+                  {
+                    text: proceso.responsablePrimario,
+                    style: 'datosProceso',
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -240,29 +257,86 @@ export class PDFService {
         margin: [5, 0, 0, 0],
         stack: [
           {
-            text: `Fecha de Entrega: ${new Date(
-              documento.fechaEntrega
-            ).toLocaleDateString(undefined, {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-            })}`,
-            style: 'datosDocumento',
+            columns: [
+              {
+                margin: [0, 0, 3, 0],
+                width: 'auto',
+                stack: [
+                  {
+                    text: 'Fecha de Entrega:',
+                    style: 'datosProcesoTitulo',
+                  },
+                ],
+              },
+              {
+                width: 'auto',
+                stack: [
+                  {
+                    text: `${new Date(proceso.fechaEntrega).toLocaleDateString(
+                      undefined,
+                      {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                      }
+                    )}`,
+                  },
+                ],
+                style: 'datosProceso',
+              },
+            ],
           },
           {
-            text: 'Unidad Administrativa: ' + documento.unidadAdministrativa,
-            style: 'datosDocumento',
+            columns: [
+              {
+                width: 'auto',
+                margin: [0, 0, 3, 0],
+                stack: [
+                  {
+                    text: 'Unidad Administrativa:',
+                    style: 'datosProcesoTitulo',
+                  },
+                ],
+              },
+              {
+                width: 'auto',
+                stack: [
+                  {
+                    text: proceso.unidadAdministrativa,
+                    style: 'datosProceso',
+                  },
+                ],
+              },
+            ],
           },
           {
-            text: 'Responsable de Uso: ' + documento.responsableUso,
-            style: 'datosDocumento',
+            columns: [
+              {
+                width: 'auto',
+                stack: [
+                  {
+                    text: 'Responsable de Uso: ',
+                    style: 'datosProcesoTitulo',
+                  },
+                ],
+              },
+              {
+                width: 'auto',
+                stack: [
+                  {
+                    text: proceso.responsableUso,
+                    style: 'datosProceso',
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
     ],
   });
 
-  private detalleDocumento = (documento: any) => {
+  private detalleProceso = (proceso: any) => {
     let datos = [
       [
         'Código',
@@ -272,7 +346,7 @@ export class PDFService {
         { text: 'Valor', alignment: 'right' },
       ],
     ];
-    documento.activos.forEach((activo: any) => {
+    proceso.activos.forEach((activo: any) => {
       datos.push([
         activo.codigo,
         activo.tipoActivo,
@@ -298,21 +372,21 @@ export class PDFService {
     ];
   };
 
-  private firmasDocumento = {
+  private firmasProceso = () => ({
     table: {
       headerRows: 1,
       widths: ['50%', '50%'],
       body: [
         [
           { text: 'Elaborado por', style: 'firmante' },
-          { text: 'Elaborado por', style: 'firmante' },
+          { text: 'Aprobado por', style: 'firmante' },
         ],
         [
-          { text: 'Elaborado por', style: 'firmante' },
-          { text: 'Elaborado por', style: 'firmante' },
+          { text: 'Verificado por', style: 'firmante' },
+          { text: 'Autorizado por', style: 'firmante' },
         ],
       ],
     },
-    style: 'firmasDocumento',
-  };
+    style: 'firmasProceso',
+  });
 }

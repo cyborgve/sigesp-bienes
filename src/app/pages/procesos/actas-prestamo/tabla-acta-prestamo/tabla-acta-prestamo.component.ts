@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -45,7 +46,8 @@ export class TablaActaPrestamoComponent
     private _entidad: ActaPrestamoService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -74,8 +76,17 @@ export class TablaActaPrestamoComponent
     this._router.navigate(['/']);
   }
 
-  imprimir(entidad: ActaPrestamo) {}
-  previsualizar(entidad: ActaPrestamo) {}
+  imprimir(entidad: ActaPrestamo) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(actaPrestamo =>
+          this._pdf.abrirProceso(actaPrestamo, 'ACTA DE PRESTAMO')
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
