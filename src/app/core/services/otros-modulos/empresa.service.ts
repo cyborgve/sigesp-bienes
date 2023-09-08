@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SigespService } from 'sigesp';
 import { Empresa } from '@core/models/otros-modulos/empresa';
-import { adaptarEmpresas } from '@core/utils/adaptadores-rxjs.ts/adaptar-empresas';
+import { adaptarEmpresas } from '@core/utils/adaptadores-rxjs/adaptar-empresas';
 import { Id } from '@core/types/id';
-import { adaptarEmpresa } from '@core/utils/adaptadores-rxjs.ts/adaptar-empresa';
+import { adaptarEmpresa } from '@core/utils/adaptadores-rxjs/adaptar-empresa';
 
 @Injectable({
   providedIn: 'root',

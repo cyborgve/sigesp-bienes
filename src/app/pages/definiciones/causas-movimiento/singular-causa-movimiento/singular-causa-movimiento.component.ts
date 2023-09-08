@@ -15,7 +15,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { Subscription } from 'rxjs';
-import { adaptarCausaMovimiento } from '@core/utils/adaptadores-rxjs.ts/adaptar-causa-movimiento';
+import { adaptarCausaMovimiento } from '@core/utils/adaptadores-rxjs/adaptar-causa-movimiento';
 
 @Component({
   selector: 'app-singular-causa-movimiento',

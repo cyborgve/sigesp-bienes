@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SigespService } from 'sigesp';
-import { adaptarResposables } from '@core/utils/adaptadores-rxjs.ts/adaptar-responsables';
+import { adaptarResposables } from '@core/utils/adaptadores-rxjs/adaptar-responsables';
 import { Id } from '@core/types/id';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';

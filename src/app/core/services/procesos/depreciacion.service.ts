@@ -1,5 +1,5 @@
-import { adaptarDepreciacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-depreciacion';
-import { adaptarDepreciaciones } from '@core/utils/adaptadores-rxjs.ts/adaptar-depreciaciones';
+import { adaptarDepreciacion } from '@core/utils/adaptadores-rxjs/adaptar-depreciacion';
+import { adaptarDepreciaciones } from '@core/utils/adaptadores-rxjs/adaptar-depreciaciones';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';

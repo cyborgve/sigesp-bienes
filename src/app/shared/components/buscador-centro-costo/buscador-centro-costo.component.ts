@@ -11,7 +11,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CentroCosto } from '@core/models/otros-modulos/centro-costo';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { SigespService } from 'sigesp';
-import { adaptarCentrosCosto } from '@core/utils/adaptadores-rxjs.ts/adaptar-centros-costo';
+import { adaptarCentrosCosto } from '@core/utils/adaptadores-rxjs/adaptar-centros-costo';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { pipe } from 'rxjs';

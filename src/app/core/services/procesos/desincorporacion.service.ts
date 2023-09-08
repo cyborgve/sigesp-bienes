@@ -9,10 +9,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DesincorporacionActivoService } from './desincorporacion-activo.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { Observable, forkJoin } from 'rxjs';
-import { adaptarDesincorporaciones } from '@core/utils/adaptadores-rxjs.ts/adaptar-desincorporacione';
+import { adaptarDesincorporaciones } from '@core/utils/adaptadores-rxjs/adaptar-desincorporacione';
 import { Id } from '@core/types/id';
-import { adaptarDepreciaciones } from '@core/utils/adaptadores-rxjs.ts/adaptar-depreciaciones';
-import { adaptarDesincorporacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-desincorporacion';
+import { adaptarDepreciaciones } from '@core/utils/adaptadores-rxjs/adaptar-depreciaciones';
+import { adaptarDesincorporacion } from '@core/utils/adaptadores-rxjs/adaptar-desincorporacion';
 import { XLSXService } from '../auxiliares/xlsx.service';
 
 @Injectable({

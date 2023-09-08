@@ -6,7 +6,7 @@ import { Id } from '@core/types/id';
 import { SigespService } from 'sigesp';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
-import { adaptarBeneficiarios } from '@core/utils/adaptadores-rxjs.ts/adaptar-beneficiarios';
+import { adaptarBeneficiarios } from '@core/utils/adaptadores-rxjs/adaptar-beneficiarios';
 
 @Injectable({
   providedIn: 'root',

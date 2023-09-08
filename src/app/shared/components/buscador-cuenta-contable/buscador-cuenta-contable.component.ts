@@ -11,7 +11,7 @@ import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
-import { adaptarCuentasContables } from '@core/utils/adaptadores-rxjs.ts/adaptar-cuentas-contables';
+import { adaptarCuentasContables } from '@core/utils/adaptadores-rxjs/adaptar-cuentas-contables';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { pipe } from 'rxjs';

@@ -21,7 +21,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { prepararActaPrestamo } from '@core/utils/funciones/preparar-acta-prestamo';
-import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs.ts/adaptar-acta-prestamo';
+import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-prestamo';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';

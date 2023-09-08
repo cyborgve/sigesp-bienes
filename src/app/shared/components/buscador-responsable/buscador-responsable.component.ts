@@ -10,7 +10,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { SigespService } from 'sigesp';
-import { adaptarResposables } from '@core/utils/adaptadores-rxjs.ts/adaptar-responsables';
+import { adaptarResposables } from '@core/utils/adaptadores-rxjs/adaptar-responsables';
 import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
 import { Location } from '@angular/common';
 import { pipe } from 'rxjs';

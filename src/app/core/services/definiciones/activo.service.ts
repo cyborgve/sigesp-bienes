@@ -19,12 +19,12 @@ import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { prepararActivoDetalle } from '@core/utils/funciones/preparar-activo-detalle';
 import { prepararActivoDepreciacion } from '@core/utils/funciones/preparar-activo-depreciacion';
 import { prepararActivoUbicacion } from '@core/utils/funciones/preparar-activo-ubicacion';
-import { adaptarActivo } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo';
-import { adaptarActivoDetalle } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-detalle';
-import { adaptarActivoDepreciacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-depreciacion';
-import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-ubicacion';
+import { adaptarActivo } from '@core/utils/adaptadores-rxjs/adaptar-activo';
+import { adaptarActivoDetalle } from '@core/utils/adaptadores-rxjs/adaptar-activo-detalle';
+import { adaptarActivoDepreciacion } from '@core/utils/adaptadores-rxjs/adaptar-activo-depreciacion';
+import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs/adaptar-activo-ubicacion';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
-import { adaptarComponentes } from '@core/utils/adaptadores-rxjs.ts/adaptar-componentes';
+import { adaptarComponentes } from '@core/utils/adaptadores-rxjs/adaptar-componentes';
 
 @Injectable({
   providedIn: 'root',

@@ -6,9 +6,9 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarActivosProceso } from '@core/utils/adaptadores-rxjs.ts/adaptar-activos-proceso';
+import { adaptarActivosProceso } from '@core/utils/adaptadores-rxjs/adaptar-activos-proceso';
 import { prepararActivoProceso } from '@core/utils/funciones/preparar-activo-proceso';
-import { adaptarActivoProceso } from '@core/utils/adaptadores-rxjs.ts/adaptar-activo-proceso';
+import { adaptarActivoProceso } from '@core/utils/adaptadores-rxjs/adaptar-activo-proceso';
 
 @Injectable({
   providedIn: 'root',

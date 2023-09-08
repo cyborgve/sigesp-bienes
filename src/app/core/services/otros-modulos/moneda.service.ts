@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { SigespService } from 'sigesp';
-import { adaptarMonedas } from '@core/utils/adaptadores-rxjs.ts/adaptar-monedas';
+import { adaptarMonedas } from '@core/utils/adaptadores-rxjs/adaptar-monedas';
 import { Observable } from 'rxjs';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { Id } from '@core/types/id';
