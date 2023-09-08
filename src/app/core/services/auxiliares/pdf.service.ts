@@ -8,6 +8,7 @@ import { SigespService } from 'sigesp';
 import { combineLatest } from 'rxjs';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { TipoProceso } from '@core/types/tipo-proceso';
+import { Proceso } from '@core/types/proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class PDFService {
     (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
   }
 
-  abrirProceso(proceso: any, tipoProceso: TipoProceso) {
+  abrirProceso(proceso: Proceso, tipoProceso: TipoProceso) {
     combineLatest([
       this._empresa.datosGenerales(proceso.empresaId),
       this._infoReporte.obtener(proceso, tipoProceso),
@@ -38,7 +39,7 @@ export class PDFService {
 
   private reportePDF = (
     empresa: Empresa,
-    proceso: any,
+    proceso: Proceso,
     tipoProceso: TipoProceso
   ) => ({
     pageSize: 'letter',
