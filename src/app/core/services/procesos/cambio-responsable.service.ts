@@ -6,9 +6,12 @@ import { END_POINTS } from '@core/constants/end-points';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { XLSXService } from '../auxiliares/xlsx.service';
 import { Observable, forkJoin } from 'rxjs';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
+import { adaptarCambiosResponsable } from '@core/utils/adaptadores-rxjs/adaptar-cambios-responsable';
+import { Id } from '@core/types/id';
+import { adaptarCambioResponsable } from '@core/utils/adaptadores-rxjs/adaptar-cambio-responsable';
+import { PDFService } from '../auxiliares/pdf.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +26,17 @@ export class CambioResponsableService extends GenericService<CambioResponsable> 
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _activoUbicacion: ActivoUbicacionService,
-    private _xlsx: XLSXService
+    private _pdf: PDFService
   ) {
     super(_http, _sigesp, _snackBar);
+  }
+
+  buscarTodos(): Observable<CambioResponsable[]> {
+    return super.buscarTodos().pipe(adaptarCambiosResponsable());
+  }
+
+  buscarPorId(id: Id): Observable<CambioResponsable> {
+    return super.buscarPorId(id).pipe(adaptarCambioResponsable());
   }
 
   guardar(
@@ -61,7 +72,13 @@ export class CambioResponsableService extends GenericService<CambioResponsable> 
             );
           })
         );
-      })
+      }),
+      tap(cambioResponsableGuardado =>
+        this._pdf.abrirReportePDF(
+          cambioResponsableGuardado,
+          'CAMBIO DE RESPONSABLE'
+        )
+      )
     );
   }
 }

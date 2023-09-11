@@ -15,9 +15,11 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { CambioResponsable } from '@core/models/procesos/cambio-responsable';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { CambioResponsableService } from '@core/services/procesos/cambio-responsable.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -45,7 +47,8 @@ export class TablaCambioResponsableComponent
     private _entidad: CambioResponsableService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -73,8 +76,17 @@ export class TablaCambioResponsableComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
-  imprimir(entidad: CambioResponsable) {}
-  previsualizar(entidad: CambioResponsable) {}
+  imprimir(entidad: CambioResponsable) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(cambioResponsable =>
+          this._pdf.abrirReportePDF(cambioResponsable, 'CAMBIO DE RESPONSABLE')
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
@@ -91,11 +103,12 @@ export class TablaCambioResponsableComponent
   }
 
   eliminar(entidad: CambioResponsable) {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
       data: {
-        codigo: entidad.comprobante,
-        denominacion: entidad.nuevoResponsable,
+        comprobante: entidad.comprobante,
+        tipoProceso: 'CAMBIO DE RESPONSABLE',
       },
+      width: '40%',
     });
     dialog
       .afterClosed()

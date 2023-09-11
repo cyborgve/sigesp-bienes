@@ -1,3 +1,4 @@
+import { TipoProceso } from '@core/types/tipo-proceso';
 import { Location } from '@angular/common';
 import {
   AfterViewInit,
@@ -13,12 +14,14 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -106,11 +109,12 @@ export class TablaAutorizacionSalidaComponent
   }
 
   eliminar(entidad: AutorizacionSalida) {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
       data: {
-        codigo: entidad.comprobante,
-        denominacion: entidad.unidadAdministrativa,
+        comprobante: entidad.comprobante,
+        tipoProceso: 'AUTORIZACION DE SALIDA',
       },
+      width: '40%',
     });
     dialog
       .afterClosed()

@@ -29,50 +29,6 @@ export class InformacionDefinicionService {
     private _categoria: CategoriaService
   ) {}
 
-  private nombreEmpresa = (empresaId: Id) =>
-    this._empresa
-      .datosGenerales(empresaId)
-      .pipe(map(datosGenerales => datosGenerales.nombre));
-
-  private codigo = (codigo: string) => codigo.substring(1, 5);
-  private tipoActivo = (tipoActivo: string) =>
-    TIPOS_ACTIVO.find(
-      tipo => tipo.substring(1, 3) === tipoActivo.toUpperCase()
-    );
-  private denominacionCatalogoCuentas = (catalogoCuentas: Id) =>
-    this._catalogoGeneral
-      .buscarPorId(catalogoCuentas)
-      .pipe(map(catalogo => catalogo.denominacion));
-  private denominacionMoneda = (monedaId: Id) =>
-    this._sigesp.getMonedas('uno', Number(monedaId)).pipe(
-      map(monedas => monedas[0]),
-      map(moneda => moneda['denominacion'])
-    );
-  private denominacionColor = (colorId: Id) =>
-    this._color.buscarPorId(colorId).pipe(map(color => color.denominacion));
-  private denominacionModelo = (modeloId: Id) =>
-    this._modelo.buscarPorId(modeloId).pipe(map(modelo => modelo.denominacion));
-  private denominacionMarcaModelo = (modeloId: Id) =>
-    this._modelo
-      .buscarPorId(modeloId)
-      .pipe(
-        switchMap(modelo =>
-          this._marca
-            .buscarPorId(modelo.marcaId)
-            .pipe(
-              map(marca => `${modelo.denominacion} - ${marca.denominacion}`)
-            )
-        )
-      );
-  private denominacionRotulacion = (rotulacionId: Id) =>
-    this._rotulacion
-      .buscarPorId(rotulacionId)
-      .pipe(map(rotulacion => rotulacion.denominacion));
-  private denominacionCategoria = (categoriaId: Id) =>
-    this._categoria
-      .buscarPorId(categoriaId)
-      .pipe(map(categoria => categoria.denominacion));
-
   obtenerActivo(activoId: Id) {
     return this._activo.buscarPorId(activoId).pipe(
       switchMap(activo => {
@@ -129,4 +85,47 @@ export class InformacionDefinicionService {
     let buscarActivos = ids.map(id => this.obtenerActivo(id));
     return forkJoin(buscarActivos);
   }
+  private nombreEmpresa = (empresaId: Id) =>
+    this._empresa
+      .datosGenerales(empresaId)
+      .pipe(map(datosGenerales => datosGenerales.nombre));
+
+  private codigo = (codigo: string) => codigo.substring(1, 5);
+  private tipoActivo = (tipoActivo: string) =>
+    TIPOS_ACTIVO.find(
+      tipo => tipo.substring(1, 3) === tipoActivo.toUpperCase()
+    );
+  private denominacionCatalogoCuentas = (catalogoCuentas: Id) =>
+    this._catalogoGeneral
+      .buscarPorId(catalogoCuentas)
+      .pipe(map(catalogo => catalogo.denominacion));
+  private denominacionMoneda = (monedaId: Id) =>
+    this._sigesp.getMonedas('uno', Number(monedaId)).pipe(
+      map(monedas => monedas[0]),
+      map(moneda => moneda['denominacion'])
+    );
+  private denominacionColor = (colorId: Id) =>
+    this._color.buscarPorId(colorId).pipe(map(color => color.denominacion));
+  private denominacionModelo = (modeloId: Id) =>
+    this._modelo.buscarPorId(modeloId).pipe(map(modelo => modelo.denominacion));
+  private denominacionMarcaModelo = (modeloId: Id) =>
+    this._modelo
+      .buscarPorId(modeloId)
+      .pipe(
+        switchMap(modelo =>
+          this._marca
+            .buscarPorId(modelo.marcaId)
+            .pipe(
+              map(marca => `${modelo.denominacion} - ${marca.denominacion}`)
+            )
+        )
+      );
+  private denominacionRotulacion = (rotulacionId: Id) =>
+    this._rotulacion
+      .buscarPorId(rotulacionId)
+      .pipe(map(rotulacion => rotulacion.denominacion));
+  private denominacionCategoria = (categoriaId: Id) =>
+    this._categoria
+      .buscarPorId(categoriaId)
+      .pipe(map(categoria => categoria.denominacion));
 }

@@ -66,7 +66,7 @@
               formulario.value.responsableActual
                 | denominacionResponsable
                 | async
-                | titlecase
+                | corregirNoAsignado
             " />
         </mat-form-field>
         <!-- nuevoResponsable -->
@@ -81,7 +81,7 @@
               formulario.value.nuevoResponsable
                 | denominacionResponsable
                 | async
-                | titlecase
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -116,4 +116,5 @@
   [desabilitarGuardar]="formulario.invalid"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
+  [mostrarExportar]="false"
   [mostrarSalir]="false"></app-toolbar>

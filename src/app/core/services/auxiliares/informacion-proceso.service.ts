@@ -23,6 +23,8 @@ import { Reasignacion } from '@core/models/procesos/reasignacion';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 import { MonedaService } from '../otros-modulos/moneda.service';
+import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
+import { Activo } from '@core/models/definiciones/activo';
 
 @Injectable({
   providedIn: 'root',
@@ -193,12 +195,19 @@ export class InformacionProcesoService {
     );
   }
 
+  private buscarActivoConvertir = (id: Id) => {
+    return this._activo.buscarPorId(id).pipe(
+      map(activo => convertirActivoProceso(activo)),
+      switchMap(activoProceso => this.activoProceso(activoProceso))
+    );
+  };
+
   private cambioResponsable(
     cambioResponsable: CambioResponsable
   ): Observable<any> {
     let obtenerInformacion = [
       this.empresa(cambioResponsable.empresaId),
-      this.activo(cambioResponsable.activo),
+      this.buscarActivoConvertir(cambioResponsable.id),
       this.responsable(cambioResponsable.responsableActual),
       this.responsable(cambioResponsable.nuevoResponsable),
     ];
@@ -207,7 +216,7 @@ export class InformacionProcesoService {
         empresaId: empresa,
         id: cambioResponsable.id,
         comprobante: cambioResponsable.comprobante.toString().substring(5),
-        activo: activo,
+        activos: [activo],
         identificador: cambioResponsable.identificador,
         serial: cambioResponsable.serial,
         tipoResponsable:
