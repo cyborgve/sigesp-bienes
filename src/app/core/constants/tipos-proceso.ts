@@ -10,5 +10,5 @@ export const TIPOS_PROCESO: TipoProceso[] = [
   'INCORPORACIÓN',
   'MODIFICACIÓN',
   'REASIGNACIÓN',
-  'RETORNO DE ACTIVO',
+  'RETORNO',
 ];

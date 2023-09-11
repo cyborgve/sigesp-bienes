@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
@@ -45,7 +46,8 @@ export class TablaAutorizacionSalidaComponent
     private _entidad: AutorizacionSalidaService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -65,8 +67,21 @@ export class TablaAutorizacionSalidaComponent
       )
       .subscribe();
   }
-  imprimir(entidad: AutorizacionSalida) {}
-  previsualizar(entidad: AutorizacionSalida) {}
+
+  imprimir(entidad: AutorizacionSalida) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(autorizacionSalida =>
+          this._pdf.abrirReportePDF(
+            autorizacionSalida,
+            'AUTORIZACIÓN DE SALIDA'
+          )
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   irAtras() {
     this._location.back();

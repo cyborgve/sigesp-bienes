@@ -24,6 +24,8 @@ import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-p
 import { pipe, forkJoin } from 'rxjs';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
+import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedor/buscador-proveedor.component';
+import { Proveedor } from '@core/models/otros-modulos/proveedor';
 
 @Component({
   selector: 'app-singular-autorizacion-salida',
@@ -236,7 +238,11 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
       .subscribe();
   }
 
-  eliminarActivo(row: any) {}
+  eliminarActivo(row: any) {
+    let activos = this.dataSource.data;
+    activos.splice(activos.indexOf(row), 1);
+    this.dataSource = new MatTableDataSource(activos);
+  }
 
   buscarUnidadAdministrativa() {
     let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
@@ -252,6 +258,23 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
           })
         ),
         take(1)
+      )
+      .subscribe();
+  }
+
+  buscarEmpresaAutorizada() {
+    let dialog = this._dialog.open(BuscadorProveedorComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((proveedor: Proveedor) =>
+          proveedor
+            ? this.formulario.patchValue({ empresaAutorizada: proveedor.id })
+            : undefined
+        )
       )
       .subscribe();
   }

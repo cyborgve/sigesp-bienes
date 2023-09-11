@@ -7,6 +7,7 @@ import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { adaptarActivosProceso } from '@core/utils/adaptadores-rxjs/adaptar-activos-proceso';
+import { adaptarActivoProceso } from '@core/utils/adaptadores-rxjs/adaptar-activo-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +18,33 @@ export class AutorizacionSalidaActivoService extends GenericService<ActivoProces
     return END_POINTS.find(ep => ep.clave === 'autorizacionSalidaActivo').valor;
   }
 
+  buscarTodos(): Observable<ActivoProceso[]> {
+    return super.buscarTodos().pipe(adaptarActivosProceso());
+  }
+
   buscarTodosPorProceso(autorizacionSalida: Id): Observable<ActivoProceso[]> {
     return this._http
       .get<ActivoProceso[]>(this.apiUrlProceso(autorizacionSalida))
       .pipe(
-        map((res: any) => res.data),
-        map((activosProceso: any[]) =>
-          activosProceso.map(ap => normalizarObjeto(ap))
+        map((resultado: any) => resultado.data),
+        map((datos: any[]) =>
+          datos.map(activoProceso => normalizarObjeto(activoProceso))
         ),
         adaptarActivosProceso()
       );
+  }
+
+  buscarPorId(id: Id): Observable<ActivoProceso> {
+    return super.buscarPorId(id).pipe(adaptarActivoProceso());
+  }
+
+  guardar(
+    entidad: ActivoProceso,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<ActivoProceso> {
+    return super
+      .guardar(entidad, tipoDato, notificar)
+      .pipe(adaptarActivoProceso());
   }
 }

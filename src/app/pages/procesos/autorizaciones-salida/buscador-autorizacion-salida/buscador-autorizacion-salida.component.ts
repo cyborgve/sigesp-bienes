@@ -12,7 +12,7 @@ export class BuscadorAutorizacionSalidaComponent {
   titulo = 'buscador de autorizaciones de salida';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.AUTORIZACIONES_SALIDA.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   constructor(
     private _dialogRef: MatDialogRef<BuscadorAutorizacionSalidaComponent>

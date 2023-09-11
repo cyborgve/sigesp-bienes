@@ -31,7 +31,21 @@
         <!-- empresaAutorizada -->
         <mat-form-field appearance="fill" class="empresaAutorizada">
           <mat-label>Empresa autorizada</mat-label>
-          <input type="text" matInput formControlName="empresaAutorizada" />
+          <input
+            type="text"
+            matInput
+            formControlName="empresaAutorizada"
+            readonly="true"
+            [value]="
+              formulario.value.empresaAutorizada | denominacionProveedor | async
+            " />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="buscarEmpresaAutorizada()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
         <!-- personaAutorizada -->
         <mat-form-field appearance="fill" class="personaAutorizada">
@@ -60,7 +74,8 @@
   <app-activos-proceso
     [dataSource]="dataSource"
     [agregarActivoDeshabilitado]="formulario.invalid"
-    (agregarActivo)="agregarActivo()"></app-activos-proceso>
+    (agregarActivo)="agregarActivo()"
+    (removerActivo)="eliminarActivo($event)"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->
 <app-toolbar
@@ -75,4 +90,5 @@
   [desabilitarGuardar]="!listoParaGuardar()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
+  [mostrarExportar]="false"
   [mostrarSalir]="false"></app-toolbar>
