@@ -39,8 +39,8 @@ export class InformacionProcesoService {
   ) {}
 
   /**
-   * Obtiene información detallada sobre un proceso según su ID y tipo.
-   * @param proceso ID del proceso.
+   * Obtiene información detallada sobre un proceso según su Objeto y tipo.
+   * @param proceso Objeto con el contenido del proceso.
    * @param tipoProceso Tipo de proceso.
    * @returns Un objeto con información detallada del proceso.
    */
@@ -74,7 +74,7 @@ export class InformacionProcesoService {
       case 'REASIGNACIÓN':
         resultado = this.reasignacion(proceso);
         break;
-      case 'RETORNO DE ACTIVO':
+      case 'RETORNO':
         return this.retorno(proceso);
         break;
     }

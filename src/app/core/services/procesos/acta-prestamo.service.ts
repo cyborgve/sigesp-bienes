@@ -39,18 +39,18 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
 
   buscarPorId(id: Id): Observable<ActaPrestamo> {
     return super.buscarPorId(id).pipe(
+      adaptarActaPrestamo(),
       switchMap(actaPrestamo => {
-        let buscarActivos = this._actaPrestamoActivo.buscarTodosPorProceso(
+        let activos = this._actaPrestamoActivo.buscarTodosPorProceso(
           actaPrestamo.id
         );
-        return forkJoin([buscarActivos]).pipe(
+        return forkJoin([activos]).pipe(
           map(([activos]) => {
             actaPrestamo.activos = activos;
             return actaPrestamo;
           })
         );
-      }),
-      adaptarActaPrestamo()
+      })
     );
   }
 
@@ -106,7 +106,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
         );
       }),
       tap(actaPrestamo =>
-        this._pdf.abrirProceso(actaPrestamo, 'ACTA DE PRESTAMO')
+        this._pdf.abrirReportePDF(actaPrestamo, 'ACTA DE PRESTAMO')
       )
     );
   }

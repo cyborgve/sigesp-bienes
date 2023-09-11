@@ -5,24 +5,24 @@ import { map } from 'rxjs/operators';
 export const adaptarActaPrestamo = () =>
   pipe(
     map(
-      (resultado: any) =>
+      (actaPrestamo: any) =>
         <ActaPrestamo>{
-          empresaId: Number(resultado.empresaId),
-          id: Number(resultado.id),
-          comprobante: resultado.comprobante,
+          empresaId: Number(actaPrestamo.empresaId),
+          id: Number(actaPrestamo.id),
+          comprobante: actaPrestamo.comprobante,
           unidadAdministrativaCedente: Number(
-            resultado.unidadAdministrativaCedente
+            actaPrestamo.unidadAdministrativaCedente
           ),
-          unidadCedenteResponsable: resultado.unidadCedenteResponsable,
+          unidadCedenteResponsable: actaPrestamo.unidadCedenteResponsable,
           unidadAdministrativaReceptora: Number(
-            resultado.unidadAdministrativaReceptora
+            actaPrestamo.unidadAdministrativaReceptora
           ),
-          unidadReceptoraResponsable: resultado.unidadReceptoraResponsable,
-          testigo: resultado.testigo,
-          activos: resultado.activos,
-          notas: resultado.notas,
-          creado: resultado.creado,
-          modificado: resultado.modificado,
+          unidadReceptoraResponsable: actaPrestamo.unidadReceptoraResponsable,
+          testigo: actaPrestamo.testigo,
+          activos: actaPrestamo.activos ? actaPrestamo.activos : [],
+          notas: actaPrestamo.notas,
+          creado: actaPrestamo.creado,
+          modificado: actaPrestamo.modificado,
         }
     )
   );

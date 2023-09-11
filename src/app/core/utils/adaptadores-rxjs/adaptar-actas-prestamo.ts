@@ -20,7 +20,7 @@ export const adaptarActasPrestamo = () =>
             ),
             unidadReceptoraResponsable: resultado.unidadReceptoraResponsable,
             testigo: resultado.testigo,
-            activos: resultado.activos,
+            activos: resultado.activos ? resultado.activos : [],
             notas: resultado.notas,
             creado: resultado.creado,
             modificado: resultado.modificado,

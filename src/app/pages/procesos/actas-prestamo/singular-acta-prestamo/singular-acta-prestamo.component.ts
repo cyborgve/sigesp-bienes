@@ -76,7 +76,6 @@ export class SingularActaPrestamoComponent implements Entidad {
       this._actaPrestamo
         .buscarPorId(this.id)
         .pipe(
-          adaptarActaPrestamo(),
           tap(actaPrestamo => {
             this.formulario.patchValue({
               empresaId: actaPrestamo.empresaId,

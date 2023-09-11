@@ -1,3 +1,4 @@
+import { tap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
@@ -6,13 +7,14 @@ import { GenericService } from '../auxiliares/generic.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { adaptarActivosProceso } from '@core/utils/adaptadores-rxjs/adaptar-activos-proceso';
 import { adaptarActivoProceso } from '@core/utils/adaptadores-rxjs/adaptar-activo-proceso';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActaPrestamoActivoService extends GenericService<ActivoProceso> {
-  private apiUrlActaPrestamo = (actaPrestamo: Id) =>
-    `${this.apiUrl}?acta_prestamo=${actaPrestamo}`;
+  private apiUrlActaPrestamo = (proceso: Id) =>
+    `${this.apiUrl}?proceso=${proceso}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'actaPrestamoActivo').valor;
   }
@@ -28,7 +30,11 @@ export class ActaPrestamoActivoService extends GenericService<ActivoProceso> {
   buscarTodosPorProceso(actaPestamo: Id): Observable<ActivoProceso[]> {
     return this._http
       .get<ActivoProceso[]>(this.apiUrlActaPrestamo(actaPestamo))
-      .pipe(adaptarActivosProceso());
+      .pipe(
+        map((resultado: any) => resultado.data),
+        map((resultado: any[]) => resultado.map(res => normalizarObjeto(res))),
+        adaptarActivosProceso()
+      );
   }
 
   guardar(

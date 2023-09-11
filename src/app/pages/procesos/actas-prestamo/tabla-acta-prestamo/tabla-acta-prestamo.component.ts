@@ -81,7 +81,7 @@ export class TablaActaPrestamoComponent
       .buscarPorId(entidad.id)
       .pipe(
         tap(actaPrestamo =>
-          this._pdf.abrirProceso(actaPrestamo, 'ACTA DE PRESTAMO')
+          this._pdf.abrirReportePDF(actaPrestamo, 'ACTA DE PRESTAMO')
         ),
         take(1)
       )
