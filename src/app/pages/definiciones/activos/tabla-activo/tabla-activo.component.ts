@@ -17,7 +17,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
 import { pipe } from 'rxjs';
@@ -97,7 +97,7 @@ export class TablaActivoComponent
   }
 
   eliminar(entidad: Activo) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

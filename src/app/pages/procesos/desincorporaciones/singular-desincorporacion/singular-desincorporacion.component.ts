@@ -13,7 +13,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorDesincorporacionComponent } from '../buscador-desincorporacion/buscador-desincorporacion.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { Desincorporacion } from '@core/models/procesos/desincorporacion';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
@@ -162,7 +162,7 @@ export class SingularDesincorporacionComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

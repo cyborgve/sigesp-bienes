@@ -12,7 +12,7 @@ import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorDepreciacionComponent } from '../buscador-depreciacion/buscador-depreciacion.component';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { MatTableDataSource } from '@angular/material/table';
@@ -178,7 +178,7 @@ export class SingularDepreciacionComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

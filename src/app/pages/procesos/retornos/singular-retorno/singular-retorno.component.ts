@@ -16,7 +16,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorRetornoComponent } from '../buscador-retorno/buscador-retorno.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { Retorno } from '@core/models/procesos/retorno';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
@@ -143,7 +143,7 @@ export class SingularRetornoComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

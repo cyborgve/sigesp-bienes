@@ -9,7 +9,7 @@ import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorTipoMarcaComponent } from '../buscador-tipo-marca/buscador-tipo-marca.component';
 import { TipoMarca } from '@core/models/definiciones/tipo-marca';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
@@ -119,7 +119,7 @@ export class SingularTipoMarcaComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

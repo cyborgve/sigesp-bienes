@@ -10,7 +10,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorRotulacionComponent } from '../buscador-rotulacion/buscador-rotulacion.component';
 import { Rotulacion } from '@core/models/definiciones/rotulacion';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 
@@ -116,7 +116,7 @@ export class SingularRotulacionComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

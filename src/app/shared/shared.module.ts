@@ -5,7 +5,7 @@ import { IsoCurrencyPipe } from './pipes/iso-currency.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BotonesAccionesComponent } from './components/botones-acciones/botones-acciones.component';
 import { MaterialModule } from '../material/material.module';
-import { DialogoEliminarComponent } from './components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from './components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { EncabezadoDefinicionComponent } from './components/encabezado-definicion/encabezado-definicion.component';
 import { BotonesDefinicionComponent } from './components/botones-definicion/botones-definicion.component';
 import { BotonesDefinicionesComponent } from './components/botones-definiciones/botones-definiciones.component';
@@ -102,7 +102,7 @@ const sharedComponents = [
   BuscadorCentroCostoComponent,
   BuscadorParroquiaComponent,
   BuscadorResponsableComponent,
-  DialogoEliminarComponent,
+  DialogoEliminarDefinicionComponent,
   EncabezadoDefinicionComponent,
   EncabezadoDefinicionesComponent,
   EncabezadoProcesosComponent,

@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorTipoComponenteComponent } from '../buscador-tipo-componente/buscador-tipo-componente.component';
 import { TipoComponente } from '@core/models/definiciones/tipo-componente';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 
 @Component({
   selector: 'app-singular-tipo-componente',
@@ -122,7 +122,7 @@ export class SingularTipoComponenteComponent implements Entidad, OnDestroy {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

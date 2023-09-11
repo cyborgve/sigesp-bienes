@@ -14,7 +14,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { Subscription } from 'rxjs';
 import { BuscadorSedeComponent } from '../buscador-sede/buscador-sede.component';
 import { Sede } from '@core/models/definiciones/sede';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorPaisComponent } from '@shared/components/buscador-pais/buscador-pais.component';
 import { BuscadorEstadoComponent } from '@shared/components/buscador-estado/buscador-estado.component';
 import { Estado } from '@core/models/otros-modulos/estado';
@@ -174,7 +174,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

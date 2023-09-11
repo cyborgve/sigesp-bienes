@@ -17,7 +17,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -90,7 +90,7 @@ export class TablaDepreciacionComponent
   previsualizar(entidad: Depreciacion) {}
 
   eliminar(entidad: Depreciacion) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.comprobante,
         denominacion: 'Depreciación',

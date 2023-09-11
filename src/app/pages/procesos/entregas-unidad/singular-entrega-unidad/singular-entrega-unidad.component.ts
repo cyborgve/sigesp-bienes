@@ -13,7 +13,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorEntregaUnidadComponent } from '../buscador-entrega-unidad/buscador-entrega-unidad.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
@@ -139,7 +139,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

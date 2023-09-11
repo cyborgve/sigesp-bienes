@@ -18,7 +18,7 @@ import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { IncorporacionService } from '@core/services/procesos/incorporacion.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
@@ -109,7 +109,7 @@ export class TablaIncorporacionComponent
   }
 
   eliminar(entidad: Incorporacion) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.comprobante,
         denominacion: entidad.unidadAdministrativa,

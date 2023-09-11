@@ -17,7 +17,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { CambioResponsable } from '@core/models/procesos/cambio-responsable';
 import { CambioResponsableService } from '@core/services/procesos/cambio-responsable.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -91,7 +91,7 @@ export class TablaCambioResponsableComponent
   }
 
   eliminar(entidad: CambioResponsable) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.comprobante,
         denominacion: entidad.nuevoResponsable,

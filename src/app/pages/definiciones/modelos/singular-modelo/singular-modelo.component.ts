@@ -8,7 +8,7 @@ import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Modelo } from '@core/models/definiciones/modelo';
 import { BuscadorModeloComponent } from '../buscador-modelo/buscador-modelo.component';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { Marca } from '@core/models/definiciones/marca';
@@ -130,7 +130,7 @@ export class SingularModeloComponent implements Entidad, OnDestroy {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

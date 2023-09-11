@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Seguro } from '@core/models/definiciones/seguro';
 import { SeguroService } from '@core/services/definiciones/seguro.service';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { Location } from '@angular/common';
 import { Id } from '@core/types/id';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
@@ -96,7 +96,7 @@ export class TablaSeguroComponent
   }
 
   eliminar(entidad: Seguro) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

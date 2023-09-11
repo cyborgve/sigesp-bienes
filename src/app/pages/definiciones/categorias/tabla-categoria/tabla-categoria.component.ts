@@ -18,7 +18,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Id } from '@core/types/id';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { pipe } from 'rxjs';
 
@@ -96,7 +96,7 @@ export class TablaCategoriaComponent
   }
 
   eliminar(entidad: Categoria) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

@@ -19,7 +19,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TipoComponente } from '@core/models/definiciones/tipo-componente';
 import { TipoComponenteService } from '@core/services/definiciones/tipo-componente.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 
 const filtroInicial = () =>
@@ -97,7 +97,7 @@ export class TablaTipoComponenteComponent
   }
 
   eliminar(entidad: TipoComponente) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

@@ -18,7 +18,7 @@ import { Origen } from '@core/models/definiciones/origen';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { OrigenService } from '@core/services/definiciones/origen.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 
@@ -96,7 +96,7 @@ export class TablaOrigenComponent
   }
 
   eliminar(entidad: Origen) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.modoAdquisicion,

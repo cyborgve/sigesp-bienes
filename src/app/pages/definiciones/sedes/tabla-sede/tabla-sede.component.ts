@@ -17,7 +17,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Sede } from '@core/models/definiciones/sede';
 import { SedeService } from '@core/services/definiciones/sede.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
@@ -94,7 +94,7 @@ export class TablaSedeComponent implements TablaEntidad<Sede>, AfterViewInit {
   }
 
   eliminar(entidad: Sede) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

@@ -17,7 +17,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Correlativo } from '@core/models/definiciones/correlativo';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { Id } from '@core/types/id';
 import { ordenarPorId } from '@core/utils/operadores-rxjs/ordenar-por-id';
 
@@ -91,7 +91,7 @@ export class TablaCorrelativoComponent
   }
 
   eliminar(entidad: Correlativo) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.id,
         denominacion: entidad.denominacion,

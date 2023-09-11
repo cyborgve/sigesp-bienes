@@ -18,7 +18,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TipoSemoviente } from '@core/models/definiciones/tipo-semoviente';
 import { TipoSemovienteService } from '@core/services/definiciones/tipo-semoviente.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { pipe } from 'rxjs';
 
@@ -97,7 +97,7 @@ export class TablaTipoSemovienteComponent
   }
 
   eliminar(entidad: TipoSemoviente) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

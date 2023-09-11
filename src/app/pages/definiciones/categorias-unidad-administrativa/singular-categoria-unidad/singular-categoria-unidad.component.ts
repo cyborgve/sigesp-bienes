@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { BuscadorCategoriaUnidadComponent } from '../buscador-categoria-unidad/buscador-categoria-unidad.component';
 import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 
 @Component({
   selector: 'app-singular-categoria-unidad',
@@ -124,7 +124,7 @@ export class SingularCategoriaUnidadComponent implements Entidad, OnDestroy {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

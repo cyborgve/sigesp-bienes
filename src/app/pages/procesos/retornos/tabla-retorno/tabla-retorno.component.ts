@@ -17,7 +17,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Retorno } from '@core/models/procesos/retorno';
 import { RetornoService } from '@core/services/procesos/retorno.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -90,7 +90,7 @@ export class TablaRetornoComponent
   }
 
   eliminar(entidad: Retorno) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.comprobante,
         denominacion: entidad.beneficiario,

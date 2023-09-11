@@ -18,7 +18,7 @@ import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -103,7 +103,7 @@ export class TablaActaPrestamoComponent
   }
 
   eliminar(entidad: ActaPrestamo) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.comprobante,
         denominacion: entidad.unidadAdministrativaCedente,

@@ -17,7 +17,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
 import { EntregaUnidadService } from '@core/services/procesos/entrega-unidad.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -90,7 +90,7 @@ export class TablaEntregaUnidadComponent
   previsualizar(entidad: EntregaUnidad) {}
 
   eliminar(entidad: EntregaUnidad) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.comprobante,
         denominacion: entidad.nuevoResponsable,

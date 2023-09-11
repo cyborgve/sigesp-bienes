@@ -15,7 +15,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { BuscadorAutorizacionSalidaComponent } from '../buscador-autorizacion-salida/buscador-autorizacion-salida.component';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
@@ -159,7 +159,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.titulo,

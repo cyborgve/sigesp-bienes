@@ -13,7 +13,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { Subscription, pipe } from 'rxjs';
 import { BuscadorCatalogoGeneralComponent } from '../buscador-catalogo-general/buscador-catalogo-general.component';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { ESTADOS_MOVIMIENTO_CATALOGO } from '@core/constants/estado-movimiento-catalogo';
 
 @Component({
@@ -135,7 +135,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

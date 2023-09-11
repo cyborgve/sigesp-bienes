@@ -17,7 +17,7 @@ import { Clase } from '@core/models/definiciones/clase';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ClaseService } from '@core/services/definiciones/clase.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
@@ -93,7 +93,7 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
   }
 
   eliminar(entidad: Clase) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

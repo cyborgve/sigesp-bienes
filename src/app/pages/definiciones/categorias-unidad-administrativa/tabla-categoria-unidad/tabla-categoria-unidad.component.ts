@@ -20,7 +20,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
 import { CategoriaUnidadAdministrativaService } from '@core/services/definiciones/categoria-unidad-administrativa.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 
 const filtroInicial = () =>
   pipe(map((categorias: CategoriaUnidadAdministrativa[]) => categorias));
@@ -99,7 +99,7 @@ export class TablaCategoriaUnidadComponent
   }
 
   eliminar(entidad: CategoriaUnidadAdministrativa) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

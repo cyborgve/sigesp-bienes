@@ -15,7 +15,7 @@ import { Activo } from '@core/models/definiciones/activo';
 import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '../buscador-activo/buscador-activo.component';
 
 @Component({
@@ -441,7 +441,7 @@ export class SingularActivoComponent implements Entidad {
   }
 
   borrar(): void {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formularioDatosGenerales.value.codigo,
         denominacion: this.formularioDatosGenerales.value.denominacion,

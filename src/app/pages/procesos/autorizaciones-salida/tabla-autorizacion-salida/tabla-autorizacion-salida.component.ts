@@ -18,7 +18,7 @@ import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -106,7 +106,7 @@ export class TablaAutorizacionSalidaComponent
   }
 
   eliminar(entidad: AutorizacionSalida) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.comprobante,
         denominacion: entidad.unidadAdministrativa,

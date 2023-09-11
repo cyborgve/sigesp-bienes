@@ -14,7 +14,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorReasignacionComponent } from '../buscador-reasignacion/buscador-reasignacion.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { Reasignacion } from '@core/models/procesos/reasignacion';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
@@ -151,7 +151,7 @@ export class SingularReasignacionComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

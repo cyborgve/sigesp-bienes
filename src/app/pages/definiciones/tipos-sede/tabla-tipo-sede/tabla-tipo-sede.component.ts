@@ -18,7 +18,7 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
 import { TipoSedeService } from '@core/services/definiciones/tipo-sede.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { pipe } from 'rxjs';
 
@@ -96,7 +96,7 @@ export class TablaTipoSedeComponent
   }
 
   eliminar(entidad: TipoSede) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

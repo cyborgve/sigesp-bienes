@@ -20,7 +20,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { TipoUso } from '@core/models/definiciones/tipo-uso';
 import { TipoUsoService } from '@core/services/definiciones/tipo-uso.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 
 const filtroInicial = () => pipe(map((tiposUso: TipoUso[]) => tiposUso));
 
@@ -96,7 +96,7 @@ export class TablaTipoUsoComponent
   }
 
   eliminar(entidad: TipoUso) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

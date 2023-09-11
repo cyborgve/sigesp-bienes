@@ -14,7 +14,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorModificacionComponent } from '../buscador-modificacion/buscador-modificacion.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { Modificacion } from '@core/models/procesos/modificacion';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { Activo } from '@core/models/definiciones/activo';
@@ -152,7 +152,7 @@ export class SingularModificacionComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,

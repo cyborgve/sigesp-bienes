@@ -20,7 +20,7 @@ import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depre
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { PlantillaDepreciacionService } from '@core/services/definiciones/plantilla-depreciacion.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 
 const filtroInicial = () =>
   pipe(map((plantillas: PlantillaDepreciacion[]) => plantillas));
@@ -100,7 +100,7 @@ export class TablaPlantillaDepreciacionComponent
   }
 
   eliminar(entidad: PlantillaDepreciacion) {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: entidad.codigo,
         denominacion: entidad.denominacion,

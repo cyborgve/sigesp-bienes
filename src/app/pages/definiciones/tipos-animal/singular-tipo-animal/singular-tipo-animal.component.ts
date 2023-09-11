@@ -13,7 +13,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorTipoAnimalComponent } from '../buscador-tipo-animal/buscador-tipo-animal.component';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
-import { DialogoEliminarComponent } from '@shared/components/dialogo-eliminar/dialogo-eliminar.component';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 
 @Component({
   selector: 'app-singular-tipo-animal',
@@ -124,7 +124,7 @@ export class SingularTipoAnimalComponent implements Entidad, OnDestroy {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarComponent, {
+    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
       data: {
         codigo: this.formulario.value.codigo,
         denominacion: this.formulario.value.denominacion,
