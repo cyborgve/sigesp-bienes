@@ -4,24 +4,23 @@
 <mat-dialog-content class="mat-typografy">
   <p>
     {{
-      'Esta seguro de que quiere eliminar ' +
+      'Seguro desea eliminar ' +
+        data.denominacion +
         ' CODIGO: ' +
-        data.codigo.substring(5) +
-        ' ' +
-        data.denominacion
+        data.codigo.substring(5)
     }}
   </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button type="button" color="primary" mat-stroked-button (click)="noOpcion()">
-    Cancel
-  </button>
   <button
     type="button"
-    color="warn"
+    color="primary"
     mat-stroked-button
-    (click)="okOpcion()"
+    (click)="noOpcion()"
     cdkFocusInitial>
+    Cancel
+  </button>
+  <button type="button" color="warn" mat-stroked-button (click)="okOpcion()">
     Ok
   </button>
 </mat-dialog-actions>

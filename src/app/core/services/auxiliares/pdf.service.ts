@@ -194,7 +194,7 @@ export class PDFService {
   private datosGeneralesReporte(proceso: any, tipoProceso: TipoProceso) {
     let resultado = {};
     switch (tipoProceso) {
-      case 'ACTA DE PRESTAMO':
+      case 'ACTA DE PRÉSTAMO':
         resultado = this.seccionActaPrestamo(proceso);
         break;
       case 'AUTORIZACIÓN DE SALIDA':

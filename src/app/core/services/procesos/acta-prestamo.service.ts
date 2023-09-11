@@ -106,7 +106,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
         );
       }),
       tap(actaPrestamo =>
-        this._pdf.abrirReportePDF(actaPrestamo, 'ACTA DE PRESTAMO')
+        this._pdf.abrirReportePDF(actaPrestamo, 'ACTA DE PRÉSTAMO')
       )
     );
   }

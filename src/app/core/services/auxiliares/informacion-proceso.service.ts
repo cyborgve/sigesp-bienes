@@ -47,7 +47,7 @@ export class InformacionProcesoService {
   obtener(proceso: any, tipoProceso: TipoProceso): Observable<any> {
     let resultado: any = {}; // Objeto para almacenar el resultado
     switch (tipoProceso) {
-      case 'ACTA DE PRESTAMO':
+      case 'ACTA DE PRÉSTAMO':
         resultado = this.actaPrestamo(proceso);
         break;
       case 'CAMBIO DE RESPONSABLE':

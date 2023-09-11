@@ -85,6 +85,7 @@ import { PieReporteComponent } from './components/pie-reporte/pie-reporte.compon
 import { BuscadorBeneficiarioComponent } from './components/buscador-beneficiario/buscador-beneficiario.component';
 import { BotonesAccionesProcesoComponent } from './components/botones-acciones-proceso/botones-acciones-proceso.component';
 import { PropiedadesActivoComponent } from './components/propiedades-activo/propiedades-activo.component';
+import { DialogoEliminarProcesoComponent } from './components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -176,8 +177,16 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DialogoEliminarProcesoComponent,
+  ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [
+    ...sharedComponents,
+    ...sharedPipes,
+    DialogoEliminarProcesoComponent,
+  ],
 })
 export class SharedModule {}

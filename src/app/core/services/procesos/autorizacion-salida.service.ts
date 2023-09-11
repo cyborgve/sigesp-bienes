@@ -81,7 +81,10 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
         );
       }),
       tap(autorizacionGuardada =>
-        this._pdf.abrirReportePDF(autorizacionGuardada, 'ACTA DE PRESTAMO')
+        this._pdf.abrirReportePDF(
+          autorizacionGuardada,
+          'AUTORIZACIÓN DE SALIDA'
+        )
       )
     );
   }

@@ -1,5 +1,5 @@
 export type TipoProceso =
-  | 'ACTA DE PRESTAMO'
+  | 'ACTA DE PRÉSTAMO'
   | 'AUTORIZACIÓN DE SALIDA'
   | 'CAMBIO DE RESPONSABLE'
   | 'DEPRECIACIÓN'

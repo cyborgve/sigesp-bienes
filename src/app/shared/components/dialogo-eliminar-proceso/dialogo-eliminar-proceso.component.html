@@ -1,0 +1,29 @@
+<h2 mat-dialog-title [align]="'center'">
+  {{ 'Confirmacion para eliminar ' + data.tipoProceso }}
+</h2>
+<mat-dialog-content class="mat-typografy">
+  <p>
+    {{
+      '¿Esta seguro de eliminar ' +
+        data.tipoProceso +
+        '-' +
+        data.comprobante.substring(5) +
+        '?, ' +
+        'tenga en cuenta que la eliminacion de procesos implica que los bienes ' +
+        'adquieran valores por defecto en los campos afectados'
+    }}
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    type="button"
+    color="primary"
+    mat-stroked-button
+    (click)="noOpcion()"
+    cdkFocusInitial>
+    Cancelar
+  </button>
+  <button type="button" color="warn" mat-stroked-button (click)="okOpcion()">
+    Si, eliminar proceso
+  </button>
+</mat-dialog-actions>

@@ -19,6 +19,7 @@ import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -81,7 +82,7 @@ export class TablaActaPrestamoComponent
       .buscarPorId(entidad.id)
       .pipe(
         tap(actaPrestamo =>
-          this._pdf.abrirReportePDF(actaPrestamo, 'ACTA DE PRESTAMO')
+          this._pdf.abrirReportePDF(actaPrestamo, 'ACTA DE PRÉSTAMO')
         ),
         take(1)
       )
@@ -103,17 +104,18 @@ export class TablaActaPrestamoComponent
   }
 
   eliminar(entidad: ActaPrestamo) {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
       data: {
-        codigo: entidad.comprobante,
-        denominacion: entidad.unidadAdministrativaCedente,
+        comprobante: entidad.comprobante,
+        tipoProceso: 'ACTA DE PRÉSTAMO',
       },
+      width: '35%',
     });
     dialog
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id, 'ACTA DE PRESTAMO')),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'ACTA DE PRÉSTAMO')),
         take(1)
       )
       .subscribe(() => this.recargarDatos());
