@@ -6,7 +6,12 @@
       <!-- buscar -->
       <mat-form-field class="buscador">
         <mat-label>Buscar</mat-label>
-        <input type="text" #buscar matInput (keyup)="filtrarDatos($event)" />
+        <input
+          type="text"
+          #buscar
+          matInput
+          (keyup)="filtrarDatos($event)"
+          placeholder="escriba el nombre de la definición" />
         <button
           mat-icon-button
           type="button"

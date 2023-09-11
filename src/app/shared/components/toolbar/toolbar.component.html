@@ -3,6 +3,7 @@
   <ng-container *ngIf="mostrarGuardar">
     <button
       mat-button
+      matTooltip="Guardar"
       type="button"
       (click)="guardar.emit()"
       [disabled]="desabilitarGuardar">
@@ -13,6 +14,7 @@
   <ng-container *ngIf="mostrarBuscar">
     <button
       mat-button
+      matTooltip="Buscar"
       type="button"
       (click)="buscar.emit()"
       [disabled]="desabilitarBuscar">
@@ -23,6 +25,7 @@
   <ng-container *ngIf="mostrarBorrar">
     <button
       mat-button
+      matTooltip="Eliminar"
       type="button"
       (click)="borrar.emit()"
       [disabled]="desabilitarBorrar">
@@ -33,6 +36,7 @@
   <ng-container *ngIf="mostrarImportar">
     <button
       mat-button
+      matTooltip="Copiar"
       type="button"
       (click)="importar.emit()"
       [disabled]="desabilitarImportar">
@@ -43,6 +47,7 @@
   <ng-container *ngIf="mostrarImprimir">
     <button
       mat-button
+      matTooltip="Imprimir"
       type="button"
       (click)="imprimir.emit()"
       [disabled]="desabilitarImprimir">
@@ -53,6 +58,7 @@
   <ng-container *ngIf="mostrarExportar">
     <button
       mat-button
+      matTooltip="Exportar"
       type="button"
       (click)="exportar.emit()"
       [disabled]="desabilitarExportar">
@@ -63,6 +69,7 @@
   <ng-container *ngIf="mostrarIrAtras">
     <button
       mat-button
+      matTooltip="Ir atras"
       type="button"
       (click)="irAtras.emit()"
       [disabled]="desabilitarIrAtras">
@@ -74,6 +81,7 @@
     <button
       mat-button
       type="button"
+      [matTooltip]="toolTipInicio()"
       (click)="irAlInicio.emit()"
       [disabled]="desabilitarIrAlInicio">
       <i class="material-icons">reply_all</i>
@@ -83,6 +91,7 @@
   <ng-container *ngIf="mostrarSalir">
     <button
       mat-button
+      matTooltip="Salir"
       type="button"
       (click)="salir.emit()"
       [disabled]="desabilitarSalir">

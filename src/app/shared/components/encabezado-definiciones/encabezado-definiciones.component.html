@@ -17,7 +17,12 @@
     <!-- buscador -->
     <mat-form-field class="buscar">
       <mat-label>Buscar</mat-label>
-      <input type="text" #buscar matInput (keyup)="filtrarDatos.emit($event)" />
+      <input
+        type="text"
+        #buscar
+        matInput
+        (keyup)="filtrarDatos.emit($event)"
+        placeholder="escriba el texto a buscar" />
       <button
         mat-icon-button
         type="button"
