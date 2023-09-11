@@ -87,7 +87,7 @@ export class TablaIncorporacionComponent
       .buscarPorId(entidad.id)
       .pipe(
         tap(incorporacion =>
-          this._pdf.abrirProceso(incorporacion, 'INCORPORACIÓN')
+          this._pdf.abrirReportePDF(incorporacion, 'INCORPORACIÓN')
         ),
         take(1)
       )

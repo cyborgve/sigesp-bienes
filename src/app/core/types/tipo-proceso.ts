@@ -8,4 +8,4 @@ export type TipoProceso =
   | 'INCORPORACIÓN'
   | 'MODIFICACIÓN'
   | 'REASIGNACIÓN'
-  | 'RETORNO DE ACTIVO';
+  | 'RETORNO';

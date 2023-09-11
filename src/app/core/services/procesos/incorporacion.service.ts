@@ -110,7 +110,7 @@ export class IncorporacionService extends GenericService<Incorporacion> {
       }),
       tap(incorporacion =>
         incorporacion
-          ? this._pdf.abrirProceso(incorporacion, 'INCORPORACIÓN')
+          ? this._pdf.abrirReportePDF(incorporacion, 'INCORPORACIÓN')
           : undefined
       )
     );
