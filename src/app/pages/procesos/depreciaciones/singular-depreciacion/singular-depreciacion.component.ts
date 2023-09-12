@@ -11,7 +11,10 @@ import { DepreciacionService } from '@core/services/procesos/depreciacion.servic
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorDepreciacionComponent } from '../buscador-depreciacion/buscador-depreciacion.component';
-import { Depreciacion } from '@core/models/procesos/depreciacion';
+import {
+  Depreciacion,
+  DetalleDepreciacion,
+} from '@core/models/procesos/depreciacion';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
@@ -20,7 +23,10 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Activo } from '@core/models/definiciones/activo';
 import { convertirUnidadTiempo } from '@core/utils/funciones/convertir-unidad-tiempo';
-import { calcularDepreciacion } from '@core/utils/funciones/calcular-depreciacion';
+import {
+  calcularDepreciacion,
+  proyectarDepreciacion,
+} from '@core/utils/funciones/calcular-depreciacion';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -33,7 +39,8 @@ export class SingularDepreciacionComponent implements Entidad {
   titulo = CORRELATIVOS[32].nombre;
   formulario: FormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
-  dataSource: MatTableDataSource<Depreciacion> = new MatTableDataSource();
+  dataSource: MatTableDataSource<DetalleDepreciacion> =
+    new MatTableDataSource();
 
   constructor(
     private _entidad: DepreciacionService,
@@ -101,9 +108,6 @@ export class SingularDepreciacionComponent implements Entidad {
           switchMap(depreciacion =>
             this._entidad.buscarTodosPorActivo(depreciacion.activo)
           ),
-          tap(depreciaciones => {
-            this.dataSource = new MatTableDataSource(depreciaciones);
-          }),
           take(1)
         )
         .subscribe();
@@ -237,7 +241,7 @@ export class SingularDepreciacionComponent implements Entidad {
             activo.depreciacion.unidadVidaUtil,
             'AÑOS'
           );
-          let metodosDepreciacionAux = METODOS_DEPRECIACION.find(
+          let metodoDepreciacionAux = METODOS_DEPRECIACION.find(
             md => md.substring(0, 3) === activo.depreciacion.metodoDepreciacion
           );
           let tiempoAux =
@@ -247,7 +251,7 @@ export class SingularDepreciacionComponent implements Entidad {
           let depreciacionTotal = calcularDepreciacion(
             activo.valorAdquisicion,
             vidaUtilAnios,
-            metodosDepreciacionAux,
+            metodoDepreciacionAux,
             tiempoAux,
             true,
             activo.depreciacion.valorRescate
@@ -269,10 +273,14 @@ export class SingularDepreciacionComponent implements Entidad {
               tiempoAux.toFixed(2) +
               ' meses trancurridos desde la fecha de compra.',
           });
-        }),
-        switchMap(activo => this._entidad.buscarTodosPorActivo(activo.id)),
-        tap(depreciaciones => {
-          this.dataSource = new MatTableDataSource(depreciaciones);
+          let proyeccion = proyectarDepreciacion(
+            activo.valorAdquisicion,
+            vidaUtilMeses,
+            metodoDepreciacionAux,
+            true,
+            activo.depreciacion.valorRescate
+          );
+          this.dataSource = new MatTableDataSource(proyeccion);
         }),
         take(1)
       )

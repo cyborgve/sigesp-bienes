@@ -1,4 +1,6 @@
+import { DetalleDepreciacion } from '@core/models/procesos/depreciacion';
 import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
+import moment from 'moment';
 
 /**
  * Calcula la depreciación acumulada de un activo después de cierto tiempo.
@@ -15,7 +17,8 @@ export function calcularDepreciacion(
   metodo: MetodoDepreciacion,
   tiempo: number,
   enMeses: boolean = false,
-  valorRescate: number
+  valorRescate: number,
+  fechaAdquisicion?: Date
 ): number {
   // Si el tiempo se proporciona en meses, lo convertimos a años para un cálculo uniforme.
   const tiempoEnAnios = enMeses ? tiempo / 12 : tiempo;
@@ -135,26 +138,18 @@ function calcularDepreciacionUnidadesProduccion(
   return unidadesProducidasEnAnoN * depreciacionPorUnidad;
 }
 
-interface RegistroDepreciacion {
-  fechaDepreciacion: string;
-  meses: number;
-  dias: number;
-  depreciacionMensual: number;
-  depreciacionAnual: number;
-  depreciacionAcumulada: number;
-  valorContable: number;
-}
-
-export function detalleDepreciaciones(
+export function proyectarDepreciacion(
   valorInicial: number,
   vidaUtil: number,
   metodo: MetodoDepreciacion,
   enMeses: boolean = false,
-  valorSalvamento: number
-): RegistroDepreciacion[] {
-  let detalleDepreciaciones: RegistroDepreciacion[] = [];
+  valorRescate: number,
+  fechaAdquisicion?: Date
+): DetalleDepreciacion[] {
+  let detalleDepreciaciones: DetalleDepreciacion[] = [];
   let depreciacionAcumulada = 0;
   let valorContable = valorInicial;
+  let fechaDepreciacionActual = fechaAdquisicion;
 
   for (let tiempo = 1; tiempo <= vidaUtil; tiempo++) {
     const meses = enMeses ? tiempo : tiempo * 12;
@@ -165,7 +160,7 @@ export function detalleDepreciaciones(
       metodo,
       meses,
       enMeses,
-      valorSalvamento
+      valorRescate
     );
     const depreciacionAnual = enMeses
       ? 0 // No aplica si se calcula en meses
@@ -175,23 +170,36 @@ export function detalleDepreciaciones(
           metodo,
           tiempo,
           false,
-          valorSalvamento
+          valorRescate
         );
 
     depreciacionAcumulada += depreciacionMensual;
     valorContable -= depreciacionMensual;
 
+    fechaDepreciacionActual = moment(fechaDepreciacionActual)
+      .add(1, 'months')
+      .toDate();
+
+    let diasTranscurridos = moment(fechaDepreciacionActual).diff(
+      moment(fechaAdquisicion),
+      'days'
+    );
+
     // Formatea la fecha de depreciación según tus preferencias
     const fechaDepreciacion = enMeses ? `Mes ${meses}` : `Año ${tiempo}`;
 
     detalleDepreciaciones.push({
-      fechaDepreciacion,
-      meses,
-      dias,
-      depreciacionMensual,
-      depreciacionAnual,
-      depreciacionAcumulada,
-      valorContable,
+      empresaId: undefined,
+      id: undefined,
+      fechaDepreciacion: fechaDepreciacionActual.toString(),
+      depreciacionMensual: depreciacionMensual,
+      depreciacionAnual: depreciacionAnual,
+      dias: diasTranscurridos,
+      meses: meses,
+      depreciacionAcumulada: depreciacionAcumulada,
+      valorContable: valorContable,
+      creado: new Date(),
+      modificado: new Date(),
     });
   }
 

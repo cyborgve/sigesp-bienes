@@ -17,16 +17,15 @@ export interface Depreciacion extends Basica {
   depreciacionMensual: number;
   depreciacionAnual: number;
   observaciones: string;
-  detalles: DepreciacionDetalle[];
+  detalles: DetalleDepreciacion[];
 }
 
-export interface DepreciacionDetalle extends Basica {
-  depreciacion: Id;
-  fecha: Date;
+export interface DetalleDepreciacion extends Basica {
+  fechaDepreciacion: string;
   meses: number;
   dias: number;
-  depreciacionAnual: number;
   depreciacionMensual: number;
+  depreciacionAnual: number;
   depreciacionAcumulada: number;
   valorContable: number;
 }

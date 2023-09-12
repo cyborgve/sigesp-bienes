@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { DepreciacionDetalle } from '@core/models/procesos/depreciacion';
+import { DetalleDepreciacion } from '@core/models/procesos/depreciacion';
 
 @Component({
   selector: 'app-detalle',
@@ -9,7 +9,7 @@ import { DepreciacionDetalle } from '@core/models/procesos/depreciacion';
   styleUrls: ['./detalle.component.scss'],
 })
 export class DetalleComponent {
-  @Input() dataSource: MatTableDataSource<DepreciacionDetalle>;
+  @Input() dataSource: MatTableDataSource<DetalleDepreciacion>;
   columnasVisibles = COLUMNAS_VISIBLES.DEPRECIACIONES_DETALLE;
   titulo = 'Detalle de la depreciación';
 }

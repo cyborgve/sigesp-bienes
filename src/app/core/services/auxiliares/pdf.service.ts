@@ -110,7 +110,9 @@ export class PDFService {
       margin: [0, 100, 0, 0],
     },
     firmante: {
-      margin: [0, 0, 0, 30],
+      fontSize: 8,
+      alignment: 'center',
+      bold: true,
     },
   };
 
@@ -257,7 +259,7 @@ export class PDFService {
           ),
           this.campoTextoConTitulo(
             'Responsable:',
-            proceso.unidadReceptoraRespnsable
+            proceso.unidadReceptoraResponsable
           ),
         ],
       },
@@ -489,22 +491,24 @@ export class PDFService {
   };
 
   private firmasReporte = () => ({
-    height: 600,
-    table: {
-      headerRows: 1,
-      widths: ['50%', '50%'],
-      body: [
-        [
-          { text: 'Elaborado por', style: 'firmante' },
-          { text: 'Aprobado por', style: 'firmante' },
-        ],
-        [
-          { text: 'Verificado por', style: 'firmante' },
-          { text: 'Autorizado por', style: 'firmante' },
-        ],
-      ],
-    },
-    style: 'footer',
+    columns: [
+      {
+        width: '25%',
+        stack: [{ text: 'Elaborado por', style: 'firmante' }],
+      },
+      {
+        width: '25%',
+        stack: [{ text: 'Verificado por', style: 'firmante' }],
+      },
+      {
+        width: '25%',
+        stack: [{ text: 'Autorizado por', style: 'firmante' }],
+      },
+      {
+        width: '25%',
+        stack: [{ text: 'Aprobado por', style: 'firmante' }],
+      },
+    ],
   });
 
   private campoTextoConTitulo = (titulo: string, texto: string) => ({

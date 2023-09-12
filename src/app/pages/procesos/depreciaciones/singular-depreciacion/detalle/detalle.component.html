@@ -4,7 +4,9 @@
     <!-- fechaDepreciacion -->
     <ng-container matColumnDef="fechaDepreciacion">
       <th mat-header-cell *matHeaderCellDef>Fecha depreciación</th>
-      <td mat-cell *matCellDef="let row">{{ row.fechaDepreciacion | date }}</td>
+      <td mat-cell *matCellDef="let row">
+        {{ row.fechaDepreciacion | date : 'longDate' }}
+      </td>
     </ng-container>
     <!-- meses -->
     <ng-container matColumnDef="meses">
