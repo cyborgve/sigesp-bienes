@@ -1,5 +1,5 @@
 import { switchMap, map, tap } from 'rxjs/operators';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Activo } from '@core/models/definiciones/activo';
@@ -25,6 +25,8 @@ import { adaptarActivoDepreciacion } from '@core/utils/adaptadores-rxjs/adaptar-
 import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs/adaptar-activo-ubicacion';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { adaptarComponentes } from '@core/utils/adaptadores-rxjs/adaptar-componentes';
+import { FiltrosActivos } from '@core/models/auxiliares/filtros-activos';
+import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
 @Injectable({
   providedIn: 'root',
@@ -48,11 +50,7 @@ export class ActivoService extends GenericService<Activo> {
     super(_http, _sigesp, _snackbar);
   }
 
-  /**
-   * @description Obtiene los datos generales de todos los activos.
-   * @returns Observable<Activo[]>
-   */
-  buscarTodos(): Observable<Activo[]> {
+  buscarTodos(filtrados?: FiltrosActivos): Observable<Activo[]> {
     return super.buscarTodos();
   }
 
@@ -95,13 +93,6 @@ export class ActivoService extends GenericService<Activo> {
     );
   }
 
-  /**
-   * @description almacena todos los datos del activo y retorna un activo con los datos de lista.
-   * @param activo Activo
-   * @param tipoDato string
-   * @param notificar boolean
-   * @returns Observable<Activo>
-   */
   guardar(activoIn: Activo, tipoDato: string): Observable<Activo> {
     return super.guardar(activoIn, tipoDato).pipe(
       adaptarActivo(),
@@ -131,13 +122,6 @@ export class ActivoService extends GenericService<Activo> {
     );
   }
 
-  /**
-   * @description actualiza todos los datos que pueden ser reasignados del activo
-   * @param id number
-   * @param activo Activo
-   * @param tipoDato string
-   * @returns 1 | 0 (verdadero o falso) si se ejecuto la actualizacion.
-   */
   actualizar(id: Id, activo: Activo, tipoDato: string): Observable<number> {
     let peticionesActualizar = [
       super.actualizar(id, activo, tipoDato),
@@ -180,4 +164,22 @@ export class ActivoService extends GenericService<Activo> {
       map(resultados => resultados.map(res => normalizarObjeto(res)))
     );
   }
+
+  private filtrarIncorporados = () =>
+    pipe(
+      switchMap((activos: Activo[]) => {
+        let buscarActivosUbicacion = activos.map(activo =>
+          this._activoUbicacion.buscarPorActivo(activo.id)
+        );
+        return forkJoin(buscarActivosUbicacion).pipe(
+          map(ubicacionesActivos =>
+            activos.filter(activo =>
+              activoIncorporado(
+                ubicacionesActivos.find(ubi => (ubi.activoId = activo.id))
+              )
+            )
+          )
+        );
+      })
+    );
 }
