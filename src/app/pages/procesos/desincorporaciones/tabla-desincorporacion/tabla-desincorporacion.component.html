@@ -10,7 +10,9 @@
     <!-- comprobante -->
     <ng-container matColumnDef="comprobante">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
-      <td mat-cell *matCellDef="let row">{{ row.comprobante }}</td>
+      <td mat-cell *matCellDef="let row">
+        {{ row.comprobante | corregirCodigo }}
+      </td>
     </ng-container>
     <!-- causaMovimiento -->
     <ng-container matColumnDef="causaMovimiento">
@@ -18,7 +20,7 @@
         Causa de movimiento
       </th>
       <td mat-cell *matCellDef="let row">
-        {{ row.causaMovimiento }}
+        {{ row.causaMovimiento | denominacionCausaMovimiento | async }}
       </td>
     </ng-container>
     <!-- unidadAdministrativa -->
@@ -27,7 +29,9 @@
         Unidad administrativa
       </th>
       <td mat-cell *matCellDef="let row">
-        {{ row.unidadAdministrativa }}
+        {{
+          row.unidadAdministrativa | denominacionUnidadAdministrativa | async
+        }}
       </td>
     </ng-container>
     <!-- creado -->

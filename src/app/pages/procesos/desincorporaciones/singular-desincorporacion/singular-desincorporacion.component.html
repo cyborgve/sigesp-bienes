@@ -65,11 +65,18 @@
   <section class="contenedor-singular superior inferior">
     <app-activos-proceso
       (agregarActivo)="agregarActivo()"
+      (removerActivo)="removerActivo($event)"
       [dataSource]="activosDataSource"
       [agregarActivoDeshabilitado]="formulario.invalid"></app-activos-proceso>
   </section>
   <section class="contenedor-singular inferior">
-    <app-cuentas-contables-proceso></app-cuentas-contables-proceso>
+    <app-cuentas-contables-proceso
+      (agregarCuentaContable)="agregarCuentaContable()"
+      (removerCuentaContable)="removerCuentaContable($event)"
+      [dataSource]="cuentasDataSource"
+      [agregarCuentaContableDeshabilitado]="
+        activosDataSource.data.length === 0
+      "></app-cuentas-contables-proceso>
   </section>
 </form>
 <!-- barra de herramientas lateral -->
@@ -82,8 +89,9 @@
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
   (buscar)="buscar()"
-  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarGuardar]="!formularioValido()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
+  [mostrarExportar]="false"
   [tooTipProceso]="true"
   [mostrarSalir]="false"></app-toolbar>

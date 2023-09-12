@@ -15,5 +15,5 @@ export class CuentasContablesProcesoComponent {
     new MatTableDataSource();
   @Input() agregarCuentaContableDeshabilitado: boolean = true;
 
-  columnasVisibles = COLUMNAS_VISIBLES.CUENTAS_CONTABLES;
+  columnasVisibles = COLUMNAS_VISIBLES.CUENTAS_CONTABLES_PROCESO;
 }

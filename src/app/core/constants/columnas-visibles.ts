@@ -60,6 +60,13 @@ export const COLUMNAS_VISIBLES = {
     'acciones',
   ],
   CUENTAS_CONTABLES: ['codigo', 'denominacion', 'creado', 'modificado'],
+  CUENTAS_CONTABLES_PROCESO: [
+    'codigo',
+    'denominacion',
+    'creado',
+    'modificado',
+    'acciones',
+  ],
   ESTADOS_CONSERVACION: [
     'codigo',
     'denominacion',

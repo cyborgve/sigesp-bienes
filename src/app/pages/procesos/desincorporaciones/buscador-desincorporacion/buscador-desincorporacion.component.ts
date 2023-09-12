@@ -12,7 +12,7 @@ export class BuscadorDesincorporacionComponent {
   titulo = 'buscador de desincorporaciones';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.DESINCORPORACIONES.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   constructor(
     private _dialogRef: MatDialogRef<BuscadorDesincorporacionComponent>

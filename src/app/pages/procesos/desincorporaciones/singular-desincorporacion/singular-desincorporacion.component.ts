@@ -1,3 +1,4 @@
+import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { tap, switchMap, take, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
@@ -26,6 +27,7 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
+import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 
 @Component({
   selector: 'app-singular-desincorporacion',
@@ -39,6 +41,8 @@ export class SingularDesincorporacionComponent implements Entidad {
   formulario: FormGroup;
   activosDataSource: MatTableDataSource<ActivoProceso> =
     new MatTableDataSource();
+  cuentasDataSource: MatTableDataSource<CuentaContable> =
+    new MatTableDataSource();
 
   constructor(
     private _entidad: DesincorporacionService,
@@ -51,25 +55,31 @@ export class SingularDesincorporacionComponent implements Entidad {
     private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      causaMovimiento: ['', Validators.required],
-      unidadAdministrativa: ['', Validators.required],
-      observaciones: [''],
-      activos: [[]],
-      total: [0],
-      cuentasContables: [[]],
-      debe: [0],
-      haber: [0],
-      diferencia: [0],
-      detalles: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      causaMovimiento: [undefined, Validators.required],
+      unidadAdministrativa: [undefined, Validators.required],
+      observaciones: [undefined],
+      activos: [undefined],
+      total: [undefined],
+      cuentasContables: [undefined],
+      debe: [undefined],
+      haber: [undefined],
+      diferencia: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
-    this.actualizarFormulario();
+    this.reiniciarFormulario();
   }
+
+  formularioValido = () =>
+    this.formulario.valid &&
+    this.formulario.value.causaMovimiento !== 0 &&
+    this.formulario.value.unidadAdministrativa !== 0 &&
+    this.activosDataSource.data.length > 0 &&
+    this.cuentasDataSource.data.length > 0;
 
   private actualizarFormulario() {
     if (this.id) {
@@ -148,14 +158,16 @@ export class SingularDesincorporacionComponent implements Entidad {
 
   guardar() {
     let entidad: Desincorporacion = this.formulario.value;
+    entidad.activos = this.activosDataSource.data;
+    entidad.cuentasContables = this.cuentasDataSource.data.map(cc => cc.id);
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
+        .guardar(entidad, this.titulo)
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe(() => this.reiniciarFormulario());
     } else {
       this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+        .actualizar(this.id, entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -317,5 +329,59 @@ export class SingularDesincorporacionComponent implements Entidad {
         take(1)
       )
       .subscribe();
+  }
+
+  removerActivo(activo: ActivoProceso) {
+    let data = this.activosDataSource.data;
+    data.splice(data.indexOf(activo), 1);
+    this.activosDataSource = new MatTableDataSource(data);
+  }
+
+  agregarCuentaContable() {
+    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((cuentaContable: CuentaContable) => {
+          if (cuentaContable) {
+            let data = this.cuentasDataSource.data;
+            data.push(cuentaContable);
+            this.cuentasDataSource = new MatTableDataSource(data);
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  removerCuentaContable(cuentaContable: CuentaContable) {
+    let data = this.cuentasDataSource.data;
+    data.splice(data.indexOf(cuentaContable), 1);
+    this.cuentasDataSource = new MatTableDataSource(data);
+  }
+
+  private reiniciarFormulario() {
+    this.formulario.reset({
+      empresaId: 0,
+      id: 0,
+      comprobante: 'AUTOGENERADO',
+      causaMovimiento: 0,
+      unidadAdministrativa: 0,
+      observaciones: '',
+      activos: [],
+      total: 0,
+      cuentasContables: [],
+      debe: 0,
+      haber: 0,
+      diferencia: 0,
+      creado: new Date(),
+      modificado: new Date(),
+    });
+    this.activosDataSource = new MatTableDataSource();
+    this.cuentasDataSource = new MatTableDataSource();
+    this.actualizarFormulario();
   }
 }
