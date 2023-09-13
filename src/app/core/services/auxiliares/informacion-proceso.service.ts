@@ -25,6 +25,7 @@ import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 import { MonedaService } from '../otros-modulos/moneda.service';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { Activo } from '@core/models/definiciones/activo';
+import { ProveedorService } from '../otros-modulos/proveedor.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,8 @@ export class InformacionProcesoService {
     private _unidadAdministrativa: UnidadAdministrativaService,
     private _sede: SedeService,
     private _activo: ActivoService,
-    private _moneda: MonedaService
+    private _moneda: MonedaService,
+    private _proveedor: ProveedorService
   ) {}
 
   /**
@@ -94,6 +96,8 @@ export class InformacionProcesoService {
 
   private causaMovimiento = (id: Id) =>
     this.denominacionEntidad(this._causaMovimiento, id);
+
+  private proveedor = (id: Id) => this.denominacionEntidad(this._proveedor, id);
 
   private responsable = (id: Id) =>
     this._responsable
@@ -238,22 +242,30 @@ export class InformacionProcesoService {
     let obtenerInformacion = [
       this.empresa(autorizacionSalida.empresaId),
       this.unidadAdministrativa(autorizacionSalida.unidadAdministrativa),
+      this.proveedor(autorizacionSalida.empresaAutorizada),
       this.activosProceso(autorizacionSalida.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
-      map(([empresa, unidadAdministrativaCedente, activos]) => ({
-        empresaId: empresa,
-        id: autorizacionSalida.id,
-        comprobante: autorizacionSalida.comprobante.toString().substring(5),
-        unidadAdministrativa: unidadAdministrativaCedente,
-        empresaAutorizada: autorizacionSalida.empresaAutorizada,
-        personaAutorizada: autorizacionSalida.personaAutorizada,
-        explicacion: autorizacionSalida.explicacion,
-        observaciones: autorizacionSalida.observaciones,
-        activos: activos,
-        creado: new Date(autorizacionSalida.creado),
-        modificado: new Date(autorizacionSalida.modificado),
-      }))
+      map(
+        ([
+          empresa,
+          unidadAdministrativaCedente,
+          empresaAutorizada,
+          activos,
+        ]) => ({
+          empresaId: empresa,
+          id: autorizacionSalida.id,
+          comprobante: autorizacionSalida.comprobante.toString().substring(5),
+          unidadAdministrativa: unidadAdministrativaCedente,
+          empresaAutorizada: empresaAutorizada,
+          personaAutorizada: autorizacionSalida.personaAutorizada,
+          explicacion: autorizacionSalida.explicacion,
+          observaciones: autorizacionSalida.observaciones,
+          activos: activos,
+          creado: new Date(autorizacionSalida.creado),
+          modificado: new Date(autorizacionSalida.modificado),
+        })
+      )
     );
   }
 

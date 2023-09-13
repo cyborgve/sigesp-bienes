@@ -82,11 +82,12 @@ export class PDFService {
     },
     datosGeneralesReporte: {
       fontSize: 8,
-      margin: [0, 0, 0, 3],
+      margin: [0, 5, 0, 0],
     },
     tituloDatosGeneralesReporte: {
       fontSize: 8,
       bold: true,
+      margin: [0, 5, 0, 0],
     },
     detalleReporte: {
       fontSize: 8,
@@ -107,7 +108,6 @@ export class PDFService {
     firmasReporte: {
       fontSize: 7,
       bold: true,
-      margin: [0, 100, 0, 0],
     },
     firmante: {
       fontSize: 8,
@@ -233,46 +233,104 @@ export class PDFService {
   /**
    * DATOS ACTA DE PRESTAMO
    */
-  private seccionActaPrestamo = (proceso: any) => ({
-    margin: [0, 10, 0, 0],
-    columns: [
-      {
-        width: '50%',
-        stack: [
-          this.campoTextoConTitulo(
-            'Unidad Administrativa Cedente:',
-            proceso.unidadAdministrativaCedente
-          ),
-          this.campoTextoConTitulo(
-            'Unidad Administrativa Receptora:',
-            proceso.unidadAdministrativaReceptora
-          ),
-          this.campoTextoConTitulo('Testigo:', proceso.testigo),
-        ],
-      },
-      {
-        width: '50%',
-        stack: [
-          this.campoTextoConTitulo(
-            'Responsable:',
-            proceso.unidadCedenteResponsable
-          ),
-          this.campoTextoConTitulo(
-            'Responsable:',
-            proceso.unidadReceptoraResponsable
-          ),
-        ],
-      },
-    ],
-  });
+  private seccionActaPrestamo = (proceso: any) => [
+    {
+      margin: [0, 10, 0, 0],
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Unidad Administrativa Cedente:',
+              proceso.unidadAdministrativaCedente
+            ),
+            this.campoTextoConTitulo(
+              'Unidad Administrativa Receptora:',
+              proceso.unidadAdministrativaReceptora
+            ),
+            this.campoTextoConTitulo('Testigo:', proceso.testigo),
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Responsable cedente:',
+              proceso.unidadCedenteResponsable
+            ),
+            this.campoTextoConTitulo(
+              'Responsable receptor:',
+              proceso.unidadReceptoraResponsable
+            ),
+          ],
+        },
+      ],
+    },
+    this.campoTextoConTitulo('Notas:', proceso.notas),
+  ];
   /**
    * DATOS AUTORIZACION DE SALIDA
    */
-  private seccionAutorizacionSalida = (proceso: any) => <any>{};
+  private seccionAutorizacionSalida = (proceso: any) => [
+    {
+      margin: [0, 10, 0, 0],
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Unidad Administrativa:',
+              proceso.unidadAdministrativa
+            ),
+            this.campoTextoConTitulo(
+              'Persona Autorizada:',
+              proceso.personaAutorizada
+            ),
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Empresa Autorizada:',
+              proceso.empresaAutorizada
+            ),
+            this.campoTextoConTitulo('', ''),
+          ],
+        },
+      ],
+    },
+    this.campoTextoConTitulo('Explicación:', proceso.explicacion),
+    this.campoTextoConTitulo('Notas:', proceso.notas),
+  ];
   /**
    * DATOS CAMBIO RESPONSABLE
    */
-  private seccionCambioResponsable = (proceso: any) => <any>{};
+  private seccionCambioResponsable = (proceso: any) => [
+    {
+      margin: [0, 10, 0, 0],
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              proceso.tipoResponsable + ' Actual:',
+              proceso.responsableActual
+            ),
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Nuevo ' + proceso.tipoResponsable + ':',
+              proceso.nuevoResponsable
+            ),
+          ],
+        },
+      ],
+    },
+  ];
   /**
    * DATOS DEPRECIACION
    */
@@ -494,19 +552,31 @@ export class PDFService {
     columns: [
       {
         width: '25%',
-        stack: [{ text: 'Elaborado por', style: 'firmante' }],
+        stack: [
+          { text: '___________________________________', style: 'firmante' },
+          { text: 'Elaborado por', style: 'firmante' },
+        ],
       },
       {
         width: '25%',
-        stack: [{ text: 'Verificado por', style: 'firmante' }],
+        stack: [
+          { text: '___________________________________', style: 'firmante' },
+          { text: 'Verificado por', style: 'firmante' },
+        ],
       },
       {
         width: '25%',
-        stack: [{ text: 'Autorizado por', style: 'firmante' }],
+        stack: [
+          { text: '___________________________________', style: 'firmante' },
+          { text: 'Autorizado por', style: 'firmante' },
+        ],
       },
       {
         width: '25%',
-        stack: [{ text: 'Aprobado por', style: 'firmante' }],
+        stack: [
+          { text: '___________________________________', style: 'firmante' },
+          { text: 'Aprobado por', style: 'firmante' },
+        ],
       },
     ],
   });
