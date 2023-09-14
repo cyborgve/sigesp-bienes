@@ -50,7 +50,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
           })
         );
       }),
-      tap(console.log)
+      tap()
     );
   }
 

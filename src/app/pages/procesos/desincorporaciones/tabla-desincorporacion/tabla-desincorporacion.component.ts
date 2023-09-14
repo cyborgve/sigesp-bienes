@@ -15,9 +15,11 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Desincorporacion } from '@core/models/procesos/desincorporacion';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -45,7 +47,8 @@ export class TablaDesincorporacionComponent
     private _entidad: DesincorporacionService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -73,8 +76,18 @@ export class TablaDesincorporacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
-  imprimir(entidad: Desincorporacion) {}
-  previsualizar(entidad: Desincorporacion) {}
+
+  imprimir(entidad: Desincorporacion) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(desincorporacion =>
+          this._pdf.abrirReportePDF(desincorporacion, 'DESINCORPORACIÓN')
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
@@ -91,17 +104,17 @@ export class TablaDesincorporacionComponent
   }
 
   eliminar(entidad: Desincorporacion) {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
       data: {
-        codigo: entidad.comprobante,
-        denominacion: entidad.causaMovimiento,
+        comprobante: entidad.comprobante,
+        tipoProceso: 'DESINCORPORACIÓN',
       },
     });
     dialog
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id, 'DESINCORPORACION')),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'DESINCORPORACIÓN')),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

@@ -49,7 +49,6 @@ export class PDFService {
       this.encabezadoReporte(empresa, proceso, tipoProceso),
       this.datosGeneralesReporte(proceso, tipoProceso),
       this.detalleReporte(proceso),
-      //this.firmasReporte(),
     ],
     styles: this.estilosProceso,
   });
@@ -330,6 +329,7 @@ export class PDFService {
         },
       ],
     },
+    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
   ];
   /**
    * DATOS DEPRECIACION
@@ -338,7 +338,32 @@ export class PDFService {
   /**
    * DATOS DESINCORPORACION
    */
-  private seccionDesincorporacion = (proceso: any) => <any>{};
+  private seccionDesincorporacion = (proceso: any) => [
+    {
+      margin: [0, 10, 0, 0],
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Causa de movimiento:',
+              proceso.causaMovimiento
+            ),
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Unidad Administrativa:',
+              proceso.unidadAdministrativa
+            ),
+          ],
+        },
+      ],
+    },
+    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
+  ];
   /**
    * DATOS ENTREGA UNIDAD
    */
@@ -513,7 +538,7 @@ export class PDFService {
   private seccionRetorno = (proceso: any) => <any>{};
 
   private detalleReporte = (proceso: any) => {
-    let datos = [
+    let activos = [
       [
         'Código',
         'Tipo',
@@ -523,7 +548,7 @@ export class PDFService {
       ],
     ];
     proceso.activos.forEach((activo: any) => {
-      datos.push([
+      activos.push([
         activo.codigo,
         activo.tipoActivo,
         activo.denominacion,
@@ -531,21 +556,60 @@ export class PDFService {
         { text: activo.valor, alignment: 'right' },
       ]);
     });
-    return [
-      {
-        text: 'B I E N E S',
-        style: 'tituloDetalleReporte',
-      },
-      {
-        table: {
-          headerRows: 1,
-          widths: ['8%', '12%', '50%', '15%', '15%'],
-          body: datos,
-        },
-        style: 'detalleReporte',
-        layout: 'lightHorizontalLines',
-      },
-    ];
+
+    let cuentasContables = [['Cuenta Contable', 'Denominación']];
+    if (proceso.cuentasContables)
+      proceso.cuentasContables.forEach(cuentaProceso =>
+        cuentasContables.push([
+          cuentaProceso.cuentaContable,
+          cuentaProceso.denominacion,
+        ])
+      );
+
+    return proceso.cuentasContables
+      ? [
+          {
+            text: 'B I E N E S',
+            style: 'tituloDetalleReporte',
+          },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['8%', '12%', '50%', '15%', '15%'],
+              body: activos,
+            },
+            style: 'detalleReporte',
+            layout: 'lightHorizontalLines',
+          },
+          {
+            text: 'C U E N T A S   C O N T A B L E S',
+            style: 'tituloDetalleReporte',
+          },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['20%', '80%'],
+              body: cuentasContables,
+            },
+            style: 'detalleReporte',
+            layout: 'lightHorizontalLines',
+          },
+        ]
+      : [
+          {
+            text: 'B I E N E S',
+            style: 'tituloDetalleReporte',
+          },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['8%', '12%', '50%', '15%', '15%'],
+              body: activos,
+            },
+            style: 'detalleReporte',
+            layout: 'lightHorizontalLines',
+          },
+        ];
   };
 
   private firmasReporte = () => ({

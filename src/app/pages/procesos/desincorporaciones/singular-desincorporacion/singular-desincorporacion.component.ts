@@ -28,6 +28,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
+import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
+import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
 
 @Component({
   selector: 'app-singular-desincorporacion',
@@ -41,7 +44,7 @@ export class SingularDesincorporacionComponent implements Entidad {
   formulario: FormGroup;
   activosDataSource: MatTableDataSource<ActivoProceso> =
     new MatTableDataSource();
-  cuentasDataSource: MatTableDataSource<CuentaContable> =
+  cuentasDataSource: MatTableDataSource<CuentaContableProceso> =
     new MatTableDataSource();
 
   constructor(
@@ -80,6 +83,11 @@ export class SingularDesincorporacionComponent implements Entidad {
     this.formulario.value.unidadAdministrativa !== 0 &&
     this.activosDataSource.data.length > 0 &&
     this.cuentasDataSource.data.length > 0;
+
+  agregarActivoHabilitado = () =>
+    this.formulario.valid &&
+    this.formulario.value.causaMovimiento !== 0 &&
+    this.formulario.value.unidadAdministrativa !== 0;
 
   private actualizarFormulario() {
     if (this.id) {
@@ -159,10 +167,10 @@ export class SingularDesincorporacionComponent implements Entidad {
   guardar() {
     let entidad: Desincorporacion = this.formulario.value;
     entidad.activos = this.activosDataSource.data;
-    entidad.cuentasContables = this.cuentasDataSource.data.map(cc => cc.id);
+    entidad.cuentasContables = this.cuentasDataSource.data;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo)
+        .guardar(entidad, 'DESINCORPORACIÓN')
         .pipe(first())
         .subscribe(() => this.reiniciarFormulario());
     } else {
@@ -174,10 +182,10 @@ export class SingularDesincorporacionComponent implements Entidad {
   }
 
   borrar() {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
       data: {
-        codigo: this.formulario.value.codigo,
-        denominacion: this.formulario.value.denominacion,
+        comprobante: this.formulario.value.codigo,
+        tipoDato: 'DESINCORPORACIÓN',
       },
     });
     dialog
@@ -185,10 +193,7 @@ export class SingularDesincorporacionComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._entidad.eliminar(
-            this.formulario.value.id,
-            this.titulo.toUpperCase()
-          )
+          this._entidad.eliminar(this.formulario.value.id, 'DESINCORPORACIÓN')
         ),
         take(1)
       )
@@ -348,7 +353,7 @@ export class SingularDesincorporacionComponent implements Entidad {
         tap((cuentaContable: CuentaContable) => {
           if (cuentaContable) {
             let data = this.cuentasDataSource.data;
-            data.push(cuentaContable);
+            data.push(convertirCuentaProceso(cuentaContable));
             this.cuentasDataSource = new MatTableDataSource(data);
           }
         }),
@@ -357,9 +362,9 @@ export class SingularDesincorporacionComponent implements Entidad {
       .subscribe();
   }
 
-  removerCuentaContable(cuentaContable: CuentaContable) {
+  removerCuentaContable(cuentaProceso: CuentaContableProceso) {
     let data = this.cuentasDataSource.data;
-    data.splice(data.indexOf(cuentaContable), 1);
+    data.splice(data.indexOf(cuentaProceso), 1);
     this.cuentasDataSource = new MatTableDataSource(data);
   }
 

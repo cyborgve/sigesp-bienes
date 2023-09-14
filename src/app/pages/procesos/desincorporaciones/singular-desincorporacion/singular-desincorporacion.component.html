@@ -44,6 +44,7 @@
                 | async
             " />
           <button
+            [disabled]="activosDataSource.data.length > 0"
             type="button"
             mat-icon-button
             matSuffix
@@ -67,7 +68,9 @@
       (agregarActivo)="agregarActivo()"
       (removerActivo)="removerActivo($event)"
       [dataSource]="activosDataSource"
-      [agregarActivoDeshabilitado]="formulario.invalid"></app-activos-proceso>
+      [agregarActivoDeshabilitado]="
+        !agregarActivoHabilitado()
+      "></app-activos-proceso>
   </section>
   <section class="contenedor-singular inferior">
     <app-cuentas-contables-proceso
