@@ -12,7 +12,7 @@ export class BuscadorCambioResponsableComponent {
   titulo = 'buscador de cambios de responsable';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CAMBIOS_RESPONSABLE.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   constructor(
     private _dialogRef: MatDialogRef<BuscadorCambioResponsableComponent>
