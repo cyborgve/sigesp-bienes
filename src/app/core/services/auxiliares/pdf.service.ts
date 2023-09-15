@@ -1,3 +1,4 @@
+import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
 import { tap, take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as pdfMake from 'pdfmake/build/pdfmake';
@@ -29,6 +30,34 @@ export class PDFService {
       .pipe(
         tap(([empresa, infoReporte]) => {
           let reportePDF = this.generarPDF(empresa, infoReporte, tipoProceso);
+          pdfMake.createPdf(reportePDF).open();
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  abrirReportePDFEntregaUnidad(entregaUnidad: EntregaUnidad) {
+    combineLatest([
+      this._empresa.datosGenerales(entregaUnidad.empresaId),
+      this._infoReporte.obtener(entregaUnidad, 'ENTREGA DE UNIDAD'),
+    ])
+      .pipe(
+        tap(console.log),
+        tap(([empresa, infoReporte]) => {
+          let reportePDF = {
+            pageSize: 'letter',
+            pageOrientation: 'portrait',
+            info: this.metadataReporte(infoReporte, 'ENTREGA DE UNIDAD'),
+            footer: this.piePaginaReporte(
+              'Generado por Sigesp - Bienes Nacionales'
+            ),
+            content: [
+              this.encabezadoReporte(empresa, infoReporte, 'ENTREGA DE UNIDAD'),
+              this.datosGeneralesReporte(infoReporte, 'ENTREGA DE UNIDAD'),
+            ],
+            styles: this.estilosProceso,
+          };
           pdfMake.createPdf(reportePDF).open();
         }),
         take(1)
@@ -367,7 +396,36 @@ export class PDFService {
   /**
    * DATOS ENTREGA UNIDAD
    */
-  private seccionEntregaUnidad = (proceso: any) => <any>{};
+  private seccionEntregaUnidad = (proceso: any) => [
+    this.campoTextoConTitulo(
+      'Unidad Administrativa:',
+      proceso.unidadAdministrativa
+    ),
+    this.campoTextoConTitulo('Sede:', proceso.sede),
+    {
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Responsable anterior:',
+              proceso.responsableAnterior
+            ),
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Nuevo responsable:',
+              proceso.nuevoResponsable
+            ),
+          ],
+        },
+      ],
+    },
+    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
+  ];
   /**
    * DATOS INCORPORACION
    */

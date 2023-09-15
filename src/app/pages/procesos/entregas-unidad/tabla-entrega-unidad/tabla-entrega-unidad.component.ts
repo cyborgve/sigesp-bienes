@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { EntregaUnidadService } from '@core/services/procesos/entrega-unidad.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
@@ -44,7 +45,8 @@ export class TablaEntregaUnidadComponent
     private _entidad: EntregaUnidadService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -86,8 +88,17 @@ export class TablaEntregaUnidadComponent
   editar(entidad: EntregaUnidad) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
-  imprimir(entidad: EntregaUnidad) {}
-  previsualizar(entidad: EntregaUnidad) {}
+  imprimir(entidad: EntregaUnidad) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(entregaUnidad =>
+          this._pdf.abrirReportePDFEntregaUnidad(entregaUnidad)
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   eliminar(entidad: EntregaUnidad) {
     let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {

@@ -5,7 +5,7 @@ export interface EntregaUnidad extends Basica {
   comprobante: Id;
   unidadAdministrativa: Id;
   sede: Id;
-  responsableActual: Id;
+  responsableAnterior: Id;
   nuevoResponsable: Id;
-  obervaciones: string;
+  observaciones: string;
 }

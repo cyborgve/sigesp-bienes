@@ -24,7 +24,6 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 import { MonedaService } from '../otros-modulos/moneda.service';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
-import { Activo } from '@core/models/definiciones/activo';
 import { ProveedorService } from '../otros-modulos/proveedor.service';
 
 @Injectable({
@@ -333,7 +332,7 @@ export class InformacionProcesoService {
       this.empresa(entregaUnidad.empresaId),
       this.unidadAdministrativa(entregaUnidad.unidadAdministrativa),
       this.sede(entregaUnidad.sede),
-      this.responsable(entregaUnidad.responsableActual),
+      this.responsable(entregaUnidad.responsableAnterior),
       this.responsable(entregaUnidad.nuevoResponsable),
     ];
     return forkJoin(buscarInformacion).pipe(
@@ -342,7 +341,7 @@ export class InformacionProcesoService {
           empresa,
           unidadAdministrativa,
           sede,
-          responsableActual,
+          responsableAnterior,
           nuevoResponsable,
         ]) => ({
           empresaId: empresa,
@@ -350,9 +349,9 @@ export class InformacionProcesoService {
           comprobante: entregaUnidad.comprobante.toString().substring(5),
           unidadAdministrativa: unidadAdministrativa,
           sede: sede,
-          responsableActual: responsableActual,
+          responsableAnterior: responsableAnterior,
           nuevoResponsable: nuevoResponsable,
-          obervaciones: entregaUnidad.obervaciones,
+          observaciones: entregaUnidad.observaciones,
           creado: new Date(entregaUnidad.creado),
           modificado: new Date(entregaUnidad.modificado),
         })

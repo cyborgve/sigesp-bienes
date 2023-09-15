@@ -2,7 +2,7 @@
     En el proceso interno de prestar un activo, solo se asigna un responsable al que coloque el responsable de uso,
     asumiendo que aunque el prestamo se hace entre unidades el responsable de uso define quien tiene el activo en
     ese momento o en el ultimo registro, tambien me gustaria cambiar el estado de uso del activo pero como ese campo
-     es variable no hay en este momento de donde obtener esa informacion.
+    es variable no hay en este momento de donde obtener esa informacion.
     Pretendo agregar filtros en la seleccion de unidad administrativa cedente(debe poseer activos asignados para prestar);
     tambien en la unidad administrativa receptora, que no debe mostrar como opcion la unidad administrativa cedente, en 
     los activos a agregar deben salir solo los que esten asignados a la unidad cedente y que esten disponobles para prestar.
@@ -13,3 +13,8 @@
     los datos que vienen de la base de datos en algunos casos son los id de algun campo que tengan referenciado y la obtencion
     de la informacion que se quiere mostrar se realiza directamente el la vista(html), debo cambiar esto al metodo de recargagar
     datos para que se transformen antes de mostrar ya que seria una sola solicitud con todos los datos.
+
+3. Proceso Entrega de Unidad:
+    En la definicion de Unidad Administrativa no se tiene un responsable para que se cambie en este proceso, tambien es
+    importante saber si una unidad administrativa pertenece a una sede o si una unidad administrativa puede tener varias
+    sedes.

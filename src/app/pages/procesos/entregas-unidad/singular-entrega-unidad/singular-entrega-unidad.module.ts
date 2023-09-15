@@ -12,6 +12,7 @@ import { BuscadorEntregaUnidadModule } from '../buscador-entrega-unidad/buscador
 import { SharedModule } from '@shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
+import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 
 @NgModule({
   declarations: [SingularEntregaUnidadComponent],
@@ -20,7 +21,7 @@ import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/busc
     ReactiveFormsModule,
     SingularEntregaUnidadRoutingModule,
     BuscadorEntregaUnidadModule,
-    BuscadorEntregaUnidadModule,
+    BuscadorUnidadAdministrativaModule,
     BuscadorSedeModule,
     SharedModule,
     MatCardModule,

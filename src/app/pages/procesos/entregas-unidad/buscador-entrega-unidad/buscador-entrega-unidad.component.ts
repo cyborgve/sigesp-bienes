@@ -12,7 +12,7 @@ export class BuscadorEntregaUnidadComponent {
   titulo = 'buscador de entregas de unidad';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.ENTREGA_UNIDAD.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   constructor(
     private _dialogRef: MatDialogRef<BuscadorEntregaUnidadComponent>

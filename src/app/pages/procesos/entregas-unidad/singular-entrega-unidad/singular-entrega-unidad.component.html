@@ -9,6 +9,27 @@
   <section class="contenedor-singular inferior">
     <mat-card>
       <article class="contenido">
+        <!-- unidadAdministrativa -->
+        <mat-form-field appearance="fill" class="unidadAdministrativa">
+          <mat-label>Unidad Administrativa</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="unidadAdministrativa"
+            readonly="true"
+            [value]="
+              formulario.value.unidadAdministrativa
+                | denominacionUnidadAdministrativa
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarUnidadAdministrativa()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
         <!-- sede -->
         <mat-form-field appearance="fill" class="sede">
           <mat-label>Sede</mat-label>
@@ -32,12 +53,13 @@
           <input
             type="text"
             matInput
-            formControlName="responsableActual"
+            formControlName="responsableAnterior"
             readonly="true"
             [value]="
-              formulario.value.responsableActual
+              formulario.value.responsableAnterior
                 | denominacionResponsable
                 | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -59,6 +81,7 @@
               formulario.value.nuevoResponsable
                 | denominacionResponsable
                 | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -90,8 +113,9 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarGuardar]="!formularioValido()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
+  [mostrarExportar]="false"
   [tooTipProceso]="true"
   [mostrarSalir]="false"></app-toolbar>

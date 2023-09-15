@@ -18,6 +18,8 @@ import { BuscadorResponsableComponent } from '@shared/components/buscador-respon
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { Sede } from '@core/models/definiciones/sede';
+import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
+import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 
 @Component({
   selector: 'app-singular-entrega-unidad',
@@ -40,19 +42,27 @@ export class SingularEntregaUnidadComponent implements Entidad {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      sede: ['', Validators.required],
-      responsableActual: ['', Validators.required],
-      nuevoResponsable: ['', Validators.required],
-      observaciones: [''],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      unidadAdministrativa: [undefined, Validators.required],
+      sede: [undefined, Validators.required],
+      responsableAnterior: [undefined, Validators.required],
+      nuevoResponsable: [undefined, Validators.required],
+      observaciones: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
-    this.actualizarFormulario();
+    this.reiniciarFormulario();
   }
+
+  formularioValido = () =>
+    this.formulario.valid &&
+    this.formulario.value.unidadAdministrativa !== 0 &&
+    this.formulario.value.sede !== 0 &&
+    this.formulario.value.responsableAnterior !== '---' &&
+    this.formulario.value.nuevoResponsable !== '---';
 
   private actualizarFormulario() {
     if (this.id) {
@@ -65,10 +75,11 @@ export class SingularEntregaUnidadComponent implements Entidad {
               empresaId: entidad.empresaId,
               id: entidad.id,
               comprobante: entidad.comprobante,
+              unidadAdministrativa: entidad.unidadAdministrativa,
               sede: entidad.sede,
-              responsableActual: entidad.responsableActual,
+              responsableAnterior: entidad.responsableAnterior,
               nuevoResponsable: entidad.nuevoResponsable,
-              observaciones: entidad.obervaciones,
+              observaciones: entidad.observaciones,
               creado: entidad.creado,
               modificado: entidad.modificado,
             })
@@ -108,9 +119,9 @@ export class SingularEntregaUnidadComponent implements Entidad {
           entidad
             ? this.formulario.patchValue({
                 sede: entidad.sede,
-                responsableActual: entidad.responsableActual,
+                responsableAnterior: entidad.responsableAnterior,
                 nuevoResponsable: entidad.nuevoResponsable,
-                observaciones: entidad.obervaciones,
+                observaciones: entidad.observaciones,
               })
             : undefined
         ),
@@ -125,7 +136,9 @@ export class SingularEntregaUnidadComponent implements Entidad {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe(entregaUnidad =>
+          entregaUnidad ? this.reiniciarFormulario() : undefined
+        );
     } else {
       this._entidad
         .actualizar(this.id, entidad, this.titulo.toUpperCase())
@@ -191,6 +204,26 @@ export class SingularEntregaUnidadComponent implements Entidad {
       .subscribe();
   }
 
+  buscarUnidadAdministrativa() {
+    let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        tap((unidadAdministrativa: UnidadAdministrativa) =>
+          unidadAdministrativa
+            ? this.formulario.patchValue({
+                unidadAdministrativa: unidadAdministrativa.id,
+              })
+            : undefined
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
+
   buscarResponsableActual() {
     let dialog = this._dialog.open(BuscadorResponsableComponent, {
       height: '95%',
@@ -200,7 +233,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
       .afterClosed()
       .pipe(
         tap((entidad: Responsable) =>
-          this.formulario.patchValue({ responsableActual: entidad.id })
+          this.formulario.patchValue({ responsableAnterior: entidad.id })
         ),
         take(1)
       )
@@ -221,5 +254,21 @@ export class SingularEntregaUnidadComponent implements Entidad {
         take(1)
       )
       .subscribe();
+  }
+
+  private reiniciarFormulario() {
+    this.formulario.reset({
+      empresaId: 0,
+      id: 0,
+      comprobante: 'AUTOGENERADO',
+      unidadAdministrativa: 0,
+      sede: 0,
+      responsableAnterior: '---',
+      nuevoResponsable: '---',
+      observaciones: '',
+      creado: new Date(),
+      modificado: new Date(),
+    });
+    this.actualizarFormulario();
   }
 }
