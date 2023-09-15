@@ -429,163 +429,45 @@ export class PDFService {
   /**
    * DATOS INCORPORACION
    */
-  private seccionIncorporacion = (proceso: any) => ({
-    margin: [0, 10, 0, 0],
-    columns: [
-      {
-        width: '50%',
-        margin: [0, 0, 5, 0],
-        stack: [
-          {
-            columns: [
-              {
-                margin: [0, 0, 3, 0],
-                width: 'auto',
-                stack: [
-                  {
-                    text: 'Causa de Movimiento:',
-                    style: 'tituloDatosGeneralesReporte',
-                  },
-                ],
-              },
-              {
-                width: 'auto',
-                stack: [
-                  {
-                    text: proceso.causaMovimiento,
-                    style: 'datosGeneralesReporte',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            columns: [
-              {
-                margin: [0, 0, 3, 0],
-                width: 'auto',
-                stack: [
-                  { text: 'Sede:', style: 'tituloDatosGeneralesReporte' },
-                ],
-              },
-              {
-                width: 'auto',
-                stack: [{ text: proceso.sede, style: 'datosGeneralesReporte' }],
-              },
-            ],
-          },
-          {
-            columns: [
-              {
-                margin: [0, 0, 3, 0],
-                width: 'auto',
-                stack: [
-                  {
-                    text: 'Responsable Primario: ',
-                    style: 'tituloDatosGeneralesReporte',
-                  },
-                ],
-              },
-              {
-                width: 'auto',
-                stack: [
-                  {
-                    text: proceso.responsablePrimario,
-                    style: 'datosGeneralesReporte',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        width: '50%',
-        margin: [5, 0, 0, 0],
-        stack: [
-          {
-            columns: [
-              {
-                margin: [0, 0, 3, 0],
-                width: 'auto',
-                stack: [
-                  {
-                    text: 'Fecha de Entrega:',
-                    style: 'tituloDatosGeneralesReporte',
-                  },
-                ],
-              },
-              {
-                width: 'auto',
-                stack: [
-                  {
-                    text: `${new Date(proceso.fechaEntrega).toLocaleDateString(
-                      undefined,
-                      {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric',
-                      }
-                    )}`,
-                  },
-                ],
-                style: 'datosGeneralesReporte',
-              },
-            ],
-          },
-          {
-            columns: [
-              {
-                width: 'auto',
-                margin: [0, 0, 3, 0],
-                stack: [
-                  {
-                    text: 'Unidad Administrativa:',
-                    style: 'tituloDatosGeneralesReporte',
-                  },
-                ],
-              },
-              {
-                width: 'auto',
-                stack: [
-                  {
-                    text: proceso.unidadAdministrativa,
-                    style: 'datosGeneralesReporte',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            columns: [
-              {
-                width: 'auto',
-                stack: [
-                  {
-                    text: 'Responsable de Uso: ',
-                    style: 'tituloDatosGeneralesReporte',
-                  },
-                ],
-              },
-              {
-                width: 'auto',
-                stack: [
-                  {
-                    text: proceso.responsableUso,
-                    style: 'datosGeneralesReporte',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  });
+  private seccionIncorporacion = (proceso: any) => [
+    {
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Causa de Movimiento:',
+              proceso.causaMovimiento
+            ),
+            this.campoTextoConTitulo('Sede:', proceso.sede),
+            this.campoTextoConTitulo(
+              'Responsable Primario:',
+              proceso.responsablePrimario
+            ),
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo('Fecha de entrega:', proceso.fechaEntrega),
+            this.campoTextoConTitulo(
+              'Unidad Administrativa',
+              proceso.unidadAdministrativa
+            ),
+            this.campoTextoConTitulo(
+              'Responsable de Uso:',
+              proceso.responsableUso
+            ),
+          ],
+        },
+      ],
+    },
+    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
+  ];
   /**
    * DATOS MODIFICACION
    */
-  private seccionModificacion = (proceso: any) => <any>{};
+  private seccionModificacion = (proceso: any) => [];
   /**
    * DATOS REASIGNACION
    */
