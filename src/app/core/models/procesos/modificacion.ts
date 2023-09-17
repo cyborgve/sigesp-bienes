@@ -1,5 +1,7 @@
 import { Id } from '@core/types/id';
 import { Basica } from '../auxiliares/basica';
+import { ComponenteProceso } from '../auxiliares/componente-proceso';
+import { CuentaContableProceso } from '../auxiliares/cuenta-contable-proceso';
 
 export interface Modificacion extends Basica {
   comprobante: Id;
@@ -8,16 +10,6 @@ export interface Modificacion extends Basica {
   identificador: string;
   serial: string;
   observaciones: string;
-  modificaciones: ModificacionActivo[];
-  cuentasContables: ModificacionCuentaContable[];
-}
-
-export interface ModificacionActivo extends Basica {
-  modificacion: Id;
-  componente: Id;
-}
-
-export interface ModificacionCuentaContable extends Basica {
-  modificacion: Id;
-  cuentaContable: Id;
+  modificaciones: ComponenteProceso[];
+  cuentasContables: CuentaContableProceso[];
 }

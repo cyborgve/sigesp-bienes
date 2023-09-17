@@ -88,6 +88,14 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     valor: 'dao/sbn/incorporacion-activo-dao.php',
   },
   { clave: 'modificacion', valor: 'dao/sbn/modificacion-dao.php' },
+  {
+    clave: 'modificacionCuenta',
+    valor: 'dao/sbn/modificacion-cuenta-contable-dao.php',
+  },
+  {
+    clave: 'modificacionComponente',
+    valor: 'dao/sbn/modificacion-componente-dao.php',
+  },
   { clave: 'reasignacion', valor: 'dao/sbn/reasignacion-dao.php' },
   { clave: 'retorno', valor: 'dao/sbn/retorno-dao.php' },
 ];

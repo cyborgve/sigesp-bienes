@@ -12,7 +12,7 @@ export class BuscadorModificacionComponent {
   titulo = 'buscador de modificaciones';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.MODIFICACIONES.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   constructor(
     private _dialogRef: MatDialogRef<BuscadorModificacionComponent>

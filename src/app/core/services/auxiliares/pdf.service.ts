@@ -9,6 +9,7 @@ import { SigespService } from 'sigesp';
 import { combineLatest } from 'rxjs';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { TipoProceso } from '@core/types/tipo-proceso';
+import { Modificacion } from '@core/models/procesos/modificacion';
 
 @Injectable({
   providedIn: 'root',
@@ -43,7 +44,6 @@ export class PDFService {
       this._infoReporte.obtener(entregaUnidad, 'ENTREGA DE UNIDAD'),
     ])
       .pipe(
-        tap(console.log),
         tap(([empresa, infoReporte]) => {
           let reportePDF = {
             pageSize: 'letter',
@@ -61,6 +61,33 @@ export class PDFService {
           pdfMake.createPdf(reportePDF).open();
         }),
         take(1)
+      )
+      .subscribe();
+  }
+
+  abrirReportePDFModificacion(modificacion: Modificacion) {
+    combineLatest([
+      this._empresa.datosGenerales(modificacion.empresaId),
+      this._infoReporte.obtener(modificacion, 'MODIFICACIÓN'),
+    ])
+      .pipe(
+        tap(([empresa, infoReporte]) => {
+          let reportePDF = {
+            pageSize: 'letter',
+            pageOrientation: 'portrait',
+            info: this.metadataReporte(infoReporte, 'MODIFICACIÓN'),
+            footer: this.piePaginaReporte(
+              'Generado por Sigesp - Bienes Nacionales'
+            ),
+            content: [
+              this.encabezadoReporte(empresa, infoReporte, 'MODIFICACIÓN'),
+              this.datosGeneralesReporte(infoReporte, 'MODIFICACIÓN'),
+              this.detallesModificacionReporte(infoReporte),
+            ],
+            styles: this.estilosProceso,
+          };
+          pdfMake.createPdf(reportePDF).open();
+        })
       )
       .subscribe();
   }
@@ -467,7 +494,33 @@ export class PDFService {
   /**
    * DATOS MODIFICACION
    */
-  private seccionModificacion = (proceso: any) => [];
+  private seccionModificacion = (proceso: any) => [
+    this.campoTextoConTitulo('Bien:', proceso.activo),
+    {
+      columns: [
+        {
+          width: '25%',
+          stack: [
+            this.campoTextoConTitulo('Identificador:', proceso.identificador),
+          ],
+        },
+        {
+          width: '25%',
+          stack: [this.campoTextoConTitulo('Serial:', proceso.serial)],
+        },
+        {
+          width: '60%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Causa de Movimiento:',
+              proceso.causaMovimiento
+            ),
+          ],
+        },
+      ],
+    },
+    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
+  ];
   /**
    * DATOS REASIGNACION
    */
@@ -551,6 +604,32 @@ export class PDFService {
           },
         ];
   };
+
+  private detallesModificacionReporte(proceso: any) {
+    let componentes = [['Código', 'Tipo', 'Denominación']];
+    proceso.modificaciones.forEach(componente =>
+      componentes.push([
+        componente.codigo,
+        componente.tipoComponente,
+        componente.denominacion,
+      ])
+    );
+    return [
+      {
+        text: 'M O D I F I C A C I O N E S',
+        style: 'tituloDetalleReporte',
+      },
+      {
+        table: {
+          headerRows: 1,
+          widths: ['15%', '25%', '60%'],
+          body: componentes,
+        },
+        style: 'detalleReporte',
+        layout: 'lightHorizontalLines',
+      },
+    ];
+  }
 
   private firmasReporte = () => ({
     columns: [

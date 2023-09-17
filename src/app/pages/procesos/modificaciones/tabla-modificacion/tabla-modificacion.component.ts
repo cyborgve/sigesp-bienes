@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Modificacion } from '@core/models/procesos/modificacion';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
@@ -44,7 +45,8 @@ export class TablaModificacionComponent
     private _entidad: ModificacionService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -72,8 +74,19 @@ export class TablaModificacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
-  imprimir(entidad: Modificacion) {}
-  previsualizar(entidad: Modificacion) {}
+  imprimir(entidad: Modificacion) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(modificacion =>
+          modificacion
+            ? this._pdf.abrirReportePDFModificacion(modificacion)
+            : undefined
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

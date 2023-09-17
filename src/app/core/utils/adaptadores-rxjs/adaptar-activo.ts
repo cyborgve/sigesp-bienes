@@ -1,14 +1,13 @@
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Activo } from '@core/models/definiciones/activo';
-import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 
 export const adaptarActivo = () =>
   pipe(
     map(
       (activo: any) =>
         <Activo>{
-          empresaId: activo.empresaId,
+          empresaId: Number(activo.empresaId),
           id: Number(activo.id),
           codigo: activo.codigo,
           tipoActivo: activo.tipoActivo,
@@ -35,7 +34,3 @@ export const adaptarActivo = () =>
         }
     )
   );
-
-function adaptarComponentes(componentes: any[]): ActivoComponente[] {
-  return componentes as ActivoComponente[];
-}

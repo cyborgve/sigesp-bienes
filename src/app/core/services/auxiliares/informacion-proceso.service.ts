@@ -3,7 +3,6 @@ import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-
 import { Id } from '@core/types/id';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { EmpresaService } from '../otros-modulos/empresa.service';
@@ -25,6 +24,8 @@ import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 import { MonedaService } from '../otros-modulos/moneda.service';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { ProveedorService } from '../otros-modulos/proveedor.service';
+import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
+import { TipoComponenteService } from '../definiciones/tipo-componente.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,8 @@ export class InformacionProcesoService {
     private _sede: SedeService,
     private _activo: ActivoService,
     private _moneda: MonedaService,
-    private _proveedor: ProveedorService
+    private _proveedor: ProveedorService,
+    private _tipoComponente: TipoComponenteService
   ) {}
 
   /**
@@ -130,6 +132,9 @@ export class InformacionProcesoService {
         )
       );
 
+  private tipoComponente = (id: Id) =>
+    this.denominacionEntidad(this._tipoComponente, id);
+
   private activoProceso = (activoProceso: ActivoProceso) => {
     let buscarInformacion = [
       this.empresa(activoProceso.empresaId),
@@ -156,6 +161,29 @@ export class InformacionProcesoService {
 
   private activosProceso = (activosProceso: ActivoProceso[]) =>
     forkJoin(activosProceso.map(ap => this.activoProceso(ap)));
+
+  private componenteProceso = (componente: ComponenteProceso) => {
+    let buscarInformacion = [
+      this.empresa(componente.empresaId),
+      this.tipoComponente(componente.tipoComponente),
+    ];
+    return forkJoin(buscarInformacion).pipe(
+      map(([empresa, tipoComponente]) => ({
+        empresaId: empresa,
+        id: componente.id,
+        codigo: componente.codigo.substring(5),
+        proceso: componente.proceso,
+        componente: componente.id,
+        tipoComponente: tipoComponente,
+        denominacion: componente.denominacion,
+        creado: new Date(componente.creado),
+        modificado: new Date(componente.modificado),
+      }))
+    );
+  };
+
+  private componentesProceso = (componentes: ComponenteProceso[]) =>
+    forkJoin(componentes.map(componente => this.componenteProceso(componente)));
 
   private actaPrestamo(actaPrestamo: ActaPrestamo): Observable<any> {
     let obtenerInformacion = [
@@ -419,6 +447,8 @@ export class InformacionProcesoService {
         observaciones: modificacion.observaciones,
         modificaciones: modificacion.modificaciones,
         cuentasContables: modificacion.cuentasContables,
+        creado: modificacion.creado,
+        modificado: modificacion.modificado,
       }))
     );
   }

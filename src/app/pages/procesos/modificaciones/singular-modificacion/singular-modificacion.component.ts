@@ -24,6 +24,11 @@ import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cue
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
+import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
+import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
+import { convertirComponenteProceso } from '@core/utils/funciones/convertir-componente-proceso';
+import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
+import { ActivoService } from '@core/services/definiciones/activo.service';
 
 @Component({
   selector: 'app-singular-modificacion',
@@ -35,9 +40,9 @@ export class SingularModificacionComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[36].nombre;
   formulario: FormGroup;
-  dataComponentes: MatTableDataSource<ActivoComponente> =
+  dataComponentes: MatTableDataSource<ComponenteProceso> =
     new MatTableDataSource();
-  dataCuentasContables: MatTableDataSource<CuentaContable> =
+  dataCuentasContables: MatTableDataSource<CuentaContableProceso> =
     new MatTableDataSource();
 
   constructor(
@@ -47,25 +52,44 @@ export class SingularModificacionComponent implements Entidad {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService
+    private _correlativo: CorrelativoService,
+    private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      causaMovimiento: ['', Validators.required],
-      activo: ['', Validators.required],
-      identificador: ['', Validators.required],
-      serial: [''],
-      observaciones: [''],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      causaMovimiento: [undefined, Validators.required],
+      activo: [undefined, Validators.required],
+      identificador: [undefined],
+      serial: [undefined],
+      observaciones: [undefined],
       modificaciones: [[]],
       cuentasContables: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
+
+  agregarComponentesDeshabilitado = () => {
+    let comprobaciones = [
+      this.formulario.value.activo === undefined ||
+        this.formulario.value.activo === 0,
+      this.formulario.value.causaMovimiento === undefined ||
+        this.formulario.value.causaMovimiento === 0,
+    ];
+    console.log(comprobaciones);
+    return comprobaciones.every(resultado => !!resultado);
+  };
+
+  depreciarDeshabilitado = true;
+
+  formularioActivo = () =>
+    this.formulario.valid &&
+    this.dataComponentes.data.length > 0 &&
+    this.dataCuentasContables.data.length > 0;
 
   private actualizarFormulario() {
     if (this.id) {
@@ -100,7 +124,18 @@ export class SingularModificacionComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              causaMovimiento: '',
+              activo: '',
+              identificador: '',
+              serial: '',
+              observaciones: '',
+              modificaciones: [],
+              cuentasContables: [],
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -138,14 +173,16 @@ export class SingularModificacionComponent implements Entidad {
 
   guardar() {
     let entidad: Modificacion = this.formulario.value;
+    entidad.modificaciones = this.dataComponentes.data;
+    entidad.cuentasContables = this.dataCuentasContables.data;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
+        .guardar(entidad, this.titulo)
         .pipe(first())
-        .subscribe(() => this.irAtras());
+        .subscribe(() => this.reiniciarFormulario());
     } else {
       this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+        .actualizar(this.id, entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -192,18 +229,6 @@ export class SingularModificacionComponent implements Entidad {
     throw new Error('Method not implemented.');
   }
 
-  recargarComponentes() {
-    this.dataComponentes = new MatTableDataSource(
-      this.formulario.value.modificaciones
-    );
-  }
-
-  recargarCuentasContables() {
-    this.dataCuentasContables = new MatTableDataSource(
-      this.formulario.value.cuentasContables
-    );
-  }
-
   buscarCausaMovimiento() {
     const filtroCausas = () =>
       pipe(
@@ -239,9 +264,15 @@ export class SingularModificacionComponent implements Entidad {
       .pipe(
         tap((activo: Activo) => {
           if (activo) {
-            this.formulario.patchValue({ activo: activo.id });
+            this.formulario.patchValue({
+              activo: activo.id,
+              identificador: activo.serialRotulacion,
+              serial: activo.serialFabrica,
+            });
           }
         }),
+        switchMap(activo => this._activo.esDepreciable(activo.id)),
+        tap(esDepreciable => (this.depreciarDeshabilitado = !esDepreciable)),
         take(1)
       )
       .subscribe();
@@ -255,21 +286,23 @@ export class SingularModificacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((componente: ActivoComponente) => {
-          if (componente) {
-            this.formulario.patchValue({
-              componentes: [...this.formulario.value.componentes, componente],
-            });
-            this.recargarComponentes();
-          }
+        tap((activoComponente: ActivoComponente) => {
+          this.dataComponentes = new MatTableDataSource([
+            ...this.dataComponentes.data,
+            convertirComponenteProceso(activoComponente),
+          ]);
         }),
         take(1)
       )
       .subscribe();
   }
 
-  removerComponente(event: any) {
-    alert('TODO');
+  removerComponente(componente: ComponenteProceso) {
+    this.dataComponentes.data.splice(
+      this.dataComponentes.data.indexOf(componente),
+      1
+    );
+    this.dataComponentes = new MatTableDataSource(this.dataComponentes.data);
   }
 
   agregarCuentaContable() {
@@ -282,12 +315,10 @@ export class SingularModificacionComponent implements Entidad {
       .pipe(
         tap((cuentaContable: CuentaContable) => {
           if (cuentaContable) {
-            this.formulario.patchValue({
-              cuentasContables: [
-                ...this.formulario.value.cuentasContables,
-                cuentaContable,
-              ],
-            });
+            this.dataCuentasContables = new MatTableDataSource([
+              ...this.dataCuentasContables.data,
+              convertirCuentaProceso(cuentaContable),
+            ]);
           }
         }),
         take(1)
@@ -295,7 +326,20 @@ export class SingularModificacionComponent implements Entidad {
       .subscribe();
   }
 
-  removerCuentaContable(event: any) {
-    alert('TODO');
+  removerCuentaContable(cuentaProceso: CuentaContableProceso) {
+    this.dataCuentasContables.data.splice(
+      this.dataCuentasContables.data.indexOf(cuentaProceso),
+      1
+    );
+    this.dataCuentasContables = new MatTableDataSource(
+      this.dataCuentasContables.data
+    );
+  }
+
+  private reiniciarFormulario(): void {
+    this.formulario.reset();
+    this.dataComponentes = new MatTableDataSource();
+    this.dataCuentasContables = new MatTableDataSource();
+    this.actualizarFormulario();
   }
 }

@@ -22,9 +22,20 @@
             type="button"
             mat-icon-button
             matSuffix
+            [disabled]="dataComponentes.data.length > 0"
             (click)="buscarActivo()">
             <mat-icon>search</mat-icon>
           </button>
+        </mat-form-field>
+        <!-- identificador -->
+        <mat-form-field appearance="fill" class="identificador">
+          <mat-label>Identificador</mat-label>
+          <input type="text" matInput formControlName="identificador" />
+        </mat-form-field>
+        <!-- serial -->
+        <mat-form-field appearance="fill" class="serial">
+          <mat-label>Serial</mat-label>
+          <input type="text" matInput formControlName="serial" />
         </mat-form-field>
         <!-- causaMovimiento -->
         <mat-form-field appearance="fill" class="causaMovimiento">
@@ -47,21 +58,12 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- identificador -->
-        <mat-form-field appearance="fill" class="identificador">
-          <mat-label>Identificador</mat-label>
-          <input type="text" matInput formControlName="identificador" />
-        </mat-form-field>
-        <!-- serial -->
-        <mat-form-field appearance="fill" class="serial">
-          <mat-label>Identificador</mat-label>
-          <input type="text" matInput formControlName="serial" />
-        </mat-form-field>
         <!-- boton depreciar -->
         <button
           type="button"
           mat-stroked-button
           color="primary"
+          [disabled]="depreciarDeshabilitado || formulario.invalid"
           class="boton-depreciar">
           Depreciar
         </button>
@@ -81,12 +83,14 @@
   <app-componentes-proceso
     (agregarComponente)="agregarComponente()"
     (removerComponente)="removerComponente($event)"
+    [agregarComponentesDeshabilitado]="formulario.invalid"
     [dataSource]="dataComponentes"></app-componentes-proceso>
 </section>
 <section class="contenedor-singular inferior">
   <app-cuentas-contables-proceso
     (agregarCuentaContable)="agregarCuentaContable()"
     (removerCuentaContable)="removerCuentaContable($event)"
+    [agregarCuentaContableDeshabilitado]="dataComponentes.data.length === 0"
     [dataSource]="dataCuentasContables"></app-cuentas-contables-proceso>
 </section>
 <!-- barra de herramientas lateral -->
@@ -99,8 +103,9 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarGuardar]="!formularioActivo()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
+  [mostrarExportar]="false"
   [tooTipProceso]="true"
   [mostrarSalir]="false"></app-toolbar>

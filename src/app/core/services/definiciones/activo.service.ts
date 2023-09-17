@@ -1,4 +1,4 @@
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Observable, forkJoin, pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
@@ -15,7 +15,6 @@ import { ActivoUbicacionService } from './activo-ubicacion.service';
 import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
-import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { prepararActivoDetalle } from '@core/utils/funciones/preparar-activo-detalle';
 import { prepararActivoDepreciacion } from '@core/utils/funciones/preparar-activo-depreciacion';
 import { prepararActivoUbicacion } from '@core/utils/funciones/preparar-activo-ubicacion';
@@ -158,10 +157,25 @@ export class ActivoService extends GenericService<Activo> {
     );
   }
 
-  buscarTodosPorEstadoUso(estadoUso: Id): Observable<Activo[]> {
-    return this._http.get<Activo[]>(this.apiUrlEstadoUso(estadoUso)).pipe(
-      map((resultados: any) => resultados.data),
-      map(resultados => resultados.map(res => normalizarObjeto(res)))
+  esDepreciable(id: Id): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      map(activo => {
+        let { valorAdquisicion, monedaId, fechaAdquisicion, depreciacion } =
+          activo;
+        let esDepreciable = [
+          valorAdquisicion > 0,
+          monedaId !== '---',
+          fechaAdquisicion !== undefined,
+          depreciacion.metodoDepreciacion !== undefined,
+          depreciacion.vidaUtil > 0,
+          depreciacion.cuentaContableGasto !== '---',
+          depreciacion.cuentaContableDepreciacion !== '---',
+          depreciacion.depreciable !== 0,
+          depreciacion.valorRescate > 0,
+          depreciacion.monedaValorRescate !== '---',
+        ];
+        return esDepreciable.every(valor => !!valor);
+      })
     );
   }
 

@@ -261,8 +261,8 @@ export const COLUMNAS_VISIBLES = {
   ],
   MODIFICACIONES: [
     'comprobante',
-    'causaMovimiento',
     'activo',
+    'causaMovimiento',
     'creado',
     'modificado',
     'acciones-proceso',
