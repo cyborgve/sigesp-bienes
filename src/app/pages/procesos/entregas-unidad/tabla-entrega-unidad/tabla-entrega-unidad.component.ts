@@ -19,6 +19,7 @@ import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { EntregaUnidadService } from '@core/services/procesos/entrega-unidad.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -101,11 +102,12 @@ export class TablaEntregaUnidadComponent
   }
 
   eliminar(entidad: EntregaUnidad) {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
       data: {
-        codigo: entidad.comprobante,
-        denominacion: entidad.nuevoResponsable,
+        comprobante: entidad.comprobante,
+        tipoProceso: 'ENTREGA DE UNIDAD',
       },
+      width: '35%',
     });
     dialog
       .afterClosed()
