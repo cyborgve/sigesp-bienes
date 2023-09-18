@@ -171,7 +171,7 @@ export class InformacionProcesoService {
       map(([empresa, tipoComponente]) => ({
         empresaId: empresa,
         id: componente.id,
-        codigo: componente.codigo.substring(5),
+        codigo: componente.codigo,
         proceso: componente.proceso,
         componente: componente.id,
         tipoComponente: tipoComponente,
@@ -434,9 +434,10 @@ export class InformacionProcesoService {
       this.empresa(modificacion.empresaId),
       this.causaMovimiento(modificacion.causaMovimiento),
       this.activo(modificacion.activo),
+      this.componentesProceso(modificacion.modificaciones),
     ];
     return forkJoin(obtenerInformacion).pipe(
-      map(([empresa, causaMovimiento, activo]) => ({
+      map(([empresa, causaMovimiento, activo, componentes]) => ({
         empresaId: empresa,
         id: modificacion.id,
         comprobante: modificacion.comprobante.toString().substring(5),
@@ -445,7 +446,7 @@ export class InformacionProcesoService {
         identificador: modificacion.identificador,
         serial: modificacion.serial,
         observaciones: modificacion.observaciones,
-        modificaciones: modificacion.modificaciones,
+        modificaciones: componentes,
         cuentasContables: modificacion.cuentasContables,
         creado: modificacion.creado,
         modificado: modificacion.modificado,

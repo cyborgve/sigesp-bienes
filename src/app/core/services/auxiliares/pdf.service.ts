@@ -49,9 +49,7 @@ export class PDFService {
             pageSize: 'letter',
             pageOrientation: 'portrait',
             info: this.metadataReporte(infoReporte, 'ENTREGA DE UNIDAD'),
-            footer: this.piePaginaReporte(
-              'Generado por Sigesp - Bienes Nacionales'
-            ),
+            footer: this.piePagina(),
             content: [
               this.encabezadoReporte(empresa, infoReporte, 'ENTREGA DE UNIDAD'),
               this.datosGeneralesReporte(infoReporte, 'ENTREGA DE UNIDAD'),
@@ -76,9 +74,7 @@ export class PDFService {
             pageSize: 'letter',
             pageOrientation: 'portrait',
             info: this.metadataReporte(infoReporte, 'MODIFICACIÓN'),
-            footer: this.piePaginaReporte(
-              'Generado por Sigesp - Bienes Nacionales'
-            ),
+            footer: this.piePagina(),
             content: [
               this.encabezadoReporte(empresa, infoReporte, 'MODIFICACIÓN'),
               this.datosGeneralesReporte(infoReporte, 'MODIFICACIÓN'),
@@ -100,7 +96,7 @@ export class PDFService {
     pageSize: 'letter',
     pageOrientation: 'portrait',
     info: this.metadataReporte(proceso, tipoProceso),
-    footer: this.piePaginaReporte('Generado por Sigesp - Bienes Nacionales'),
+    footer: this.piePagina(),
     content: [
       this.encabezadoReporte(empresa, proceso, tipoProceso),
       this.datosGeneralesReporte(proceso, tipoProceso),
@@ -160,7 +156,7 @@ export class PDFService {
       bold: true,
       margin: [50, 0, 50, 50],
     },
-    firmasReporte: {
+    piePagina: {
       fontSize: 7,
       bold: true,
     },
@@ -187,15 +183,6 @@ export class PDFService {
       },
     ],
   });
-
-  private piePaginaReporte = (text: string) => [
-    this.firmasReporte(),
-    // {
-    //   height: 200,
-    //   text: text,
-    //   style: 'footer',
-    // },
-  ];
 
   private seccionEmpresaReporte = (empresa: Empresa) => [
     {
@@ -609,9 +596,16 @@ export class PDFService {
     let componentes = [['Código', 'Tipo', 'Denominación']];
     proceso.modificaciones.forEach(componente =>
       componentes.push([
-        componente.codigo,
+        String(componente.codigo).substring(5),
         componente.tipoComponente,
         componente.denominacion,
+      ])
+    );
+    let cuentasContables = [['Cuenta Contable', 'Denominación']];
+    proceso.cuentasContables.forEach(cuentaProceso =>
+      cuentasContables.push([
+        cuentaProceso.cuentaContable,
+        cuentaProceso.denominacion,
       ])
     );
     return [
@@ -628,10 +622,23 @@ export class PDFService {
         style: 'detalleReporte',
         layout: 'lightHorizontalLines',
       },
+      {
+        text: 'C U E N T A S   C O N T A B L E S',
+        style: 'tituloDetalleReporte',
+      },
+      {
+        table: {
+          headerRows: 1,
+          widths: ['20%', '80%'],
+          body: cuentasContables,
+        },
+        style: 'detalleReporte',
+        layout: 'lightHorizontalLines',
+      },
     ];
   }
 
-  private firmasReporte = () => ({
+  private piePagina = () => ({
     columns: [
       {
         width: '25%',

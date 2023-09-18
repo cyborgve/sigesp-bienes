@@ -19,6 +19,7 @@ import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -103,17 +104,18 @@ export class TablaModificacionComponent
   }
 
   eliminar(entidad: Modificacion) {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
       data: {
-        codigo: entidad.comprobante,
-        denominacion: entidad.identificador,
+        comprobante: entidad.comprobante,
+        tipoProceso: 'MODIFICACIÓN',
       },
+      width: '35%',
     });
     dialog
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        switchMap(() => this._entidad.eliminar(entidad.id, 'MODIFICACION')),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'MODIFICACIÓN')),
         take(1)
       )
       .subscribe(() => this.recargarDatos());

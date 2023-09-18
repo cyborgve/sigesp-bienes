@@ -70,13 +70,24 @@ export class ModificacionService extends GenericService<Modificacion> {
     notificar?: boolean
   ): Observable<Modificacion> {
     return super.guardar(entidad, tipoDato, notificar).pipe(
+      adaptarModificacion(),
       switchMap(modificacionGuardada => {
-        let guardarComponentes = entidad.modificaciones.map(componente =>
-          this._modificacionComponentes.guardar(componente, undefined, false)
-        );
-        let guardarCuentas = entidad.cuentasContables.map(cuenta =>
-          this._modificacionCuentaContable.guardar(cuenta, undefined, false)
-        );
+        let guardarComponentes = entidad.modificaciones.map(componente => {
+          componente.proceso = modificacionGuardada.id;
+          return this._modificacionComponentes.guardar(
+            componente,
+            undefined,
+            false
+          );
+        });
+        let guardarCuentas = entidad.cuentasContables.map(cuenta => {
+          cuenta.proceso = modificacionGuardada.id;
+          return this._modificacionCuentaContable.guardar(
+            cuenta,
+            undefined,
+            false
+          );
+        });
         return forkJoin([...guardarComponentes, ...guardarCuentas]).pipe(
           map(complementosGuardados => {
             modificacionGuardada.modificaciones = complementosGuardados.slice(
