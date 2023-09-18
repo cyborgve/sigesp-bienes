@@ -109,6 +109,7 @@ export class TablaDesincorporacionComponent
         comprobante: entidad.comprobante,
         tipoProceso: 'DESINCORPORACIÓN',
       },
+      width: '35%',
     });
     dialog
       .afterClosed()
