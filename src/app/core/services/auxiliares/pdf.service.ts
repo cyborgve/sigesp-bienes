@@ -102,6 +102,9 @@ export class PDFService {
       this.encabezadoReporte(empresa, proceso, tipoProceso),
       this.datosGeneralesReporte(proceso, tipoProceso),
       this.detalleReporte(proceso),
+      tipoProceso === 'ACTA DE PRÉSTAMO'
+        ? this.firmasActaPrestamo(proceso)
+        : undefined,
     ],
     styles: this.estilosProceso,
   });
@@ -161,10 +164,23 @@ export class PDFService {
       fontSize: 7,
       bold: true,
     },
-    firmante: {
+    firmasAutorizacion: {
       fontSize: 8,
       alignment: 'center',
       bold: true,
+    },
+    rayaFirmas: {
+      alignment: 'center',
+      margin: [0, 60, 0, 0],
+    },
+    tituloFirmas: {
+      fontSize: 6,
+      alignment: 'center',
+      bold: true,
+    },
+    textoFirmas: {
+      fontSize: 8,
+      alignment: 'center',
     },
   };
 
@@ -692,33 +708,47 @@ export class PDFService {
   }
 
   private piePagina = () => ({
+    height: 60,
+    margin: [20, 0, 20, 20],
     columns: [
       {
         width: '25%',
         stack: [
-          { text: '___________________________________', style: 'firmante' },
-          { text: 'Elaborado por', style: 'firmante' },
+          {
+            text: '______________________________',
+            style: 'firmasAutorizacion',
+          },
+          { text: 'Elaborado por', style: 'firmasAutorizacion' },
         ],
       },
       {
         width: '25%',
         stack: [
-          { text: '___________________________________', style: 'firmante' },
-          { text: 'Verificado por', style: 'firmante' },
+          {
+            text: '______________________________',
+            style: 'firmasAutorizacion',
+          },
+          { text: 'Verificado por', style: 'firmasAutorizacion' },
         ],
       },
       {
         width: '25%',
         stack: [
-          { text: '___________________________________', style: 'firmante' },
-          { text: 'Autorizado por', style: 'firmante' },
+          {
+            text: '______________________________',
+            style: 'firmasAutorizacion',
+          },
+          { text: 'Autorizado por', style: 'firmasAutorizacion' },
         ],
       },
       {
         width: '25%',
         stack: [
-          { text: '___________________________________', style: 'firmante' },
-          { text: 'Aprobado por', style: 'firmante' },
+          {
+            text: '______________________________',
+            style: 'firmasAutorizacion',
+          },
+          { text: 'Aprobado por', style: 'firmasAutorizacion' },
         ],
       },
     ],
@@ -747,4 +777,57 @@ export class PDFService {
       },
     ],
   });
+
+  private firmasActaPrestamo = (proceso: any) => [
+    {
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            {
+              text: '______________________________',
+              style: 'rayaFirmas',
+            },
+            {
+              text: 'Responsable Unidad Administrativa Cedente',
+              style: 'tituloFirmas',
+            },
+            {
+              text: proceso.unidadCedenteResponsable,
+              style: 'textoFirmas',
+            },
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            {
+              text: '______________________________',
+              style: 'rayaFirmas',
+            },
+            {
+              text: 'Responsable Unidad Administrativa Receptora',
+              style: 'tituloFirmas',
+            },
+            {
+              text: proceso.unidadReceptoraResponsable,
+              style: 'textoFirmas',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      text: '______________________________',
+      style: 'rayaFirmas',
+    },
+    {
+      text: 'Testigo',
+      style: 'tituloFirmas',
+    },
+    {
+      text: proceso.testigo,
+      style: 'textoFirmas',
+    },
+  ];
 }
