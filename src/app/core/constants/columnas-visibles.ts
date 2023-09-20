@@ -269,8 +269,8 @@ export const COLUMNAS_VISIBLES = {
   ],
   REASIGNACIONES: [
     'comprobante',
-    'causaMovimiento',
     'sede',
+    'causaMovimiento',
     'creado',
     'modificado',
     'acciones-proceso',

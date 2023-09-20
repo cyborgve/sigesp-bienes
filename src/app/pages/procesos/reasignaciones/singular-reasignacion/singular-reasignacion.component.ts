@@ -25,6 +25,8 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 
 @Component({
   selector: 'app-singular-reasignacion',
@@ -36,7 +38,7 @@ export class SingularReasignacionComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[37].nombre;
   formulario: FormGroup;
-  dataActivos: MatTableDataSource<Activo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
 
   constructor(
     private _entidad: ReasignacionService,
@@ -49,22 +51,28 @@ export class SingularReasignacionComponent implements Entidad {
     private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      causaMovimiento: ['', Validators.required],
-      responsablePrimario: ['', Validators.required],
-      responsableUso: ['', Validators.required],
-      sede: ['', Validators.required],
-      fechaEntrega: [new Date()],
-      observaciones: [''],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      causaMovimiento: [undefined, Validators.required],
+      responsablePrimario: [undefined, Validators.required],
+      responsableUso: [undefined, Validators.required],
+      sede: [undefined, Validators.required],
+      fechaEntrega: [undefined],
+      observaciones: [undefined],
       activos: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
+
+  agregarActivosDeshabilitado = () =>
+    this.formulario.value.causaMovimiento === 0 ||
+    this.formulario.value.sede === 0 ||
+    this.formulario.value.responsablePrimario === '---' ||
+    this.formulario.value.responsableUsi === '---';
 
   private actualizarFormulario() {
     if (this.id) {
@@ -99,7 +107,18 @@ export class SingularReasignacionComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              causaMovimiento: 0,
+              responsablePrimario: '---',
+              responsableUso: '---',
+              sede: 0,
+              fechaEntrega: new Date(),
+              observaciones: '',
+              activos: [],
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -137,11 +156,12 @@ export class SingularReasignacionComponent implements Entidad {
 
   guardar() {
     let entidad: Reasignacion = this.formulario.value;
+    entidad.activos = this.dataSource.data;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())
-        .pipe(first())
-        .subscribe(() => this.irAtras());
+        .pipe(first(), tap())
+        .subscribe(() => this.reiniciarFormulario());
     } else {
       this._entidad
         .actualizar(this.id, entidad, this.titulo.toUpperCase())
@@ -191,8 +211,10 @@ export class SingularReasignacionComponent implements Entidad {
     throw new Error('Method not implemented.');
   }
 
-  private recargarActivos() {
-    this.dataActivos = new MatTableDataSource(this.formulario.value.activos);
+  reiniciarFormulario() {
+    this.formulario.reset();
+    this.dataSource = new MatTableDataSource();
+    this.actualizarFormulario();
   }
 
   agregarActivo() {
@@ -204,17 +226,22 @@ export class SingularReasignacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         tap((activo: Activo) => {
-          if (activo)
-            this.formulario.patchValue({
-              activos: [...this.formulario.value.activos, activo],
-            });
+          if (activo) {
+            this.dataSource = new MatTableDataSource([
+              ...this.dataSource.data,
+              convertirActivoProceso(activo),
+            ]);
+          }
         }),
         take(1)
       )
-      .subscribe(() => this.recargarActivos());
+      .subscribe();
   }
 
-  removerActivo(event: any) {}
+  removerActivo(activoProceso: ActivoProceso) {
+    this.dataSource.data.splice(this.dataSource.data.indexOf(activoProceso), 1);
+    this.dataSource = new MatTableDataSource(this.dataSource.data);
+  }
 
   buscarCausaMovimiento() {
     const filtroCausas = () =>

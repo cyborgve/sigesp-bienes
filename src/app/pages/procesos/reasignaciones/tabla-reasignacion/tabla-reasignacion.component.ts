@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Reasignacion } from '@core/models/procesos/reasignacion';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ReasignacionService } from '@core/services/procesos/reasignacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
@@ -44,7 +45,8 @@ export class TablaReasignacionComponent
     private _entidad: ReasignacionService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -72,8 +74,18 @@ export class TablaReasignacionComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
-  imprimir(entidad: Reasignacion) {}
-  previsualizar(entidad: Reasignacion) {}
+
+  imprimir(entidad: Reasignacion) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(reasignacion =>
+          this._pdf.abrirReportePDF(reasignacion, 'REASIGNACIÓN')
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';

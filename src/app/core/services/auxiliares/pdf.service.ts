@@ -30,6 +30,7 @@ export class PDFService {
     ])
       .pipe(
         tap(([empresa, infoReporte]) => {
+          console.log(proceso);
           let reportePDF = this.generarPDF(empresa, infoReporte, tipoProceso);
           pdfMake.createPdf(reportePDF).open();
         }),
@@ -511,7 +512,56 @@ export class PDFService {
   /**
    * DATOS REASIGNACION
    */
-  private seccionReasignacion = (proceso: any) => <any>{};
+  private seccionReasignacion = (proceso: any) => [
+    {
+      columns: [
+        {
+          width: '30%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Causa de Movimiento:',
+              proceso.causaMovimiento
+            ),
+          ],
+        },
+        {
+          width: '70%',
+          stack: [this.campoTextoConTitulo('Sede:', proceso.sede)],
+        },
+      ],
+    },
+    {
+      columns: [
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Responsable Primario:',
+              proceso.responsablePrimario
+            ),
+          ],
+        },
+        {
+          width: '50%',
+          stack: [
+            this.campoTextoConTitulo(
+              'Responsable de Uso:',
+              proceso.responsableUso
+            ),
+          ],
+        },
+      ],
+    },
+    this.campoTextoConTitulo(
+      'Fecha de Entrega:',
+      new Date(proceso.fechaEntrega).toLocaleDateString(undefined, {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      })
+    ),
+    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
+  ];
   /**
    * DATOS RETORNO
    */

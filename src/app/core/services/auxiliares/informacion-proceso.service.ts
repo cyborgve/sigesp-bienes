@@ -26,6 +26,7 @@ import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-p
 import { ProveedorService } from '../otros-modulos/proveedor.service';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { TipoComponenteService } from '../definiciones/tipo-componente.service';
+import { BeneficiarioService } from '../otros-modulos/beneficiario.service';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +41,8 @@ export class InformacionProcesoService {
     private _activo: ActivoService,
     private _moneda: MonedaService,
     private _proveedor: ProveedorService,
-    private _tipoComponente: TipoComponenteService
+    private _tipoComponente: TipoComponenteService,
+    private _beneficario: BeneficiarioService
   ) {}
 
   /**
@@ -80,7 +82,7 @@ export class InformacionProcesoService {
         resultado = this.reasignacion(proceso);
         break;
       case 'RETORNO':
-        return this.retorno(proceso);
+        resultado = this.retorno(proceso);
         break;
     }
     return resultado; // Devuelve el resultado obtenido
@@ -103,7 +105,7 @@ export class InformacionProcesoService {
   private responsable = (id: Id) =>
     this._responsable
       .buscarPorId(id)
-      .pipe(map(resp => `${resp.rif} - ${resp.nombre} ${resp.apellido}`));
+      .pipe(map(resp => `${resp.cedula} - ${resp.nombre} ${resp.apellido}`));
 
   private unidadAdministrativa = (id: Id) =>
     this.denominacionEntidad(this._unidadAdministrativa, id);
@@ -134,6 +136,13 @@ export class InformacionProcesoService {
 
   private tipoComponente = (id: Id) =>
     this.denominacionEntidad(this._tipoComponente, id);
+
+  private beneficiario = (id: Id) =>
+    this._beneficario
+      .buscarPorId(id)
+      .pipe(
+        map(beneficiario => `${beneficiario.cedula} - ${beneficiario.nombre}`)
+      );
 
   private activoProceso = (activoProceso: ActivoProceso) => {
     let buscarInformacion = [
@@ -349,8 +358,8 @@ export class InformacionProcesoService {
         debe: desincorporacion.debe,
         haber: desincorporacion.debe,
         diferencia: desincorporacion.haber,
-        creado: new Date(desincorporacion.creado),
-        modificado: new Date(desincorporacion.modificado),
+        creado: desincorporacion.creado,
+        modificado: desincorporacion.modificado,
       }))
     );
   }
@@ -461,6 +470,7 @@ export class InformacionProcesoService {
       this.responsable(reasignacion.responsablePrimario),
       this.responsable(reasignacion.responsableUso),
       this.sede(reasignacion.sede),
+      this.activosProceso(reasignacion.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
       map(
@@ -470,6 +480,7 @@ export class InformacionProcesoService {
           responsablePrimario,
           responsableUso,
           sede,
+          activos,
         ]) => ({
           empresaId: empresa,
           id: reasignacion.id,
@@ -478,28 +489,32 @@ export class InformacionProcesoService {
           responsablePrimario: responsablePrimario,
           responsableUso: responsableUso,
           sede: sede,
-          fechaEntrega: new Date(reasignacion.fechaEntrega),
+          fechaEntrega: reasignacion.fechaEntrega,
           observaciones: reasignacion.observaciones,
-          activos: reasignacion.activos,
-          creado: new Date(reasignacion.creado),
-          modificado: new Date(reasignacion.modificado),
+          activos: activos,
+          creado: reasignacion.creado,
+          modificado: reasignacion.modificado,
         })
       )
     );
   }
 
   private retorno(retorno: Retorno) {
-    let obtenerInformacion = [];
+    let obtenerInformacion = [
+      this.empresa(retorno.empresaId),
+      this.beneficiario(retorno.beneficiario),
+      this.activosProceso(retorno.activos),
+    ];
     return forkJoin(obtenerInformacion).pipe(
-      map(([empresa]) => ({
+      map(([empresa, beneficiario, activos]) => ({
         empresaId: empresa,
         id: retorno.id,
         comprobante: retorno.comprobante.toString().substring(5),
-        beneficiario: retorno.beneficiario, // TODO: obtener informacion
+        beneficiario: beneficiario,
         observaciones: retorno.observaciones,
-        activos: retorno.activos,
-        creado: new Date(retorno.creado),
-        modificado: new Date(retorno.modificado),
+        activos: activos,
+        creado: retorno.creado,
+        modificado: retorno.modificado,
       }))
     );
   }

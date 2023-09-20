@@ -12,6 +12,7 @@ export const adaptarBeneficiarios = () =>
             empresaId: Number(beneficiario.id_empresa),
             id: Number(beneficiario.id_proveedor),
             cedula: beneficiario.nacpro + '-' + beneficiario.cedben,
+            rif: beneficiario.rifppro,
             nombre: beneficiario.nompro,
             creado: new Date(),
             modificado: new Date(),

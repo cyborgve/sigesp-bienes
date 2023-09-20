@@ -30,6 +30,23 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
+        <!-- sede -->
+        <mat-form-field appearance="fill" class="sede">
+          <mat-label>Sede</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="sede"
+            readonly="true"
+            [value]="formulario.value.sede | denominacionSede | async" />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarSede()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
         <!-- responsablePrimario -->
         <mat-form-field appearance="fill" class="responsablePrimario">
           <mat-label>Responsable primario</mat-label>
@@ -42,6 +59,7 @@
               formulario.value.responsablePrimario
                 | denominacionResponsable
                 | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -60,30 +78,16 @@
             formControlName="responsableUso"
             readonly="true"
             [value]="
-              formulario.value.responsableUso | denominacionResponsable | async
+              formulario.value.responsableUso
+                | denominacionResponsable
+                | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
             mat-icon-button
             matSuffix
             (click)="buscarResponsableUso()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
-        <!-- sede -->
-        <mat-form-field appearance="fill" class="sede">
-          <mat-label>Sede</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="sede"
-            readonly="true"
-            [value]="formulario.value.sede | denominacionSede | async" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarSede()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
@@ -116,7 +120,8 @@
   <app-activos-proceso
     (agregarActivo)="agregarActivo()"
     (removerActivo)="removerActivo($event)"
-    [dataSource]="dataActivos"></app-activos-proceso>
+    [agregarActivoDeshabilitado]="agregarActivosDeshabilitado()"
+    [dataSource]="dataSource"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->
 <app-toolbar
@@ -131,5 +136,6 @@
   [desabilitarGuardar]="formulario.invalid"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
+  [mostrarExportar]="false"
   [tooTipProceso]="true"
   [mostrarSalir]="false"></app-toolbar>

@@ -6,14 +6,17 @@
   @apply pt-0 mt-1;
 }
 
-.causaMovimiento,
-.responsablePrimario,
-.responsableUso {
+.causaMovimiento {
   @apply col-span-4;
 }
 
+.responsablePrimario,
+.responsableUso {
+  @apply col-span-5;
+}
+
 .sede {
-  @apply col-span-10;
+  @apply col-span-8;
 }
 .fechaEntrega {
   @apply col-span-2;

@@ -12,7 +12,7 @@ export class BuscadorReasignacionComponent {
   titulo = 'buscador de reasignaciones';
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.REASIGNACIONES.filter(
-    c => c !== 'acciones'
+    c => c !== 'acciones-proceso'
   );
   constructor(
     private _dialogRef: MatDialogRef<BuscadorReasignacionComponent>

@@ -80,7 +80,6 @@ export class SingularModificacionComponent implements Entidad {
       this.formulario.value.causaMovimiento === undefined ||
         this.formulario.value.causaMovimiento === 0,
     ];
-    console.log(comprobaciones);
     return comprobaciones.every(resultado => !!resultado);
   };
 
