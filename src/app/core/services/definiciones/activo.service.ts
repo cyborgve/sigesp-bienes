@@ -142,21 +142,6 @@ export class ActivoService extends GenericService<Activo> {
     );
   }
 
-  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
-    let peticionesEliminar = [
-      super.eliminar(id, tipoDato, notificar),
-      this._activoDetalle.eliminarPorActivo(id, '', false),
-      this._activoDepreciacion.eliminarPorActivo(id, '', false),
-      this._activoUbicacion.eliminarPorActivo(id, '', false),
-    ];
-    return forkJoin(peticionesEliminar).pipe(
-      map(([activo, detalle, depreciacion, ubicacion]) => {
-        if (activo && detalle && depreciacion && ubicacion) return true;
-        else false;
-      })
-    );
-  }
-
   esDepreciable(id: Id): Observable<boolean> {
     return this.buscarPorId(id).pipe(
       map(activo => {
