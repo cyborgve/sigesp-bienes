@@ -21,6 +21,8 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 
 @Component({
   selector: 'app-singular-retorno',
@@ -32,7 +34,7 @@ export class SingularRetornoComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[38].nombre;
   formulario: FormGroup;
-  dataActivos: MatTableDataSource<Activo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
   tiposProceso = TIPOS_PROCESO;
 
   constructor(
@@ -46,15 +48,15 @@ export class SingularRetornoComponent implements Entidad {
     private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      tipoComprobante: ['', Validators.required],
-      beneficiario: ['', Validators.required],
-      observaciones: [''],
-      activos: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      tipoComprobante: [undefined, Validators.required],
+      beneficiario: [undefined, Validators.required],
+      observaciones: [undefined],
+      activos: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -89,7 +91,15 @@ export class SingularRetornoComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              tipoComprobante: '',
+              beneficiario: '---',
+              observaciones: '',
+              activos: [],
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -125,6 +135,7 @@ export class SingularRetornoComponent implements Entidad {
 
   guardar() {
     let entidad: Retorno = this.formulario.value;
+    entidad.activos = this.dataSource.data;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())
@@ -179,10 +190,6 @@ export class SingularRetornoComponent implements Entidad {
     throw new Error('Method not implemented.');
   }
 
-  private recargarActivos() {
-    this.dataActivos = new MatTableDataSource(this.formulario.value.activos);
-  }
-
   agregarActivo() {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
@@ -193,16 +200,20 @@ export class SingularRetornoComponent implements Entidad {
       .pipe(
         tap((activo: Activo) => {
           if (activo)
-            this.formulario.patchValue({
-              activos: [...this.formulario.value.activos, activo],
-            });
+            this.dataSource = new MatTableDataSource([
+              ...this.dataSource.data,
+              convertirActivoProceso(activo),
+            ]);
         }),
         take(1)
       )
-      .subscribe(() => this.recargarActivos());
+      .subscribe();
   }
 
-  removerActivo(event: any) {}
+  removerActivo(activo: ActivoProceso) {
+    this.dataSource.data.splice(this.dataSource.data.indexOf(activo), 1);
+    this.dataSource = new MatTableDataSource(this.dataSource.data);
+  }
 
   buscarBeneficiario() {
     let dialog = this._dialog.open(BuscadorBeneficiarioComponent, {

@@ -18,7 +18,10 @@
             formControlName="beneficiario"
             readonly="true"
             [value]="
-              formulario.value.beneficiario | denominacionBeneficiario | async
+              formulario.value.beneficiario
+                | denominacionBeneficiario
+                | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -56,7 +59,8 @@
   <app-activos-proceso
     (agregarActivo)="agregarActivo()"
     (removerActivo)="removerActivo($event)"
-    [dataSource]="dataActivos"></app-activos-proceso>
+    [agregarActivoDeshabilitado]="false"
+    [dataSource]="dataSource"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->
 <app-toolbar
@@ -71,5 +75,6 @@
   [desabilitarGuardar]="formulario.invalid"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarImprimir]="false"
+  [mostrarExportar]="false"
   [tooTipProceso]="true"
   [mostrarSalir]="false"></app-toolbar>

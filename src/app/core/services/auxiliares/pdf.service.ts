@@ -565,7 +565,10 @@ export class PDFService {
   /**
    * DATOS RETORNO
    */
-  private seccionRetorno = (proceso: any) => <any>{};
+  private seccionRetorno = (proceso: any) => [
+    this.campoTextoConTitulo('Beneficiario:', proceso.beneficiario),
+    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
+  ];
 
   private detalleReporte = (proceso: any) => {
     let activos = [

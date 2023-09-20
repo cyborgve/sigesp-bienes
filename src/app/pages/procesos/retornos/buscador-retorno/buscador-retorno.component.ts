@@ -11,7 +11,9 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 export class BuscadorRetornoComponent {
   titulo = 'buscador de retornos';
   ocultarNuevo = true;
-  columnasVisibles = COLUMNAS_VISIBLES.RETORNOS.filter(c => c !== 'acciones');
+  columnasVisibles = COLUMNAS_VISIBLES.RETORNOS.filter(
+    c => c !== 'acciones-proceso'
+  );
   constructor(private _dialogRef: MatDialogRef<BuscadorRetornoComponent>) {}
 
   seleccionar = (entidad: Retorno) => {

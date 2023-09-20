@@ -10,13 +10,15 @@
     <!-- comprobante -->
     <ng-container matColumnDef="comprobante">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
-      <td mat-cell *matCellDef="let row">{{ row.comprobante }}</td>
+      <td mat-cell *matCellDef="let row">
+        {{ row.comprobante | corregirCodigo }}
+      </td>
     </ng-container>
     <!-- beneficiario -->
     <ng-container matColumnDef="beneficiario">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Beneficiario</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.beneficiario }}
+        {{ row.beneficiario | denominacionBeneficiario | async }}
       </td>
     </ng-container>
     <!-- creado -->
@@ -41,8 +43,7 @@
         <app-botones-acciones-proceso
           (editar)="editar(row)"
           (eliminar)="eliminar(row)"
-          (imprimir)="imprimir(row)"
-          (previsualizar)="previsualizar(row)"></app-botones-acciones-proceso>
+          (imprimir)="imprimir(row)"></app-botones-acciones-proceso>
       </td>
     </ng-container>
 

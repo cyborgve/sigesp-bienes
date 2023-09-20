@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Retorno } from '@core/models/procesos/retorno';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { RetornoService } from '@core/services/procesos/retorno.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
@@ -44,7 +45,8 @@ export class TablaRetornoComponent
     private _entidad: RetornoService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -72,8 +74,16 @@ export class TablaRetornoComponent
   irAlInicio() {
     this._router.navigate(['/']);
   }
-  imprimir(entidad: Retorno) {}
-  previsualizar(entidad: Retorno) {}
+
+  imprimir(entidad: Retorno) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(
+        tap(retorno => this._pdf.abrirReportePDF(retorno, 'RETORNO')),
+        take(1)
+      )
+      .subscribe();
+  }
 
   filtrar(event: Event) {
     let valorFiltro = event ? (event.target as HTMLInputElement).value : '';
