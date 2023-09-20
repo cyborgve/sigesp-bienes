@@ -10,6 +10,7 @@ import { combineLatest } from 'rxjs';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { Modificacion } from '@core/models/procesos/modificacion';
+import { seccionFirmas } from '@core/utils/reportes/seccion-firmas';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +51,7 @@ export class PDFService {
             pageSize: 'letter',
             pageOrientation: 'portrait',
             info: this.metadataReporte(infoReporte, 'ENTREGA DE UNIDAD'),
-            footer: this.piePagina(),
+            footer: seccionFirmas(infoReporte, 'ENTREGA DE UNIDAD'),
             content: [
               this.encabezadoReporte(empresa, infoReporte, 'ENTREGA DE UNIDAD'),
               this.datosGeneralesReporte(infoReporte, 'ENTREGA DE UNIDAD'),
@@ -75,7 +76,7 @@ export class PDFService {
             pageSize: 'letter',
             pageOrientation: 'portrait',
             info: this.metadataReporte(infoReporte, 'MODIFICACIÓN'),
-            footer: this.piePagina(),
+            footer: seccionFirmas(infoReporte, 'MODIFICACIÓN'),
             content: [
               this.encabezadoReporte(empresa, infoReporte, 'MODIFICACIÓN'),
               this.datosGeneralesReporte(infoReporte, 'MODIFICACIÓN'),
@@ -97,14 +98,11 @@ export class PDFService {
     pageSize: 'letter',
     pageOrientation: 'portrait',
     info: this.metadataReporte(proceso, tipoProceso),
-    footer: this.piePagina(),
+    footer: seccionFirmas(proceso, tipoProceso),
     content: [
       this.encabezadoReporte(empresa, proceso, tipoProceso),
       this.datosGeneralesReporte(proceso, tipoProceso),
       this.detalleReporte(proceso),
-      tipoProceso === 'ACTA DE PRÉSTAMO'
-        ? this.firmasActaPrestamo(proceso)
-        : undefined,
     ],
     styles: this.estilosProceso,
   });
@@ -168,18 +166,20 @@ export class PDFService {
       fontSize: 8,
       alignment: 'center',
       bold: true,
+      margin: [5, 0, 5, 0],
     },
     rayaFirmas: {
       alignment: 'center',
-      margin: [0, 60, 0, 0],
+      margin: [5, 0, 5, 0],
     },
     tituloFirmas: {
-      fontSize: 6,
+      fontSize: 5,
       alignment: 'center',
       bold: true,
     },
     textoFirmas: {
-      fontSize: 8,
+      margin: [5, 0, 5, 0],
+      fontSize: 7,
       alignment: 'center',
     },
   };
@@ -232,17 +232,6 @@ export class PDFService {
           day: '2-digit',
           month: 'long',
           year: 'numeric',
-        }
-      )}`,
-      style: 'fechaReporte',
-    },
-    {
-      text: `Hora de Emisión: ${new Date(proceso.creado).toLocaleTimeString(
-        undefined,
-        {
-          hour12: true,
-          hour: '2-digit',
-          minute: '2-digit',
         }
       )}`,
       style: 'fechaReporte',
@@ -707,53 +696,6 @@ export class PDFService {
     ];
   }
 
-  private piePagina = () => ({
-    height: 60,
-    margin: [20, 0, 20, 20],
-    columns: [
-      {
-        width: '25%',
-        stack: [
-          {
-            text: '______________________________',
-            style: 'firmasAutorizacion',
-          },
-          { text: 'Elaborado por', style: 'firmasAutorizacion' },
-        ],
-      },
-      {
-        width: '25%',
-        stack: [
-          {
-            text: '______________________________',
-            style: 'firmasAutorizacion',
-          },
-          { text: 'Verificado por', style: 'firmasAutorizacion' },
-        ],
-      },
-      {
-        width: '25%',
-        stack: [
-          {
-            text: '______________________________',
-            style: 'firmasAutorizacion',
-          },
-          { text: 'Autorizado por', style: 'firmasAutorizacion' },
-        ],
-      },
-      {
-        width: '25%',
-        stack: [
-          {
-            text: '______________________________',
-            style: 'firmasAutorizacion',
-          },
-          { text: 'Aprobado por', style: 'firmasAutorizacion' },
-        ],
-      },
-    ],
-  });
-
   private campoTextoConTitulo = (titulo: string, texto: string) => ({
     columns: [
       {
@@ -777,57 +719,4 @@ export class PDFService {
       },
     ],
   });
-
-  private firmasActaPrestamo = (proceso: any) => [
-    {
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            {
-              text: '______________________________',
-              style: 'rayaFirmas',
-            },
-            {
-              text: 'Responsable Unidad Administrativa Cedente',
-              style: 'tituloFirmas',
-            },
-            {
-              text: proceso.unidadCedenteResponsable,
-              style: 'textoFirmas',
-            },
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            {
-              text: '______________________________',
-              style: 'rayaFirmas',
-            },
-            {
-              text: 'Responsable Unidad Administrativa Receptora',
-              style: 'tituloFirmas',
-            },
-            {
-              text: proceso.unidadReceptoraResponsable,
-              style: 'textoFirmas',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      text: '______________________________',
-      style: 'rayaFirmas',
-    },
-    {
-      text: 'Testigo',
-      style: 'tituloFirmas',
-    },
-    {
-      text: proceso.testigo,
-      style: 'textoFirmas',
-    },
-  ];
 }
