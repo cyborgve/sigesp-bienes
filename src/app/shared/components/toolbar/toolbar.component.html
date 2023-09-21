@@ -43,28 +43,6 @@
       <i class="material-icons">content_copy</i>
     </button>
   </ng-container>
-  <!-- imprimir -->
-  <ng-container *ngIf="mostrarImprimir">
-    <button
-      mat-button
-      matTooltip="Imprimir"
-      type="button"
-      (click)="imprimir.emit()"
-      [disabled]="desabilitarImprimir">
-      <i class="material-icons">print</i>
-    </button>
-  </ng-container>
-  <!-- exportar -->
-  <ng-container *ngIf="mostrarExportar">
-    <button
-      mat-button
-      matTooltip="Exportar"
-      type="button"
-      (click)="exportar.emit()"
-      [disabled]="desabilitarExportar">
-      <i class="material-icons">superscript</i>
-    </button>
-  </ng-container>
   <!--ir atras -->
   <ng-container *ngIf="mostrarIrAtras">
     <button
@@ -85,17 +63,6 @@
       (click)="irAlInicio.emit()"
       [disabled]="desabilitarIrAlInicio">
       <i class="material-icons">reply_all</i>
-    </button>
-  </ng-container>
-  <!-- salir -->
-  <ng-container *ngIf="mostrarSalir">
-    <button
-      mat-button
-      matTooltip="Salir"
-      type="button"
-      (click)="salir.emit()"
-      [disabled]="desabilitarSalir">
-      <i class="material-icons">power_settings_new</i>
     </button>
   </ng-container>
 </div>
