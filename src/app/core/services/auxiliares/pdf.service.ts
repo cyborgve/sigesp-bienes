@@ -1,5 +1,5 @@
 import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
-import { tap, take, map } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -10,7 +10,12 @@ import { combineLatest } from 'rxjs';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { Modificacion } from '@core/models/procesos/modificacion';
-import { seccionFirmas } from '@core/utils/reportes/seccion-firmas';
+import { seccionPiePaginaReporte } from '@core/utils/reportes/seccion-pie-pagina-reporte';
+import { metadataReporte } from '@core/utils/reportes/metadata-reporte';
+import { seccionEncabezadoReporte } from '@core/utils/reportes/seccion-encabezado-reporte';
+import { seccionDetallesModificacionReporte } from '@core/utils/reportes/seccion-detalles-modificacion-reporte';
+import { seccionDetalleReporte } from '@core/utils/reportes/seccion-detalle-reporte';
+import { datosGeneralesReporte } from '@core/utils/reportes/seccion-datos-generales-reporte';
 
 @Injectable({
   providedIn: 'root',
@@ -50,11 +55,19 @@ export class PDFService {
           let reportePDF = {
             pageSize: 'letter',
             pageOrientation: 'portrait',
-            info: this.metadataReporte(infoReporte, 'ENTREGA DE UNIDAD'),
-            footer: seccionFirmas(infoReporte, 'ENTREGA DE UNIDAD'),
+            info: metadataReporte(
+              infoReporte,
+              'ENTREGA DE UNIDAD',
+              this._sigesp.usuarioActivo
+            ),
+            footer: seccionPiePaginaReporte(infoReporte, 'ENTREGA DE UNIDAD'),
             content: [
-              this.encabezadoReporte(empresa, infoReporte, 'ENTREGA DE UNIDAD'),
-              this.datosGeneralesReporte(infoReporte, 'ENTREGA DE UNIDAD'),
+              seccionEncabezadoReporte(
+                empresa,
+                infoReporte,
+                'ENTREGA DE UNIDAD'
+              ),
+              datosGeneralesReporte(infoReporte, 'ENTREGA DE UNIDAD'),
             ],
             styles: this.estilosProceso,
           };
@@ -75,12 +88,16 @@ export class PDFService {
           let reportePDF = {
             pageSize: 'letter',
             pageOrientation: 'portrait',
-            info: this.metadataReporte(infoReporte, 'MODIFICACIÓN'),
-            footer: seccionFirmas(infoReporte, 'MODIFICACIÓN'),
+            info: metadataReporte(
+              infoReporte,
+              'MODIFICACIÓN',
+              this._sigesp.usuarioActivo
+            ),
+            footer: seccionPiePaginaReporte(infoReporte, 'MODIFICACIÓN'),
             content: [
-              this.encabezadoReporte(empresa, infoReporte, 'MODIFICACIÓN'),
-              this.datosGeneralesReporte(infoReporte, 'MODIFICACIÓN'),
-              this.detallesModificacionReporte(infoReporte),
+              seccionEncabezadoReporte(empresa, infoReporte, 'MODIFICACIÓN'),
+              datosGeneralesReporte(infoReporte, 'MODIFICACIÓN'),
+              seccionDetallesModificacionReporte(infoReporte),
             ],
             styles: this.estilosProceso,
           };
@@ -97,21 +114,14 @@ export class PDFService {
   ) => ({
     pageSize: 'letter',
     pageOrientation: 'portrait',
-    info: this.metadataReporte(proceso, tipoProceso),
-    footer: seccionFirmas(proceso, tipoProceso),
+    info: metadataReporte(proceso, tipoProceso, this._sigesp.usuarioActivo),
+    footer: seccionPiePaginaReporte(proceso, tipoProceso),
     content: [
-      this.encabezadoReporte(empresa, proceso, tipoProceso),
-      this.datosGeneralesReporte(proceso, tipoProceso),
-      this.detalleReporte(proceso),
+      seccionEncabezadoReporte(empresa, proceso, tipoProceso),
+      datosGeneralesReporte(proceso, tipoProceso),
+      seccionDetalleReporte(proceso),
     ],
     styles: this.estilosProceso,
-  });
-
-  private metadataReporte = (proceso: any, tipoProceso: TipoProceso) => ({
-    title: `${tipoProceso}-${proceso.comprobante}`,
-    subject: 'Comprobante de ejecucion de proceso',
-    author: `${this._sigesp.usuarioActivo.nombre} ${this._sigesp.usuarioActivo.apellido}`,
-    creator: 'Sigesp ERP - Bienes Nacionales',
   });
 
   private estilosProceso = {
@@ -153,21 +163,6 @@ export class PDFService {
       alignment: 'center',
       margin: [0, 10, 0, 0],
     },
-    footer: {
-      fontSize: 8,
-      bold: true,
-      margin: [50, 0, 50, 50],
-    },
-    piePagina: {
-      fontSize: 7,
-      bold: true,
-    },
-    firmasAutorizacion: {
-      fontSize: 8,
-      alignment: 'center',
-      bold: true,
-      margin: [5, 0, 5, 0],
-    },
     rayaFirmas: {
       alignment: 'center',
       margin: [5, 0, 5, 0],
@@ -183,540 +178,4 @@ export class PDFService {
       alignment: 'center',
     },
   };
-
-  private encabezadoReporte = (
-    empresa: Empresa,
-    proceso: any,
-    tipoProceso: TipoProceso
-  ) => ({
-    columns: [
-      {
-        width: '50%',
-        stack: this.seccionEmpresaReporte(empresa),
-      },
-      {
-        width: '50%',
-        stack: this.seccionTituloReporte(proceso, tipoProceso),
-      },
-    ],
-  });
-
-  private seccionEmpresaReporte = (empresa: Empresa) => [
-    {
-      text: empresa.nombre + ' ' + empresa.rif,
-      style: 'nombreEmpresa',
-    },
-    {
-      text: empresa.direccion,
-      style: 'datosEmpresa',
-    },
-    {
-      text: `Teléfonos: ${empresa.telefono}  Fax: ${empresa.fax}`,
-      style: 'datosEmpresa',
-    },
-    {
-      text: `Correo electrónico: ${empresa.correoElectronico}`,
-      style: 'datosEmpresa',
-    },
-  ];
-
-  private seccionTituloReporte = (proceso: any, tipoProceso: TipoProceso) => [
-    {
-      text: `${tipoProceso} N° ${proceso.comprobante}`,
-      style: 'tituloReporte',
-    },
-    {
-      text: `Fecha de Emisión: ${new Date(proceso.creado).toLocaleDateString(
-        undefined,
-        {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-        }
-      )}`,
-      style: 'fechaReporte',
-    },
-  ];
-
-  /**
-   * DATOS PROCESO
-   */
-  private datosGeneralesReporte(proceso: any, tipoProceso: TipoProceso) {
-    let resultado = {};
-    switch (tipoProceso) {
-      case 'ACTA DE PRÉSTAMO':
-        resultado = this.seccionActaPrestamo(proceso);
-        break;
-      case 'AUTORIZACIÓN DE SALIDA':
-        resultado = this.seccionAutorizacionSalida(proceso);
-        break;
-      case 'CAMBIO DE RESPONSABLE':
-        resultado = this.seccionCambioResponsable(proceso);
-        break;
-      case 'DEPRECIACIÓN':
-        resultado = this.seccionDepreciacion(proceso);
-        break;
-      case 'DESINCORPORACIÓN':
-        resultado = this.seccionDesincorporacion(proceso);
-        break;
-      case 'ENTREGA DE UNIDAD':
-        resultado = this.seccionEntregaUnidad(proceso);
-        break;
-      case 'INCORPORACIÓN':
-        resultado = this.seccionIncorporacion(proceso);
-        break;
-      case 'MODIFICACIÓN':
-        resultado = this.seccionModificacion(proceso);
-        break;
-      case 'REASIGNACIÓN':
-        resultado = this.seccionReasignacion(proceso);
-        break;
-      case 'RETORNO':
-        resultado = this.seccionRetorno(proceso);
-        break;
-    }
-    return resultado;
-  }
-
-  /**
-   * DATOS ACTA DE PRESTAMO
-   */
-  private seccionActaPrestamo = (proceso: any) => [
-    {
-      margin: [0, 10, 0, 0],
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Unidad Administrativa Cedente:',
-              proceso.unidadAdministrativaCedente
-            ),
-            this.campoTextoConTitulo(
-              'Unidad Administrativa Receptora:',
-              proceso.unidadAdministrativaReceptora
-            ),
-            this.campoTextoConTitulo('Testigo:', proceso.testigo),
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Responsable cedente:',
-              proceso.unidadCedenteResponsable
-            ),
-            this.campoTextoConTitulo(
-              'Responsable receptor:',
-              proceso.unidadReceptoraResponsable
-            ),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo('Notas:', proceso.notas),
-  ];
-  /**
-   * DATOS AUTORIZACION DE SALIDA
-   */
-  private seccionAutorizacionSalida = (proceso: any) => [
-    {
-      margin: [0, 10, 0, 0],
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Unidad Administrativa:',
-              proceso.unidadAdministrativa
-            ),
-            this.campoTextoConTitulo(
-              'Persona Autorizada:',
-              proceso.personaAutorizada
-            ),
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Empresa Autorizada:',
-              proceso.empresaAutorizada
-            ),
-            this.campoTextoConTitulo('', ''),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo('Explicación:', proceso.explicacion),
-    this.campoTextoConTitulo('Notas:', proceso.notas),
-  ];
-  /**
-   * DATOS CAMBIO RESPONSABLE
-   */
-  private seccionCambioResponsable = (proceso: any) => [
-    {
-      margin: [0, 10, 0, 0],
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              proceso.tipoResponsable + ' Actual:',
-              proceso.responsableActual
-            ),
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Nuevo ' + proceso.tipoResponsable + ':',
-              proceso.nuevoResponsable
-            ),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
-  ];
-  /**
-   * DATOS DEPRECIACION
-   */
-  private seccionDepreciacion = (proceso: any) => <any>{};
-  /**
-   * DATOS DESINCORPORACION
-   */
-  private seccionDesincorporacion = (proceso: any) => [
-    {
-      margin: [0, 10, 0, 0],
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Causa de movimiento:',
-              proceso.causaMovimiento
-            ),
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Unidad Administrativa:',
-              proceso.unidadAdministrativa
-            ),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
-  ];
-  /**
-   * DATOS ENTREGA UNIDAD
-   */
-  private seccionEntregaUnidad = (proceso: any) => [
-    this.campoTextoConTitulo(
-      'Unidad Administrativa:',
-      proceso.unidadAdministrativa
-    ),
-    this.campoTextoConTitulo('Sede:', proceso.sede),
-    {
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Responsable anterior:',
-              proceso.responsableAnterior
-            ),
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Nuevo responsable:',
-              proceso.nuevoResponsable
-            ),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
-  ];
-  /**
-   * DATOS INCORPORACION
-   */
-  private seccionIncorporacion = (proceso: any) => [
-    {
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Causa de Movimiento:',
-              proceso.causaMovimiento
-            ),
-            this.campoTextoConTitulo('Sede:', proceso.sede),
-            this.campoTextoConTitulo(
-              'Responsable Primario:',
-              proceso.responsablePrimario
-            ),
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo('Fecha de entrega:', proceso.fechaEntrega),
-            this.campoTextoConTitulo(
-              'Unidad Administrativa',
-              proceso.unidadAdministrativa
-            ),
-            this.campoTextoConTitulo(
-              'Responsable de Uso:',
-              proceso.responsableUso
-            ),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
-  ];
-  /**
-   * DATOS MODIFICACION
-   */
-  private seccionModificacion = (proceso: any) => [
-    this.campoTextoConTitulo('Bien:', proceso.activo),
-    {
-      columns: [
-        {
-          width: '25%',
-          stack: [
-            this.campoTextoConTitulo('Identificador:', proceso.identificador),
-          ],
-        },
-        {
-          width: '25%',
-          stack: [this.campoTextoConTitulo('Serial:', proceso.serial)],
-        },
-        {
-          width: '60%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Causa de Movimiento:',
-              proceso.causaMovimiento
-            ),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
-  ];
-  /**
-   * DATOS REASIGNACION
-   */
-  private seccionReasignacion = (proceso: any) => [
-    {
-      columns: [
-        {
-          width: '30%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Causa de Movimiento:',
-              proceso.causaMovimiento
-            ),
-          ],
-        },
-        {
-          width: '70%',
-          stack: [this.campoTextoConTitulo('Sede:', proceso.sede)],
-        },
-      ],
-    },
-    {
-      columns: [
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Responsable Primario:',
-              proceso.responsablePrimario
-            ),
-          ],
-        },
-        {
-          width: '50%',
-          stack: [
-            this.campoTextoConTitulo(
-              'Responsable de Uso:',
-              proceso.responsableUso
-            ),
-          ],
-        },
-      ],
-    },
-    this.campoTextoConTitulo(
-      'Fecha de Entrega:',
-      new Date(proceso.fechaEntrega).toLocaleDateString(undefined, {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      })
-    ),
-    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
-  ];
-  /**
-   * DATOS RETORNO
-   */
-  private seccionRetorno = (proceso: any) => [
-    this.campoTextoConTitulo('Beneficiario:', proceso.beneficiario),
-    this.campoTextoConTitulo('Observaciones:', proceso.observaciones),
-  ];
-
-  private detalleReporte = (proceso: any) => {
-    let activos = [
-      [
-        'Código',
-        'Tipo',
-        'Denominación',
-        'Identificador',
-        { text: 'Valor', alignment: 'right' },
-      ],
-    ];
-    proceso.activos.forEach((activo: any) => {
-      activos.push([
-        activo.codigo,
-        activo.tipoActivo,
-        activo.denominacion,
-        activo.identificador,
-        { text: activo.valor, alignment: 'right' },
-      ]);
-    });
-
-    let cuentasContables = [['Cuenta Contable', 'Denominación']];
-    if (proceso.cuentasContables)
-      proceso.cuentasContables.forEach(cuentaProceso =>
-        cuentasContables.push([
-          cuentaProceso.cuentaContable,
-          cuentaProceso.denominacion,
-        ])
-      );
-
-    return proceso.cuentasContables
-      ? [
-          {
-            text: 'B I E N E S',
-            style: 'tituloDetalleReporte',
-          },
-          {
-            table: {
-              headerRows: 1,
-              widths: ['8%', '12%', '50%', '15%', '15%'],
-              body: activos,
-            },
-            style: 'detalleReporte',
-            layout: 'lightHorizontalLines',
-          },
-          {
-            text: 'C U E N T A S   C O N T A B L E S',
-            style: 'tituloDetalleReporte',
-          },
-          {
-            table: {
-              headerRows: 1,
-              widths: ['20%', '80%'],
-              body: cuentasContables,
-            },
-            style: 'detalleReporte',
-            layout: 'lightHorizontalLines',
-          },
-        ]
-      : [
-          {
-            text: 'B I E N E S',
-            style: 'tituloDetalleReporte',
-          },
-          {
-            table: {
-              headerRows: 1,
-              widths: ['8%', '12%', '50%', '15%', '15%'],
-              body: activos,
-            },
-            style: 'detalleReporte',
-            layout: 'lightHorizontalLines',
-          },
-        ];
-  };
-
-  private detallesModificacionReporte(proceso: any) {
-    let componentes = [['Código', 'Tipo', 'Denominación']];
-    proceso.modificaciones.forEach(componente =>
-      componentes.push([
-        String(componente.codigo).substring(5),
-        componente.tipoComponente,
-        componente.denominacion,
-      ])
-    );
-    let cuentasContables = [['Cuenta Contable', 'Denominación']];
-    proceso.cuentasContables.forEach(cuentaProceso =>
-      cuentasContables.push([
-        cuentaProceso.cuentaContable,
-        cuentaProceso.denominacion,
-      ])
-    );
-    return [
-      {
-        text: 'M O D I F I C A C I O N E S',
-        style: 'tituloDetalleReporte',
-      },
-      {
-        table: {
-          headerRows: 1,
-          widths: ['15%', '25%', '60%'],
-          body: componentes,
-        },
-        style: 'detalleReporte',
-        layout: 'lightHorizontalLines',
-      },
-      {
-        text: 'C U E N T A S   C O N T A B L E S',
-        style: 'tituloDetalleReporte',
-      },
-      {
-        table: {
-          headerRows: 1,
-          widths: ['20%', '80%'],
-          body: cuentasContables,
-        },
-        style: 'detalleReporte',
-        layout: 'lightHorizontalLines',
-      },
-    ];
-  }
-
-  private campoTextoConTitulo = (titulo: string, texto: string) => ({
-    columns: [
-      {
-        width: 'auto',
-        margin: [0, 0, 3, 0],
-        stack: [
-          {
-            text: titulo,
-            style: 'tituloDatosGeneralesReporte',
-          },
-        ],
-      },
-      {
-        width: 'auto',
-        stack: [
-          {
-            text: texto,
-            style: 'datosGeneralesReporte',
-          },
-        ],
-      },
-    ],
-  });
 }
