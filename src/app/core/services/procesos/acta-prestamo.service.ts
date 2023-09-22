@@ -2,9 +2,8 @@ import { switchMap, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { END_POINTS } from '@core/constants/end-points';
-import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Id } from '@core/types/id';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, combineLatest, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +12,7 @@ import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service
 import { adaptarActasPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-actas-prestamo';
 import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-prestamo';
 import { PDFService } from '../auxiliares/pdf.service';
+import { GenericService } from '../auxiliares/generic.service';
 
 @Injectable({
   providedIn: 'root',
@@ -131,5 +131,35 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
           );
         })
       );
+  }
+
+  eliminar(
+    actaPrestamo: Id,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<boolean> {
+    return combineLatest([
+      this.buscarPorId(actaPrestamo),
+      super.eliminar(actaPrestamo, tipoDato, notificar),
+    ]).pipe(
+      switchMap(([actaPrestamo, actaPrestamoEliminada]) => {
+        let buscarActivos = actaPrestamo.activos.map(activo =>
+          this._activoUbicacion.buscarPorActivo(activo.activo).pipe(
+            map(ubicacion => {
+              ubicacion.unidadAdministrativaId =
+                actaPrestamo.unidadAdministrativaCedente;
+              ubicacion.responsableUsoId =
+                actaPrestamo.unidadCedenteResponsable;
+              return ubicacion;
+            })
+          )
+        );
+        return forkJoin(buscarActivos).pipe(
+          switchMap(ubicaciones =>
+            forkJoin(ubicaciones).pipe(map(() => actaPrestamoEliminada))
+          )
+        );
+      })
+    );
   }
 }

@@ -18,7 +18,7 @@ import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
@@ -59,12 +59,13 @@ export class TablaActaPrestamoComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }

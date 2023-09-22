@@ -1,5 +1,5 @@
-import { switchMap, map } from 'rxjs/operators';
-import { Observable, forkJoin, pipe } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { Observable, forkJoin, of, pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Activo } from '@core/models/definiciones/activo';
@@ -25,14 +25,15 @@ import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs/adaptar-act
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { adaptarComponentes } from '@core/utils/adaptadores-rxjs/adaptar-componentes';
 import { FiltrosActivos } from '@core/models/auxiliares/filtros-activos';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActivoService extends GenericService<Activo> {
-  private apiUrlEstadoUso = (estadoUso: Id) =>
-    `${this.apiUrl}?estado_uso_id=${estadoUso}`;
+  private apiUrlUnidadAdministrativa = (unidadAdministrativa: Id) =>
+    `${this.apiUrl}?unidad_administrativa=${unidadAdministrativa}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'activo').valor;
   }
@@ -49,8 +50,19 @@ export class ActivoService extends GenericService<Activo> {
     super(_http, _sigesp, _snackbar);
   }
 
-  buscarTodos(filtrados?: FiltrosActivos): Observable<Activo[]> {
+  buscarTodos(): Observable<Activo[]> {
     return super.buscarTodos();
+  }
+
+  buscarTodosPorUnidadAdministrativa(
+    unidadAdministrativa: Id
+  ): Observable<Activo[]> {
+    return this._http
+      .get(this.apiUrlUnidadAdministrativa(unidadAdministrativa))
+      .pipe(
+        map((resultado: any) => resultado.data),
+        map((activos: any[]) => activos.map(activo => normalizarObjeto(activo)))
+      );
   }
 
   /**
@@ -164,20 +176,44 @@ export class ActivoService extends GenericService<Activo> {
     );
   }
 
-  private filtrarIncorporados = () =>
+  filtrarIncorporados = () =>
     pipe(
       switchMap((activos: Activo[]) => {
-        let buscarActivosUbicacion = activos.map(activo =>
+        let buscarUbicaciones = activos.map(activo =>
+          this._activoUbicacion.buscarPorActivo(activo.id).pipe(
+            map(ubicacion => ({
+              activo: ubicacion.activoId,
+              incorporado: activoIncorporado(ubicacion),
+            }))
+          )
+        );
+        return forkJoin(buscarUbicaciones).pipe(
+          map(resultados => {
+            let incorporados = resultados
+              .filter(resultado => resultado.incorporado)
+              .map(resultado => resultado.activo);
+            return activos.filter(activo => incorporados.includes(activo.id));
+          })
+        );
+      })
+    );
+
+  filtrarPorUnidadAdministrativa = (unidadAdministrativa: Id) =>
+    pipe(
+      switchMap((activos: Activo[]) => {
+        let buscarUbicaciones = activos.map(activo =>
           this._activoUbicacion.buscarPorActivo(activo.id)
         );
-        return forkJoin(buscarActivosUbicacion).pipe(
-          map(ubicacionesActivos =>
-            activos.filter(activo =>
-              activoIncorporado(
-                ubicacionesActivos.find(ubi => (ubi.activoId = activo.id))
+        return forkJoin(buscarUbicaciones).pipe(
+          map(ubicaciones => {
+            let filtrados = ubicaciones
+              .filter(
+                ubicacion =>
+                  ubicacion.unidadAdministrativaId === unidadAdministrativa
               )
-            )
-          )
+              .map(ubicacion => ubicacion.activoId);
+            return activos.filter(activo => filtrados.includes(activo.id));
+          })
         );
       })
     );

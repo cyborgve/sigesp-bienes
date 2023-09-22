@@ -9,8 +9,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
-import { forkJoin, pipe } from 'rxjs';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
@@ -21,12 +20,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { prepararActaPrestamo } from '@core/utils/funciones/preparar-acta-prestamo';
-import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-prestamo';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
-import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -41,6 +38,13 @@ export class SingularActaPrestamoComponent implements Entidad {
   dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'];
 
+  agregarActivoDeshabilitado = () =>
+    this.formulario.value.unidadAdministrativaCedente === 0 ||
+    this.formulario.value.unidadCedenteResponsable === '---' ||
+    this.formulario.value.unidadAdministrativaReceptora === 0 ||
+    this.formulario.value.unidadReceptoraResponsable === '---' ||
+    this.formulario.value.testigo === '---';
+
   constructor(
     private _actaPrestamo: ActaPrestamoService,
     private _activatedRoute: ActivatedRoute,
@@ -49,22 +53,21 @@ export class SingularActaPrestamoComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      unidadAdministrativaCedente: ['', Validators.required],
-      unidadCedenteResponsable: ['', Validators.required],
-      unidadAdministrativaReceptora: ['', Validators.required],
-      unidadReceptoraResponsable: ['', Validators.required],
-      testigo: ['', Validators.required],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      unidadAdministrativaCedente: [undefined, Validators.required],
+      unidadCedenteResponsable: [undefined, Validators.required],
+      unidadAdministrativaReceptora: [undefined, Validators.required],
+      unidadReceptoraResponsable: [undefined, Validators.required],
+      testigo: [undefined, Validators.required],
       notas: [undefined],
-      activos: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      activos: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -108,7 +111,18 @@ export class SingularActaPrestamoComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              unidadAdministrativaCedente: 0,
+              unidadCedenteResponsable: '---',
+              unidadAdministrativaReceptora: 0,
+              unidadReceptoraResponsable: '---',
+              testigo: '---',
+              notas: '',
+              activos: [],
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -306,31 +320,17 @@ export class SingularActaPrestamoComponent implements Entidad {
   }
 
   agregarActivo() {
-    let filtrarIncorporados = () =>
-      pipe(
-        switchMap((activos: Activo[]) => {
-          let ubicacionesPeticiones = activos.map(activo =>
-            this._activoUbicacion.buscarPorActivo(activo.id)
-          );
-          return forkJoin(ubicacionesPeticiones).pipe(
-            map(ubicaciones => {
-              return activos.map(activo => {
-                activo.ubicacion = ubicaciones.find(
-                  ubicacion => ubicacion.activoId === activo.id
-                );
-                return activo;
-              });
-            })
-          );
-        }),
-        map(activos =>
-          activos.filter(activo => activoIncorporado(activo.ubicacion))
-        )
-      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [filtrarIncorporados()] },
+      data: {
+        filtros: [
+          this._activo.filtrarIncorporados(),
+          this._activo.filtrarPorUnidadAdministrativa(
+            this.formulario.value.unidadAdministrativaCedente
+          ),
+        ],
+      },
     });
     dialog
       .afterClosed()
@@ -375,25 +375,14 @@ export class SingularActaPrestamoComponent implements Entidad {
     this.dataSource = new MatTableDataSource(activos);
   }
 
-  formularioActivo() {
-    return this.formulario.valid && this.dataSource.data.length > 0;
+  formularioInvalido() {
+    return (
+      this.dataSource.data.length === 0 || this.agregarActivoDeshabilitado()
+    );
   }
 
   reiniciarFormulario() {
     this.formulario.reset();
-    this.formulario.patchValue({
-      empresaId: '',
-      id: '',
-      comprobante: 'AUTOGENERADO',
-      unidadAdministrativaCedente: '',
-      unidadCedenteResponsable: '',
-      unidadAdministrativaReceptora: '',
-      unidadReceptoraResponsable: '',
-      testigo: '',
-      activos: [],
-      creado: new Date(),
-      modificado: new Date(),
-    });
     this.dataSource = new MatTableDataSource();
     this.actualizarFormulario();
   }

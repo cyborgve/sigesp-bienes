@@ -12,7 +12,7 @@ export class BotonesAccionesProcesoComponent {
   @Input() deshabilitarEliminar: boolean = false;
   @Input() deshabilitarEditar: boolean = true;
   @Input() deshabilitarImprimir: boolean = false;
-  @Input() ocultarEliminar: boolean = false;
-  @Input() ocultarEditar: boolean = false;
-  @Input() ocultarImprimir: boolean = true;
+  @Input() mostrarEliminar: boolean = true;
+  @Input() mostrarEditar: boolean = false;
+  @Input() mostrarImprimir: boolean = true;
 }

@@ -1,33 +1,36 @@
-<button
-  type="button"
-  mat-icon-button
-  matTooltip="Imprimir"
-  color="primary"
-  (click)="imprimir.emit()"
-  class="editar"
-  [hidden]="ocultarImprimir"
-  [disabled]="deshabilitarImprimir">
-  <mat-icon>print</mat-icon>
-</button>
-<button
-  type="button"
-  mat-icon-button
-  matTooltip="Editar"
-  color="primary"
-  (click)="editar.emit()"
-  class="editar"
-  [hidden]="ocultarEditar"
-  [disabled]="deshabilitarEditar">
-  <mat-icon>edit</mat-icon>
-</button>
-<button
-  type="button"
-  mat-icon-button
-  matTooltip="Eliminar"
-  color="primary"
-  (click)="eliminar.emit()"
-  class="eliminar"
-  [hidden]="ocultarEliminar"
-  [disabled]="deshabilitarEliminar">
-  <mat-icon>delete</mat-icon>
-</button>
+<ng-container *ngIf="mostrarImprimir">
+  <button
+    type="button"
+    mat-icon-button
+    matTooltip="Imprimir"
+    color="primary"
+    (click)="imprimir.emit()"
+    class="editar"
+    [disabled]="deshabilitarImprimir">
+    <mat-icon>print</mat-icon>
+  </button>
+</ng-container>
+<ng-container *ngIf="mostrarEditar">
+  <button
+    type="button"
+    mat-icon-button
+    matTooltip="Editar"
+    color="primary"
+    (click)="editar.emit()"
+    class="editar"
+    [disabled]="deshabilitarEditar">
+    <mat-icon>edit</mat-icon>
+  </button>
+</ng-container>
+<ng-container *ngIf="mostrarEliminar">
+  <button
+    type="button"
+    mat-icon-button
+    matTooltip="Eliminar"
+    color="primary"
+    (click)="eliminar.emit()"
+    class="eliminar"
+    [disabled]="deshabilitarEliminar">
+    <mat-icon>delete</mat-icon>
+  </button>
+</ng-container>

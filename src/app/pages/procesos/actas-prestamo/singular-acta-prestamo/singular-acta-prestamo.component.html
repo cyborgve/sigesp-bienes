@@ -23,6 +23,7 @@
             type="button"
             mat-icon-button
             matSuffix
+            [disabled]="dataSource.data.length > 0"
             (click)="buscarUnidadAdministrativaCedente()">
             <mat-icon>search</mat-icon>
           </button>
@@ -38,12 +39,13 @@
               formulario.value.unidadCedenteResponsable
                 | denominacionResponsable
                 | async
-                | titlecase
+                | corregirSeleccionar
             " />
           <button
             type="button"
             mat-icon-button
             matSuffix
+            [disabled]="dataSource.data.length > 0"
             (click)="buscarResponsableUnidadCedente()">
             <mat-icon>search</mat-icon>
           </button>
@@ -79,7 +81,7 @@
               formulario.value.unidadReceptoraResponsable
                 | denominacionResponsable
                 | async
-                | titlecase
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -100,7 +102,7 @@
               formulario.value.testigo
                 | denominacionResponsable
                 | async
-                | titlecase
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -122,7 +124,7 @@
 <section class="contenedor-singular inferior">
   <app-activos-proceso
     [dataSource]="dataSource"
-    [agregarActivoDeshabilitado]="formulario.invalid"
+    [agregarActivoDeshabilitado]="agregarActivoDeshabilitado()"
     (agregarActivo)="agregarActivo()"
     (removerActivo)="eliminarActivo($event)"></app-activos-proceso>
 </section>
@@ -137,6 +139,6 @@
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
   [tooTipProceso]="true"
-  [desabilitarGuardar]="!formularioActivo()"
+  [desabilitarGuardar]="formularioInvalido()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [mostrarSalir]="false"></app-toolbar>
