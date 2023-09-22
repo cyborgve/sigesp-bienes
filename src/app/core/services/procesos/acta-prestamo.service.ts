@@ -14,6 +14,7 @@ import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-p
 import { PDFService } from '../auxiliares/pdf.service';
 import { GenericService } from '../auxiliares/generic.service';
 import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ejecutarPrestamo } from '@core/utils/funciones/ejecutar-prestamo';
 
 @Injectable({
   providedIn: 'root',
@@ -78,57 +79,8 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
           })
         );
       }),
-      switchMap(actaPrestamoGuradada => {
-        let ubicarActivos = actaPrestamoGuradada.activos.map(activoProceso =>
-          this._activoUbicacion.buscarPorId(activoProceso.activo).pipe(
-            map(activoUbicacion => {
-              activoUbicacion.unidadAdministrativaId =
-                actaPrestamoGuradada.unidadAdministrativaReceptora;
-              activoUbicacion.responsableUsoId =
-                actaPrestamoGuradada.unidadReceptoraResponsable;
-              return activoUbicacion;
-            })
-          )
-        );
-        return forkJoin(ubicarActivos).pipe(
-          switchMap(activosUbicados => {
-            let prestarActivos = activosUbicados.map(activoUbicado =>
-              this._activoUbicacion.actualizar(
-                activoUbicado.id,
-                activoUbicado,
-                undefined,
-                false
-              )
-            );
-            return forkJoin(prestarActivos).pipe(
-              map(() => actaPrestamoGuradada)
-            );
-          })
-        );
-      }),
+      ejecutarPrestamo(this._activoUbicacion),
       abrirReporteProceso(this._pdf, 'ACTA DE PRÉSTAMO')
     );
-  }
-
-  actualziar(
-    actaPrestamo: ActaPrestamo,
-    tipoDato: string,
-    notificar?: boolean
-  ): Observable<number> {
-    if (!notificar) notificar = true;
-    return super
-      .actualizar(actaPrestamo.id, actaPrestamo, tipoDato, notificar)
-      .pipe(
-        switchMap(number => {
-          let actualizarActivos = actaPrestamo.activos.map(apa => {
-            return this._actaPrestamoActivo.guardar(apa, undefined, false);
-          });
-          return forkJoin(actualizarActivos).pipe(
-            map(actaPrestamoActivos => {
-              return actaPrestamoActivos.length;
-            })
-          );
-        })
-      );
   }
 }

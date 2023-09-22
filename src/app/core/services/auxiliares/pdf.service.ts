@@ -36,7 +36,6 @@ export class PDFService {
     ])
       .pipe(
         tap(([empresa, infoReporte]) => {
-          console.log(proceso);
           let reportePDF = this.generarPDF(empresa, infoReporte, tipoProceso);
           pdfMake.createPdf(reportePDF).open();
         }),

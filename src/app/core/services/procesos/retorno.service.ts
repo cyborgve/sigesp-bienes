@@ -42,7 +42,6 @@ export class RetornoService extends GenericService<Retorno> {
         this._retornoActivo.buscarTodosPorProceso(retorno.id).pipe(
           map(activos => {
             retorno.activos = activos;
-            console.log(retorno);
             return retorno;
           })
         )
