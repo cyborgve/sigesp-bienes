@@ -13,6 +13,7 @@ import { adaptarActasPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-actas
 import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-prestamo';
 import { PDFService } from '../auxiliares/pdf.service';
 import { GenericService } from '../auxiliares/generic.service';
+import { unix } from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -102,6 +103,32 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
             return forkJoin(prestarActivos).pipe(
               map(() => actaPrestamoGuradada)
             );
+          })
+        );
+      }),
+      switchMap(actaPrestamo => {
+        let buscarUbicaciones = actaPrestamo.activos.map(activo =>
+          this._activoUbicacion.buscarPorActivo(activo.activo).pipe(
+            map(ubicacion => {
+              ubicacion.unidadAdministrativaId =
+                actaPrestamo.unidadAdministrativaReceptora;
+              ubicacion.responsableUsoId =
+                actaPrestamo.unidadReceptoraResponsable;
+              return ubicacion;
+            })
+          )
+        );
+        return forkJoin(buscarUbicaciones).pipe(
+          switchMap(ubicaciones => {
+            let prestarActivos = ubicaciones.map(ubicacion => {
+              this._activoUbicacion.actualizar(
+                ubicacion.id,
+                ubicacion,
+                undefined,
+                false
+              );
+            });
+            return forkJoin(prestarActivos).pipe(map(() => actaPrestamo));
           })
         );
       }),

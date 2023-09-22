@@ -1,6 +1,6 @@
 import { Activo } from '@core/models/definiciones/activo';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
@@ -23,20 +23,24 @@ import { prepararActaPrestamo } from '@core/utils/funciones/preparar-acta-presta
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
   templateUrl: './singular-acta-prestamo.component.html',
   styleUrls: ['./singular-acta-prestamo.component.scss'],
 })
-export class SingularActaPrestamoComponent implements Entidad {
+export class SingularActaPrestamoComponent
+  implements OnInit, OnDestroy, Entidad
+{
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[29].nombre;
   formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'];
+  private subscripciones: Subscription[] = [];
 
   agregarActivoDeshabilitado = () =>
     this.formulario.value.unidadAdministrativaCedente === 0 ||
@@ -53,7 +57,8 @@ export class SingularActaPrestamoComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _activo: ActivoService,
+    private _snackBar: MatSnackBar
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -71,6 +76,32 @@ export class SingularActaPrestamoComponent implements Entidad {
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnInit(): void {
+    this.subscripciones.push(
+      this.formulario.controls.unidadAdministrativaCedente.valueChanges
+        .pipe(
+          switchMap((unidadAdministrativa: Id) =>
+            this.unidadConActivos(unidadAdministrativa).pipe(
+              map(tieneActivos =>
+                !tieneActivos && unidadAdministrativa !== 0
+                  ? this._snackBar.open(
+                      'La Unidad Administrativa seleccionada no tiene Bienes asignados',
+                      undefined,
+                      { duration: 6000 }
+                    )
+                  : undefined
+              )
+            )
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -386,4 +417,10 @@ export class SingularActaPrestamoComponent implements Entidad {
     this.dataSource = new MatTableDataSource();
     this.actualizarFormulario();
   }
+
+  unidadConActivos = (unidadAdministrativa: Id) =>
+    this._activo.buscarTodos().pipe(
+      this._activo.filtrarPorUnidadAdministrativa(unidadAdministrativa),
+      map(activos => activos.length > 0)
+    );
 }

@@ -1,3 +1,4 @@
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -28,6 +29,7 @@ import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activ
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
 })
 export class SingularActaPrestamoModule {}
