@@ -13,7 +13,7 @@ import { adaptarActasPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-actas
 import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-prestamo';
 import { PDFService } from '../auxiliares/pdf.service';
 import { GenericService } from '../auxiliares/generic.service';
-import { unix } from 'moment';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -106,35 +106,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
           })
         );
       }),
-      switchMap(actaPrestamo => {
-        let buscarUbicaciones = actaPrestamo.activos.map(activo =>
-          this._activoUbicacion.buscarPorActivo(activo.activo).pipe(
-            map(ubicacion => {
-              ubicacion.unidadAdministrativaId =
-                actaPrestamo.unidadAdministrativaReceptora;
-              ubicacion.responsableUsoId =
-                actaPrestamo.unidadReceptoraResponsable;
-              return ubicacion;
-            })
-          )
-        );
-        return forkJoin(buscarUbicaciones).pipe(
-          switchMap(ubicaciones => {
-            let prestarActivos = ubicaciones.map(ubicacion => {
-              this._activoUbicacion.actualizar(
-                ubicacion.id,
-                ubicacion,
-                undefined,
-                false
-              );
-            });
-            return forkJoin(prestarActivos).pipe(map(() => actaPrestamo));
-          })
-        );
-      }),
-      tap(actaPrestamo =>
-        this._pdf.abrirReportePDF(actaPrestamo, 'ACTA DE PRÉSTAMO')
-      )
+      abrirReporteProceso(this._pdf, 'ACTA DE PRÉSTAMO')
     );
   }
 
@@ -158,35 +130,5 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
           );
         })
       );
-  }
-
-  eliminar(
-    actaPrestamo: Id,
-    tipoDato: string,
-    notificar?: boolean
-  ): Observable<boolean> {
-    return combineLatest([
-      this.buscarPorId(actaPrestamo),
-      super.eliminar(actaPrestamo, tipoDato, notificar),
-    ]).pipe(
-      switchMap(([actaPrestamo, actaPrestamoEliminada]) => {
-        let buscarActivos = actaPrestamo.activos.map(activo =>
-          this._activoUbicacion.buscarPorActivo(activo.activo).pipe(
-            map(ubicacion => {
-              ubicacion.unidadAdministrativaId =
-                actaPrestamo.unidadAdministrativaCedente;
-              ubicacion.responsableUsoId =
-                actaPrestamo.unidadCedenteResponsable;
-              return ubicacion;
-            })
-          )
-        );
-        return forkJoin(buscarActivos).pipe(
-          switchMap(ubicaciones =>
-            forkJoin(ubicaciones).pipe(map(() => actaPrestamoEliminada))
-          )
-        );
-      })
-    );
   }
 }
