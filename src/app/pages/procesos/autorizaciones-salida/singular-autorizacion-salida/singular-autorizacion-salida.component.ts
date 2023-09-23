@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,18 +21,22 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
-import { pipe, forkJoin } from 'rxjs';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
-import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedor/buscador-proveedor.component';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
+import { ActivoService } from '@core/services/definiciones/activo.service';
+import { Subscription } from 'rxjs';
+import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-singular-autorizacion-salida',
   templateUrl: './singular-autorizacion-salida.component.html',
   styleUrls: ['./singular-autorizacion-salida.component.scss'],
 })
-export class SingularAutorizacionSalidaComponent implements Entidad {
+export class SingularAutorizacionSalidaComponent
+  implements OnInit, OnDestroy, Entidad
+{
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[30].nombre;
@@ -48,23 +52,44 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activo: ActivoService,
+    private _snackBar: MatSnackBar
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      unidadAdministrativa: ['', Validators.required],
-      empresaAutorizada: ['', Validators.required],
-      personaAutorizada: ['', Validators.required],
-      explicacion: ['', Validators.required],
-      observaciones: [''],
-      activos: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      unidadAdministrativa: [undefined, Validators.required],
+      empresaAutorizada: [undefined, Validators.required],
+      personaAutorizada: [undefined, Validators.required],
+      explicacion: [undefined, Validators.required],
+      observaciones: [undefined],
+      activos: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngOnInit(): void {
+    this.subscripciones.push(
+      this.formulario.controls.unidadAdministrativa.valueChanges
+        .pipe(
+          switchMap((unidadAdministrativa: Id) =>
+            chequearUnidadConActivos(
+              unidadAdministrativa,
+              this._activo,
+              this._snackBar
+            )
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   private actualizarFormulario() {
@@ -99,7 +124,17 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              unidadAdministrativa: 0,
+              empresaAutorizada: '---',
+              personaAutorizada: '',
+              explicacion: '',
+              observaciones: '',
+              activos: [],
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -108,9 +143,14 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
     }
   }
 
-  listoParaGuardar() {
-    return this.formulario.valid && this.dataSource.data.length > 0;
-  }
+  formularioInvalido = () =>
+    this.formulario.value.unidadAdministrativa === 0 ||
+    this.formulario.value.empresaAutorizada === '---' ||
+    this.formulario.value.personaAutorizada === '' ||
+    this.formulario.value.explicacion === '';
+
+  deshabilitarGuardar = () =>
+    this.formularioInvalido() || this.dataSource.data.length === 0;
 
   importar() {
     let dialog = this._dialog.open(BuscadorAutorizacionSalidaComponent, {
@@ -170,10 +210,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._entidad.eliminar(
-            this.formulario.value.id,
-            this.titulo.toUpperCase()
-          )
+          this._entidad.eliminar(this.formulario.value.id, this.titulo)
         ),
         take(1)
       )
@@ -196,31 +233,17 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
   }
 
   agregarActivo() {
-    let filtrarIncorporados = () =>
-      pipe(
-        switchMap((activos: Activo[]) => {
-          let ubicacionesPeticiones = activos.map(activo =>
-            this._activoUbicacion.buscarPorActivo(activo.id)
-          );
-          return forkJoin(ubicacionesPeticiones).pipe(
-            map(ubicaciones => {
-              return activos.map(activo => {
-                activo.ubicacion = ubicaciones.find(
-                  ubicacion => ubicacion.activoId === activo.id
-                );
-                return activo;
-              });
-            })
-          );
-        }),
-        map(activos =>
-          activos.filter(activo => activoIncorporado(activo.ubicacion))
-        )
-      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [filtrarIncorporados()] },
+      data: {
+        filtros: [
+          this._activo.filtrarIncorporados(),
+          this._activo.filtrarPorUnidadAdministrativa(
+            this.formulario.value.unidadAdministrativa
+          ),
+        ],
+      },
     });
     dialog
       .afterClosed()
@@ -280,19 +303,7 @@ export class SingularAutorizacionSalidaComponent implements Entidad {
   }
 
   private reiniciarFormulario() {
-    this.formulario.reset({
-      empresaId: '',
-      id: '',
-      comprobante: 'AUTOGENERADO',
-      unidadAdministrativa: '',
-      empresaAutorizada: '',
-      personaAutorizada: '',
-      explicacion: '',
-      observaciones: '',
-      activos: [],
-      creado: new Date(),
-      modificado: new Date(),
-    });
+    this.formulario.reset();
     this.dataSource = new MatTableDataSource();
     this.actualizarFormulario();
   }

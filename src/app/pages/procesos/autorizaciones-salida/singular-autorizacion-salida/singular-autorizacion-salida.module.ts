@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { BuscadorActivoModule } from '@pages/definiciones/activos/buscador-activo/buscador-activo.module';
 import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [SingularAutorizacionSalidaComponent],
@@ -27,6 +28,7 @@ import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatSnackBarModule,
     BuscadorActivoModule,
     BuscadorUnidadAdministrativaModule,
   ],

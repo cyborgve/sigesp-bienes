@@ -18,3 +18,8 @@
     En la definicion de Unidad Administrativa no se tiene un responsable para que se cambie en este proceso, tambien es
     importante saber si una unidad administrativa pertenece a una sede o si una unidad administrativa puede tener varias
     sedes.
+
+4. Autorizacion de Salida:
+    No hay una accion sobre los activos, solo se tiene el reporte de autorizacion de salida.
+
+

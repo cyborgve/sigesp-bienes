@@ -25,6 +25,7 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -83,16 +84,10 @@ export class SingularActaPrestamoComponent
       this.formulario.controls.unidadAdministrativaCedente.valueChanges
         .pipe(
           switchMap((unidadAdministrativa: Id) =>
-            this.unidadConActivos(unidadAdministrativa).pipe(
-              map(tieneActivos =>
-                !tieneActivos && unidadAdministrativa !== 0
-                  ? this._snackBar.open(
-                      'La Unidad Administrativa seleccionada no tiene Bienes asignados',
-                      undefined,
-                      { duration: 6000 }
-                    )
-                  : undefined
-              )
+            chequearUnidadConActivos(
+              unidadAdministrativa,
+              this._activo,
+              this._snackBar
             )
           )
         )
@@ -417,10 +412,4 @@ export class SingularActaPrestamoComponent
     this.dataSource = new MatTableDataSource();
     this.actualizarFormulario();
   }
-
-  unidadConActivos = (unidadAdministrativa: Id) =>
-    this._activo.buscarTodos().pipe(
-      this._activo.filtrarPorUnidadAdministrativa(unidadAdministrativa),
-      map(activos => activos.length > 0)
-    );
 }
