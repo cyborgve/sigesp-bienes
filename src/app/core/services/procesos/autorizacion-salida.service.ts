@@ -12,6 +12,7 @@ import { AutorizacionSalidaActivoService } from './autorizacion-salida-activo.se
 import { adaptarAutorizacionesSalida } from '@core/utils/adaptadores-rxjs/adaptar-autorizaciones-salida';
 import { Id } from '@core/types/id';
 import { adaptarAutorizacionSalida } from '@core/utils/adaptadores-rxjs/adaptar-autorizacion-salida';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -38,19 +39,16 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
   buscarPorId(id: Id): Observable<AutorizacionSalida> {
     return super.buscarPorId(id).pipe(
       adaptarAutorizacionSalida(),
-      switchMap(autorizacionSalida => {
-        let buscarActivos =
-          this._autorizacionSalidaActivo.buscarTodosPorProceso(
-            autorizacionSalida.id
-          );
-        return forkJoin([buscarActivos]).pipe(
-          map(([activosEncontrados]) => {
-            autorizacionSalida.activos = activosEncontrados;
-            return autorizacionSalida;
-          })
-        );
-      }),
-      tap()
+      switchMap(autorizacionSalida =>
+        this._autorizacionSalidaActivo
+          .buscarTodosPorProceso(autorizacionSalida.id)
+          .pipe(
+            map(activosEncontrados => {
+              autorizacionSalida.activos = activosEncontrados;
+              return autorizacionSalida;
+            })
+          )
+      )
     );
   }
 
@@ -80,12 +78,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
           })
         );
       }),
-      tap(autorizacionGuardada =>
-        this._pdf.abrirReportePDF(
-          autorizacionGuardada,
-          'AUTORIZACIÓN DE SALIDA'
-        )
-      )
+      abrirReporteProceso(this._pdf, 'AUTORIZACIÓN DE SALIDA')
     );
   }
 }

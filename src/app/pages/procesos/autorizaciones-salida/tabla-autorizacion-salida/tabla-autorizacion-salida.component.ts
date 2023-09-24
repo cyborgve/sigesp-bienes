@@ -1,4 +1,3 @@
-import { TipoProceso } from '@core/types/tipo-proceso';
 import { Location } from '@angular/common';
 import {
   AfterViewInit,
@@ -14,15 +13,15 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
 
 @Component({
   selector: 'app-tabla-autorizacion-salida',
@@ -61,12 +60,13 @@ export class TablaAutorizacionSalidaComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        take(1)
       )
       .subscribe();
   }
@@ -74,15 +74,7 @@ export class TablaAutorizacionSalidaComponent
   imprimir(entidad: AutorizacionSalida) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(autorizacionSalida =>
-          this._pdf.abrirReportePDF(
-            autorizacionSalida,
-            'AUTORIZACIÓN DE SALIDA'
-          )
-        ),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'AUTORIZACIÓN DE SALIDA'), take(1))
       .subscribe();
   }
 
