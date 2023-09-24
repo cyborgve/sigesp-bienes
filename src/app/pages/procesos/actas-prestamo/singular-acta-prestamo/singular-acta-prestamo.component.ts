@@ -220,10 +220,7 @@ export class SingularActaPrestamoComponent
       .pipe(
         filter(todo => !!todo),
         switchMap(() =>
-          this._actaPrestamo.eliminar(
-            this.formulario.value.id,
-            this.titulo.toUpperCase()
-          )
+          this._actaPrestamo.eliminar(this.formulario.value.id, this.titulo)
         ),
         take(1)
       )

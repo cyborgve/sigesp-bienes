@@ -20,7 +20,6 @@ import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubica
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { reversarPrestamo } from '@core/utils/funciones/reversar-prestamo';
 import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
@@ -104,27 +103,19 @@ export class TablaActaPrestamoComponent
   }
 
   eliminar(entidad: ActaPrestamo) {
-    this._entidad
-      .buscarPorId(entidad.id)
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
+      data: {
+        comprobante: entidad.comprobante,
+        tipoProceso: 'ACTA DE PRÉSTAMO',
+      },
+      width: '35%',
+    });
+    dialog
+      .afterClosed()
       .pipe(
-        switchMap(actaPrestamo => {
-          let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
-            data: {
-              comprobante: entidad.comprobante,
-              tipoProceso: 'ACTA DE PRÉSTAMO',
-            },
-            width: '35%',
-          });
-          return dialog.afterClosed().pipe(
-            filter(todo => !!todo),
-            switchMap(() =>
-              this._entidad
-                .eliminar(actaPrestamo.id, 'ACTA DE PRÉSTAMO')
-                .pipe(map(() => actaPrestamo))
-            )
-          );
-        }),
-        reversarPrestamo(this._activoUbicacion)
+        filter(todo => !!todo),
+        switchMap(() => this._entidad.eliminar(entidad.id, 'ACTA DE PRÉSTAMO')),
+        take(1)
       )
       .subscribe(() => this.recargarDatos());
   }

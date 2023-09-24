@@ -1,9 +1,9 @@
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
-import { Observable, combineLatest, forkJoin } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,6 +15,7 @@ import { PDFService } from '../auxiliares/pdf.service';
 import { GenericService } from '../auxiliares/generic.service';
 import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
 import { ejecutarPrestamo } from '@core/utils/funciones/ejecutar-prestamo';
+import { reversarPrestamo } from '@core/utils/funciones/reversar-prestamo';
 
 @Injectable({
   providedIn: 'root',
@@ -42,17 +43,14 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
   buscarPorId(id: Id): Observable<ActaPrestamo> {
     return super.buscarPorId(id).pipe(
       adaptarActaPrestamo(),
-      switchMap(actaPrestamo => {
-        let activos = this._actaPrestamoActivo.buscarTodosPorProceso(
-          actaPrestamo.id
-        );
-        return forkJoin([activos]).pipe(
-          map(([activos]) => {
+      switchMap(actaPrestamo =>
+        this._actaPrestamoActivo.buscarTodosPorProceso(actaPrestamo.id).pipe(
+          map(activos => {
             actaPrestamo.activos = activos;
             return actaPrestamo;
           })
-        );
-      })
+        )
+      )
     );
   }
 
@@ -81,6 +79,18 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
       }),
       ejecutarPrestamo(this._activoUbicacion),
       abrirReporteProceso(this._pdf, 'ACTA DE PRÉSTAMO')
+    );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(actaPrestamo =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(actaEliminada => (actaEliminada ? actaPrestamo : actaEliminada)),
+          reversarPrestamo(this._activoUbicacion),
+          map(actaPrestamo => !!actaPrestamo)
+        )
+      )
     );
   }
 }
