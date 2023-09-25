@@ -12,7 +12,7 @@ export const adaptarCambiosResponsable = () =>
             id: Number(cambioResponsable.id),
             comprobante: cambioResponsable.comprobante,
             activo: Number(cambioResponsable.activo),
-            identificador: cambioResponsable.indentificador,
+            identificador: cambioResponsable.identificador,
             serial: cambioResponsable.serial,
             tipoResponsable: Number(cambioResponsable.tipoResponsable),
             responsableActual: cambioResponsable.responsableActual,

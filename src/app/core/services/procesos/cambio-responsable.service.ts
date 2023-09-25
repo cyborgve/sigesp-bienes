@@ -6,12 +6,15 @@ import { END_POINTS } from '@core/constants/end-points';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { adaptarCambiosResponsable } from '@core/utils/adaptadores-rxjs/adaptar-cambios-responsable';
 import { Id } from '@core/types/id';
 import { adaptarCambioResponsable } from '@core/utils/adaptadores-rxjs/adaptar-cambio-responsable';
 import { PDFService } from '../auxiliares/pdf.service';
+import { ejecutarCambioResponsable } from '@core/utils/funciones/ejecutar-cambio-responable';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { reversarCambioResponsable } from '@core/utils/funciones/reversar-cambio-responsable';
 
 @Injectable({
   providedIn: 'root',
@@ -44,39 +47,22 @@ export class CambioResponsableService extends GenericService<CambioResponsable> 
     tipoDato: string,
     notificar?: boolean
   ): Observable<CambioResponsable> {
-    return super.guardar(cambioResponsable, tipoDato, notificar).pipe(
-      switchMap(cambioResponsableGuardado => {
-        let ubicarActivo = this._activoUbicacion
-          .buscarPorActivo(cambioResponsable.activo)
-          .pipe(
-            map(activoUbicacion => {
-              if (Number(cambioResponsableGuardado.tipoResponsable) === 0)
-                activoUbicacion.responsableId =
-                  cambioResponsableGuardado.nuevoResponsable;
-              else if (Number(cambioResponsableGuardado.tipoResponsable) === 1)
-                activoUbicacion.responsableUsoId =
-                  cambioResponsableGuardado.nuevoResponsable;
-              return activoUbicacion;
-            })
-          );
-        return forkJoin([ubicarActivo]).pipe(
-          switchMap(([activoUbicado]) => {
-            let cambiarResponsable = this._activoUbicacion.actualizar(
-              activoUbicado.id,
-              activoUbicado,
-              undefined,
-              false
-            );
-            return forkJoin([cambiarResponsable]).pipe(
-              map(() => cambioResponsableGuardado)
-            );
-          })
-        );
-      }),
-      tap(cambioResponsableGuardado =>
-        this._pdf.abrirReportePDF(
-          cambioResponsableGuardado,
-          'CAMBIO DE RESPONSABLE'
+    return super
+      .guardar(cambioResponsable, tipoDato, notificar)
+      .pipe(
+        adaptarCambioResponsable(),
+        ejecutarCambioResponsable(this._activoUbicacion),
+        abrirReporteProceso(this._pdf, 'CAMBIO DE RESPONSABLE')
+      );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(cambioResponsable =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(eliminado => (eliminado ? cambioResponsable : eliminado)),
+          reversarCambioResponsable(this._activoUbicacion),
+          map(cambio => !!cambio)
         )
       )
     );

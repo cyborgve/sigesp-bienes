@@ -18,9 +18,10 @@ import { CambioResponsable } from '@core/models/procesos/cambio-responsable';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { CambioResponsableService } from '@core/services/procesos/cambio-responsable.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-cambio-responsable',
@@ -59,12 +60,13 @@ export class TablaCambioResponsableComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        take(1)
       )
       .subscribe();
   }
@@ -79,12 +81,7 @@ export class TablaCambioResponsableComponent
   imprimir(entidad: CambioResponsable) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(cambioResponsable =>
-          this._pdf.abrirReportePDF(cambioResponsable, 'CAMBIO DE RESPONSABLE')
-        ),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'CAMBIO DE RESPONSABLE'), take(1))
       .subscribe();
   }
 
