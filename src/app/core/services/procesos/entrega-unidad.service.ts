@@ -10,7 +10,10 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PDFService } from '../auxiliares/pdf.service';
-import { tap } from 'rxjs/operators';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ejecutarEntregaUnidad } from '@core/utils/funciones/ejecutar-entrega-unidad';
+import { map, switchMap } from 'rxjs/operators';
+import { reversarEntregaUnidad } from '@core/utils/funciones/reversar-entrega-unidad';
 
 @Injectable({
   providedIn: 'root',
@@ -42,12 +45,23 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
     tipoDato: string,
     notificar?: boolean
   ): Observable<EntregaUnidad> {
-    return super.guardar(entidad, tipoDato, notificar).pipe(
-      adaptarEntregaUnidad(),
-      tap(entregaUnidad =>
-        entregaUnidad
-          ? this._pdf.abrirReportePDFEntregaUnidad(entregaUnidad)
-          : undefined
+    return super
+      .guardar(entidad, tipoDato, notificar)
+      .pipe(
+        adaptarEntregaUnidad(),
+        ejecutarEntregaUnidad(),
+        abrirReporteProceso(this._pdf, 'ENTREGA DE UNIDAD')
+      );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(entregaUnidad =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(eliminada => (eliminada ? entregaUnidad : eliminada)),
+          reversarEntregaUnidad(),
+          map(entrega => !!entrega)
+        )
       )
     );
   }

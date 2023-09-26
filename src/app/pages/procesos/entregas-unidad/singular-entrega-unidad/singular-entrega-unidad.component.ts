@@ -95,7 +95,16 @@ export class SingularEntregaUnidadComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              unidadAdministrativa: 0,
+              sede: 0,
+              responsableAnterior: '---',
+              nuevoResponsable: '---',
+              observaciones: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -257,18 +266,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
   }
 
   private reiniciarFormulario() {
-    this.formulario.reset({
-      empresaId: 0,
-      id: 0,
-      comprobante: 'AUTOGENERADO',
-      unidadAdministrativa: 0,
-      sede: 0,
-      responsableAnterior: '---',
-      nuevoResponsable: '---',
-      observaciones: '',
-      creado: new Date(),
-      modificado: new Date(),
-    });
+    this.formulario.reset();
     this.actualizarFormulario();
   }
 }

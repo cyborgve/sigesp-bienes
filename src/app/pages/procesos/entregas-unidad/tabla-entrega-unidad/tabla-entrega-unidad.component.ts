@@ -18,6 +18,8 @@ import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { EntregaUnidadService } from '@core/services/procesos/entrega-unidad.service';
 import { Id } from '@core/types/id';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
@@ -58,12 +60,13 @@ export class TablaEntregaUnidadComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }
@@ -92,12 +95,7 @@ export class TablaEntregaUnidadComponent
   imprimir(entidad: EntregaUnidad) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(entregaUnidad =>
-          this._pdf.abrirReportePDFEntregaUnidad(entregaUnidad)
-        ),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'ENTREGA DE UNIDAD'), take(1))
       .subscribe();
   }
 
