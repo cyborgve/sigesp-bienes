@@ -12,6 +12,9 @@ import { PDFService } from '../auxiliares/pdf.service';
 import { adaptarRetorno } from '@core/utils/adaptadores-rxjs/adaptar-retorno';
 import { adaptarRetornos } from '@core/utils/adaptadores-rxjs/adaptar-retornos';
 import { Id } from '@core/types/id';
+import { ejecutarRetorno } from '@core/utils/funciones/ejecutar-retorno';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { reversarRetorno } from '@core/utils/funciones/reversar-retorno';
 
 @Injectable({
   providedIn: 'root',
@@ -68,8 +71,19 @@ export class RetornoService extends GenericService<Retorno> {
           })
         );
       }),
-      tap(retorno =>
-        retorno ? this._pdf.abrirReportePDF(retorno, 'RETORNO') : undefined
+      ejecutarRetorno(),
+      abrirReporteProceso(this._pdf, 'RETORNO')
+    );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(retorno =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(eliminada => (eliminada ? retorno : eliminada)),
+          reversarRetorno(),
+          map(retorno => !!retorno)
+        )
       )
     );
   }

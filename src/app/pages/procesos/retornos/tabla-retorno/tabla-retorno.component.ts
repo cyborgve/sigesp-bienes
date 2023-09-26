@@ -18,6 +18,8 @@ import { Retorno } from '@core/models/procesos/retorno';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { RetornoService } from '@core/services/procesos/retorno.service';
 import { Id } from '@core/types/id';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
@@ -57,12 +59,13 @@ export class TablaRetornoComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }
@@ -78,10 +81,7 @@ export class TablaRetornoComponent
   imprimir(entidad: Retorno) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(retorno => this._pdf.abrirReportePDF(retorno, 'RETORNO')),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'RETORNO'), take(1))
       .subscribe();
   }
 
