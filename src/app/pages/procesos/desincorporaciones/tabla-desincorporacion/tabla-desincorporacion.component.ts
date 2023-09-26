@@ -18,7 +18,8 @@ import { Desincorporacion } from '@core/models/procesos/desincorporacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
@@ -59,12 +60,13 @@ export class TablaDesincorporacionComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }
@@ -80,12 +82,7 @@ export class TablaDesincorporacionComponent
   imprimir(entidad: Desincorporacion) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(desincorporacion =>
-          this._pdf.abrirReportePDF(desincorporacion, 'DESINCORPORACIÓN')
-        ),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'DESINCORPORACIÓN'), take(1))
       .subscribe();
   }
 

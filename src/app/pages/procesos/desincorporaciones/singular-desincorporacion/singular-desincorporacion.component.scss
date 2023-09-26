@@ -6,9 +6,12 @@
   @apply pt-0 mt-1;
 }
 
-.causaMovimiento,
+.causaMovimiento {
+  @apply col-span-4;
+}
+
 .unidadAdministrativa {
-  @apply col-span-6;
+  @apply col-span-8;
 }
 
 .observaciones {

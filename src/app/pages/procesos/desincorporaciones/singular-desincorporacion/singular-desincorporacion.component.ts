@@ -1,7 +1,8 @@
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { tap, switchMap, take, first, filter, map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,15 +15,10 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorDesincorporacionComponent } from '../buscador-desincorporacion/buscador-desincorporacion.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { Desincorporacion } from '@core/models/procesos/desincorporacion';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
-import { pipe, forkJoin } from 'rxjs';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
-import { Activo } from '@core/models/definiciones/activo';
-import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
@@ -31,13 +27,20 @@ import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cue
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
 import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
+import { ActivoService } from '@core/services/definiciones/activo.service';
+import { CausaMovimientoService } from '@core/services/definiciones/causa-movimiento.service';
+import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-singular-desincorporacion',
   templateUrl: './singular-desincorporacion.component.html',
   styleUrls: ['./singular-desincorporacion.component.scss'],
 })
-export class SingularDesincorporacionComponent implements Entidad {
+export class SingularDesincorporacionComponent
+  implements Entidad, OnInit, OnDestroy
+{
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[33].nombre;
@@ -55,7 +58,9 @@ export class SingularDesincorporacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activo: ActivoService,
+    private _causaMovimiento: CausaMovimientoService,
+    private _snackBar: MatSnackBar
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -74,7 +79,27 @@ export class SingularDesincorporacionComponent implements Entidad {
       modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
-    this.reiniciarFormulario();
+    this.actualizarFormulario();
+  }
+
+  ngOnInit(): void {
+    this.subscripciones.push(
+      this.formulario.controls.unidadAdministrativa.valueChanges
+        .pipe(
+          switchMap((unidadAdministrativa: Id) =>
+            chequearUnidadConActivos(
+              unidadAdministrativa,
+              this._activo,
+              this._snackBar
+            )
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   formularioValido = () =>
@@ -124,7 +149,20 @@ export class SingularDesincorporacionComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              causaMovimiento: 0,
+              unidadAdministrativa: 0,
+              observaciones: '',
+              activos: [],
+              total: 0,
+              cuentasContables: [],
+              debe: 0,
+              haber: 0,
+              diferencia: 0,
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -240,16 +278,12 @@ export class SingularDesincorporacionComponent implements Entidad {
   }
 
   buscarCausaMovimiento() {
-    const filtroCausas = () =>
-      pipe(
-        map((causas: CausaMovimiento[]) =>
-          causas.filter(causa => causa.tipo === 'D')
-        )
-      );
     let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [filtroCausas()] },
+      data: {
+        filtros: [this._causaMovimiento.filtrarPorTipo('DESINCORPORACIÓN')],
+      },
     });
     dialog
       .afterClosed()
@@ -267,57 +301,16 @@ export class SingularDesincorporacionComponent implements Entidad {
   }
 
   agregarActivo() {
-    let filtrarIncorporados = () =>
-      pipe(
-        switchMap((activos: Activo[]) => {
-          let ubicacionesPeticiones = activos.map(activo =>
-            this._activoUbicacion.buscarPorActivo(activo.id)
-          );
-          return forkJoin(ubicacionesPeticiones).pipe(
-            map(ubicaciones => {
-              return activos.map(activo => {
-                activo.ubicacion = ubicaciones.find(
-                  ubicacion => ubicacion.activoId === activo.id
-                );
-                return activo;
-              });
-            })
-          );
-        }),
-        map(activos =>
-          activos.filter(activo => activoIncorporado(activo.ubicacion))
-        )
-      );
-    let filtrarPorUnidadAdministrativa = () =>
-      pipe(
-        switchMap((activos: Activo[]) => {
-          let ubicacionesPeticiones = activos.map(activo =>
-            this._activoUbicacion.buscarPorActivo(activo.id)
-          );
-          return forkJoin(ubicacionesPeticiones).pipe(
-            map(ubicaciones => {
-              return activos.map(activo => {
-                activo.ubicacion = ubicaciones.find(
-                  ubicacion => ubicacion.activoId === activo.id
-                );
-                return activo;
-              });
-            })
-          );
-        }),
-        map(activos =>
-          activos.filter(
-            activo =>
-              Number(activo.ubicacion.unidadAdministrativaId) ===
-              Number(this.formulario.value.unidadAdministrativa)
-          )
-        )
-      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
       data: {
-        filtros: [filtrarIncorporados(), filtrarPorUnidadAdministrativa()],
+        filtros: [
+          this._activo.filtrarIncorporados(),
+          this._activo.filtrarPorUnidadAdministrativa(
+            this.formulario.value.unidadAdministrativa
+          ),
+        ],
       },
     });
     dialog
@@ -369,22 +362,7 @@ export class SingularDesincorporacionComponent implements Entidad {
   }
 
   private reiniciarFormulario() {
-    this.formulario.reset({
-      empresaId: 0,
-      id: 0,
-      comprobante: 'AUTOGENERADO',
-      causaMovimiento: 0,
-      unidadAdministrativa: 0,
-      observaciones: '',
-      activos: [],
-      total: 0,
-      cuentasContables: [],
-      debe: 0,
-      haber: 0,
-      diferencia: 0,
-      creado: new Date(),
-      modificado: new Date(),
-    });
+    this.formulario.reset();
     this.activosDataSource = new MatTableDataSource();
     this.cuentasDataSource = new MatTableDataSource();
     this.actualizarFormulario();

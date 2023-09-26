@@ -1,5 +1,6 @@
-import { TipoProceso } from './../../types/tipo-proceso';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { reversarDesincorporacion } from '@core/utils/funciones/reversar-desincorporacion';
+import { TipoProceso } from '@core/types/tipo-proceso';
+import { switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Desincorporacion } from '@core/models/procesos/desincorporacion';
 import { END_POINTS } from '@core/constants/end-points';
@@ -17,6 +18,8 @@ import { adaptarDesincorporaciones } from '@core/utils/adaptadores-rxjs/adaptar-
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
 import { PDFService } from '../auxiliares/pdf.service';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ejecutarDesincorporacion } from '@core/utils/funciones/ejecutar-desincorporacion';
 
 @Injectable({
   providedIn: 'root',
@@ -112,11 +115,8 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
           })
         );
       }),
-      tap(desincorporacion =>
-        desincorporacion
-          ? this._pdf.abrirReportePDF(desincorporacion, 'DESINCORPORACIÓN')
-          : undefined
-      )
+      ejecutarDesincorporacion(this._activoUbicacion),
+      abrirReporteProceso(this._pdf, 'DESINCORPORACIÓN')
     );
   }
 
@@ -125,6 +125,18 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
     tipoDato: TipoProceso,
     notificar?: boolean
   ): Observable<boolean> {
-    return super.eliminar(id, tipoDato, notificar);
+    return this.buscarPorId(id).pipe(
+      switchMap(desincorporacion =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(desincorporacionEliminada =>
+            desincorporacionEliminada
+              ? desincorporacion
+              : desincorporacionEliminada
+          ),
+          reversarDesincorporacion(this._activoUbicacion),
+          map(modificacion => !!modificacion)
+        )
+      )
+    );
   }
 }

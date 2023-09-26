@@ -9,27 +9,6 @@
   <section class="contenedor-singular superior inferior">
     <mat-card>
       <article class="contenido">
-        <!-- causaMovimiento -->
-        <mat-form-field appearance="fill" class="causaMovimiento">
-          <mat-label>Causa de movimiento</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="causaMovimiento"
-            readonly="true"
-            [value]="
-              formulario.value.causaMovimiento
-                | denominacionCausaMovimiento
-                | async
-            " />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarCausaMovimiento()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
         <!-- unidadAdministrativa -->
         <mat-form-field appearance="fill" class="unidadAdministrativa">
           <mat-label>Unidad administrativa</mat-label>
@@ -49,6 +28,27 @@
             mat-icon-button
             matSuffix
             (click)="buscarUnidadAdministrativa()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- causaMovimiento -->
+        <mat-form-field appearance="fill" class="causaMovimiento">
+          <mat-label>Causa de movimiento</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="causaMovimiento"
+            readonly="true"
+            [value]="
+              formulario.value.causaMovimiento
+                | denominacionCausaMovimiento
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarCausaMovimiento()">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
