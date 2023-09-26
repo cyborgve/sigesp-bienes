@@ -6,4 +6,13 @@ import { TipoProceso } from '@core/types/tipo-proceso';
 export const abrirReporteProceso = (
   _pdf: PDFService,
   tipoProceso: TipoProceso
-) => pipe(tap((proceso: any) => _pdf.abrirReportePDF(proceso, tipoProceso)));
+) =>
+  pipe(
+    tap((proceso: any) => {
+      if (tipoProceso === 'ENTREGA DE UNIDAD')
+        return _pdf.abrirReportePDFEntregaUnidad(proceso);
+      else if (tipoProceso === 'MODIFICACIÓN')
+        return _pdf.abrirReportePDFModificacion(proceso);
+      else return _pdf.abrirReportePDF(proceso, tipoProceso);
+    })
+  );

@@ -247,7 +247,7 @@ export class InformacionProcesoService {
   ): Observable<any> {
     let obtenerInformacion = [
       this.empresa(cambioResponsable.empresaId),
-      this.buscarActivoConvertir(cambioResponsable.id),
+      this.buscarActivoConvertir(cambioResponsable.activo),
       this.responsable(cambioResponsable.responsableActual),
       this.responsable(cambioResponsable.nuevoResponsable),
     ];
