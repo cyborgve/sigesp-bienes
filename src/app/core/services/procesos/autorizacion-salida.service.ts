@@ -13,6 +13,8 @@ import { adaptarAutorizacionesSalida } from '@core/utils/adaptadores-rxjs/adapta
 import { Id } from '@core/types/id';
 import { adaptarAutorizacionSalida } from '@core/utils/adaptadores-rxjs/adaptar-autorizacion-salida';
 import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ejecutarAutorizacionSalida } from '@core/utils/funciones/ejecutar-autorizacion-salida';
+import { reversarAutorizacionSalida } from '@core/utils/funciones/reversar-autorizacion-salida';
 
 @Injectable({
   providedIn: 'root',
@@ -78,7 +80,23 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
           })
         );
       }),
+      ejecutarAutorizacionSalida(),
       abrirReporteProceso(this._pdf, 'AUTORIZACIÓN DE SALIDA')
+    );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(autorizacionSalida =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(eliminado => {
+            if (eliminado) return autorizacionSalida;
+            return eliminado;
+          }),
+          reversarAutorizacionSalida(),
+          map(autorizacionSalida => !!autorizacionSalida)
+        )
+      )
     );
   }
 }
