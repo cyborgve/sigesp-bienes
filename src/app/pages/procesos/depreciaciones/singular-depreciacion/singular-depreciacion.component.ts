@@ -11,10 +11,7 @@ import { DepreciacionService } from '@core/services/procesos/depreciacion.servic
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { BuscadorDepreciacionComponent } from '../buscador-depreciacion/buscador-depreciacion.component';
-import {
-  Depreciacion,
-  DetalleDepreciacion,
-} from '@core/models/procesos/depreciacion';
+import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
@@ -27,6 +24,7 @@ import {
   calcularDepreciacion,
   proyectarDepreciacion,
 } from '@core/utils/funciones/calcular-depreciacion';
+import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -53,25 +51,25 @@ export class SingularDepreciacionComponent implements Entidad {
     private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      activo: ['', Validators.required],
-      serial: [''],
-      identificador: [''],
-      fechaCompra: [''],
-      fechaIncorporacion: [''],
-      metodo: [''],
-      costo: [''],
-      valorRescate: [''],
-      montoDepreciar: [''],
-      vidaUtil: [''],
-      depreciacionMensual: [''],
-      depreciacionAnual: [''],
-      observaciones: [''],
-      detalles: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      activo: [undefined, Validators.required],
+      serial: [undefined],
+      identificador: [undefined],
+      fechaCompra: [undefined],
+      fechaIncorporacion: [undefined],
+      metodo: [undefined],
+      costo: [undefined],
+      valorRescate: [undefined],
+      montoDepreciar: [undefined],
+      vidaUtil: [undefined],
+      depreciacionMensual: [undefined],
+      depreciacionAnual: [undefined],
+      observaciones: [undefined],
+      detalles: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -119,7 +117,25 @@ export class SingularDepreciacionComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              activo: 0,
+              serial: '',
+              identificador: '',
+              fechaCompra: undefined,
+              fechaIncorporacion: undefined,
+              metodo: '',
+              costo: 0,
+              valorRescate: 0,
+              montoDepreciar: 0,
+              vidaUtil: 0,
+              depreciacionMensual: 0,
+              depreciacionAnual: 0,
+              observaciones: '',
+              detalles: [],
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -288,27 +304,7 @@ export class SingularDepreciacionComponent implements Entidad {
   }
 
   private reiniciarFormulario() {
-    this.formulario.reset({
-      empresaId: '',
-      id: '',
-      comprobante: 'AUTOGENERADO',
-      activo: '',
-      serial: '',
-      identificador: '',
-      fechaCompra: '',
-      fechaIncorporacion: '',
-      metodo: '',
-      costo: '',
-      valorRescate: '',
-      montoDepreciar: '',
-      vidaUtil: '',
-      depreciacionMensual: '',
-      depreciacionAnual: '',
-      observaciones: '',
-      detalles: '',
-      creado: new Date(),
-      modificado: new Date(),
-    });
+    this.formulario.reset();
     this.dataSource = new MatTableDataSource();
     this.actualizarFormulario();
   }

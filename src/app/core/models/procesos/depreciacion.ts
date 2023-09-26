@@ -1,6 +1,7 @@
 import { Id } from '@core/types/id';
 import { Basica } from '../auxiliares/basica';
 import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
+import { DetalleDepreciacion } from './detalle-depreciacion';
 
 export interface Depreciacion extends Basica {
   comprobante: Id;
@@ -18,14 +19,4 @@ export interface Depreciacion extends Basica {
   depreciacionAnual: number;
   observaciones: string;
   detalles: DetalleDepreciacion[];
-}
-
-export interface DetalleDepreciacion extends Basica {
-  fechaDepreciacion: string;
-  meses: number;
-  dias: number;
-  depreciacionMensual: number;
-  depreciacionAnual: number;
-  depreciacionAcumulada: number;
-  valorContable: number;
 }

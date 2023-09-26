@@ -15,8 +15,11 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { Id } from '@core/types/id';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
@@ -44,7 +47,8 @@ export class TablaDepreciacionComponent
     private _entidad: DepreciacionService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -55,12 +59,13 @@ export class TablaDepreciacionComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }
@@ -86,8 +91,12 @@ export class TablaDepreciacionComponent
   editar(entidad: Depreciacion) {
     this._router.navigate([this.urlSingularId(entidad.id)]);
   }
-  imprimir(entidad: Depreciacion) {}
-  previsualizar(entidad: Depreciacion) {}
+
+  imprimir(entidad: Depreciacion) {
+    this._entidad
+      .buscarPorId(entidad.id)
+      .pipe(abrirReporteProceso(this._pdf, 'DEPRECIACIÓN'), take(1));
+  }
 
   eliminar(entidad: Depreciacion) {
     let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {

@@ -1,4 +1,4 @@
-import { DetalleDepreciacion } from '@core/models/procesos/depreciacion';
+import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';
 import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
 import moment from 'moment';
 
@@ -191,6 +191,7 @@ export function proyectarDepreciacion(
     detalleDepreciaciones.push({
       empresaId: undefined,
       id: undefined,
+      proceso: undefined,
       fechaDepreciacion: fechaDepreciacionActual.toString(),
       depreciacionMensual: depreciacionMensual,
       depreciacionAnual: depreciacionAnual,
