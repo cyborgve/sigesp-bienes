@@ -1,4 +1,4 @@
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Observable, forkJoin, of, pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
@@ -24,7 +24,6 @@ import { adaptarActivoDepreciacion } from '@core/utils/adaptadores-rxjs/adaptar-
 import { adaptarActivoUbicacion } from '@core/utils/adaptadores-rxjs/adaptar-activo-ubicacion';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { adaptarComponentes } from '@core/utils/adaptadores-rxjs/adaptar-componentes';
-import { FiltrosActivos } from '@core/models/auxiliares/filtros-activos';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 
