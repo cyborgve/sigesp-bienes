@@ -18,7 +18,8 @@ import { Modificacion } from '@core/models/procesos/modificacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
@@ -58,12 +59,13 @@ export class TablaModificacionComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }
@@ -78,14 +80,7 @@ export class TablaModificacionComponent
   imprimir(entidad: Modificacion) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(modificacion =>
-          modificacion
-            ? this._pdf.abrirReportePDFModificacion(modificacion)
-            : undefined
-        ),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'MODIFICACIÓN'), take(1))
       .subscribe();
   }
 

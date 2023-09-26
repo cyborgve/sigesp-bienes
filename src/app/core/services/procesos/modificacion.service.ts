@@ -12,9 +12,13 @@ import { Observable, forkJoin } from 'rxjs';
 import { adaptarModificacion } from '@core/utils/adaptadores-rxjs/adaptar-modificacion';
 import { adaptarModificaciones } from '@core/utils/adaptadores-rxjs/adaptar-modificaciones';
 import { Id } from '@core/types/id';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ejecutarModificacion } from '@core/utils/funciones/ejecutar-modificacion';
+import { ActivoComponenteService } from '../definiciones/activo-componente.service';
+import { reversarModificacion } from '@core/utils/funciones/reversar-modificacion';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +34,8 @@ export class ModificacionService extends GenericService<Modificacion> {
     protected _snackBar: MatSnackBar,
     private _modificacionComponentes: ModificacionComponenteService,
     private _modificacionCuentaContable: ModificacionCuentaContableService,
-    private _pdf: PDFService
+    private _pdf: PDFService,
+    private _activoComponente: ActivoComponenteService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -101,10 +106,19 @@ export class ModificacionService extends GenericService<Modificacion> {
           })
         );
       }),
-      tap(modificacion =>
-        modificacion
-          ? this._pdf.abrirReportePDFModificacion(modificacion)
-          : undefined
+      ejecutarModificacion(this._activoComponente),
+      abrirReporteProceso(this._pdf, 'MODIFICACIÓN')
+    );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(modificacion =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(eliminada => (eliminada ? modificacion : eliminada)),
+          reversarModificacion(this._activoComponente),
+          map(modificacion => !!modificacion)
+        )
       )
     );
   }
