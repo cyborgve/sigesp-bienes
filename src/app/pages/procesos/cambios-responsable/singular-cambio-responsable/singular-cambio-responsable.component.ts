@@ -143,7 +143,7 @@ export class SingularCambioResponsableComponent
               identificador: '',
               serial: '',
               tipoResponsable: '',
-              responsableActual: '---',
+              responsableActual: '',
               nuevoResponsable: '---',
               observaciones: '',
               creado: new Date(),

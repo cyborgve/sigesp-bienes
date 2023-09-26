@@ -5,6 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CorregirNoAsignadoPipe implements PipeTransform {
   transform(value: string): string {
-    return value === 'Seleccionar' || value === '---' ? 'No asignado' : value;
+    return value === 'Seleccionar' || value === '---' || value === ''
+      ? 'No asignado'
+      : value;
   }
 }
