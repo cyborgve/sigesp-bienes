@@ -26,11 +26,8 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { prepararIncorporacion } from '@core/utils/funciones/preparar-incorporacion';
 import { prepararActivoProceso } from '@core/utils/funciones/preparar-activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
-import { pipe, forkJoin } from 'rxjs';
-import { Activo } from '@core/models/definiciones/activo';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
-import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
-import { Incorporacion } from '@core/models/procesos/incorporacion';
+import { pipe } from 'rxjs';
+import { ActivoService } from '@core/services/definiciones/activo.service';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -54,22 +51,22 @@ export class SingularIncorporacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activo: ActivoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      comprobante: ['AUTOGENERADO'],
-      causaMovimiento: ['', Validators.required],
-      responsablePrimario: ['', Validators.required],
-      responsableUso: ['', Validators.required],
-      unidadAdministrativa: ['', Validators.required],
-      sede: ['', Validators.required],
-      fechaEntrega: ['', Validators.required],
-      observaciones: [''],
-      activos: [[]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      comprobante: [undefined],
+      causaMovimiento: [undefined, Validators.required],
+      responsablePrimario: [undefined, Validators.required],
+      responsableUso: [undefined, Validators.required],
+      unidadAdministrativa: [undefined, Validators.required],
+      sede: [undefined, Validators.required],
+      fechaEntrega: [undefined, Validators.required],
+      observaciones: [undefined],
+      activos: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -114,7 +111,19 @@ export class SingularIncorporacionComponent implements Entidad {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               comprobante: `${ser}-${doc}`,
+              causaMovimiento: 0,
+              responsablePrimario: '---',
+              responsableUso: '---',
+              unidadAdministrativa: 0,
+              sede: 0,
+              fechaEntrega: undefined,
+              observaciones: '',
+              activos: [],
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -125,36 +134,25 @@ export class SingularIncorporacionComponent implements Entidad {
 
   private reiniciarFormulario() {
     this.formulario.reset();
-    this.formulario.patchValue({
-      causaMovimiento: '',
-      unidadAdministrativa: '',
-      sede: '',
-      responsablePrimario: '',
-      responsableUso: '',
-      creado: new Date(),
-      modificado: new Date(),
-    });
     this.actualizarFormulario();
     this.dataSource = new MatTableDataSource([]);
   }
 
-  formularioValido() {
-    return this.formulario.valid && this.dataSource.data.length > 0;
-  }
+  formularioInvalido = () =>
+    this.formulario.value.causaMovimiento === 0 ||
+    this.formulario.value.unidadAdministrativa === 0 ||
+    this.formulario.value.sede === 0 ||
+    this.formulario.value.responsablePrimario === 0 ||
+    this.formulario.value.responsableUso === 0 ||
+    this.formulario.value.fechaEntrega === undefined;
+
+  deshabilitarGuardar = () =>
+    this.formularioInvalido() || this.dataSource.data.length === 0;
 
   importar() {
-    let ordenarPorComprobanteAscendente = () =>
-      pipe(
-        map((incorporaciones: Incorporacion[]) =>
-          incorporaciones.sort((a, b) =>
-            a.comprobante > b.comprobante ? -1 : 1
-          )
-        )
-      );
     let dialog = this._dialog.open(BuscadorIncorporacionComponent, {
       width: '95%',
       height: '85%',
-      data: { filtros: [ordenarPorComprobanteAscendente()] },
     });
     dialog
       .afterClosed()
@@ -242,31 +240,10 @@ export class SingularIncorporacionComponent implements Entidad {
   }
 
   agregarActivo() {
-    let filtrarNoIncorporados = () =>
-      pipe(
-        switchMap((activos: Activo[]) => {
-          let ubicacionesPeticiones = activos.map(activo =>
-            this._activoUbicacion.buscarPorActivo(activo.id)
-          );
-          return forkJoin(ubicacionesPeticiones).pipe(
-            map(ubicaciones => {
-              return activos.map(activo => {
-                activo.ubicacion = ubicaciones.find(
-                  ubicacion => ubicacion.activoId === activo.id
-                );
-                return activo;
-              });
-            })
-          );
-        }),
-        map(activos =>
-          activos.filter(activo => !activoIncorporado(activo.ubicacion))
-        )
-      );
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [filtrarNoIncorporados()] },
+      data: { filtros: [this._activo.filtrarIncorporados()] },
     });
     dialog
       .afterClosed()

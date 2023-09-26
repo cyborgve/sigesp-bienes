@@ -93,6 +93,7 @@
                 | denominacionResponsable
                 | async
                 | titlecase
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -115,6 +116,7 @@
                 | denominacionResponsable
                 | async
                 | titlecase
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -139,7 +141,7 @@
     <app-activos-proceso
       (agregarActivo)="agregarActivo()"
       (removerActivo)="eliminarActivo($event)"
-      [agregarActivoDeshabilitado]="formulario.invalid"
+      [agregarActivoDeshabilitado]="formularioInvalido()"
       [dataSource]="dataSource"></app-activos-proceso>
   </section>
 </form>
@@ -153,7 +155,7 @@
   (irAtras)="irAtras()"
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
-  [desabilitarGuardar]="!formularioValido()"
+  [desabilitarGuardar]="deshabilitarGuardar()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   [tooTipProceso]="true"
   [mostrarSalir]="false"></app-toolbar>

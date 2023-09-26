@@ -18,7 +18,8 @@ import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { IncorporacionService } from '@core/services/procesos/incorporacion.service';
 import { Id } from '@core/types/id';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
@@ -64,6 +65,7 @@ export class TablaIncorporacionComponent
     this._entidad
       .buscarTodos()
       .pipe(
+        ordenarPorComprobanteDescendente(),
         pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
@@ -86,12 +88,7 @@ export class TablaIncorporacionComponent
   imprimir(entidad: Incorporacion) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(incorporacion =>
-          this._pdf.abrirReportePDF(incorporacion, 'INCORPORACIÓN')
-        ),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'INCORPORACIÓN'), take(1))
       .subscribe();
   }
 

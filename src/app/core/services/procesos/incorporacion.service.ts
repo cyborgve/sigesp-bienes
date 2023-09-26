@@ -1,4 +1,4 @@
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
@@ -7,13 +7,15 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IncorporacionActivoService } from './incorporacion-activo.service';
-import { Observable, forkJoin, of, pipe } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { adaptarIncorporaciones } from '@core/utils/adaptadores-rxjs/adaptar-incorporaciones';
 import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs/adaptar-incorporacion';
-import { XLSXService } from '../auxiliares/xlsx.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { PDFService } from '../auxiliares/pdf.service';
+import { ejecutarIncorporacion } from '@core/utils/funciones/ejecutar-incorporacion';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { reversarIncorporacion } from '@core/utils/funciones/reversar-incorporacion';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +30,6 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _incorporacionActivo: IncorporacionActivoService,
-    private _xlsx: XLSXService,
     private _activoUbicacion: ActivoUbicacionService,
     private _pdf: PDFService
   ) {
@@ -42,17 +43,14 @@ export class IncorporacionService extends GenericService<Incorporacion> {
   buscarPorId(id: Id): Observable<Incorporacion> {
     return super.buscarPorId(id).pipe(
       adaptarIncorporacion(),
-      switchMap(incorporacion => {
-        let activos = this._incorporacionActivo.buscarTodosPorProceso(
-          incorporacion.id
-        );
-        return forkJoin([activos]).pipe(
-          map(([activos]) => {
+      switchMap(incorporacion =>
+        this._incorporacionActivo.buscarTodosPorProceso(incorporacion.id).pipe(
+          map(activos => {
             incorporacion.activos = activos;
             return incorporacion;
           })
-        );
-      })
+        )
+      )
     );
   }
 
@@ -64,7 +62,7 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     return super.guardar(incorporacion, tipoDato, notificar).pipe(
       adaptarIncorporacion(),
       switchMap(incorporacionGuardada => {
-        let activosGuardar = incorporacion.activos
+        let guardarActivos = incorporacion.activos
           .map(activo => {
             activo.proceso = incorporacionGuardada.id;
             return activo;
@@ -72,47 +70,15 @@ export class IncorporacionService extends GenericService<Incorporacion> {
           .map(activo =>
             this._incorporacionActivo.guardar(activo, undefined, false)
           );
-        return forkJoin(activosGuardar).pipe(
+        return forkJoin(guardarActivos).pipe(
           map(activos => {
             incorporacionGuardada.activos = activos;
             return incorporacionGuardada;
           })
         );
       }),
-      switchMap(incorporacionGuardada => {
-        let ubicacionActivos = incorporacionGuardada.activos.map(
-          activoProceso =>
-            this._activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
-              map(activoUbicacion => {
-                activoUbicacion.unidadAdministrativaId =
-                  incorporacionGuardada.unidadAdministrativa;
-                activoUbicacion.sedeId = incorporacionGuardada.sede;
-                activoUbicacion.responsableId =
-                  incorporacionGuardada.responsablePrimario;
-                activoUbicacion.responsableUsoId =
-                  incorporacionGuardada.responsableUso;
-                activoUbicacion.fechaIngreso =
-                  incorporacionGuardada.fechaEntrega;
-                return activoUbicacion;
-              })
-            )
-        );
-        return forkJoin(ubicacionActivos).pipe(
-          switchMap(activosUbicados => {
-            let incorporarActivos = activosUbicados.map(act =>
-              this._activoUbicacion.actualizar(act.id, act, undefined, false)
-            );
-            return forkJoin(incorporarActivos).pipe(
-              map(() => incorporacionGuardada)
-            );
-          })
-        );
-      }),
-      tap(incorporacion =>
-        incorporacion
-          ? this._pdf.abrirReportePDF(incorporacion, 'INCORPORACIÓN')
-          : undefined
-      )
+      ejecutarIncorporacion(this._activoUbicacion),
+      abrirReporteProceso(this._pdf, 'INCORPORACIÓN')
     );
   }
 
@@ -129,39 +95,11 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     return this.buscarPorId(id).pipe(
       switchMap(incorporacion => {
         return super.eliminar(id, tipoDato, notificar).pipe(
-          switchMap(incorporacionEliminada => {
-            if (!incorporacionEliminada) return of(false);
-            else {
-              let ubicarActivos = incorporacion.activos.map(ap =>
-                this._activoUbicacion.buscarPorId(ap.activo)
-              );
-              return forkJoin(ubicarActivos).pipe(
-                switchMap(activosUbicados => {
-                  let desincorporarActivos = activosUbicados.map(au => {
-                    au.responsableId = '---';
-                    au.responsableUsoId = '---';
-                    au.unidadAdministrativaId = 0;
-                    au.sedeId = 0;
-                    au.fechaIngreso = undefined;
-                    return this._activoUbicacion.actualizar(
-                      au.id,
-                      au,
-                      undefined,
-                      false
-                    );
-                  });
-                  return forkJoin(desincorporarActivos).pipe(
-                    map(activosDesincorporados => {
-                      let todosDesincorporados = activosDesincorporados.every(
-                        des => des > 0
-                      );
-                      return todosDesincorporados;
-                    })
-                  );
-                })
-              );
-            }
-          })
+          map(incorporacionEliminada =>
+            incorporacionEliminada ? incorporacion : incorporacionEliminada
+          ),
+          reversarIncorporacion(this._activoUbicacion),
+          map(incorporacion => !!incorporacion)
         );
       })
     );
