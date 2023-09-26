@@ -3,7 +3,9 @@ import { forkJoin, pipe } from 'rxjs';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 
-export const ejecutarPrestamo = (_activoUbicacion: ActivoUbicacionService) =>
+export const ejecutarActaPrestamo = (
+  _activoUbicacion: ActivoUbicacionService
+) =>
   pipe(
     switchMap((actaPrestamo: ActaPrestamo) => {
       let ubicarActivos = actaPrestamo.activos.map(activoProceso =>

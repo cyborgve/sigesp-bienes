@@ -14,8 +14,8 @@ import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-p
 import { PDFService } from '../auxiliares/pdf.service';
 import { GenericService } from '../auxiliares/generic.service';
 import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { ejecutarPrestamo } from '@core/utils/funciones/ejecutar-prestamo';
-import { reversarPrestamo } from '@core/utils/funciones/reversar-prestamo';
+import { ejecutarActaPrestamo } from '@core/utils/funciones/ejecutar-acta-prestamo';
+import { reversarActaPrestamo } from '@core/utils/funciones/reversar-acta-prestamo';
 
 @Injectable({
   providedIn: 'root',
@@ -77,7 +77,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
           })
         );
       }),
-      ejecutarPrestamo(this._activoUbicacion),
+      ejecutarActaPrestamo(this._activoUbicacion),
       abrirReporteProceso(this._pdf, 'ACTA DE PRÉSTAMO')
     );
   }
@@ -87,7 +87,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
       switchMap(actaPrestamo =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(actaEliminada => (actaEliminada ? actaPrestamo : actaEliminada)),
-          reversarPrestamo(this._activoUbicacion),
+          reversarActaPrestamo(this._activoUbicacion),
           map(actaPrestamo => !!actaPrestamo)
         )
       )
