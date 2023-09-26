@@ -18,6 +18,8 @@ import { Reasignacion } from '@core/models/procesos/reasignacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ReasignacionService } from '@core/services/procesos/reasignacion.service';
 import { Id } from '@core/types/id';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
@@ -57,12 +59,13 @@ export class TablaReasignacionComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        first(),
+        ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        })
+        }),
+        first()
       )
       .subscribe();
   }
@@ -78,12 +81,7 @@ export class TablaReasignacionComponent
   imprimir(entidad: Reasignacion) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(
-        tap(reasignacion =>
-          this._pdf.abrirReportePDF(reasignacion, 'REASIGNACIÓN')
-        ),
-        take(1)
-      )
+      .pipe(abrirReporteProceso(this._pdf, 'REASIGNACIÓN'), take(1))
       .subscribe();
   }
 

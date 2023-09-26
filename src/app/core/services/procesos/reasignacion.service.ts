@@ -12,6 +12,9 @@ import { Observable, forkJoin } from 'rxjs';
 import { adaptarReasignaciones } from '@core/utils/adaptadores-rxjs/adaptar-reasignaciones';
 import { Id } from '@core/types/id';
 import { adaptarReasignacion } from '@core/utils/adaptadores-rxjs/adaptar-reasignacion';
+import { ejecutarReasignacion } from '@core/utils/funciones/ejecutar-reasignacion';
+import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { reversarReasignacion } from '@core/utils/funciones/reversar-reasignacion';
 
 @Injectable({
   providedIn: 'root',
@@ -68,8 +71,19 @@ export class ReasignacionService extends GenericService<Reasignacion> {
           })
         );
       }),
-      tap(reasignacion =>
-        this._pdf.abrirReportePDF(reasignacion, 'REASIGNACIÓN')
+      ejecutarReasignacion(),
+      abrirReporteProceso(this._pdf, 'REASIGNACIÓN')
+    );
+  }
+
+  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+    return this.buscarPorId(id).pipe(
+      switchMap(reasignacion =>
+        super.eliminar(id, tipoDato, notificar).pipe(
+          map(eliminada => (eliminada ? reasignacion : eliminada)),
+          reversarReasignacion(),
+          map(reasignacion => !!reasignacion)
+        )
       )
     );
   }
