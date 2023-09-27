@@ -337,7 +337,7 @@ export class SingularActivoComponent implements Entidad {
             });
           }),
           tap(() =>
-            this.formularioDatosGenerales.patchValue({
+            this.formularioDetalles.patchValue({
               empresaId: 0,
               id: 0,
               activoId: 0,
