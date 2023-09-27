@@ -197,6 +197,28 @@ export class ActivoService extends GenericService<Activo> {
       })
     );
 
+  filtrarSinIncorporar = () =>
+    pipe(
+      switchMap((activos: Activo[]) => {
+        let buscarUbicaciones = activos.map(activo =>
+          this._activoUbicacion.buscarPorActivo(activo.id).pipe(
+            map(ubicacion => ({
+              activo: ubicacion.activoId,
+              incorporado: !activoIncorporado(ubicacion),
+            }))
+          )
+        );
+        return forkJoin(buscarUbicaciones).pipe(
+          map(resultados => {
+            let incorporados = resultados
+              .filter(resultado => resultado.incorporado)
+              .map(resultado => resultado.activo);
+            return activos.filter(activo => incorporados.includes(activo.id));
+          })
+        );
+      })
+    );
+
   filtrarPorUnidadAdministrativa = (unidadAdministrativa: Id) =>
     pipe(
       switchMap((activos: Activo[]) => {

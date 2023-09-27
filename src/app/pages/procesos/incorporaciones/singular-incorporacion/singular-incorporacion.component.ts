@@ -243,7 +243,7 @@ export class SingularIncorporacionComponent implements Entidad {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [this._activo.filtrarIncorporados()] },
+      data: { filtros: [this._activo.filtrarSinIncorporar()] },
     });
     dialog
       .afterClosed()
