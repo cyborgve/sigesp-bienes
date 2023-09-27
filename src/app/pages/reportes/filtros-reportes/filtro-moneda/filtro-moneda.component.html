@@ -25,11 +25,7 @@
         type="text"
         readonly="true"
         [value]="
-          moneda.value
-            | denominacionMoneda
-            | async
-            | titlecase
-            | corregirSeleccionar
+          moneda.value | denominacionMoneda | async | corregirSeleccionar
         " />
       <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
         <mat-icon>search</mat-icon>

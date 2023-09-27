@@ -13,13 +13,13 @@
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
-      <td mat-cell *matCellDef="let row">{{ row.denominacion | titlecase }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
     <!-- municipioId -->
     <ng-container matColumnDef="municipioId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Municipio</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.municipioId | denominacionMunicipio | async | titlecase }}
+        {{ row.municipioId | denominacionMunicipio | async }}
       </td>
     </ng-container>
     <!-- creado -->

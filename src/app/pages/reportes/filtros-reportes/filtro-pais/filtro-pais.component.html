@@ -24,13 +24,7 @@
         matInput
         type="text"
         readonly="true"
-        [value]="
-          pais.value
-            | denominacionPais
-            | async
-            | titlecase
-            | corregirSeleccionar
-        " />
+        [value]="pais.value | denominacionPais | async | corregirSeleccionar" />
       <button type="button" mat-icon-button matSuffix (click)="buscarPais()">
         <mat-icon>search</mat-icon>
       </button>

@@ -25,11 +25,7 @@
         type="text"
         readonly="true"
         [value]="
-          municipio.value
-            | denominacionMunicipio
-            | async
-            | titlecase
-            | corregirSeleccionar
+          municipio.value | denominacionMunicipio | async | corregirSeleccionar
         " />
       <button
         type="button"

@@ -25,11 +25,7 @@
         type="text"
         readonly="true"
         [value]="
-          ciudad.value
-            | denominacionCiudad
-            | async
-            | titlecase
-            | corregirSeleccionar
+          ciudad.value | denominacionCiudad | async | corregirSeleccionar
         " />
       <button type="button" mat-icon-button matSuffix (click)="buscarCiudad()">
         <mat-icon>search</mat-icon>
