@@ -45,12 +45,6 @@ export class InformacionProcesoService {
     private _beneficario: BeneficiarioService
   ) {}
 
-  /**
-   * Obtiene información detallada sobre un proceso según su Objeto y tipo.
-   * @param proceso Objeto con el contenido del proceso.
-   * @param tipoProceso Tipo de proceso.
-   * @returns Un objeto con información detallada del proceso.
-   */
   obtener(proceso: any, tipoProceso: TipoProceso): Observable<any> {
     let resultado: any = {}; // Objeto para almacenar el resultado
     switch (tipoProceso) {
@@ -87,6 +81,8 @@ export class InformacionProcesoService {
     }
     return resultado; // Devuelve el resultado obtenido
   }
+
+  /** utilidades: denominaciones de partes de los procesos */
 
   private denominacionEntidad(servicio: any, entidadId: Id): Observable<any> {
     return servicio
@@ -194,6 +190,14 @@ export class InformacionProcesoService {
   private componentesProceso = (componentes: ComponenteProceso[]) =>
     forkJoin(componentes.map(componente => this.componenteProceso(componente)));
 
+  private buscarActivoConvertir = (id: Id) => {
+    return this._activo.buscarPorId(id).pipe(
+      map(activo => convertirActivoProceso(activo)),
+      switchMap(activoProceso => this.activoProceso(activoProceso))
+    );
+  };
+
+  /** ACTA DE PRESTAMO */
   private actaPrestamo(actaPrestamo: ActaPrestamo): Observable<any> {
     let obtenerInformacion = [
       this.empresa(actaPrestamo.empresaId),
@@ -214,64 +218,25 @@ export class InformacionProcesoService {
           responsableReceptora,
           testigo,
           activos,
-        ]) => {
-          let informacionActaPrestamo = {
-            empresa: empresa,
-            id: actaPrestamo.id,
-            comprobante: actaPrestamo.comprobante.toString().substring(5),
-            unidadAdministrativaCedente: unidadCedente,
-            unidadCedenteResponsable: responsableCedente,
-            unidadAdministrativaReceptora: unidadReceptora,
-            unidadReceptoraResponsable: responsableReceptora,
-            testigo: testigo,
-            notas: actaPrestamo.notas,
-            activos: activos,
-            creado: new Date(actaPrestamo.creado),
-            modificado: new Date(actaPrestamo.modificado),
-          };
-          return informacionActaPrestamo;
-        }
+        ]) => ({
+          empresa: empresa,
+          id: actaPrestamo.id,
+          comprobante: actaPrestamo.comprobante.toString().substring(5),
+          unidadAdministrativaCedente: unidadCedente,
+          unidadCedenteResponsable: responsableCedente,
+          unidadAdministrativaReceptora: unidadReceptora,
+          unidadReceptoraResponsable: responsableReceptora,
+          testigo: testigo,
+          notas: actaPrestamo.notas,
+          activos: activos,
+          creado: new Date(actaPrestamo.creado),
+          modificado: new Date(actaPrestamo.modificado),
+        })
       )
     );
   }
 
-  private buscarActivoConvertir = (id: Id) => {
-    return this._activo.buscarPorId(id).pipe(
-      map(activo => convertirActivoProceso(activo)),
-      switchMap(activoProceso => this.activoProceso(activoProceso))
-    );
-  };
-
-  private cambioResponsable(
-    cambioResponsable: CambioResponsable
-  ): Observable<any> {
-    let obtenerInformacion = [
-      this.empresa(cambioResponsable.empresaId),
-      this.buscarActivoConvertir(cambioResponsable.activo),
-      this.responsable(cambioResponsable.responsableActual),
-      this.responsable(cambioResponsable.nuevoResponsable),
-    ];
-    return forkJoin(obtenerInformacion).pipe(
-      map(([empresa, activo, responsableActual, nuevoResponsable]) => ({
-        empresaId: empresa,
-        id: cambioResponsable.id,
-        comprobante: cambioResponsable.comprobante.toString().substring(5),
-        activos: [activo],
-        identificador: cambioResponsable.identificador,
-        serial: cambioResponsable.serial,
-        tipoResponsable:
-          Number(cambioResponsable.tipoResponsable) === 0
-            ? 'Responsable Primario'
-            : 'Responsable de Uso',
-        responsableActual: responsableActual,
-        nuevoResponsable: nuevoResponsable,
-        observaciones: cambioResponsable.observaciones,
-        creado: new Date(cambioResponsable.creado),
-        modificado: new Date(cambioResponsable.modificado),
-      }))
-    );
-  }
-
+  /** AUTORIZACION DE SALIDA */
   private autorizacionSalida(
     autorizacionSalida: AutorizacionSalida
   ): Observable<any> {
@@ -305,6 +270,38 @@ export class InformacionProcesoService {
     );
   }
 
+  /** CAMBIO DE RESPONSABLE */
+  private cambioResponsable(
+    cambioResponsable: CambioResponsable
+  ): Observable<any> {
+    let obtenerInformacion = [
+      this.empresa(cambioResponsable.empresaId),
+      this.buscarActivoConvertir(cambioResponsable.activo),
+      this.responsable(cambioResponsable.responsableActual),
+      this.responsable(cambioResponsable.nuevoResponsable),
+    ];
+    return forkJoin(obtenerInformacion).pipe(
+      map(([empresa, activo, responsableActual, nuevoResponsable]) => ({
+        empresaId: empresa,
+        id: cambioResponsable.id,
+        comprobante: cambioResponsable.comprobante.toString().substring(5),
+        activos: [activo],
+        identificador: cambioResponsable.identificador,
+        serial: cambioResponsable.serial,
+        tipoResponsable:
+          Number(cambioResponsable.tipoResponsable) === 0
+            ? 'Responsable Primario'
+            : 'Responsable de Uso',
+        responsableActual: responsableActual,
+        nuevoResponsable: nuevoResponsable,
+        observaciones: cambioResponsable.observaciones,
+        creado: new Date(cambioResponsable.creado),
+        modificado: new Date(cambioResponsable.modificado),
+      }))
+    );
+  }
+
+  /** DEPRECIACION */
   private depreciacion(depreciacion: Depreciacion): Observable<any> {
     let obtenerInformacion = [
       this.empresa(depreciacion.empresaId),
@@ -335,6 +332,7 @@ export class InformacionProcesoService {
     );
   }
 
+  /** DESINCORPORACION */
   private desincorporacion(
     desincorporacion: Desincorporacion
   ): Observable<any> {
@@ -364,6 +362,7 @@ export class InformacionProcesoService {
     );
   }
 
+  /** ENTREGA DE UNIDAD */
   private entregaUnidad(entregaUnidad: EntregaUnidad): Observable<any> {
     let buscarInformacion = [
       this.empresa(entregaUnidad.empresaId),
@@ -396,6 +395,7 @@ export class InformacionProcesoService {
     );
   }
 
+  /** INCORPORACION */
   private incorporacion(incorporacion: Incorporacion): Observable<any> {
     let obtenerinformacion = [
       this.empresa(incorporacion.empresaId),
@@ -416,28 +416,26 @@ export class InformacionProcesoService {
           unidadAdministrativa,
           sede,
           activos,
-        ]) => {
-          let informacionIncorporacion = {
-            empresaId: empresa,
-            id: incorporacion.id,
-            comprobante: incorporacion.comprobante.toString().substring(5),
-            causaMovimiento: causaMovimiento,
-            responsablePrimario: responsablePrimario,
-            responsableUso: responsableUso,
-            unidadAdministrativa: unidadAdministrativa,
-            sede: sede,
-            fechaEntrega: incorporacion.fechaEntrega,
-            observaciones: incorporacion.observaciones,
-            activos: activos,
-            creado: incorporacion.creado,
-            modificado: incorporacion.modificado,
-          };
-          return informacionIncorporacion;
-        }
+        ]) => ({
+          empresaId: empresa,
+          id: incorporacion.id,
+          comprobante: incorporacion.comprobante.toString().substring(5),
+          causaMovimiento: causaMovimiento,
+          responsablePrimario: responsablePrimario,
+          responsableUso: responsableUso,
+          unidadAdministrativa: unidadAdministrativa,
+          sede: sede,
+          fechaEntrega: incorporacion.fechaEntrega,
+          observaciones: incorporacion.observaciones,
+          activos: activos,
+          creado: incorporacion.creado,
+          modificado: incorporacion.modificado,
+        })
       )
     );
   }
 
+  /** MODIFICACION */
   private modificacion(modificacion: Modificacion): Observable<any> {
     let obtenerInformacion = [
       this.empresa(modificacion.empresaId),
@@ -463,6 +461,7 @@ export class InformacionProcesoService {
     );
   }
 
+  /** REASIGNACION */
   private reasignacion(reasignacion: Reasignacion) {
     let obtenerInformacion = [
       this.empresa(reasignacion.empresaId),
@@ -499,6 +498,7 @@ export class InformacionProcesoService {
     );
   }
 
+  /** RETORNO */
   private retorno(retorno: Retorno) {
     let obtenerInformacion = [
       this.empresa(retorno.empresaId),
