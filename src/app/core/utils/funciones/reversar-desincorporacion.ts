@@ -11,10 +11,11 @@ export const reversarDesincorporacion = (
       let ubicarActivos = desincorporacion.activos.map(activoProceso =>
         _activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
           map(ubicacion => {
-            ubicacion.unidadAdministrativaId =
-              desincorporacion.unidadAdministrativa;
-            ubicacion.responsableId = undefined;
-            ubicacion.responsableUsoId = undefined;
+            ubicacion.unidadAdministrativaId = 0;
+            ubicacion.sedeId = 0;
+            ubicacion.responsableId = '---';
+            ubicacion.responsableUsoId = '---';
+            ubicacion.fechaIngreso = undefined;
             return ubicacion;
           })
         )
