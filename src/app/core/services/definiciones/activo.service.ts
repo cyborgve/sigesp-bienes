@@ -1,5 +1,5 @@
 import { switchMap, map } from 'rxjs/operators';
-import { Observable, forkJoin, of, pipe } from 'rxjs';
+import { Observable, forkJoin, pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Activo } from '@core/models/definiciones/activo';
@@ -26,6 +26,7 @@ import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { adaptarComponentes } from '@core/utils/adaptadores-rxjs/adaptar-componentes';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
+import { activoDepreciable } from '@core/utils/funciones/activo-depreciable';
 
 @Injectable({
   providedIn: 'root',
@@ -235,6 +236,30 @@ export class ActivoService extends GenericService<Activo> {
               .map(ubicacion => ubicacion.activoId);
             return activos.filter(activo => filtrados.includes(activo.id));
           })
+        );
+      })
+    );
+
+  filtrarDepreciables = () =>
+    pipe(
+      switchMap((activosParciales: Activo[]) => {
+        let buscarDepreciaciones = activosParciales.map(activoParcial =>
+          this._activoDepreciacion.buscarPorActivo(activoParcial.id)
+        );
+        return forkJoin(buscarDepreciaciones).pipe(
+          map(depreciaciones =>
+            depreciaciones.filter((depreciacion, indice) =>
+              activoDepreciable(activosParciales[indice], depreciacion)
+            )
+          ),
+          map(depreciaciones =>
+            depreciaciones.map(depreciacion => depreciacion.activoId)
+          ),
+          map(depreciables =>
+            activosParciales.filter(activoParcial =>
+              depreciables.includes(activoParcial.id)
+            )
+          )
         );
       })
     );

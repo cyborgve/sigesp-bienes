@@ -1,9 +1,21 @@
+import { Activo } from '@core/models/definiciones/activo';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 
-export function activoDepreciable(activo: ActivoDepreciacion) {
-  return (
-    activo.metodoDepreciacion !== undefined &&
-    activo.valorRescate > 0 &&
-    activo.vidaUtil > 0
-  );
+export function activoDepreciable(
+  activoParcial: Activo,
+  activoDepreciacion: ActivoDepreciacion
+) {
+  let esDepreciable = [
+    activoParcial.valorAdquisicion > 0,
+    activoParcial.monedaId !== '---',
+    activoParcial.fechaAdquisicion !== undefined,
+    activoDepreciacion.metodoDepreciacion !== undefined,
+    activoDepreciacion.vidaUtil > 0,
+    activoDepreciacion.cuentaContableGasto !== '---',
+    activoDepreciacion.cuentaContableDepreciacion !== '---',
+    activoDepreciacion.depreciable !== 0,
+    activoDepreciacion.valorRescate > 0,
+    activoDepreciacion.monedaValorRescate !== '---',
+  ];
+  return esDepreciable.every(valor => !!valor);
 }

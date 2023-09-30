@@ -1,6 +1,7 @@
 import { Basica } from '@core/models/auxiliares/basica';
 import { Id } from '@core/types/id';
 import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
+import { UnidadDeTiempo } from '@core/types/unidades-tiempo';
 
 export interface ActivoDepreciacion extends Basica {
   activoId: Id;
@@ -9,7 +10,7 @@ export interface ActivoDepreciacion extends Basica {
   cuentaContableGasto: string;
   cuentaContableDepreciacion: string;
   vidaUtil: number;
-  unidadVidaUtil: string;
+  unidadVidaUtil: UnidadDeTiempo;
   valorRescate: number;
   monedaValorRescate: string;
 }

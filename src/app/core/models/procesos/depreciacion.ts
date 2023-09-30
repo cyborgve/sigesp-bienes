@@ -11,6 +11,7 @@ export interface Depreciacion extends Basica {
   fechaCompra: Date;
   fechaIncorporacion: Date;
   metodo: MetodoDepreciacion;
+  moneda: Id;
   costo: number;
   valorRescate: number;
   montoDepreciar: number;
