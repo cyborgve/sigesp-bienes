@@ -1,12 +1,12 @@
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { SigespService } from 'sigesp';
-import { adaptarMonedas } from '@core/utils/adaptadores-rxjs/adaptar-monedas';
+import { adaptarMonedas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-monedas';
 import { Observable } from 'rxjs';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { Id } from '@core/types/id';
-import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
-import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 
 @Injectable({
   providedIn: 'root',

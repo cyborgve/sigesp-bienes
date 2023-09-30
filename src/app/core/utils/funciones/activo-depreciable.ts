@@ -1,10 +1,10 @@
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 
-export function activoDepreciable(
+export const activoDepreciable = (
   activoParcial: Activo,
   activoDepreciacion: ActivoDepreciacion
-) {
+) => {
   let esDepreciable = [
     activoParcial.valorAdquisicion > 0,
     activoParcial.monedaId !== '---',
@@ -18,4 +18,4 @@ export function activoDepreciable(
     activoDepreciacion.monedaValorRescate !== '---',
   ];
   return esDepreciable.every(valor => !!valor);
-}
+};

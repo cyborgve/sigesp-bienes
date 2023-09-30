@@ -1,6 +1,6 @@
 import { Incorporacion } from '@core/models/procesos/incorporacion';
 
-export function prepararIncorporacion(incorporacion: any): Incorporacion {
+export const prepararIncorporacion = (incorporacion: any) => {
   return <Incorporacion>{
     empresaId: Number(incorporacion.empresaId) | 0,
     id: Number(incorporacion.id) | 0,
@@ -16,4 +16,4 @@ export function prepararIncorporacion(incorporacion: any): Incorporacion {
     creado: incorporacion.creado,
     modificado: incorporacion.modificado,
   };
-}
+};

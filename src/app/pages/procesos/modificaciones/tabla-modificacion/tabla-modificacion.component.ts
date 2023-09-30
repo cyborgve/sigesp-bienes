@@ -18,8 +18,8 @@ import { Modificacion } from '@core/models/procesos/modificacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { Id } from '@core/types/id';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 

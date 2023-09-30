@@ -9,12 +9,12 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RetornoActivoService } from './retorno-activo.service';
 import { PDFService } from '../auxiliares/pdf.service';
-import { adaptarRetorno } from '@core/utils/adaptadores-rxjs/adaptar-retorno';
-import { adaptarRetornos } from '@core/utils/adaptadores-rxjs/adaptar-retornos';
+import { adaptarRetorno } from '@core/utils/pipes-rxjs/adaptadores/adaptar-retorno';
+import { adaptarRetornos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-retornos';
 import { Id } from '@core/types/id';
-import { ejecutarRetorno } from '@core/utils/funciones/ejecutar-retorno';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { reversarRetorno } from '@core/utils/funciones/reversar-retorno';
+import { ejecutarRetorno } from '@core/utils/pipes-rxjs/procesos/ejecutar-retorno';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { reversarRetorno } from '@core/utils/pipes-rxjs/procesos/reversar-retorno';
 
 @Injectable({
   providedIn: 'root',

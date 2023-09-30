@@ -1,6 +1,6 @@
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 
-export function prepararComponente(componente: any) {
+export const prepararComponente = (componente: any) => {
   return <ActivoComponente>{
     empresaId: componente.empresaId,
     id: Number(componente.id),
@@ -13,4 +13,4 @@ export function prepararComponente(componente: any) {
     creado: componente.creado,
     modificado: componente.modificado,
   };
-}
+};

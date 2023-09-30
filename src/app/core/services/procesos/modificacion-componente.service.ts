@@ -3,11 +3,11 @@ import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { GenericService } from '../auxiliares/generic.service';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
-import { adaptarComponentesProceso } from '@core/utils/adaptadores-rxjs/adaptar-componentes-proceso';
+import { adaptarComponentesProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-componentes-proceso';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { map } from 'rxjs/operators';
-import { adaptarComponenteProceso } from '@core/utils/adaptadores-rxjs/adaptar-componente-proceso';
+import { adaptarComponenteProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-componente-proceso';
 
 @Injectable({
   providedIn: 'root',

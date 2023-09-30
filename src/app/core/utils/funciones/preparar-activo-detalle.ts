@@ -1,6 +1,6 @@
 import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 
-export function prepararActivoDetalle(detalle: any): ActivoDetalle {
+export const prepararActivoDetalle = (detalle: any) => {
   return <ActivoDetalle>{
     empresaId: Number(detalle.empresaId),
     id: Number(detalle.id),
@@ -53,4 +53,4 @@ export function prepararActivoDetalle(detalle: any): ActivoDetalle {
     creado: detalle.creado,
     modificado: detalle.modificado,
   };
-}
+};

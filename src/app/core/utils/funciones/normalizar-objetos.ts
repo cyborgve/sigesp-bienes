@@ -7,7 +7,7 @@ import { convertirCamelCase } from './convertir-camel-case';
  * @param objeto La entidad con los nombres de propiedades en estilo snake_case.
  * @returns objetoTransformado La entidad transformada con los nombres de propiedades en estilo camelCase.
  */
-export function normalizarObjeto(objeto: any): any {
+export const normalizarObjeto = (objeto: any) => {
   if (objeto) {
     let objetoTransformado: typeof objeto = {};
     let claves = Object.keys(objeto);
@@ -18,4 +18,4 @@ export function normalizarObjeto(objeto: any): any {
     return objetoTransformado;
   }
   return undefined;
-}
+};

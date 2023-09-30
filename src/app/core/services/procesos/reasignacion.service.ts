@@ -9,12 +9,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PDFService } from '../auxiliares/pdf.service';
 import { ReasignacionActivoService } from './reasignacion-activo.service';
 import { Observable, forkJoin } from 'rxjs';
-import { adaptarReasignaciones } from '@core/utils/adaptadores-rxjs/adaptar-reasignaciones';
+import { adaptarReasignaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-reasignaciones';
 import { Id } from '@core/types/id';
-import { adaptarReasignacion } from '@core/utils/adaptadores-rxjs/adaptar-reasignacion';
-import { ejecutarReasignacion } from '@core/utils/funciones/ejecutar-reasignacion';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { reversarReasignacion } from '@core/utils/funciones/reversar-reasignacion';
+import { adaptarReasignacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-reasignacion';
+import { ejecutarReasignacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-reasignacion';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { reversarReasignacion } from '@core/utils/pipes-rxjs/procesos/reversar-reasignacion';
 
 @Injectable({
   providedIn: 'root',

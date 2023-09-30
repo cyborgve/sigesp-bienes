@@ -11,8 +11,8 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Pais } from '@core/models/otros-modulos/pais';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { PaisService } from '@core/services/otros-modulos/pais.service';
-import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
-import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
 
 const filtroInicial = () => pipe(map((paises: Pais[]) => paises));

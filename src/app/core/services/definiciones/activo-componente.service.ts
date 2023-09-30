@@ -6,7 +6,7 @@ import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarComponentes } from '@core/utils/adaptadores-rxjs/adaptar-componentes';
+import { adaptarComponentes } from '@core/utils/pipes-rxjs/adaptadores/adaptar-componentes';
 
 @Injectable({
   providedIn: 'root',

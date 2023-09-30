@@ -19,7 +19,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { Id } from '@core/types/id';
-import { ordenarPorId } from '@core/utils/operadores-rxjs/ordenar-por-id';
+import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
 
 @Component({
   selector: 'app-tabla-correlativo',

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Ciudad } from '@core/models/otros-modulos/ciudad';
 import { SigespService } from 'sigesp';
-import { adaptarCiudades } from '@core/utils/adaptadores-rxjs/adaptar-ciudades';
+import { adaptarCiudades } from '@core/utils/pipes-rxjs/adaptadores/adaptar-ciudades';
 
 @Injectable({
   providedIn: 'root',

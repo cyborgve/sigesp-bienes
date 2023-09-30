@@ -17,7 +17,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 import { Id } from '@core/types/id';
-import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';

@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 import { Id } from '@core/types/id';
 import { SigespService } from 'sigesp';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
-import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
-import { adaptarBeneficiarios } from '@core/utils/adaptadores-rxjs/adaptar-beneficiarios';
+import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
+import { adaptarBeneficiarios } from '@core/utils/pipes-rxjs/adaptadores/adaptar-beneficiarios';
 
 @Injectable({
   providedIn: 'root',

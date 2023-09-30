@@ -11,8 +11,8 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
 import { ParroquiaService } from '@core/services/otros-modulos/parroquia.service';
-import { filtrarValoresIniciales } from '@core/utils/operadores-rxjs/filtrar-valores-iniciales';
-import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
+import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
 
 const filtroInicial = () => pipe(map((parroquias: Parroquia[]) => parroquias));

@@ -1,6 +1,6 @@
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 
-export function prepararActivoUbicacion(ubicacion: any): ActivoUbicacion {
+export const prepararActivoUbicacion = (ubicacion: any) => {
   return <ActivoUbicacion>{
     empresaId: Number(ubicacion.empresaId),
     id: Number(ubicacion.id),
@@ -16,4 +16,4 @@ export function prepararActivoUbicacion(ubicacion: any): ActivoUbicacion {
     creado: ubicacion.creado,
     modificado: ubicacion.modificado,
   };
-}
+};

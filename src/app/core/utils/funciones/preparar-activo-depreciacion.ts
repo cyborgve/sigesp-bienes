@@ -1,8 +1,6 @@
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 
-export function prepararActivoDepreciacion(
-  depreciacion: any
-): ActivoDepreciacion {
+export const prepararActivoDepreciacion = (depreciacion: any) => {
   return <ActivoDepreciacion>{
     empresaId: Number(depreciacion.empresaId),
     id: Number(depreciacion.id),
@@ -18,4 +16,4 @@ export function prepararActivoDepreciacion(
     creado: depreciacion.creado,
     modificado: depreciacion.modificado,
   };
-}
+};

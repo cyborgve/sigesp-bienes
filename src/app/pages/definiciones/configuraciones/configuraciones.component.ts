@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
 import { prepararConfiguracion } from '@core/utils/funciones/preparar-configuracion';
-import { adaptarConfiguracion } from '@core/utils/adaptadores-rxjs/adaptar-configuracion';
+import { adaptarConfiguracion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-configuracion';
 
 @Component({
   selector: 'app-configuraciones',

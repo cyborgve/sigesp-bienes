@@ -1,4 +1,4 @@
-export function prepararNombreArchivo(nombre: string): string {
+export const prepararNombreArchivo = (nombre: string) => {
   const caracteresConAcento = 'áéíóúÁÉÍÓÚüÜñÑ';
   const caracteresSinAcento = 'aeiouAEIOUuUnN';
   let nombreSinEspacios = nombre.replace(/\s+/g, '-').toLowerCase();
@@ -10,4 +10,4 @@ export function prepararNombreArchivo(nombre: string): string {
     })
     .join('');
   return nombreSinAcentos;
-}
+};

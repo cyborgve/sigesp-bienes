@@ -9,13 +9,13 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActaPrestamoActivoService } from './acta-prestamo-activo.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
-import { adaptarActasPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-actas-prestamo';
-import { adaptarActaPrestamo } from '@core/utils/adaptadores-rxjs/adaptar-acta-prestamo';
+import { adaptarActasPrestamo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-actas-prestamo';
+import { adaptarActaPrestamo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-acta-prestamo';
 import { PDFService } from '../auxiliares/pdf.service';
 import { GenericService } from '../auxiliares/generic.service';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { ejecutarActaPrestamo } from '@core/utils/funciones/ejecutar-acta-prestamo';
-import { reversarActaPrestamo } from '@core/utils/funciones/reversar-acta-prestamo';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { ejecutarActaPrestamo } from '@core/utils/pipes-rxjs/procesos/ejecutar-acta-prestamo';
+import { reversarActaPrestamo } from '@core/utils/pipes-rxjs/procesos/reversar-acta-prestamo';
 
 @Injectable({
   providedIn: 'root',

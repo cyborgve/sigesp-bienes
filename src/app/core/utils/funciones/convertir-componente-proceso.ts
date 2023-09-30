@@ -1,6 +1,6 @@
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
-export function convertirComponenteProceso(componente: ActivoComponente) {
+export const convertirComponenteProceso = (componente: ActivoComponente) => {
   return <ComponenteProceso>{
     empresaId: 0,
     id: 0,
@@ -12,4 +12,4 @@ export function convertirComponenteProceso(componente: ActivoComponente) {
     creado: componente.creado,
     modificado: componente.modificado,
   };
-}
+};

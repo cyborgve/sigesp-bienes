@@ -9,16 +9,16 @@ import { ModificacionComponenteService } from './modificacion-componente.service
 import { ModificacionCuentaContableService } from './modificacion-cuenta-contable.service';
 import { PDFService } from '../auxiliares/pdf.service';
 import { Observable, forkJoin } from 'rxjs';
-import { adaptarModificacion } from '@core/utils/adaptadores-rxjs/adaptar-modificacion';
-import { adaptarModificaciones } from '@core/utils/adaptadores-rxjs/adaptar-modificaciones';
+import { adaptarModificacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-modificacion';
+import { adaptarModificaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-modificaciones';
 import { Id } from '@core/types/id';
 import { map, switchMap } from 'rxjs/operators';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { ejecutarModificacion } from '@core/utils/funciones/ejecutar-modificacion';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { ejecutarModificacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-modificacion';
 import { ActivoComponenteService } from '../definiciones/activo-componente.service';
-import { reversarModificacion } from '@core/utils/funciones/reversar-modificacion';
+import { reversarModificacion } from '@core/utils/pipes-rxjs/procesos/reversar-modificacion';
 
 @Injectable({
   providedIn: 'root',

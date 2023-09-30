@@ -11,7 +11,7 @@ import moment from 'moment';
  * @param enMeses Indica si el tiempo se proporciona en meses (por defecto es falso, si es true, se considera en meses).
  * @returns La depreciación acumulada después del tiempo especificado.
  */
-export function calcularDepreciacion(
+export const calcularDepreciacion = (
   valorInicial: number,
   vidaUtil: number,
   metodo: MetodoDepreciacion,
@@ -19,7 +19,7 @@ export function calcularDepreciacion(
   enMeses: boolean = false,
   valorRescate: number,
   fechaAdquisicion?: Date
-): number {
+) => {
   // Si el tiempo se proporciona en meses, lo convertimos a años para un cálculo uniforme.
   const tiempoEnAnios = enMeses ? tiempo / 12 : tiempo;
 
@@ -63,7 +63,7 @@ export function calcularDepreciacion(
     default:
       throw new Error('Método de depreciación no válido.');
   }
-}
+};
 
 /**
  * Calcula la depreciación acumulada utilizando el método de línea recta.

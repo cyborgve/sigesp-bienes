@@ -1,11 +1,11 @@
 import { UnidadDeTiempo } from '@core/types/unidades-tiempo';
 import moment from 'moment';
 
-export function convertirUnidadTiempo(
+export const convertirUnidadTiempo = (
   tiempoEntrada: number,
   unidadEntrada: UnidadDeTiempo,
   unidadSalida: UnidadDeTiempo
-): number {
+) => {
   const equivalentes = {
     MILISEGUNDOS: 'millisoconds',
     SEGUNDOS: 'seconds',
@@ -23,4 +23,4 @@ export function convertirUnidadTiempo(
     .duration(tiempoEntrada, equivalenteEntrada)
     .as(equivalenteSalida);
   return resultado;
-}
+};

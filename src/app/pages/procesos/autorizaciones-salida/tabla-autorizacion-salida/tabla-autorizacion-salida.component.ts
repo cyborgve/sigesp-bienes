@@ -20,8 +20,8 @@ import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-
 import { Id } from '@core/types/id';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 
 @Component({
   selector: 'app-tabla-autorizacion-salida',

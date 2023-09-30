@@ -8,13 +8,13 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
-import { adaptarCambiosResponsable } from '@core/utils/adaptadores-rxjs/adaptar-cambios-responsable';
+import { adaptarCambiosResponsable } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cambios-responsable';
 import { Id } from '@core/types/id';
-import { adaptarCambioResponsable } from '@core/utils/adaptadores-rxjs/adaptar-cambio-responsable';
+import { adaptarCambioResponsable } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cambio-responsable';
 import { PDFService } from '../auxiliares/pdf.service';
-import { ejecutarCambioResponsable } from '@core/utils/funciones/ejecutar-cambio-responable';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { reversarCambioResponsable } from '@core/utils/funciones/reversar-cambio-responsable';
+import { ejecutarCambioResponsable } from '@core/utils/pipes-rxjs/procesos/ejecutar-cambio-responable';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { reversarCambioResponsable } from '@core/utils/pipes-rxjs/procesos/reversar-cambio-responsable';
 
 @Injectable({
   providedIn: 'root',

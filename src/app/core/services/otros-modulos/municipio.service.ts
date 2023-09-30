@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Municipio } from '@core/models/otros-modulos/municipio';
 import { Observable } from 'rxjs';
 import { SigespService } from 'sigesp';
-import { adaptarMunicipios } from '@core/utils/adaptadores-rxjs/adaptar-municipios';
+import { adaptarMunicipios } from '@core/utils/pipes-rxjs/adaptadores/adaptar-municipios';
 
 @Injectable({
   providedIn: 'root',

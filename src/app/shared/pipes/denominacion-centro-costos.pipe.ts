@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { adaptarCentrosCosto } from '@core/utils/adaptadores-rxjs/adaptar-centros-costo';
+import { adaptarCentrosCosto } from '@core/utils/pipes-rxjs/adaptadores/adaptar-centros-costo';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';

@@ -18,8 +18,8 @@ import { Reasignacion } from '@core/models/procesos/reasignacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { ReasignacionService } from '@core/services/procesos/reasignacion.service';
 import { Id } from '@core/types/id';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { ordenarPorComprobanteDescendente } from '@core/utils/operadores-rxjs/ordenar-por-comprobante-descendente';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 

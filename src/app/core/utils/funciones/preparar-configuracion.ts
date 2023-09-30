@@ -5,7 +5,7 @@ const booleanLogico = (booleano: boolean) => (booleano ? 1 : 0);
  * @description Prepara la configuracion recibida del formulario para ser guardada o actualizada.
  * @param configuracion Contiguracion
  * @returns configuracion modificada para ser almacenada. */
-export function prepararConfiguracion(configuracion: any): Configuracion {
+export const prepararConfiguracion = (configuracion: any) => {
   return <Configuracion>{
     empresaId: configuracion.empresaId,
     id: configuracion.id,
@@ -29,4 +29,4 @@ export function prepararConfiguracion(configuracion: any): Configuracion {
     creado: configuracion.creado,
     modificado: configuracion.modificado,
   };
-}
+};

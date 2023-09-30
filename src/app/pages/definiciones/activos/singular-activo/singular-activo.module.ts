@@ -1,4 +1,4 @@
-import { BuscadorCatalogoGeneralModule } from './../../catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.module';
+import { BuscadorCatalogoGeneralModule } from '@pages/definiciones/catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';

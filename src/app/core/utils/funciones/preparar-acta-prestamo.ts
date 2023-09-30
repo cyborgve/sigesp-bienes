@@ -1,6 +1,6 @@
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 
-export function prepararActaPrestamo(actaPrestamo: any): ActaPrestamo {
+export const prepararActaPrestamo = (actaPrestamo: any) => {
   return <ActaPrestamo>{
     empresaId: Number(actaPrestamo.empresaId),
     id: Number(actaPrestamo.id),
@@ -19,4 +19,4 @@ export function prepararActaPrestamo(actaPrestamo: any): ActaPrestamo {
     creado: actaPrestamo.creado,
     modificado: actaPrestamo.modificado,
   };
-}
+};

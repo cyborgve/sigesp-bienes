@@ -8,14 +8,14 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IncorporacionActivoService } from './incorporacion-activo.service';
 import { Observable, forkJoin } from 'rxjs';
-import { adaptarIncorporaciones } from '@core/utils/adaptadores-rxjs/adaptar-incorporaciones';
+import { adaptarIncorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-incorporaciones';
 import { Id } from '@core/types/id';
-import { adaptarIncorporacion } from '@core/utils/adaptadores-rxjs/adaptar-incorporacion';
+import { adaptarIncorporacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-incorporacion';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { PDFService } from '../auxiliares/pdf.service';
-import { ejecutarIncorporacion } from '@core/utils/funciones/ejecutar-incorporacion';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { reversarIncorporacion } from '@core/utils/funciones/reversar-incorporacion';
+import { ejecutarIncorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-incorporacion';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { reversarIncorporacion } from '@core/utils/pipes-rxjs/procesos/reversar-incorporacion';
 
 @Injectable({
   providedIn: 'root',

@@ -4,10 +4,10 @@ import { GenericService } from '../auxiliares/generic.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { END_POINTS } from '@core/constants/end-points';
 import { Observable } from 'rxjs';
-import { adaptarActivosProceso } from '@core/utils/adaptadores-rxjs/adaptar-activos-proceso';
+import { adaptarActivosProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activos-proceso';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarActivoProceso } from '@core/utils/adaptadores-rxjs/adaptar-activo-proceso';
+import { adaptarActivoProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-proceso';
 
 @Injectable({
   providedIn: 'root',

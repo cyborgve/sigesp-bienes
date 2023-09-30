@@ -5,9 +5,9 @@ import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
 import { GenericService } from '../auxiliares/generic.service';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
-import { adaptarCuentasContablesProceso } from '@core/utils/adaptadores-rxjs/adaptar-cuentas-contables-proceso';
+import { adaptarCuentasContablesProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuentas-contables-proceso';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarCuentaContableProceso } from '@core/utils/adaptadores-rxjs/adaptar-cuenta-contable-proceso';
+import { adaptarCuentaContableProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuenta-contable-proceso';
 
 @Injectable({
   providedIn: 'root',

@@ -1,4 +1,4 @@
-import { reversarDesincorporacion } from '@core/utils/funciones/reversar-desincorporacion';
+import { reversarDesincorporacion } from '@core/utils/pipes-rxjs/procesos/reversar-desincorporacion';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -12,14 +12,14 @@ import { DesincorporacionActivoService } from './desincorporacion-activo.service
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { Observable, forkJoin } from 'rxjs';
 import { Id } from '@core/types/id';
-import { adaptarDesincorporacion } from '@core/utils/adaptadores-rxjs/adaptar-desincorporacion';
+import { adaptarDesincorporacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-desincorporacion';
 import { DesincorporacionCuentaService } from './desincorporacion-cuenta.service';
-import { adaptarDesincorporaciones } from '@core/utils/adaptadores-rxjs/adaptar-desincorporaciones';
+import { adaptarDesincorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-desincorporaciones';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
 import { PDFService } from '../auxiliares/pdf.service';
-import { abrirReporteProceso } from '@core/utils/funciones/abrir-reporte-proceso';
-import { ejecutarDesincorporacion } from '@core/utils/funciones/ejecutar-desincorporacion';
+import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
+import { ejecutarDesincorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-desincorporacion';
 
 @Injectable({
   providedIn: 'root',

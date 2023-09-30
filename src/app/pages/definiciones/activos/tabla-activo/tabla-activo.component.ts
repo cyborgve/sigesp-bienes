@@ -19,7 +19,7 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { ordenarPorCodigo } from '@core/utils/operadores-rxjs/ordenar-por-codigo';
+import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
 
