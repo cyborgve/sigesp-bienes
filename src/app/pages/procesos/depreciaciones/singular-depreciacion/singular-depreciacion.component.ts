@@ -61,6 +61,7 @@ export class SingularDepreciacionComponent implements Entidad {
       fechaIncorporacion: [undefined],
       metodo: [undefined],
       costo: [undefined],
+      moneda: [undefined],
       valorRescate: [undefined],
       montoDepreciar: [undefined],
       vidaUtil: [undefined],
@@ -73,6 +74,7 @@ export class SingularDepreciacionComponent implements Entidad {
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+    console.log(localStorage);
   }
 
   private actualizarFormulario() {
@@ -239,6 +241,7 @@ export class SingularDepreciacionComponent implements Entidad {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
+      data: { filtros: [this._activo.filtrarDepreciables()] },
     });
     dialog
       .afterClosed()
@@ -250,12 +253,12 @@ export class SingularDepreciacionComponent implements Entidad {
           let vidaUtilMeses = convertirUnidadTiempo(
             activo.depreciacion.vidaUtil,
             activo.depreciacion.unidadVidaUtil,
-            'MESES'
+            'meses'
           );
           let vidaUtilAnios = convertirUnidadTiempo(
             activo.depreciacion.vidaUtil,
             activo.depreciacion.unidadVidaUtil,
-            'AÑOS'
+            'años'
           );
           let metodoDepreciacionAux = METODOS_DEPRECIACION.find(
             md => md.substring(0, 3) === activo.depreciacion.metodoDepreciacion
