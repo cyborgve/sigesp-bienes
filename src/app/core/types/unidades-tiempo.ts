@@ -5,4 +5,11 @@ export type UnidadDeTiempo =
   | 'dias'
   | 'semanas'
   | 'meses'
-  | 'años';
+  | 'años'
+  | 'SEGUNDOS'
+  | 'MINUTOS'
+  | 'HORAS'
+  | 'DIAS'
+  | 'SEMANAS'
+  | 'MESES'
+  | 'AÑOS';

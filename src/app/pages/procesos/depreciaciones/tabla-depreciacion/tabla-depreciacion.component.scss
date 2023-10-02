@@ -1,0 +1,23 @@
+th.mat-column-activo,
+td.mat-column-activo {
+  @apply w-fit;
+}
+
+th.mat-column-comprobante,
+td.mat-column-comprobante,
+th.mat-column-identificador,
+td.mat-column-identificador {
+  @apply w-36;
+}
+
+th.mat-column-metodoDepreciacion,
+td.mat-column-metodoDepreciacion {
+  @apply w-36 text-center;
+}
+
+th.mat-column-creado,
+td.mat-column-creado,
+th.mat-column-modificado,
+td.mat-column-modificado {
+  @apply w-44;
+}

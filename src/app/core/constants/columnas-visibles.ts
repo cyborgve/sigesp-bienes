@@ -220,8 +220,9 @@ export const COLUMNAS_VISIBLES = {
   ],
   DEPRECIACIONES: [
     'comprobante',
-    'causaMovimiento',
-    'unidadAdministrativa',
+    'activo',
+    'identificador',
+    'metodoDepreciacion',
     'creado',
     'modificado',
     'acciones-proceso',

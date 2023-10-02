@@ -20,11 +20,9 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Activo } from '@core/models/definiciones/activo';
 import { convertirUnidadTiempo } from '@core/utils/funciones/convertir-unidad-tiempo';
-import {
-  calcularDepreciacion,
-  proyectarDepreciacion,
-} from '@core/utils/funciones/calcular-depreciacion';
 import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';
+import { calcularDepreciacion } from '@core/utils/funciones/depreciacion';
+import moment from 'moment';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -74,7 +72,6 @@ export class SingularDepreciacionComponent implements Entidad {
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
-    console.log(localStorage);
   }
 
   private actualizarFormulario() {
@@ -241,7 +238,13 @@ export class SingularDepreciacionComponent implements Entidad {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [this._activo.filtrarDepreciables()] },
+      data: {
+        filtros: [
+          this._activo.filtrarIncorporados(),
+          this._activo.filtrarSinDepreciacion(this._entidad),
+          this._activo.filtrarDepreciables(),
+        ],
+      },
     });
     dialog
       .afterClosed()
@@ -250,31 +253,18 @@ export class SingularDepreciacionComponent implements Entidad {
           this._activo.buscarPorId(activoParcial.id)
         ),
         tap(activo => {
-          let vidaUtilMeses = convertirUnidadTiempo(
-            activo.depreciacion.vidaUtil,
-            activo.depreciacion.unidadVidaUtil,
-            'meses'
-          );
-          let vidaUtilAnios = convertirUnidadTiempo(
-            activo.depreciacion.vidaUtil,
-            activo.depreciacion.unidadVidaUtil,
-            'años'
-          );
-          let metodoDepreciacionAux = METODOS_DEPRECIACION.find(
-            md => md.substring(0, 3) === activo.depreciacion.metodoDepreciacion
-          );
-          let tiempoAux =
-            (new Date().getTime() -
-              new Date(activo.fechaAdquisicion).getTime()) /
-            (1000 * 60 * 60 * 24 * 30.44);
-          let depreciacionTotal = calcularDepreciacion(
+          let depreciacionCalculada = calcularDepreciacion(
             activo.valorAdquisicion,
-            vidaUtilAnios,
-            metodoDepreciacionAux,
-            tiempoAux,
-            true,
-            activo.depreciacion.valorRescate
+            activo.fechaAdquisicion,
+            activo.depreciacion.vidaUtil,
+            activo.depreciacion.unidadVidaUtil,
+            activo.depreciacion.valorRescate,
+            METODOS_DEPRECIACION.find(
+              md =>
+                md.substring(0, 3) === activo.depreciacion.metodoDepreciacion
+            )
           );
+
           this.formulario.patchValue({
             activo: activo.id,
             serial: activo.serialFabrica,
@@ -284,22 +274,26 @@ export class SingularDepreciacionComponent implements Entidad {
             metodo: activo.depreciacion.metodoDepreciacion,
             costo: activo.valorAdquisicion,
             valorRescate: activo.depreciacion.valorRescate,
-            montoDepreciar: depreciacionTotal,
-            vidaUtil: vidaUtilMeses + ' Meses',
-            depreciacionMensual: depreciacionTotal / tiempoAux,
-            depreciacionAnual: (depreciacionTotal / tiempoAux) * 12,
+            montoDepreciar:
+              activo.valorAdquisicion - activo.depreciacion.valorRescate,
+            vidaUtil:
+              convertirUnidadTiempo(
+                activo.depreciacion.vidaUtil,
+                activo.depreciacion.unidadVidaUtil,
+                'meses'
+              ) + ' Meses',
+            depreciacionMensual: depreciacionCalculada.mensual,
+            depreciacionAnual: depreciacionCalculada.anual,
             observaciones:
-              tiempoAux.toFixed(2) +
-              ' meses trancurridos desde la fecha de compra.',
+              moment(new Date()).diff(
+                activo.fechaAdquisicion,
+                'months',
+                false
+              ) + ' meses trancurridos desde la fecha de compra.',
           });
-          let proyeccion = proyectarDepreciacion(
-            activo.valorAdquisicion,
-            vidaUtilMeses,
-            metodoDepreciacionAux,
-            true,
-            activo.depreciacion.valorRescate
+          this.dataSource = new MatTableDataSource(
+            depreciacionCalculada.detalles
           );
-          this.dataSource = new MatTableDataSource(proyeccion);
         }),
         take(1)
       )

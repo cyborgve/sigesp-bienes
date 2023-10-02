@@ -5,3 +5,14 @@
 .tabla {
   @apply w-full;
 }
+
+th.mat-column-depreciacionMensual,
+td.mat-column-depreciacionMensual,
+th.mat-column-depreciacionAnual,
+td.mat-column-depreciacionAnual,
+th.mat-column-depreciacionAcumulada,
+td.mat-column-depreciacionAcumulada,
+th.mat-column-valorContable,
+td.mat-column-valorContable {
+  @apply text-right;
+}

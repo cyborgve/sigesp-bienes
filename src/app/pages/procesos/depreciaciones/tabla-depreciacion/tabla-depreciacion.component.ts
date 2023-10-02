@@ -22,6 +22,7 @@ import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-repor
 import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 
 @Component({
   selector: 'app-tabla-depreciacion',
@@ -99,10 +100,11 @@ export class TablaDepreciacionComponent
   }
 
   eliminar(entidad: Depreciacion) {
-    let dialog = this._dialog.open(DialogoEliminarDefinicionComponent, {
+    let dialog = this._dialog.open(DialogoEliminarProcesoComponent, {
+      width: '35%',
       data: {
-        codigo: entidad.comprobante,
-        denominacion: 'Depreciación',
+        comprobante: entidad.comprobante,
+        tipoProceso: 'Depreciación',
       },
     });
     dialog
