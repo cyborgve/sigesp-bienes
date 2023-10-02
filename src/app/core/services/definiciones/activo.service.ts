@@ -1,4 +1,4 @@
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { Observable, forkJoin, pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
@@ -27,6 +27,8 @@ import { adaptarComponentes } from '@core/utils/pipes-rxjs/adaptadores/adaptar-c
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 import { activoDepreciable } from '@core/utils/funciones/activo-depreciable';
+import { DepreciacionService } from '../procesos/depreciacion.service';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -262,5 +264,19 @@ export class ActivoService extends GenericService<Activo> {
           )
         );
       })
+    );
+
+  filtrarSinDepreciacion = (_depreciacion: DepreciacionService) =>
+    pipe(
+      switchMap((activos: Activo[]) =>
+        _depreciacion.buscarTodos().pipe(
+          map(depreciaciones =>
+            depreciaciones.map(depreciacion => depreciacion.activo)
+          ),
+          map(depreciaciones =>
+            activos.filter(activo => !depreciaciones.includes(activo.id))
+          )
+        )
+      )
     );
 }
