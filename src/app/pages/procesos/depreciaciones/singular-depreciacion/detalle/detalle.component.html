@@ -2,10 +2,10 @@
   <p class="detalleDepreciacion">{{ titulo }}</p>
   <table mat-table [dataSource]="dataSource" class="tabla">
     <!-- fechaDepreciacion -->
-    <ng-container matColumnDef="fechaDepreciacion">
+    <ng-container matColumnDef="fecha">
       <th mat-header-cell *matHeaderCellDef>Fecha depreciación</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.fechaDepreciacion | date : 'longDate' }}
+        {{ row.fecha | date : 'longDate' }}
       </td>
     </ng-container>
     <!-- meses -->
@@ -22,28 +22,28 @@
     <ng-container matColumnDef="depreciacionMensual">
       <th mat-header-cell *matHeaderCellDef>Depreciación mensual</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.depreciacionMensual | currency : 'VES' }}
+        {{ row.depreciacionMensual | currency : monedaIso }}
       </td>
     </ng-container>
     <!-- depreciacionAnual -->
     <ng-container matColumnDef="depreciacionAnual">
       <th mat-header-cell *matHeaderCellDef>Depreciación anual</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.depreciacionAnual | currency : 'VES' }}
+        {{ row.depreciacionAnual | currency : monedaIso }}
       </td>
     </ng-container>
     <!-- depreciacionAcumulada -->
     <ng-container matColumnDef="depreciacionAcumulada">
       <th mat-header-cell *matHeaderCellDef>Depreciación acumulada</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.depreciacionAcumulada | currency : 'VES' }}
+        {{ row.depreciacionAcumulada | currency : monedaIso }}
       </td>
     </ng-container>
     <!-- valorContable -->
     <ng-container matColumnDef="valorContable">
       <th mat-header-cell *matHeaderCellDef>Valor contable</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.valorContable | currency : 'VES' }}
+        {{ row.valorContable | currency : monedaIso }}
       </td>
     </ng-container>
 

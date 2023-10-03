@@ -1,4 +1,4 @@
-import { tap, take, first, filter, switchMap } from 'rxjs/operators';
+import { tap, take, first, filter, switchMap, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,6 +23,7 @@ import { convertirUnidadTiempo } from '@core/utils/funciones/convertir-unidad-ti
 import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';
 import { calcularDepreciacion } from '@core/utils/funciones/depreciacion';
 import moment from 'moment';
+import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -37,6 +38,7 @@ export class SingularDepreciacionComponent implements Entidad {
   metodosDepreciacion = METODOS_DEPRECIACION;
   dataSource: MatTableDataSource<DetalleDepreciacion> =
     new MatTableDataSource();
+  monedaIso: string = 'VES';
 
   constructor(
     private _entidad: DepreciacionService,
@@ -46,7 +48,8 @@ export class SingularDepreciacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _activo: ActivoService,
+    private _moneda: MonedaService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -181,6 +184,7 @@ export class SingularDepreciacionComponent implements Entidad {
   guardar() {
     let entidad: Depreciacion = this.formulario.value;
     entidad.vidaUtil = Number(entidad.vidaUtil.toString().split(' ')[0]);
+    entidad.detalles = this.dataSource.data;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo)
@@ -295,6 +299,8 @@ export class SingularDepreciacionComponent implements Entidad {
             depreciacionCalculada.detalles
           );
         }),
+        switchMap(activo => this._moneda.buscarPorId(activo.monedaId)),
+        tap(moneda => (this.monedaIso = moneda.iso)),
         take(1)
       )
       .subscribe();

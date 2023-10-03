@@ -192,7 +192,7 @@ export function proyectarDepreciacion(
       empresaId: undefined,
       id: undefined,
       proceso: undefined,
-      fechaDepreciacion: fechaDepreciacionActual.toString(),
+      fecha: fechaDepreciacionActual,
       depreciacionMensual: depreciacionMensual,
       depreciacionAnual: depreciacionAnual,
       dias: diasTranscurridos,

@@ -20,7 +20,6 @@ import { DepreciacionService } from '@core/services/procesos/depreciacion.servic
 import { Id } from '@core/types/id';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 
@@ -96,7 +95,8 @@ export class TablaDepreciacionComponent
   imprimir(entidad: Depreciacion) {
     this._entidad
       .buscarPorId(entidad.id)
-      .pipe(abrirReporteProceso(this._pdf, 'DEPRECIACIÓN'), take(1));
+      .pipe(abrirReporteProceso(this._pdf, 'DEPRECIACIÓN'), take(1))
+      .subscribe();
   }
 
   eliminar(entidad: Depreciacion) {

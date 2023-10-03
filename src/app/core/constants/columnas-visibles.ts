@@ -228,7 +228,7 @@ export const COLUMNAS_VISIBLES = {
     'acciones-proceso',
   ],
   DEPRECIACIONES_DETALLE: [
-    'fechaDepreciacion',
+    'fecha',
     'meses',
     'dias',
     'depreciacionMensual',

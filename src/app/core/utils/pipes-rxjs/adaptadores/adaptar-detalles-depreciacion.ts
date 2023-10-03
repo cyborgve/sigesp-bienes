@@ -10,7 +10,7 @@ export const adaptarDetallesDepreciacion = () =>
           <DetalleDepreciacion>{
             empresaId: Number(detalleDepreciacion.empresaId),
             id: Number(detalleDepreciacion.id),
-            fechaDepreciacion: detalleDepreciacion.fechaDepreciacion,
+            fecha: detalleDepreciacion.fecha,
             meses: Number(detalleDepreciacion.meses),
             dias: Number(detalleDepreciacion.dias),
             depreciacionMensual: Number(

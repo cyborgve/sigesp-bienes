@@ -10,6 +10,7 @@ import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion'
 })
 export class DetalleComponent {
   @Input() dataSource: MatTableDataSource<DetalleDepreciacion>;
+  @Input() monedaIso: string = 'VES';
   columnasVisibles = COLUMNAS_VISIBLES.DEPRECIACIONES_DETALLE;
   titulo = 'Detalle de la depreciación';
 }

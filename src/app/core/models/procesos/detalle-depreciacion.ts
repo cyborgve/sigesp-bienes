@@ -3,7 +3,7 @@ import { Basica } from '@core/models/auxiliares/basica';
 
 export interface DetalleDepreciacion extends Basica {
   proceso: Id;
-  fechaDepreciacion: string;
+  fecha: Date;
   meses: number;
   dias: number;
   depreciacionMensual: number;

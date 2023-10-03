@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { END_POINTS } from '@core/constants/end-points';
@@ -24,13 +24,17 @@ export class DepreciacionDetalleService extends GenericService<DetalleDepreciaci
 
   buscarTodosPorProceso(depreciacion: Id): Observable<DetalleDepreciacion[]> {
     return this._http.get(this.apiUrlProceso(depreciacion)).pipe(
+      tap(console.log),
       map((resultado: any) => resultado.data),
       map((detallesDepreciacion: any[]) =>
         detallesDepreciacion.map(detalleDepreciacion =>
           normalizarObjeto(detalleDepreciacion)
         )
       ),
-      adaptarDetallesDepreciacion()
+      adaptarDetallesDepreciacion(),
+      map(detalles =>
+        detalles.sort((dda, ddb) => (dda.dias > ddb.dias ? 1 : -1))
+      )
     );
   }
 
