@@ -13,6 +13,8 @@ export const abrirReporteProceso = (
         return _pdf.abrirReportePDFEntregaUnidad(proceso);
       else if (tipoProceso === 'MODIFICACIÓN')
         return _pdf.abrirReportePDFModificacion(proceso);
+      else if (tipoProceso === 'DEPRECIACIÓN')
+        return _pdf.abrirReportePDFDepreciacion(proceso);
       else return _pdf.abrirReportePDF(proceso, tipoProceso);
     })
   );

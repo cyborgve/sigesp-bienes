@@ -16,6 +16,8 @@ import { seccionEncabezadoReporte } from '@core/utils/reportes/seccion-encabezad
 import { seccionDetallesModificacionReporte } from '@core/utils/reportes/seccion-detalles-modificacion-reporte';
 import { seccionDetalleReporte } from '@core/utils/reportes/seccion-detalle-reporte';
 import { datosGeneralesReporte } from '@core/utils/reportes/seccion-datos-generales-reporte';
+import { Depreciacion } from '@core/models/procesos/depreciacion';
+import { seccionDetalleDepreciacionReporte } from '@core/utils/reportes/seccion-detalle-depreciacion-reporte';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +82,7 @@ export class PDFService {
   abrirReportePDFModificacion(modificacion: Modificacion) {
     combineLatest([
       this._empresa.datosGenerales(modificacion.empresaId),
-      this._infoReporte.obtener(modificacion, 'MODIFICACIÓN'),
+      this._infoReporte.obtener(modificacion, 'DEPRECIACIÓN'),
     ])
       .pipe(
         tap(([empresa, infoReporte]) => {
@@ -89,14 +91,43 @@ export class PDFService {
             pageOrientation: 'portrait',
             info: metadataReporte(
               infoReporte,
-              'MODIFICACIÓN',
+              'DEPRECIACIÓN',
               this._sigesp.usuarioActivo
             ),
-            footer: seccionPiePaginaReporte(infoReporte, 'MODIFICACIÓN'),
+            footer: seccionPiePaginaReporte(infoReporte, 'DEPRECIACIÓN'),
             content: [
-              seccionEncabezadoReporte(empresa, infoReporte, 'MODIFICACIÓN'),
-              datosGeneralesReporte(infoReporte, 'MODIFICACIÓN'),
+              seccionEncabezadoReporte(empresa, infoReporte, 'DEPRECIACIÓN'),
+              datosGeneralesReporte(infoReporte, 'DEPRECIACIÓN'),
               seccionDetallesModificacionReporte(infoReporte),
+            ],
+            styles: this.estilosProceso,
+          };
+          pdfMake.createPdf(reportePDF).open();
+        })
+      )
+      .subscribe();
+  }
+
+  abrirReportePDFDepreciacion(depreciacion: Depreciacion) {
+    combineLatest([
+      this._empresa.datosGenerales(depreciacion.empresaId),
+      this._infoReporte.obtener(depreciacion, 'DEPRECIACIÓN'),
+    ])
+      .pipe(
+        tap(([empresa, infoReporte]) => {
+          let reportePDF = {
+            pageSize: 'letter',
+            pageOrientation: 'portrait',
+            info: metadataReporte(
+              infoReporte,
+              'DEPRECIACIÓN',
+              this._sigesp.usuarioActivo
+            ),
+            footer: seccionPiePaginaReporte(infoReporte, 'DEPRECIACIÓN'),
+            content: [
+              seccionEncabezadoReporte(empresa, infoReporte, 'DEPRECIACIÓN'),
+              datosGeneralesReporte(infoReporte, 'DEPRECIACIÓN'),
+              seccionDetalleDepreciacionReporte(infoReporte),
             ],
             styles: this.estilosProceso,
           };

@@ -27,6 +27,7 @@ import { ProveedorService } from '../otros-modulos/proveedor.service';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { TipoComponenteService } from '../definiciones/tipo-componente.service';
 import { BeneficiarioService } from '../otros-modulos/beneficiario.service';
+import { normalizarMetodoDepreciacion } from '@core/utils/funciones/normalizar-metodo-depreciacion';
 
 @Injectable({
   providedIn: 'root',
@@ -312,12 +313,14 @@ export class InformacionProcesoService {
         empresaId: empresa,
         id: depreciacion.id,
         comprobante: depreciacion.comprobante.toString().substring(5),
-        activo: this.activo(depreciacion.activo),
+        activo: activo,
         serial: depreciacion.serial,
         identificador: depreciacion.identificador,
-        fechaCompra: new Date(depreciacion.fechaCompra),
-        fechaIncorporacion: new Date(depreciacion.fechaIncorporacion),
-        metodo: depreciacion.metodo,
+        fechaCompra: new Date(depreciacion.fechaCompra).toLocaleDateString(),
+        fechaIncorporacion: new Date(
+          depreciacion.fechaIncorporacion
+        ).toLocaleDateString(),
+        metodo: normalizarMetodoDepreciacion(depreciacion.metodo),
         costo: depreciacion.costo,
         valorRescate: depreciacion.valorRescate,
         montoDepreciar: depreciacion.montoDepreciar,

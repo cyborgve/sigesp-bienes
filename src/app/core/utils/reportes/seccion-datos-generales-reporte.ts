@@ -149,7 +149,96 @@ const seccionCambioResponsable = (proceso: any) => [
 /**
  * DATOS DEPRECIACION
  */
-const seccionDepreciacion = (proceso: any) => <any>{};
+const seccionDepreciacion = (proceso: any) => [
+  campoTextoConTituloReporte('Bien:', proceso.activo),
+  {
+    columns: [
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte('Identificador:', proceso.identificador),
+        ],
+      },
+      {
+        width: '25%',
+        stack: [campoTextoConTituloReporte('Serial:', proceso.serial)],
+      },
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte('Fecha de compra:', proceso.fechaCompra),
+        ],
+      },
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte(
+            'Fecha de incorporación:',
+            proceso.fechaIncorporacion
+          ),
+        ],
+      },
+    ],
+  },
+  {
+    columns: [
+      {
+        width: '25%',
+        stack: [campoTextoConTituloReporte('Costo:', proceso.costo)],
+      },
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte('Vida útil:', proceso.vidaUtil + ' Meses'),
+        ],
+      },
+      {
+        width: '50%',
+        stack: [
+          campoTextoConTituloReporte('Método de Deoreciación:', proceso.metodo),
+        ],
+      },
+    ],
+  },
+  {
+    columns: [
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte('Valor de rescate:', proceso.valorRescate),
+        ],
+      },
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte(
+            'Monto a depreciar:',
+            Number(proceso.montoDepreciar).toFixed(2)
+          ),
+        ],
+      },
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte(
+            'Depreciación mensual:',
+            Number(proceso.depreciacionMensual).toFixed(2)
+          ),
+        ],
+      },
+      {
+        width: '25%',
+        stack: [
+          campoTextoConTituloReporte(
+            'Depreciación anual:',
+            Number(proceso.depreciacionAnual).toFixed(2)
+          ),
+        ],
+      },
+    ],
+  },
+  campoTextoConTituloReporte('Observaciones:', proceso.observaciones),
+];
 /**
  * DATOS DESINCORPORACION
  */
