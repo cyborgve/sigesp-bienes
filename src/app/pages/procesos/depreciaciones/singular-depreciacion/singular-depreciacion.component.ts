@@ -253,6 +253,7 @@ export class SingularDepreciacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter((activoParcial: Activo) => !!activoParcial),
         switchMap((activoParcial: Activo) =>
           this._activo.buscarPorId(activoParcial.id)
         ),

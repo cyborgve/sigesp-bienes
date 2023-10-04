@@ -24,7 +24,6 @@ export class DepreciacionDetalleService extends GenericService<DetalleDepreciaci
 
   buscarTodosPorProceso(depreciacion: Id): Observable<DetalleDepreciacion[]> {
     return this._http.get(this.apiUrlProceso(depreciacion)).pipe(
-      tap(console.log),
       map((resultado: any) => resultado.data),
       map((detallesDepreciacion: any[]) =>
         detallesDepreciacion.map(detalleDepreciacion =>

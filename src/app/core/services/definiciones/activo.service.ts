@@ -271,10 +271,12 @@ export class ActivoService extends GenericService<Activo> {
       switchMap((activos: Activo[]) =>
         _depreciacion.buscarTodos().pipe(
           map(depreciaciones =>
-            depreciaciones.map(depreciacion => depreciacion.activo)
+            depreciaciones.map(depreciacion => Number(depreciacion.activo))
           ),
           map(depreciaciones =>
-            activos.filter(activo => !depreciaciones.includes(activo.id))
+            activos.filter(
+              activo => !depreciaciones.includes(Number(activo.id))
+            )
           )
         )
       )
