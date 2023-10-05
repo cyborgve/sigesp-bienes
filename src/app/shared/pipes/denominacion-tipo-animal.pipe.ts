@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 
@@ -8,13 +8,10 @@ import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.servi
 })
 export class DenominacionTipoAnimalPipe implements PipeTransform {
   transform(value: number): Observable<string> {
+    if (value === null || value === undefined) return of('');
     return this._tipoAnimal
       .buscarPorId(value)
-      .pipe(
-        map(tipoAnimal =>
-          tipoAnimal ? tipoAnimal['denominacion'] : String(value)
-        )
-      );
+      .pipe(map(tipoAnimal => tipoAnimal['denominacion']));
   }
 
   constructor(private _tipoAnimal: TipoAnimalService) {}

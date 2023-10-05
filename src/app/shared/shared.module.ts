@@ -57,7 +57,6 @@ import { DenominacionProveedorPipe } from './pipes/denominacion-proveedor.pipe';
 import { DenominacionCategoriaUnidadAdministrativaPipe } from './pipes/denominacion-categoria-unidad-administrativa.pipe';
 import { BuscadorParroquiaComponent } from './components/buscador-parroquia/buscador-parroquia.component';
 import { DenominacionParroquiaPipe } from './pipes/denominacion-parroquia.pipe';
-import { CorregirPorDefectoPipe } from './pipes/corregir-por-defecto.pipe';
 import { DenominacionUnidadAdministrativaPipe } from './pipes/denominacion-unidad-administrativa.pipe';
 import { DenominacionEstadoUsoPipe } from './pipes/denominacion-estado-uso.pipe';
 import { DenominacionEstadoConservacionPipe } from './pipes/denominacion-estado-conservacion.pipe';
@@ -69,7 +68,6 @@ import { ActivosProcesoComponent } from './components/activos-proceso/activos-pr
 import { DenominacionCausaMovimientoPipe } from './pipes/denominacion-causa-movimiento.pipe';
 import { CuentasContablesProcesoComponent } from './components/cuentas-contables-proceso/cuentas-contables-proceso.component';
 import { ComponentesProcesoComponent } from './components/componentes-proceso/componentes-proceso.component';
-import { DenominacionRetornoPipe } from './pipes/denominacion-retorno.pipe';
 import { DenominacionBeneficiarioPipe } from './pipes/denominacion-beneficiario.pipe';
 import { CorregirNoAsignadoPipe } from './pipes/corregir-no-asignado.pipe';
 import { DenominacionModoAdquisicionPipe } from './pipes/denominacion-modo-adquisicion.pipe';
@@ -122,7 +120,6 @@ const sharedPipes = [
   IsoCurrencyPipe,
   CorregirSeleccionarPipe,
   CorregirCodigoPipe,
-  CorregirPorDefectoPipe,
   NumeroSeriePipe,
   NumeroCorrelativoPipe,
   TipoCausaMovimientoPipe,
@@ -164,7 +161,6 @@ const sharedPipes = [
   DenominacionEstadoConservacionPipe,
   DenominacionResponsablePipe,
   DenominacionCausaMovimientoPipe,
-  DenominacionRetornoPipe,
   DenominacionBeneficiarioPipe,
   CorregirNoAsignadoPipe,
   DenominacionModoAdquisicionPipe,

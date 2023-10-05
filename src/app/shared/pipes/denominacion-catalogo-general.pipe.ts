@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { CatalogoGeneralService } from '@core/services/definiciones/catalogo-general.service';
 
@@ -8,13 +8,10 @@ import { CatalogoGeneralService } from '@core/services/definiciones/catalogo-gen
 })
 export class DenominacionCatalogoGeneralPipe implements PipeTransform {
   transform(value: number): Observable<string> {
+    if (value === null || value === undefined) return of('');
     return this._catalogoGeneral
       .buscarPorId(value)
-      .pipe(
-        map(catalogoGeneral =>
-          catalogoGeneral ? catalogoGeneral['denominacion'] : String(value)
-        )
-      );
+      .pipe(map(catalogoGeneral => catalogoGeneral['denominacion']));
   }
   constructor(private _catalogoGeneral: CatalogoGeneralService) {}
 }

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ActivoService } from '@core/services/definiciones/activo.service';
@@ -8,9 +8,10 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 })
 export class DenominacionActivoPipe implements PipeTransform {
   transform(value: number): Observable<string> {
+    if (value === null || value === undefined) return of('');
     return this._activo
       .buscarPorId(value)
-      .pipe(map(activo => (activo ? activo['denominacion'] : String(value))));
+      .pipe(map(activo => activo['denominacion']));
   }
   constructor(private _activo: ActivoService) {}
 }

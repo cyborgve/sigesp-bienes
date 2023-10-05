@@ -1,7 +1,6 @@
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
-import { SigespService } from 'sigesp';
 import { Id } from '@core/types/id';
 import { ProveedorService } from '@core/services/otros-modulos/proveedor.service';
 
@@ -10,15 +9,11 @@ import { ProveedorService } from '@core/services/otros-modulos/proveedor.service
 })
 export class DenominacionProveedorPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
+    if (value === null || value === undefined) return of('');
+    if (value === '--' || value === '---') return of('---');
     return this._proveedor
       .buscarPorId(value)
-      .pipe(
-        map(proveedor =>
-          proveedor
-            ? proveedor.rif + ' ' + proveedor.denominacion
-            : String(value)
-        )
-      );
+      .pipe(map(proveedor => proveedor.rif + ' ' + proveedor.denominacion));
   }
   constructor(private _proveedor: ProveedorService) {}
 }

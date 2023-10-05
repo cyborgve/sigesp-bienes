@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TipoCoberturaService } from '@core/services/definiciones/tipo-cobertura.service';
 
@@ -8,13 +8,10 @@ import { TipoCoberturaService } from '@core/services/definiciones/tipo-cobertura
 })
 export class DenominacionTipoCoberturaPipe implements PipeTransform {
   transform(value: number): Observable<string> {
+    if (value === null || value === undefined) return of('');
     return this._tipoCobertura
       .buscarPorId(value)
-      .pipe(
-        map(tipoCobertura =>
-          tipoCobertura ? tipoCobertura['denominacion'] : String(value)
-        )
-      );
+      .pipe(map(tipoCobertura => tipoCobertura['denominacion']));
   }
   constructor(private _tipoCobertura: TipoCoberturaService) {}
 }

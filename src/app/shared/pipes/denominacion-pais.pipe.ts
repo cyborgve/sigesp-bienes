@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { PaisService } from '@core/services/otros-modulos/pais.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Pipe({
@@ -8,14 +8,11 @@ import { map } from 'rxjs/operators';
 })
 export class DenominacionPaisPipe implements PipeTransform {
   transform(value: string): Observable<string> {
-    if (value) {
-      {
-        return this._pais.buscarTodos().pipe(
-          map(paises => paises.find(pais => pais.id === value)),
-          map(pais => (pais ? pais['denominacion'] : String(value)))
-        );
-      }
-    }
+    if (value === null || value === undefined) return of('');
+    return this._pais.buscarTodos().pipe(
+      map(paises => paises.find(pais => pais.id === value)),
+      map(pais => (pais ? pais['denominacion'] : String(value)))
+    );
   }
 
   constructor(private _pais: PaisService) {}
