@@ -25,11 +25,7 @@
         type="text"
         readonly="true"
         [value]="
-          proveedor.value
-            | denominacionProveedor
-            | async
-            | corregirSeleccionar
-            | corregirPorDefecto
+          proveedor.value | denominacionProveedor | async | corregirSeleccionar
         " />
       <button
         type="button"

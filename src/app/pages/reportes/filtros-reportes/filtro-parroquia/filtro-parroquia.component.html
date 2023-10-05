@@ -25,11 +25,7 @@
         type="text"
         readonly="true"
         [value]="
-          parroquia.value
-            | denominacionParroquia
-            | async
-            | corregirSeleccionar
-            | corregirPorDefecto
+          parroquia.value | denominacionParroquia | async | corregirSeleccionar
         " />
       <button
         type="button"
