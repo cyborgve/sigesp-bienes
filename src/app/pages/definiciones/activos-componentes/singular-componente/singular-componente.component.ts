@@ -1,4 +1,4 @@
-import { take, tap, first, filter, switchMap } from 'rxjs/operators';
+import { tap, first, filter, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy } from '@angular/core';
 import { Entidad } from '@core/models/auxiliares/entidad';
@@ -64,26 +64,27 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
   private actualizarFormulario() {
     if (this.id) {
       this.modoFormulario = 'EDITANDO';
-      this._entidad
-        .buscarPorId(this.id)
-        .pipe(
-          take(1),
-          tap(entidad => {
-            this.formulario.patchValue({
-              empresaId: entidad.empresaId,
-              id: entidad.id,
-              codigo: entidad.codigo,
-              denominacion: entidad.denominacion,
-              tipoComponenteId: entidad.tipoComponenteId,
-              modeloId: entidad.modeloId,
-              activoId: entidad.activoId,
-              especificaciones: entidad.especificaciones,
-              creado: entidad.creado,
-              modificado: entidad.modificado,
-            });
-          })
-        )
-        .subscribe();
+      this.subscripciones.push(
+        this._entidad
+          .buscarPorId(this.id)
+          .pipe(
+            tap(entidad => {
+              this.formulario.patchValue({
+                empresaId: entidad.empresaId,
+                id: entidad.id,
+                codigo: entidad.codigo,
+                denominacion: entidad.denominacion,
+                tipoComponenteId: entidad.tipoComponenteId,
+                modeloId: entidad.modeloId,
+                activoId: entidad.activoId,
+                especificaciones: entidad.especificaciones,
+                creado: entidad.creado,
+                modificado: entidad.modificado,
+              });
+            })
+          )
+          .subscribe()
+      );
     } else {
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
@@ -94,8 +95,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
             return this.formulario.patchValue({
               codigo: `${ser}-${cor}`,
             });
-          }),
-          take(1)
+          })
         )
         .subscribe();
     }
@@ -110,16 +110,15 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: ActivoComponente) =>
-            entidad
-              ? this.formulario.patchValue({
-                  denominacion: entidad.denominacion,
-                  tipoComponenteId: entidad.tipoComponenteId,
-                  modeloId: entidad.modeloId,
-                  activoId: entidad.activoId,
-                  especificaciones: entidad.especificaciones,
-                })
-              : undefined
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              tipoComponenteId: entidad.tipoComponenteId,
+              modeloId: entidad.modeloId,
+              activoId: entidad.activoId,
+              especificaciones: entidad.especificaciones,
+            })
           )
         )
         .subscribe()
@@ -158,8 +157,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
               this.formulario.value.id,
               this.titulo.toUpperCase()
             )
-          ),
-          take(1)
+          )
         )
         .subscribe(() => this.irAtras())
     );
@@ -189,12 +187,11 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((tipoComponente: TipoComponente) =>
-            tipoComponente
-              ? this.formulario.patchValue({
-                  tipoComponenteId: tipoComponente.id,
-                })
-              : undefined
+            this.formulario.patchValue({
+              tipoComponenteId: tipoComponente.id,
+            })
           )
         )
         .subscribe()
@@ -210,10 +207,9 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((activo: Activo) =>
-            activo
-              ? this.formulario.patchValue({ activoId: activo.id })
-              : undefined
+            this.formulario.patchValue({ activoId: activo.id })
           )
         )
         .subscribe()
@@ -229,10 +225,9 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((modelo: Modelo) =>
-            modelo
-              ? this.formulario.patchValue({ modeloId: modelo.id })
-              : undefined
+            this.formulario.patchValue({ modeloId: modelo.id })
           )
         )
         .subscribe()

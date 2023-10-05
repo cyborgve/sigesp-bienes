@@ -2,7 +2,7 @@ import { BuscadorCatalogoGeneralComponent } from '@pages/definiciones/catalogos-
 import { MatDialog } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { tap, take, map } from 'rxjs/operators';
+import { tap, take, map, filter } from 'rxjs/operators';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { pipe } from 'rxjs';
 
@@ -32,10 +32,9 @@ export class FiltroCatalogoGeneralComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((catalogoGeneral: CatalogoGeneral) =>
-          catalogoGeneral
-            ? this.catalogoGeneral.patchValue(catalogoGeneral.id)
-            : undefined
+          this.catalogoGeneral.patchValue(catalogoGeneral.id)
         ),
         take(1)
       )

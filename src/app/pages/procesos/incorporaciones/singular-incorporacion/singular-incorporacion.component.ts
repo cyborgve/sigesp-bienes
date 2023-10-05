@@ -157,24 +157,21 @@ export class SingularIncorporacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap(incorporacion =>
-          incorporacion
-            ? this._incorporacion.buscarPorId(incorporacion.id)
-            : undefined
+          this._incorporacion.buscarPorId(incorporacion.id)
         ),
         tap(incorporacion => {
-          incorporacion
-            ? this.formulario.patchValue({
-                causaMovimiento: incorporacion.causaMovimiento,
-                unidadAdministrativa: incorporacion.unidadAdministrativa,
-                responsablePrimario: incorporacion.responsablePrimario,
-                responsableUso: incorporacion.responsableUso,
-                sede: incorporacion.sede,
-                fechaEntrega: incorporacion.fechaEntrega,
-                observaciones: incorporacion.observaciones,
-                activos: [],
-              })
-            : undefined;
+          this.formulario.patchValue({
+            causaMovimiento: incorporacion.causaMovimiento,
+            unidadAdministrativa: incorporacion.unidadAdministrativa,
+            responsablePrimario: incorporacion.responsablePrimario,
+            responsableUso: incorporacion.responsableUso,
+            sede: incorporacion.sede,
+            fechaEntrega: incorporacion.fechaEntrega,
+            observaciones: incorporacion.observaciones,
+            activos: [],
+          });
         }),
         take(1)
       )
@@ -248,14 +245,14 @@ export class SingularIncorporacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap(activo => {
-          activo
-            ? (this.dataSource = new MatTableDataSource([
-                ...this.dataSource.data,
-                convertirActivoProceso(activo),
-              ]))
-            : undefined;
-        }),
+        filter(todo => !!todo),
+        tap(
+          activo =>
+            (this.dataSource = new MatTableDataSource([
+              ...this.dataSource.data,
+              convertirActivoProceso(activo),
+            ]))
+        ),
         take(1)
       )
       .subscribe();
@@ -283,11 +280,10 @@ export class SingularIncorporacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((causaMovimiento: CausaMovimiento) => {
-          if (causaMovimiento) {
-            this.formulario.patchValue({ causaMovimiento: causaMovimiento.id });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((causaMovimiento: CausaMovimiento) =>
+          this.formulario.patchValue({ causaMovimiento: causaMovimiento.id })
+        ),
         take(1)
       )
       .subscribe();
@@ -301,13 +297,12 @@ export class SingularIncorporacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((unidadAdministrativa: UnidadAdministrativa) => {
-          if (unidadAdministrativa) {
-            this.formulario.patchValue({
-              unidadAdministrativa: unidadAdministrativa.id,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((unidadAdministrativa: UnidadAdministrativa) =>
+          this.formulario.patchValue({
+            unidadAdministrativa: unidadAdministrativa.id,
+          })
+        ),
         take(1)
       )
       .subscribe();
@@ -321,13 +316,12 @@ export class SingularIncorporacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((sede: Sede) => {
-          if (sede) {
-            this.formulario.patchValue({
-              sede: sede.id,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((sede: Sede) =>
+          this.formulario.patchValue({
+            sede: sede.id,
+          })
+        ),
         take(1)
       )
       .subscribe();
@@ -341,13 +335,12 @@ export class SingularIncorporacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((responsable: Responsable) => {
-          if (responsable) {
-            this.formulario.patchValue({
-              responsablePrimario: responsable.id,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((responsable: Responsable) =>
+          this.formulario.patchValue({
+            responsablePrimario: responsable.id,
+          })
+        ),
         take(1)
       )
       .subscribe();
@@ -361,13 +354,12 @@ export class SingularIncorporacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((responsable: Responsable) => {
-          if (responsable) {
-            this.formulario.patchValue({
-              responsableUso: responsable.id,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((responsable: Responsable) =>
+          this.formulario.patchValue({
+            responsableUso: responsable.id,
+          })
+        ),
         take(1)
       )
       .subscribe();

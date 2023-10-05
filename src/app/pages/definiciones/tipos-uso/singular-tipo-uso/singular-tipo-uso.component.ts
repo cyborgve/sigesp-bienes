@@ -90,12 +90,11 @@ export class SingularTipoUsoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: TipoUso) =>
-          entidad
-            ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
-              })
-            : undefined
+          this.formulario.patchValue({
+            denominacion: entidad.denominacion,
+          })
         ),
         take(1)
       )

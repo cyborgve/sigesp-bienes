@@ -1,4 +1,4 @@
-import { tap, take } from 'rxjs/operators';
+import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,8 +24,9 @@ export class FiltroTipoAnimalComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((tipoAnimal: TipoAnimal) =>
-          tipoAnimal ? this.tipoAnimal.patchValue(tipoAnimal.id) : undefined
+          this.tipoAnimal.patchValue(tipoAnimal.id)
         ),
         take(1)
       )

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
 import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filtro-beneficiario',
@@ -24,10 +24,9 @@ export class FiltroBeneficiarioComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((beneficiario: Beneficiario) =>
-          beneficiario
-            ? this.beneficiario.patchValue(beneficiario.id)
-            : undefined
+          this.beneficiario.patchValue(beneficiario.id)
         ),
         take(1)
       )

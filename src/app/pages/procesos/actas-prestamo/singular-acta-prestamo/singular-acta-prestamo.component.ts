@@ -165,19 +165,17 @@ export class SingularActaPrestamoComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((actaPrestamo: ActaPrestamo) =>
-          actaPrestamo
-            ? this.formulario.patchValue({
-                unidadAdministrativaCedente:
-                  actaPrestamo.unidadAdministrativaCedente,
-                unidadCedenteResponsable: actaPrestamo.unidadCedenteResponsable,
-                unidadAdministrativaReceptora:
-                  actaPrestamo.unidadAdministrativaReceptora,
-                unidadReceptoraResponsable:
-                  actaPrestamo.unidadReceptoraResponsable,
-                testigo: actaPrestamo.testigo,
-              })
-            : undefined
+          this.formulario.patchValue({
+            unidadAdministrativaCedente:
+              actaPrestamo.unidadAdministrativaCedente,
+            unidadCedenteResponsable: actaPrestamo.unidadCedenteResponsable,
+            unidadAdministrativaReceptora:
+              actaPrestamo.unidadAdministrativaReceptora,
+            unidadReceptoraResponsable: actaPrestamo.unidadReceptoraResponsable,
+            testigo: actaPrestamo.testigo,
+          })
         ),
         take(1)
       )
@@ -250,12 +248,11 @@ export class SingularActaPrestamoComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap(unidadAdministrativa =>
-          unidadAdministrativa
-            ? this.formulario.patchValue({
-                unidadAdministrativaCedente: unidadAdministrativa.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            unidadAdministrativaCedente: unidadAdministrativa.id,
+          })
         ),
         take(1)
       )
@@ -270,12 +267,11 @@ export class SingularActaPrestamoComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap(responsable =>
-          responsable
-            ? this.formulario.patchValue({
-                unidadCedenteResponsable: responsable.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            unidadCedenteResponsable: responsable.id,
+          })
         ),
         take(1)
       )
@@ -290,12 +286,11 @@ export class SingularActaPrestamoComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap(unidadAdministrativa =>
-          unidadAdministrativa
-            ? this.formulario.patchValue({
-                unidadAdministrativaReceptora: unidadAdministrativa.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            unidadAdministrativaReceptora: unidadAdministrativa.id,
+          })
         ),
         take(1)
       )
@@ -310,12 +305,11 @@ export class SingularActaPrestamoComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap(responsable =>
-          responsable
-            ? this.formulario.patchValue({
-                unidadReceptoraResponsable: responsable.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            unidadReceptoraResponsable: responsable.id,
+          })
         ),
         take(1)
       )
@@ -330,12 +324,11 @@ export class SingularActaPrestamoComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap(responsable =>
-          responsable
-            ? this.formulario.patchValue({
-                testigo: responsable.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            testigo: responsable.id,
+          })
         ),
         take(1)
       )
@@ -358,9 +351,8 @@ export class SingularActaPrestamoComponent
     dialog
       .afterClosed()
       .pipe(
-        switchMap(activo =>
-          activo ? this._activo.buscarPorId(activo.id) : activo
-        ),
+        filter(todo => !!todo),
+        switchMap(activo => this._activo.buscarPorId(activo.id)),
         tap((activo: Activo) =>
           activo
             ? (this.dataSource = new MatTableDataSource([

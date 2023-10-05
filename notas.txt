@@ -22,4 +22,7 @@
 4. Autorizacion de Salida:
     No hay una accion sobre los activos, solo se tiene el reporte de autorizacion de salida.
 
-
+5. Componentes que usan SigespService:
+    - centros de costo
+    - fuente de financiamiento
+    

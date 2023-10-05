@@ -135,19 +135,18 @@ export class SingularReasignacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap((modificacion: Basica) =>
-          modificacion ? this._entidad.buscarPorId(modificacion.id) : undefined
+          this._entidad.buscarPorId(modificacion.id)
         ),
         tap(entidad =>
-          entidad
-            ? this.formulario.patchValue({
-                causaMovimiento: entidad.causaMovimiento,
-                responsablePrimario: entidad.responsablePrimario,
-                responsableUso: entidad.responsableUso,
-                sede: entidad.sede,
-                observaciones: entidad.observaciones,
-              })
-            : undefined
+          this.formulario.patchValue({
+            causaMovimiento: entidad.causaMovimiento,
+            responsablePrimario: entidad.responsablePrimario,
+            responsableUso: entidad.responsableUso,
+            sede: entidad.sede,
+            observaciones: entidad.observaciones,
+          })
         ),
         take(1)
       )
@@ -225,14 +224,14 @@ export class SingularReasignacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((activo: Activo) => {
-          if (activo) {
-            this.dataSource = new MatTableDataSource([
+        filter(todo => !!todo),
+        tap(
+          (activo: Activo) =>
+            (this.dataSource = new MatTableDataSource([
               ...this.dataSource.data,
               convertirActivoProceso(activo),
-            ]);
-          }
-        }),
+            ]))
+        ),
         take(1)
       )
       .subscribe();
@@ -258,11 +257,10 @@ export class SingularReasignacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((causaMovimiento: CausaMovimiento) => {
-          if (causaMovimiento) {
-            this.formulario.patchValue({ causaMovimiento: causaMovimiento.id });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((causaMovimiento: CausaMovimiento) =>
+          this.formulario.patchValue({ causaMovimiento: causaMovimiento.id })
+        ),
         take(1)
       )
       .subscribe();
@@ -276,13 +274,12 @@ export class SingularReasignacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((sede: Sede) => {
-          if (sede) {
-            this.formulario.patchValue({
-              sede: sede.id,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((sede: Sede) =>
+          this.formulario.patchValue({
+            sede: sede.id,
+          })
+        ),
         take(1)
       )
       .subscribe();
@@ -296,13 +293,12 @@ export class SingularReasignacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((responsable: Responsable) => {
-          if (responsable) {
-            this.formulario.patchValue({
-              responsablePrimario: responsable.id,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((responsable: Responsable) =>
+          this.formulario.patchValue({
+            responsablePrimario: responsable.id,
+          })
+        ),
         take(1)
       )
       .subscribe();
@@ -316,13 +312,12 @@ export class SingularReasignacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((responsable: Responsable) => {
-          if (responsable) {
-            this.formulario.patchValue({
-              responsableUso: responsable.id,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((responsable: Responsable) =>
+          this.formulario.patchValue({
+            responsableUso: responsable.id,
+          })
+        ),
         take(1)
       )
       .subscribe();

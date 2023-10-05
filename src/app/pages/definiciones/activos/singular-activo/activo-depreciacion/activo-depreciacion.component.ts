@@ -1,5 +1,5 @@
 import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
-import { tap, take } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -54,12 +54,11 @@ export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((cuentaContable: CuentaContable) =>
-            cuentaContable
-              ? this.formulario.patchValue({
-                  cuentaContableGasto: cuentaContable.id,
-                })
-              : undefined
+            this.formulario.patchValue({
+              cuentaContableGasto: cuentaContable.id,
+            })
           )
         )
         .subscribe()
@@ -75,12 +74,11 @@ export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((cuentaContable: CuentaContable) =>
-            cuentaContable
-              ? this.formulario.patchValue({
-                  cuentaContableDepreciacion: cuentaContable.id,
-                })
-              : undefined
+            this.formulario.patchValue({
+              cuentaContableDepreciacion: cuentaContable.id,
+            })
           )
         )
         .subscribe()
@@ -96,17 +94,15 @@ export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: PlantillaDepreciacion) =>
-            entidad
-              ? this.formulario.patchValue({
-                  metodoDepreciacion: entidad.metodoDepreciacion,
-                  cuentaContableGasto: entidad.cuentaContableGasto,
-                  cuentaContableDepreciacion:
-                    entidad.cuentaContableDepreciacion,
-                  vidaUtil: entidad.vidaUtil,
-                  unidadVidaUtil: entidad.unidadVidaUtil,
-                })
-              : undefined
+            this.formulario.patchValue({
+              metodoDepreciacion: entidad.metodoDepreciacion,
+              cuentaContableGasto: entidad.cuentaContableGasto,
+              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+              vidaUtil: entidad.vidaUtil,
+              unidadVidaUtil: entidad.unidadVidaUtil,
+            })
           )
         )
         .subscribe()
@@ -121,11 +117,9 @@ export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
-          entidad
-            ? this.formulario.patchValue({ monedaValorRescate: entidad.id })
-            : undefined
+          this.formulario.patchValue({ monedaValorRescate: entidad.id })
         )
       )
       .subscribe();

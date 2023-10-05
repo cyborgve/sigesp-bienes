@@ -124,24 +124,23 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Seguro) =>
-          entidad
-            ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
-                aseguradoraId: entidad.aseguradoraId,
-                tipoPolizaId: entidad.tipoPolizaId,
-                tipoCoberturaId: entidad.tipoCoberturaId,
-                numeroPoliza: entidad.numeroPoliza,
-                montoAsegurado: entidad.montoAsegurado,
-                fechaInicioPoliza: entidad.fechaInicioPoliza,
-                fechaFinPoliza: entidad.fechaFinPoliza,
-                monedaId: entidad.monedaId,
-                monedaSecundariaId: entidad.monedaSecundariaId,
-                poseeRCV: entidad.poseeRCV === 1 ? true : false,
-                descripcionCobertura: entidad.descripcionCobertura,
-                coberturaAdicional: entidad.coberturaAdicional,
-              })
-            : undefined
+          this.formulario.patchValue({
+            denominacion: entidad.denominacion,
+            aseguradoraId: entidad.aseguradoraId,
+            tipoPolizaId: entidad.tipoPolizaId,
+            tipoCoberturaId: entidad.tipoCoberturaId,
+            numeroPoliza: entidad.numeroPoliza,
+            montoAsegurado: entidad.montoAsegurado,
+            fechaInicioPoliza: entidad.fechaInicioPoliza,
+            fechaFinPoliza: entidad.fechaFinPoliza,
+            monedaId: entidad.monedaId,
+            monedaSecundariaId: entidad.monedaSecundariaId,
+            poseeRCV: entidad.poseeRCV === 1 ? true : false,
+            descripcionCobertura: entidad.descripcionCobertura,
+            coberturaAdicional: entidad.coberturaAdicional,
+          })
         ),
         take(1)
       )
@@ -209,12 +208,11 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Aseguradora) =>
-          entidad
-            ? this.formulario.patchValue({
-                aseguradoraId: entidad.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            aseguradoraId: entidad.id,
+          })
         ),
         take(1)
       )
@@ -229,12 +227,11 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: TipoPoliza) =>
-          entidad
-            ? this.formulario.patchValue({
-                tipoPolizaId: entidad.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            tipoPolizaId: entidad.id,
+          })
         ),
         take(1)
       )
@@ -249,10 +246,9 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: TipoCobertura) =>
-          entidad
-            ? this.formulario.patchValue({ tipoCoberturaId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ tipoCoberturaId: entidad.id })
         ),
         take(1)
       )
@@ -267,10 +263,9 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: TipoCobertura) =>
-          entidad
-            ? this.formulario.patchValue({ coberturaAdicional: entidad.id })
-            : undefined
+          this.formulario.patchValue({ coberturaAdicional: entidad.id })
         ),
         take(1)
       )
@@ -285,10 +280,9 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Moneda) =>
-          entidad
-            ? this.formulario.patchValue({ monedaId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ monedaId: entidad.id })
         ),
         take(1)
       )
@@ -303,10 +297,9 @@ export class SingularSeguroComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Moneda) =>
-          entidad
-            ? this.formulario.patchValue({ monedaSecundariaId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ monedaSecundariaId: entidad.id })
         ),
         take(1)
       )

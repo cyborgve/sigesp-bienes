@@ -154,27 +154,26 @@ export class SingularDepreciacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap((depreciacion: Basica) =>
-          depreciacion ? this._entidad.buscarPorId(depreciacion.id) : undefined
+          this._entidad.buscarPorId(depreciacion.id)
         ),
         tap(entidad =>
-          entidad
-            ? this.formulario.patchValue({
-                activo: entidad.activo,
-                serial: entidad.serial,
-                identificador: entidad.identificador,
-                fechaCompra: entidad.fechaCompra,
-                fechaIncorporacion: entidad.fechaIncorporacion,
-                metodo: entidad.metodo,
-                costo: entidad.costo,
-                valorRescate: entidad.valorRescate,
-                montoDepreciar: entidad.montoDepreciar,
-                vidaUtil: entidad.vidaUtil,
-                depreciacionMensual: entidad.depreciacionMensual,
-                depreciacionAnual: entidad.depreciacionAnual,
-                observaciones: entidad.observaciones,
-              })
-            : undefined
+          this.formulario.patchValue({
+            activo: entidad.activo,
+            serial: entidad.serial,
+            identificador: entidad.identificador,
+            fechaCompra: entidad.fechaCompra,
+            fechaIncorporacion: entidad.fechaIncorporacion,
+            metodo: entidad.metodo,
+            costo: entidad.costo,
+            valorRescate: entidad.valorRescate,
+            montoDepreciar: entidad.montoDepreciar,
+            vidaUtil: entidad.vidaUtil,
+            depreciacionMensual: entidad.depreciacionMensual,
+            depreciacionAnual: entidad.depreciacionAnual,
+            observaciones: entidad.observaciones,
+          })
         ),
         take(1)
       )
@@ -253,7 +252,7 @@ export class SingularDepreciacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        filter((activoParcial: Activo) => !!activoParcial),
+        filter(todo => !!todo),
         switchMap((activoParcial: Activo) =>
           this._activo.buscarPorId(activoParcial.id)
         ),

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Clase } from '@core/models/definiciones/clase';
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filtro-clase',
@@ -24,9 +24,8 @@ export class FiltroClaseComponent {
     dialog
       .afterClosed()
       .pipe(
-        tap((clase: Clase) =>
-          clase ? this.clase.patchValue(clase.id) : undefined
-        ),
+        filter(todo => !!todo),
+        tap((clase: Clase) => this.clase.patchValue(clase.id)),
         take(1)
       )
       .subscribe();

@@ -90,12 +90,11 @@ export class SingularTipoSedeComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: TipoSede) =>
-          entidad
-            ? this.formulario.patchValue({
-                codigo: entidad.denominacion,
-              })
-            : undefined
+          this.formulario.patchValue({
+            codigo: entidad.denominacion,
+          })
         ),
         take(1)
       )

@@ -100,13 +100,12 @@ export class SingularUnidadAdministrativaComponent
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: UnidadAdministrativa) =>
-            entidad
-              ? this.formulario.patchValue({
-                  denominacion: entidad.denominacion,
-                  categoria: entidad.categoria,
-                })
-              : undefined
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              categoria: entidad.categoria,
+            })
           )
         )
         .subscribe()
@@ -176,10 +175,9 @@ export class SingularUnidadAdministrativaComponent
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((categoria: CategoriaUnidadAdministrativa) =>
-            categoria
-              ? this.formulario.patchValue({ categoria: categoria.id })
-              : undefined
+            this.formulario.patchValue({ categoria: categoria.id })
           )
         )
         .subscribe()

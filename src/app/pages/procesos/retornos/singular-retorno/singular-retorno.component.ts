@@ -116,17 +116,16 @@ export class SingularRetornoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap((retorno: Basica) =>
           retorno ? this._entidad.buscarPorId(retorno.id) : undefined
         ),
         tap(entidad =>
-          entidad
-            ? this.formulario.patchValue({
-                beneficiario: entidad.beneficiario,
-                observaciones: entidad.observaciones,
-                activos: entidad.activos,
-              })
-            : undefined
+          this.formulario.patchValue({
+            beneficiario: entidad.beneficiario,
+            observaciones: entidad.observaciones,
+            activos: entidad.activos,
+          })
         ),
         take(1)
       )
@@ -198,13 +197,14 @@ export class SingularRetornoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((activo: Activo) => {
-          if (activo)
-            this.dataSource = new MatTableDataSource([
+        filter(todo => !!todo),
+        tap(
+          (activo: Activo) =>
+            (this.dataSource = new MatTableDataSource([
               ...this.dataSource.data,
               convertirActivoProceso(activo),
-            ]);
-        }),
+            ]))
+        ),
         take(1)
       )
       .subscribe();
@@ -223,10 +223,9 @@ export class SingularRetornoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((beneficiario: Beneficiario) =>
-          beneficiario
-            ? this.formulario.patchValue({ beneficiario: beneficiario.id })
-            : undefined
+          this.formulario.patchValue({ beneficiario: beneficiario.id })
         ),
         take(1)
       )

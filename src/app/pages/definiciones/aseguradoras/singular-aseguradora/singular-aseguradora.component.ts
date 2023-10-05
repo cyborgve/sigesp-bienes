@@ -96,6 +96,7 @@ export class SingularAseguradoraComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: Aseguradora) => {
             this.formulario.patchValue({
               denominacion: entidad.denominacion,

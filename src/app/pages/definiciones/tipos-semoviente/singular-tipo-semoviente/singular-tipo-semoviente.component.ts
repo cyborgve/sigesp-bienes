@@ -90,12 +90,11 @@ export class SingularTipoSemovienteComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: TipoSemoviente) =>
-          entidad
-            ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
-              })
-            : undefined
+          this.formulario.patchValue({
+            denominacion: entidad.denominacion,
+          })
         ),
         take(1)
       )

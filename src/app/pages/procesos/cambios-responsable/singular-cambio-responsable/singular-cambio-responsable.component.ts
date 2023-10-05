@@ -77,6 +77,7 @@ export class SingularCambioResponsableComponent
     this.subscripciones.push(
       this.formulario.controls['tipoResponsable'].valueChanges
         .pipe(
+          filter(todo => !!todo),
           tap((tipoResponsable: any) =>
             tipoResponsable === 1
               ? this.formulario.patchValue({
@@ -164,18 +165,17 @@ export class SingularCambioResponsableComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: CambioResponsable) =>
-          !!entidad
-            ? this.formulario.patchValue({
-                activo: entidad.activo,
-                identificador: entidad.identificador,
-                serial: entidad.serial,
-                tipoResponsable: entidad.tipoResponsable,
-                responsableActual: entidad.responsableActual,
-                nuevoResponsable: entidad.nuevoResponsable,
-                observaciones: entidad.observaciones,
-              })
-            : undefined
+          this.formulario.patchValue({
+            activo: entidad.activo,
+            identificador: entidad.identificador,
+            serial: entidad.serial,
+            tipoResponsable: entidad.tipoResponsable,
+            responsableActual: entidad.responsableActual,
+            nuevoResponsable: entidad.nuevoResponsable,
+            observaciones: entidad.observaciones,
+          })
         ),
         switchMap(cambioResponsable => {
           if (cambioResponsable) {
@@ -266,16 +266,15 @@ export class SingularCambioResponsableComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((activo: Activo) => {
-          activo
-            ? this.formulario.patchValue({
-                activo: activo.id,
-                identificador: activo.serialRotulacion,
-                serial: activo.serialFabrica,
-                tipoResponsable: '',
-                responsableActual: '---',
-              })
-            : undefined;
+          this.formulario.patchValue({
+            activo: activo.id,
+            identificador: activo.serialRotulacion,
+            serial: activo.serialFabrica,
+            tipoResponsable: '',
+            responsableActual: '---',
+          });
         }),
         switchMap((activo: Activo) => {
           if (activo) {
@@ -300,11 +299,13 @@ export class SingularCambioResponsableComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((responsable: Responsable) => {
           if (responsable) {
             this.formulario.patchValue({ nuevoResponsable: responsable.id });
           }
-        })
+        }),
+        take(1)
       )
       .subscribe();
   }

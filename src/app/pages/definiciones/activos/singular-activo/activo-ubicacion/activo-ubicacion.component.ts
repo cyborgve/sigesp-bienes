@@ -1,4 +1,4 @@
-import { tap, take } from 'rxjs/operators';
+import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
@@ -29,12 +29,11 @@ export class ActivoUbicacionComponent {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
-          entidad
-            ? this.formulario.patchValue({ unidadAdministrativaId: entidad.id })
-            : undefined
-        )
+          this.formulario.patchValue({ unidadAdministrativaId: entidad.id })
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -47,10 +46,9 @@ export class ActivoUbicacionComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
-          entidad
-            ? this.formulario.patchValue({ sedeId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ sedeId: entidad.id })
         ),
         take(1)
       )
@@ -65,10 +63,9 @@ export class ActivoUbicacionComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
-          entidad
-            ? this.formulario.patchValue({ responsableId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ responsableId: entidad.id })
         ),
         take(1)
       )
@@ -83,10 +80,9 @@ export class ActivoUbicacionComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
-          entidad
-            ? this.formulario.patchValue({ responsableUsoId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ responsableUsoId: entidad.id })
         ),
         take(1)
       )
@@ -101,10 +97,9 @@ export class ActivoUbicacionComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
-          entidad
-            ? this.formulario.patchValue({ estadoConservacionId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ estadoConservacionId: entidad.id })
         ),
         take(1)
       )
@@ -119,10 +114,9 @@ export class ActivoUbicacionComponent {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
-          entidad
-            ? this.formulario.patchValue({ estadoUsoId: entidad.id })
-            : undefined
+          this.formulario.patchValue({ estadoUsoId: entidad.id })
         ),
         take(1)
       )

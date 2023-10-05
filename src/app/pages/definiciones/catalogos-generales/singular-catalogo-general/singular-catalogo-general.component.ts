@@ -188,6 +188,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((catalogoGeneral: CatalogoGeneral) => {
             if (catalogoGeneral) {
               this.formulario.patchValue({

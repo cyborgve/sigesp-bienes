@@ -160,16 +160,15 @@ export class SingularAutorizacionSalidaComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: AutorizacionSalida) =>
-          entidad
-            ? this.formulario.patchValue({
-                unidadAdministrativa: entidad.unidadAdministrativa,
-                empresaAutorizada: entidad.empresaAutorizada,
-                personaAutorizada: entidad.personaAutorizada,
-                explicacion: entidad.explicacion,
-                observaciones: entidad.observaciones,
-              })
-            : undefined
+          this.formulario.patchValue({
+            unidadAdministrativa: entidad.unidadAdministrativa,
+            empresaAutorizada: entidad.empresaAutorizada,
+            personaAutorizada: entidad.personaAutorizada,
+            explicacion: entidad.explicacion,
+            observaciones: entidad.observaciones,
+          })
         ),
         take(1)
       )
@@ -248,6 +247,7 @@ export class SingularAutorizacionSalidaComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((activo: Activo) => {
           if (activo) {
             this.dataSource = new MatTableDataSource([
@@ -275,6 +275,7 @@ export class SingularAutorizacionSalidaComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Basica) =>
           this.formulario.patchValue({
             unidadAdministrativa: entidad.id,
@@ -293,10 +294,9 @@ export class SingularAutorizacionSalidaComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((proveedor: Proveedor) =>
-          proveedor
-            ? this.formulario.patchValue({ empresaAutorizada: proveedor.id })
-            : undefined
+          this.formulario.patchValue({ empresaAutorizada: proveedor.id })
         )
       )
       .subscribe();

@@ -121,18 +121,17 @@ export class SingularEntregaUnidadComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap((depreciacion: Basica) =>
           depreciacion ? this._entidad.buscarPorId(depreciacion.id) : undefined
         ),
         tap(entidad =>
-          entidad
-            ? this.formulario.patchValue({
-                sede: entidad.sede,
-                responsableAnterior: entidad.responsableAnterior,
-                nuevoResponsable: entidad.nuevoResponsable,
-                observaciones: entidad.observaciones,
-              })
-            : undefined
+          this.formulario.patchValue({
+            sede: entidad.sede,
+            responsableAnterior: entidad.responsableAnterior,
+            nuevoResponsable: entidad.nuevoResponsable,
+            observaciones: entidad.observaciones,
+          })
         ),
         take(1)
       )
@@ -205,6 +204,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Sede) =>
           this.formulario.patchValue({ sede: entidad.id })
         ),
@@ -221,12 +221,11 @@ export class SingularEntregaUnidadComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((unidadAdministrativa: UnidadAdministrativa) =>
-          unidadAdministrativa
-            ? this.formulario.patchValue({
-                unidadAdministrativa: unidadAdministrativa.id,
-              })
-            : undefined
+          this.formulario.patchValue({
+            unidadAdministrativa: unidadAdministrativa.id,
+          })
         ),
         take(1)
       )
@@ -241,6 +240,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Responsable) =>
           this.formulario.patchValue({ responsableAnterior: entidad.id })
         ),
@@ -257,6 +257,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Responsable) =>
           this.formulario.patchValue({ nuevoResponsable: entidad.id })
         ),

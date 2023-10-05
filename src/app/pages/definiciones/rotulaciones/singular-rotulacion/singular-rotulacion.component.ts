@@ -89,13 +89,13 @@ export class SingularRotulacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Rotulacion) =>
-          entidad
-            ? this.formulario.patchValue({
-                codigo: entidad.denominacion,
-              })
-            : undefined
-        )
+          this.formulario.patchValue({
+            codigo: entidad.denominacion,
+          })
+        ),
+        take(1)
       )
       .subscribe();
   }

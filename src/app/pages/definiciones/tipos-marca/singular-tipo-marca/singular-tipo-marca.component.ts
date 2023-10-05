@@ -90,13 +90,13 @@ export class SingularTipoMarcaComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: TipoMarca) =>
-          entidad
-            ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
-              })
-            : undefined
-        )
+          this.formulario.patchValue({
+            denominacion: entidad.denominacion,
+          })
+        ),
+        take(1)
       )
       .subscribe();
   }

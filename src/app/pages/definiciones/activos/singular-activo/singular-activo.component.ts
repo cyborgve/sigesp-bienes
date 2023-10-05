@@ -440,6 +440,7 @@ export class SingularActivoComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap((activo: Basica) => this._activo.buscarPorId(activo.id)),
         tap(activo =>
           this.formularioDatosGenerales.patchValue({

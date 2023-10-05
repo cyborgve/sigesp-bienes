@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Color } from '@core/models/definiciones/color';
 import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-color/buscador-color.component';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filtro-color',
@@ -24,9 +24,8 @@ export class FiltroColorComponent {
     dialog
       .afterClosed()
       .pipe(
-        tap((color: Color) =>
-          color ? this.color.patchValue(color.id) : undefined
-        ),
+        filter(todo => !!todo),
+        tap((color: Color) => this.color.patchValue(color.id)),
         take(1)
       )
       .subscribe();

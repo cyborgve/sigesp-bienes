@@ -96,6 +96,7 @@ export class SingularTipoComponenteComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: TipoComponente) => {
             this.formulario.patchValue({
               denominacion: entidad.denominacion,

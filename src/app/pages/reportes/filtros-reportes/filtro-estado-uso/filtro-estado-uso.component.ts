@@ -1,4 +1,4 @@
-import { tap, take } from 'rxjs/operators';
+import { tap, take, filter } from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,9 +24,8 @@ export class FiltroEstadoUsoComponent {
     dialog
       .afterClosed()
       .pipe(
-        tap((estadoUso: EstadoUso) =>
-          estadoUso ? this.estadoUso.patchValue(estadoUso.id) : undefined
-        ),
+        filter(todo => !!todo),
+        tap((estadoUso: EstadoUso) => this.estadoUso.patchValue(estadoUso.id)),
         take(1)
       )
       .subscribe();

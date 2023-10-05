@@ -94,13 +94,12 @@ export class SingularRazaComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Raza) =>
-          entidad
-            ? this.formulario.patchValue({
-                tipoAnimalId: entidad.tipoAnimalId,
-                denominacion: entidad.denominacion,
-              })
-            : undefined
+          this.formulario.patchValue({
+            tipoAnimalId: entidad.tipoAnimalId,
+            denominacion: entidad.denominacion,
+          })
         ),
         take(1)
       )
@@ -169,12 +168,11 @@ export class SingularRazaComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        take(1),
+        filter(todo => !!todo),
         tap((tipoAnimal: TipoAnimal) =>
-          tipoAnimal
-            ? this.formulario.patchValue({ tipoAnimalId: tipoAnimal.id })
-            : undefined
-        )
+          this.formulario.patchValue({ tipoAnimalId: tipoAnimal.id })
+        ),
+        take(1)
       )
       .subscribe();
   }

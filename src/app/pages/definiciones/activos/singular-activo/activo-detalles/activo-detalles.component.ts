@@ -1,5 +1,5 @@
 import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financiamiento';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
@@ -58,11 +58,10 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({ sedeUbicacionId: entidad.id })
-              : undefined
+            this.formulario.patchValue({ sedeUbicacionId: entidad.id })
           )
         )
         .subscribe()
@@ -78,11 +77,10 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({ tipoSemovienteId: entidad.id })
-              : undefined
+            this.formulario.patchValue({ tipoSemovienteId: entidad.id })
           )
         )
         .subscribe()
@@ -98,13 +96,12 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({
-                  propositoSemovienteId: entidad.id,
-                })
-              : undefined
+            this.formulario.patchValue({
+              propositoSemovienteId: entidad.id,
+            })
           )
         )
         .subscribe()
@@ -120,12 +117,9 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(tipoAnimal => tipoAnimal as Basica),
-          tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({ tipoAnimal: entidad.id })
-              : undefined
-          )
+          tap(entidad => this.formulario.patchValue({ tipoAnimal: entidad.id }))
         )
         .subscribe()
     );
@@ -140,12 +134,9 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
-          tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({ razaId: entidad.id })
-              : undefined
-          )
+          tap(entidad => this.formulario.patchValue({ razaId: entidad.id }))
         )
         .subscribe()
     );
@@ -160,11 +151,10 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
-            entidad
-              ? this.formulario.patchValue({ seguroId: entidad.id })
-              : undefined
+            this.formulario.patchValue({ seguroId: entidad.id })
           )
         )
         .subscribe()
@@ -180,10 +170,9 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((fuente: FuenteFinanciamiento) =>
-            fuente
-              ? this.formulario.patchValue({ fuenteFinanciamiento: fuente.id })
-              : undefined
+            this.formulario.patchValue({ fuenteFinanciamiento: fuente.id })
           )
         )
         .subscribe()
@@ -199,11 +188,10 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
-            entidad
-              ? this.formulario.patchValue({ claseId: entidad.id })
-              : undefined
+            this.formulario.patchValue({ claseId: entidad.id })
           )
         )
         .subscribe()
@@ -219,11 +207,10 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap((origen: Basica) =>
-            origen
-              ? this.formulario.patchValue({ origenId: origen.id })
-              : undefined
+            this.formulario.patchValue({ origenId: origen.id })
           )
         )
         .subscribe()
@@ -239,10 +226,9 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({ codigoCentroCostos: entidad.id })
-              : undefined
+            this.formulario.patchValue({ codigoCentroCostos: entidad.id })
           )
         )
         .subscribe()

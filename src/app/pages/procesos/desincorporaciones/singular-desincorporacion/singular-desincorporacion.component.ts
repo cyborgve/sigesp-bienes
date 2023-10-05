@@ -179,23 +179,22 @@ export class SingularDesincorporacionComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap((depreciacion: Basica) =>
-          depreciacion ? this._entidad.buscarPorId(depreciacion.id) : undefined
+          this._entidad.buscarPorId(depreciacion.id)
         ),
         tap(entidad =>
-          entidad
-            ? this.formulario.patchValue({
-                causaMovimiento: entidad.causaMovimiento,
-                unidadAdministrativa: entidad.unidadAdministrativa,
-                observaciones: entidad.observaciones,
-                activos: entidad.activos,
-                total: entidad.total,
-                cuentasContables: entidad.cuentasContables,
-                debe: entidad.debe,
-                haber: entidad.haber,
-                diferencia: entidad.diferencia,
-              })
-            : undefined
+          this.formulario.patchValue({
+            causaMovimiento: entidad.causaMovimiento,
+            unidadAdministrativa: entidad.unidadAdministrativa,
+            observaciones: entidad.observaciones,
+            activos: entidad.activos,
+            total: entidad.total,
+            cuentasContables: entidad.cuentasContables,
+            debe: entidad.debe,
+            haber: entidad.haber,
+            diferencia: entidad.diferencia,
+          })
         ),
         take(1)
       )
@@ -265,6 +264,7 @@ export class SingularDesincorporacionComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((unidadAdministrativa: UnidadAdministrativa) => {
           if (unidadAdministrativa) {
             this.formulario.patchValue({
@@ -288,6 +288,7 @@ export class SingularDesincorporacionComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((causaMovimiento: CausaMovimiento) => {
           if (causaMovimiento) {
             this.formulario.patchValue({
@@ -316,14 +317,14 @@ export class SingularDesincorporacionComponent
     dialog
       .afterClosed()
       .pipe(
-        tap(activo => {
-          activo
-            ? (this.activosDataSource = new MatTableDataSource([
-                ...this.activosDataSource.data,
-                convertirActivoProceso(activo),
-              ]))
-            : undefined;
-        }),
+        filter(todo => !!todo),
+        tap(
+          activo =>
+            (this.activosDataSource = new MatTableDataSource([
+              ...this.activosDataSource.data,
+              convertirActivoProceso(activo),
+            ]))
+        ),
         take(1)
       )
       .subscribe();
@@ -343,12 +344,11 @@ export class SingularDesincorporacionComponent
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((cuentaContable: CuentaContable) => {
-          if (cuentaContable) {
-            let data = this.cuentasDataSource.data;
-            data.push(convertirCuentaProceso(cuentaContable));
-            this.cuentasDataSource = new MatTableDataSource(data);
-          }
+          let data = this.cuentasDataSource.data;
+          data.push(convertirCuentaProceso(cuentaContable));
+          this.cuentasDataSource = new MatTableDataSource(data);
         }),
         take(1)
       )

@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { tap, take } from 'rxjs/operators';
+import { tap, take, filter } from 'rxjs/operators';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { Categoria } from '@core/models/definiciones/categoria';
 
@@ -24,9 +24,8 @@ export class FiltroCategoriaComponent {
     dialog
       .afterClosed()
       .pipe(
-        tap((categoria: Categoria) =>
-          categoria ? this.categoria.patchValue(categoria.id) : undefined
-        ),
+        filter(todo => !!todo),
+        tap((categoria: Categoria) => this.categoria.patchValue(categoria.id)),
         take(1)
       )
       .subscribe();

@@ -64,8 +64,8 @@ export class SingularModificacionComponent implements Entidad {
       identificador: [undefined],
       serial: [undefined],
       observaciones: [undefined],
-      modificaciones: [[]],
-      cuentasContables: [[]],
+      modificaciones: [undefined],
+      cuentasContables: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -106,8 +106,12 @@ export class SingularModificacionComponent implements Entidad {
               identificador: entidad.identificador,
               serial: entidad.serial,
               observaciones: entidad.observaciones,
-              modificaciones: entidad.modificaciones,
-              cuentasContables: entidad.cuentasContables,
+              modificaciones: entidad.modificaciones
+                ? entidad.modificaciones
+                : [],
+              cuentasContables: entidad.cuentasContables
+                ? entidad.cuentasContables
+                : [],
               creado: entidad.creado,
               modificado: entidad.modificado,
             })
@@ -126,8 +130,8 @@ export class SingularModificacionComponent implements Entidad {
               empresaId: 0,
               id: 0,
               comprobante: `${ser}-${doc}`,
-              causaMovimiento: '',
-              activo: '',
+              causaMovimiento: 0,
+              activo: 0,
               identificador: '',
               serial: '',
               observaciones: '',
@@ -151,19 +155,18 @@ export class SingularModificacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         switchMap((modificacion: Basica) =>
-          modificacion ? this._entidad.buscarPorId(modificacion.id) : undefined
+          this._entidad.buscarPorId(modificacion.id)
         ),
         tap(entidad =>
-          entidad
-            ? this.formulario.patchValue({
-                causaMovimiento: entidad.causaMovimiento,
-                activo: entidad.activo,
-                identificador: entidad.identificador,
-                serial: entidad.serial,
-                observaciones: entidad.observaciones,
-              })
-            : undefined
+          this.formulario.patchValue({
+            causaMovimiento: entidad.causaMovimiento,
+            activo: entidad.activo,
+            identificador: entidad.identificador,
+            serial: entidad.serial,
+            observaciones: entidad.observaciones,
+          })
         ),
         take(1)
       )
@@ -243,11 +246,10 @@ export class SingularModificacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((causaMovimiento: CausaMovimiento) => {
-          if (causaMovimiento) {
-            this.formulario.patchValue({ causaMovimiento: causaMovimiento.id });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((causaMovimiento: CausaMovimiento) =>
+          this.formulario.patchValue({ causaMovimiento: causaMovimiento.id })
+        ),
         take(1)
       )
       .subscribe();
@@ -261,15 +263,14 @@ export class SingularModificacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((activo: Activo) => {
-          if (activo) {
-            this.formulario.patchValue({
-              activo: activo.id,
-              identificador: activo.serialRotulacion,
-              serial: activo.serialFabrica,
-            });
-          }
-        }),
+        filter(todo => !!todo),
+        tap((activo: Activo) =>
+          this.formulario.patchValue({
+            activo: activo.id,
+            identificador: activo.serialRotulacion,
+            serial: activo.serialFabrica,
+          })
+        ),
         switchMap(activo => this._activo.esDepreciable(activo.id)),
         tap(esDepreciable => (this.depreciarDeshabilitado = !esDepreciable)),
         take(1)
@@ -285,6 +286,7 @@ export class SingularModificacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((activoComponente: ActivoComponente) => {
           this.dataComponentes = new MatTableDataSource([
             ...this.dataComponentes.data,
@@ -312,14 +314,14 @@ export class SingularModificacionComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((cuentaContable: CuentaContable) => {
-          if (cuentaContable) {
-            this.dataCuentasContables = new MatTableDataSource([
+        filter(todo => !!todo),
+        tap(
+          (cuentaContable: CuentaContable) =>
+            (this.dataCuentasContables = new MatTableDataSource([
               ...this.dataCuentasContables.data,
               convertirCuentaProceso(cuentaContable),
-            ]);
-          }
-        }),
+            ]))
+        ),
         take(1)
       )
       .subscribe();

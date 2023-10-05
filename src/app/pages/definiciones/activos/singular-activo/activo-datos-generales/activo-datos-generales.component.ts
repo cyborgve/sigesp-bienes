@@ -14,7 +14,6 @@ import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/bu
 import { Subscription, pipe } from 'rxjs';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { Moneda } from '@core/models/otros-modulos/moneda';
-import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { BuscadorCatalogoGeneralComponent } from '@pages/definiciones/catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.component';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 
@@ -64,12 +63,11 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((catalogoGeneral: CatalogoGeneral) =>
-            catalogoGeneral
-              ? this.formulario.patchValue({
-                  catalogoCuentas: catalogoGeneral.id,
-                })
-              : undefined
+            this.formulario.patchValue({
+              catalogoCuentas: catalogoGeneral.id,
+            })
           )
         )
         .subscribe()
@@ -85,10 +83,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((moneda: Moneda) =>
-            moneda
-              ? this.formulario.patchValue({ monedaId: moneda.id })
-              : undefined
+            this.formulario.patchValue({ monedaId: moneda.id })
           )
         )
         .subscribe()
@@ -104,12 +101,9 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
-          map(entidad => entidad as Basica),
-          tap((entidad: Basica) =>
-            entidad
-              ? this.formulario.patchValue({ modeloId: entidad.id })
-              : undefined
-          )
+          filter(todo => !!todo),
+          map(entidad => entidad),
+          tap(entidad => this.formulario.patchValue({ modeloId: entidad.id }))
         )
         .subscribe()
     );
@@ -124,11 +118,10 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
-            entidad
-              ? this.formulario.patchValue({ colorId: entidad.id })
-              : undefined
+            this.formulario.patchValue({ colorId: entidad.id })
           )
         )
         .subscribe()
@@ -144,11 +137,10 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({ rotulacionId: entidad.id })
-              : undefined
+            this.formulario.patchValue({ rotulacionId: entidad.id })
           )
         )
         .subscribe()
@@ -164,11 +156,10 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           map(entidad => entidad as Basica),
           tap(entidad =>
-            entidad
-              ? this.formulario.patchValue({ categoriaId: entidad.id })
-              : undefined
+            this.formulario.patchValue({ categoriaId: entidad.id })
           )
         )
         .subscribe()
