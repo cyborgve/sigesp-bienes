@@ -41,12 +41,12 @@ export class SingularPropositoSemovienteComponent
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -62,7 +62,7 @@ export class SingularPropositoSemovienteComponent
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          take(1),
+          filter(todo => !!todo),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -72,7 +72,8 @@ export class SingularPropositoSemovienteComponent
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
-          })
+          }),
+          take(1)
         )
         .subscribe();
     } else {
@@ -81,9 +82,14 @@ export class SingularPropositoSemovienteComponent
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo: `${ser}-${doc}`,
+              empresaId: 0,
+              id: 0,
+              codigo: `${ser}-${cor}`,
+              denominacion: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -101,12 +107,11 @@ export class SingularPropositoSemovienteComponent
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: PropositoSemoviente) =>
-            entidad
-              ? this.formulario.patchValue({
-                  denominacion: entidad.denominacion,
-                })
-              : undefined
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+            })
           )
         )
         .subscribe()

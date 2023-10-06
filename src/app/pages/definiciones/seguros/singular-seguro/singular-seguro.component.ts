@@ -43,25 +43,25 @@ export class SingularSeguroComponent implements Entidad {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresa_id: [0],
-      id: [0],
-      activoId: [0],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      aseguradoraId: [0],
-      tipoPolizaId: [0],
-      tipoCoberturaId: [0],
-      numeroPoliza: [''],
-      montoAsegurado: [0],
-      fechaInicioPoliza: [new Date()],
-      fechaFinPoliza: [new Date()],
-      monedaId: ['0'],
-      monedaSecundariaId: ['0'],
-      poseeRCV: [false],
-      descripcionCobertura: [''],
-      coberturaAdicional: [0],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresa_id: [undefined],
+      id: [undefined],
+      activoId: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      aseguradoraId: [undefined],
+      tipoPolizaId: [undefined],
+      tipoCoberturaId: [undefined],
+      numeroPoliza: [undefined],
+      montoAsegurado: [undefined],
+      fechaInicioPoliza: [undefined],
+      fechaFinPoliza: [undefined],
+      monedaId: [undefined],
+      monedaSecundariaId: [undefined],
+      poseeRCV: [undefined],
+      descripcionCobertura: [undefined],
+      coberturaAdicional: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -105,9 +105,27 @@ export class SingularSeguroComponent implements Entidad {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo: `${ser}-${doc}`,
+              empresa_id: 0,
+              id: 0,
+              activoId: 0,
+              codigo: `${ser}-${cor}`,
+              denominacion: '',
+              aseguradoraId: 0,
+              tipoPolizaId: 0,
+              tipoCoberturaId: 0,
+              numeroPoliza: '',
+              montoAsegurado: 0,
+              fechaInicioPoliza: new Date(),
+              fechaFinPoliza: new Date(),
+              monedaId: '0',
+              monedaSecundariaId: '0',
+              poseeRCV: false,
+              descripcionCobertura: '',
+              coberturaAdicional: 0,
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)

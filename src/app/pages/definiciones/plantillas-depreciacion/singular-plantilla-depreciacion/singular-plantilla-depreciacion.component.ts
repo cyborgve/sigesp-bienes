@@ -45,17 +45,17 @@ export class SingularPlantillaDepreciacionComponent
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      metodoDepreciacion: [''],
-      cuentaContableGasto: ['---'],
-      cuentaContableDepreciacion: ['---'],
-      vidaUtil: [0],
-      unidadVidaUtil: [''],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      metodoDepreciacion: [undefined],
+      cuentaContableGasto: [undefined],
+      cuentaContableDepreciacion: [undefined],
+      vidaUtil: [undefined],
+      unidadVidaUtil: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -71,7 +71,6 @@ export class SingularPlantillaDepreciacionComponent
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          take(1),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -86,7 +85,8 @@ export class SingularPlantillaDepreciacionComponent
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
-          })
+          }),
+          take(1)
         )
         .subscribe();
     } else {
@@ -97,7 +97,17 @@ export class SingularPlantillaDepreciacionComponent
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               codigo: `${ser}-${doc}`,
+              denominacion: '',
+              metodoDepreciacion: '',
+              cuentaContableGasto: '---',
+              cuentaContableDepreciacion: '---',
+              vidaUtil: 0,
+              unidadVidaUtil: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -115,18 +125,16 @@ export class SingularPlantillaDepreciacionComponent
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: PlantillaDepreciacion) =>
-            entidad
-              ? this.formulario.patchValue({
-                  denominacion: entidad.denominacion,
-                  metodoDepreciacion: entidad.metodoDepreciacion,
-                  cuentaContableGasto: entidad.cuentaContableGasto,
-                  cuentaContableDepreciacion:
-                    entidad.cuentaContableDepreciacion,
-                  vidaUtil: entidad.vidaUtil,
-                  unidadVidaUtil: entidad.unidadVidaUtil,
-                })
-              : undefined
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              metodoDepreciacion: entidad.metodoDepreciacion,
+              cuentaContableGasto: entidad.cuentaContableGasto,
+              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+              vidaUtil: entidad.vidaUtil,
+              unidadVidaUtil: entidad.unidadVidaUtil,
+            })
           )
         )
         .subscribe()
@@ -198,6 +206,7 @@ export class SingularPlantillaDepreciacionComponent
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((cc: CuentaContable) =>
             this.formulario.patchValue({
               cuentaContableGasto: cc.id,
@@ -217,6 +226,7 @@ export class SingularPlantillaDepreciacionComponent
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((cc: CuentaContable) =>
             this.formulario.patchValue({
               cuentaContableDepreciacion: cc.id,

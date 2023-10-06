@@ -129,7 +129,10 @@
             formControlName="parroquiaId"
             readonly="true"
             [value]="
-              formulario.value.parroquiaId | denominacionParroquia | async
+              formulario.value.parroquiaId
+                | denominacionParroquia
+                | async
+                | corregirSeleccionar
             " />
           <button
             type="button"

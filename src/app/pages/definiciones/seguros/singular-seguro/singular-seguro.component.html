@@ -113,6 +113,13 @@
             matSuffix></mat-datepicker-toggle>
           <mat-datepicker #pickerFechaFinPoliza></mat-datepicker>
         </mat-form-field>
+        <!-- poseeRCV -->
+        <mat-slide-toggle
+          color="primary"
+          class="poseeRCV"
+          formControlName="poseeRCV"
+          >Posee R.C.V.</mat-slide-toggle
+        >
         <!-- montoAsegurado -->
         <mat-form-field appearance="fill" class="montoAsegurado">
           <mat-label>Monto Asegurado</mat-label>
@@ -183,13 +190,6 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- poseeRCV -->
-        <mat-slide-toggle
-          color="primary"
-          class="poseeRCV"
-          formControlName="poseeRCV"
-          >Posee R.C.V.</mat-slide-toggle
-        >
         <!-- descripcionCobertura -->
         <mat-form-field appearance="fill" class="descripcionCobertura">
           <mat-label>Descripcion de la Cobertura</mat-label>

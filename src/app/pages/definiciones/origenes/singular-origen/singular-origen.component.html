@@ -105,7 +105,10 @@
             formControlName="proveedorId"
             readonly="true"
             [value]="
-              formulario.value.proveedorId | denominacionProveedor | async
+              formulario.value.proveedorId
+                | denominacionProveedor
+                | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -145,6 +148,7 @@
               formulario.value.nombreBenefactor
                 | denominacionBeneficiario
                 | async
+                | corregirSeleccionar
             " />
           <button
             type="button"
@@ -166,6 +170,7 @@
               formulario.value.nombreBeneficiario
                 | denominacionBeneficiario
                 | async
+                | corregirSeleccionar
             " />
           <button
             type="button"

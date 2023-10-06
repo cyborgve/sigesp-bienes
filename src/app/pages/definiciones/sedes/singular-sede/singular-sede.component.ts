@@ -53,23 +53,23 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      tipoSedeId: [0],
-      localizacion: ['S', Validators.required],
-      paisId: ['---'],
-      estadoId: ['---'],
-      municipioId: ['---'],
-      parroquiaId: ['---'],
-      ciudadId: ['---'],
-      urbanizacion: [''],
-      calleAvenida: [''],
-      casaEdificio: [''],
-      piso: [''],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      tipoSedeId: [undefined],
+      localizacion: [undefined, Validators.required],
+      paisId: [undefined],
+      estadoId: [undefined],
+      municipioId: [undefined],
+      parroquiaId: [undefined],
+      ciudadId: [undefined],
+      urbanizacion: [undefined],
+      calleAvenida: [undefined],
+      casaEdificio: [undefined],
+      piso: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -115,9 +115,25 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo: `${ser}-${doc}`,
+              empresaId: 0,
+              id: 0,
+              codigo: `${ser}-${cor}`,
+              denominacion: '',
+              tipoSedeId: 0,
+              localizacion: 'S',
+              paisId: '---',
+              estadoId: '---',
+              municipioId: '---',
+              parroquiaId: '---',
+              ciudadId: '---',
+              urbanizacion: '',
+              calleAvenida: '',
+              casaEdificio: '',
+              piso: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)

@@ -38,13 +38,13 @@ export class SingularMarcaComponent implements Entidad {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      tipo: [0],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      tipo: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -76,9 +76,15 @@ export class SingularMarcaComponent implements Entidad {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo: `${ser}-${doc}`,
+              empresaId: 0,
+              id: 0,
+              codigo: `${ser}-${cor}`,
+              denominacion: '',
+              tipo: 0,
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -95,13 +101,12 @@ export class SingularMarcaComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((entidad: Marca) =>
-          entidad
-            ? this.formulario.patchValue({
-                denominacion: entidad.denominacion,
-                tipo: entidad.tipo,
-              })
-            : undefined
+          this.formulario.patchValue({
+            denominacion: entidad.denominacion,
+            tipo: entidad.tipo,
+          })
         )
       )
       .subscribe();
@@ -167,10 +172,9 @@ export class SingularMarcaComponent implements Entidad {
     dialog
       .beforeClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((tipoMarca: TipoMarca) =>
-          tipoMarca
-            ? this.formulario.patchValue({ tipo: tipoMarca.id })
-            : undefined
+          this.formulario.patchValue({ tipo: tipoMarca.id })
         ),
         take(1)
       )
@@ -185,9 +189,8 @@ export class SingularMarcaComponent implements Entidad {
     dialog
       .afterClosed()
       .pipe(
-        tap((entidad: Basica) =>
-          entidad ? this.formulario.patchValue({ tipo: entidad.id }) : undefined
-        ),
+        filter(todo => !!todo),
+        tap(entidad => this.formulario.patchValue({ tipo: entidad.id })),
         take(1)
       )
       .subscribe();

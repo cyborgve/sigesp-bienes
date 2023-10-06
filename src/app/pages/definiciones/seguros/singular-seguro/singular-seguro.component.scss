@@ -1,14 +1,20 @@
+.numeroPoliza,
 .activoId,
 .codigo,
-.aseguradoraId,
-.tipoPolizaId,
-.tipoCoberturaId,
-.numeroPoliza,
 .monedaId,
 .monedaSecundariaId,
-.poseeRCV,
-.coberturaAdicional {
+.poseeRCV {
   @apply col-span-3;
+}
+
+.coberturaAdicional,
+.tipoPolizaId {
+  @apply col-span-4;
+}
+
+.tipoCoberturaId,
+.aseguradoraId {
+  @apply col-span-5;
 }
 
 .denominacion {

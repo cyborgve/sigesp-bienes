@@ -37,12 +37,12 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -79,7 +79,12 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let doc = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               codigo: `${ser}-${doc}`,
+              denominacion: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -97,12 +102,11 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((estadoConcervacion: EstadoConservacion) =>
-            estadoConcervacion
-              ? this.formulario.patchValue({
-                  denominacion: estadoConcervacion.denominacion,
-                })
-              : undefined
+            this.formulario.patchValue({
+              denominacion: estadoConcervacion.denominacion,
+            })
           )
         )
         .subscribe()

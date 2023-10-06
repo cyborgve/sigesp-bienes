@@ -36,21 +36,21 @@ export class ConfiguracionesComponent implements Entidad {
     private _entidad: ConfiguracionService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      normativaActivos: [''],
-      afectacionDepreciacion: [''],
-      longitudCatalogoCuentas: [0],
-      longitudCodigoInstitucional: [0],
-      formatoCatalogoCuentaGeneral: [''],
-      formatoCodigoInstitucional: [''],
-      generarAsientosContables: 0,
-      fechaIncorporacionAutomatica: 0,
-      usarMascaraCodigoActivo: 0,
-      activarPaginacion: 0,
-      opcionesPaginacion: [[8, 20, 50, 100]],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      normativaActivos: [undefined],
+      afectacionDepreciacion: [undefined],
+      longitudCatalogoCuentas: [undefined],
+      longitudCodigoInstitucional: [undefined],
+      formatoCatalogoCuentaGeneral: [undefined],
+      formatoCodigoInstitucional: [undefined],
+      generarAsientosContables: [undefined],
+      fechaIncorporacionAutomatica: [undefined],
+      usarMascaraCodigoActivo: [undefined],
+      activarPaginacion: [undefined],
+      opcionesPaginacion: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -86,6 +86,24 @@ export class ConfiguracionesComponent implements Entidad {
           )
         )
         .subscribe();
+    } else {
+      this.formulario.patchValue({
+        empresaId: 0,
+        id: 0,
+        normativaActivos: '',
+        afectacionDepreciacion: '',
+        longitudCatalogoCuentas: 0,
+        longitudCodigoInstitucional: 0,
+        formatoCatalogoCuentaGeneral: '',
+        formatoCodigoInstitucional: '',
+        generarAsientosContables: 0,
+        fechaIncorporacionAutomatica: 0,
+        usarMascaraCodigoActivo: 0,
+        activarPaginacion: 0,
+        opcionesPaginacion: [8, 20, 50, 100],
+        creado: new Date(),
+        modificado: new Date(),
+      });
     }
   }
 

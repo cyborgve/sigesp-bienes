@@ -33,13 +33,13 @@ export class SingularCorrelativoComponent implements Entidad {
   ) {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      denominacion: ['', Validators.required],
-      serie: ['', Validators.required],
-      correlativo: ['', Validators.required],
-      creado: [''],
-      modificado: [''],
+      empresaId: [undefined],
+      id: [undefined],
+      denominacion: [undefined, Validators.required],
+      serie: [undefined, Validators.required],
+      correlativo: [undefined, Validators.required],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.actualizarFormulario();
   }

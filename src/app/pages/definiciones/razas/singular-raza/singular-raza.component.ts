@@ -37,13 +37,13 @@ export class SingularRazaComponent implements Entidad {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      tipoAnimalId: [0],
-      denominacion: ['', Validators.required],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      tipoAnimalId: [undefined],
+      denominacion: [undefined, Validators.required],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -75,9 +75,15 @@ export class SingularRazaComponent implements Entidad {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo: `${ser}-${doc}`,
+              empresaId: 0,
+              id: 0,
+              codigo: `${ser}-${cor}`,
+              tipoAnimalId: 0,
+              denominacion: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)

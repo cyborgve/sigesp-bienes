@@ -1,3 +1,4 @@
+import { Correlativo } from './../../../../core/models/definiciones/correlativo';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
@@ -41,13 +42,13 @@ export class SingularUnidadAdministrativaComponent
   ) {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      categoria: [0],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      categoria: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.actualizarFormulario();
   }
@@ -80,12 +81,20 @@ export class SingularUnidadAdministrativaComponent
       this._correlativo
         .buscarPorId(CORRELATIVOS.find(c => c.nombre === this.titulo).id)
         .pipe(
-          take(1),
-          tap(correlativo => {
-            let serie = correlativo.serie.toString().padStart(4, '0');
-            let codigo = correlativo.correlativo.toString().padStart(8, '0');
-            this.formulario.patchValue({ codigo: serie + '-' + codigo });
-          })
+          tap((correlativo: Correlativo) => {
+            let ser = correlativo.serie.toString().padStart(4, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
+            this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
+              codigo: `${ser}-${cor}`,
+              denominacion: '',
+              categoria: 0,
+              creado: new Date(),
+              modificado: new Date(),
+            });
+          }),
+          take(1)
         )
         .subscribe();
     }

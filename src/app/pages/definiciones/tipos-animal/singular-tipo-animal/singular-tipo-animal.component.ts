@@ -37,12 +37,12 @@ export class SingularTipoAnimalComponent implements Entidad, OnDestroy {
   ) {
     this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.actualizarFormulario();
   }
@@ -57,7 +57,6 @@ export class SingularTipoAnimalComponent implements Entidad, OnDestroy {
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          take(1),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -67,7 +66,8 @@ export class SingularTipoAnimalComponent implements Entidad, OnDestroy {
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
-          })
+          }),
+          take(1)
         )
         .subscribe();
     } else {
@@ -76,9 +76,14 @@ export class SingularTipoAnimalComponent implements Entidad, OnDestroy {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo: `${ser}-${doc}`,
+              empresaId: 0,
+              id: 0,
+              codigo: `${ser}-${cor}`,
+              denominacion: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)

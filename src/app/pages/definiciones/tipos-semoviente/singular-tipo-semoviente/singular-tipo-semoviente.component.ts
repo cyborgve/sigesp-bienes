@@ -35,12 +35,12 @@ export class SingularTipoSemovienteComponent implements Entidad {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['autogenerado'],
-      denominacion: ['', Validators.required],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -72,8 +72,13 @@ export class SingularTipoSemovienteComponent implements Entidad {
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let cor = correlativo.correlativo.toString().padStart(8, '0');
-            return this.formulario.patchValue({
+            this.formulario.patchValue({
+              empresaId: 0,
+              id: 0,
               codigo: `${ser}-${cor}`,
+              denominacion: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)

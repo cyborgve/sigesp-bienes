@@ -43,26 +43,26 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
     private _correlativo: CorrelativoService
   ) {
     this.formulario = this._formBuilder.group({
-      empresaId: [''],
-      id: [''],
-      codigo: ['AUTOGENERADO'],
-      denominacion: ['', Validators.required],
-      fechaOrigen: [new Date()],
-      fechaAdquisicion: [new Date()],
-      modoAdquisicion: [''],
-      numeroFormaAdquisicion: ['', Validators.maxLength(16)],
-      nombreFormaAdquisicion: ['', Validators.maxLength(16)],
-      fechaFactura: [new Date()],
-      numeroFactura: [''],
-      proveedorId: [''],
-      tomo: [''],
-      folio: [''],
-      nombrePropietarioAnterior: [''],
-      nombreBenefactor: [''],
-      nombreBeneficiario: [''],
-      observaciones: [''],
-      creado: [new Date()],
-      modificado: [new Date()],
+      empresaId: [undefined],
+      id: [undefined],
+      codigo: [undefined],
+      denominacion: [undefined, Validators.required],
+      fechaOrigen: [undefined],
+      fechaAdquisicion: [undefined],
+      modoAdquisicion: [undefined],
+      numeroFormaAdquisicion: [undefined, Validators.maxLength(16)],
+      nombreFormaAdquisicion: [undefined, Validators.maxLength(16)],
+      fechaFactura: [undefined],
+      numeroFactura: [undefined],
+      proveedorId: [undefined],
+      tomo: [undefined],
+      folio: [undefined],
+      nombrePropietarioAnterior: [undefined],
+      nombreBenefactor: [undefined],
+      nombreBeneficiario: [undefined],
+      observaciones: [undefined],
+      creado: [undefined],
+      modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
@@ -111,9 +111,28 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
         .pipe(
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
-            let doc = correlativo.correlativo.toString().padStart(8, '0');
+            let cor = correlativo.correlativo.toString().padStart(8, '0');
             this.formulario.patchValue({
-              codigo: `${ser}-${doc}`,
+              empresaId: 0,
+              id: 0,
+              codigo: `${ser}-${cor}`,
+              denominacion: '',
+              fechaOrigen: undefined,
+              fechaAdquisicion: undefined,
+              modoAdquisicion: '',
+              numeroFormaAdquisicion: '',
+              nombreFormaAdquisicion: '',
+              fechaFactura: undefined,
+              numeroFactura: '',
+              proveedorId: '---',
+              tomo: '',
+              folio: '',
+              nombrePropietarioAnterior: '',
+              nombreBenefactor: '',
+              nombreBeneficiario: '---',
+              observaciones: '',
+              creado: new Date(),
+              modificado: new Date(),
             });
           }),
           take(1)
@@ -131,26 +150,25 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       dialog
         .afterClosed()
         .pipe(
+          filter(todo => !!todo),
           tap((entidad: Origen) =>
-            entidad
-              ? this.formulario.patchValue({
-                  denominacion: entidad.denominacion,
-                  fechaOrigen: entidad.fechaOrigen,
-                  fechaAdquisicion: entidad.fechaAdquisicion,
-                  modoAdquisicion: entidad.modoAdquisicion,
-                  numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
-                  nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
-                  fechaFactura: entidad.fechaFactura,
-                  numeroFactura: entidad.numeroFactura,
-                  proveedorId: entidad.proveedorId,
-                  tomo: entidad.tomo,
-                  folio: entidad.folio,
-                  nombrePropietarioAnterior: entidad.nombrePropietarioAnterior,
-                  nombreBenefactor: entidad.nombreBenefactor,
-                  nombreBeneficiario: entidad.nombreBeneficiario,
-                  observaciones: entidad.observaciones,
-                })
-              : undefined
+            this.formulario.patchValue({
+              denominacion: entidad.denominacion,
+              fechaOrigen: entidad.fechaOrigen,
+              fechaAdquisicion: entidad.fechaAdquisicion,
+              modoAdquisicion: entidad.modoAdquisicion,
+              numeroFormaAdquisicion: entidad.numeroFormaAdquisicion,
+              nombreFormaAdquisicion: entidad.nombreFormaAdquisicion,
+              fechaFactura: entidad.fechaFactura,
+              numeroFactura: entidad.numeroFactura,
+              proveedorId: entidad.proveedorId,
+              tomo: entidad.tomo,
+              folio: entidad.folio,
+              nombrePropietarioAnterior: entidad.nombrePropietarioAnterior,
+              nombreBenefactor: entidad.nombreBenefactor,
+              nombreBeneficiario: entidad.nombreBeneficiario,
+              observaciones: entidad.observaciones,
+            })
           )
         )
         .subscribe()
@@ -214,6 +232,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((proveedor: Proveedor) => {
           if (proveedor) {
             this.formulario.patchValue({ proveedorId: proveedor.id });
@@ -232,6 +251,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((beneficiario: Beneficiario) => {
           if (beneficiario) {
             this.formulario.patchValue({ nombreBenefactor: beneficiario.id });
@@ -250,6 +270,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
     dialog
       .afterClosed()
       .pipe(
+        filter(todo => !!todo),
         tap((beneficiario: Beneficiario) => {
           if (beneficiario) {
             this.formulario.patchValue({ nombreBeneficiario: beneficiario.id });
