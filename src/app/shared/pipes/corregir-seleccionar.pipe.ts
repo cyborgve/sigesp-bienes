@@ -9,7 +9,8 @@ export class CorregirSeleccionarPipe implements PipeTransform {
       return value === '---' ||
         value === '--' ||
         value.toLowerCase() === 'ninguno' ||
-        value.toLowerCase() === 'ninguna'
+        value.toLowerCase() === 'ninguna' ||
+        value.toLowerCase() === 'por defecto'
         ? 'Seleccionar'
         : value;
   }

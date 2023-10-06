@@ -10,6 +10,7 @@ import { SigespService } from 'sigesp';
 export class DenominacionCentroCostosPipe implements PipeTransform {
   transform(value: string): Observable<string> {
     if (value === null || value === undefined) return of('');
+    if (value === '--') return of('--');
     return this._sigesp.getCentroCosto('all').pipe(
       adaptarCentrosCosto(),
       map(centros => centros.find(centro => centro.id === value)),
