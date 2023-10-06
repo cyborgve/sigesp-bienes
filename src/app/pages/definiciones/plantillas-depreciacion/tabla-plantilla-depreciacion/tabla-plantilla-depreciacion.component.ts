@@ -1,6 +1,4 @@
-import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { pipe } from 'rxjs';
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { tap, filter, switchMap, take, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -22,9 +20,6 @@ import { PlantillaDepreciacionService } from '@core/services/definiciones/planti
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 
-const filtroInicial = () =>
-  pipe(map((plantillas: PlantillaDepreciacion[]) => plantillas));
-
 @Component({
   selector: 'app-tabla-plantilla-depreciacion',
   templateUrl: './tabla-plantilla-depreciacion.component.html',
@@ -40,7 +35,6 @@ export class TablaPlantillaDepreciacionComponent
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] =
     COLUMNAS_VISIBLES.PLANTILLAS_DEPRECIACION;
-  @Input() filtros = [filtroInicial()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/plantillas-depreciacion';
@@ -66,13 +60,12 @@ export class TablaPlantillaDepreciacionComponent
     this._entidad
       .buscarTodos()
       .pipe(
-        pipeFromArray(this.filtros),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         }),
-        first()
+        take(1)
       )
       .subscribe();
   }
