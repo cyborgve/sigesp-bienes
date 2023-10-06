@@ -19,11 +19,8 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { RotulacionService } from '@core/services/definiciones/rotulacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
-import { pipe } from 'rxjs';
-
-const filtroInicial = () =>
-  pipe(map((rotulaciones: Rotulacion[]) => rotulaciones));
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-rotulacion',
@@ -39,7 +36,7 @@ export class TablaRotulacionComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ROTULACIONES;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/rotulaciones';
@@ -64,7 +61,7 @@ export class TablaRotulacionComponent
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: Rotulacion[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

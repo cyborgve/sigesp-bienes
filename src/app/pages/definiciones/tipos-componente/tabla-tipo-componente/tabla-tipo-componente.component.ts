@@ -1,6 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { pipe } from 'rxjs';
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -21,9 +20,7 @@ import { TipoComponenteService } from '@core/services/definiciones/tipo-componen
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-
-const filtroInicial = () =>
-  pipe(map((tiposComponente: TipoComponente[]) => tiposComponente));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-tipo-componente',
@@ -39,7 +36,7 @@ export class TablaTipoComponenteComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.TIPOS_COMPONENTE;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/tipos-componente';
@@ -64,7 +61,7 @@ export class TablaTipoComponenteComponent
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: TipoComponente[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

@@ -18,12 +18,9 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { EstadoConservacionService } from '@core/services/definiciones/estado-conservacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-
-const filtroInicial = () =>
-  pipe(map((estadosConservacion: EstadoConservacion[]) => estadosConservacion));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-estado-conservacion',
@@ -39,7 +36,7 @@ export class TablaEstadoConservacionComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ESTADOS_CONSERVACION;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/estados-conservacion';
@@ -64,7 +61,7 @@ export class TablaEstadoConservacionComponent
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: EstadoConservacion[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

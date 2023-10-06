@@ -1,5 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -20,10 +20,7 @@ import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administr
 import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { pipe } from 'rxjs';
-
-const filtroInicial = () =>
-  pipe(map((unidades: UnidadAdministrativa[]) => unidades));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-unidad-administrativa',
@@ -40,7 +37,7 @@ export class TablaUnidadAdministrativaComponent
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] =
     COLUMNAS_VISIBLES.UNIDADES_ADMINISTRATIVAS;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/unidades-administrativas';
@@ -66,7 +63,7 @@ export class TablaUnidadAdministrativaComponent
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: UnidadAdministrativa[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

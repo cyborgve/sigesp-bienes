@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import {
   Component,
   ViewChild,
@@ -19,10 +19,8 @@ import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-e
 import { Location } from '@angular/common';
 import { Id } from '@core/types/id';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-
-const filtroInicial = () => pipe(map((seguros: Seguro[]) => seguros));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-seguro',
@@ -38,7 +36,7 @@ export class TablaSeguroComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.SEGUROS;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/seguros';
@@ -63,7 +61,7 @@ export class TablaSeguroComponent
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: Seguro[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

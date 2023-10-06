@@ -20,10 +20,8 @@ import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
-import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-
-const inicioFiltros = () => pipe(map((activos: Activo[]) => activos));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-activo',
@@ -39,7 +37,7 @@ export class TablaActivoComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTIVOS;
   @Input() ocultarEncabezado: boolean = false;
-  @Input() filtros = [inicioFiltros()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/activos';

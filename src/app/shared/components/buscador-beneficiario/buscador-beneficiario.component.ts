@@ -1,4 +1,4 @@
-import { map, tap, take } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,15 +6,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
-import { pipe } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BeneficiarioService } from '@core/services/otros-modulos/beneficiario.service';
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-
-const filtroInicial = () =>
-  pipe(map((beneficiarios: Beneficiario[]) => beneficiarios));
 
 @Component({
   selector: 'app-buscador-beneficiario',
@@ -30,7 +27,7 @@ export class BuscadorBeneficiarioComponent
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['BENEFICIARIOS'];
   dataSource: MatTableDataSource<Beneficiario> = new MatTableDataSource();
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorBeneficiarioComponent>,
@@ -48,8 +45,8 @@ export class BuscadorBeneficiarioComponent
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
+        tap((beneficiario: Beneficiario[]) => {
+          this.dataSource = new MatTableDataSource(beneficiario);
           this.dataSource.sort = this.matSort;
           this.dataSource.paginator = this.matPaginator;
         }),

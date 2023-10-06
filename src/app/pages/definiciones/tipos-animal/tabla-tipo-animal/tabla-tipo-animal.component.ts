@@ -17,14 +17,11 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 import { Id } from '@core/types/id';
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
-
-const filtroInicial = () =>
-  pipe(map((tiposAnimal: TipoAnimal[]) => tiposAnimal));
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-tipo-animal',
@@ -40,7 +37,7 @@ export class TablaTipoAnimalComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.TIPOS_ANIMAL;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/tipos-animal';

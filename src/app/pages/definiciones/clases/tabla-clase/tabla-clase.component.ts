@@ -18,11 +18,9 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ClaseService } from '@core/services/definiciones/clase.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-
-const filtroInicial = () => pipe(map((clases: Clase[]) => clases));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-clase',
@@ -36,7 +34,7 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CLASES;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/clases';
@@ -60,7 +58,7 @@ export class TablaClaseComponent implements TablaEntidad<Clase>, AfterViewInit {
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: Clase[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

@@ -21,8 +21,7 @@ import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-e
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-
-const filtroInicial = () => pipe(map((sedes: Sede[]) => sedes));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-sede',
@@ -36,7 +35,7 @@ export class TablaSedeComponent implements TablaEntidad<Sede>, AfterViewInit {
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.SEDES;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/sedes';
@@ -61,7 +60,7 @@ export class TablaSedeComponent implements TablaEntidad<Sede>, AfterViewInit {
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: Sede[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

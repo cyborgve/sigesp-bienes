@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -19,10 +19,8 @@ import { MarcaService } from '@core/services/definiciones/marca.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-
-const filtroInicial = () => pipe(map((marcas: Marca[]) => marcas));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-marca',
@@ -36,7 +34,7 @@ export class TablaMarcaComponent implements TablaEntidad<Marca>, AfterViewInit {
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.MARCAS;
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/marcas';
@@ -61,8 +59,8 @@ export class TablaMarcaComponent implements TablaEntidad<Marca>, AfterViewInit {
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(estadosUso => {
-          this.dataSource = new MatTableDataSource(estadosUso);
+        tap((marcas: Marca[]) => {
+          this.dataSource = new MatTableDataSource(marcas);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         }),

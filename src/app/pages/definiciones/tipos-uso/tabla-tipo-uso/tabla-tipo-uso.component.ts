@@ -1,6 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { pipe } from 'rxjs';
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -21,8 +20,7 @@ import { TipoUso } from '@core/models/definiciones/tipo-uso';
 import { TipoUsoService } from '@core/services/definiciones/tipo-uso.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-
-const filtroInicial = () => pipe(map((tiposUso: TipoUso[]) => tiposUso));
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-tipo-uso',
@@ -38,7 +36,7 @@ export class TablaTipoUsoComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES['TIPOS_USO'];
-  @Input() filtros = [filtroInicial()];
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/definiciones/tipos-uso';
@@ -63,7 +61,7 @@ export class TablaTipoUsoComponent
       .buscarTodos()
       .pipe(
         pipeFromArray(this.filtros),
-        tap(entidades => {
+        tap((entidades: TipoUso[]) => {
           this.dataSource = new MatTableDataSource(entidades);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

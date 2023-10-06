@@ -9,11 +9,7 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Moneda } from '@core/models/otros-modulos/moneda';
-import { adaptarMonedas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-monedas';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
-import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { first, tap, map } from 'rxjs/operators';
-import { SigespService } from 'sigesp';
 import { pipe } from 'rxjs';
 import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 
