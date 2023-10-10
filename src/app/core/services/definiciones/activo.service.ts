@@ -1,4 +1,4 @@
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map, tap, filter } from 'rxjs/operators';
 import { Observable, forkJoin, pipe } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
@@ -29,6 +29,14 @@ import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
 import { activoDepreciable } from '@core/utils/funciones/activo-depreciable';
 import { DepreciacionService } from '../procesos/depreciacion.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { TipoFechaReferencia } from '@core/types/tipo-fecha';
+import moment from 'moment';
+import { TipoActivo } from '@core/types/tipo-activo';
+import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
+import { Marca } from '@core/models/definiciones/marca';
+import { MarcaService } from './marca.service';
+import { ModeloService } from './modelo.service';
+import { Modelo } from '@core/models/definiciones/modelo';
 
 @Injectable({
   providedIn: 'root',
@@ -222,26 +230,6 @@ export class ActivoService extends GenericService<Activo> {
       })
     );
 
-  filtrarPorUnidadAdministrativa = (unidadAdministrativa: Id) =>
-    pipe(
-      switchMap((activos: Activo[]) => {
-        let buscarUbicaciones = activos.map(activo =>
-          this._activoUbicacion.buscarPorActivo(activo.id)
-        );
-        return forkJoin(buscarUbicaciones).pipe(
-          map(ubicaciones => {
-            let filtrados = ubicaciones
-              .filter(
-                ubicacion =>
-                  ubicacion.unidadAdministrativaId === unidadAdministrativa
-              )
-              .map(ubicacion => ubicacion.activoId);
-            return activos.filter(activo => filtrados.includes(activo.id));
-          })
-        );
-      })
-    );
-
   filtrarDepreciables = () =>
     pipe(
       switchMap((activosParciales: Activo[]) => {
@@ -280,5 +268,115 @@ export class ActivoService extends GenericService<Activo> {
           )
         )
       )
+    );
+
+  // FILTROS DATOS GENERALES
+
+  filtrarPorFecha = (
+    fechaInicio: Date,
+    fechaFin: Date,
+    fechaReferencia: TipoFechaReferencia
+  ) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(activo => {
+          if (fechaReferencia === 'CREADO')
+            return moment(activo.creado).isBetween(
+              moment(fechaInicio),
+              moment(fechaFin)
+            );
+          else if (fechaReferencia === 'MODIFICADO')
+            return moment(activo.modificado).isBetween(
+              moment(fechaInicio),
+              moment(fechaFin)
+            );
+          return false;
+        })
+      )
+    );
+
+  filtrarPorTipoActivo = (tipoActivo: TipoActivo) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(activo => activo.tipoActivo === tipoActivo)
+      )
+    );
+
+  filtrarPorCatalogoGeneral = (catalogoGeneral: CatalogoGeneral) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(
+          activo => activo.catalogoCuentas === catalogoGeneral.catalogoCuentas
+        )
+      )
+    );
+
+  filtrarPorMarca = (marca: Id, _modelo: ModeloService) =>
+    pipe(
+      switchMap((activos: Activo[]) => {
+        let buscarModelos = activos.map(activo =>
+          _modelo
+            .buscarPorId(activo.modeloId)
+            .pipe(map(modelo => ({ id: activo.id, marca: modelo.marcaId })))
+        );
+        return forkJoin(buscarModelos).pipe(
+          map(modelos => modelos.filter(modelo => modelo.marca === marca))
+        );
+      })
+    );
+
+  filtrarPorModelo = (modelo: Id) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(activo => activo.modeloId === modelo)
+      )
+    );
+
+  filtrarPorMoneda = (moneda: Id) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(activo => activo.monedaId === moneda)
+      )
+    );
+
+  filtrarPorColor = (color: Id) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(activo => activo.colorId === color)
+      )
+    );
+
+  filtrarPorRotulacion = (rotulacion: Id) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(activo => activo.rotulacionId === rotulacion)
+      )
+    );
+
+  filtrarPorCategoria = (categoria: Id) =>
+    pipe(
+      map((activos: Activo[]) =>
+        activos.filter(activo => activo.categoriaId === categoria)
+      )
+    );
+
+  filtrarPorUnidadAdministrativa = (unidadAdministrativa: Id) =>
+    pipe(
+      switchMap((activos: Activo[]) => {
+        let buscarUbicaciones = activos.map(activo =>
+          this._activoUbicacion.buscarPorActivo(activo.id)
+        );
+        return forkJoin(buscarUbicaciones).pipe(
+          map(ubicaciones => {
+            let filtrados = ubicaciones
+              .filter(
+                ubicacion =>
+                  ubicacion.unidadAdministrativaId === unidadAdministrativa
+              )
+              .map(ubicacion => ubicacion.activoId);
+            return activos.filter(activo => filtrados.includes(activo.id));
+          })
+        );
+      })
     );
 }
