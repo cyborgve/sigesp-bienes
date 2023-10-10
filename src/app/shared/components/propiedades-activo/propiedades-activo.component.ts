@@ -22,12 +22,28 @@ export class PropiedadesActivoComponent implements OnInit {
 
   ngOnInit() {
     // Inicializar propiedades disponibles con las propiedades del activo
+    const palabrasIgnoradas = [
+      'empresaId',
+      'id',
+      'creado',
+      'modificado',
+      'activoId',
+    ];
     this._activo
       .buscarPorId(0)
       .pipe(
-        tap(
-          activoAPI => (this.propiedadesDisponibles = Object.keys(activoAPI))
-        ),
+        tap(activoAPI => {
+          this.propiedadesDisponibles = Object.keys(activoAPI);
+          Object.keys(activoAPI.detalle)
+            .filter(palabra => !palabrasIgnoradas.includes(palabra))
+            .forEach(propiedad => this.propiedadesDisponibles.push(propiedad));
+          Object.keys(activoAPI.depreciacion)
+            .filter(palabra => !palabrasIgnoradas.includes(palabra))
+            .forEach(propiedad => this.propiedadesDisponibles.push(propiedad));
+          Object.keys(activoAPI.ubicacion)
+            .filter(palabra => !palabrasIgnoradas.includes(palabra))
+            .forEach(propiedad => this.propiedadesDisponibles.push(propiedad));
+        }),
         take(1)
       )
       .subscribe();

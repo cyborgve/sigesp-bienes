@@ -16,11 +16,11 @@
         [sinDecorar]="filtrosSinDecorar"></app-filtro-rango-fechas>
       <article class="varios">
         <app-filtro-tipo-activo
+          [tipoActivo]="formularioFiltrosActivos.controls.tipoActivo"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-activo>
         <app-filtro-catalogo-general
           [sinDecorar]="filtrosSinDecorar"></app-filtro-catalogo-general>
-        <app-filtro-tipo-marca
-          [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-marca>
+
         <app-filtro-marca [sinDecorar]="filtrosSinDecorar"></app-filtro-marca>
         <app-filtro-modelo [sinDecorar]="filtrosSinDecorar"></app-filtro-modelo>
         <app-filtro-moneda [sinDecorar]="filtrosSinDecorar"></app-filtro-moneda>
@@ -92,6 +92,8 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>Filtros: otros</mat-expansion-panel-header>
     <section class="varios">
+      <app-filtro-tipo-marca
+        [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-marca>
       <app-filtro-beneficiario
         [sinDecorar]="filtrosSinDecorar"></app-filtro-beneficiario>
       <app-filtro-categoria-unidad-administrativa

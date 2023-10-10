@@ -21,6 +21,7 @@ export class ListadoActivosComponent implements OnInit {
   procesos = TIPOS_PROCESO;
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'].filter(c => c !== 'acciones');
   filtrosSinDecorar = false;
+  formularioFiltrosActivos: FormGroup;
 
   activo = <Activo>{};
 
@@ -29,11 +30,21 @@ export class ListadoActivosComponent implements OnInit {
     private _activo: ActivoService,
     private _xlsx: XLSXService
   ) {
-    this.formularioRangoFechas = this._formBuilder.group({
+    this.formularioRangoFechas = _formBuilder.group({
       rango: ['TODOS'],
       fechaInicio: [undefined],
       fechaFin: [undefined],
       fechaReferencia: ['CREADO'],
+    });
+    this.formularioFiltrosActivos = _formBuilder.group({
+      tipoActivo: [undefined],
+      catalogoGeneral: [undefined],
+      marca: [undefined],
+      modelo: [undefined],
+      moneda: [undefined],
+      color: [undefined],
+      rotulacion: [undefined],
+      categoria: [undefined],
     });
   }
 
