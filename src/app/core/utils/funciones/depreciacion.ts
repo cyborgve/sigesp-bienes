@@ -10,7 +10,7 @@ interface DepreciacionCalculada {
   detalles: DetalleDepreciacion[];
 }
 
-export const calcularDepreciacion = (
+const calcularDepreciacion = (
   valorInicial: number,
   fechaInicial: Date,
   vidaUtil: number,
@@ -242,3 +242,5 @@ const sumaDigitos = (
     detalles: detalles,
   };
 };
+
+export { calcularDepreciacion };
