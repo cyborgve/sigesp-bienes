@@ -37,13 +37,6 @@ const routes: Routes = [
       import('./colores/colores.module').then(m => m.ColoresModule),
   },
   {
-    path: 'configuraciones',
-    loadChildren: () =>
-      import('./configuraciones/configuraciones.module').then(
-        m => m.ConfiguracionesModule
-      ),
-  },
-  {
     path: 'estados-conservacion',
     loadChildren: () =>
       import('./estados-conservacion/estados-conservacion.module').then(
@@ -145,13 +138,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./plantillas-depreciacion/plantillas-depreciacion.module').then(
         m => m.PlantillasDepreciacionModule
-      ),
-  },
-  {
-    path: 'correlativos',
-    loadChildren: () =>
-      import('./correlativos/correlativos.module').then(
-        m => m.CorrelativosModule
       ),
   },
   {

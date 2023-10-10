@@ -36,7 +36,7 @@ export class TablaCorrelativoComponent
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.CORRELATIVOS;
   @Output() dobleClick = new EventEmitter();
 
-  private urlPlural = '/definiciones/correlativos';
+  private urlPlural = '/configuraciones/correlativos';
   private urlSingular = this.urlPlural + '/correlativo';
   private urlSingularId = (id: Id) => this.urlPlural + '/correlativo/' + id;
 

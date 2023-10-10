@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ConfiguracionesRoutingModule } from './configuraciones-routing.module';
-import { ConfiguracionesComponent } from './configuraciones.component';
+import { ConfiguracionGeneralRoutingModule } from './configuracion-general-routing.module';
+import { ConfiguracionGeneralComponent } from './configuracion-general.component';
+import { SharedModule } from '@shared/shared.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { SharedModule } from '@shared/shared.module';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [ConfiguracionesComponent],
+  declarations: [ConfiguracionGeneralComponent],
   imports: [
     CommonModule,
+    ConfiguracionGeneralRoutingModule,
     ReactiveFormsModule,
-    ConfiguracionesRoutingModule,
     SharedModule,
     MatCardModule,
     MatInputModule,
@@ -23,4 +23,4 @@ import { MatSelectModule } from '@angular/material/select';
     MatSlideToggleModule,
   ],
 })
-export class ConfiguracionesModule {}
+export class ConfiguracionGeneralModule {}

@@ -1,26 +1,26 @@
-import { Configuracion } from '@core/models/definiciones/configuracion';
-import { ActivatedRoute, Router } from '@angular/router';
+import { tap, take, first } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NORMATIVAS_ACTIVO } from '@core/constants/normativas-activo';
+import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
+import { Entidad } from '@core/models/auxiliares/entidad';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Id } from '@core/types/id';
-import { first, take, tap } from 'rxjs/operators';
-import { Entidad } from '@core/models/auxiliares/entidad';
-import { Location } from '@angular/common';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
-import { prepararConfiguracion } from '@core/utils/funciones/preparar-configuracion';
 import { adaptarConfiguracion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-configuracion';
+import { Configuracion } from '@core/models/definiciones/configuracion';
+import { prepararConfiguracion } from '@core/utils/funciones/preparar-configuracion';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-configuraciones',
-  templateUrl: './configuraciones.component.html',
-  styleUrls: ['./configuraciones.component.scss'],
+  selector: 'app-configuracion-general',
+  templateUrl: './configuracion-general.component.html',
+  styleUrls: ['./configuracion-general.component.scss'],
 })
-export class ConfiguracionesComponent implements Entidad {
+export class ConfiguracionGeneralComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
-  titulo = 'Configuraciones';
+  titulo = 'Configuración General';
   formulario: FormGroup;
 
   tiposAfectacionDepreciacion = TIPOS_AFECTACION_DEPRECIACION;

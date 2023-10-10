@@ -4,7 +4,20 @@ import { ConfiguracionesComponent } from './configuraciones.component';
 
 const routes: Routes = [
   { path: '', component: ConfiguracionesComponent },
-  { path: ':id', component: ConfiguracionesComponent },
+  {
+    path: 'configuracion-general',
+    loadChildren: () =>
+      import('./configuracion-general/configuracion-general.module').then(
+        m => m.ConfiguracionGeneralModule
+      ),
+  },
+  {
+    path: 'correlativos',
+    loadChildren: () =>
+      import('./correlativos/correlativos.module').then(
+        m => m.CorrelativosModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -68,18 +68,6 @@ export const MENU: MenuItem[] = [
         image: './assets/images/svg/crop_square.svg',
       },
       {
-        label: 'Configuraciones',
-        routerLink: 'configuraciones/1',
-        icon: 'settings',
-        image: './assets/images/svg/settings.svg',
-      },
-      {
-        label: 'Correlativos',
-        routerLink: 'correlativos',
-        icon: 'pin',
-        image: './assets/images/svg/pin.svg',
-      },
-      {
         label: 'Estados de Conservación',
         routerLink: 'estados-conservacion',
         icon: 'hardware',
@@ -307,10 +295,24 @@ export const MENU: MenuItem[] = [
       },
     ],
   },
-  // {
-  //   label: 'Ayuda',
-  //   routerLink: 'ayuda',
-  //   icon: 'help',
-  //   image: './assets/images/svg/help.svg',
-  // },
+  {
+    label: 'Configuraciones',
+    routerLink: 'configuraciones',
+    icon: 'settings',
+    image: './assets/images/svg/settings.svg',
+    items: [
+      {
+        label: 'Configuración General',
+        routerLink: 'configuracion-general',
+        icon: 'settings',
+        image: './assets/images/svg/settings.svg',
+      },
+      {
+        label: 'Correlativos',
+        routerLink: 'correlativos',
+        icon: 'pin',
+        image: './assets/images/svg/pin.svg',
+      },
+    ],
+  },
 ];
