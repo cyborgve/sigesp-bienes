@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PieReporteComponent } from './pie-reporte.component';
+import { PropiedadesActivoComponent } from './filtro-propiedades.component';
 
-describe('PieReporteComponent', () => {
-  let component: PieReporteComponent;
-  let fixture: ComponentFixture<PieReporteComponent>;
+describe('PropiedadesActivoComponent', () => {
+  let component: PropiedadesActivoComponent;
+  let fixture: ComponentFixture<PropiedadesActivoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PieReporteComponent],
+      declarations: [PropiedadesActivoComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PieReporteComponent);
+    fixture = TestBed.createComponent(PropiedadesActivoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -71,6 +71,8 @@ import { BuscadorTipoSemovienteModule } from '@pages/definiciones/tipos-semovien
 import { BuscadorTipoUsoModule } from '@pages/definiciones/tipos-uso/buscador-tipo-uso/buscador-tipo-uso.module';
 import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 import { FiltroMetodoDepreciacionComponent } from './filtro-metodo-depreciacion/filtro-metodo-depreciacion.component';
+import { FiltroPropiedadesComponent } from './filtro-propiedades/filtro-propiedades.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 const sharedComponents = [
   FiltroCatalogoGeneralComponent,
@@ -100,25 +102,24 @@ const sharedComponents = [
   FiltroUnidadAdministrativaComponent,
   FiltroMonedaComponent,
   FiltroResponsableComponent,
+  FiltroCategoriaUnidadAdministrativaComponent,
+  FiltroCentroCostoComponent,
+  FiltroCiudadComponent,
+  FiltroCuentaContableComponent,
+  FiltroEstadoComponent,
+  FiltroFuenteFinanciamientoComponent,
+  FiltroMunicipioComponent,
+  FiltroPaisComponent,
+  FiltroParroquiaComponent,
+  FiltroProveedorComponent,
+  FiltroResponsableComponent,
+  FiltroBeneficiarioComponent,
+  FiltroMetodoDepreciacionComponent,
+  FiltroPropiedadesComponent,
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    FiltroCategoriaUnidadAdministrativaComponent,
-    FiltroCentroCostoComponent,
-    FiltroCiudadComponent,
-    FiltroCuentaContableComponent,
-    FiltroEstadoComponent,
-    FiltroFuenteFinanciamientoComponent,
-    FiltroMunicipioComponent,
-    FiltroPaisComponent,
-    FiltroParroquiaComponent,
-    FiltroProveedorComponent,
-    FiltroResponsableComponent,
-    FiltroBeneficiarioComponent,
-    FiltroMetodoDepreciacionComponent,
-  ],
+  declarations: [...sharedComponents],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -129,6 +130,7 @@ const sharedComponents = [
     MatCardModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatChipsModule,
     BuscadorCatalogoGeneralModule,
     BuscadorCategoriaModule,
     BuscadorCategoriaUnidadModule,
@@ -154,21 +156,6 @@ const sharedComponents = [
     BuscadorTipoUsoModule,
     BuscadorUnidadAdministrativaModule,
   ],
-  exports: [
-    ...sharedComponents,
-    FiltroCategoriaUnidadAdministrativaComponent,
-    FiltroCentroCostoComponent,
-    FiltroCiudadComponent,
-    FiltroCuentaContableComponent,
-    FiltroEstadoComponent,
-    FiltroFuenteFinanciamientoComponent,
-    FiltroMunicipioComponent,
-    FiltroPaisComponent,
-    FiltroParroquiaComponent,
-    FiltroProveedorComponent,
-    FiltroResponsableComponent,
-    FiltroBeneficiarioComponent,
-    FiltroMetodoDepreciacionComponent,
-  ],
+  exports: [...sharedComponents],
 })
 export class FiltrosReportesModule {}

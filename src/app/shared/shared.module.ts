@@ -79,10 +79,8 @@ import { CorregirMetodoDepreciacionPipe } from './pipes/corregir-metodo-deprecia
 import { EncabezadoReportesComponent } from './components/encabezado-reportes/encabezado-reportes.component';
 import { TipoOracionPipe } from './pipes/tipo-oracion.pipe';
 import { EstadoMovimientoCatalogoPipe } from './pipes/estado-movimiento-catalogo.pipe';
-import { PieReporteComponent } from './components/pie-reporte/pie-reporte.component';
 import { BuscadorBeneficiarioComponent } from './components/buscador-beneficiario/buscador-beneficiario.component';
 import { BotonesAccionesProcesoComponent } from './components/botones-acciones-proceso/botones-acciones-proceso.component';
-import { PropiedadesActivoComponent } from './components/propiedades-activo/propiedades-activo.component';
 import { DialogoEliminarProcesoComponent } from './components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 
 const sharedComponents = [
@@ -110,10 +108,8 @@ const sharedComponents = [
   CuentasContablesProcesoComponent,
   EncabezadoReportesComponent,
   ComponentesProcesoComponent,
-  PieReporteComponent,
   BuscadorBeneficiarioComponent,
   BotonesAccionesProcesoComponent,
-  PropiedadesActivoComponent,
 ];
 
 const sharedPipes = [

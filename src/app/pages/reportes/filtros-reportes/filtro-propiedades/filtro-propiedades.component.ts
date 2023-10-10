@@ -6,11 +6,11 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 import { take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-propiedades-activo',
-  templateUrl: './propiedades-activo.component.html',
-  styleUrls: ['./propiedades-activo.component.scss'],
+  selector: 'app-filtro-propiedades',
+  templateUrl: './filtro-propiedades.component.html',
+  styleUrls: ['./filtro-propiedades.component.scss'],
 })
-export class PropiedadesActivoComponent implements OnInit {
+export class FiltroPropiedadesComponent implements OnInit {
   propiedadesDisponibles: string[] = []; // Almacena las propiedades disponibles
   propiedadesSeleccionadas: string[] = []; // Almacena las propiedades seleccionadas
 
@@ -106,11 +106,11 @@ export class PropiedadesActivoComponent implements OnInit {
 // // import { take, tap } from 'rxjs/operators';
 
 // // @Component({
-// //   selector: 'app-propiedades-activo',
-// //   templateUrl: './propiedades-activo.component.html',
-// //   styleUrls: ['./propiedades-activo.component.scss'],
+// //   selector: 'app-filtro-propiedades',
+// //   templateUrl: './filtro-propiedades.component.html',
+// //   styleUrls: ['./filtro-propiedades.component.scss'],
 // // })
-// // export class PropiedadesActivoComponent implements OnInit {
+// // export class FiltroPropiedadesComponent implements OnInit {
 // //   propiedadesDisponibles: string[] = []; // Almacena las propiedades disponibles
 // //   propiedadesSeleccionadas: string[] = []; // Almacena las propiedades seleccionadas
 
