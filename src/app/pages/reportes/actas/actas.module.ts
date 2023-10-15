@@ -10,9 +10,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TablaActaPrestamoModule } from '@pages/procesos/actas-prestamo/tabla-acta-prestamo/tabla-acta-prestamo.module';
 import { FiltrosReportesModule } from '@pages/reportes/filtros-reportes/filtros-reportes.module';
+import { DetalleComponent } from './detalle/detalle.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
-  declarations: [ActasComponent],
+  declarations: [ActasComponent, DetalleComponent],
   imports: [
     CommonModule,
     ActasRoutingModule,
@@ -21,6 +23,7 @@ import { FiltrosReportesModule } from '@pages/reportes/filtros-reportes/filtros-
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatTableModule,
     TablaActaPrestamoModule,
     FiltrosReportesModule,
   ],

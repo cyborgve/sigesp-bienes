@@ -7,6 +7,7 @@ import { InformacionProcesoService } from './informacion-proceso.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { Activo } from '@core/models/definiciones/activo';
 import { InformacionDefinicionService } from './informacion-definicion.service';
+import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,26 @@ export class XLSXService {
     private _informacionProceso: InformacionProcesoService,
     private _informacionDefinicion: InformacionDefinicionService
   ) {}
+
+  actasPrestamo(actasPrestamo: ActaPrestamo[]) {
+    let fecha = new Date();
+    let workBook = XLSX.utils.book_new();
+    let workSheet = XLSX.utils.json_to_sheet(actasPrestamo);
+    XLSX.utils.book_append_sheet(workBook, workSheet, 'Actas de Préstamo');
+    let nombreArchivo = `sbn_actas_prestamo_${String(fecha.getDay()).padStart(
+      2,
+      '0'
+    )}-${String(fecha.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+      2,
+      '0'
+    )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+      fecha.getSeconds()
+    ).padStart(2, '0')}.xlsx`;
+    XLSX.writeFile(workBook, nombreArchivo);
+  }
 
   exportarProceso(
     data: any,

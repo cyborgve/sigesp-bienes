@@ -1,4 +1,4 @@
-export type RangoFecha =
+export type TipoRangoFecha =
   | 'HOY'
   | 'AYER'
   | 'ESTA SEMANA'

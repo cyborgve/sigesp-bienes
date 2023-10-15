@@ -1,3 +1,4 @@
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { Location } from '@angular/common';
 import {
   AfterViewInit,
@@ -16,13 +17,13 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 
 @Component({
   selector: 'app-tabla-acta-prestamo',
@@ -38,6 +39,7 @@ export class TablaActaPrestamoComponent
   @Input() ocultarNuevo: boolean = false;
   @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ACTAS_PRESTAMO;
   @Input() ocultarEncabezado = false;
+  @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
   private urlPlural = '/procesos/actas-prestamo';
@@ -50,8 +52,7 @@ export class TablaActaPrestamoComponent
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog,
-    private _pdf: PDFService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _pdf: PDFService
   ) {}
 
   ngAfterViewInit(): void {
@@ -62,6 +63,7 @@ export class TablaActaPrestamoComponent
     this._entidad
       .buscarTodos()
       .pipe(
+        pipeFromArray(this.filtros),
         ordenarPorComprobanteDescendente(),
         tap(entidades => {
           this.dataSource = new MatTableDataSource(entidades);

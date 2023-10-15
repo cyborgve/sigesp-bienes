@@ -9,11 +9,12 @@
     [formulario]="formularioRangoFechas"
     class="rangoFechas"></app-filtro-rango-fechas>
   <article class="inferior">
-    <app-tabla-acta-prestamo
-      [ocultarEncabezado]="true"></app-tabla-acta-prestamo>
+    <app-detalle [dataSource]="dataSource"></app-detalle>
   </article>
 </section>
 <app-toolbar
+  [mostrarBuscar]="false"
   [mostrarImportar]="false"
   [mostrarBorrar]="false"
-  [mostrarSalir]="false"></app-toolbar>
+  [mostrarSalir]="false"
+  (guardar)="guardar()"></app-toolbar>

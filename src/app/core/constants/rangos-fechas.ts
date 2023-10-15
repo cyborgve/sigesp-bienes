@@ -1,6 +1,6 @@
-import { RangoFecha } from '@core/types/rango-fecha';
+import { TipoRangoFecha } from '@core/types/tipo-rango-fecha';
 
-export const RANGOS_FECHAS: RangoFecha[] = [
+export const RANGOS_FECHAS: TipoRangoFecha[] = [
   'HOY',
   'AYER',
   'ESTA SEMANA',
