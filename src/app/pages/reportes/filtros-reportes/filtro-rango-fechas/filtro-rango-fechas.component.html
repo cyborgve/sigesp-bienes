@@ -48,10 +48,19 @@
       <!-- fecha referencia -->
       <mat-form-field appearance="fill" class="fechaReferencia">
         <mat-label>Fecha de referencia</mat-label>
-        <mat-select formControlName="fechaReferencia">
-          <mat-option value="CREADO">Fecha de creación</mat-option>
-          <mat-option value="MODIFICADO">Fecha de modificación</mat-option>
-        </mat-select>
+        <ng-container *ngIf="deshabilitarReferencia; else deshabilitado">
+          <mat-select formControlName="fechaReferencia">
+            <mat-option value="CREADO">Fecha de creación</mat-option>
+            <mat-option value="MODIFICADO">Fecha de modificación</mat-option>
+          </mat-select>
+        </ng-container>
+        <ng-template #deshabilitado>
+          <input
+            type="text"
+            matInput
+            formControlName="fechaReferencia"
+            readonly="true" />
+        </ng-template>
       </mat-form-field>
     </section>
   </form>

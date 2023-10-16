@@ -1,5 +1,5 @@
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
-import { RangoFecha } from '@core/types/rango-fecha';
+import { TipoRangoFecha } from '@core/types/tipo-rango-fecha';
 import { tap } from 'rxjs/operators';
 import { Component, Input, OnInit } from '@angular/core';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
@@ -17,11 +17,12 @@ export class FiltroRangoFechasComponent implements OnInit {
   tiposProceso = TIPOS_PROCESO;
   @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
+  @Input() deshabilitarReferencia: boolean = false;
 
   ngOnInit(): void {
     this.formulario.controls.rango.valueChanges
       .pipe(
-        tap((rango: RangoFecha) => {
+        tap((rango: TipoRangoFecha) => {
           this.formulario.patchValue({
             fechaInicio: FECHAS_CALCULADAS[rango][0],
             fechaFin: FECHAS_CALCULADAS[rango][1],
