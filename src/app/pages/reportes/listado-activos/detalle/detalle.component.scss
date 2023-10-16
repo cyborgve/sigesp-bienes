@@ -1,0 +1,16 @@
+th.mat-column-codigo,
+td.mat-column-codigo,
+th.mat-column-tipoActivo,
+td.mat-column-tipoActivo {
+  @apply w-32;
+}
+
+th.mat-column-serialRotulacion,
+td.mat-column-serialRotulacion {
+  @apply w-40;
+}
+
+th.mat-column-creado,
+td.mat-column-creado {
+  @apply w-48;
+}

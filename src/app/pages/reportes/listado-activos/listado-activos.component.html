@@ -130,9 +130,7 @@
   </mat-expansion-panel>
 </section>
 <section class="contenedor-singular inferior">
-  <app-tabla-activo
-    [ocultarEncabezado]="true"
-    [columnasVisibles]="columnasVisibles"></app-tabla-activo>
+  <app-detalle [dataSource]="dataSource"></app-detalle>
 </section>
 <app-toolbar
   [mostrarImportar]="false"

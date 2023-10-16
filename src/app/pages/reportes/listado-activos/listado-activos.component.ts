@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { Activo } from '@core/models/definiciones/activo';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { ActivoService } from '@core/services/definiciones/activo.service';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-listado-activos',
@@ -14,7 +15,7 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
   styleUrls: ['./listado-activos.component.scss'],
 })
 export class ListadoActivosComponent implements OnInit {
-  titulo = 'Listado de Bienes';
+  titulo = 'Reportes: Listado de Bienes';
   fechaEmision = new Date();
   rangosFechas = RANGOS_FECHAS;
   formularioRangoFechas: FormGroup;
@@ -22,6 +23,7 @@ export class ListadoActivosComponent implements OnInit {
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'].filter(c => c !== 'acciones');
   filtrosSinDecorar = false;
   formularioFiltrosActivos: FormGroup;
+  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
 
   activo = <Activo>{};
 
@@ -30,13 +32,13 @@ export class ListadoActivosComponent implements OnInit {
     private _activo: ActivoService,
     private _xlsx: XLSXService
   ) {
-    this.formularioRangoFechas = _formBuilder.group({
+    this.formularioRangoFechas = this._formBuilder.group({
       rango: ['TODOS'],
       fechaInicio: [undefined],
       fechaFin: [undefined],
       fechaReferencia: ['CREADO'],
     });
-    this.formularioFiltrosActivos = _formBuilder.group({
+    this.formularioFiltrosActivos = this._formBuilder.group({
       tipoActivo: [undefined],
       catalogoGeneral: [undefined],
       marca: [undefined],
@@ -52,6 +54,7 @@ export class ListadoActivosComponent implements OnInit {
     this._activo
       .buscarTodos()
       .pipe(
+        tap(activos => (this.dataSource = new MatTableDataSource(activos))),
         switchMap(activos => this._activo.buscarPorId(activos[0].id)),
         tap(activo => (this.activo = activo)),
         take(1)
