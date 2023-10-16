@@ -85,7 +85,6 @@ export class ActasComponent implements AfterViewInit, OnDestroy {
   }
 
   guardar() {
-    console.log(this.dataSource.data);
     this._xlsx.actasPrestamo(this.dataSource.data);
   }
 }
