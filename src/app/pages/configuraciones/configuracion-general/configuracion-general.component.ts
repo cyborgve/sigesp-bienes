@@ -57,54 +57,33 @@ export class ConfiguracionGeneralComponent implements Entidad {
   }
 
   private actualizarFormulario(): void {
-    if (this.id) {
-      this.modoFormulario = 'EDITANDO';
-      this._entidad
-        .buscarPorId(this.id)
-        .pipe(
-          adaptarConfiguracion(),
-          tap(
-            (ent: Configuracion) =>
-              this.formulario.patchValue({
-                empresaId: ent.empresaId,
-                id: ent.id,
-                normativaActivos: ent.normativaActivos,
-                afectacionDepreciacion: ent.afectacionDepreciacion,
-                longitudCatalogoCuentas: ent.longitudCatalogoCuentas,
-                longitudCodigoInstitucional: ent.longitudCodigoInstitucional,
-                formatoCatalogoCuentaGeneral: ent.formatoCatalogoCuentaGeneral,
-                formatoCodigoInstitucional: ent.formatoCodigoInstitucional,
-                generarAsientosContables: ent.generarAsientosContables,
-                fechaIncorporacionAutomatica: ent.fechaIncorporacionAutomatica,
-                usarMascaraCodigoActivo: ent.usarMascaraCodigoActivo,
-                activarPaginacion: ent.activarPaginacion,
-                opcionesPaginacion: ent.opcionesPaginacion,
-                creado: ent.creado,
-                modificado: ent.modificado,
-              }),
-            take(1)
-          )
+    this._entidad
+      .buscarPorId(1)
+      .pipe(
+        adaptarConfiguracion(),
+        tap(
+          (ent: Configuracion) =>
+            this.formulario.patchValue({
+              empresaId: ent.empresaId,
+              id: ent.id,
+              normativaActivos: ent.normativaActivos,
+              afectacionDepreciacion: ent.afectacionDepreciacion,
+              longitudCatalogoCuentas: ent.longitudCatalogoCuentas,
+              longitudCodigoInstitucional: ent.longitudCodigoInstitucional,
+              formatoCatalogoCuentaGeneral: ent.formatoCatalogoCuentaGeneral,
+              formatoCodigoInstitucional: ent.formatoCodigoInstitucional,
+              generarAsientosContables: ent.generarAsientosContables,
+              fechaIncorporacionAutomatica: ent.fechaIncorporacionAutomatica,
+              usarMascaraCodigoActivo: ent.usarMascaraCodigoActivo,
+              activarPaginacion: ent.activarPaginacion,
+              opcionesPaginacion: ent.opcionesPaginacion,
+              creado: ent.creado,
+              modificado: ent.modificado,
+            }),
+          take(1)
         )
-        .subscribe();
-    } else {
-      this.formulario.patchValue({
-        empresaId: 0,
-        id: 0,
-        normativaActivos: '',
-        afectacionDepreciacion: '',
-        longitudCatalogoCuentas: 0,
-        longitudCodigoInstitucional: 0,
-        formatoCatalogoCuentaGeneral: '',
-        formatoCodigoInstitucional: '',
-        generarAsientosContables: 0,
-        fechaIncorporacionAutomatica: 0,
-        usarMascaraCodigoActivo: 0,
-        activarPaginacion: 0,
-        opcionesPaginacion: [8, 20, 50, 100],
-        creado: new Date(),
-        modificado: new Date(),
-      });
-    }
+      )
+      .subscribe();
   }
 
   importar(): void {
@@ -113,17 +92,10 @@ export class ConfiguracionGeneralComponent implements Entidad {
 
   guardar(): void {
     let configuracion = prepararConfiguracion(this.formulario.value);
-    if (this.modoFormulario === 'CREANDO') {
-      this._entidad
-        .guardar(configuracion, this.titulo, false)
-        .pipe(first())
-        .subscribe(() => this.irAtras());
-    } else {
-      this._entidad
-        .actualizar(this.id, configuracion, this.titulo, false)
-        .pipe(first())
-        .subscribe(() => this.irAtras());
-    }
+    this._entidad
+      .actualizar(this.id, configuracion, this.titulo, false)
+      .pipe(first())
+      .subscribe(() => this.irAtras());
   }
 
   borrar(): void {
