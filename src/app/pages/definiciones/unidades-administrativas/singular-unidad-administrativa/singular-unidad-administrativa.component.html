@@ -44,6 +44,46 @@
           <mat-label>Denominación</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
+        <!-- unidad organizativa -->
+        <mat-form-field appearance="fill" class="unidadOrganizativa">
+          <mat-label>Unidad Organizativa</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="unidadOrganizativa"
+            readonly="true"
+            [value]="
+              formulario.value.unidadOrganizativa
+                | denominacionUnidadOrganizativa
+                | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarUnidadOrganizativa()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- responsable -->
+        <mat-form-field appearance="fill" class="responsable">
+          <mat-label>Responsable</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="responsable"
+            readonly="true"
+            [value]="
+              formulario.value.responsable | denominacionResponsable | async
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarResponsable()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
       </article>
     </mat-card>
     <!-- botones -->

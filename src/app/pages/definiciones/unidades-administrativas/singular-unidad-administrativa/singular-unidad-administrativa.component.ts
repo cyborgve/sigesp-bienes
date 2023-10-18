@@ -1,4 +1,4 @@
-import { Correlativo } from './../../../../core/models/definiciones/correlativo';
+import { Correlativo } from '@core/models/definiciones/correlativo';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
@@ -17,6 +17,10 @@ import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administr
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorCategoriaUnidadComponent } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad/buscador-categoria-unidad.component';
 import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
+import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
+import { Responsable } from '@core/models/otros-modulos/responsable';
+import { BuscadorUnidadOrganizativaComponent } from '@shared/components/buscador-unidad-organizativa/buscador-unidad-organizativa.component';
+import { UnidadOrganizativa } from '@core/models/otros-modulos/unidad-organizativa';
 
 @Component({
   selector: 'app-singular-unidad-administrativa',
@@ -47,6 +51,8 @@ export class SingularUnidadAdministrativaComponent
       codigo: [undefined],
       denominacion: [undefined, Validators.required],
       categoria: [undefined],
+      unidadOrganizativa: [undefined, Validators.required],
+      responsable: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -187,6 +193,44 @@ export class SingularUnidadAdministrativaComponent
           filter(todo => !!todo),
           tap((categoria: CategoriaUnidadAdministrativa) =>
             this.formulario.patchValue({ categoria: categoria.id })
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  buscarResponsable() {
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          filter(todo => !!todo),
+          tap((responsable: Responsable) =>
+            this.formulario.patchValue({ responsable: responsable.id })
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  buscarUnidadOrganizativa() {
+    let dialog = this._dialog.open(BuscadorUnidadOrganizativaComponent, {
+      height: '95%',
+      width: '85%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          filter(todo => !!todo),
+          tap((unidadOrganizativa: UnidadOrganizativa) =>
+            this.formulario.patchValue({
+              unidadOrganizativa: unidadOrganizativa.id,
+            })
           )
         )
         .subscribe()
