@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Modelo } from '@core/models/definiciones/modelo';
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
@@ -11,7 +11,7 @@ import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-mo
   styleUrls: ['./filtro-modelo.component.scss'],
 })
 export class FiltroModeloComponent {
-  @Input() modelo = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroModeloComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((modelo: Modelo) => this.modelo.patchValue(modelo.id)),
+        tap((modelo: Modelo) =>
+          this.formulario.patchValue({ modelo: modelo.id })
+        ),
         take(1)
       )
       .subscribe();

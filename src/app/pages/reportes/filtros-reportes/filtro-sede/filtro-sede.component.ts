@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { Sede } from '@core/models/definiciones/sede';
@@ -11,7 +11,7 @@ import { Sede } from '@core/models/definiciones/sede';
   styleUrls: ['./filtro-sede.component.scss'],
 })
 export class FiltroSedeComponent {
-  @Input() sede = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,7 @@ export class FiltroSedeComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((sede: Sede) => this.sede.patchValue(sede.id)),
+        tap((sede: Sede) => this.formulario.patchValue({ sede: sede.id })),
         take(1)
       )
       .subscribe();

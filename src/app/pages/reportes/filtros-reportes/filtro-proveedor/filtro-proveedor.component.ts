@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedor/buscador-proveedor.component';
@@ -11,7 +11,7 @@ import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedo
   styleUrls: ['./filtro-proveedor.component.scss'],
 })
 export class FiltroProveedorComponent {
-  @Input() proveedor = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroProveedorComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((proveedor: Proveedor) => this.proveedor.patchValue(proveedor.id)),
+        tap((proveedor: Proveedor) =>
+          this.formulario.patchValue({ proveedor: proveedor.id })
+        ),
         take(1)
       )
       .subscribe();

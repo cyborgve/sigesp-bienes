@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
@@ -11,7 +11,7 @@ import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
   styleUrls: ['./filtro-tipo-animal.component.scss'],
 })
 export class FiltroTipoAnimalComponent {
-  @Input() tipoAnimal = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,7 @@ export class FiltroTipoAnimalComponent {
       .pipe(
         filter(todo => !!todo),
         tap((tipoAnimal: TipoAnimal) =>
-          this.tipoAnimal.patchValue(tipoAnimal.id)
+          this.formulario.patchValue({ tipoAnimal: tipoAnimal.id })
         ),
         take(1)
       )

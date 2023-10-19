@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
 import { Marca } from '@core/models/definiciones/marca';
@@ -11,7 +11,7 @@ import { Marca } from '@core/models/definiciones/marca';
   styleUrls: ['./filtro-marca.component.scss'],
 })
 export class FiltroMarcaComponent {
-  @Input() marca = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,7 @@ export class FiltroMarcaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((marca: Marca) => this.marca.patchValue(marca.id)),
+        tap((marca: Marca) => this.formulario.patchValue({ marca: marca.id })),
         take(1)
       )
       .subscribe();

@@ -17,17 +17,20 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>País</mat-label>
       <input
         matInput
         type="text"
+        formControlName="pais"
         readonly="true"
-        [value]="pais.value | denominacionPais | async | corregirSeleccionar" />
+        [value]="
+          formulario.value.pais | denominacionPais | async | corregirSeleccionar
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarPais()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

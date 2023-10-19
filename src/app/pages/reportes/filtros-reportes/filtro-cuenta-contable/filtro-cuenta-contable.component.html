@@ -19,15 +19,16 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Cuenta Contable</mat-label>
       <input
         matInput
         type="text"
+        formControlName="cuentaContable"
         readonly="true"
         [value]="
-          cuentaContable.value
+          formulario.value.cuentaContable
             | denominacionCuentaContable
             | async
             | corregirSeleccionar
@@ -40,5 +41,5 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSeguroComponent } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.component';
 import { Seguro } from '@core/models/definiciones/seguro';
@@ -11,7 +11,7 @@ import { Seguro } from '@core/models/definiciones/seguro';
   styleUrls: ['./filtro-seguro.component.scss'],
 })
 export class FiltroSeguroComponent {
-  @Input() seguro = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroSeguroComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((seguro: Seguro) => this.seguro.patchValue(seguro.id)),
+        tap((seguro: Seguro) =>
+          this.formulario.patchValue({ seguro: seguro.id })
+        ),
         take(1)
       )
       .subscribe();

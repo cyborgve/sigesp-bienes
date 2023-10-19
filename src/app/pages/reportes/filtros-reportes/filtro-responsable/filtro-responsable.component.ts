@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
@@ -11,7 +11,7 @@ import { BuscadorResponsableComponent } from '@shared/components/buscador-respon
   styleUrls: ['./filtro-responsable.component.scss'],
 })
 export class FiltroResponsableComponent {
-  @Input() responsable = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,7 @@ export class FiltroResponsableComponent {
       .pipe(
         filter(todo => !!todo),
         tap((responsable: Responsable) =>
-          this.responsable.patchValue(responsable.id)
+          this.formulario.patchValue({ responsable: responsable.id })
         ),
         take(1)
       )

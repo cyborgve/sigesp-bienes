@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorOrigenComponent } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.component';
 import { Origen } from '@core/models/definiciones/origen';
@@ -11,7 +11,7 @@ import { Origen } from '@core/models/definiciones/origen';
   styleUrls: ['./filtro-origen.component.scss'],
 })
 export class FiltroOrigenComponent {
-  @Input() origen = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroOrigenComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((origen: Origen) => this.origen.patchValue(origen.id)),
+        tap((origen: Origen) =>
+          this.formulario.patchValue({ origen: origen.id })
+        ),
         take(1)
       )
       .subscribe();

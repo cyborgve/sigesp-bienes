@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Form, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 
 @Component({
@@ -8,7 +8,7 @@ import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
   styleUrls: ['./filtro-metodo-depreciacion.component.scss'],
 })
 export class FiltroMetodoDepreciacionComponent {
-  @Input() metodoDepreciacion: FormControl = new FormControl(['']);
-  @Input() sinDecorar = false;
+  @Input() formulario: FormGroup;
+  @Input() sinDecorar: boolean = false;
   metodosDepreciacion = METODOS_DEPRECIACION;
 }

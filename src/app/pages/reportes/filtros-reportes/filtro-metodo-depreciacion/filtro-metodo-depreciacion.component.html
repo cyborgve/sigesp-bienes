@@ -19,17 +19,16 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Método de Depreciación</mat-label>
-      <mat-select formControl="metodoDepreciacion">
-        <mat-option value="">Seleccionar</mat-option>
+      <mat-select formControlName="metodosDepreciacion">
         <mat-option
           *ngFor="let metodo of metodosDepreciacion"
           [value]="metodo"
-          >{{ metodo }}</mat-option
+          >{{ metodo | titlecase }}</mat-option
         >
       </mat-select>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorCiudadComponent } from '@shared/components/buscador-ciudad/buscador-ciudad.component';
 import { Ciudad } from '@core/models/otros-modulos/ciudad';
@@ -11,7 +11,7 @@ import { Ciudad } from '@core/models/otros-modulos/ciudad';
   styleUrls: ['./filtro-ciudad.component.scss'],
 })
 export class FiltroCiudadComponent {
-  @Input() ciudad = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroCiudadComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((ciudad: Ciudad) => this.ciudad.patchValue(ciudad.id)),
+        tap((ciudad: Ciudad) =>
+          this.formulario.patchValue({ ciudad: ciudad.id })
+        ),
         take(1)
       )
       .subscribe();

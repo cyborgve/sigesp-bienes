@@ -6,7 +6,7 @@
     Seleccione el tipo de activo, si no selecciona ninguno se muestran todos los
     registros
   </p>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Tipo de Activo</mat-label>
       <mat-select formControl="tipoActivo">
@@ -15,5 +15,5 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-  </section>
+  </form>
 </mat-card>

@@ -19,14 +19,15 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Tipo de Sede</mat-label>
       <input
         matInput
         type="text"
+        formControlName="tipoSede"
         readonly="true"
-        [value]="tipoSede.value | denominacionTipoSede | async" />
+        [value]="formulario.value.tipoSede | denominacionTipoSede | async" />
       <button
         type="button"
         mat-icon-button
@@ -35,5 +36,5 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

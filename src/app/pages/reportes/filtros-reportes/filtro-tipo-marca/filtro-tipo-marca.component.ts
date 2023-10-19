@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoMarcaComponent } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.component';
 import { TipoMarca } from '@core/models/definiciones/tipo-marca';
@@ -11,7 +11,7 @@ import { TipoMarca } from '@core/models/definiciones/tipo-marca';
   styleUrls: ['./filtro-tipo-marca.component.scss'],
 })
 export class FiltroTipoMarcaComponent {
-  @Input() tipoMarca = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroTipoMarcaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((tipoMarca: TipoMarca) => this.tipoMarca.patchValue(tipoMarca.id)),
+        tap((tipoMarca: TipoMarca) =>
+          this.formulario.patchValue({ tipoMarca: tipoMarca.id })
+        ),
         take(1)
       )
       .subscribe();

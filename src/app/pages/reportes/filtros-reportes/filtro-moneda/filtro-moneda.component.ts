@@ -1,6 +1,6 @@
 import { take, tap, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
@@ -11,7 +11,7 @@ import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/busc
   styleUrls: ['./filtro-moneda.component.scss'],
 })
 export class FiltroMonedaComponent {
-  @Input() moneda = new FormControl(['0']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroMonedaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((moneda: Moneda) => this.moneda.patchValue(moneda.id)),
+        tap((moneda: Moneda) =>
+          this.formulario.patchValue({ moneda: moneda.id })
+        ),
         take(1)
       )
       .subscribe();

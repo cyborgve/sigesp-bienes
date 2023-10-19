@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorEstadoConservacionComponent } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.component';
 import { EstadoConservacion } from '@core/models/definiciones/estado-conservacion';
@@ -11,7 +11,7 @@ import { EstadoConservacion } from '@core/models/definiciones/estado-conservacio
   styleUrls: ['./filtro-estado-conservacion.component.scss'],
 })
 export class FiltroEstadoConservacionComponent {
-  @Input() estadoConservacion = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,9 @@ export class FiltroEstadoConservacionComponent {
       .pipe(
         filter(todo => !!todo),
         tap((estadoConservacion: EstadoConservacion) =>
-          this.estadoConservacion.patchValue(estadoConservacion.id)
+          this.formulario.patchValue({
+            estadoConservacion: estadoConservacion.id,
+          })
         ),
         take(1)
       )

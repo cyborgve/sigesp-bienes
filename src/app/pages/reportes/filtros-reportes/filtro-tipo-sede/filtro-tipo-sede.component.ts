@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
@@ -11,7 +11,7 @@ import { TipoSede } from '@core/models/definiciones/tipo-sede';
   styleUrls: ['./filtro-tipo-sede.component.scss'],
 })
 export class FiltroTipoSedeComponent {
-  @Input() tipoSede = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroTipoSedeComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((tipoSede: TipoSede) => this.tipoSede.patchValue(tipoSede.id)),
+        tap((tipoSede: TipoSede) =>
+          this.formulario.patchValue({ tipoSede: tipoSede.id })
+        ),
         take(1)
       )
       .subscribe();

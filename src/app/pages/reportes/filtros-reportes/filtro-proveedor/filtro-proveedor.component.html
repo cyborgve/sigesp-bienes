@@ -17,15 +17,19 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Proveedor</mat-label>
       <input
         matInput
         type="text"
+        formControlName="proveedor"
         readonly="true"
         [value]="
-          proveedor.value | denominacionProveedor | async | corregirSeleccionar
+          formulario.value.proveedor
+            | denominacionProveedor
+            | async
+            | corregirSeleccionar
         " />
       <button
         type="button"
@@ -35,5 +39,5 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

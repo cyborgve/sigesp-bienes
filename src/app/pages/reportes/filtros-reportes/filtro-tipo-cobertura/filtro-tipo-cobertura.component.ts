@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoCoberturaComponent } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.component';
 import { TipoCobertura } from '@core/models/definiciones/tipo-cobertura';
@@ -11,7 +11,7 @@ import { TipoCobertura } from '@core/models/definiciones/tipo-cobertura';
   styleUrls: ['./filtro-tipo-cobertura.component.scss'],
 })
 export class FiltroTipoCoberturaComponent {
-  @Input() tipoCobertura = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,7 @@ export class FiltroTipoCoberturaComponent {
       .pipe(
         filter(todo => !!todo),
         tap((tipoCobertura: TipoCobertura) =>
-          this.tipoCobertura.patchValue(tipoCobertura.id)
+          this.formulario.patchValue({ tipoCorbertura: tipoCobertura.id })
         ),
         take(1)
       )

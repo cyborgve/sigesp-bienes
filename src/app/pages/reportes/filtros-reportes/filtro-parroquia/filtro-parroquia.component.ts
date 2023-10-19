@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorParroquiaComponent } from '@shared/components/buscador-parroquia/buscador-parroquia.component';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
@@ -11,7 +11,7 @@ import { Parroquia } from '@core/models/otros-modulos/parroquia';
   styleUrls: ['./filtro-parroquia.component.scss'],
 })
 export class FiltroParroquiaComponent {
-  @Input() parroquia = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroParroquiaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((parroquia: Parroquia) => this.parroquia.patchValue(parroquia.id)),
+        tap((parroquia: Parroquia) =>
+          this.formulario.patchValue({ parroquia: parroquia.id })
+        ),
         take(1)
       )
       .subscribe();

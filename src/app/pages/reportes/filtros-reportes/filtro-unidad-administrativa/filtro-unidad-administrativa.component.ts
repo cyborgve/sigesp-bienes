@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
@@ -11,7 +11,7 @@ import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unida
   styleUrls: ['./filtro-unidad-administrativa.component.scss'],
 })
 export class FiltroUnidadAdministrativaComponent {
-  @Input() unidadAdministrativa = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,9 @@ export class FiltroUnidadAdministrativaComponent {
       .pipe(
         filter(todo => !!todo),
         tap((unidadAdministrativa: UnidadAdministrativa) =>
-          this.unidadAdministrativa.patchValue(unidadAdministrativa.id)
+          this.formulario.patchValue({
+            unidadAdministrativa: unidadAdministrativa.id,
+          })
         ),
         take(1)
       )

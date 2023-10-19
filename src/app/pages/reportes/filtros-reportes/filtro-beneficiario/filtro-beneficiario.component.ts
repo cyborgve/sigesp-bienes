@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
 import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
@@ -11,7 +11,7 @@ import { take, tap, filter } from 'rxjs/operators';
   styleUrls: ['./filtro-beneficiario.component.scss'],
 })
 export class FiltroBeneficiarioComponent {
-  @Input() beneficiario = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,7 @@ export class FiltroBeneficiarioComponent {
       .pipe(
         filter(todo => !!todo),
         tap((beneficiario: Beneficiario) =>
-          this.beneficiario.patchValue(beneficiario.id)
+          this.formulario.patchValue({ beneficiario: beneficiario.id })
         ),
         take(1)
       )

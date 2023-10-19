@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Color } from '@core/models/definiciones/color';
 import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-color/buscador-color.component';
@@ -11,7 +11,7 @@ import { take, tap, filter } from 'rxjs/operators';
   styleUrls: ['./filtro-color.component.scss'],
 })
 export class FiltroColorComponent {
-  @Input() color = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,7 @@ export class FiltroColorComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((color: Color) => this.color.patchValue(color.id)),
+        tap((color: Color) => this.formulario.patchValue({ color: color.id })),
         take(1)
       )
       .subscribe();

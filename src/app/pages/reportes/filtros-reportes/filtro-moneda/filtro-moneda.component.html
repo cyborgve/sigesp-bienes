@@ -17,19 +17,23 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Moneda</mat-label>
       <input
         matInput
         type="text"
+        formControlName="moneda"
         readonly="true"
         [value]="
-          moneda.value | denominacionMoneda | async | corregirSeleccionar
+          formulario.value.moneda
+            | denominacionMoneda
+            | async
+            | corregirSeleccionar
         " />
       <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

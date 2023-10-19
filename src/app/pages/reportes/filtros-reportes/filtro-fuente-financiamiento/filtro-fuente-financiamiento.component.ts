@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financiamiento';
 import { BuscadorFuenteFinanciamientoComponent } from '@shared/components/buscador-fuente-financiamiento/buscador-fuente-financiamiento.component';
@@ -11,7 +11,7 @@ import { BuscadorFuenteFinanciamientoComponent } from '@shared/components/buscad
   styleUrls: ['./filtro-fuente-financiamiento.component.scss'],
 })
 export class FiltroFuenteFinanciamientoComponent {
-  @Input() fuenteFinanciamiento = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,9 @@ export class FiltroFuenteFinanciamientoComponent {
       .pipe(
         filter(todo => !!todo),
         tap((fuenteFinanciamiento: FuenteFinanciamiento) =>
-          this.fuenteFinanciamiento.patchValue(fuenteFinanciamiento.id)
+          this.formulario.patchValue({
+            fuenteFinanciamiento: fuenteFinanciamiento.id,
+          })
         ),
         take(1)
       )

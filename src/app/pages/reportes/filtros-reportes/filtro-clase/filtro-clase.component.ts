@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Clase } from '@core/models/definiciones/clase';
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
@@ -11,7 +11,7 @@ import { take, tap, filter } from 'rxjs/operators';
   styleUrls: ['./filtro-clase.component.scss'],
 })
 export class FiltroClaseComponent {
-  @Input() clase = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,7 @@ export class FiltroClaseComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((clase: Clase) => this.clase.patchValue(clase.id)),
+        tap((clase: Clase) => this.formulario.patchValue({ clase: clase.id })),
         take(1)
       )
       .subscribe();

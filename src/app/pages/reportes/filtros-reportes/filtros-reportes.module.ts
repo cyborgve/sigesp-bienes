@@ -38,7 +38,6 @@ import { FiltroTipoUsoComponent } from './filtro-tipo-uso/filtro-tipo-uso.compon
 import { FiltroUnidadAdministrativaComponent } from './filtro-unidad-administrativa/filtro-unidad-administrativa.component';
 import { FiltroMonedaComponent } from './filtro-moneda/filtro-moneda.component';
 import { FiltroResponsableComponent } from './filtro-responsable/filtro-responsable.component';
-import { FiltroCategoriaUnidadAdministrativaComponent } from './filtro-categoria-unidad-administrativa/filtro-categoria-unidad-administrativa.component';
 import { FiltroCentroCostoComponent } from './filtro-centro-costo/filtro-centro-costo.component';
 import { FiltroCiudadComponent } from './filtro-ciudad/filtro-ciudad.component';
 import { FiltroCuentaContableComponent } from './filtro-cuenta-contable/filtro-cuenta-contable.component';
@@ -102,7 +101,6 @@ const sharedComponents = [
   FiltroUnidadAdministrativaComponent,
   FiltroMonedaComponent,
   FiltroResponsableComponent,
-  FiltroCategoriaUnidadAdministrativaComponent,
   FiltroCentroCostoComponent,
   FiltroCiudadComponent,
   FiltroCuentaContableComponent,

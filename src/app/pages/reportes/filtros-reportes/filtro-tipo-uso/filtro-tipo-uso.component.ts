@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoUsoComponent } from '@pages/definiciones/tipos-uso/buscador-tipo-uso/buscador-tipo-uso.component';
 import { TipoUso } from '@core/models/definiciones/tipo-uso';
@@ -11,7 +11,7 @@ import { TipoUso } from '@core/models/definiciones/tipo-uso';
   styleUrls: ['./filtro-tipo-uso.component.scss'],
 })
 export class FiltroTipoUsoComponent {
-  @Input() tipoUso = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroTipoUsoComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((tipoUso: TipoUso) => this.tipoUso.patchValue(tipoUso.id)),
+        tap((tipoUso: TipoUso) =>
+          this.formulario.patchValue({ tipoUso: tipoUso.id })
+        ),
         take(1)
       )
       .subscribe();

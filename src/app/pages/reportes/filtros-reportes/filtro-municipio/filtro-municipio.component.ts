@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorMunicipioComponent } from '@shared/components/buscador-municipio/buscador-municipio.component';
 import { Municipio } from '@core/models/otros-modulos/municipio';
@@ -11,7 +11,7 @@ import { Municipio } from '@core/models/otros-modulos/municipio';
   styleUrls: ['./filtro-municipio.component.scss'],
 })
 export class FiltroMunicipioComponent {
-  @Input() municipio = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroMunicipioComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((municipio: Municipio) => this.municipio.patchValue(municipio.id)),
+        tap((municipio: Municipio) =>
+          this.formulario.patchValue({ municipio: municipio.id })
+        ),
         take(1)
       )
       .subscribe();

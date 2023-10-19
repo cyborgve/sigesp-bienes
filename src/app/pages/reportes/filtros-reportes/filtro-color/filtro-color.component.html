@@ -17,17 +17,18 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Color</mat-label>
       <input
         matInput
         type="text"
+        formControlName="color"
         readonly="true"
-        [value]="color.value | denominacionColor | async" />
+        [value]="formulario.value.color | denominacionColor | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarColor()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

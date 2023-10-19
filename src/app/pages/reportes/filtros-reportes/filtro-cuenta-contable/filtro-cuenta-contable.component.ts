@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
@@ -11,7 +11,7 @@ import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
   styleUrls: ['./filtro-cuenta-contable.component.scss'],
 })
 export class FiltroCuentaContableComponent {
-  @Input() cuentaContable = new FormControl(['---']);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,7 @@ export class FiltroCuentaContableComponent {
       .pipe(
         filter(todo => !!todo),
         tap((cuentaContable: CuentaContable) =>
-          this.cuentaContable.patchValue(cuentaContable.id)
+          this.formulario.patchValue({ cuentaContable: cuentaContable.id })
         ),
         take(1)
       )

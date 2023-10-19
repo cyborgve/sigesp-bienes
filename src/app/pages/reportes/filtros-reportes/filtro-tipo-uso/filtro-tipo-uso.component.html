@@ -19,17 +19,18 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Tipo de Uso</mat-label>
       <input
         matInput
         type="text"
+        formControlName="tipoUso"
         readonly="true"
-        [value]="tipoUso.value | denominacionTipoUso | async" />
+        [value]="formulario.value.tipoUso | denominacionTipoUso | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarTipoUso()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

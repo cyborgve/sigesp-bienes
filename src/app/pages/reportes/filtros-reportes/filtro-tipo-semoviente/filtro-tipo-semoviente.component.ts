@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
 import { TipoSemoviente } from '@core/models/definiciones/tipo-semoviente';
@@ -11,7 +11,7 @@ import { TipoSemoviente } from '@core/models/definiciones/tipo-semoviente';
   styleUrls: ['./filtro-tipo-semoviente.component.scss'],
 })
 export class FiltroTipoSemovienteComponent {
-  @Input() tipoSemoviente = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,7 @@ export class FiltroTipoSemovienteComponent {
       .pipe(
         filter(todo => !!todo),
         tap((tipoSemoviente: TipoSemoviente) =>
-          this.tipoSemoviente.patchValue(tipoSemoviente.id)
+          this.formulario.patchValue({ tipoSemoviente: tipoSemoviente.id })
         ),
         take(1)
       )

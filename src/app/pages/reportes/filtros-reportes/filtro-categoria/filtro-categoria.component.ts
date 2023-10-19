@@ -1,6 +1,6 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { tap, take, filter } from 'rxjs/operators';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { Categoria } from '@core/models/definiciones/categoria';
@@ -11,7 +11,7 @@ import { Categoria } from '@core/models/definiciones/categoria';
   styleUrls: ['./filtro-categoria.component.scss'],
 })
 export class FiltroCategoriaComponent {
-  @Input() categoria = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,9 @@ export class FiltroCategoriaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((categoria: Categoria) => this.categoria.patchValue(categoria.id)),
+        tap((categoria: Categoria) =>
+          this.formulario.patchValue({ categoria: categoria.id })
+        ),
         take(1)
       )
       .subscribe();

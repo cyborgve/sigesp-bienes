@@ -19,15 +19,18 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Propósito Semoviente</mat-label>
       <input
         matInput
         type="text"
+        formControlName="propositoSemoviente"
         readonly="true"
         [value]="
-          propositoSemoviente.value | denominacionPropositoSemoviente | async
+          formulario.value.propositoSemoviente
+            | denominacionPropositoSemoviente
+            | async
         " />
       <button
         type="button"
@@ -37,5 +40,5 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TipoComponente } from '@core/models/definiciones/tipo-componente';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
@@ -11,9 +11,8 @@ import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-compo
   styleUrls: ['./filtro-tipo-componente.component.scss'],
 })
 export class FiltroTipoComponenteComponent {
-  @Input() tipoComponente = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
-
   constructor(private _dialog: MatDialog) {}
 
   buscarTipoComponente() {
@@ -26,7 +25,7 @@ export class FiltroTipoComponenteComponent {
       .pipe(
         filter(todo => !!todo),
         tap((tipoComponente: TipoComponente) =>
-          this.tipoComponente.patchValue(tipoComponente.id)
+          this.formulario.patchValue({ tipoComponente: tipoComponente.id })
         ),
         take(1)
       )

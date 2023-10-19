@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Rotulacion } from '@core/models/definiciones/rotulacion';
 import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.component';
@@ -11,7 +11,7 @@ import { take, tap, filter } from 'rxjs/operators';
   styleUrls: ['./filtro-rotulacion.component.scss'],
 })
 export class FiltroRotulacionComponent {
-  @Input() rotulacion = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -26,7 +26,7 @@ export class FiltroRotulacionComponent {
       .pipe(
         filter(todo => !!todo),
         tap((rotulacion: Rotulacion) =>
-          this.rotulacion.patchValue(rotulacion.id)
+          this.formulario.patchValue({ rotulacion: rotulacion.id })
         ),
         take(1)
       )

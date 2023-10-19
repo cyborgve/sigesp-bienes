@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Raza } from '@core/models/definiciones/raza';
 import { BuscadorRazaComponent } from '@pages/definiciones/razas/buscador-raza/buscador-raza.component';
@@ -11,7 +11,7 @@ import { BuscadorRazaComponent } from '@pages/definiciones/razas/buscador-raza/b
   styleUrls: ['./filtro-raza.component.scss'],
 })
 export class FiltroRazaComponent {
-  @Input() raza = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
@@ -25,7 +25,7 @@ export class FiltroRazaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((raza: Raza) => this.raza.patchValue(raza.id)),
+        tap((raza: Raza) => this.formulario.patchValue({ raza: raza.id })),
         take(1)
       )
       .subscribe();

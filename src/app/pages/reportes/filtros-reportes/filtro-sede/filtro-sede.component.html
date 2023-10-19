@@ -17,17 +17,18 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section>
+  <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Sede</mat-label>
       <input
         matInput
         type="text"
+        formControlName="sede"
         readonly="true"
-        [value]="sede.value | denominacionSede | async" />
+        [value]="formulario.value.sede | denominacionSede | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarSede()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
-  </section>
+  </form>
 </ng-template>

@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoPolizaComponent } from '@pages/definiciones/tipos-poliza/buscador-tipo-poliza/buscador-tipo-poliza.component';
 import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
@@ -11,9 +11,8 @@ import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
   styleUrls: ['./filtro-tipo-poliza.component.scss'],
 })
 export class FiltroTipoPolizaComponent {
-  @Input() tipoPoliza = new FormControl([0]);
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
-
   constructor(private _dialog: MatDialog) {}
 
   buscarTipoPoliza() {
@@ -26,7 +25,7 @@ export class FiltroTipoPolizaComponent {
       .pipe(
         filter(todo => !!todo),
         tap((tipoPoliza: TipoPoliza) =>
-          this.tipoPoliza.patchValue(tipoPoliza.id)
+          this.formulario.patchValue({ tipoPoliza: tipoPoliza.id })
         ),
         take(1)
       )
