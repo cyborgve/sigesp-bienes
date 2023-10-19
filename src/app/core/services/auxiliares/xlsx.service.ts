@@ -72,7 +72,7 @@ export class XLSXService {
     });
   }
 
-  exportarListaActivos(activos: Activo[]) {
+  listaActivos(activos: Activo[]) {
     let fecha = new Date();
     let ids = activos.map(activo => activo.id);
     this._informacionDefinicion
@@ -80,7 +80,7 @@ export class XLSXService {
       .pipe(
         tap(activos => {
           let workBook = XLSX.utils.book_new();
-          let workSheet = XLSX.utils.json_to_sheet([activos]);
+          let workSheet = XLSX.utils.json_to_sheet(activos);
           XLSX.utils.book_append_sheet(workBook, workSheet, 'Activos');
           let nombreArchivo = `sbn_listado-activos_${String(
             fecha.getDay()

@@ -1,17 +1,16 @@
 import { map } from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
 import { BeneficiarioService } from '@core/services/otros-modulos/beneficiario.service';
-import { Id } from '@core/types/id';
 import { Observable, of } from 'rxjs';
 
 @Pipe({
   name: 'denominacionBeneficiario',
 })
 export class DenominacionBeneficiarioPipe implements PipeTransform {
-  transform(value: Id): Observable<string> {
-    if (value === null || value === undefined) return of('');
-    if (value === '' || '---') return of('---');
-    if (value !== '--' && value !== '---')
+  transform(value: string): Observable<string> {
+    if (value === null || value === undefined) of(String(''));
+    if (value === '--' || value === '---') of(String('---'));
+    if (value !== '---' && value !== '')
       return this._beneficiario
         .buscarPorId(value)
         .pipe(
