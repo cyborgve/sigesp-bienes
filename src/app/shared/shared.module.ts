@@ -85,6 +85,7 @@ import { DialogoEliminarProcesoComponent } from './components/dialogo-eliminar-p
 import { BuscadorUnidadOrganizativaComponent } from './components/buscador-unidad-organizativa/buscador-unidad-organizativa.component';
 import { DenominacionUnidadOrganizativaPipe } from './pipes/denominacion-unidad-organizativa.pipe';
 import { DenominacionLineEnterprisePipe } from './pipes/denominacion-line-enterprise.pipe';
+import { BuscadorLineEnterpriseComponent } from './components/buscador-line-enterprise/buscador-line-enterprise.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -113,6 +114,9 @@ const sharedComponents = [
   ComponentesProcesoComponent,
   BuscadorBeneficiarioComponent,
   BotonesAccionesProcesoComponent,
+  DialogoEliminarProcesoComponent,
+  BuscadorUnidadOrganizativaComponent,
+  BuscadorLineEnterpriseComponent,
 ];
 
 const sharedPipes = [
@@ -169,25 +173,13 @@ const sharedPipes = [
   CorregirMetodoDepreciacionPipe,
   TipoOracionPipe,
   EstadoMovimientoCatalogoPipe,
+  DenominacionUnidadOrganizativaPipe,
+  DenominacionLineEnterprisePipe,
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    ...sharedPipes,
-    DialogoEliminarProcesoComponent,
-    BuscadorUnidadOrganizativaComponent,
-    DenominacionUnidadOrganizativaPipe,
-    DenominacionLineEnterprisePipe,
-  ],
+  declarations: [...sharedComponents, ...sharedPipes],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [
-    ...sharedComponents,
-    ...sharedPipes,
-    DialogoEliminarProcesoComponent,
-    BuscadorUnidadOrganizativaComponent,
-    DenominacionUnidadOrganizativaPipe,
-    DenominacionLineEnterprisePipe,
-  ],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}
