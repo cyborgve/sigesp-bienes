@@ -16,7 +16,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
   styleUrls: ['./activo-ubicacion.component.scss'],
 })
 export class ActivoUbicacionComponent {
-  @Input() formulario: FormGroup = new FormGroup({});
+  @Input() formulario: FormGroup;
   @Input() modoFormulario: ModoFormulario;
 
   constructor(private _dialog: MatDialog) {}

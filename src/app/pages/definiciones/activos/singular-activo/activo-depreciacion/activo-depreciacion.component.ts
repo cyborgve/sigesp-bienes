@@ -19,7 +19,7 @@ import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 })
 export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
   private subscripciones: Subscription[] = [];
-  @Input() formulario: FormGroup = new FormGroup({});
+  @Input() formulario: FormGroup;
 
   metodosDepreciacion = METODOS_DEPRECIACION;
   unidadesTiempo = UNIDADES_MEDIDA['TIEMPO'];

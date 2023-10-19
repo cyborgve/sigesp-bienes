@@ -24,7 +24,7 @@ import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 })
 export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
   private subscripciones: Subscription[] = [];
-  @Input() formulario: FormGroup = new FormGroup({});
+  @Input() formulario: FormGroup;
 
   tiposActivo = TIPOS_ACTIVO;
   monedas: MMoneda[] = [];

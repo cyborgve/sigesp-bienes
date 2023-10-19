@@ -10,7 +10,7 @@ import { ActivoComponente } from '@core/models/definiciones/activo-componente';
   styleUrls: ['./activo-componentes.component.scss'],
 })
 export class ActivoComponentesComponent implements AfterViewInit {
-  @Input() formulario: FormGroup = new FormGroup({});
+  @Input() formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoComponente> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES.filter(
     c => c !== 'acciones'

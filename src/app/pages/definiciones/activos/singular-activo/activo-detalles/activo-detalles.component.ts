@@ -26,7 +26,7 @@ import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/bu
 })
 export class ActivoDetallesComponent implements OnInit, OnDestroy {
   private subscripciones: Subscription[] = [];
-  @Input() formulario: FormGroup = new FormGroup({});
+  @Input() formulario: FormGroup;
   @Input() tipoActivo: TipoActivo = 'INMUEBLE';
 
   unidadesMedidaPeso = UNIDADES_MEDIDA['PESO'];
