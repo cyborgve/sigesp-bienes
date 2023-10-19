@@ -44,7 +44,6 @@ export class SingularUnidadAdministrativaComponent
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService
   ) {
-    this.id = this._activatedRoute.snapshot.params['id'];
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
       id: [undefined],
@@ -56,6 +55,7 @@ export class SingularUnidadAdministrativaComponent
       creado: [undefined],
       modificado: [undefined],
     });
+    this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
   }
 
@@ -77,6 +77,8 @@ export class SingularUnidadAdministrativaComponent
               codigo: entidad.codigo,
               denominacion: entidad.denominacion,
               categoria: entidad.categoria,
+              responsable: entidad.responsable,
+              unidadOrganizativa: entidad.unidadOrganizativa,
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
@@ -129,6 +131,7 @@ export class SingularUnidadAdministrativaComponent
 
   guardar() {
     let entidad: UnidadAdministrativa = this.formulario.value;
+    console.log(entidad);
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())

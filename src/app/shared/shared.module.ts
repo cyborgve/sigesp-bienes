@@ -82,6 +82,9 @@ import { EstadoMovimientoCatalogoPipe } from './pipes/estado-movimiento-catalogo
 import { BuscadorBeneficiarioComponent } from './components/buscador-beneficiario/buscador-beneficiario.component';
 import { BotonesAccionesProcesoComponent } from './components/botones-acciones-proceso/botones-acciones-proceso.component';
 import { DialogoEliminarProcesoComponent } from './components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
+import { BuscadorUnidadOrganizativaComponent } from './components/buscador-unidad-organizativa/buscador-unidad-organizativa.component';
+import { DenominacionUnidadOrganizativaPipe } from './pipes/denominacion-unidad-organizativa.pipe';
+import { DenominacionLineEnterprisePipe } from './pipes/denominacion-line-enterprise.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -173,12 +176,18 @@ const sharedPipes = [
     ...sharedComponents,
     ...sharedPipes,
     DialogoEliminarProcesoComponent,
+    BuscadorUnidadOrganizativaComponent,
+    DenominacionUnidadOrganizativaPipe,
+    DenominacionLineEnterprisePipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
   exports: [
     ...sharedComponents,
     ...sharedPipes,
     DialogoEliminarProcesoComponent,
+    BuscadorUnidadOrganizativaComponent,
+    DenominacionUnidadOrganizativaPipe,
+    DenominacionLineEnterprisePipe,
   ],
 })
 export class SharedModule {}

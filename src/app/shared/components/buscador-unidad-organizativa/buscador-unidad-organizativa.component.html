@@ -1,0 +1,50 @@
+<app-encabezado-definiciones
+  [titulo]="titulo"
+  ocultarNuevo="true"
+  (filtrarDatos)="filtrar($event)"
+  (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
+<mat-card class="card-table">
+  <table mat-table [dataSource]="dataSource" class="table" matSort>
+    <!-- codigo -->
+    <ng-container matColumnDef="codigo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+      <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
+    </ng-container>
+    <!-- denominacion -->
+    <ng-container matColumnDef="denominacion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
+      <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
+    </ng-container>
+    <!-- creado -->
+    <ng-container matColumnDef="creado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.creado | date : 'medium' }}
+      </td>
+    </ng-container>
+    <!-- modificado -->
+    <ng-container matColumnDef="modificado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.modificado | date : 'medium' }}
+      </td>
+    </ng-container>
+
+    <!-- ejecuta el armado de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: columnasVisibles"
+      class="row-hover"
+      (dblclick)="seleccionar(row)"></tr>
+
+    <!-- mostrar cuando no hay datos que coincidan -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No hay datos para mostrar que concidan con la busqueda "{{
+          dataSource.filter
+        }}"
+      </td>
+    </tr>
+  </table>
+</mat-card>
