@@ -47,6 +47,33 @@ export class ListadoActivosComponent implements OnInit {
       color: [undefined],
       rotulacion: [undefined],
       categoria: [undefined],
+      origen: [undefined],
+      fuenteFinanciamiento: [undefined],
+      clase: [undefined],
+      centroCostos: [undefined],
+      tipoComponente: [undefined],
+      metodoDepreciacion: [undefined],
+      cuentaContable: [undefined],
+      unidadAdministrativa: [undefined],
+      sede: [undefined],
+      responsable: [undefined],
+      estadoUso: [undefined],
+      estadoConservacion: [undefined],
+      /* otros */
+      beneficiario: [undefined],
+      tipoMarca: [undefined],
+      categoriaUnidadAdministrativa: [undefined],
+      pais: [undefined],
+      estado: [undefined],
+      ciudad: [undefined],
+      municipio: [undefined],
+      parroquia: [undefined],
+      proveedor: [undefined],
+      seguro: [undefined],
+      tipoCobertura: [undefined],
+      tipoPoliza: [undefined],
+      tipoSede: [undefined],
+      tipoUso: [undefined],
     });
   }
 
@@ -55,20 +82,14 @@ export class ListadoActivosComponent implements OnInit {
       .buscarTodos()
       .pipe(
         tap(activos => (this.dataSource = new MatTableDataSource(activos))),
-        switchMap(activos => this._activo.buscarPorId(activos[0].id)),
+        switchMap(activos => this._activo.buscarPorId(0)),
         tap(activo => (this.activo = activo)),
         take(1)
       )
       .subscribe();
   }
 
-  exportarListado() {
-    this._activo
-      .buscarTodos()
-      .pipe(
-        tap(activos => this._xlsx.exportarListaActivos(activos)),
-        take(1)
-      )
-      .subscribe();
+  guardar() {
+    this._xlsx.listaActivos(this.dataSource.data);
   }
 }
