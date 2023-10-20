@@ -1,5 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import '~@angular/material/theming';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~ngx-toastr/toastr';
@@ -7,39 +5,6 @@
 @font-face {
   font-family: 'Fira Sans';
   src: url(assets/fonts/FiraSans-Regular.ttf);
-}
-
-// @font-face {
-//   font-family: 'Noto Sans';
-//   src: url(assets/fonts/NotoSansKR-Regular.otf);
-// }
-
-// @font-face {
-//   font-family: 'Roboto';
-//   src: url(assets/fonts/Raleway-Regular.ttf);
-// }
-
-// @font-face {
-//   font-family: 'Open Sans';
-//   src: url(assets/fonts/OpenSans-Regular.ttf);
-// }
-
-// @font-face {
-//   font-family: 'Raleway';
-//   src: url(assets/fonts/Raleway-Regular.ttf);
-// }
-
-body {
-  margin: 0;
-  background: #073763;
-}
-
-* {
-  font-family: 'Fira Sans', sans-serif;
-  // font-family: 'Noto Sans', unset;
-  // font-family: 'Raleway', sans-serif;
-  // font-family: 'Open Sans', sans-serif;
-  // font-family: 'Roboto', sans-serif;
 }
 
 $mat-myapp-primary: (
@@ -115,68 +80,6 @@ $theme: mat-light-theme($primary, $accent);
 
 @include angular-material-theme($theme);
 
-// .mainColor {
-//   background: #073763;
-//   color: white;
-// }
-
-// .mainColorText {
-//   color: #073763 !important;
-// }
-
-// .title {
-//   font-weight: 600;
-//   font-size: x-large;
-//   margin: 0;
-// }
-
-// .flex {
-//   display: flex;
-//   flex-wrap: wrap;
-// }
-
-// .justify-content-center {
-//   justify-content: center;
-// }
-
-// .align-items-center {
-//   align-items: center;
-// }
-
-// .pageContent {
-//   padding: 15px 60px 15px 15px;
-// }
-
-// .pageContentSmall {
-//   padding: 15px;
-// }
-// .pageContentSmall {
-//   padding: 15px;
-// }
-// .pageContentSmall {
-//   padding: 15px;
-// }
-// .pageContentSmall {
-//   padding: 15px;
-// }
-// .pageContentSmall {
-//   padding: 15px;
-// }
-// .pageContentSmall {
-//   padding: 15px;
-// }
-// .pageContentSmall {
-//   padding: 15px;
-// }
-// .pageContentSmall {
-//   padding: 15px;
-// }
-
-// .mat-dialog-container {
-//   padding: 0 !important;
-//   border-radius: 0.35rem !important;
-// }
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -184,13 +87,13 @@ $theme: mat-light-theme($primary, $accent);
 html,
 body {
   height: 100%;
-}
-body {
   margin: 0;
-  //font-family: Roboto, 'Helvetica Neue', sans-serif;
+  margin: 0;
+  background: #073763;
+  font-family: 'Fira Sans', Roboto, sans-serif;
 }
 
-.spacer {
+.espaciador {
   flex: 1 1 auto;
 }
 
@@ -256,10 +159,6 @@ mat-datepicker-toggle {
 
 .pageContentSmall {
   padding: 15px;
-}
-
-.espaciador {
-  flex: 1 1 auto;
 }
 
 .superior {
