@@ -5,6 +5,6 @@ export interface UnidadAdministrativa extends Basica {
   codigo: string;
   categoria: Id;
   denominacion: string;
-  unidadOrganizativa: string;
-  responsable: string;
+  unidadOrganizativa: Id;
+  responsable: Id;
 }
