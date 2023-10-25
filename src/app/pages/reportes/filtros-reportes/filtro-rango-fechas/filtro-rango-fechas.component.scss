@@ -1,18 +1,19 @@
+mat-datepicker-toggle {
+  @apply text-primary;
+}
+
 .rangoFechas {
-  @apply w-full grid grid-cols-10 gap-x-4 mb-0;
+  @apply w-full grid grid-cols-10 gap-x-2;
 }
 
 .rango {
-  @apply col-span-4;
+  @apply col-span-5;
 }
 
 .fechas {
   @apply col-span-3;
 }
-.fechaReferencia {
-  @apply col-span-3;
-}
 
-mat-datepicker-toggle {
-  @apply text-primary;
+.fechaReferencia {
+  @apply col-span-2;
 }

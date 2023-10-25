@@ -21,7 +21,7 @@
 <ng-template #contenido>
   <form [formGroup]="formulario">
     <section class="rangoFechas">
-      <!-- rando de fechas -->
+      <!-- rango de fechas -->
       <mat-form-field appearance="fill" class="rango">
         <mat-label>Rango de fechas</mat-label>
         <mat-select formControlName="rango">
@@ -59,7 +59,8 @@
             type="text"
             matInput
             formControlName="fechaReferencia"
-            readonly="true" />
+            readonly="true"
+            value="Fecha de creación" />
         </ng-template>
       </mat-form-field>
     </section>

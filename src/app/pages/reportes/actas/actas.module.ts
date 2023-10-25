@@ -12,6 +12,8 @@ import { TablaActaPrestamoModule } from '@pages/procesos/actas-prestamo/tabla-ac
 import { FiltrosReportesModule } from '@pages/reportes/filtros-reportes/filtros-reportes.module';
 import { DetalleComponent } from './detalle/detalle.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [ActasComponent, DetalleComponent],
@@ -24,6 +26,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatDatepickerModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     TablaActaPrestamoModule,
     FiltrosReportesModule,
   ],

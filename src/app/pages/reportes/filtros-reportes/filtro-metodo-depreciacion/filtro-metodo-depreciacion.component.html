@@ -22,7 +22,7 @@
   <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Método de Depreciación</mat-label>
-      <mat-select formControlName="metodosDepreciacion">
+      <mat-select formControlName="metodoDepreciacion">
         <mat-option
           *ngFor="let metodo of metodosDepreciacion"
           [value]="metodo"

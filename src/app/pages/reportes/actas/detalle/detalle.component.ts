@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 
@@ -7,7 +9,9 @@ import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
   templateUrl: './detalle.component.html',
   styleUrls: ['./detalle.component.scss'],
 })
-export class DetalleComponent {
+export class DetalleComponent implements AfterViewInit {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() columnasVisibles = [
     'comprobante',
     'unidadAdministrativaCedente',
@@ -16,4 +20,10 @@ export class DetalleComponent {
   ];
   @Input() dataSource: MatTableDataSource<ActaPrestamo> =
     new MatTableDataSource();
+
+  ngAfterViewInit(): void {
+    this.dataSource = new MatTableDataSource(this.dataSource.data);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
 }
