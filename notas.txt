@@ -25,4 +25,12 @@
 5. Componentes que usan SigespService:
     - centros de costo
     - fuente de financiamiento
-    
+
+
+Para Terminar:
+1. Acta de Prestamo: solo falta validar que cuando se elimina un acta de prestamo debe ser unicamente la ultima que
+    fue generada o la ultima que existe para ese bien.
+2. Autorizacion de Salida: agregar un campo de responsable de prestamo, este va a estar lleno cuando este prestado y 
+    vacion si no se ha prestado. Agregar fecha de salida y fecha de devolucion.
+3. Entrega Unidad: en el proceso final actualizar todos los bienes que tengan a esta unidad administrativa enlazada.
+4. agreagar firmante responsable por el area de bienes a todos los procesos.

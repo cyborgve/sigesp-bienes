@@ -7,5 +7,7 @@ export interface ActivoComponente extends Basica {
   codigo: string;
   denominacion: string;
   modeloId: Id;
+  costo: number;
+  moneda: Id;
   especificaciones: string;
 }
