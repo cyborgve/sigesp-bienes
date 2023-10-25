@@ -61,7 +61,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
     this.formulario.valid &&
     this.formulario.value.unidadAdministrativa !== 0 &&
     this.formulario.value.sede !== 0 &&
-    this.formulario.value.responsableAnterior !== '---' &&
+    this.formulario.value.responsableAnterior !== '' &&
     this.formulario.value.nuevoResponsable !== '---';
 
   private actualizarFormulario() {
@@ -100,7 +100,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
               comprobante: `${ser}-${doc}`,
               unidadAdministrativa: 0,
               sede: 0,
-              responsableAnterior: '---',
+              responsableAnterior: '',
               nuevoResponsable: '---',
               observaciones: '',
               creado: new Date(),
@@ -142,14 +142,14 @@ export class SingularEntregaUnidadComponent implements Entidad {
     let entidad: EntregaUnidad = this.formulario.value;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
-        .guardar(entidad, this.titulo.toUpperCase())
+        .guardar(entidad, this.titulo)
         .pipe(first())
         .subscribe(entregaUnidad =>
           entregaUnidad ? this.reiniciarFormulario() : undefined
         );
     } else {
       this._entidad
-        .actualizar(this.id, entidad, this.titulo.toUpperCase())
+        .actualizar(this.id, entidad, this.titulo)
         .pipe(first())
         .subscribe(() => this.irAtras());
     }
@@ -225,6 +225,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
         tap((unidadAdministrativa: UnidadAdministrativa) =>
           this.formulario.patchValue({
             unidadAdministrativa: unidadAdministrativa.id,
+            responsableAnterior: unidadAdministrativa.responsable,
           })
         ),
         take(1)

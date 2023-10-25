@@ -20,6 +20,8 @@ import { Activo } from '@core/models/definiciones/activo';
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
 import { Modelo } from '@core/models/definiciones/modelo';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
+import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
+import { Moneda } from '@core/models/otros-modulos/moneda';
 
 @Component({
   selector: 'app-singular-componente',
@@ -49,6 +51,8 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
       tipoComponenteId: [undefined],
       modeloId: [undefined],
       activoId: [undefined],
+      costo: [undefined],
+      moneda: [undefined],
       especificaciones: [undefined],
       creado: [undefined],
       modificado: [undefined],
@@ -77,6 +81,8 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
                 tipoComponenteId: entidad.tipoComponenteId,
                 modeloId: entidad.modeloId,
                 activoId: entidad.activoId,
+                costo: entidad.costo,
+                moneda: entidad.moneda,
                 especificaciones: entidad.especificaciones,
                 creado: entidad.creado,
                 modificado: entidad.modificado,
@@ -100,6 +106,8 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
               tipoComponenteId: 0,
               modeloId: 0,
               activoId: 0,
+              costo: 0,
+              moneda: '0',
               especificaciones: '',
               creado: new Date(),
               modificado: new Date(),
@@ -126,6 +134,8 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
               tipoComponenteId: entidad.tipoComponenteId,
               modeloId: entidad.modeloId,
               activoId: entidad.activoId,
+              costo: entidad.costo,
+              moneda: entidad.moneda,
               especificaciones: entidad.especificaciones,
             })
           )
@@ -237,6 +247,24 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
           filter(todo => !!todo),
           tap((modelo: Modelo) =>
             this.formulario.patchValue({ modeloId: modelo.id })
+          )
+        )
+        .subscribe()
+    );
+  }
+
+  buscarMoneda() {
+    let dialog = this._dialog.open(BuscadorMonedaComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    this.subscripciones.push(
+      dialog
+        .afterClosed()
+        .pipe(
+          filter(todo => !!todo),
+          tap((moneda: Moneda) =>
+            this.formulario.patchValue({ moneda: moneda.id })
           )
         )
         .subscribe()

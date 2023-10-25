@@ -63,6 +63,33 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
+        <!-- costo -->
+        <mat-form-field appearance="fill" class="costo">
+          <mat-label>Costo</mat-label>
+          <input type="number" matInput formControlName="costo" />
+        </mat-form-field>
+        <!-- moneda -->
+        <mat-form-field appearance="fill" class="moneda">
+          <mat-label>Moneda</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="moneda"
+            readonly="true"
+            [value]="
+              formulario.value.moneda
+                | denominacionMoneda
+                | async
+                | corregirSeleccionar
+            " />
+          <button
+            type="button"
+            (click)="buscarMoneda()"
+            mat-icon-button
+            matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
         <!-- activoId -->
         <mat-form-field appearance="fill" class="activoId">
           <mat-label>Activo</mat-label>

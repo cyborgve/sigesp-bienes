@@ -2,17 +2,17 @@
   <mat-card>
     <article class="buscar">
       <span class="titulo">{{ titulo | titlecase }}</span>
-      <span class="spacer"></span>
+      <span class="espaciador"></span>
     </article>
     <article class="grid grid-cols-5">
       <a *ngFor="let reporte of menuItems" [routerLink]="reporte.routerLink">
         <mat-card class="reporte">
           <img [src]="reporte.image" alt="image" width="80px" />
           <mat-card-title>{{ reporte.label }}</mat-card-title>
-          <mat-card-subtitle>{{ titulo }}</mat-card-subtitle>
+          <mat-card-subtitle>{{ titulo | titlecase }}</mat-card-subtitle>
         </mat-card>
       </a>
-      <!-- <span class="spacer"></span> -->
+      <!-- <span class="espaciador"></span> -->
       <!-- buscar -->
       <!-- <mat-form-field class="buscador"> -->
       <!-- <mat-label>Buscar</mat-label> -->
