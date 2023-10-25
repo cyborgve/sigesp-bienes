@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
@@ -9,9 +9,10 @@ import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-
 export class DenominacionUnidadAdministrativaPipe implements PipeTransform {
   transform(value: number): Observable<string> {
     if (value === null || value === undefined) return of('');
-    return this._unidadAdministrativa
-      .buscarPorId(value)
-      .pipe(map(unidad => unidad['denominacion']));
+    return this._unidadAdministrativa.buscarPorId(value).pipe(
+      filter(todo => !!todo),
+      map(unidad => unidad['denominacion'])
+    );
   }
   constructor(private _unidadAdministrativa: UnidadAdministrativaService) {}
 }
