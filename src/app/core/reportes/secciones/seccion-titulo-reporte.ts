@@ -5,7 +5,7 @@ export const seccionTituloReporte = (
   tipoProceso: TipoProceso
 ) => [
   {
-    text: `${tipoProceso} N° ${proceso.comprobante}`,
+    text: `${tipoProceso} N°${proceso.comprobante}`,
     style: 'tituloReporte',
   },
   {

@@ -34,3 +34,4 @@ Para Terminar:
     vacion si no se ha prestado. Agregar fecha de salida y fecha de devolucion.
 3. Entrega Unidad: en el proceso final actualizar todos los bienes que tengan a esta unidad administrativa enlazada.
 4. agreagar firmante responsable por el area de bienes a todos los procesos.
+5. monedas obtener el factor de cambio de sigesp_moneda, sigesp_tasa_cambio_moneda

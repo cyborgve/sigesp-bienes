@@ -1,5 +1,5 @@
 import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
-import { tap, take } from 'rxjs/operators';
+import { tap, take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -10,14 +10,16 @@ import { combineLatest } from 'rxjs';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { Modificacion } from '@core/models/procesos/modificacion';
-import { seccionPiePaginaReporte } from '@core/utils/reportes/seccion-pie-pagina-reporte';
-import { metadataReporte } from '@core/utils/reportes/metadata-reporte';
-import { seccionEncabezadoReporte } from '@core/utils/reportes/seccion-encabezado-reporte';
-import { seccionDetallesModificacionReporte } from '@core/utils/reportes/seccion-detalles-modificacion-reporte';
-import { seccionDetalleReporte } from '@core/utils/reportes/seccion-detalle-reporte';
-import { datosGeneralesReporte } from '@core/utils/reportes/seccion-datos-generales-reporte';
+import { seccionPiePaginaReporte } from '@core/reportes/secciones/seccion-pie-pagina-reporte';
+import { metadataReporte } from '@core/reportes/auxiliares/metadata-reporte';
+import { seccionEncabezadoReporte } from '@core/reportes/secciones/seccion-encabezado-reporte';
+import { seccionDetallesModificacionReporte } from '@core/reportes/secciones/seccion-detalles-modificacion-reporte';
+import { seccionDetalleReporte } from '@core/reportes/secciones/seccion-detalle-reporte';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
-import { seccionDetalleDepreciacionReporte } from '@core/utils/reportes/seccion-detalle-depreciacion-reporte';
+import { seccionDetalleDepreciacionReporte } from '@core/reportes/secciones/seccion-detalle-depreciacion-reporte';
+import { entregaUnidadReporte } from '@core/reportes/reporte-entrega-unidad';
+import { seccionDatosGeneralesReporte } from '@core/reportes/secciones/seccion-datos-generales-reporte';
+import { reporteActaPrestamo } from '@core/reportes/reporte-acta-prestamo';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +32,24 @@ export class PDFService {
   ) {
     (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
   }
+
+  reporteProceso: { tipoProceso: TipoProceso; reporte: any } = {
+    tipoProceso: 'ACTA DE PRÉSTAMO',
+    reporte: 'reporteActaPrestamo(empresa, infoReporte, SIGESP)',
+  };
+
+  abrirReporte = (proceso: any) =>
+    combineLatest([
+      this._empresa.datosGenerales(proceso.empresaId),
+      this._infoReporte.obtener(proceso, 'ACTA DE PRÉSTAMO'),
+    ]).pipe(
+      tap(([empresa, infoReporte]) => {
+        pdfMake
+          .createPdf(reporteActaPrestamo(empresa, infoReporte, 'SIGESP'))
+          .open();
+      }),
+      map(() => proceso)
+    );
 
   abrirReportePDF(proceso: any, tipoProceso: TipoProceso) {
     combineLatest([
@@ -68,11 +88,19 @@ export class PDFService {
                 infoReporte,
                 'ENTREGA DE UNIDAD'
               ),
-              datosGeneralesReporte(infoReporte, 'ENTREGA DE UNIDAD'),
+              seccionDatosGeneralesReporte(infoReporte, 'ENTREGA DE UNIDAD'),
             ],
             styles: this.estilosProceso,
           };
-          pdfMake.createPdf(reportePDF).open();
+          pdfMake
+            .createPdf(
+              entregaUnidadReporte(
+                empresa,
+                infoReporte,
+                this._sigesp.usuarioActivo
+              )
+            )
+            .open();
         }),
         take(1)
       )
@@ -97,7 +125,7 @@ export class PDFService {
             footer: seccionPiePaginaReporte(infoReporte, 'DEPRECIACIÓN'),
             content: [
               seccionEncabezadoReporte(empresa, infoReporte, 'DEPRECIACIÓN'),
-              datosGeneralesReporte(infoReporte, 'DEPRECIACIÓN'),
+              seccionDatosGeneralesReporte(infoReporte, 'DEPRECIACIÓN'),
               seccionDetallesModificacionReporte(infoReporte),
             ],
             styles: this.estilosProceso,
@@ -126,7 +154,7 @@ export class PDFService {
             footer: seccionPiePaginaReporte(infoReporte, 'DEPRECIACIÓN'),
             content: [
               seccionEncabezadoReporte(empresa, infoReporte, 'DEPRECIACIÓN'),
-              datosGeneralesReporte(infoReporte, 'DEPRECIACIÓN'),
+              seccionDatosGeneralesReporte(infoReporte, 'DEPRECIACIÓN'),
               seccionDetalleDepreciacionReporte(infoReporte),
             ],
             styles: this.estilosProceso,
@@ -148,7 +176,7 @@ export class PDFService {
     footer: seccionPiePaginaReporte(proceso, tipoProceso),
     content: [
       seccionEncabezadoReporte(empresa, proceso, tipoProceso),
-      datosGeneralesReporte(proceso, tipoProceso),
+      seccionDatosGeneralesReporte(proceso, tipoProceso),
       seccionDetalleReporte(proceso),
     ],
     styles: this.estilosProceso,
@@ -173,7 +201,7 @@ export class PDFService {
       fontSize: 10,
       alignment: 'right',
     },
-    datosGeneralesReporte: {
+    seccionDatosGeneralesReporte: {
       fontSize: 8,
       margin: [0, 5, 0, 0],
     },

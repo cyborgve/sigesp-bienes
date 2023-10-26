@@ -1,3 +1,5 @@
+import { estilosProcesoReporte } from './estilos-proceso-reporte';
+
 export const campoTextoConTituloReporte = (titulo: string, texto: string) => ({
   columns: [
     {
@@ -20,4 +22,5 @@ export const campoTextoConTituloReporte = (titulo: string, texto: string) => ({
       ],
     },
   ],
+  styles: estilosProcesoReporte(),
 });

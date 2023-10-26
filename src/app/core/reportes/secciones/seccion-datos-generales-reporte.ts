@@ -1,10 +1,7 @@
 import { TipoProceso } from '@core/types/tipo-proceso';
-import { campoTextoConTituloReporte } from './campo-texto-titulo-reporte';
+import { campoTextoConTituloReporte } from '../auxiliares/campo-texto-titulo-reporte';
 
-/**
- * DATOS PROCESO
- */
-export const datosGeneralesReporte = (
+export const seccionDatosGeneralesReporte = (
   proceso: any,
   tipoProceso: TipoProceso
 ) => {
@@ -128,7 +125,7 @@ const seccionCambioResponsable = (proceso: any) => [
         width: '50%',
         stack: [
           campoTextoConTituloReporte(
-            proceso.tipoResponsable + ' Actual:',
+            proceso.tipoResponsable + ' Anterior:',
             proceso.responsableActual
           ),
         ],

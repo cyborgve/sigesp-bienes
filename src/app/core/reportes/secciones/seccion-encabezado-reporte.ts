@@ -1,6 +1,6 @@
 import { Empresa } from '@core/models/otros-modulos/empresa';
-import { seccionEmpresaReporte } from './seccion-empresa-reporte';
 import { TipoProceso } from '@core/types/tipo-proceso';
+import { seccionEmpresaReporte } from './seccion-empresa-reporte';
 import { seccionTituloReporte } from './seccion-titulo-reporte';
 
 export const seccionEncabezadoReporte = (
