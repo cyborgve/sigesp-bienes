@@ -2,7 +2,7 @@ import { Retorno } from '@core/models/procesos/retorno';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Id } from '@core/types/id';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { EmpresaService } from '../otros-modulos/empresa.service';
@@ -97,7 +97,8 @@ export class InformacionProcesoService {
   private causaMovimiento = (id: Id) =>
     this.denominacionEntidad(this._causaMovimiento, id);
 
-  private proveedor = (id: Id) => this.denominacionEntidad(this._proveedor, id);
+  private proveedor = (id: Id) =>
+    this._proveedor.buscarPorId(id).pipe(map(proveedor => `${proveedor.rif}`));
 
   private responsable = (id: Id) =>
     this._responsable
@@ -248,6 +249,7 @@ export class InformacionProcesoService {
       this.activosProceso(autorizacionSalida.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
+      tap(console.log),
       map(
         ([
           empresa,
