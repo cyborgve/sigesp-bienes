@@ -18,11 +18,11 @@ const datosGenerales = (proceso: any) => [
         width: '50%',
         stack: [
           campoTextoConTituloReporte(
-            'Unidad Adm. Cedente:',
+            'Unidad Administrativa Cedente:',
             proceso.unidadAdministrativaCedente
           ),
           campoTextoConTituloReporte(
-            'Unidad Adm. Receptora:',
+            'Unidad Administrativa Receptora:',
             proceso.unidadAdministrativaReceptora
           ),
           campoTextoConTituloReporte('Testigo:', proceso.testigo),
@@ -81,7 +81,7 @@ export const reporteActaPrestamo = (
     info: {
       title: `${tipoProceso}-${proceso.comprobante}`,
       subject: 'Comprobante de ejecucion de proceso',
-      author: `${usuarioActivo.nombre} ${usuarioActivo.apellido}`,
+      author: usuarioActivo,
       creator: 'Sigesp ERP - Bienes Nacionales',
     },
     content: [
