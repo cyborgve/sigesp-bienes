@@ -98,7 +98,9 @@ export class InformacionProcesoService {
     this.denominacionEntidad(this._causaMovimiento, id);
 
   private proveedor = (id: Id) =>
-    this._proveedor.buscarPorId(id).pipe(map(proveedor => `${proveedor.rif}`));
+    this._proveedor
+      .buscarPorId(id)
+      .pipe(map(proveedor => `${proveedor.rif} ${proveedor.denominacion}`));
 
   private responsable = (id: Id) =>
     this._responsable
@@ -249,7 +251,6 @@ export class InformacionProcesoService {
       this.activosProceso(autorizacionSalida.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
-      tap(console.log),
       map(
         ([
           empresa,
