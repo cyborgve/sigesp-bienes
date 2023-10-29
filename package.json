@@ -1,6 +1,6 @@
 {
   "name": "sigesp_bienes",
-  "version": "0.57.247",
+  "version": "0.57.248",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
