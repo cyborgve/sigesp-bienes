@@ -70,7 +70,6 @@ export class ActasComponent implements AfterViewInit, OnDestroy {
               ? moment(this.formularioRangoFechas.value.fechaFin)
               : moment(new Date());
             if (this.formularioRangoFechas.value.rango === 'HOY') {
-              console.log(`Fecha inicio: ${fechaInicio}`);
             }
             return moment(acta.creado).isBetween(fechaInicio, fechaFin);
           })

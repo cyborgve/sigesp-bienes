@@ -131,7 +131,6 @@ export class SingularUnidadAdministrativaComponent
 
   guardar() {
     let entidad: UnidadAdministrativa = this.formulario.value;
-    console.log(entidad);
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())

@@ -15,6 +15,8 @@ export const adaptarComponentes = () =>
                 codigo: componente.codigo,
                 denominacion: componente.denominacion,
                 modeloId: Number(componente.modeloId),
+                costo: Number(componente.costo),
+                moneda: componente.moneda,
                 especificaciones: componente.especificaciones,
                 creado: componente.creado,
                 modificado: componente.modificado,
