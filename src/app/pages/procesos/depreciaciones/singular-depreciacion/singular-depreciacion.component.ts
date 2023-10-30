@@ -146,6 +146,8 @@ export class SingularDepreciacionComponent implements Entidad {
     }
   }
 
+  deshabilitarGuardar = () => Number(this.formulario.value.activo) === 0;
+
   importar() {
     let dialog = this._dialog.open(BuscadorDepreciacionComponent, {
       width: '95%',
