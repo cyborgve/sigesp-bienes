@@ -36,10 +36,9 @@
           <mat-label>Tipo de Proceso</mat-label>
           <mat-select formControlName="tipoComprobante">
             <mat-option value="">Seleccionar</mat-option>
-            <mat-option
-              *ngFor="let proceso of tiposProceso"
-              [value]="proceso"
-              >{{ proceso | titlecase }}</mat-option
+            <mat-option value="ACTA DE PRÉSTAMO">Acta de Préstamo</mat-option>
+            <mat-option value="AUTORIZACIÓN DE SALIDA"
+              >Autorización de Salida</mat-option
             >
           </mat-select>
         </mat-form-field>
