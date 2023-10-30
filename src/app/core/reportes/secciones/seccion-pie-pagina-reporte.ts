@@ -34,7 +34,7 @@ export const seccionPiePaginaReporte = (
       resultado = reasignacion(proceso);
       break;
     case 'RETORNO':
-      resultado = retorno(proceso);
+      resultado = firmasAutorizadas();
       break;
   }
   resultado = { height: 80, margin: [20, 0, 20, 20], ...resultado };
@@ -94,31 +94,18 @@ const cambioResponsable = (proceso: any) => ({
   ],
 });
 
-const depreciacion = (proceso: any) => ({
-  text: 'Generado por Sigesp - Bienes Nacionales',
-  bold: true,
-  alignment: 'right',
-  fontSize: 6,
-});
-
-const desincorporacion = () => firmasAutorizadas();
-
 const entregaUnidad = (proceso: any) => ({
   columns: [
     {
       width: '50%',
-      stack: [campoFirma('Responsable Actual:', proceso.responsableActual)],
+      stack: campoFirma('Responsable Anterior', proceso.responsableAnterior),
     },
     {
       width: '50%',
-      stack: [campoFirma('Nuevo Responsable', proceso.nuevoResponsable)],
+      stack: campoFirma('Nuevo Responsable', proceso.nuevoResponsable),
     },
   ],
 });
-
-const incorporacion = (proceso: any) => ({});
-
-const modificacion = (proceso: any) => ({});
 
 const reasignacion = (proceso: any) => ({
   columns: [
@@ -132,9 +119,6 @@ const reasignacion = (proceso: any) => ({
     },
   ],
 });
-
-const retorno = (proceso: any) =>
-  campoFirma('Nuevo Responsable', proceso.nuevoResponsable);
 
 const firmasAutorizadas = () => ({
   columns: [

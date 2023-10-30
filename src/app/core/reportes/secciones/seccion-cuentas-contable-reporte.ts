@@ -1,4 +1,4 @@
-export const seccionCuentasContables = (cuentasContables: any[]) => [
+export const seccionCuentasContablesReporte = (cuentasContables: any[]) => [
   {
     text: 'C U E N T A S   C O N T A B L E S',
     style: 'tituloDetalleReporte',

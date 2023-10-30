@@ -1,9 +1,9 @@
 import { Empresa } from '@core/models/otros-modulos/empresa';
 import { seccionEncabezadoReporte } from './secciones/seccion-encabezado-reporte';
 import { TipoProceso } from '@core/types/tipo-proceso';
-import { seccionDatosGeneralesReporte } from './secciones/seccion-datos-generales-reporte';
 import { estilosProcesoReporte } from './auxiliares/estilos-proceso-reporte';
-import { campoFirmaReporte } from './auxiliares/campo-firma-reporte';
+import { campoTextoConTituloReporte } from './auxiliares/campo-texto-titulo-reporte';
+import { seccionPiePaginaReporte } from './secciones/seccion-pie-pagina-reporte';
 
 const tipoProceso: TipoProceso = 'ENTREGA DE UNIDAD';
 const activos = [
@@ -31,28 +31,43 @@ export const reporteEntregaUnidad = (
   },
   content: [
     seccionEncabezadoReporte(empresa, proceso, tipoProceso),
-    seccionDatosGeneralesReporte(proceso, tipoProceso),
+    datosGenerales(proceso),
     bienesAfectados(activos),
   ],
-  footer: piePagina(proceso),
+  footer: seccionPiePaginaReporte(proceso, tipoProceso),
   styles: estilosProcesoReporte(),
 });
 
-const piePagina = (proceso: any) => ({
-  columns: [
-    {
-      width: '50%',
-      stack: campoFirmaReporte(
-        'Responsable Anterior',
-        proceso.responsableAnterior
-      ),
-    },
-    {
-      width: '50%',
-      stack: campoFirmaReporte('Nuevo Responsable', proceso.nuevoResponsable),
-    },
-  ],
-});
+const datosGenerales = (proceso: any) => [
+  campoTextoConTituloReporte(
+    'Unidad Administrativa:',
+    proceso.unidadAdministrativa
+  ),
+  campoTextoConTituloReporte('Sede:', proceso.sede),
+  {
+    columns: [
+      {
+        width: '50%',
+        stack: [
+          campoTextoConTituloReporte(
+            'Responsable anterior:',
+            proceso.responsableAnterior
+          ),
+        ],
+      },
+      {
+        width: '50%',
+        stack: [
+          campoTextoConTituloReporte(
+            'Nuevo responsable:',
+            proceso.nuevoResponsable
+          ),
+        ],
+      },
+    ],
+  },
+  campoTextoConTituloReporte('Observaciones:', proceso.observaciones),
+];
 
 const bienesAfectados = (activos: any[]) => [
   {
