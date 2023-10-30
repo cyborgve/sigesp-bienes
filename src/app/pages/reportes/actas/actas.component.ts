@@ -1,20 +1,15 @@
-import { tap, map, take } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
-import { filtroRangoFechas } from '@core/utils/funciones/actualizar-filtro-fecha';
-import { TipoRangoFecha } from '@core/types/tipo-rango-fecha';
-import { TipoFechaReferencia } from '@core/types/tipo-fecha';
-import { RangoFecha } from '@core/models/auxiliares/rango-fecha';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
-import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import moment from 'moment';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
+import { filtrarProcesoPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-proceso-por-fecha';
 
 @Component({
   selector: 'app-actas',
@@ -47,7 +42,7 @@ export class ActasComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.recargarDatos();
     this.subscripciones.push(
-      this.formularioRangoFechas.controls.rango.valueChanges
+      this.formularioRangoFechas.valueChanges
         .pipe(tap(() => this.recargarDatos()))
         .subscribe()
     );
@@ -61,19 +56,7 @@ export class ActasComponent implements AfterViewInit, OnDestroy {
     this._actaPrestamo
       .buscarTodos()
       .pipe(
-        map(actasPrestamo =>
-          actasPrestamo.filter(acta => {
-            let fechaInicio = this.formularioRangoFechas.value.fechaInicio
-              ? moment(this.formularioRangoFechas.value.fechaInicio)
-              : moment(new Date(1));
-            let fechaFin = this.formularioRangoFechas.value.fechaFin
-              ? moment(this.formularioRangoFechas.value.fechaFin)
-              : moment(new Date());
-            if (this.formularioRangoFechas.value.rango === 'HOY') {
-            }
-            return moment(acta.creado).isBetween(fechaInicio, fechaFin);
-          })
-        ),
+        filtrarProcesoPorFecha(this.formularioRangoFechas),
         tap(
           (actasPrestamo: ActaPrestamo[]) =>
             (this.dataSource = new MatTableDataSource(actasPrestamo))
