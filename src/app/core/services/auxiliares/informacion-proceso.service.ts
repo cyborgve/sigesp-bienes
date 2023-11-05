@@ -524,4 +524,62 @@ export class InformacionProcesoService {
       }))
     );
   }
+
+  listaActasPrestamo(actasPrestamo: ActaPrestamo[]) {
+    let unidadesCedentes$ = actasPrestamo.map(acta =>
+      this.unidadAdministrativa(acta.unidadAdministrativaCedente)
+    );
+    let responsablesCedentes$ = actasPrestamo.map(acta =>
+      this.responsable(acta.unidadCedenteResponsable)
+    );
+    let unidadesReceptoras$ = actasPrestamo.map(acta =>
+      this.unidadAdministrativa(acta.unidadAdministrativaReceptora)
+    );
+    let responsablesRecepotas$ = actasPrestamo.map(acta =>
+      this.responsable(acta.unidadReceptoraResponsable)
+    );
+    let testigos$ = actasPrestamo.map(acta => this.responsable(acta.testigo));
+    let obtenerInformacion$ = [
+      ...unidadesCedentes$,
+      ...responsablesCedentes$,
+      ...unidadesReceptoras$,
+      ...responsablesRecepotas$,
+      ...testigos$,
+    ];
+    return forkJoin(obtenerInformacion$).pipe(
+      map(informacion => {
+        let infoReporte = [];
+        let unidadesCedentes = informacion.splice(0, unidadesCedentes$.length);
+        let responsablesCedentes = informacion.splice(
+          0,
+          responsablesCedentes$.length
+        );
+        let unidadesReceptoras = informacion.splice(
+          0,
+          unidadesReceptoras$.length
+        );
+        let responsablesReceptoras = informacion.splice(
+          0,
+          responsablesRecepotas$.length
+        );
+        let testigos = informacion.splice(0);
+        for (let i = 0; i < unidadesCedentes.length; i++) {
+          infoReporte.push({
+            fecha: new Date(actasPrestamo[i].creado),
+            comprobante: String(actasPrestamo[i].comprobante).substring(5),
+            unidadAdministrativaCedente: unidadesCedentes[i],
+            responsableCedente: responsablesCedentes[i],
+            unidadAdministrativaReceptora: unidadesReceptoras[i],
+            responsableReceptora: responsablesReceptoras[i],
+            testigo: testigos[i],
+            // activos: actasPrestamo[i].activos
+            //   .map(activo => activo.codigo.substring(5))
+            //   .toString(),
+            // notas: actasPrestamo[i].notas,
+          });
+        }
+        return infoReporte;
+      })
+    );
+  }
 }

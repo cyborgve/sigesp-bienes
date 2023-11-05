@@ -17,7 +17,7 @@ export class FiltroRangoFechasComponent implements OnInit {
   tiposProceso = TIPOS_PROCESO;
   @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
-  @Input() deshabilitarReferencia: boolean = false;
+  @Input() habilitarReferencia: boolean = false;
 
   ngOnInit(): void {
     this.formulario.controls.rango.valueChanges
@@ -26,7 +26,6 @@ export class FiltroRangoFechasComponent implements OnInit {
           this.formulario.patchValue({
             fechaInicio: FECHAS_CALCULADAS[rango][0],
             fechaFin: FECHAS_CALCULADAS[rango][1],
-            fechaReferencia: 'CREADO',
           });
         })
       )

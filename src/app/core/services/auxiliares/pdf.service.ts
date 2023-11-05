@@ -16,6 +16,7 @@ import { reporteIncorporacion } from '@core/reportes/reporte-incorporacion';
 import { reporteModificacion } from '@core/reportes/reporte-modificacion';
 import { reporteReasignacion } from '@core/reportes/reporte-reasignacion';
 import { reporteRetorno } from '@core/reportes/reporte-reotorno';
+import { Id } from '@core/types/id';
 
 @Injectable({
   providedIn: 'root',
@@ -80,4 +81,11 @@ export class PDFService {
       }),
       map(() => proceso)
     );
+
+  abrirReporteInventario = (actasPrestamo: any, empresa: Id) => {
+    combineLatest([
+      this._empresa.datosGenerales(empresa),
+      this._infoReporte.listaActasPrestamo(actasPrestamo),
+    ]);
+  };
 }

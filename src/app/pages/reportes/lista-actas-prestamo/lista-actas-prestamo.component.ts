@@ -1,30 +1,29 @@
-import { tap, take } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
-import { Component, OnDestroy, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
-import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
-import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
+import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { filtrarProcesoPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-proceso-por-fecha';
+import { Subscription } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-actas',
-  templateUrl: './actas.component.html',
-  styleUrls: ['./actas.component.scss'],
+  selector: 'app-lista-actas-prestamo',
+  templateUrl: './lista-actas-prestamo.component.html',
+  styleUrls: ['./lista-actas-prestamo.component.scss'],
 })
-export class ActasComponent implements AfterViewInit, OnDestroy {
+export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
   private subscripciones: Subscription[] = [];
   dataSource: MatTableDataSource<ActaPrestamo> = new MatTableDataSource();
-  titulo = 'Reportes: Actas de Préstamo';
+  titulo = 'Reportes: Lista de Actas de Préstamo Registradas';
   fechaEmision = new Date();
   rangosFechas = RANGOS_FECHAS;
   formularioRangoFechas: FormGroup;
   procesos = TIPOS_PROCESO;
-  filtros = [filtroArranque()];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -32,9 +31,9 @@ export class ActasComponent implements AfterViewInit, OnDestroy {
     private _xlsx: XLSXService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
-      rango: ['TODOS'],
-      fechaInicio: [undefined],
-      fechaFin: [undefined],
+      rango: ['ESTE MES'],
+      fechaInicio: [FECHAS_CALCULADAS['ESTE MES'][0]],
+      fechaFin: [FECHAS_CALCULADAS['ESTE MES'][1]],
       fechaReferencia: ['CREADO'],
     });
   }
