@@ -1,0 +1,19 @@
+<section class="contenedor-singular superior">
+  <app-encabezado-reportes
+    [titulo]="titulo"
+    [fechaEmision]="fechaEmision"></app-encabezado-reportes>
+</section>
+<section class="contenedor-singular inferior superior">
+  <app-filtro-rango-fechas
+    [formulario]="formularioRangoFechas"></app-filtro-rango-fechas>
+</section>
+<section class="contenedor-singular inferior">
+  <app-detalle [dataSource]="dataSource"></app-detalle>
+</section>
+<app-toolbar
+  [mostrarImportar]="false"
+  [mostrarBorrar]="false"
+  [mostrarBuscar]="false"
+  [mostrarSalir]="false"
+  [desabilitarGuardar]="deshabilitarGuardar()"
+  (guardar)="guardar()"></app-toolbar>
