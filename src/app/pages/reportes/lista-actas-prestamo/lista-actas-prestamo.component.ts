@@ -24,6 +24,7 @@ export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
   rangosFechas = RANGOS_FECHAS;
   formularioRangoFechas: FormGroup;
   procesos = TIPOS_PROCESO;
+  desactivarGuardar = () => this.dataSource.data.length === 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -66,6 +67,9 @@ export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
   }
 
   guardar() {
-    this._xlsx.actasPrestamo(this.dataSource.data);
+    this._xlsx
+      .listaActasPrestamo(this.dataSource.data)
+      .pipe(take(1))
+      .subscribe();
   }
 }
