@@ -28,7 +28,10 @@
         formControlName="catalogoGeneral"
         readonly="true"
         [value]="
-          formulario.value.catalogoGeneral | denominacionCatalogoGeneral | async
+          formulario.value.catalogoGeneral
+            | denominacionCatalogoGeneral
+            | async
+            | corregirTodos
         " />
       <button
         type="button"

@@ -25,7 +25,9 @@
         type="text"
         formControlName="marca"
         readonly="true"
-        [value]="formulario.value.marca | denominacionMarca | async" />
+        [value]="
+          formulario.value.marca | denominacionMarca | async | corregirTodos
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarMarca()">
         <mat-icon>search</mat-icon>
       </button>

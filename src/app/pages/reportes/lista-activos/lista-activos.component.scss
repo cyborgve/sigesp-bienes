@@ -1,0 +1,12 @@
+.rangoFechas,
+.tipoProceso {
+  @apply col-span-6;
+}
+
+.card {
+  @apply w-full;
+}
+
+.varios {
+  @apply mt-1 grid grid-cols-3 gap-1;
+}

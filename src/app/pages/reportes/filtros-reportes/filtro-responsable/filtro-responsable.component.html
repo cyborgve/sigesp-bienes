@@ -11,7 +11,7 @@
     >
     <p class="filtro-descripcion">
       Seleccione la responsable para el grupo de activos, si no selecciona
-      ninguna se muestran todos los registros
+      ninguno se muestran todos los registros
     </p>
     <ng-container *ngTemplateOutlet="contenido"></ng-container>
   </mat-card>
@@ -28,10 +28,7 @@
         formControlName="responsable"
         readonly="true"
         [value]="
-          formulario.value.responsable
-            | denominacionResponsable
-            | async
-            | corregirSeleccionar
+          formulario.value.responsable | denominacionResponsable | async
         " />
       <button
         type="button"

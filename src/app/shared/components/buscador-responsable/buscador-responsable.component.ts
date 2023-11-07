@@ -1,5 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, map, take } from 'rxjs/operators';
+import { tap, map, take } from 'rxjs/operators';
 import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,9 +9,6 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Responsable } from '@core/models/otros-modulos/responsable';
-import { SigespService } from 'sigesp';
-import { adaptarResposables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-responsables';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { Location } from '@angular/common';
 import { pipe } from 'rxjs';
 import { ResponsableService } from '@core/services/otros-modulos/responsable.service';
@@ -37,7 +34,6 @@ export class BuscadorResponsableComponent
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorResponsableComponent>,
-    private _sigesp: SigespService,
     private _location: Location,
     private _router: Router,
     private _responsable: ResponsableService

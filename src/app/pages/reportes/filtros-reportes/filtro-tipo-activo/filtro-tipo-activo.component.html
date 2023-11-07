@@ -23,7 +23,7 @@
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Tipo de Activo</mat-label>
       <mat-select formControlName="tipoActivo">
-        <mat-option value="" selected>Seleccionar</mat-option>
+        <mat-option value="TODOS" selected>Todos</mat-option>
         <mat-option
           *ngFor="let tipo of tiposActivo"
           [value]="tipo.substring(0, 3)"

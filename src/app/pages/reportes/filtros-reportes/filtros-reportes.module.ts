@@ -72,6 +72,7 @@ import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades
 import { FiltroMetodoDepreciacionComponent } from './filtro-metodo-depreciacion/filtro-metodo-depreciacion.component';
 import { FiltroPropiedadesComponent } from './filtro-propiedades/filtro-propiedades.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { FiltroTipoResponsableComponent } from './filtro-tipo-responsable/filtro-tipo-responsable.component';
 
 const sharedComponents = [
   FiltroCatalogoGeneralComponent,
@@ -114,6 +115,7 @@ const sharedComponents = [
   FiltroBeneficiarioComponent,
   FiltroMetodoDepreciacionComponent,
   FiltroPropiedadesComponent,
+  FiltroTipoResponsableComponent,
 ];
 
 @NgModule({

@@ -27,7 +27,12 @@
         type="text"
         formControlName="tipoSede"
         readonly="true"
-        [value]="formulario.value.tipoSede | denominacionTipoSede | async" />
+        [value]="
+          formulario.value.tipoSede
+            | denominacionTipoSede
+            | async
+            | corregirTodos
+        " />
       <button
         type="button"
         mat-icon-button

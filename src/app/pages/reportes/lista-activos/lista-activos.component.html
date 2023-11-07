@@ -1,0 +1,56 @@
+<section class="contenedor-singular superior">
+  <!-- encabezado -->
+  <app-encabezado-reportes
+    [titulo]="titulo"
+    [fechaEmision]="fechaEmision"></app-encabezado-reportes>
+</section>
+<!-- filtros -->
+<section class="contenedor-singular superior inferior">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header
+      >Filtros: Datos Generales</mat-expansion-panel-header
+    >
+    <section class="inferior superior">
+      <app-filtro-rango-fechas
+        class="rangoFechas"
+        [formulario]="formularioRangoFechas"
+        [habilitarReferencia]="true"
+        [sinDecorar]="filtrosSinDecorar"></app-filtro-rango-fechas>
+      <article class="varios">
+        <app-filtro-tipo-activo
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-activo>
+        <app-filtro-catalogo-general
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-catalogo-general>
+        <app-filtro-marca
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-marca>
+        <app-filtro-modelo
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-modelo>
+        <app-filtro-moneda
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-moneda>
+        <app-filtro-color
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-color>
+        <app-filtro-rotulacion
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-rotulacion>
+        <app-filtro-categoria
+          [formulario]="formularioFiltrosActivos"
+          [sinDecorar]="filtrosSinDecorar"></app-filtro-categoria>
+      </article>
+    </section>
+  </mat-expansion-panel>
+</section>
+<!-- lista de activos -->
+<section class="contenedor-singular superior inferior">
+  <app-detalle [dataSource]="dataSource"></app-detalle>
+</section>
+<app-toolbar
+  [mostrarBorrar]="false"
+  [mostrarBuscar]="false"
+  [mostrarImportar]="false"
+  [mostrarSalir]="false"></app-toolbar>

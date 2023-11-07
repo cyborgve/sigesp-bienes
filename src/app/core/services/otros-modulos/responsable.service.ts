@@ -1,4 +1,4 @@
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -6,7 +6,6 @@ import { SigespService } from 'sigesp';
 import { adaptarResposables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-responsables';
 import { Id } from '@core/types/id';
 import { Responsable } from '@core/models/otros-modulos/responsable';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
 
 @Injectable({

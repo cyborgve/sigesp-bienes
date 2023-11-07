@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ListadoActivosRoutingModule } from './listado-activos-routing.module';
-import { ListadoActivosComponent } from './listado-activos.component';
+import { ListaActivosRoutingModule } from './lista-activos-routing.module';
+import { ListaActivosComponent } from './lista-activos.component';
 import { SharedModule } from '@shared/shared.module';
-import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
 import { FiltrosReportesModule } from '../filtros-reportes/filtros-reportes.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { DetalleComponent } from './detalle/detalle.component';
 
 @NgModule({
-  declarations: [ListadoActivosComponent],
+  declarations: [ListaActivosComponent, DetalleComponent],
   imports: [
     CommonModule,
-    ListadoActivosRoutingModule,
+    ListaActivosRoutingModule,
     SharedModule,
     FiltrosReportesModule,
     ReactiveFormsModule,
@@ -23,4 +24,4 @@ import { MatTableModule } from '@angular/material/table';
     MatTableModule,
   ],
 })
-export class ListadoActivosModule {}
+export class ListaActivosModule {}

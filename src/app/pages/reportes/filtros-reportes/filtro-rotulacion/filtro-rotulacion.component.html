@@ -28,7 +28,10 @@
         formControlName="rotulacion"
         readonly="true"
         [value]="
-          formulario.value.rotulacion | denominacionRotulacion | async
+          formulario.value.rotulacion
+            | denominacionRotulacion
+            | async
+            | corregirTodos
         " />
       <button
         type="button"
