@@ -10,6 +10,17 @@
       <i class="material-icons">save</i>
     </button>
   </ng-container>
+  <!-- imprimir -->
+  <ng-container *ngIf="mostrarImprimir">
+    <button
+      mat-button
+      matTooltip="Imprimir"
+      type="button"
+      (click)="imprimir.emit()"
+      [disabled]="desabilitarImprimir">
+      <i class="material-icons">print</i>
+    </button>
+  </ng-container>
   <!-- buscar -->
   <ng-container *ngIf="mostrarBuscar">
     <button

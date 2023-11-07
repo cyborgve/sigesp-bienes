@@ -1,0 +1,30 @@
+<section class="contenedor-singular superior">
+  <app-encabezado-reportes
+    [titulo]="titulo"
+    [fechaEmision]="fechaEmision"></app-encabezado-reportes>
+</section>
+<section class="contenedor-singular inferior superior">
+  <mat-card>
+    <app-filtro-rango-fechas
+      class="rango-fechas"
+      [formulario]="formularioRangoFechas"
+      [habilitarReferencia]="true"></app-filtro-rango-fechas>
+    <article class="contenedor-varios inferior superior">
+      <app-filtro-unidad-administrativa
+        [formulario]="formularioFiltros"></app-filtro-unidad-administrativa>
+      <app-filtro-sede [formulario]="formularioFiltros"></app-filtro-sede>
+      <app-filtro-responsable
+        [formulario]="formularioFiltros"></app-filtro-responsable>
+    </article>
+  </mat-card>
+</section>
+<section class="contenedor-singular inferior">
+  <app-detalle [dataSource]="dataSource"></app-detalle>
+</section>
+<app-toolbar
+  (guardar)="guardar()"
+  [mostrarImprimir]="true"
+  [mostrarBorrar]="false"
+  [mostrarBuscar]="false"
+  [mostrarImportar]="false"
+  [mostrarSalir]="false"></app-toolbar>
