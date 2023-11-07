@@ -91,41 +91,46 @@ export class InformacionProcesoService {
       .pipe(map((entidad: any) => entidad.denominacion));
   }
 
-  private empresa = (id: Id) =>
-    this._empresa.datosGenerales(id).pipe(map(empresa => empresa.nombre));
+  private empresa = (empresa: Id) =>
+    this._empresa.datosGenerales(empresa).pipe(map(empresa => empresa.nombre));
 
-  private causaMovimiento = (id: Id) =>
-    this.denominacionEntidad(this._causaMovimiento, id);
+  private causaMovimiento = (causaMovimiento: Id) =>
+    this.denominacionEntidad(this._causaMovimiento, causaMovimiento);
 
-  private proveedor = (id: Id) =>
+  private proveedor = (proveedor: Id) =>
     this._proveedor
-      .buscarPorId(id)
+      .buscarPorId(proveedor)
       .pipe(map(proveedor => `${proveedor.rif} ${proveedor.denominacion}`));
 
-  private responsable = (id: Id) =>
+  private responsable = (responsable: Id) =>
     this._responsable
-      .buscarPorId(id)
+      .buscarPorId(responsable)
       .pipe(map(resp => `${resp.cedula} - ${resp.nombre} ${resp.apellido}`));
 
-  private unidadAdministrativa = (id: Id) =>
-    this.denominacionEntidad(this._unidadAdministrativa, id);
+  private unidadAdministrativa = (unidadAdministrativa: Id) =>
+    this.denominacionEntidad(this._unidadAdministrativa, unidadAdministrativa);
 
-  private sede = (id: Id) => this.denominacionEntidad(this._sede, id);
+  private sede = (sede: Id) => this.denominacionEntidad(this._sede, sede);
 
-  private activo = (id: Id) => this.denominacionEntidad(this._activo, id);
+  private activo = (activoId: Id) =>
+    this.denominacionEntidad(this._activo, activoId);
 
   private tipoActivo = (tipoAct: string) =>
     TIPOS_ACTIVO.find(tipoActivo => tipoActivo.substring(0, 3) === tipoAct);
 
-  private valorActivo = (id: Id) =>
-    this._activo.buscarPorId(id).pipe(map(activo => activo.valorAdquisicion));
-
-  private identificadorActivo = (id: Id) =>
-    this._activo.buscarPorId(id).pipe(map(activo => activo.serialRotulacion));
-
-  private isoMonedaActivo = (id: Id) =>
+  private valorActivo = (activo: Id) =>
     this._activo
-      .buscarPorId(id)
+      .buscarPorId(activo)
+      .pipe(map(activo => activo.valorAdquisicion));
+
+  private identificadorActivo = (activo: Id) =>
+    this._activo
+      .buscarPorId(activo)
+      .pipe(map(activo => activo.serialRotulacion));
+
+  private isoMonedaActivo = (activo: Id) =>
+    this._activo
+      .buscarPorId(activo)
       .pipe(
         switchMap(activo =>
           this._moneda
@@ -134,12 +139,17 @@ export class InformacionProcesoService {
         )
       );
 
-  private tipoComponente = (id: Id) =>
-    this.denominacionEntidad(this._tipoComponente, id);
+  private codigoActivo = (activo: Id) =>
+    this._activo
+      .buscarPorId(activo)
+      .pipe(map(activo => activo.codigo.substring(5)));
 
-  private beneficiario = (id: Id) =>
+  private tipoComponente = (tipoComponente: Id) =>
+    this.denominacionEntidad(this._tipoComponente, tipoComponente);
+
+  private beneficiario = (beneficiario: Id) =>
     this._beneficario
-      .buscarPorId(id)
+      .buscarPorId(beneficiario)
       .pipe(
         map(beneficiario => `${beneficiario.cedula} - ${beneficiario.nombre}`)
       );
@@ -576,6 +586,37 @@ export class InformacionProcesoService {
             //   .map(activo => activo.codigo.substring(5))
             //   .toString(),
             // notas: actasPrestamo[i].notas,
+          });
+        }
+        return infoReporte;
+      })
+    );
+  }
+
+  listaDepreciaciones(depreciaciones: Depreciacion[]) {
+    let buscarActivos$ = depreciaciones.map(depreciacion =>
+      this.activo(depreciacion.activo)
+    );
+    return forkJoin(buscarActivos$).pipe(
+      map(activosEncontrados => {
+        let infoReporte = [];
+        for (let i = 0; i < activosEncontrados.length; i++) {
+          infoReporte.push({
+            comprobante: String(depreciaciones[i].comprobante).substring(5),
+            activo: activosEncontrados[i],
+            serial: depreciaciones[i].serial,
+            identificador: depreciaciones[i].serial,
+            fechaCompra: depreciaciones[i].fechaCompra,
+            fechaIncorporacion: depreciaciones[i].fechaIncorporacion,
+            metodo: normalizarMetodoDepreciacion(depreciaciones[i].metodo),
+            moneda: depreciaciones[i].moneda,
+            costo: depreciaciones[i].costo,
+            valorRescate: depreciaciones[i].valorRescate.toFixed(2),
+            montoDepreciar: depreciaciones[i].montoDepreciar.toFixed(2),
+            vidaUtil: depreciaciones[i].vidaUtil,
+            depreciacionMensual:
+              depreciaciones[i].depreciacionMensual.toFixed(2),
+            depreciacionAnual: depreciaciones[i].depreciacionAnual.toFixed(2),
           });
         }
         return infoReporte;

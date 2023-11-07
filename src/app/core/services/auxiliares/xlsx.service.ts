@@ -8,6 +8,8 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { Activo } from '@core/models/definiciones/activo';
 import { InformacionDefinicionService } from './informacion-definicion.service';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
+import { Depreciacion } from '@core/models/procesos/depreciacion';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,35 +20,51 @@ export class XLSXService {
     private _informacionDefinicion: InformacionDefinicionService
   ) {}
 
-  actasPrestamo(actasPrestamo: ActaPrestamo[]) {
-    this._informacionProceso
-      .listaActasPrestamo(actasPrestamo)
-      .pipe(
-        tap(actasTraducidas => {
-          let fecha = new Date();
-          let workBook = XLSX.utils.book_new();
-          let workSheet = XLSX.utils.json_to_sheet(actasTraducidas);
-          XLSX.utils.book_append_sheet(
-            workBook,
-            workSheet,
-            'Actas de Préstamo'
-          );
-          let nombreArchivo = `sbn_actas_prestamo_${String(
-            fecha.getDay()
-          ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
-            2,
-            '0'
-          )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
-            2,
-            '0'
-          )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
-            fecha.getSeconds()
-          ).padStart(2, '0')}.xlsx`;
-          XLSX.writeFile(workBook, nombreArchivo);
-        }),
-        take(1)
-      )
-      .subscribe();
+  listaActasPrestamo(actasPrestamo: ActaPrestamo[]): Observable<any> {
+    return this._informacionProceso.listaActasPrestamo(actasPrestamo).pipe(
+      tap(actasTraducidas => {
+        let fecha = new Date();
+        let workBook = XLSX.utils.book_new();
+        let workSheet = XLSX.utils.json_to_sheet(actasTraducidas);
+        XLSX.utils.book_append_sheet(workBook, workSheet, 'Actas de Préstamo');
+        let nombreArchivo = `sbn_actas_prestamo_${String(
+          fecha.getDay()
+        ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
+          2,
+          '0'
+        )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+          2,
+          '0'
+        )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+          fecha.getSeconds()
+        ).padStart(2, '0')}.xlsx`;
+        XLSX.writeFile(workBook, nombreArchivo);
+      })
+    );
+  }
+
+  listaDepreciaciones(depreciaciones: Depreciacion[]): Observable<any> {
+    return this._informacionProceso.listaDepreciaciones(depreciaciones).pipe(
+      tap(() => console.log('informacion...!')),
+      tap(depreciacionesTraducidas => {
+        let fecha = new Date();
+        let workBook = XLSX.utils.book_new();
+        let workSheet = XLSX.utils.json_to_sheet(depreciacionesTraducidas);
+        XLSX.utils.book_append_sheet(workBook, workSheet, 'Depreciaciones');
+        let nombreArchivo = `sbn_depreciaciones_${String(
+          fecha.getDay()
+        ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
+          2,
+          '0'
+        )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+          2,
+          '0'
+        )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+          fecha.getSeconds()
+        ).padStart(2, '0')}.xlsx`;
+        XLSX.writeFile(workBook, nombreArchivo);
+      })
+    );
   }
 
   depreciacionesAnuales(depreciaciones: any[]) {
@@ -104,29 +122,25 @@ export class XLSXService {
   listaActivos(activos: Activo[]) {
     let fecha = new Date();
     let ids = activos.map(activo => activo.id);
-    this._informacionDefinicion
-      .obtenerActivos(ids)
-      .pipe(
-        tap(activos => {
-          let workBook = XLSX.utils.book_new();
-          let workSheet = XLSX.utils.json_to_sheet(activos);
-          XLSX.utils.book_append_sheet(workBook, workSheet, 'Activos');
-          let nombreArchivo = `sbn_listado-activos_${String(
-            fecha.getDay()
-          ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
-            2,
-            '0'
-          )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
-            2,
-            '0'
-          )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
-            fecha.getSeconds()
-          ).padStart(2, '0')}.xlsx`;
-          XLSX.writeFile(workBook, nombreArchivo);
-        }),
-        take(1)
-      )
-      .subscribe();
+    this._informacionDefinicion.obtenerActivos(ids).pipe(
+      tap(activos => {
+        let workBook = XLSX.utils.book_new();
+        let workSheet = XLSX.utils.json_to_sheet(activos);
+        XLSX.utils.book_append_sheet(workBook, workSheet, 'Activos');
+        let nombreArchivo = `sbn_listado-activos_${String(
+          fecha.getDay()
+        ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
+          2,
+          '0'
+        )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+          2,
+          '0'
+        )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+          fecha.getSeconds()
+        ).padStart(2, '0')}.xlsx`;
+        XLSX.writeFile(workBook, nombreArchivo);
+      })
+    );
   }
 
   private generarNombreArchivo(tipo: TipoProceso, comprobante: string): string {

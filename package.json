@@ -1,6 +1,6 @@
 {
   "name": "sigesp_bienes",
-  "version": "0.58.266",
+  "version": "0.58.267",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
@@ -8,6 +8,7 @@
     "docker:postgres": "docker-compose -f ./docker-sigesp-database/docker-compose.yml up -d",
     "docker:postgres:down": "docker-compose -f ./docker-sigesp-database/docker-compose.yml down",
     "build": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /SigespERP/sigesp_bienes/",
+    "build:stats": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /SigespERP/sigesp_bienes/ --stats-json",
     "build:pruebas": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /sigesp_pruebas/sigesp_bienes/",
     "build:erp": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /SigespERP/bienes/",
     "test": "ng test",
@@ -74,6 +75,7 @@
     "prettier-eslint": "^15.0.1",
     "protractor": "^7.0.0",
     "tailwindcss": "^3.3.2",
-    "ts-node": "~7.0.0"
+    "ts-node": "~7.0.0",
+    "webpack-bundle-analyzer": "^4.9.1"
   }
 }

@@ -86,6 +86,8 @@ import { BuscadorUnidadOrganizativaComponent } from './components/buscador-unida
 import { DenominacionUnidadOrganizativaPipe } from './pipes/denominacion-unidad-organizativa.pipe';
 import { DenominacionLineEnterprisePipe } from './pipes/denominacion-line-enterprise.pipe';
 import { BuscadorLineEnterpriseComponent } from './components/buscador-line-enterprise/buscador-line-enterprise.component';
+import { ListaDepreciacionesComponent } from './components/lista-depreciaciones/lista-depreciaciones.component';
+import { CorregirTodosPipe } from './pipes/corregir-todos.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -178,8 +180,18 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [
+    ...sharedComponents,
+    ...sharedPipes,
+    ListaDepreciacionesComponent,
+    CorregirTodosPipe,
+  ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [
+    ...sharedComponents,
+    ...sharedPipes,
+    ListaDepreciacionesComponent,
+    CorregirTodosPipe,
+  ],
 })
 export class SharedModule {}
