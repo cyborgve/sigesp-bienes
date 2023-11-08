@@ -1,6 +1,6 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, Input } from '@angular/core';
-import { Activo } from '@core/models/definiciones/activo';
+import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
 
 @Component({
   selector: 'app-detalle',
@@ -8,12 +8,18 @@ import { Activo } from '@core/models/definiciones/activo';
   styleUrls: ['./detalle.component.scss'],
 })
 export class DetalleComponent {
-  @Input() dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
+  @Input() dataSource: MatTableDataSource<ActivoListaInventario> =
+    new MatTableDataSource();
   columnasVisibles = [
     'codigo',
-    'denominacion',
-    'identificador',
     'tipo',
+    'denominacion',
+    //'identificador',
+    'marcaModelo',
+    //'serial',
+    'precio',
+    //'estado',
+    //'condicion',
     'creado',
     'modificado',
   ];

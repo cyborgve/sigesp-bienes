@@ -61,8 +61,8 @@ const convertirActivoListaDepreciacion = (
     identificador: string;
     isoMoneda: string;
   }
-) => {
-  let activoResultado = <ActivoListaDepreciacion>{
+) =>
+  <ActivoListaDepreciacion>{
     fechaDepreciacion: new Date(
       depreciacion.detalles[0].fecha
     ).toLocaleDateString(undefined, {
@@ -97,5 +97,3 @@ const convertirActivoListaDepreciacion = (
       ' ' +
       complementos.isoMoneda,
   };
-  return activoResultado;
-};

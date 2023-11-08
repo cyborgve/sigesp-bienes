@@ -2,40 +2,75 @@
   <table mat-table [dataSource]="dataSource" class="table" matSort>
     <!-- codigo -->
     <ng-container matColumnDef="codigo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+      <th mat-header-cell *matHeaderCellDef>Código</th>
       <td mat-cell *matCellDef="let row">{{ row.codigo | corregirCodigo }}</td>
+    </ng-container>
+    <!-- tipo -->
+    <ng-container matColumnDef="tipo">
+      <th mat-header-cell *matHeaderCellDef>Tipo de Bien</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.tipo | denominacionTipoActivo | titlecase }}
+      </td>
     </ng-container>
     <!-- denominacion -->
     <ng-container matColumnDef="denominacion">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
+      <th mat-header-cell *matHeaderCellDef>Denominación</th>
       <td mat-cell *matCellDef="let row">
         {{ row.denominacion }}
       </td>
     </ng-container>
     <!-- identificador -->
     <ng-container matColumnDef="identificador">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Identidicador</th>
+      <th mat-header-cell *matHeaderCellDef>Identidicador</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.serialRotulacion }}
+        {{ row.identificador }}
       </td>
     </ng-container>
-    <!-- tipo -->
-    <ng-container matColumnDef="tipo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Bien</th>
+    <!-- estado -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado de Conservación</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.tipoActivo | denominacionTipoActivo | titlecase }}
+        {{ row.estado }}
+      </td>
+    </ng-container>
+    <!-- marcaModelo -->
+    <ng-container matColumnDef="marcaModelo">
+      <th mat-header-cell *matHeaderCellDef>Marca y Modelo</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.marcaModelo }}
+      </td>
+    </ng-container>
+    <!-- serial -->
+    <ng-container matColumnDef="serial">
+      <th mat-header-cell *matHeaderCellDef>Serial</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.serial }}
+      </td>
+    </ng-container>
+    <!-- condicion -->
+    <ng-container matColumnDef="condicion">
+      <th mat-header-cell *matHeaderCellDef>Condición de Uso</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.condicion }}
+      </td>
+    </ng-container>
+    <!-- precio -->
+    <ng-container matColumnDef="precio">
+      <th mat-header-cell *matHeaderCellDef>Precio</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.precio }}
       </td>
     </ng-container>
     <!-- creado -->
     <ng-container matColumnDef="creado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
+      <th mat-header-cell *matHeaderCellDef>Creado</th>
       <td mat-cell *matCellDef="let row">
         {{ row.creado | date : 'longDate' }}
       </td>
     </ng-container>
     <!-- modificado -->
     <ng-container matColumnDef="modificado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
+      <th mat-header-cell *matHeaderCellDef>Modificado</th>
       <td mat-cell *matCellDef="let row">
         {{ row.modificado | date : 'longDate' }}
       </td>

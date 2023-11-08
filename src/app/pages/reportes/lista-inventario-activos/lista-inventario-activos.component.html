@@ -23,6 +23,7 @@
 </section>
 <app-toolbar
   (guardar)="guardar()"
+  [desabilitarGuardar]="dataSource.data.length === 0"
   [mostrarImprimir]="true"
   [mostrarBorrar]="false"
   [mostrarBuscar]="false"

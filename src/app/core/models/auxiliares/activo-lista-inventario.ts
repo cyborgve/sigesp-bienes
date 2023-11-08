@@ -1,14 +1,12 @@
-import { Id } from '@core/types/id';
-
 export interface ActivoListaInventario {
   codigo: string;
   tipo: string;
   denominacion: string;
   identificador: string;
-  estado: Id;
-  marcaModelo: Id;
+  estado: string;
+  marcaModelo: string;
   serial: string;
-  condicion: Id;
+  condicion: string;
   creado: string;
   modificado: string;
   precio: string;

@@ -3,17 +3,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
-import { Activo } from '@core/models/definiciones/activo';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { ActivoService } from '@core/services/definiciones/activo.service';
-import { convertirActivoListaInventario } from '@core/utils/funciones/convertir-activo-lista-inventario';
+import { EstadoConservacionService } from '@core/services/definiciones/estado-conservacion.service';
+import { EstadoUsoService } from '@core/services/definiciones/estado-uso.service';
+import { MarcaService } from '@core/services/definiciones/marca.service';
+import { ModeloService } from '@core/services/definiciones/modelo.service';
+import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 import { filtrarActivosPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-fecha';
 import { filtrarActivosPorResponsable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-responsable';
 import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
-import { Subscription, of, combineLatest } from 'rxjs';
-import { tap, take, map, first } from 'rxjs/operators';
+import { transformarActivoListaInventario } from '@core/utils/pipes-rxjs/transformacion/transformar-activo-lista-inventario';
+import { Subscription } from 'rxjs';
+import { tap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lista-inventario-activos',
@@ -29,11 +33,17 @@ export class ListaInventarioActivosComponent
   fechaEmision = new Date();
   formularioRangoFechas: FormGroup;
   formularioFiltros: FormGroup;
-  dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoListaInventario> =
+    new MatTableDataSource();
 
   constructor(
     private _formBuilder: FormBuilder,
     private _activo: ActivoService,
+    private _estadoUso: EstadoUsoService,
+    private _estadoConservacion: EstadoConservacionService,
+    private _moneda: MonedaService,
+    private _marca: MarcaService,
+    private _modelo: ModeloService,
     private _activoUbicacion: ActivoUbicacionService,
     private _xlsx: XLSXService
   ) {
@@ -82,6 +92,14 @@ export class ListaInventarioActivosComponent
           this.formularioFiltros.value.responsable,
           this._activoUbicacion
         ),
+        transformarActivoListaInventario(
+          this._activo,
+          this._estadoUso,
+          this._marca,
+          this._modelo,
+          this._estadoConservacion,
+          this._moneda
+        ),
         tap(activos => {
           this.dataSource = new MatTableDataSource(activos);
           this.dataSource.sort = this.sort;
@@ -92,25 +110,7 @@ export class ListaInventarioActivosComponent
   }
 
   guardar() {
-    let activos = this.dataSource.data;
-    let activos$ = of(activos);
-    let ubicaciones$ = activos.map(activo =>
-      this._activoUbicacion.buscarPorId(activo.id)
-    );
-    combineLatest([activos$, ubicaciones$])
-      .pipe(
-        map(([activos, ubicaciones]) => {
-          let listaSalida: ActivoListaInventario[] = [];
-          for (let index = 0; index < activos.length; index++) {
-            listaSalida.push(
-              convertirActivoListaInventario(activos[index], ubicaciones[index])
-            );
-          }
-          return listaSalida;
-        }),
-        tap(listaInventario => this._xlsx.inventarioActivos(listaInventario)),
-        first()
-      )
-      .subscribe();
+    console.log('guardar iniciado!'),
+      this._xlsx.listaInventarioActivos(this.dataSource.data);
   }
 }
