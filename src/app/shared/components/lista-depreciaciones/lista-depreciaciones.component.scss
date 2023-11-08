@@ -9,10 +9,12 @@
 }
 
 th.mat-column-fechaDepreciacion,
-td.mat-column-fechaDepreciacion,
+td.mat-column-fechaDepreciacion {
+  @apply w-28;
+}
 th.mat-column-codigo,
 td.mat-column-codigo {
-  @apply w-28;
+  @apply w-20;
 }
 
 th.mat-column-valorInicial,
@@ -29,15 +31,5 @@ th.mat-column-depreciacionAcumulada,
 td.mat-column-depreciacionAcumulada,
 th.mat-column-valorContable,
 td.mat-column-valorContable {
-  @apply w-24;
-}
-
-th.mat-column-identificador,
-td.mat-column-identificador {
-  @apply w-32;
-}
-
-th.mat-column-metodoDepreciacion,
-td.mat-column-metodoDepreciacion {
-  @apply w-44;
+  @apply text-right;
 }

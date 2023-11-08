@@ -1,3 +1,4 @@
+import { ordenarDetallesDepreciacionPorFecha } from '@core/utils/pipes-rxjs/operadores/ordenar-detalles-depreciacion-fecha';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,11 +7,14 @@ import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 import { DepreciacionDetalleService } from '@core/services/procesos/depreciacion-detalle.service';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
-import { convertirActivoListaDepreciacion } from '@core/utils/funciones/convertir-activo-lista-depreciacion';
+import { filtrarDepreciacionesAnuales } from '@core/utils/pipes-rxjs/operadores/filtrar-depreciaciones-anuales';
+import { filtrarDepreciacionesAnualesPorRangoDeFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-depreciaciones-por-fecha';
+import { transformarActivoListaDepreciacion } from '@core/utils/pipes-rxjs/transformacion/transformar-activo-lista-depreciacion';
 import { Subscription } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lista-depreciaciones-anuales',
@@ -36,6 +40,7 @@ export class ListaDepreciacionesAnualesComponent
     private _depreciacion: DepreciacionService,
     private _depreciacionDetalle: DepreciacionDetalleService,
     private _activo: ActivoService,
+    private _moneda: MonedaService,
     private _xlsx: XLSXService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
@@ -60,23 +65,16 @@ export class ListaDepreciacionesAnualesComponent
   }
 
   private recargarDatos() {
-    this._depreciacion
+    this._depreciacionDetalle
       .buscarTodos()
       .pipe(
-        map(depreciaciones =>
-          depreciaciones.map(depreciacion =>
-            convertirActivoListaDepreciacion(
-              depreciacion,
-              {
-                fechaDepreciacion: depreciacion.fechaIncorporacion,
-                depreciacionMensual: depreciacion.depreciacionMensual,
-                depreciacionAnual: depreciacion.depreciacionAnual,
-                depreciacionAcumulada: 0,
-                valorContable: 0,
-              },
-              { codigo: 'TODO', denominacion: 'TODO', tipoActivo: 'TODO' }
-            )
-          )
+        filtrarDepreciacionesAnuales(),
+        filtrarDepreciacionesAnualesPorRangoDeFecha(this.formularioRangoFechas),
+        ordenarDetallesDepreciacionPorFecha(),
+        transformarActivoListaDepreciacion(
+          this._depreciacion,
+          this._activo,
+          this._moneda
         ),
         tap(activos => (this.dataSource = new MatTableDataSource(activos))),
         take(1)

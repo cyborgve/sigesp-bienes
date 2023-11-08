@@ -17,4 +17,5 @@
   [mostrarBorrar]="false"
   [mostrarBuscar]="false"
   [mostrarSalir]="false"
-  (guardar)="guardar()"></app-toolbar>
+  (guardar)="guardar()"
+  [desabilitarGuardar]="dataSource.data.length === 0"></app-toolbar>

@@ -9,11 +9,13 @@
 </section>
 <section class="contenedor-singular inferior">
   <app-lista-depreciaciones
-    [dataSource]="dataSource"></app-lista-depreciaciones>
+    [dataSource]="dataSource"
+    [columnasVisibles]="columnasVisibles"></app-lista-depreciaciones>
 </section>
 <app-toolbar
   [mostrarImportar]="false"
   [mostrarBorrar]="false"
   [mostrarBuscar]="false"
   [mostrarSalir]="false"
-  (guardar)="guardar()"></app-toolbar>
+  (guardar)="guardar()"
+  [desabilitarGuardar]="dataSource.data.length === 0"></app-toolbar>

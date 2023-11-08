@@ -45,7 +45,6 @@ export class XLSXService {
 
   listaDepreciaciones(depreciaciones: Depreciacion[]): Observable<any> {
     return this._informacionProceso.listaDepreciaciones(depreciaciones).pipe(
-      tap(() => console.log('informacion...!')),
       tap(depreciacionesTraducidas => {
         let fecha = new Date();
         let workBook = XLSX.utils.book_new();

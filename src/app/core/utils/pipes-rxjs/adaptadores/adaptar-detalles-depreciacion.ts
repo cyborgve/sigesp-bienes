@@ -8,6 +8,7 @@ export const adaptarDetallesDepreciacion = () =>
       detallesDepreciacion.map(
         detalleDepreciacion =>
           <DetalleDepreciacion>{
+            proceso: Number(detalleDepreciacion.proceso),
             empresaId: Number(detalleDepreciacion.empresaId),
             id: Number(detalleDepreciacion.id),
             fecha: detalleDepreciacion.fecha,
