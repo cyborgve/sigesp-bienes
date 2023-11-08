@@ -38,7 +38,7 @@ export class ListaInventarioActivosComponent
     private _xlsx: XLSXService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
-      rango: ['TODOS'],
+      rango: ['PERSONALIZADO'],
       fechaInicio: [undefined],
       fechaFin: [undefined],
       fechaReferencia: 'CREADO',
@@ -51,7 +51,6 @@ export class ListaInventarioActivosComponent
   }
 
   ngAfterViewInit(): void {
-    this.recargarDatos();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges.subscribe(() =>
         this.recargarDatos()
