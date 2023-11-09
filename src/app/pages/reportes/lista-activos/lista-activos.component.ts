@@ -12,6 +12,13 @@ import { take, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { filtrarActivosPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo';
 import { filtrarActivosPorCatalogoGeneral } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-catalogo-general';
+import { filtrarActivosPorMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-marca';
+import { ModeloService } from '@core/services/definiciones/modelo.service';
+import { filtrarActivosPorModelo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-modelo';
+import { filtrarActivosPorMoneda } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-moneda';
+import { filtrarActivosPorRotulacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-rotulacion';
+import { filtrarActivosPorColor } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-color';
+import { filtrarActivosPorCategoria } from '@core/utils/pipes-rxjs/operadores/filrar-activos-por-categoria';
 
 @Component({
   selector: 'app-lista-activos',
@@ -37,6 +44,7 @@ export class ListaActivosComponent implements AfterViewInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _activo: ActivoService,
+    private _modelo: ModeloService,
     private _xlsx: XLSXService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
@@ -105,6 +113,19 @@ export class ListaActivosComponent implements AfterViewInit {
         filtrarActivosPorFecha(this.formularioRangoFechas),
         filtrarActivosPorTipo(this.formularioFiltrosActivos.value.tipoActivo),
         // TODO: filtrarActivosPorCatalogoGeneral(this.formularioFiltrosActivos.value.catalogoGeneral),
+        filtrarActivosPorMarca(
+          this.formularioFiltrosActivos.value.marca,
+          this._modelo
+        ),
+        filtrarActivosPorModelo(this.formularioFiltrosActivos.value.modelo),
+        filtrarActivosPorMoneda(this.formularioFiltrosActivos.value.moneda),
+        filtrarActivosPorColor(this.formularioFiltrosActivos.value.color),
+        filtrarActivosPorRotulacion(
+          this.formularioFiltrosActivos.value.categoria
+        ),
+        filtrarActivosPorCategoria(
+          this.formularioFiltrosActivos.value.categoria
+        ),
         tap(activos => {
           this.dataSource = new MatTableDataSource(activos);
         }),
@@ -114,6 +135,6 @@ export class ListaActivosComponent implements AfterViewInit {
   }
 
   guardar() {
-    this._xlsx.listaActivos(this.dataSource.data);
+    this._xlsx.listaActivos(this.dataSource.data).pipe(take(1)).subscribe();
   }
 }

@@ -50,6 +50,8 @@
   <app-detalle [dataSource]="dataSource"></app-detalle>
 </section>
 <app-toolbar
+  (guardar)="guardar()"
+  [desabilitarGuardar]="dataSource.data.length === 0"
   [mostrarBorrar]="false"
   [mostrarBuscar]="false"
   [mostrarImportar]="false"

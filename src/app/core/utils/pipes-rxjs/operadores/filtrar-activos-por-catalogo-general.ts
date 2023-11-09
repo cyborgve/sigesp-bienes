@@ -6,11 +6,11 @@ export const filtrarActivosPorCatalogoGeneral = (
   catalogoGeneral: CatalogoGeneral
 ) =>
   pipe(
-    map((activos: Activo[]) => {
-      if (catalogoGeneral)
-        return activos.filter(
-          activo => activo.catalogoCuentas === catalogoGeneral.catalogoCuentas
-        );
-      return activos;
-    })
+    map((activos: Activo[]) =>
+      catalogoGeneral
+        ? activos.filter(
+            activo => activo.catalogoCuentas === catalogoGeneral.catalogoCuentas
+          )
+        : activos
+    )
   );

@@ -9,7 +9,7 @@ import { Activo } from '@core/models/definiciones/activo';
 import { InformacionDefinicionService } from './informacion-definicion.service';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -49,8 +49,12 @@ export class XLSXService {
         let fecha = new Date();
         let workBook = XLSX.utils.book_new();
         let workSheet = XLSX.utils.json_to_sheet(depreciacionesTraducidas);
-        XLSX.utils.book_append_sheet(workBook, workSheet, 'Depreciaciones');
-        let nombreArchivo = `sbn_depreciaciones_${String(
+        XLSX.utils.book_append_sheet(
+          workBook,
+          workSheet,
+          'Depreciaciones Registradas'
+        );
+        let nombreArchivo = `sbn_depreciaciones_registradas_${String(
           fecha.getDay()
         ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
           2,
@@ -66,43 +70,82 @@ export class XLSXService {
     );
   }
 
-  depreciacionesAnuales(depreciaciones: any[]) {
-    let fecha = new Date();
-    let workBook = XLSX.utils.book_new();
-    let workSheet = XLSX.utils.json_to_sheet(depreciaciones);
-    XLSX.utils.book_append_sheet(workBook, workSheet, 'Depreciaciones');
-    let nombreArchivo = `sbn_depreciaciones_${String(fecha.getDay()).padStart(
-      2,
-      '0'
-    )}-${String(fecha.getMonth() + 1).padStart(
-      2,
-      '0'
-    )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
-      2,
-      '0'
-    )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
-      fecha.getSeconds()
-    ).padStart(2, '0')}.xlsx`;
-    XLSX.writeFile(workBook, nombreArchivo);
+  listaDepreciacionesAnualesMensuales(
+    depreciaciones: any[],
+    periodo: 'anuales' | 'mensuales'
+  ) {
+    let generar = () => {
+      let fecha = new Date();
+      let workBook = XLSX.utils.book_new();
+      let workSheet = XLSX.utils.json_to_sheet(depreciaciones);
+      XLSX.utils.book_append_sheet(
+        workBook,
+        workSheet,
+        'Lista: Depreciaciones Registradas' + periodo
+      );
+      let nombreArchivo = `sbn_depreciaciones_registradas_${periodo}_${String(
+        fecha.getDay()
+      ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+        2,
+        '0'
+      )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+        fecha.getSeconds()
+      ).padStart(2, '0')}.xlsx`;
+      XLSX.writeFile(workBook, nombreArchivo);
+    };
+    return of(generar());
   }
 
-  inventarioActivos(activos: any[]) {
-    let fecha = new Date();
-    let workBook = XLSX.utils.book_new();
-    let workSheet = XLSX.utils.json_to_sheet(activos);
-    XLSX.utils.book_append_sheet(workBook, workSheet, 'Activos');
-    let nombreArchivo = `sbn_inventario_activos_${String(
-      fecha.getDay()
-    ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
-      2,
-      '0'
-    )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
-      2,
-      '0'
-    )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
-      fecha.getSeconds()
-    ).padStart(2, '0')}.xlsx`;
-    XLSX.writeFile(workBook, nombreArchivo);
+  listaInventarioActivos(activos: any[]) {
+    let generar = () => {
+      let fecha = new Date();
+      let workBook = XLSX.utils.book_new();
+      let workSheet = XLSX.utils.json_to_sheet(activos);
+      XLSX.utils.book_append_sheet(
+        workBook,
+        workSheet,
+        'Lista: Inventario de Bienes'
+      );
+      let nombreArchivo = `sbn_inventario_bienes_${String(
+        fecha.getDay()
+      ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+        2,
+        '0'
+      )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+        fecha.getSeconds()
+      ).padStart(2, '0')}.xlsx`;
+      XLSX.writeFile(workBook, nombreArchivo);
+    };
+    return of(generar());
+  }
+
+  listaActivos(activos: Activo[]) {
+    let generar = () => {
+      let fecha = new Date();
+      let workBook = XLSX.utils.book_new();
+      let workSheet = XLSX.utils.json_to_sheet(activos);
+      XLSX.utils.book_append_sheet(workBook, workSheet, 'Lista: Bienes');
+      let nombreArchivo = `sbn_lista_bienes_${String(fecha.getDay()).padStart(
+        2,
+        '0'
+      )}-${String(fecha.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
+        2,
+        '0'
+      )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
+        fecha.getSeconds()
+      ).padStart(2, '0')}.xlsx`;
+      XLSX.writeFile(workBook, nombreArchivo);
+    };
+    return of(generar());
   }
 
   exportarProceso(
@@ -116,30 +159,6 @@ export class XLSXService {
       if (activosMultiples) this.agregarHojaActivos(workBook, proceso.activos);
       this.guardarArchivo(workBook, fileName);
     });
-  }
-
-  listaActivos(activos: Activo[]) {
-    let fecha = new Date();
-    let ids = activos.map(activo => activo.id);
-    this._informacionDefinicion.obtenerActivos(ids).pipe(
-      tap(activos => {
-        let workBook = XLSX.utils.book_new();
-        let workSheet = XLSX.utils.json_to_sheet(activos);
-        XLSX.utils.book_append_sheet(workBook, workSheet, 'Activos');
-        let nombreArchivo = `sbn_listado-activos_${String(
-          fecha.getDay()
-        ).padStart(2, '0')}-${String(fecha.getMonth() + 1).padStart(
-          2,
-          '0'
-        )}-${fecha.getFullYear()}_${String(fecha.getHours()).padStart(
-          2,
-          '0'
-        )}-${String(fecha.getMinutes()).padStart(2, '0')}-${String(
-          fecha.getSeconds()
-        ).padStart(2, '0')}.xlsx`;
-        XLSX.writeFile(workBook, nombreArchivo);
-      })
-    );
   }
 
   private generarNombreArchivo(tipo: TipoProceso, comprobante: string): string {
