@@ -110,7 +110,9 @@ export class ListaInventarioActivosComponent
   }
 
   guardar() {
-    console.log('guardar iniciado!'),
-      this._xlsx.listaInventarioActivos(this.dataSource.data);
+    this._xlsx
+      .listaInventarioActivos(this.dataSource.data)
+      .pipe(take(1))
+      .subscribe();
   }
 }
