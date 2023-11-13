@@ -25,7 +25,9 @@
         type="text"
         formControlName="clase"
         readonly="true"
-        [value]="formulario.value.clase | denominacionClase | async" />
+        [value]="
+          formulario.value.clase | denominacionClase | async | corregirTodos
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarClase()">
         <mat-icon>search</mat-icon>
       </button>

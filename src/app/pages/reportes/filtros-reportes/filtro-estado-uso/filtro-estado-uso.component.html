@@ -27,7 +27,12 @@
         type="text"
         formControlName="estadoUso"
         readonly="true"
-        [value]="formulario.value.estadoUso | denominacionEstadoUso | async" />
+        [value]="
+          formulario.value.estadoUso
+            | denominacionEstadoUso
+            | async
+            | corregirTodos
+        " />
       <button
         type="button"
         mat-icon-button

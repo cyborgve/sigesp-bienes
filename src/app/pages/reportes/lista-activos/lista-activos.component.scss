@@ -10,3 +10,11 @@
 .varios {
   @apply mt-1 grid grid-cols-3 gap-1;
 }
+
+.mat-expansion-panel-header {
+  @apply text-primary;
+}
+
+.panel-superior {
+  margin-bottom: 1px;
+}

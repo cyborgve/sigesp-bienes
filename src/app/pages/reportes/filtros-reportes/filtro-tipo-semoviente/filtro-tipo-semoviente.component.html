@@ -28,7 +28,10 @@
         formControlName="tipoSemoviente"
         readonly="true"
         [value]="
-          formulario.value.tipoSemoviente | denominacionTipoSemoviente | async
+          formulario.value.tipoSemoviente
+            | denominacionTipoSemoviente
+            | async
+            | corregirTodos
         " />
       <button
         type="button"

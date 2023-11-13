@@ -1,3 +1,5 @@
+import { filtrarActivosPorTipoSede } from './../../../core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-sede';
+import { filtrarActivosPorEstadoUso } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-uso';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,14 +13,46 @@ import { filtrarActivosPorFecha } from '@core/utils/pipes-rxjs/operadores/filtra
 import { take, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { filtrarActivosPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo';
-import { filtrarActivosPorCatalogoGeneral } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-catalogo-general';
 import { filtrarActivosPorMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-marca';
 import { ModeloService } from '@core/services/definiciones/modelo.service';
 import { filtrarActivosPorModelo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-modelo';
 import { filtrarActivosPorMoneda } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-moneda';
 import { filtrarActivosPorRotulacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-rotulacion';
 import { filtrarActivosPorColor } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-color';
-import { filtrarActivosPorCategoria } from '@core/utils/pipes-rxjs/operadores/filrar-activos-por-categoria';
+import { filtrarActivosPorCategoria } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-categoria';
+import { filtrarActivosPorOrigen } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-origen';
+import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
+import { filtrarActivosPorFuenteFinanciamiento } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-fuente-financiamiento';
+import { filtrarActivosPorClase } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-clase';
+import { filtrarActivosPorCentroCostos } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-centro-costo';
+import { filtrarActivosPorTipoSemoviente } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-semoviente';
+import { filtrarActivosPorTipoAnimal } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-animal';
+import { filtrarActivosPorPropositoSemoviente } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-proposito-semoviente';
+import { filtrarActivosPorRaza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-raza';
+import { filtrarActivosPorTipoComponente } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-componente';
+import { ActivoComponenteService } from '@core/services/definiciones/activo-componente.service';
+import { filtrarActivosPorMetodoDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-metodo-depreciacion';
+import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
+import { filtrarActivosPorCuentaContable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-cuenta-contable';
+import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
+import { filtrarActivosPorResponsable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-responsable';
+import { filtrarActivosPorEstadoConservacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-conservacion';
+import { filtrarActivosPorTipoMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-marca';
+import { MarcaService } from '@core/services/definiciones/marca.service';
+import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
+import { filtrarActivosPorCategoriaUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-categoria-unidad-administrativa';
+import { filtrarActivosPorCiudad } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-ciudad';
+import { SedeService } from '@core/services/definiciones/sede.service';
+import { filtrarActivosPorPais } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-pais';
+import { filtrarActivosPorEstado } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado';
+import { filtrarActivosPorMunicipio } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-municipio';
+import { filtrarActivosPorParroquia } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-parroquia';
+import { filtrarActivosPorAseguradora } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-aseguradora';
+import { SeguroService } from '@core/services/definiciones/seguro.service';
+import { filtrarActivosPorTipoCobertura } from '@core/utils/pipes-rxjs/operadores/filtrar-por-tipo-cobertura';
+import { filtrarActivosPorTipoPoliza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-poliza';
 
 @Component({
   selector: 'app-lista-activos',
@@ -44,7 +78,15 @@ export class ListaActivosComponent implements AfterViewInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _activo: ActivoService,
+    private _activoDetalle: ActivoDetalleService,
+    private _activoComponente: ActivoComponenteService,
+    private _activoDepreciacion: ActivoDepreciacionService,
+    private _activoUbicacion: ActivoUbicacionService,
+    private _marca: MarcaService,
     private _modelo: ModeloService,
+    private _unidadAdministrativa: UnidadAdministrativaService,
+    private _sede: SedeService,
+    private _seguro: SeguroService,
     private _xlsx: XLSXService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
@@ -64,33 +106,38 @@ export class ListaActivosComponent implements AfterViewInit {
       rotulacion: [0],
       categoria: [0],
       // detalles
-      origen: [undefined],
-      fuenteFinanciamiento: [undefined],
-      clase: [undefined],
-      centroCostos: [undefined],
-      tipoComponente: [undefined],
-      metodoDepreciacion: [undefined],
-      cuentaContable: [undefined],
-      unidadAdministrativa: [undefined],
-      sede: [undefined],
-      responsable: [undefined],
-      estadoUso: [undefined],
-      estadoConservacion: [undefined],
-      /* otros */
-      beneficiario: [undefined],
-      tipoMarca: [undefined],
-      categoriaUnidadAdministrativa: [undefined],
-      pais: [undefined],
-      estado: [undefined],
-      ciudad: [undefined],
-      municipio: [undefined],
-      parroquia: [undefined],
-      proveedor: [undefined],
-      seguro: [undefined],
-      tipoCobertura: [undefined],
-      tipoPoliza: [undefined],
-      tipoSede: [undefined],
-      tipoUso: [undefined],
+      origen: [0],
+      fuenteFinanciamiento: ['Todos'],
+      clase: [0],
+      centroCostos: ['---'],
+      tipoSemoviente: [0],
+      propositoSemoviente: [0],
+      tipoAnimal: [0],
+      raza: [0],
+      // componentes
+      tipoComponente: [0],
+      //depreciacion
+      metodoDepreciacion: ['TODOS'],
+      cuentaContable: ['Todos'],
+      // ubicacion
+      unidadAdministrativa: [0],
+      sede: [0],
+      responsable: ['Todos'],
+      estadoUso: [0],
+      estadoConservacion: [0],
+      // otros
+      tipoMarca: [0],
+      categoriaUnidadAdministrativa: [0],
+      ciudad: ['Todos'],
+      estado: ['Todos'],
+      municipio: ['Todos'],
+      pais: ['Todos'],
+      parroquia: ['Todos'],
+      aseguradora: [0],
+      tipoCobertura: [0],
+      tipoPoliza: [0],
+      tipoSede: [0],
+      tipoUso: [0],
     });
   }
 
@@ -125,6 +172,122 @@ export class ListaActivosComponent implements AfterViewInit {
         ),
         filtrarActivosPorCategoria(
           this.formularioFiltrosActivos.value.categoria
+        ),
+        filtrarActivosPorOrigen(
+          this.formularioFiltrosActivos.value.origen,
+          this._activoDetalle
+        ),
+        filtrarActivosPorFuenteFinanciamiento(
+          this.formularioFiltrosActivos.value.fuenteFinanciamiento,
+          this._activoDetalle
+        ),
+        filtrarActivosPorClase(
+          this.formularioFiltrosActivos.value.clase,
+          this._activoDetalle
+        ),
+        filtrarActivosPorCentroCostos(
+          this.formularioFiltrosActivos.value.centroCostos,
+          this._activoDetalle
+        ),
+        filtrarActivosPorTipoSemoviente(
+          this.formularioFiltrosActivos.value.tipoSemoviente,
+          this._activoDetalle
+        ),
+        filtrarActivosPorPropositoSemoviente(
+          this.formularioFiltrosActivos.value.propositoSemoviente,
+          this._activoDetalle
+        ),
+        filtrarActivosPorTipoAnimal(
+          this.formularioFiltrosActivos.value.tipoAnimal,
+          this._activoDetalle
+        ),
+        filtrarActivosPorRaza(
+          this.formularioFiltrosActivos.value.raza,
+          this._activoDetalle
+        ),
+        filtrarActivosPorTipoComponente(
+          this.formularioFiltrosActivos.value.tipoComponente,
+          this._activoComponente
+        ),
+        filtrarActivosPorMetodoDepreciacion(
+          this.formularioFiltrosActivos.value.metodoDepreciacion,
+          this._activoDepreciacion
+        ),
+        filtrarActivosPorCuentaContable(
+          this.formularioFiltrosActivos.value.cuentaContable,
+          this._activoDepreciacion
+        ),
+        filtrarActivosPorUnidadAdministrativa(
+          this.formularioFiltrosActivos.value.unidadAdministrativa,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorSede(
+          this.formularioFiltrosActivos.value.sede,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorResponsable(
+          this.formularioFiltrosActivos.value.responsable,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorEstadoUso(
+          this.formularioFiltrosActivos.value.estadoUso,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorEstadoConservacion(
+          this.formularioFiltrosActivos.value.estadoConservacion,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorTipoMarca(
+          this.formularioFiltrosActivos.value.tipoMarca,
+          this._marca,
+          this._modelo
+        ),
+        filtrarActivosPorCategoriaUnidadAdministrativa(
+          this.formularioFiltrosActivos.value.categoriaUnidadAdministrativa,
+          this._unidadAdministrativa,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorPais(
+          this.formularioFiltrosActivos.value.pais,
+          this._sede,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorEstado(
+          this.formularioFiltrosActivos.value.estado,
+          this._sede,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorCiudad(
+          this.formularioFiltrosActivos.value.ciudad,
+          this._sede,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorMunicipio(
+          this.formularioFiltrosActivos.value.municipio,
+          this._sede,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorParroquia(
+          this.formularioFiltrosActivos.value.parroquia,
+          this._sede,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorAseguradora(
+          this.formularioFiltrosActivos.value.aseguradora,
+          this._seguro
+        ),
+        filtrarActivosPorTipoSede(
+          this.formularioFiltrosActivos.value.tipoSede,
+          this._sede,
+          this._activoUbicacion
+        ),
+        filtrarActivosPorTipoCobertura(
+          this.formularioFiltrosActivos.value.tipoCobertura,
+          this._seguro
+        ),
+        filtrarActivosPorTipoPoliza(
+          this.formularioFiltrosActivos.value.tipoPoliza,
+          this._seguro
         ),
         tap(activos => {
           this.dataSource = new MatTableDataSource(activos);

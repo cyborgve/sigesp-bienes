@@ -23,14 +23,9 @@
       <input
         matInput
         type="text"
-        formControl="estado"
+        formControlName="estado"
         readonly="true"
-        [value]="
-          formulario.value.estado
-            | denominacionEstado
-            | async
-            | corregirSeleccionar
-        " />
+        [value]="formulario.value.estado | denominacionEstado | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarEstado()">
         <mat-icon>search</mat-icon>
       </button>

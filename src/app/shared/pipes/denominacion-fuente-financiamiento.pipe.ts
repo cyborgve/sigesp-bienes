@@ -10,6 +10,7 @@ import { Id } from '@core/types/id';
 export class DenominacionFuenteFinanciamientoPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
     if (value === null || value === undefined) return of('');
+    if (value === 'Todos') return of('Todos');
     return this._sigesp.getFuenteFinanciamiento().pipe(
       map(fuentes =>
         fuentes.find(fuente => fuente['codigo'] === String(value))

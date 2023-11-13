@@ -28,7 +28,10 @@
         formControlName="tipoAnimal"
         readonly="true"
         [value]="
-          formulario.value.tipoAnimal | denominacionTipoAnimal | async
+          formulario.value.tipoAnimal
+            | denominacionTipoAnimal
+            | async
+            | corregirTodos
         " />
       <button
         type="button"

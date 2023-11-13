@@ -27,7 +27,12 @@
         type="text"
         formControlName="tipoMarca"
         readonly="true"
-        [value]="formulario.value.tipoMarca | denominacionTipoMarca | async" />
+        [value]="
+          formulario.value.tipoMarca
+            | denominacionTipoMarca
+            | async
+            | corregirTodos
+        " />
       <button
         type="button"
         mat-icon-button

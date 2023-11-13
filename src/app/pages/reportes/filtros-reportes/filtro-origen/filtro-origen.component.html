@@ -25,7 +25,9 @@
         type="text"
         formControlName="origen"
         readonly="true"
-        [value]="formulario.value.origen | denominacionOrigen | async" />
+        [value]="
+          formulario.value.origen | denominacionOrigen | async | corregirTodos
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarOrigen()">
         <mat-icon>search</mat-icon>
       </button>
