@@ -167,14 +167,15 @@
     </section>
   </mat-expansion-panel>
   <!-- seleccion de propiedades -->
-  <!-- <mat-expansion-panel>
+  <mat-expansion-panel>
     <mat-expansion-panel-header
       >Seleccion de propiedades a exportar</mat-expansion-panel-header
     >
     <section class="contenedor-singular inferior superior">
-      <app-filtro-propiedades></app-filtro-propiedades>
+      <app-filtro-propiedades
+        [sinDecorar]="filtrosSinDecorar"></app-filtro-propiedades>
     </section>
-  </mat-expansion-panel> -->
+  </mat-expansion-panel>
 </section>
 <!-- lista de activos -->
 <section class="contenedor-singular superior inferior">

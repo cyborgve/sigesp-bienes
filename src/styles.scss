@@ -40,21 +40,87 @@ $mat-myapp-primary: (
   ),
 );
 
+$mat-myapp-secondary: (
+  50: #efe3f1,
+  100: #d8badc,
+  200: #be8cc4,
+  300: #a35eac,
+  400: #903c9b,
+  500: #7c1989,
+  600: #741681,
+  700: #691276,
+  800: #5f0e6c,
+  900: #4c0859,
+  A100: #ea8cff,
+  A200: #e159ff,
+  A400: #d726ff,
+  A700: #d30dff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
 $mat-myapp-accent: (
-  50: #e2e7e8,
-  100: #b6c2c5,
-  200: #869a9e,
-  300: #557177,
-  400: #30525a,
-  500: #0c343d,
-  600: #0a2f37,
-  700: #08272f,
-  800: #062127,
-  900: #03151a,
-  A100: #58cfff,
-  A200: #25c1ff,
-  A400: #00acf1,
-  A700: #009ad8,
+  50: #e0f0ee,
+  100: #b3dad6,
+  200: #80c1ba,
+  300: #4da89e,
+  400: #26968a,
+  500: #008375,
+  600: #007b6d,
+  700: #007062,
+  800: #006658,
+  900: #005345,
+  A100: #85ffe6,
+  A200: #52ffdb,
+  A400: #1fffd0,
+  A700: #06ffcb,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$mat-myapp-warn: (
+  50: #f7e2ea,
+  100: #ecb6c9,
+  200: #df85a6,
+  300: #d25482,
+  400: #c93067,
+  500: #bf0b4c,
+  600: #b90a45,
+  700: #b1083c,
+  800: #a90633,
+  900: #9b0324,
+  A100: #ffc6cf,
+  A200: #ff93a4,
+  A400: #ff6078,
+  A700: #ff4763,
   contrast: (
     50: #000000,
     100: #000000,
@@ -69,14 +135,16 @@ $mat-myapp-accent: (
     A100: #000000,
     A200: #000000,
     A400: #000000,
-    A700: #ffffff,
+    A700: #000000,
   ),
 );
 
 $primary: mat-palette($mat-myapp-primary);
+$secondary: mat-palette($mat-myapp-secondary);
 $accent: mat-palette($mat-myapp-accent);
+$warn: mat-palette($mat-myapp-warn);
 
-$theme: mat-light-theme($primary, $accent);
+$theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
 

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
 import { take, tap } from 'rxjs/operators';
+
+type Chip = { indice: number; nombre: string; valor: string; color: string };
 
 @Component({
   selector: 'app-filtro-propiedades',
@@ -11,17 +12,18 @@ import { take, tap } from 'rxjs/operators';
   styleUrls: ['./filtro-propiedades.component.scss'],
 })
 export class FiltroPropiedadesComponent implements OnInit {
-  propiedadesDisponibles: string[] = []; // Almacena las propiedades disponibles
-  propiedadesSeleccionadas: string[] = []; // Almacena las propiedades seleccionadas
-
-  constructor(
-    private _dialog: MatDialog,
-    private _snackBar: MatSnackBar,
-    private _activo: ActivoService
-  ) {}
+  @Input() sinDecorar: boolean = false;
+  propiedadesDisponibles: Chip[] = [];
+  propiedadesSeleccionadas: Chip[] = [];
+  constructor(private _activo: ActivoService) {}
 
   ngOnInit() {
-    // Inicializar propiedades disponibles con las propiedades del activo
+    const palabrasIgnoradasActivoAPI = [
+      'detalle',
+      'componentes',
+      'depreciacion',
+      'ubicacion',
+    ];
     const palabrasIgnoradas = [
       'empresaId',
       'id',
@@ -33,156 +35,61 @@ export class FiltroPropiedadesComponent implements OnInit {
       .buscarPorId(0)
       .pipe(
         tap(activoAPI => {
-          this.propiedadesDisponibles = Object.keys(activoAPI);
+          let indice = 0;
+          Object.keys(activoAPI)
+            .filter(palabra => !palabrasIgnoradasActivoAPI.includes(palabra))
+            .forEach(propiedad =>
+              this.propiedadesDisponibles.push({
+                indice: indice++,
+                nombre: `${convertirCamelCaseATitulo(propiedad)}`,
+                valor: propiedad,
+                color: 'primary',
+              })
+            );
           Object.keys(activoAPI.detalle)
             .filter(palabra => !palabrasIgnoradas.includes(palabra))
-            .forEach(propiedad => this.propiedadesDisponibles.push(propiedad));
+            .forEach(propiedad =>
+              this.propiedadesDisponibles.push({
+                indice: indice++,
+                nombre: `${convertirCamelCaseATitulo(propiedad)}`,
+                valor: propiedad,
+                color: 'none',
+              })
+            );
           Object.keys(activoAPI.depreciacion)
             .filter(palabra => !palabrasIgnoradas.includes(palabra))
-            .forEach(propiedad => this.propiedadesDisponibles.push(propiedad));
+            .forEach(propiedad =>
+              this.propiedadesDisponibles.push({
+                indice: indice++,
+                nombre: `${convertirCamelCaseATitulo(propiedad)}`,
+                valor: propiedad,
+                color: 'accent',
+              })
+            );
           Object.keys(activoAPI.ubicacion)
             .filter(palabra => !palabrasIgnoradas.includes(palabra))
-            .forEach(propiedad => this.propiedadesDisponibles.push(propiedad));
+            .forEach(propiedad =>
+              this.propiedadesDisponibles.push({
+                indice: indice++,
+                nombre: `${convertirCamelCaseATitulo(propiedad)}`,
+                valor: propiedad,
+                color: 'warn',
+              })
+            );
         }),
         take(1)
       )
       .subscribe();
   }
 
-  agregarPropiedad(propiedad: string): void {
-    if (!this.propiedadesSeleccionadas.includes(propiedad)) {
-      this.propiedadesSeleccionadas.push(propiedad);
-    }
-  }
-
-  removerPropiedad(propiedad: string): void {
-    const index = this.propiedadesSeleccionadas.indexOf(propiedad);
-    if (index !== -1) {
-      this.propiedadesSeleccionadas.splice(index, 1);
-    }
-  }
-
-  alSoltarPropiedad(evento: CdkDragDrop<string[]>): void {
-    if (evento.previousContainer === evento.container) {
-      // Mover dentro de la misma lista
-      moveItemInArray(
-        this.propiedadesSeleccionadas,
-        evento.previousIndex,
-        evento.currentIndex
+  soltar(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer !== event.container) {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
       );
-    } else {
-      // Mover entre listas
-      const propiedad = evento.item.data;
-      if (!this.propiedadesSeleccionadas.includes(propiedad)) {
-        this.propiedadesSeleccionadas.push(propiedad);
-      }
-    }
-  }
-
-  exportarPropiedades(): void {
-    if (this.propiedadesSeleccionadas.length === 0) {
-      this._snackBar.open(
-        'No hay propiedades seleccionadas para exportar',
-        'Cerrar',
-        {
-          duration: 3000,
-        }
-      );
-    } else {
-      // Implementa la lógica de exportación aquí
-      this._snackBar.open('Propiedades exportadas con éxito', 'Cerrar', {
-        duration: 3000,
-      });
     }
   }
 }
-
-// // import { Activo } from '@core/models/definiciones/activo';
-// // import { Component, OnInit } from '@angular/core';
-// // import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-// // import { MatDialog } from '@angular/material/dialog';
-// // import { MatSnackBar } from '@angular/material/snack-bar';
-// // import { ActivoService } from '@core/services/definiciones/activo.service';
-// // import { take, tap } from 'rxjs/operators';
-
-// // @Component({
-// //   selector: 'app-filtro-propiedades',
-// //   templateUrl: './filtro-propiedades.component.html',
-// //   styleUrls: ['./filtro-propiedades.component.scss'],
-// // })
-// // export class FiltroPropiedadesComponent implements OnInit {
-// //   propiedadesDisponibles: string[] = []; // Almacena las propiedades disponibles
-// //   propiedadesSeleccionadas: string[] = []; // Almacena las propiedades seleccionadas
-
-// //   constructor(
-// //     private _dialog: MatDialog,
-// //     private _snackBar: MatSnackBar,
-// //     private _activo: ActivoService
-// //   ) {}
-
-// //   ngOnInit() {
-// //     // Inicializar propiedades disponibles con las propiedades del activo
-// //     this._activo
-// //       .buscarPorId(0)
-// //       .pipe(
-// //         tap(
-// //           activoAPI => (this.propiedadesDisponibles = Object.keys(activoAPI))
-// //         ),
-// //         take(1)
-// //       )
-// //       .subscribe();
-// //   }
-
-// //   // Función para agregar una propiedad a las seleccionadas con doble clic
-// //   agregarPropiedad(propiedad: string): void {
-// //     if (!this.propiedadesSeleccionadas.includes(propiedad)) {
-// //       this.propiedadesSeleccionadas.push(propiedad);
-// //     }
-// //   }
-
-// //   // Función para remover una propiedad de las seleccionadas con doble clic
-// //   removerPropiedad(propiedad: string): void {
-// //     const index = this.propiedadesSeleccionadas.indexOf(propiedad);
-// //     if (index !== -1) {
-// //       this.propiedadesSeleccionadas.splice(index, 1);
-// //     }
-// //   }
-
-// //   // Función para manejar el evento de soltar propiedad
-// //   alSoltarPropiedad(evento: CdkDragDrop<string[]>): void {
-// //     if (evento.previousContainer === evento.container) {
-// //       // Mover dentro de la misma lista
-// //       moveItemInArray(
-// //         this.propiedadesSeleccionadas,
-// //         evento.previousIndex,
-// //         evento.currentIndex
-// //       );
-// //     } else {
-// //       // Mover entre listas
-// //       const propiedad = evento.item.data;
-// //       if (!this.propiedadesSeleccionadas.includes(propiedad)) {
-// //         this.propiedadesSeleccionadas.push(propiedad);
-// //       }
-// //     }
-// //   }
-
-// //   // Función para exportar las propiedades seleccionadas (puedes implementar la lógica de exportación aquí)
-// //   exportarPropiedades(): void {
-// //     // Implementa la lógica de exportación aquí
-// //     if (this.propiedadesSeleccionadas.length === 0) {
-// //       this._snackBar.open(
-// //         'No hay propiedades seleccionadas para exportar',
-// //         'Cerrar',
-// //         {
-// //           duration: 3000,
-// //         }
-// //       );
-// //     } else {
-// //       // Puedes usar un servicio o lógica para exportar las propiedades seleccionadas
-// //       // Ejemplo: this.miServicio.exportarPropiedades(this.propiedadesSeleccionadas);
-// //       this._snackBar.open('Propiedades exportadas con éxito', 'Cerrar', {
-// //         duration: 3000,
-// //       });
-// //     }
-// //   }
-// // }

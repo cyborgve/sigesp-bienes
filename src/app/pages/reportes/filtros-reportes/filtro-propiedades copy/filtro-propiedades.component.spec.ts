@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListadoActivosComponent } from './listado-activos.component';
+import { PropiedadesActivoComponent } from './filtro-propiedades.component';
 
-describe('ListadoActivosComponent', () => {
-  let component: ListadoActivosComponent;
-  let fixture: ComponentFixture<ListadoActivosComponent>;
+describe('PropiedadesActivoComponent', () => {
+  let component: PropiedadesActivoComponent;
+  let fixture: ComponentFixture<PropiedadesActivoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListadoActivosComponent],
+      declarations: [PropiedadesActivoComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListadoActivosComponent);
+    fixture = TestBed.createComponent(PropiedadesActivoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -74,6 +74,7 @@ import { FiltroPropiedadesComponent } from './filtro-propiedades/filtro-propieda
 import { MatChipsModule } from '@angular/material/chips';
 import { FiltroTipoResponsableComponent } from './filtro-tipo-responsable/filtro-tipo-responsable.component';
 import { FiltroCategoriaUnidadAdministrativaComponent } from './filtro-categoria-unidad-administrativa/filtro-categoria-unidad-administrativa.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const sharedComponents = [
   FiltroCatalogoGeneralComponent,
@@ -133,6 +134,7 @@ const sharedComponents = [
     MatSelectModule,
     MatDatepickerModule,
     MatChipsModule,
+    DragDropModule,
     BuscadorCatalogoGeneralModule,
     BuscadorCategoriaModule,
     BuscadorCategoriaUnidadModule,
