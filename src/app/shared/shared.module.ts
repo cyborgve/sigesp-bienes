@@ -72,7 +72,6 @@ import { DenominacionBeneficiarioPipe } from './pipes/denominacion-beneficiario.
 import { CorregirNoAsignadoPipe } from './pipes/corregir-no-asignado.pipe';
 import { DenominacionModoAdquisicionPipe } from './pipes/denominacion-modo-adquisicion.pipe';
 import { DenominacionCentroCostosPipe } from './pipes/denominacion-centro-costos.pipe';
-import { DenominacionTipoActivoPipe } from './pipes/denominacion-tipo-activo.pipe';
 import { BuscadorProveedorComponent } from './components/buscador-proveedor/buscador-proveedor.component';
 import { DenominacionCatalogoGeneralPipe } from './pipes/denominacion-catalogo-general.pipe';
 import { CorregirMetodoDepreciacionPipe } from './pipes/corregir-metodo-depreciacion.pipe';
@@ -170,7 +169,6 @@ const sharedPipes = [
   CorregirNoAsignadoPipe,
   DenominacionModoAdquisicionPipe,
   DenominacionCentroCostosPipe,
-  DenominacionTipoActivoPipe,
   DenominacionCatalogoGeneralPipe,
   CorregirMetodoDepreciacionPipe,
   TipoOracionPipe,

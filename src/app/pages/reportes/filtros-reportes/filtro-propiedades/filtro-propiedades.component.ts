@@ -1,4 +1,8 @@
-import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  CdkDropList,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
@@ -13,8 +17,14 @@ type Chip = { indice: number; nombre: string; valor: string; color: string };
 })
 export class FiltroPropiedadesComponent implements OnInit {
   @Input() sinDecorar: boolean = false;
+  private propiedadTodos: Chip = {
+    indice: -1,
+    nombre: 'Todos',
+    valor: 'TODOS',
+    color: 'none',
+  };
   propiedadesDisponibles: Chip[] = [];
-  propiedadesSeleccionadas: Chip[] = [];
+  propiedadesSeleccionadas: Chip[] = [this.propiedadTodos];
   constructor(private _activo: ActivoService) {}
 
   ngOnInit() {
@@ -43,7 +53,7 @@ export class FiltroPropiedadesComponent implements OnInit {
                 indice: indice++,
                 nombre: `${convertirCamelCaseATitulo(propiedad)}`,
                 valor: propiedad,
-                color: 'primary',
+                color: 'none',
               })
             );
           Object.keys(activoAPI.detalle)
@@ -53,7 +63,7 @@ export class FiltroPropiedadesComponent implements OnInit {
                 indice: indice++,
                 nombre: `${convertirCamelCaseATitulo(propiedad)}`,
                 valor: propiedad,
-                color: 'none',
+                color: 'primary',
               })
             );
           Object.keys(activoAPI.depreciacion)
@@ -90,6 +100,16 @@ export class FiltroPropiedadesComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+      this.propiedadesDisponibles = this.propiedadesDisponibles
+        .filter(prop => prop.indice !== -1)
+        .sort((a, b) => (a.indice < b.indice ? -1 : 1));
+      this.propiedadesSeleccionadas = this.propiedadesSeleccionadas.sort(
+        (a, b) => (a.indice < b.indice ? -1 : 1)
+      );
+      this.propiedadesSeleccionadas =
+        this.propiedadesSeleccionadas.length > 1
+          ? this.propiedadesSeleccionadas.filter(prop => prop.indice !== -1)
+          : [this.propiedadTodos];
     }
   }
 }

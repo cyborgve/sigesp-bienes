@@ -39,7 +39,9 @@
           <mat-chip
             cdkDrag
             *ngFor="let propiedad of propiedadesSeleccionadas"
-            class="propiedad">
+            class="propiedad"
+            [color]="propiedad.color"
+            selected>
             {{ propiedad.nombre }}
           </mat-chip>
         </mat-chip-list>
