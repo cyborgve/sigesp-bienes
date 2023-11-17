@@ -7,7 +7,7 @@ import { GenericService } from '../auxiliares/generic.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { adaptarActivoProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-proceso';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarActivosProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activos-proceso';
+import { adaptarActivosProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-proceso';
 
 @Injectable({
   providedIn: 'root',

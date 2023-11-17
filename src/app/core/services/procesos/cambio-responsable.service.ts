@@ -1,4 +1,4 @@
-import { tap, switchMap, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { CambioResponsable } from '@core/models/procesos/cambio-responsable';
@@ -8,7 +8,7 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
-import { adaptarCambiosResponsable } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cambios-responsable';
+import { adaptarCambiosResponsable } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cambio-responsable';
 import { Id } from '@core/types/id';
 import { adaptarCambioResponsable } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cambio-responsable';
 import { PDFService } from '../auxiliares/pdf.service';

@@ -14,7 +14,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { Id } from '@core/types/id';
 import { adaptarDesincorporacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-desincorporacion';
 import { DesincorporacionCuentaService } from './desincorporacion-cuenta.service';
-import { adaptarDesincorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-desincorporaciones';
+import { adaptarDesincorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-desincorporacion';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
 import { PDFService } from '../auxiliares/pdf.service';

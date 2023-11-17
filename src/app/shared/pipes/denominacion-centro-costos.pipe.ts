@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { adaptarCentrosCosto } from '@core/utils/pipes-rxjs/adaptadores/adaptar-centros-costo';
+import { adaptarCentrosCostos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-centro-costo';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
@@ -12,7 +12,7 @@ export class DenominacionCentroCostosPipe implements PipeTransform {
     if (value === null || value === undefined) return of('');
     if (value === '--') return of('--');
     return this._sigesp.getCentroCosto('all').pipe(
-      adaptarCentrosCosto(),
+      adaptarCentrosCostos(),
       map(centros => centros.find(centro => centro.id === value)),
       map(centro => centro['denominacion'])
     );

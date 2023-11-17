@@ -8,7 +8,7 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IncorporacionActivoService } from './incorporacion-activo.service';
 import { Observable, forkJoin } from 'rxjs';
-import { adaptarIncorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-incorporaciones';
+import { adaptarIncorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-incorporacion';
 import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-incorporacion';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';

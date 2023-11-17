@@ -26,6 +26,9 @@ import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-p
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
+import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -59,6 +62,7 @@ export class SingularActaPrestamoComponent
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
     private _activo: ActivoService,
+    private _activoUbicacion: ActivoUbicacionService,
     private _snackBar: MatSnackBar
   ) {
     this.formulario = this._formBuilder.group({
@@ -87,6 +91,7 @@ export class SingularActaPrestamoComponent
             chequearUnidadConActivos(
               unidadAdministrativa,
               this._activo,
+              this._activoUbicacion,
               this._snackBar
             )
           )
@@ -341,9 +346,10 @@ export class SingularActaPrestamoComponent
       width: '85%',
       data: {
         filtros: [
-          this._activo.filtrarIncorporados(),
-          this._activo.filtrarPorUnidadAdministrativa(
-            this.formulario.value.unidadAdministrativaCedente
+          filtrarActivosIncorporados(this._activoUbicacion),
+          filtrarActivosPorUnidadAdministrativa(
+            this.formulario.value.unidadAdministrativaCedente,
+            this._activoUbicacion
           ),
         ],
       },

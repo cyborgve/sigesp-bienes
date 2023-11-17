@@ -9,7 +9,7 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActaPrestamoActivoService } from './acta-prestamo-activo.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
-import { adaptarActasPrestamo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-actas-prestamo';
+import { adaptarActasPrestamo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-acta-prestamo';
 import { adaptarActaPrestamo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-acta-prestamo';
 import { PDFService } from '../auxiliares/pdf.service';
 import { GenericService } from '../auxiliares/generic.service';

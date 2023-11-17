@@ -31,6 +31,10 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 import { CausaMovimientoService } from '@core/services/definiciones/causa-movimiento.service';
 import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
+import { filtrarCausasMovimientoPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-causas-movimiento-por-tipo';
 
 @Component({
   selector: 'app-singular-desincorporacion',
@@ -59,6 +63,7 @@ export class SingularDesincorporacionComponent
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
     private _activo: ActivoService,
+    private _activoUbicacion: ActivoUbicacionService,
     private _causaMovimiento: CausaMovimientoService,
     private _snackBar: MatSnackBar
   ) {
@@ -90,6 +95,7 @@ export class SingularDesincorporacionComponent
             chequearUnidadConActivos(
               unidadAdministrativa,
               this._activo,
+              this._activoUbicacion,
               this._snackBar
             )
           )
@@ -282,7 +288,7 @@ export class SingularDesincorporacionComponent
       height: '95%',
       width: '85%',
       data: {
-        filtros: [this._causaMovimiento.filtrarPorTipo('DESINCORPORACIÓN')],
+        filtros: [filtrarCausasMovimientoPorTipo('DESINCORPORACIÓN')],
       },
     });
     dialog
@@ -307,9 +313,10 @@ export class SingularDesincorporacionComponent
       width: '85%',
       data: {
         filtros: [
-          this._activo.filtrarIncorporados(),
-          this._activo.filtrarPorUnidadAdministrativa(
-            this.formulario.value.unidadAdministrativa
+          filtrarActivosIncorporados(this._activoUbicacion),
+          filtrarActivosPorUnidadAdministrativa(
+            this.formulario.value.unidadAdministrativa,
+            this._activoUbicacion
           ),
         ],
       },

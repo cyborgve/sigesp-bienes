@@ -6,7 +6,8 @@ import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarComponentes } from '@core/utils/pipes-rxjs/adaptadores/adaptar-componentes';
+import { adaptarActivosComponente } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-componente';
+import { adaptarActivoComponente } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-componente';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +19,29 @@ export class ActivoComponenteService extends GenericService<ActivoComponente> {
     return END_POINTS.find(ep => ep.clave === 'activoComponente').valor;
   }
 
+  buscarTodos(): Observable<ActivoComponente[]> {
+    return super.buscarTodos().pipe(adaptarActivosComponente());
+  }
+
   buscarPorActivo(activoId: Id): Observable<ActivoComponente[]> {
     return this._http.get<ActivoComponente>(this.apiUrlActivoId(activoId)).pipe(
       map((res: any) => res.data),
       map(componentes => componentes.map(c => normalizarObjeto(c))),
-      adaptarComponentes()
+      adaptarActivosComponente()
     );
+  }
+
+  buscarPorId(id: Id): Observable<ActivoComponente> {
+    return super.buscarPorId(id).pipe(adaptarActivoComponente());
+  }
+
+  guardar(
+    entidad: ActivoComponente,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<ActivoComponente> {
+    return super
+      .guardar(entidad, tipoDato, notificar)
+      .pipe(adaptarActivoComponente());
   }
 }

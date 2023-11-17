@@ -12,16 +12,16 @@ export const filtrarActivosPorUnidadAdministrativa = (
     switchMap((activos: Activo[]) => {
       if (unidadAdministrativa === null || unidadAdministrativa === 0)
         return of(activos);
-      let filtrarUbicaciones = _activoUbicacion.buscarTodos().pipe(
+      let filtrarActivos = _activoUbicacion.buscarTodos().pipe(
         map(ubicaciones =>
           ubicaciones.filter(
             ubicacion =>
-              ubicacion.unidadAdministrativaId === unidadAdministrativa
+              ubicacion.unidadAdministrativaId === Number(unidadAdministrativa)
           )
         ),
         map(ubicaciones => ubicaciones.map(ubicacion => ubicacion.activoId))
       );
-      return filtrarUbicaciones.pipe(
+      return filtrarActivos.pipe(
         map(ids => activos.filter(activo => ids.includes(activo.id)))
       );
     })

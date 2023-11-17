@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AutorizacionSalidaActivoService } from './autorizacion-salida-activo.service';
-import { adaptarAutorizacionesSalida } from '@core/utils/pipes-rxjs/adaptadores/adaptar-autorizaciones-salida';
+import { adaptarAutorizacionesSalida } from '@core/utils/pipes-rxjs/adaptadores/adaptar-autorizacion-salida';
 import { Id } from '@core/types/id';
 import { adaptarAutorizacionSalida } from '@core/utils/pipes-rxjs/adaptadores/adaptar-autorizacion-salida';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';

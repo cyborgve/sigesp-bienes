@@ -4,7 +4,7 @@ import { GenericService } from '@core/services/auxiliares/generic.service';
 import { END_POINTS } from '@core/constants/end-points';
 import { Observable } from 'rxjs';
 import { adaptarDetalleDepreciacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-detalle-depreciacion';
-import { adaptarDetallesDepreciacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-detalles-depreciacion';
+import { adaptarDetallesDepreciacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-detalle-depreciacion';
 import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';

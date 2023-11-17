@@ -10,6 +10,7 @@ import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 export class DenominacionMonedaPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
     if (value === null || value === undefined) return of('');
+    if (value === 'Todos') return of('Todos');
     return this._moneda
       .buscarPorId(value)
       .pipe(map(moneda => moneda['denominacion']));

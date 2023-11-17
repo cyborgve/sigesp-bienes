@@ -1,5 +1,5 @@
 import { adaptarDepreciacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion';
-import { adaptarDepreciaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciaciones';
+import { adaptarDepreciaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion';
 import { map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
@@ -40,11 +40,11 @@ export class DepreciacionService extends GenericService<Depreciacion> {
     return super.buscarTodos().pipe(adaptarDepreciaciones());
   }
 
-  buscarTodosPorActivo(activo: Id): Observable<Depreciacion[]> {
+  buscarPorActivo(activo: Id): Observable<Depreciacion> {
     return this._http.get<Depreciacion[]>(this.apiUrlActivo(activo)).pipe(
       map((resultado: any) => resultado.data),
-      map(resultado => normalizarObjeto(resultado)),
-      adaptarDepreciaciones()
+      map(data => normalizarObjeto(data[0])),
+      adaptarDepreciacion()
     );
   }
 

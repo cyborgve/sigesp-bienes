@@ -1,4 +1,10 @@
-<section class="contenedor">
+<section class="contenedor-singular">
   <app-tabla-aseguradora [titulo]="titulo"></app-tabla-aseguradora>
-  <app-botones-definiciones></app-botones-definiciones>
 </section>
+<app-toolbar
+  [mostrarBorrar]="false"
+  [mostrarBuscar]="false"
+  [mostrarGuardar]="false"
+  [mostrarImportar]="false"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"></app-toolbar>

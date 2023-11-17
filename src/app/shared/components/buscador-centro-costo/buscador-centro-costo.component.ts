@@ -11,10 +11,10 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CentroCosto } from '@core/models/otros-modulos/centro-costo';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { SigespService } from 'sigesp';
-import { adaptarCentrosCosto } from '@core/utils/pipes-rxjs/adaptadores/adaptar-centros-costo';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
+import { adaptarCentrosCostos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-centro-costo';
 
 const filtroInicial = () => pipe(map((centros: CentroCosto[]) => centros));
 
@@ -49,7 +49,7 @@ export class BuscadorCentroCostoComponent
     this._sigesp
       .getCentroCosto('all')
       .pipe(
-        adaptarCentrosCosto(),
+        adaptarCentrosCostos(),
         filtrarValoresIniciales(),
         ordenarPorCodigo(),
         pipeFromArray(this.filtros),

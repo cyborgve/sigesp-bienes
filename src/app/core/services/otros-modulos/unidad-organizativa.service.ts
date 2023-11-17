@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Id } from '@core/types/id';
 import { SigespService } from 'sigesp';
 import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
-import { adaptarUnidadesOrganizativas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-unidades-organizativas';
+import { adaptarUnidadesOrganizativas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-unidad-organizativa';
 import { UnidadOrganizativa } from '@core/models/otros-modulos/unidad-organizativa';
 
 @Injectable({

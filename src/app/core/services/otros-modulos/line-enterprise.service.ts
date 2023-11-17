@@ -6,7 +6,7 @@ import { Id } from '@core/types/id';
 import { SigespService } from 'sigesp';
 import { LineEnterprise } from '@core/models/otros-modulos/line-enterprise';
 import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
-import { adaptarLinesEnterprise } from '@core/utils/pipes-rxjs/adaptadores/adaptar-lines-enterprise';
+import { adaptarLinesEnterprise } from '@core/utils/pipes-rxjs/adaptadores/adaptar-line-enterprise';
 
 @Injectable({
   providedIn: 'root',

@@ -1,5 +1,5 @@
-import { switchMap, map, tap, filter } from 'rxjs/operators';
-import { Observable, forkJoin, pipe } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Activo } from '@core/models/definiciones/activo';
@@ -19,31 +19,13 @@ import { prepararActivoDetalle } from '@core/utils/funciones/preparar-activo-det
 import { prepararActivoDepreciacion } from '@core/utils/funciones/preparar-activo-depreciacion';
 import { prepararActivoUbicacion } from '@core/utils/funciones/preparar-activo-ubicacion';
 import { adaptarActivo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo';
-import { adaptarActivoDetalle } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-detalle';
-import { adaptarActivoDepreciacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-depreciacion';
-import { adaptarActivoUbicacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-ubicacion';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
-import { adaptarComponentes } from '@core/utils/pipes-rxjs/adaptadores/adaptar-componentes';
-import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { activoIncorporado } from '@core/utils/funciones/activo-incorporado';
-import { activoDepreciable } from '@core/utils/funciones/activo-depreciable';
-import { DepreciacionService } from '../procesos/depreciacion.service';
-import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
-import { TipoFechaReferencia } from '@core/types/tipo-fecha';
-import moment from 'moment';
-import { TipoActivo } from '@core/types/tipo-activo';
-import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
-import { Marca } from '@core/models/definiciones/marca';
-import { MarcaService } from './marca.service';
-import { ModeloService } from './modelo.service';
-import { Modelo } from '@core/models/definiciones/modelo';
+import { adaptarActivos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActivoService extends GenericService<Activo> {
-  private apiUrlUnidadAdministrativa = (unidadAdministrativa: Id) =>
-    `${this.apiUrl}?unidad_administrativa=${unidadAdministrativa}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'activo').valor;
   }
@@ -61,42 +43,18 @@ export class ActivoService extends GenericService<Activo> {
   }
 
   buscarTodos(): Observable<Activo[]> {
-    return super.buscarTodos();
+    return super.buscarTodos().pipe(adaptarActivos());
   }
 
-  buscarTodosPorUnidadAdministrativa(
-    unidadAdministrativa: Id
-  ): Observable<Activo[]> {
-    return this._http
-      .get(this.apiUrlUnidadAdministrativa(unidadAdministrativa))
-      .pipe(
-        map((resultado: any) => resultado.data),
-        map((activos: any[]) => activos.map(activo => normalizarObjeto(activo)))
-      );
-  }
-
-  /**
-   * @description Obtiene todos los datos de un activo.
-   * @param id string | number
-   * @returns Observable<Activo>
-   */
   buscarPorId(id: Id): Observable<Activo> {
     return super.buscarPorId(id).pipe(
       adaptarActivo(),
       switchMap(activo => {
         let buscarComplementos = [
-          this._activoDetalle
-            .buscarPorActivo(activo.id)
-            .pipe(adaptarActivoDetalle()),
-          this._activoDepreciacion
-            .buscarPorActivo(activo.id)
-            .pipe(adaptarActivoDepreciacion()),
-          this._activoUbicacion
-            .buscarPorActivo(activo.id)
-            .pipe(adaptarActivoUbicacion()),
-          this._activoComponente
-            .buscarPorActivo(activo.id)
-            .pipe(adaptarComponentes()),
+          this._activoDetalle.buscarPorActivo(activo.id),
+          this._activoDepreciacion.buscarPorActivo(activo.id),
+          this._activoUbicacion.buscarPorActivo(activo.id),
+          this._activoComponente.buscarPorActivo(activo.id),
         ];
         return forkJoin(buscarComplementos).pipe(
           map(([detalle, depreciacion, ubicacion, componentes]) => {
@@ -125,9 +83,9 @@ export class ActivoService extends GenericService<Activo> {
         depreciacion.activoId = Number(activoGuardado.id);
         ubicacion.activoId = Number(activoGuardado.id);
         let complementosGuardar = [
-          this._activoDetalle.guardar(detalle, '', false),
-          this._activoDepreciacion.guardar(depreciacion, '', false),
-          this._activoUbicacion.guardar(ubicacion, '', false),
+          this._activoDetalle.guardar(detalle, undefined, false),
+          this._activoDepreciacion.guardar(depreciacion, undefined, false),
+          this._activoUbicacion.guardar(ubicacion, undefined, false),
         ];
         return forkJoin(complementosGuardar).pipe(
           map(([detalle, depreciacion, ubicacion]) => {
@@ -163,220 +121,4 @@ export class ActivoService extends GenericService<Activo> {
       })
     );
   }
-
-  esDepreciable(id: Id): Observable<boolean> {
-    return this.buscarPorId(id).pipe(
-      map(activo => {
-        let { valorAdquisicion, monedaId, fechaAdquisicion, depreciacion } =
-          activo;
-        let esDepreciable = [
-          valorAdquisicion > 0,
-          monedaId !== '---',
-          fechaAdquisicion !== undefined,
-          depreciacion.metodoDepreciacion !== undefined,
-          depreciacion.vidaUtil > 0,
-          depreciacion.cuentaContableGasto !== '---',
-          depreciacion.cuentaContableDepreciacion !== '---',
-          depreciacion.depreciable !== 0,
-          depreciacion.valorRescate > 0,
-          depreciacion.monedaValorRescate !== '---',
-        ];
-        return esDepreciable.every(valor => !!valor);
-      })
-    );
-  }
-
-  filtrarIncorporados = () =>
-    pipe(
-      switchMap((activos: Activo[]) => {
-        let buscarUbicaciones = activos.map(activo =>
-          this._activoUbicacion.buscarPorActivo(activo.id).pipe(
-            map(ubicacion => ({
-              activo: ubicacion.activoId,
-              incorporado: activoIncorporado(ubicacion),
-            }))
-          )
-        );
-        return forkJoin(buscarUbicaciones).pipe(
-          map(resultados => {
-            let incorporados = resultados
-              .filter(resultado => resultado.incorporado)
-              .map(resultado => resultado.activo);
-            return activos.filter(activo => incorporados.includes(activo.id));
-          })
-        );
-      })
-    );
-
-  filtrarSinIncorporar = () =>
-    pipe(
-      switchMap((activos: Activo[]) => {
-        let buscarUbicaciones = activos.map(activo =>
-          this._activoUbicacion.buscarPorActivo(activo.id).pipe(
-            map(ubicacion => ({
-              activo: ubicacion.activoId,
-              incorporado: !activoIncorporado(ubicacion),
-            }))
-          )
-        );
-        return forkJoin(buscarUbicaciones).pipe(
-          map(resultados => {
-            let incorporados = resultados
-              .filter(resultado => resultado.incorporado)
-              .map(resultado => resultado.activo);
-            return activos.filter(activo => incorporados.includes(activo.id));
-          })
-        );
-      })
-    );
-
-  filtrarDepreciables = () =>
-    pipe(
-      switchMap((activosParciales: Activo[]) => {
-        let buscarDepreciaciones = activosParciales.map(activoParcial =>
-          this._activoDepreciacion.buscarPorActivo(activoParcial.id)
-        );
-        return forkJoin(buscarDepreciaciones).pipe(
-          map(depreciaciones =>
-            depreciaciones.filter((depreciacion, indice) =>
-              activoDepreciable(activosParciales[indice], depreciacion)
-            )
-          ),
-          map(depreciaciones =>
-            depreciaciones.map(depreciacion => depreciacion.activoId)
-          ),
-          map(depreciables =>
-            activosParciales.filter(activoParcial =>
-              depreciables.includes(activoParcial.id)
-            )
-          )
-        );
-      })
-    );
-
-  filtrarSinDepreciacion = (_depreciacion: DepreciacionService) =>
-    pipe(
-      switchMap((activos: Activo[]) =>
-        _depreciacion.buscarTodos().pipe(
-          map(depreciaciones =>
-            depreciaciones.map(depreciacion => Number(depreciacion.activo))
-          ),
-          map(depreciaciones =>
-            activos.filter(
-              activo => !depreciaciones.includes(Number(activo.id))
-            )
-          )
-        )
-      )
-    );
-
-  // FILTROS DATOS GENERALES
-
-  filtrarPorFecha = (
-    fechaInicio: Date,
-    fechaFin: Date,
-    fechaReferencia: TipoFechaReferencia
-  ) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(activo => {
-          if (fechaReferencia === 'CREADO')
-            return moment(activo.creado).isBetween(
-              moment(fechaInicio),
-              moment(fechaFin)
-            );
-          else if (fechaReferencia === 'MODIFICADO')
-            return moment(activo.modificado).isBetween(
-              moment(fechaInicio),
-              moment(fechaFin)
-            );
-          return false;
-        })
-      )
-    );
-
-  filtrarPorTipoActivo = (tipoActivo: TipoActivo) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(activo => activo.tipoActivo === tipoActivo)
-      )
-    );
-
-  filtrarPorCatalogoGeneral = (catalogoGeneral: CatalogoGeneral) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(
-          activo => activo.catalogoCuentas === catalogoGeneral.catalogoCuentas
-        )
-      )
-    );
-
-  filtrarPorMarca = (marca: Id, _modelo: ModeloService) =>
-    pipe(
-      switchMap((activos: Activo[]) => {
-        let buscarModelos = activos.map(activo =>
-          _modelo
-            .buscarPorId(activo.modeloId)
-            .pipe(map(modelo => ({ id: activo.id, marca: modelo.marcaId })))
-        );
-        return forkJoin(buscarModelos).pipe(
-          map(modelos => modelos.filter(modelo => modelo.marca === marca))
-        );
-      })
-    );
-
-  filtrarPorModelo = (modelo: Id) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(activo => activo.modeloId === modelo)
-      )
-    );
-
-  filtrarPorMoneda = (moneda: Id) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(activo => activo.monedaId === moneda)
-      )
-    );
-
-  filtrarPorColor = (color: Id) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(activo => activo.colorId === color)
-      )
-    );
-
-  filtrarPorRotulacion = (rotulacion: Id) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(activo => activo.rotulacionId === rotulacion)
-      )
-    );
-
-  filtrarPorCategoria = (categoria: Id) =>
-    pipe(
-      map((activos: Activo[]) =>
-        activos.filter(activo => activo.categoriaId === categoria)
-      )
-    );
-
-  filtrarPorUnidadAdministrativa = (unidadAdministrativa: Id) =>
-    pipe(
-      switchMap((activos: Activo[]) => {
-        let buscarUbicaciones = activos.map(activo =>
-          this._activoUbicacion.buscarPorActivo(activo.id)
-        );
-        return forkJoin(buscarUbicaciones).pipe(
-          map(ubicaciones => {
-            let filtrados = ubicaciones
-              .filter(
-                ubicacion =>
-                  ubicacion.unidadAdministrativaId === unidadAdministrativa
-              )
-              .map(ubicacion => ubicacion.activoId);
-            return activos.filter(activo => filtrados.includes(activo.id));
-          })
-        );
-      })
-    );
 }

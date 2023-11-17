@@ -11,7 +11,7 @@ import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financia
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
-import { adaptarFuentesFinanciamiento } from '@core/utils/pipes-rxjs/adaptadores/adaptar-fuentes-financiamiento';
+import { adaptarFuentesFinanciamiento } from '@core/utils/pipes-rxjs/adaptadores/adaptar-fuente-financiamiento';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';

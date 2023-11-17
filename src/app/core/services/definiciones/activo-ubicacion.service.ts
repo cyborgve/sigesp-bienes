@@ -7,6 +7,8 @@ import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { convertirTipoOracion } from '@core/utils/funciones/convertir-tipo-oracion';
+import { adaptarActivosUbicacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-ubicacion';
+import { adaptarActivoUbicacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-ubicacion';
 
 @Injectable({
   providedIn: 'root',
@@ -17,28 +19,29 @@ export class ActivoUbicacionService extends GenericService<ActivoUbicacion> {
     return END_POINTS.find(ep => ep.clave === 'activoUbicacion').valor;
   }
 
+  buscarTodos(): Observable<ActivoUbicacion[]> {
+    return super.buscarTodos().pipe(adaptarActivosUbicacion());
+  }
+
   buscarPorActivo(activoId: Id): Observable<ActivoUbicacion> {
     return this._http.get<ActivoUbicacion>(this.apiUrlActivoId(activoId)).pipe(
       map((res: any) => res.data as ActivoUbicacion[]),
-      map((res: any) => normalizarObjeto(res[0]))
+      map((res: any) => normalizarObjeto(res[0])),
+      adaptarActivoUbicacion()
     );
   }
 
-  eliminarPorActivo(
-    activo_id: Id,
+  buscarPorId(id: Id): Observable<ActivoUbicacion> {
+    return super.buscarPorId(id).pipe(adaptarActivoUbicacion());
+  }
+
+  guardar(
+    entidad: ActivoUbicacion,
     tipoDato: string,
     notificar?: boolean
-  ): Observable<boolean> {
-    return this._http.delete<boolean>(this.apiUrlActivoId(activo_id)).pipe(
-      map((res: any) => res.data[0]),
-      tap(eliminado => {
-        if (eliminado && notificar)
-          this.snackBarMessage(
-            `${convertirTipoOracion(
-              tipoDato
-            )}: ${activo_id}, fue eliminado correctamente`
-          );
-      })
-    );
+  ): Observable<ActivoUbicacion> {
+    return super
+      .guardar(entidad, tipoDato, notificar)
+      .pipe(adaptarActivoUbicacion());
   }
 }

@@ -4,7 +4,7 @@ import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
 import { END_POINTS } from '@core/constants/end-points';
 import { Observable } from 'rxjs';
 import { adaptarEntregaUnidad } from '@core/utils/pipes-rxjs/adaptadores/adaptar-entrega-unidad';
-import { adaptarEntregasUnidad } from '@core/utils/pipes-rxjs/adaptadores/adaptar-entregas-unidad';
+import { adaptarEntregasUnidades } from '@core/utils/pipes-rxjs/adaptadores/adaptar-entrega-unidad';
 import { Id } from '@core/types/id';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
@@ -38,7 +38,7 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
   }
 
   buscarTodos(): Observable<EntregaUnidad[]> {
-    return super.buscarTodos().pipe(adaptarEntregasUnidad());
+    return super.buscarTodos().pipe(adaptarEntregasUnidades());
   }
 
   buscarPorId(id: Id): Observable<EntregaUnidad> {

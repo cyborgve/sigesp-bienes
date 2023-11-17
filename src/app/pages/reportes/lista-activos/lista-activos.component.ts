@@ -1,4 +1,4 @@
-import { filtrarActivosPorTipoSede } from './../../../core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-sede';
+import { filtrarActivosPorTipoSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-sede';
 import { filtrarActivosPorEstadoUso } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-uso';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -101,7 +101,7 @@ export class ListaActivosComponent implements AfterViewInit {
       catalogoGeneral: [0],
       marca: [0],
       modelo: [0],
-      moneda: [0],
+      moneda: ['Todos'],
       color: [0],
       rotulacion: [0],
       categoria: [0],

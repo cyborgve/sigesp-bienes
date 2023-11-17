@@ -28,6 +28,8 @@ import { prepararActivoProceso } from '@core/utils/funciones/preparar-activo-pro
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { pipe } from 'rxjs';
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { filtrarActivosSinIncorporar } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-incoporar';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -51,7 +53,7 @@ export class SingularIncorporacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -240,7 +242,7 @@ export class SingularIncorporacionComponent implements Entidad {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [this._activo.filtrarSinIncorporar()] },
+      data: { filtros: [filtrarActivosSinIncorporar(this._activoUbicacion)] },
     });
     dialog
       .afterClosed()
