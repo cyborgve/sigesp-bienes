@@ -8,6 +8,7 @@ import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-
 })
 export class DenominacionUnidadAdministrativaPipe implements PipeTransform {
   transform(value: number): Observable<string> {
+    if (value === null) return of('');
     return this._unidadAdministrativa.buscarPorId(value).pipe(
       filter(todo => !!todo),
       map(unidad => unidad['denominacion'])

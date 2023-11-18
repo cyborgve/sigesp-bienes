@@ -53,6 +53,7 @@ import { filtrarActivosPorAseguradora } from '@core/utils/pipes-rxjs/operadores/
 import { SeguroService } from '@core/services/definiciones/seguro.service';
 import { filtrarActivosPorTipoCobertura } from '@core/utils/pipes-rxjs/operadores/filtrar-por-tipo-cobertura';
 import { filtrarActivosPorTipoPoliza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-poliza';
+import { filtrarActivosPorCatalogoGeneral } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-catalogo-general';
 
 @Component({
   selector: 'app-lista-activos',
@@ -101,7 +102,7 @@ export class ListaActivosComponent implements AfterViewInit {
       catalogoGeneral: [0],
       marca: [0],
       modelo: [0],
-      moneda: ['Todos'],
+      moneda: ['0'],
       color: [0],
       rotulacion: [0],
       categoria: [0],
@@ -159,7 +160,7 @@ export class ListaActivosComponent implements AfterViewInit {
       .pipe(
         filtrarActivosPorFecha(this.formularioRangoFechas),
         filtrarActivosPorTipo(this.formularioFiltrosActivos.value.tipoActivo),
-        // TODO: filtrarActivosPorCatalogoGeneral(this.formularioFiltrosActivos.value.catalogoGeneral),
+        //filtrarActivosPorCatalogoGeneral(this.formularioFiltrosActivos.value.catalogoGeneral),
         filtrarActivosPorMarca(
           this.formularioFiltrosActivos.value.marca,
           this._modelo

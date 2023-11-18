@@ -20,7 +20,6 @@ export class ResponsableService {
   buscarTodos(): Observable<Responsable[]> {
     return this._http.get<Responsable[]>(this.apiUrl).pipe(
       map((respuesta: any) => respuesta.data),
-      tap(console.log),
       adaptarResponsables(),
       ordenarPorId()
     );
