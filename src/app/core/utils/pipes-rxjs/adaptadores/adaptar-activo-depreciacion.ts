@@ -1,6 +1,8 @@
+import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
+import { normalizarMetodoDepreciacion } from '@core/utils/funciones/normalizar-metodo-depreciacion';
 
 export const adaptarActivoDepreciacion = () => pipe(map(adaptar));
 export const adaptarActivosDepreciacion = () =>
@@ -8,13 +10,14 @@ export const adaptarActivosDepreciacion = () =>
 
 const adaptar = (depreciacion: any) =>
   <ActivoDepreciacion>{
-    empresaId: depreciacion.empresaId,
+    empresaId: Number(depreciacion.empresaId),
     id: Number(depreciacion.id),
     activoId: Number(depreciacion.activoId),
     depreciable: Number(depreciacion.depreciable),
-    metodoDepreciacion: depreciacion.metodoDepreciacion
-      ? depreciacion.metodoDepreciacion
-      : '',
+    //TODO: pendiente por quitar la normalizacion
+    metodoDepreciacion: normalizarMetodoDepreciacion(
+      depreciacion.MetodoDepreciacion
+    ),
     cuentaContableGasto: depreciacion.cuentaContableGasto,
     cuentaContableDepreciacion: depreciacion.cuentaContableDepreciacion,
     vidaUtil: Number(depreciacion.vidaUtil),
@@ -22,4 +25,5 @@ const adaptar = (depreciacion: any) =>
     valorRescate: Number(depreciacion.valorRescate),
     monedaValorRescate: depreciacion.monedaValorRescate,
     creado: depreciacion.creado,
+    modificado: depreciacion.modificado,
   };

@@ -303,6 +303,7 @@ export class SingularIncorporacionComponent implements Entidad {
         tap((unidadAdministrativa: UnidadAdministrativa) =>
           this.formulario.patchValue({
             unidadAdministrativa: unidadAdministrativa.id,
+            responsablePrimario: unidadAdministrativa.responsable,
           })
         ),
         take(1)
@@ -322,25 +323,6 @@ export class SingularIncorporacionComponent implements Entidad {
         tap((sede: Sede) =>
           this.formulario.patchValue({
             sede: sede.id,
-          })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarResponsablePrimario() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap((responsable: Responsable) =>
-          this.formulario.patchValue({
-            responsablePrimario: responsable.id,
           })
         ),
         take(1)

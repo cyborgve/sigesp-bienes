@@ -39,16 +39,8 @@
               formulario.value.unidadCedenteResponsable
                 | denominacionResponsable
                 | async
-                | corregirSeleccionar
+                | corregirNoAsignado
             " />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            [disabled]="dataSource.data.length > 0"
-            (click)="buscarResponsableUnidadCedente()">
-            <mat-icon>search</mat-icon>
-          </button>
         </mat-form-field>
         <!-- unidadAdministrativaReceptora -->
         <mat-form-field appearance="fill" class="unidadAdministrativaReceptora">
@@ -66,6 +58,7 @@
             type="button"
             mat-icon-button
             matSuffix
+            [disabled]="dataSource.data.length > 0"
             (click)="buscarUnidadAdministrativaReceptora()">
             <mat-icon>search</mat-icon>
           </button>
@@ -81,15 +74,8 @@
               formulario.value.unidadReceptoraResponsable
                 | denominacionResponsable
                 | async
-                | corregirSeleccionar
+                | corregirNoAsignado
             " />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarResponsableUnidadReceptora()">
-            <mat-icon>search</mat-icon>
-          </button>
         </mat-form-field>
         <!-- testigo -->
         <mat-form-field appearance="fill" class="testigo">

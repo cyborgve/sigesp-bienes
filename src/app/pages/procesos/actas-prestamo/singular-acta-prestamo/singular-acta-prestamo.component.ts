@@ -1,3 +1,4 @@
+import { Responsable } from '@core/models/otros-modulos/responsable';
 import { Activo } from '@core/models/definiciones/activo';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -9,7 +10,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorActaPrestamoComponent } from '../buscador-acta-prestamo/buscador-acta-prestamo.component';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
@@ -146,9 +147,9 @@ export class SingularActaPrestamoComponent
               id: 0,
               comprobante: `${ser}-${doc}`,
               unidadAdministrativaCedente: 0,
-              unidadCedenteResponsable: '---',
+              unidadCedenteResponsable: '',
               unidadAdministrativaReceptora: 0,
-              unidadReceptoraResponsable: '---',
+              unidadReceptoraResponsable: '',
               testigo: '---',
               notas: '',
               activos: [],
@@ -257,25 +258,7 @@ export class SingularActaPrestamoComponent
         tap(unidadAdministrativa =>
           this.formulario.patchValue({
             unidadAdministrativaCedente: unidadAdministrativa.id,
-          })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarResponsableUnidadCedente() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '95%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap(responsable =>
-          this.formulario.patchValue({
-            unidadCedenteResponsable: responsable.id,
+            unidadCedenteResponsable: unidadAdministrativa.responsable,
           })
         ),
         take(1)
@@ -295,25 +278,7 @@ export class SingularActaPrestamoComponent
         tap(unidadAdministrativa =>
           this.formulario.patchValue({
             unidadAdministrativaReceptora: unidadAdministrativa.id,
-          })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarResponsableUnidadReceptora() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '95%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap(responsable =>
-          this.formulario.patchValue({
-            unidadReceptoraResponsable: responsable.id,
+            unidadReceptoraResponsable: unidadAdministrativa.responsable,
           })
         ),
         take(1)
