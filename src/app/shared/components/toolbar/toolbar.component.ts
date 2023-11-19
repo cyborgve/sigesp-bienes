@@ -30,7 +30,7 @@ export class ToolbarComponent implements OnInit {
   @Input() mostrarIrAtras: boolean = true;
   @Input() mostrarIrAlInicio: boolean = true;
   @Input() mostrarSalir: boolean = true;
-  @Input() tooTipProceso: boolean = false;
+  @Input() toolTipPersonalizado: string;
 
   @Input() desabilitarBuscar: boolean = false;
   @Input() desabilitarImportar: boolean = false;
@@ -53,7 +53,7 @@ export class ToolbarComponent implements OnInit {
   offset: number = 0;
 
   toolTipInicio = () =>
-    this.tooTipProceso ? 'Ir a procesos' : 'Ir a definiciones';
+    this.toolTipPersonalizado ? this.toolTipPersonalizado : 'Ir a Definiciones';
 
   ngOnInit() {
     if (window.scrollY < 70) {

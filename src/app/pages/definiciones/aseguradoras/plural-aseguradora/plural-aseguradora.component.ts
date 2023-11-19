@@ -13,5 +13,5 @@ export class PluralAseguradoraComponent {
   constructor(private _location: Location, private _router: Router) {}
 
   irAtras = () => this._location.back();
-  irAlInicio = () => this._router.navigate(['/definiciones']);
+  irAlInicio = () => this._router.navigate(['/']);
 }

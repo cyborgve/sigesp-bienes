@@ -538,8 +538,6 @@ export class SingularActivoComponent implements Entidad {
     activo.detalle = this.formularioDetalles.value as ActivoDetalle;
     activo.depreciacion = this.formularioDepreciacion
       .value as ActivoDepreciacion;
-    if (activo.depreciacion.metodoDepreciacion.trim() === '')
-      activo.depreciacion.metodoDepreciacion = null;
     activo.ubicacion = this.formularioUbicacion.value as ActivoUbicacion;
     if (this.modoFormulario === 'CREANDO') {
       this._activo
