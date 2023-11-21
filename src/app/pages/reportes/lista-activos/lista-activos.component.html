@@ -182,8 +182,10 @@
   <app-detalle [dataSource]="dataSource"></app-detalle>
 </section>
 <app-toolbar
-  (guardar)="guardar()"
-  [desabilitarGuardar]="dataSource.data.length === 0"
+  (exportar)="guardar()"
+  [desabilitarExportar]="dataSource.data.length === 0"
+  [mostrarExportar]="true"
+  [mostrarGuardar]="false"
   [mostrarBorrar]="false"
   [mostrarBuscar]="false"
   [mostrarImportar]="false"

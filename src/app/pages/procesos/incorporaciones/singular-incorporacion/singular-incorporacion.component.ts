@@ -27,7 +27,6 @@ import { prepararIncorporacion } from '@core/utils/funciones/preparar-incorporac
 import { prepararActivoProceso } from '@core/utils/funciones/preparar-activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { pipe } from 'rxjs';
-import { ActivoService } from '@core/services/definiciones/activo.service';
 import { filtrarActivosSinIncorporar } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-incoporar';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 

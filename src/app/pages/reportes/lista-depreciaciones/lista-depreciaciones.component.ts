@@ -8,6 +8,7 @@ import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { take, tap } from 'rxjs/operators';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { filtrarProcesoPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-proceso-por-fecha';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 
 @Component({
   selector: 'app-lista-depreciaciones',
@@ -20,13 +21,15 @@ export class ListaDepreciacionesComponent implements AfterViewInit, OnDestroy {
   fechaEmision = new Date();
   formularioRangoFechas: FormGroup;
   dataSource: MatTableDataSource<Depreciacion> = new MatTableDataSource();
+  filtrosSinDecorar: boolean = false;
 
   deshabilitarGuardar = () => this.dataSource.data.length === 0;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _depreciacion: DepreciacionService,
-    private _xlsx: XLSXService
+    private _xlsx: XLSXService,
+    private _configuracion: ConfiguracionService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
       rango: ['TODO EL AÑO'],
@@ -37,6 +40,16 @@ export class ListaDepreciacionesComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(
+          configuracion =>
+            (this.filtrosSinDecorar = configuracion.decorarFiltros === 0)
+        ),
+        take(1)
+      )
+      .subscribe();
     this.recargarDepreciaciones();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges.subscribe(() =>

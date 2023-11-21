@@ -24,6 +24,7 @@ export class ToolbarComponent implements OnInit {
 
   @Input() mostrarBuscar: boolean = true;
   @Input() mostrarImportar: boolean = true;
+  @Input() mostrarExportar: boolean = false;
   @Input() mostrarGuardar: boolean = true;
   @Input() mostrarImprimir: boolean = false;
   @Input() mostrarBorrar: boolean = true;
@@ -34,6 +35,7 @@ export class ToolbarComponent implements OnInit {
 
   @Input() desabilitarBuscar: boolean = false;
   @Input() desabilitarImportar: boolean = false;
+  @Input() desabilitarExportar: boolean = false;
   @Input() desabilitarGuardar: boolean = false;
   @Input() desabilitarImprimir: boolean = false;
   @Input() desabilitarBorrar: boolean = false;
@@ -43,6 +45,7 @@ export class ToolbarComponent implements OnInit {
 
   @Output() buscar = new EventEmitter();
   @Output() importar = new EventEmitter();
+  @Output() exportar = new EventEmitter();
   @Output() guardar = new EventEmitter();
   @Output() imprimir = new EventEmitter();
   @Output() borrar = new EventEmitter();

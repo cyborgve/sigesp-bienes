@@ -10,6 +10,7 @@ import { InformacionDefinicionService } from './informacion-definicion.service';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { Observable, of } from 'rxjs';
+import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 
 @Injectable({
   providedIn: 'root',
@@ -125,7 +126,7 @@ export class XLSXService {
     return of(generar());
   }
 
-  listaActivos(activos: Activo[]) {
+  listaActivos(activos: ActivoLista[]) {
     let generar = () => {
       let fecha = new Date();
       let workBook = XLSX.utils.book_new();

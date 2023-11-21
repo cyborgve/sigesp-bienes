@@ -10,7 +10,7 @@ import { Activo } from '@core/models/definiciones/activo';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { filtrarActivosPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-fecha';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, first, map, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { filtrarActivosPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo';
 import { filtrarActivosPorMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-marca';
@@ -54,6 +54,7 @@ import { SeguroService } from '@core/services/definiciones/seguro.service';
 import { filtrarActivosPorTipoCobertura } from '@core/utils/pipes-rxjs/operadores/filtrar-por-tipo-cobertura';
 import { filtrarActivosPorTipoPoliza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-poliza';
 import { filtrarActivosPorCatalogoGeneral } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-catalogo-general';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 
 @Component({
   selector: 'app-lista-activos',
@@ -68,7 +69,7 @@ export class ListaActivosComponent implements AfterViewInit {
   formularioRangoFechas: FormGroup;
   procesos = TIPOS_PROCESO;
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'].filter(c => c !== 'acciones');
-  filtrosSinDecorar = false;
+  filtrosSinDecorar: boolean = false;
   formularioFiltrosActivos: FormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
 
@@ -78,6 +79,7 @@ export class ListaActivosComponent implements AfterViewInit {
 
   constructor(
     private _formBuilder: FormBuilder,
+    private _configuracion: ConfiguracionService,
     private _activo: ActivoService,
     private _activoDetalle: ActivoDetalleService,
     private _activoComponente: ActivoComponenteService,
@@ -97,7 +99,7 @@ export class ListaActivosComponent implements AfterViewInit {
       fechaReferencia: ['CREADO'],
     });
     this.formularioFiltrosActivos = this._formBuilder.group({
-      // datos generales
+      //* datos generales */
       tipoActivo: ['TODOS'],
       catalogoGeneral: [0],
       marca: [0],
@@ -106,7 +108,7 @@ export class ListaActivosComponent implements AfterViewInit {
       color: [0],
       rotulacion: [0],
       categoria: [0],
-      // detalles
+      //* detalles */
       origen: [0],
       fuenteFinanciamiento: ['Todos'],
       clase: [0],
@@ -143,6 +145,17 @@ export class ListaActivosComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(
+          configuracion =>
+            (this.filtrosSinDecorar =
+              configuracion.decorarFiltros === 0 ? true : false)
+        ),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges.subscribe(() =>
@@ -299,6 +312,16 @@ export class ListaActivosComponent implements AfterViewInit {
   }
 
   guardar() {
-    this._xlsx.listaActivos(this.dataSource.data).pipe(take(1)).subscribe();
+    let activosSeleccionados = this.dataSource.data.map(activo => activo.id);
+    this._activo
+      .buscarTodosLista()
+      .pipe(
+        map(activos =>
+          activos.filter(activo => activosSeleccionados.includes(activo.id))
+        ),
+        switchMap(lista => this._xlsx.listaActivos(lista)),
+        first()
+      )
+      .subscribe();
   }
 }

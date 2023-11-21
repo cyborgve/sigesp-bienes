@@ -14,6 +14,7 @@ import { tap, take } from 'rxjs/operators';
 import { filtrarDepreciacionesMensualesPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-depreciaciones-mensuales-por-fecha';
 import { transformarActivoListaDepreciacion } from '@core/utils/pipes-rxjs/transformacion/transformar-activo-lista-depreciacion';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 
 @Component({
   selector: 'app-lista-depreciaciones-mensuales',
@@ -33,6 +34,7 @@ export class ListaDepreciacionesMensualesComponent
     COLUMNAS_VISIBLES.LISTA_DEPRECIACIONES_ANUALES_MENSUALES.filter(
       s => s !== 'depreciacionAnual'
     );
+  filtrosSinDecorar: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -40,7 +42,8 @@ export class ListaDepreciacionesMensualesComponent
     private _depreciacionDetalle: DepreciacionDetalleService,
     private _activo: ActivoService,
     private _moneda: MonedaService,
-    private _xlsx: XLSXService
+    private _xlsx: XLSXService,
+    private _configuracion: ConfiguracionService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
       rango: ['ESTE MES'],
@@ -51,6 +54,16 @@ export class ListaDepreciacionesMensualesComponent
   }
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(
+          configuracion =>
+            (this.filtrosSinDecorar = configuracion.decorarFiltros === 0)
+        ),
+        take(1)
+      )
+      .subscribe();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges
         .pipe(tap(() => this.recargarDepreciaciones()))

@@ -12,5 +12,6 @@ export interface Configuracion extends Basica {
   usarMascaraCodigoActivo: number;
   activarPaginacion: number;
   opcionesPaginacion: number[];
-  decorarFiltros: boolean;
+  decorarFiltros: number;
+  abrirImprimirProceso: number;
 }

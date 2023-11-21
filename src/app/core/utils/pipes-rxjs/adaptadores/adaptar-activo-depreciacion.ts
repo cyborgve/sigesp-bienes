@@ -14,10 +14,7 @@ const adaptar = (depreciacion: any) =>
     id: Number(depreciacion.id),
     activoId: Number(depreciacion.activoId),
     depreciable: Number(depreciacion.depreciable),
-    //TODO: pendiente por quitar la normalizacion
-    metodoDepreciacion: normalizarMetodoDepreciacion(
-      depreciacion.MetodoDepreciacion
-    ),
+    metodoDepreciacion: depreciacion.MetodoDepreciacion,
     cuentaContableGasto: depreciacion.cuentaContableGasto,
     cuentaContableDepreciacion: depreciacion.cuentaContableDepreciacion,
     vidaUtil: Number(depreciacion.vidaUtil),

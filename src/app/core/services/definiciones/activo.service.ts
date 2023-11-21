@@ -21,6 +21,15 @@ import { prepararActivoUbicacion } from '@core/utils/funciones/preparar-activo-u
 import { adaptarActivo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { adaptarActivos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
+import { convertirSnakeCaseACamelCase } from '@core/utils/funciones/convertir-snake-case-a-camel-case';
+import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
+import {
+  adaptarActivoLista,
+  adaptarActivosLista,
+} from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-lista';
+import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +38,8 @@ export class ActivoService extends GenericService<Activo> {
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'activo').valor;
   }
+
+  private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
 
   constructor(
     protected _http: HttpClient,
@@ -119,6 +130,14 @@ export class ActivoService extends GenericService<Activo> {
           return 1;
         else return 0;
       })
+    );
+  }
+
+  buscarTodosLista(): Observable<ActivoLista[]> {
+    return this._http.get<any[]>(this.apiUrlLista()).pipe(
+      map((resultado: any) => resultado.data),
+      map((lista: any[]) => lista.map(item => normalizarObjeto(item))),
+      adaptarActivosLista()
     );
   }
 }

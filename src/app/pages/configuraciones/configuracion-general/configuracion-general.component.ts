@@ -49,6 +49,8 @@ export class ConfiguracionGeneralComponent implements Entidad {
       usarMascaraCodigoActivo: [undefined],
       activarPaginacion: [undefined],
       opcionesPaginacion: [undefined],
+      decorarFiltros: [undefined],
+      abrirImprimirProceso: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -60,28 +62,29 @@ export class ConfiguracionGeneralComponent implements Entidad {
     this._entidad
       .buscarPorId(1)
       .pipe(
-        adaptarConfiguracion(),
-        tap(
-          (ent: Configuracion) =>
-            this.formulario.patchValue({
-              empresaId: ent.empresaId,
-              id: ent.id,
-              normativaActivos: ent.normativaActivos,
-              afectacionDepreciacion: ent.afectacionDepreciacion,
-              longitudCatalogoCuentas: ent.longitudCatalogoCuentas,
-              longitudCodigoInstitucional: ent.longitudCodigoInstitucional,
-              formatoCatalogoCuentaGeneral: ent.formatoCatalogoCuentaGeneral,
-              formatoCodigoInstitucional: ent.formatoCodigoInstitucional,
-              generarAsientosContables: ent.generarAsientosContables,
-              fechaIncorporacionAutomatica: ent.fechaIncorporacionAutomatica,
-              usarMascaraCodigoActivo: ent.usarMascaraCodigoActivo,
-              activarPaginacion: ent.activarPaginacion,
-              opcionesPaginacion: ent.opcionesPaginacion,
-              creado: ent.creado,
-              modificado: ent.modificado,
-            }),
-          take(1)
-        )
+        tap(console.log),
+        tap((ent: Configuracion) =>
+          this.formulario.patchValue({
+            empresaId: ent.empresaId,
+            id: ent.id,
+            normativaActivos: ent.normativaActivos,
+            afectacionDepreciacion: ent.afectacionDepreciacion,
+            longitudCatalogoCuentas: ent.longitudCatalogoCuentas,
+            longitudCodigoInstitucional: ent.longitudCodigoInstitucional,
+            formatoCatalogoCuentaGeneral: ent.formatoCatalogoCuentaGeneral,
+            formatoCodigoInstitucional: ent.formatoCodigoInstitucional,
+            generarAsientosContables: ent.generarAsientosContables,
+            fechaIncorporacionAutomatica: ent.fechaIncorporacionAutomatica,
+            usarMascaraCodigoActivo: ent.usarMascaraCodigoActivo,
+            activarPaginacion: ent.activarPaginacion,
+            opcionesPaginacion: ent.opcionesPaginacion,
+            decorarFiltros: ent.decorarFiltros,
+            abrirImprimirProceso: ent.abrirImprimirProceso,
+            creado: ent.creado,
+            modificado: ent.modificado,
+          })
+        ),
+        take(1)
       )
       .subscribe();
   }
@@ -92,6 +95,7 @@ export class ConfiguracionGeneralComponent implements Entidad {
 
   guardar(): void {
     let configuracion = prepararConfiguracion(this.formulario.value);
+    console.log(configuracion);
     this._entidad
       .actualizar(this.id, configuracion, this.titulo, false)
       .pipe(first())

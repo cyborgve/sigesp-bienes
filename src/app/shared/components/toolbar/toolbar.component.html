@@ -54,6 +54,17 @@
       <i class="material-icons">content_copy</i>
     </button>
   </ng-container>
+  <!-- exportar -->
+  <ng-container *ngIf="mostrarExportar">
+    <button
+      mat-button
+      matTooltip="Exportar"
+      type="button"
+      (click)="exportar.emit()"
+      [disabled]="desabilitarExportar">
+      <i class="material-icons">superscript</i>
+    </button>
+  </ng-container>
   <!--ir atras -->
   <ng-container *ngIf="mostrarIrAtras">
     <button

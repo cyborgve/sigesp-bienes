@@ -4,8 +4,11 @@
     [fechaEmision]="fechaEmision"></app-encabezado-reportes>
 </section>
 <section class="contenedor-singular inferior superior">
-  <app-filtro-rango-fechas
-    [formulario]="formularioRangoFechas"></app-filtro-rango-fechas>
+  <mat-card class="filtro-card">
+    <app-filtro-rango-fechas
+      [sinDecorar]="filtrosSinDecorar"
+      [formulario]="formularioRangoFechas"></app-filtro-rango-fechas>
+  </mat-card>
 </section>
 <section class="contenedor-singular inferior">
   <app-lista-depreciaciones
@@ -17,5 +20,7 @@
   [mostrarBorrar]="false"
   [mostrarBuscar]="false"
   [mostrarSalir]="false"
-  (guardar)="guardar()"
-  [desabilitarGuardar]="dataSource.data.length === 0"></app-toolbar>
+  (exportar)="guardar()"
+  [desabilitarExportar]="dataSource.data.length === 0"
+  [mostrarExportar]="true"
+  [mostrarGuardar]="false"></app-toolbar>

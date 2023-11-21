@@ -6,6 +6,7 @@ import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inve
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { EstadoConservacionService } from '@core/services/definiciones/estado-conservacion.service';
 import { EstadoUsoService } from '@core/services/definiciones/estado-uso.service';
 import { MarcaService } from '@core/services/definiciones/marca.service';
@@ -35,6 +36,7 @@ export class ListaInventarioActivosComponent
   formularioFiltros: FormGroup;
   dataSource: MatTableDataSource<ActivoListaInventario> =
     new MatTableDataSource();
+  filtrosSinDecorar: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -45,7 +47,8 @@ export class ListaInventarioActivosComponent
     private _marca: MarcaService,
     private _modelo: ModeloService,
     private _activoUbicacion: ActivoUbicacionService,
-    private _xlsx: XLSXService
+    private _xlsx: XLSXService,
+    private _configuracion: ConfiguracionService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
       rango: ['PERSONALIZADO'],
@@ -61,6 +64,16 @@ export class ListaInventarioActivosComponent
   }
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(
+          configuracion =>
+            (this.filtrosSinDecorar = configuracion.decorarFiltros === 0)
+        ),
+        take(1)
+      )
+      .subscribe();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges.subscribe(() =>
         this.recargarDatos()

@@ -5,13 +5,11 @@
   @apply col-span-3;
 }
 
-.imprimirProceso,
 .activarPaginacion,
 .longitudCatalogoCuentas,
 .longitudCodigoInstitucional,
 .afectacionDepreciacion,
-.normativaActivos,
-.decorarFiltros {
+.normativaActivos {
   @apply col-span-2;
 }
 
@@ -35,4 +33,9 @@
 
 .activarPaginacion {
   @apply pt-4;
+}
+
+.imprimirProceso,
+.decorarFiltros {
+  @apply col-span-2 pt-4;
 }

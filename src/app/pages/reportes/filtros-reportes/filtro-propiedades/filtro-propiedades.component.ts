@@ -1,8 +1,4 @@
-import {
-  CdkDragDrop,
-  CdkDropList,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';

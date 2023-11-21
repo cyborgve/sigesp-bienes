@@ -6,6 +6,7 @@ import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { ActaPrestamoService } from '@core/services/procesos/acta-prestamo.service';
 import { filtrarProcesoPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-proceso-por-fecha';
 import { Subscription } from 'rxjs';
@@ -25,11 +26,13 @@ export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
   formularioRangoFechas: FormGroup;
   procesos = TIPOS_PROCESO;
   desactivarGuardar = () => this.dataSource.data.length === 0;
+  filtrosSinDecorar: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _actaPrestamo: ActaPrestamoService,
-    private _xlsx: XLSXService
+    private _xlsx: XLSXService,
+    private _configuracion: ConfiguracionService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
       rango: ['ESTE MES'],
@@ -40,6 +43,16 @@ export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(
+          configuracion =>
+            (this.filtrosSinDecorar = configuracion.decorarFiltros === 0)
+        ),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges

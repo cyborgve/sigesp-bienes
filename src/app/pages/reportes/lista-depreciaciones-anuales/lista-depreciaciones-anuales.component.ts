@@ -15,6 +15,7 @@ import { filtrarDepreciacionesAnualesPorRangoDeFecha } from '@core/utils/pipes-r
 import { transformarActivoListaDepreciacion } from '@core/utils/pipes-rxjs/transformacion/transformar-activo-lista-depreciacion';
 import { Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 
 @Component({
   selector: 'app-lista-depreciaciones-anuales',
@@ -34,6 +35,7 @@ export class ListaDepreciacionesAnualesComponent
     COLUMNAS_VISIBLES.LISTA_DEPRECIACIONES_ANUALES_MENSUALES.filter(
       s => s !== 'depreciacionMensual'
     );
+  filtrosSinDecorar: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -41,7 +43,8 @@ export class ListaDepreciacionesAnualesComponent
     private _depreciacionDetalle: DepreciacionDetalleService,
     private _activo: ActivoService,
     private _moneda: MonedaService,
-    private _xlsx: XLSXService
+    private _xlsx: XLSXService,
+    private _configuracion: ConfiguracionService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
       rango: ['TODO EL AÑO'],
@@ -52,6 +55,16 @@ export class ListaDepreciacionesAnualesComponent
   }
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(
+          configuracion =>
+            (this.filtrosSinDecorar = configuracion.decorarFiltros === 0)
+        ),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges
