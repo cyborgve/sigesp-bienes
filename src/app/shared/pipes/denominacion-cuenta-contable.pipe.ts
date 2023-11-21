@@ -11,6 +11,7 @@ export class DenominacionCuentaContablePipe implements PipeTransform {
     if (value === null || value === undefined) return of('');
     if (value === '--') return of('--');
     if (value === '---') return of('---');
+    if (value === 'Todos') return of('Todos');
     return this._sigesp.getCuentasInstitucionales().pipe(
       map(cuentas => cuentas.find(cta => cta.cuenta === value)),
       map(cuenta => cuenta['denominacion'])

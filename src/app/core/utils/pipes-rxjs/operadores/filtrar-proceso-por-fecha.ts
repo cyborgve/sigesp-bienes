@@ -13,6 +13,13 @@ export const filtrarProcesoPorFecha = (formularioRangoFechas: FormGroup) =>
         let fechaFin = formularioRangoFechas.value.fechaFin
           ? moment(formularioRangoFechas.value.fechaFin)
           : moment(new Date());
+        if (
+          formularioRangoFechas.value.rango === 'HOY' ||
+          formularioRangoFechas.value.rango === 'AYER'
+        ) {
+          fechaInicio = fechaInicio.startOf('day');
+          fechaFin = fechaInicio.endOf('day');
+        }
         return formularioRangoFechas.value.fechaReferencia === 'CREADO'
           ? moment(proceso.creado).isBetween(fechaInicio, fechaFin)
           : moment(proceso.modificado).isBetween(fechaInicio, fechaFin);

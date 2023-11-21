@@ -1,4 +1,4 @@
-import { convertirCamelCase } from './convertir-camel-case';
+import { convertirSnakeCaseACamelCase } from './convertir-snake-case-a-camel-case';
 
 /**
  * @description  Transforma un objeto que puede tener los nombres de las propiedades con estilo snake_case y
@@ -12,7 +12,7 @@ export const normalizarObjeto = (objeto: any) => {
     let objetoTransformado: typeof objeto = {};
     let claves = Object.keys(objeto);
     for (let clave of claves) {
-      let claveTransformada = convertirCamelCase(clave);
+      let claveTransformada = convertirSnakeCaseACamelCase(clave);
       objetoTransformado[claveTransformada] = objeto[clave];
     }
     return objetoTransformado;

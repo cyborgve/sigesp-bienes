@@ -25,7 +25,9 @@
         type="text"
         formControlName="sede"
         readonly="true"
-        [value]="formulario.value.sede | denominacionSede | async" />
+        [value]="
+          formulario.value.sede | denominacionSede | async | corregirTodos
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarSede()">
         <mat-icon>search</mat-icon>
       </button>

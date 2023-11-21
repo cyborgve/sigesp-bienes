@@ -28,7 +28,10 @@
         formControlName="tipoPoliza"
         readonly="true"
         [value]="
-          formulario.value.tipoPoliza | denominacionTipoPoliza | async
+          formulario.value.tipoPoliza
+            | denominacionTipoPoliza
+            | async
+            | corregirTodos
         " />
       <button
         type="button"

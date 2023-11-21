@@ -63,9 +63,9 @@ export const COLUMNAS_VISIBLES = {
   CUENTAS_CONTABLES_PROCESO: [
     'cuentaProceso',
     'denominacion',
-    'creado',
-    'modificado',
-    'acciones',
+    'debe',
+    'haber',
+    'monto',
   ],
   ESTADOS_CONSERVACION: [
     'codigo',
@@ -282,5 +282,19 @@ export const COLUMNAS_VISIBLES = {
     'creado',
     'modificado',
     'acciones-proceso',
+  ],
+  LISTA_DEPRECIACIONES_ANUALES_MENSUALES: [
+    'fechaDepreciacion',
+    'codigo',
+    'denominacion',
+    'identificador',
+    'metodoDepreciacion',
+    'valorInicial',
+    'valorRescate',
+    'montoDepreciar',
+    'depreciacionMensual',
+    'depreciacionAnual',
+    //'depreciacionAcumulada',
+    'valorContable',
   ],
 };

@@ -92,15 +92,8 @@
               formulario.value.responsablePrimario
                 | denominacionResponsable
                 | async
-                | corregirSeleccionar
+                | corregirNoAsignado
             " />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarResponsablePrimario()">
-            <mat-icon>search</mat-icon>
-          </button>
         </mat-form-field>
         <!-- responsableUso -->
         <mat-form-field appearance="fill" class="responsableUso">
@@ -155,5 +148,5 @@
   (salir)="salir()"
   [desabilitarGuardar]="deshabilitarGuardar()"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
-  [tooTipProceso]="true"
+  toolTipPersonalizado="Ir a Procesos"
   [mostrarSalir]="false"></app-toolbar>

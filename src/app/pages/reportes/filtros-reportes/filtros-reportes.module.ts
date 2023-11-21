@@ -26,7 +26,7 @@ import { FiltroOrigenComponent } from './filtro-origen/filtro-origen.component';
 import { FiltroPropositoSemovienteComponent } from './filtro-proposito-semoviente/filtro-proposito-semoviente.component';
 import { FiltroRazaComponent } from './filtro-raza/filtro-raza.component';
 import { FiltroSedeComponent } from './filtro-sede/filtro-sede.component';
-import { FiltroSeguroComponent } from './filtro-seguro/filtro-seguro.component';
+import { FiltroAseguradoraComponent } from './filtro-aseguradora/filtro-aseguradora.component';
 import { FiltroTipoAnimalComponent } from './filtro-tipo-animal/filtro-tipo-animal.component';
 import { FiltroTipoCoberturaComponent } from './filtro-tipo-cobertura/filtro-tipo-cobertura.component';
 import { FiltroTipoComponenteComponent } from './filtro-tipo-componente/filtro-tipo-componente.component';
@@ -59,7 +59,7 @@ import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-orig
 import { BuscadorPropositoSemovienteModule } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.module';
 import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/buscador-raza.module';
 import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
-import { BuscadorSeguroModule } from '@pages/definiciones/seguros/buscador-seguro/buscador-seguro.module';
+import { BuscadorAseguradoraModule } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.module';
 import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.module';
 import { BuscadorTipoCoberturaModule } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.module';
 import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
@@ -72,6 +72,9 @@ import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades
 import { FiltroMetodoDepreciacionComponent } from './filtro-metodo-depreciacion/filtro-metodo-depreciacion.component';
 import { FiltroPropiedadesComponent } from './filtro-propiedades/filtro-propiedades.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { FiltroTipoResponsableComponent } from './filtro-tipo-responsable/filtro-tipo-responsable.component';
+import { FiltroCategoriaUnidadAdministrativaComponent } from './filtro-categoria-unidad-administrativa/filtro-categoria-unidad-administrativa.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const sharedComponents = [
   FiltroCatalogoGeneralComponent,
@@ -89,7 +92,7 @@ const sharedComponents = [
   FiltroPropositoSemovienteComponent,
   FiltroRazaComponent,
   FiltroSedeComponent,
-  FiltroSeguroComponent,
+  FiltroAseguradoraComponent,
   FiltroTipoAnimalComponent,
   FiltroTipoCoberturaComponent,
   FiltroTipoComponenteComponent,
@@ -114,6 +117,8 @@ const sharedComponents = [
   FiltroBeneficiarioComponent,
   FiltroMetodoDepreciacionComponent,
   FiltroPropiedadesComponent,
+  FiltroTipoResponsableComponent,
+  FiltroCategoriaUnidadAdministrativaComponent,
 ];
 
 @NgModule({
@@ -129,6 +134,7 @@ const sharedComponents = [
     MatSelectModule,
     MatDatepickerModule,
     MatChipsModule,
+    DragDropModule,
     BuscadorCatalogoGeneralModule,
     BuscadorCategoriaModule,
     BuscadorCategoriaUnidadModule,
@@ -143,7 +149,7 @@ const sharedComponents = [
     BuscadorRazaModule,
     BuscadorRotulacionModule,
     BuscadorSedeModule,
-    BuscadorSeguroModule,
+    BuscadorAseguradoraModule,
     BuscadorTipoAnimalModule,
     BuscadorTipoCoberturaModule,
     BuscadorTipoComponenteModule,

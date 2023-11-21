@@ -8,8 +8,9 @@ import { Observable, of } from 'rxjs';
 })
 export class DenominacionBeneficiarioPipe implements PipeTransform {
   transform(value: string): Observable<string> {
-    if (value === null || value === undefined) of(String(''));
-    if (value === '--' || value === '---') of(String('---'));
+    if (value === null || value === undefined) return of(String(''));
+    if (value === '--' || value === '---') return of(String('---'));
+    if (value === 'Todos') return of('Todos');
     if (value !== '---' && value !== '')
       return this._beneficiario
         .buscarPorId(value)

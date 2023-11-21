@@ -25,7 +25,9 @@
         type="text"
         formControlName="raza"
         readonly="true"
-        [value]="formulario.value.raza | denominacionRaza | async" />
+        [value]="
+          formulario.value.raza | denominacionRaza | async | corregirTodos
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarRaza()">
         <mat-icon>search</mat-icon>
       </button>

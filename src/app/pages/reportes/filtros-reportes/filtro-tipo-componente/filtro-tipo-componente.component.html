@@ -28,7 +28,10 @@
         formControlName="tipoComponente"
         readonly="true"
         [value]="
-          formulario.value.tipoComponente | denominacionTipoComponente | async
+          formulario.value.tipoComponente
+            | denominacionTipoComponente
+            | async
+            | corregirTodos
         " />
       <button
         type="button"

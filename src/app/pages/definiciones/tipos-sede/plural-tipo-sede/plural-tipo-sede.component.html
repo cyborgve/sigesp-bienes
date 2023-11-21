@@ -1,4 +1,11 @@
-<section class="contenedor">
+<section class="contenedor-singular">
   <app-tabla-tipo-sede [titulo]="titulo"></app-tabla-tipo-sede>
-  <app-botones-definiciones>sa</app-botones-definiciones>
+  <app-toolbar
+    [mostrarBorrar]="false"
+    [mostrarBuscar]="false"
+    [mostrarImportar]="false"
+    [mostrarGuardar]="false"
+    toolTipPersonalizado="Ir al Inicio"
+    (irAtras)="irAtras()"
+    (irAlInicio)="irAlInicio()"></app-toolbar>
 </section>

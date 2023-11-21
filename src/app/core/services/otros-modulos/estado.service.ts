@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Estado } from '@core/models/otros-modulos/estado';
 import { Observable } from 'rxjs';
 import { SigespService } from 'sigesp';
-import { adaptarEstados } from '@core/utils/pipes-rxjs/adaptadores/adaptar-estados';
+import { adaptarEstados } from '@core/utils/pipes-rxjs/adaptadores/adaptar-estado';
 
 @Injectable({
   providedIn: 'root',

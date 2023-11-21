@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SigespService } from 'sigesp';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { adaptarPaises } from '@core/utils/pipes-rxjs/adaptadores/adaptar-paises';
+import { adaptarPaises } from '@core/utils/pipes-rxjs/adaptadores/adaptar-pais';
 
 @Injectable({
   providedIn: 'root',

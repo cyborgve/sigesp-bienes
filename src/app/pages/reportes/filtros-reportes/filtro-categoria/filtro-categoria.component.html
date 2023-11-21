@@ -25,7 +25,12 @@
         type="text"
         formControlName="categoria"
         readonly="true"
-        [value]="formulario.value.categoria | denominacionCategoria | async" />
+        [value]="
+          formulario.value.categoria
+            | denominacionCategoria
+            | async
+            | corregirTodos
+        " />
       <button
         type="button"
         mat-icon-button

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SigespService } from 'sigesp';
 import { Empresa } from '@core/models/otros-modulos/empresa';
-import { adaptarEmpresas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-empresas';
+import { adaptarEmpresas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-empresa';
 import { Id } from '@core/types/id';
 import { adaptarEmpresa } from '@core/utils/pipes-rxjs/adaptadores/adaptar-empresa';
 

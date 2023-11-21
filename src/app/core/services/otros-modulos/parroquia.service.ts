@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SigespService } from 'sigesp';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
-import { adaptarParroquias } from '@core/utils/pipes-rxjs/adaptadores/adaptar-parroquias';
+import { adaptarParroquias } from '@core/utils/pipes-rxjs/adaptadores/adaptar-parroquia';
 
 @Injectable({
   providedIn: 'root',

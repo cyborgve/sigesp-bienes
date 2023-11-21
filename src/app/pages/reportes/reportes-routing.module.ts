@@ -5,35 +5,45 @@ import { ReportesComponent } from './reportes.component';
 const routes: Routes = [
   { path: '', component: ReportesComponent },
   {
-    path: 'listado-activos',
+    path: 'lista-actas-prestamo',
     loadChildren: () =>
-      import('./listado-activos/listado-activos.module').then(
-        m => m.ListadoActivosModule
+      import('./lista-actas-prestamo/lista-actas-prestamo.module').then(
+        m => m.ListaActasPrestamoModule
       ),
   },
   {
-    path: 'actas',
-    loadChildren: () => import('./actas/actas.module').then(m => m.ActasModule),
+    path: 'lista-depreciaciones-anuales',
+    loadChildren: () =>
+      import(
+        './lista-depreciaciones-anuales/lista-depreciaciones-anuales.module'
+      ).then(m => m.ListaDepreciacionesAnualesModule),
   },
   {
-    path: 'depreciacion',
+    path: 'lista-depreciaciones-mensuales',
     loadChildren: () =>
-      import('./depreciacion/depreciacion.module').then(
-        m => m.DepreciacionModule
+      import(
+        './lista-depreciaciones-mensuales/lista-depreciaciones-mensuales.module'
+      ).then(m => m.ListaDepreciacionesMensualesModule),
+  },
+  {
+    path: 'lista-activos',
+    loadChildren: () =>
+      import('./lista-activos/lista-activos.module').then(
+        m => m.ListaActivosModule
       ),
   },
   {
-    path: 'depreciacion-mensual',
+    path: 'lista-inventario-activos',
     loadChildren: () =>
-      import('./depreciacion-mensual/depreciacion-mensual.module').then(
-        m => m.DepreciacionMensualModule
+      import('./lista-inventario-activos/lista-inventario-activos.module').then(
+        m => m.ListaInventarioActivosModule
       ),
   },
   {
-    path: 'inventario-activos',
+    path: 'lista-depreciaciones',
     loadChildren: () =>
-      import('./inventario-activos/inventario-activos.module').then(
-        m => m.InventarioActivosModule
+      import('./lista-depreciaciones/lista-depreciaciones.module').then(
+        m => m.ListaDepreciacionesModule
       ),
   },
 ];

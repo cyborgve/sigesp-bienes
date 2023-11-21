@@ -28,10 +28,7 @@
         formControlName="cuentaContable"
         readonly="true"
         [value]="
-          formulario.value.cuentaContable
-            | denominacionCuentaContable
-            | async
-            | corregirSeleccionar
+          formulario.value.cuentaContable | denominacionCuentaContable | async
         " />
       <button
         type="button"

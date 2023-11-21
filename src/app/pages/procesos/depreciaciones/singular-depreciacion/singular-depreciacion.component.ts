@@ -24,6 +24,11 @@ import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion'
 import { calcularDepreciacion } from '@core/utils/funciones/depreciacion';
 import moment from 'moment';
 import { MonedaService } from '@core/services/otros-modulos/moneda.service';
+import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
+import { filtrarActivosDepreciables } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-depreciables';
+import { filtrarActivosSinDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-depreciacion';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -49,7 +54,10 @@ export class SingularDepreciacionComponent implements Entidad {
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
     private _activo: ActivoService,
-    private _moneda: MonedaService
+    private _activoUbicacion: ActivoUbicacionService,
+    private _activoDepreciacion: ActivoDepreciacionService,
+    private _moneda: MonedaService,
+    private _depreciacion: DepreciacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -104,9 +112,6 @@ export class SingularDepreciacionComponent implements Entidad {
               creado: entidad.creado,
               modificado: entidad.modificado,
             })
-          ),
-          switchMap(depreciacion =>
-            this._entidad.buscarTodosPorActivo(depreciacion.activo)
           ),
           take(1)
         )
@@ -245,9 +250,9 @@ export class SingularDepreciacionComponent implements Entidad {
       width: '85%',
       data: {
         filtros: [
-          this._activo.filtrarIncorporados(),
-          this._activo.filtrarSinDepreciacion(this._entidad),
-          this._activo.filtrarDepreciables(),
+          filtrarActivosIncorporados(this._activoUbicacion),
+          filtrarActivosSinDepreciacion(this._depreciacion),
+          filtrarActivosDepreciables(this._activoDepreciacion),
         ],
       },
     });

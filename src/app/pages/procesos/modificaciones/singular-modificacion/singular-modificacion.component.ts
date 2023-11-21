@@ -29,6 +29,7 @@ import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-p
 import { convertirComponenteProceso } from '@core/utils/funciones/convertir-componente-proceso';
 import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
 
 @Component({
   selector: 'app-singular-modificacion',
@@ -271,8 +272,11 @@ export class SingularModificacionComponent implements Entidad {
             serial: activo.serialFabrica,
           })
         ),
-        switchMap(activo => this._activo.esDepreciable(activo.id)),
-        tap(esDepreciable => (this.depreciarDeshabilitado = !esDepreciable)),
+        switchMap(activo => this._activo.buscarPorId(activo.id)),
+        tap(
+          activo =>
+            (this.depreciarDeshabilitado = !comprobarActivoDepreciable(activo))
+        ),
         take(1)
       )
       .subscribe();

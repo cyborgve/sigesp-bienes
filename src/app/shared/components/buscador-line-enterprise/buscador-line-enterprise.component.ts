@@ -1,6 +1,6 @@
 import { tap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { LineEnterprise } from '@core/models/otros-modulos/line-enterprise';
 import { LineEnterpriseService } from '@core/services/otros-modulos/line-enterprise.service';
-import { adaptarLinesEnterprise } from '@core/utils/pipes-rxjs/adaptadores/adaptar-lines-enterprise';
+import { adaptarLinesEnterprise } from '@core/utils/pipes-rxjs/adaptadores/adaptar-line-enterprise';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 

@@ -18,6 +18,7 @@
   </mat-card>
 </ng-template>
 
+<!-- contenido -->
 <ng-template #contenido>
   <form [formGroup]="formulario">
     <section class="rangoFechas">
@@ -48,7 +49,7 @@
       <!-- fecha referencia -->
       <mat-form-field appearance="fill" class="fechaReferencia">
         <mat-label>Fecha de referencia</mat-label>
-        <ng-container *ngIf="deshabilitarReferencia; else deshabilitado">
+        <ng-container *ngIf="habilitarReferencia; else deshabilitado">
           <mat-select formControlName="fechaReferencia">
             <mat-option value="CREADO">Fecha de creación</mat-option>
             <mat-option value="MODIFICADO">Fecha de modificación</mat-option>

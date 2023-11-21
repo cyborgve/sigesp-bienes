@@ -27,7 +27,8 @@ import { prepararIncorporacion } from '@core/utils/funciones/preparar-incorporac
 import { prepararActivoProceso } from '@core/utils/funciones/preparar-activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { pipe } from 'rxjs';
-import { ActivoService } from '@core/services/definiciones/activo.service';
+import { filtrarActivosSinIncorporar } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-incoporar';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -51,7 +52,7 @@ export class SingularIncorporacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -240,7 +241,7 @@ export class SingularIncorporacionComponent implements Entidad {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [this._activo.filtrarSinIncorporar()] },
+      data: { filtros: [filtrarActivosSinIncorporar(this._activoUbicacion)] },
     });
     dialog
       .afterClosed()
@@ -301,6 +302,7 @@ export class SingularIncorporacionComponent implements Entidad {
         tap((unidadAdministrativa: UnidadAdministrativa) =>
           this.formulario.patchValue({
             unidadAdministrativa: unidadAdministrativa.id,
+            responsablePrimario: unidadAdministrativa.responsable,
           })
         ),
         take(1)
@@ -320,25 +322,6 @@ export class SingularIncorporacionComponent implements Entidad {
         tap((sede: Sede) =>
           this.formulario.patchValue({
             sede: sede.id,
-          })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarResponsablePrimario() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap((responsable: Responsable) =>
-          this.formulario.patchValue({
-            responsablePrimario: responsable.id,
           })
         ),
         take(1)

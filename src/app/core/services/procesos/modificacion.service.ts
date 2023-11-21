@@ -10,7 +10,7 @@ import { ModificacionCuentaContableService } from './modificacion-cuenta-contabl
 import { PDFService } from '../auxiliares/pdf.service';
 import { Observable, forkJoin } from 'rxjs';
 import { adaptarModificacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-modificacion';
-import { adaptarModificaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-modificaciones';
+import { adaptarModificaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-modificacion';
 import { Id } from '@core/types/id';
 import { map, switchMap } from 'rxjs/operators';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';

@@ -1,22 +1,22 @@
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
-export const adaptarAutorizacionSalida = () =>
-  pipe(
-    map(
-      (autorizacionSalida: any) =>
-        <AutorizacionSalida>{
-          empresaId: Number(autorizacionSalida.empresaId),
-          id: Number(autorizacionSalida.id),
-          comprobante: autorizacionSalida.comprobante,
-          unidadAdministrativa: Number(autorizacionSalida.unidadAdministrativa),
-          empresaAutorizada: autorizacionSalida.empresaAutorizada,
-          personaAutorizada: autorizacionSalida.personaAutorizada,
-          explicacion: autorizacionSalida.explicacion,
-          observaciones: autorizacionSalida.observaciones,
-          activos: autorizacionSalida.activos ? autorizacionSalida.activos : [],
-          creado: autorizacionSalida.creado,
-          modificado: autorizacionSalida.modificado,
-        }
-    )
-  );
+
+export const adaptarAutorizacionSalida = () => pipe(map(adaptar));
+export const adaptarAutorizacionesSalida = () =>
+  pipe(map((autorizaciones: any[]) => autorizaciones.map(adaptar)));
+
+const adaptar = (autorizacion: any) =>
+  <AutorizacionSalida>{
+    empresaId: Number(autorizacion.empresaId),
+    id: Number(autorizacion.id),
+    comprobante: autorizacion.comprobante,
+    unidadAdministrativa: Number(autorizacion.unidadAdministrativa),
+    empresaAutorizada: autorizacion.empresaAutorizada,
+    personaAutorizada: autorizacion.personaAutorizada,
+    explicacion: autorizacion.explicacion,
+    observaciones: autorizacion.observaciones,
+    activos: autorizacion.activos ? autorizacion.activos : [],
+    creado: autorizacion.creado,
+    modificado: autorizacion.modificado,
+  };

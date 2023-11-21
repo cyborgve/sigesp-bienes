@@ -3,10 +3,18 @@
 }
 
 .contenedor {
-  @apply flex gap-x-8;
+  @apply w-full flex gap-x-8;
 }
 
 .disponibles,
 .seleccionadas {
   @apply w-1/2;
+}
+
+.titulo-filtro {
+  @apply text-primary;
+}
+
+mat-chip-list {
+  @apply w-full h-full;
 }

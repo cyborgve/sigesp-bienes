@@ -11,10 +11,10 @@ import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { first, tap, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
-import { adaptarCuentasContables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuentas-contables';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
+import { adaptarCuentasContables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuentas-contables';
 
 const filtroInicial = () => pipe(map((cuentas: CuentaContable[]) => cuentas));
 

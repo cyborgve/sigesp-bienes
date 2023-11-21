@@ -1,0 +1,63 @@
+<mat-card>
+  <table mat-table [dataSource]="dataSource" class="table">
+    <!-- codigo -->
+    <ng-container matColumnDef="codigo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+      <td mat-cell *matCellDef="let row">{{ row.codigo | corregirCodigo }}</td>
+    </ng-container>
+    <!-- denominacion -->
+    <ng-container matColumnDef="denominacion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.denominacion }}
+      </td>
+    </ng-container>
+    <!-- activo -->
+    <ng-container matColumnDef="activo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bien</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.activo | denominacionActivo | async }}
+      </td>
+    </ng-container>
+    <!-- tipoActivo -->
+    <ng-container matColumnDef="tipoActivo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Bien</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.tipoActivo | corregirTipoActivo }}
+      </td>
+    </ng-container>
+    <!-- serialRotulacion -->
+    <ng-container matColumnDef="serialRotulacion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.serialRotulacion }}
+      </td>
+    </ng-container>
+    <!-- creado -->
+    <ng-container matColumnDef="creado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.creado | date : 'longDate' }}
+      </td>
+    </ng-container>
+    <!-- modificado -->
+    <ng-container matColumnDef="modificado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.modificado | date : 'longDate' }}
+      </td>
+    </ng-container>
+
+    <!-- ejecuta el armado de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: columnasVisibles"
+      class="row-hover"></tr>
+
+    <!-- mostrar cuando no hay datos que coincidan -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No hay datos para mostrar"</td>
+    </tr>
+  </table>
+</mat-card>

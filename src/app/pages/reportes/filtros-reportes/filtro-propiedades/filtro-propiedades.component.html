@@ -1,27 +1,41 @@
-<mat-card>
-  <mat-card-title class="titulo-filtro"
-    >Selección de las propiedades a exportar</mat-card-title
-  >
-  <p class="descripcion-filtro">
-    Seleccione las propiedades del bien que desea exportar, si no selecciona
-    ninguna se exportarán todas.
-  </p>
-  <section class="contenedor">
+<!-- filtro -->
+<ng-container *ngIf="sinDecorar; else decorado">
+  <ng-container *ngTemplateOutlet="contenido"></ng-container>
+</ng-container>
+
+<!-- decorado -->
+<ng-template #decorado>
+  <mat-card>
+    <mat-card-title class="titulo-filtro"
+      >Selección de las propiedades a exportar</mat-card-title
+    >
+    <p class="descripcion-filtro">
+      Seleccione las propiedades del bien que desea exportar, si no selecciona
+      ninguna se exportarán todas.
+    </p>
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </mat-card>
+</ng-template>
+
+<!-- contenido -->
+<ng-template #contenido>
+  <section class="contenedor" cdkDropListGroup>
     <mat-card class="disponibles mat-elevation-z2">
       <mat-card-title class="titulo-propiedades"
         >Propiedades disponibles</mat-card-title
       >
-      <article
-        class="caja"
-        cdkDropList
-        (cdkDropListDropped)="alSoltarPropiedad($event)">
-        <mat-chip-list>
+      <article class="caja">
+        <mat-chip-list
+          cdkDropList
+          [cdkDropListData]="propiedadesDisponibles"
+          (cdkDropListDropped)="soltar($event)">
           <mat-chip
+            cdkDrag
             *ngFor="let propiedad of propiedadesDisponibles"
             class="propiedad"
-            cdkDrag
-            (dblclick)="agregarPropiedad(propiedad)">
-            {{ propiedad }}
+            [color]="propiedad.color"
+            selected>
+            {{ propiedad.nombre }}
           </mat-chip>
         </mat-chip-list>
       </article>
@@ -30,66 +44,21 @@
       <mat-card-title class="titulo-propiedades"
         >Propiedades seleccionadas</mat-card-title
       >
-      <article
-        class="caja"
-        cdkDropList
-        (cdkDropListDropped)="alSoltarPropiedad($event)">
-        <mat-chip-list>
+      <article class="caja">
+        <mat-chip-list
+          cdkDropList
+          [cdkDropListData]="propiedadesSeleccionadas"
+          (cdkDropListDropped)="soltar($event)">
           <mat-chip
+            cdkDrag
             *ngFor="let propiedad of propiedadesSeleccionadas"
             class="propiedad"
-            cdkDrag
-            (dblclick)="removerPropiedad(propiedad)">
-            {{ propiedad }}
+            [color]="propiedad.color"
+            selected>
+            {{ propiedad.nombre }}
           </mat-chip>
         </mat-chip-list>
       </article>
     </mat-card>
   </section>
-</mat-card>
-
-<!-- <mat-card>
-  <mat-card-title class="titulo-filtro"
-    >Selección de las propiedades a exportar</mat-card-title
-  >
-  <p class="descripcion-filtro">
-    seleccciones las propiedades del activo que desea exportar, si no selecciona
-    ninguna se exportaran todas.
-  </p>
-  <section class="contenedor">
-    <mat-card class="izquierda">
-      <mat-card-title class="titulo-propiedades"
-        >Propiedades a exportar</mat-card-title
-      >
-      <div
-        class="caja"
-        cdkDropList
-        (cdkDropListDropped)="alSoltarPropiedad($event)">
-        <div
-          *ngFor="let propiedad of propiedadesDisponibles"
-          class="propiedad"
-          cdkDrag
-          (dblclick)="agregarPropiedad(propiedad)">
-          {{ propiedad }}
-        </div>
-      </div>
-    </mat-card>
-    <mat-card class="derecha">
-      <mat-card-title class="titulo-propiedades"
-        >Propiedades a omitir</mat-card-title
-      >
-      <div
-        class="caja"
-        cdkDropList
-        (cdkDropListDropped)="alSoltarPropiedad($event)">
-        <div
-          *ngFor="let propiedad of propiedadesSeleccionadas"
-          class="propiedad"
-          cdkDrag
-          (dblclick)="removerPropiedad(propiedad)">
-          {{ propiedad }}
-        </div>
-      </div>
-    </mat-card>
-  </section>
-</mat-card> -->
+</ng-template>

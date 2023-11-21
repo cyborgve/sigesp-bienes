@@ -27,7 +27,9 @@
         type="text"
         formControlName="tipoUso"
         readonly="true"
-        [value]="formulario.value.tipoUso | denominacionTipoUso | async" />
+        [value]="
+          formulario.value.tipoUso | denominacionTipoUso | async | corregirTodos
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarTipoUso()">
         <mat-icon>search</mat-icon>
       </button>

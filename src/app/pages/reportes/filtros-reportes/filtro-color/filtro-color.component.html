@@ -25,7 +25,9 @@
         type="text"
         formControlName="color"
         readonly="true"
-        [value]="formulario.value.color | denominacionColor | async" />
+        [value]="
+          formulario.value.color | denominacionColor | async | corregirTodos
+        " />
       <button type="button" mat-icon-button matSuffix (click)="buscarColor()">
         <mat-icon>search</mat-icon>
       </button>

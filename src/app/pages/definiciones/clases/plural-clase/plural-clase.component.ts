@@ -1,4 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plural-clase',
@@ -7,4 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PluralClaseComponent {
   titulo = 'clases';
+
+  constructor(private _location: Location, private _router: Router) {}
+
+  irAtras = () => this._location.back();
+  irAlInicio = () => this._router.navigate(['/']);
 }

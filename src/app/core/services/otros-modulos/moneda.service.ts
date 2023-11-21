@@ -1,7 +1,10 @@
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { SigespService } from 'sigesp';
-import { adaptarMonedas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-monedas';
+import {
+  adaptarMoneda,
+  adaptarMonedas,
+} from '@core/utils/pipes-rxjs/adaptadores/adaptar-moneda';
 import { Observable } from 'rxjs';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { Id } from '@core/types/id';
@@ -22,8 +25,8 @@ export class MonedaService {
 
   buscarPorId(id: Id): Observable<Moneda> {
     return this._sigesp.getMonedas('uno', Number(id)).pipe(
-      adaptarMonedas(),
-      map(monedas => monedas[0])
+      map(monedas => monedas[0]),
+      adaptarMoneda()
     );
   }
 }

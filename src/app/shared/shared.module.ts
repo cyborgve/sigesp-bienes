@@ -72,7 +72,6 @@ import { DenominacionBeneficiarioPipe } from './pipes/denominacion-beneficiario.
 import { CorregirNoAsignadoPipe } from './pipes/corregir-no-asignado.pipe';
 import { DenominacionModoAdquisicionPipe } from './pipes/denominacion-modo-adquisicion.pipe';
 import { DenominacionCentroCostosPipe } from './pipes/denominacion-centro-costos.pipe';
-import { DenominacionTipoActivoPipe } from './pipes/denominacion-tipo-activo.pipe';
 import { BuscadorProveedorComponent } from './components/buscador-proveedor/buscador-proveedor.component';
 import { DenominacionCatalogoGeneralPipe } from './pipes/denominacion-catalogo-general.pipe';
 import { CorregirMetodoDepreciacionPipe } from './pipes/corregir-metodo-depreciacion.pipe';
@@ -86,6 +85,9 @@ import { BuscadorUnidadOrganizativaComponent } from './components/buscador-unida
 import { DenominacionUnidadOrganizativaPipe } from './pipes/denominacion-unidad-organizativa.pipe';
 import { DenominacionLineEnterprisePipe } from './pipes/denominacion-line-enterprise.pipe';
 import { BuscadorLineEnterpriseComponent } from './components/buscador-line-enterprise/buscador-line-enterprise.component';
+import { ListaDepreciacionesComponent } from './components/lista-depreciaciones/lista-depreciaciones.component';
+import { CorregirTodosPipe } from './pipes/corregir-todos.pipe';
+import { CorregirTipoActivoPipe } from './pipes/corregir-tipo-activo.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -168,7 +170,6 @@ const sharedPipes = [
   CorregirNoAsignadoPipe,
   DenominacionModoAdquisicionPipe,
   DenominacionCentroCostosPipe,
-  DenominacionTipoActivoPipe,
   DenominacionCatalogoGeneralPipe,
   CorregirMetodoDepreciacionPipe,
   TipoOracionPipe,
@@ -178,8 +179,20 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [
+    ...sharedComponents,
+    ...sharedPipes,
+    ListaDepreciacionesComponent,
+    CorregirTodosPipe,
+    CorregirTipoActivoPipe,
+  ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [
+    ...sharedComponents,
+    ...sharedPipes,
+    ListaDepreciacionesComponent,
+    CorregirTodosPipe,
+    CorregirTipoActivoPipe,
+  ],
 })
 export class SharedModule {}

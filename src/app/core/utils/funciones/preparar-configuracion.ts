@@ -26,6 +26,8 @@ export const prepararConfiguracion = (configuracion: any) => {
     ),
     activarPaginacion: booleanLogico(configuracion.activarPaginacion),
     opcionesPaginacion: configuracion.opcionesPaginacion,
+    decorarFiltros: booleanLogico(configuracion.decorarFiltros),
+    abrirImprimirProceso: booleanLogico(configuracion.abrirImprimirProceso),
     creado: configuracion.creado,
     modificado: configuracion.modificado,
   };

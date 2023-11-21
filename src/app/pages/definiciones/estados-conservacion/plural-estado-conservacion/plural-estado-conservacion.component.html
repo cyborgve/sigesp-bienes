@@ -1,5 +1,12 @@
-<section class="contenedor">
+<section class="contenedor-singular">
   <app-tabla-estado-conservacion
     [titulo]="titulo"></app-tabla-estado-conservacion>
-  <app-botones-definiciones></app-botones-definiciones>
+  <app-toolbar
+    [mostrarBorrar]="false"
+    [mostrarBuscar]="false"
+    [mostrarImportar]="false"
+    [mostrarGuardar]="false"
+    toolTipPersonalizado="Ir al Inicio"
+    (irAtras)="irAtras()"
+    (irAlInicio)="irAlInicio()"></app-toolbar>
 </section>

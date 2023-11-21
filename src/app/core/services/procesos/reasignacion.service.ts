@@ -1,4 +1,4 @@
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Reasignacion } from '@core/models/procesos/reasignacion';
@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PDFService } from '../auxiliares/pdf.service';
 import { ReasignacionActivoService } from './reasignacion-activo.service';
 import { Observable, forkJoin } from 'rxjs';
-import { adaptarReasignaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-reasignaciones';
+import { adaptarReasignaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-reasignacion';
 import { Id } from '@core/types/id';
 import { adaptarReasignacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-reasignacion';
 import { ejecutarReasignacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-reasignacion';

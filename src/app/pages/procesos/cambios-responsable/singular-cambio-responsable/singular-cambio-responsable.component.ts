@@ -24,6 +24,7 @@ import { Responsable } from '@core/models/otros-modulos/responsable';
 import { Subscription, forkJoin } from 'rxjs';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
 
 @Component({
   selector: 'app-singular-cambio-responsable',
@@ -260,7 +261,7 @@ export class SingularCambioResponsableComponent
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [this._activo.filtrarIncorporados()] },
+      data: { filtros: [filtrarActivosIncorporados(this._activoUbicacion)] },
     });
     dialog
       .afterClosed()

@@ -17,7 +17,7 @@ import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
   templateUrl: './activo-depreciacion.component.html',
   styleUrls: ['./activo-depreciacion.component.scss'],
 })
-export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
+export class ActivoDepreciacionComponent implements OnDestroy {
   private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup;
 
@@ -25,21 +25,6 @@ export class ActivoDepreciacionComponent implements OnInit, OnDestroy {
   unidadesTiempo = UNIDADES_MEDIDA['TIEMPO'];
 
   constructor(private _dialog: MatDialog) {}
-
-  ngOnInit(): void {
-    this.subscripciones.push(
-      this.formulario.valueChanges
-        .pipe(
-          tap(() =>
-            this.formulario.patchValue(
-              { depreciable: Number(this.formulario.valid) },
-              { emitEvent: false }
-            )
-          )
-        )
-        .subscribe()
-    );
-  }
 
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());

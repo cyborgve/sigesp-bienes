@@ -1,0 +1,26 @@
+<section class="contenedor-singular superior">
+  <!-- encabezado reporte -->
+  <app-encabezado-reportes
+    [titulo]="titulo"
+    [fechaEmision]="fechaEmision"></app-encabezado-reportes>
+</section>
+<section class="contenedor-singular inferior superior">
+  <mat-card class="filtro-card">
+    <app-filtro-rango-fechas
+      [formulario]="formularioRangoFechas"
+      [sinDecorar]="filtrosSinDecorar"
+      class="rangoFechas"></app-filtro-rango-fechas>
+  </mat-card>
+  <article class="inferior">
+    <app-detalle [dataSource]="dataSource"></app-detalle>
+  </article>
+</section>
+<app-toolbar
+  [mostrarBuscar]="false"
+  [mostrarImportar]="false"
+  [mostrarBorrar]="false"
+  [mostrarSalir]="false"
+  (exportar)="guardar()"
+  [desabilitarExportar]="dataSource.data.length === 0"
+  [mostrarExportar]="true"
+  [mostrarGuardar]="false"></app-toolbar>

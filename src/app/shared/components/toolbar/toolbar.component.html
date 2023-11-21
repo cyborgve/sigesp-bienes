@@ -10,6 +10,17 @@
       <i class="material-icons">save</i>
     </button>
   </ng-container>
+  <!-- imprimir -->
+  <ng-container *ngIf="mostrarImprimir">
+    <button
+      mat-button
+      matTooltip="Imprimir"
+      type="button"
+      (click)="imprimir.emit()"
+      [disabled]="desabilitarImprimir">
+      <i class="material-icons">print</i>
+    </button>
+  </ng-container>
   <!-- buscar -->
   <ng-container *ngIf="mostrarBuscar">
     <button
@@ -41,6 +52,17 @@
       (click)="importar.emit()"
       [disabled]="desabilitarImportar">
       <i class="material-icons">content_copy</i>
+    </button>
+  </ng-container>
+  <!-- exportar -->
+  <ng-container *ngIf="mostrarExportar">
+    <button
+      mat-button
+      matTooltip="Exportar"
+      type="button"
+      (click)="exportar.emit()"
+      [disabled]="desabilitarExportar">
+      <i class="material-icons">superscript</i>
     </button>
   </ng-container>
   <!--ir atras -->

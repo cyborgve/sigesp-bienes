@@ -27,6 +27,9 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Subscription } from 'rxjs';
 import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
+import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 
 @Component({
   selector: 'app-singular-autorizacion-salida',
@@ -53,6 +56,7 @@ export class SingularAutorizacionSalidaComponent
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
     private _activo: ActivoService,
+    private _activoUbicacion: ActivoUbicacionService,
     private _snackBar: MatSnackBar
   ) {
     this.formulario = this._formBuilder.group({
@@ -80,6 +84,7 @@ export class SingularAutorizacionSalidaComponent
             chequearUnidadConActivos(
               unidadAdministrativa,
               this._activo,
+              this._activoUbicacion,
               this._snackBar
             )
           )
@@ -237,9 +242,10 @@ export class SingularAutorizacionSalidaComponent
       width: '85%',
       data: {
         filtros: [
-          this._activo.filtrarIncorporados(),
-          this._activo.filtrarPorUnidadAdministrativa(
-            this.formulario.value.unidadAdministrativa
+          filtrarActivosIncorporados(this._activoUbicacion),
+          filtrarActivosPorUnidadAdministrativa(
+            this.formulario.value.unidadAdministrativa,
+            this._activoUbicacion
           ),
         ],
       },

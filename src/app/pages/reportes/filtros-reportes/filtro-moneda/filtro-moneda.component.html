@@ -26,10 +26,7 @@
         formControlName="moneda"
         readonly="true"
         [value]="
-          formulario.value.moneda
-            | denominacionMoneda
-            | async
-            | corregirSeleccionar
+          formulario.value.moneda | denominacionMoneda | async | corregirTodos
         " />
       <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
         <mat-icon>search</mat-icon>

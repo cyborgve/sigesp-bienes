@@ -25,28 +25,25 @@
       <th mat-header-cell *matHeaderCellDef>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
-    <!-- creado -->
-    <ng-container matColumnDef="creado">
-      <th mat-header-cell *matHeaderCellDef>Creado</th>
+    <!-- debe -->
+    <ng-container matColumnDef="debe">
+      <th mat-header-cell *matHeaderCellDef>Debe</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.creado | date : 'medium' }}
+        {{ row.debe }}
       </td>
     </ng-container>
-    <!-- modificado -->
-    <ng-container matColumnDef="modificado">
-      <th mat-header-cell *matHeaderCellDef>Modificado</th>
+    <!-- haber -->
+    <ng-container matColumnDef="haber">
+      <th mat-header-cell *matHeaderCellDef>Haber</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.modificado | date : 'medium' }}
+        {{ row.haber }}
       </td>
     </ng-container>
-
-    <!-- acciones -->
-    <ng-container matColumnDef="acciones">
-      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <!-- monto -->
+    <ng-container matColumnDef="monto">
+      <th mat-header-cell *matHeaderCellDef>Monto</th>
       <td mat-cell *matCellDef="let row">
-        <app-botones-acciones
-          [deshabilitarEditar]="true"
-          (eliminar)="removerCuentaContable.emit(row)"></app-botones-acciones>
+        {{ row.monto }}
       </td>
     </ng-container>
 

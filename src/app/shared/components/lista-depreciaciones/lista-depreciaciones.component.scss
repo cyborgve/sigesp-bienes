@@ -1,0 +1,35 @@
+.tabla,
+.tabla-card {
+  @apply w-full;
+}
+
+.th.mat-column-denominacion,
+.td.mat-column-denominacion {
+  @apply w-fit;
+}
+
+th.mat-column-fechaDepreciacion,
+td.mat-column-fechaDepreciacion {
+  @apply w-28;
+}
+th.mat-column-codigo,
+td.mat-column-codigo {
+  @apply w-20;
+}
+
+th.mat-column-valorInicial,
+td.mat-column-valorInicial,
+th.mat-column-valorRescate,
+td.mat-column-valorRescate,
+th.mat-column-montoDepreciar,
+td.mat-column-montoDepreciar,
+th.mat-column-depreciacionMensual,
+td.mat-column-depreciacionMensual,
+th.mat-column-depreciacionAnual,
+td.mat-column-depreciacionAnual,
+th.mat-column-depreciacionAcumulada,
+td.mat-column-depreciacionAcumulada,
+th.mat-column-valorContable,
+td.mat-column-valorContable {
+  @apply text-right;
+}

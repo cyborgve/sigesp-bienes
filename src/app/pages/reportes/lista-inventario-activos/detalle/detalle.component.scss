@@ -1,0 +1,21 @@
+th.mat-column-codigo,
+td.mat-column-codigo {
+  @apply w-28;
+}
+
+th.mat-column-tipo,
+td.mat-column-tipo {
+  @apply w-32;
+}
+
+th.mat-column-modificado,
+td.mat-column-modificado,
+th.mat-column-creado,
+td.mat-column-creado {
+  @apply w-44;
+}
+
+th.mat-column-precio,
+td.mat-column-precio {
+  @apply w-60 text-right pr-6;
+}

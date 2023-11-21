@@ -24,16 +24,20 @@ export class ToolbarComponent implements OnInit {
 
   @Input() mostrarBuscar: boolean = true;
   @Input() mostrarImportar: boolean = true;
+  @Input() mostrarExportar: boolean = false;
   @Input() mostrarGuardar: boolean = true;
+  @Input() mostrarImprimir: boolean = false;
   @Input() mostrarBorrar: boolean = true;
   @Input() mostrarIrAtras: boolean = true;
   @Input() mostrarIrAlInicio: boolean = true;
   @Input() mostrarSalir: boolean = true;
-  @Input() tooTipProceso: boolean = false;
+  @Input() toolTipPersonalizado: string;
 
   @Input() desabilitarBuscar: boolean = false;
   @Input() desabilitarImportar: boolean = false;
+  @Input() desabilitarExportar: boolean = false;
   @Input() desabilitarGuardar: boolean = false;
+  @Input() desabilitarImprimir: boolean = false;
   @Input() desabilitarBorrar: boolean = false;
   @Input() desabilitarIrAtras: boolean = false;
   @Input() desabilitarIrAlInicio: boolean = false;
@@ -41,7 +45,9 @@ export class ToolbarComponent implements OnInit {
 
   @Output() buscar = new EventEmitter();
   @Output() importar = new EventEmitter();
+  @Output() exportar = new EventEmitter();
   @Output() guardar = new EventEmitter();
+  @Output() imprimir = new EventEmitter();
   @Output() borrar = new EventEmitter();
   @Output() irAtras = new EventEmitter();
   @Output() irAlInicio = new EventEmitter();
@@ -50,7 +56,7 @@ export class ToolbarComponent implements OnInit {
   offset: number = 0;
 
   toolTipInicio = () =>
-    this.tooTipProceso ? 'Ir a procesos' : 'Ir a definiciones';
+    this.toolTipPersonalizado ? this.toolTipPersonalizado : 'Ir a Definiciones';
 
   ngOnInit() {
     if (window.scrollY < 70) {

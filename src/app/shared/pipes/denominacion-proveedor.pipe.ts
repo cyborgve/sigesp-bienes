@@ -10,6 +10,7 @@ export class DenominacionProveedorPipe implements PipeTransform {
   transform(value: string): Observable<string> {
     if (value === null || value === undefined) return of('');
     if (value === '--' || value === '---') return of('---');
+    if (value === 'Todos') return of('Todos');
     if (value !== '---' && value !== '')
       return this._proveedor
         .buscarPorId(value)

@@ -1,4 +1,11 @@
-<section class="contenedor">
+<section class="contenedor-singular">
   <app-tabla-correlativo [titulo]="titulo"></app-tabla-correlativo>
-  <app-botones-definiciones></app-botones-definiciones>
+  <app-toolbar
+    [mostrarBorrar]="false"
+    [mostrarBuscar]="false"
+    [mostrarImportar]="false"
+    [mostrarGuardar]="false"
+    toolTipPersonalizado="Ir al Inicio"
+    (irAtras)="irAtras()"
+    (irAlInicio)="irAlInicio()"></app-toolbar>
 </section>
