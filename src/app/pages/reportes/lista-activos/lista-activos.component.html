@@ -13,33 +13,42 @@
       >Filtros: Datos Generales</mat-expansion-panel-header
     >
     <section class="inferior superior">
+      <!-- filtro rango fechas -->
       <app-filtro-rango-fechas
         class="rangoFechas"
         [formulario]="formularioRangoFechas"
         [habilitarReferencia]="true"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-rango-fechas>
       <article class="varios">
+        <!-- filtro tipo activo -->
         <app-filtro-tipo-activo
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-activo>
+        <!-- filtro catalogo general -->
         <app-filtro-catalogo-general
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-catalogo-general>
+        <!-- filtro marca -->
         <app-filtro-marca
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-marca>
+        <!-- filtro modelo -->
         <app-filtro-modelo
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-modelo>
+        <!-- filtro moneda -->
         <app-filtro-moneda
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-moneda>
+        <!-- filtro color -->
         <app-filtro-color
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-color>
+        <!-- filtro rotulacion -->
         <app-filtro-rotulacion
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-rotulacion>
+        <!-- filtro categoria -->
         <app-filtro-categoria
           [formulario]="formularioFiltrosActivos"
           [sinDecorar]="filtrosSinDecorar"></app-filtro-categoria>
@@ -50,27 +59,35 @@
   <mat-expansion-panel class="panel-superior">
     <mat-expansion-panel-header>FIltros: Detalles</mat-expansion-panel-header>
     <section class="varios">
+      <!-- filtro origen -->
       <app-filtro-origen
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-origen>
+      <!-- filtro fuente financiamiento -->
       <app-filtro-fuente-financiamiento
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-fuente-financiamiento>
+      <!-- filtro clase -->
       <app-filtro-clase
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-clase>
+      <!-- filtro centro costos -->
       <app-filtro-centro-costo
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-centro-costo>
+      <!-- filtro tipo semoviente -->
       <app-filtro-tipo-semoviente
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-semoviente>
+      <!-- filtro proposito semoviente -->
       <app-filtro-proposito-semoviente
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-proposito-semoviente>
+      <!-- filtro tipo animal -->
       <app-filtro-tipo-animal
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-animal>
+      <!-- filtro raza -->
       <app-filtro-raza
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-raza>
@@ -82,6 +99,7 @@
       >Filtros: Componentes</mat-expansion-panel-header
     >
     <section class="varios">
+      <!-- filtro tipo componente -->
       <app-filtro-tipo-componente
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-componente>
@@ -93,9 +111,11 @@
       >Filtros: Depreciación</mat-expansion-panel-header
     >
     <section class="varios">
+      <!-- filtro metodo deproeciacion -->
       <app-filtro-metodo-depreciacion
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-metodo-depreciacion>
+      <!-- filtro cuenta contable -->
       <app-filtro-cuenta-contable
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-cuenta-contable>
@@ -105,18 +125,23 @@
   <mat-expansion-panel class="panel-superior">
     <mat-expansion-panel-header>Filtros: Ubicación</mat-expansion-panel-header>
     <section class="varios">
+      <!-- filtro unidad administrativa -->
       <app-filtro-unidad-administrativa
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-unidad-administrativa>
+      <!-- filtro sede -->
       <app-filtro-sede
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-sede>
+      <!-- filtro responsable -->
       <app-filtro-responsable
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-responsable>
+      <!-- filtro estado uso -->
       <app-filtro-estado-uso
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-estado-uso>
+      <!-- filtro estado conservacion -->
       <app-filtro-estado-conservacion
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-estado-conservacion>
@@ -126,41 +151,53 @@
   <mat-expansion-panel class="panel-superior">
     <mat-expansion-panel-header>Filtros: Otros</mat-expansion-panel-header>
     <section class="varios">
+      <!-- filtro tipo marca -->
       <app-filtro-tipo-marca
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-marca>
+      <!-- filtro categoria unidad administrativa -->
       <app-filtro-categoria-unidad-administrativa
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="
           filtrosSinDecorar
         "></app-filtro-categoria-unidad-administrativa>
+      <!-- filtro ciudad -->
       <app-filtro-ciudad
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-ciudad>
+      <!-- filtro estado -->
       <app-filtro-estado
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-estado>
+      <!-- filtro municipio -->
       <app-filtro-municipio
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-municipio>
+      <!-- filtro pais -->
       <app-filtro-pais
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-pais>
+      <!-- filtro parroquia -->
       <app-filtro-parroquia
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-parroquia>
+      <!-- filtro aseguradora -->
       <app-filtro-aseguradora
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-aseguradora>
+      <!-- filtro tipo cobertura -->
       <app-filtro-tipo-cobertura
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-cobertura>
+      <!-- filtro tipo poliza -->
       <app-filtro-tipo-poliza
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-poliza>
+      <!-- filtro tipo sede -->
       <app-filtro-tipo-sede
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-sede>
+      <!-- filtro tipo uso -->
       <!-- <app-filtro-tipo-uso
         [formulario]="formularioFiltrosActivos"
         [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-uso> -->
@@ -171,9 +208,17 @@
     <mat-expansion-panel-header
       >Seleccion de propiedades a exportar</mat-expansion-panel-header
     >
-    <section class="contenedor-singular inferior superior">
+    <section class="contenedor inferior superior">
+      <!-- filtro propiedades -->
       <app-filtro-propiedades
-        [sinDecorar]="filtrosSinDecorar"></app-filtro-propiedades>
+        (accionAgregar)="agregarPropiedad($event)"
+        (accionEliminar)="eliminarPropiedad($event)"
+        (accionSoltar)="soltar($event)"
+        [sinDecorar]="filtrosSinDecorar"
+        [propiedadesDisponibles]="propiedadesDisponibles"
+        [propiedadesSeleccionadas]="
+          propiedadesSeleccionadas
+        "></app-filtro-propiedades>
     </section>
   </mat-expansion-panel>
 </section>
@@ -181,6 +226,7 @@
 <section class="contenedor-singular superior inferior">
   <app-detalle [dataSource]="dataSource"></app-detalle>
 </section>
+<!-- toolbar -->
 <app-toolbar
   (exportar)="guardar()"
   [desabilitarExportar]="dataSource.data.length === 0"

@@ -51,7 +51,7 @@ const adaptar = (activoLista: any) =>
     areaTerreno: Number(activoLista.areaTerreno),
     unidadAreaTerreno: activoLista.unidadAreaTerreno,
     especificacionesInmueble: activoLista.especificacionesInmueble,
-    perteneceASede: activoLista.perteneceASede,
+    perteneceASede: activoLista.perteneceASede === 1 ? 'SI' : 'NO',
     sedeUbicacion: activoLista.sedeUbicacion,
     especificacionesColor: activoLista.especificacionesColor,
     serialCarroceria: activoLista.serialCarroceria,
@@ -61,10 +61,15 @@ const adaptar = (activoLista: any) =>
     capacidad: Number(activoLista.capacidad),
     nombre: activoLista.nombre,
     tipoUso: activoLista.tipoUso,
-    tieneGps: activoLista.tieneGps,
+    tieneGps: activoLista.tieneGps === 1 ? 'SI' : 'NO',
     especificacionesGps: activoLista.especificacionesGps,
     tipoSemoviente: activoLista.tipoSemoviente,
-    genero: activoLista.genero,
+    genero:
+      activoLista.genero === 'S'
+        ? 'NO ASIGNADO'
+        : activoLista.genero === 'M'
+        ? 'MASCULINO'
+        : 'FEMENINO',
     propositoSemoviente: activoLista.propositoSemoviente,
     peso: Number(activoLista.peso),
     unidadMedidaPeso: activoLista.unidadMedidaPeso,
