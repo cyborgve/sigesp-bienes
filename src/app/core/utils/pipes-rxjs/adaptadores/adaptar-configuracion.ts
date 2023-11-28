@@ -27,6 +27,7 @@ const adaptar = (configuracion: any) =>
     opcionesPaginacion: configuracion.opcionesPaginacion as number[],
     decorarFiltros: Number(configuracion.decorarFiltros),
     abrirImprimirProceso: Number(configuracion.abrirImprimirProceso),
+    prefijoSerialRotulacion: configuracion.prefijoSerialRotulacion,
     creado: configuracion.creado,
     modificado: configuracion.modificado,
   };

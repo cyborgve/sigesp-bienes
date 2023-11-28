@@ -5,6 +5,7 @@
   @apply col-span-3;
 }
 
+.prefijoSerialRotulacion,
 .activarPaginacion,
 .longitudCatalogoCuentas,
 .longitudCodigoInstitucional,
@@ -15,7 +16,7 @@
 
 .formatoCatalogoCuentaGeneral,
 .formatoCodigoInstitucional {
-  @apply col-span-4;
+  @apply col-span-3;
 }
 
 .toggle {
@@ -31,11 +32,11 @@
   padding-right: 5rem;
 }
 
-.activarPaginacion {
-  @apply pt-4;
+.imprimirProceso {
+  @apply col-span-3 pt-4;
 }
 
-.imprimirProceso,
+.activarPaginacion,
 .decorarFiltros {
   @apply col-span-2 pt-4;
 }

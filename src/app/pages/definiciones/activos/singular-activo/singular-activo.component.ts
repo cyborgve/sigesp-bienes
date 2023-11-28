@@ -316,7 +316,7 @@ export class SingularActivoComponent implements Entidad {
               tipoActivo: '',
               fechaRegistro: undefined,
               catalogoCuentas: 0,
-              serialRotulacion: 0,
+              serialRotulacion: 'Autogenerado',
               denominacion: '',
               observaciones: '',
               fechaAdquisicion: new Date(),

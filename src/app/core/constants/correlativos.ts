@@ -1,5 +1,6 @@
 export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
   { nombre: 'bien', id: 1, tabla: 'sbn_activos' },
+  { nombre: 'serial de rotulación', id: 40, tabla: 'sbn_serial_rotulacion' },
   { nombre: 'bien - componente', id: 2, tabla: 'sbn_activos_componentes' },
   { nombre: 'aseguradora', id: 3, tabla: 'sbn_aseguradoras' },
   { nombre: 'catálogo general', id: 4, tabla: 'sbn_catalogo_general' },

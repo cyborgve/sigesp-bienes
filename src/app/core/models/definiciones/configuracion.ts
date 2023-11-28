@@ -14,4 +14,5 @@ export interface Configuracion extends Basica {
   opcionesPaginacion: number[];
   decorarFiltros: number;
   abrirImprimirProceso: number;
+  prefijoSerialRotulacion: string;
 }

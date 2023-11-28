@@ -28,7 +28,10 @@ export const prepararConfiguracion = (configuracion: any) => {
     opcionesPaginacion: configuracion.opcionesPaginacion,
     decorarFiltros: booleanLogico(configuracion.decorarFiltros),
     abrirImprimirProceso: booleanLogico(configuracion.abrirImprimirProceso),
-    creado: configuracion.creado,
-    modificado: configuracion.modificado,
+    prefijoSerialRotulacion: String(
+      configuracion.prefijoSerialRotulacion
+    ).substring(0, 3),
+    creado: configuracion.creado ? configuracion.creado : new Date(),
+    modificado: new Date(),
   };
 };
