@@ -1,4 +1,9 @@
-import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
+/**
+ * Comprueba si el objeto `activoUbicacion` dado está completamente incorporado.
+ *
+ * @param {ActivoUbicacion} activoUbicacion - El objeto que representa la ubicación del activo.
+ * @return {boolean} Devuelve `true` si todas las propiedades de `activoUbicacion` cumplen las condiciones, de lo contrario devuelve `false`.
+ */ import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 export const activoIncorporado = (activoUbicacion: ActivoUbicacion) => {
   let incorporado = [
     activoUbicacion.sedeId !== 0,

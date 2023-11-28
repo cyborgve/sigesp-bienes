@@ -96,9 +96,9 @@ export class ListaDepreciacionesAnualesComponent
   }
 
   guardar() {
-    this._xlsx
-      .listaDepreciacionesAnualesMensuales(this.dataSource.data, 'anuales')
-      .pipe(take(1))
-      .subscribe();
+    this._xlsx.listaDepreciacionesAnualesMensuales(
+      this.dataSource.data,
+      'anuales'
+    );
   }
 }

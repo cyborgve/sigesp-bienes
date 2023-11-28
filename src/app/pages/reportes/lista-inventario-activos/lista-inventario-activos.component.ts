@@ -17,7 +17,7 @@ import { filtrarActivosPorResponsable } from '@core/utils/pipes-rxjs/operadores/
 import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 import { transformarActivoListaInventario } from '@core/utils/pipes-rxjs/transformacion/transformar-activo-lista-inventario';
-import { Subscription } from 'rxjs';
+import { Subscription, pipe } from 'rxjs';
 import { tap, take } from 'rxjs/operators';
 
 @Component({
@@ -123,9 +123,6 @@ export class ListaInventarioActivosComponent
   }
 
   guardar() {
-    this._xlsx
-      .listaInventarioActivos(this.dataSource.data)
-      .pipe(take(1))
-      .subscribe();
+    this._xlsx.listaInventarioActivos(this.dataSource.data);
   }
 }

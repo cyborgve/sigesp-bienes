@@ -1,6 +1,6 @@
 import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
-import { tap, filter } from 'rxjs/operators';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { tap, filter, take } from 'rxjs/operators';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
@@ -35,19 +35,18 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       width: '85%',
       height: '95%',
     });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          filter(todo => !!todo),
-          tap((cuentaContable: CuentaContable) =>
-            this.formulario.patchValue({
-              cuentaContableGasto: cuentaContable.id,
-            })
-          )
-        )
-        .subscribe()
-    );
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((cuentaContable: CuentaContable) =>
+          this.formulario.patchValue({
+            cuentaContableGasto: cuentaContable.id,
+          })
+        ),
+        take(1)
+      )
+      .subscribe();
   }
 
   buscarCuentaContableDepreciacion() {
@@ -55,19 +54,18 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       width: '85%',
       height: '95%',
     });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          filter(todo => !!todo),
-          tap((cuentaContable: CuentaContable) =>
-            this.formulario.patchValue({
-              cuentaContableDepreciacion: cuentaContable.id,
-            })
-          )
-        )
-        .subscribe()
-    );
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((cuentaContable: CuentaContable) =>
+          this.formulario.patchValue({
+            cuentaContableDepreciacion: cuentaContable.id,
+          })
+        ),
+        take(1)
+      )
+      .subscribe();
   }
 
   buscarPlantillaDepreciacion() {
@@ -75,23 +73,22 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       width: '85%',
       height: '95%',
     });
-    this.subscripciones.push(
-      dialog
-        .afterClosed()
-        .pipe(
-          filter(todo => !!todo),
-          tap((entidad: PlantillaDepreciacion) =>
-            this.formulario.patchValue({
-              metodoDepreciacion: entidad.metodoDepreciacion,
-              cuentaContableGasto: entidad.cuentaContableGasto,
-              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-              vidaUtil: entidad.vidaUtil,
-              unidadVidaUtil: entidad.unidadVidaUtil,
-            })
-          )
-        )
-        .subscribe()
-    );
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((entidad: PlantillaDepreciacion) =>
+          this.formulario.patchValue({
+            metodoDepreciacion: entidad.metodoDepreciacion,
+            cuentaContableGasto: entidad.cuentaContableGasto,
+            cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+            vidaUtil: entidad.vidaUtil,
+            unidadVidaUtil: entidad.unidadVidaUtil,
+          })
+        ),
+        take(1)
+      )
+      .subscribe();
   }
 
   buscarMoneda() {
@@ -105,7 +102,8 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         filter(todo => !!todo),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ monedaValorRescate: entidad.id })
-        )
+        ),
+        take(1)
       )
       .subscribe();
   }
