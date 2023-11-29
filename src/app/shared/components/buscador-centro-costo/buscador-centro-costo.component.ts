@@ -8,7 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { CentroCostos } from '@core/models/otros-modulos/centro-costo';
+import { CentroCostos } from '@core/models/otros-modulos/centro-costos';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { SigespService } from 'sigesp';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';

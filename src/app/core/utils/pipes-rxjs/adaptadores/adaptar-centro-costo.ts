@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { CentroCostos } from '@core/models/otros-modulos/centro-costo';
+import { CentroCostos } from '@core/models/otros-modulos/centro-costos';
 import { pipe } from 'rxjs';
 
 export const adaptarCentroCostos = () => pipe(map(adaptar));
