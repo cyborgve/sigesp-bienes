@@ -24,6 +24,8 @@ import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-elim
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 const filtroInicial = () =>
   pipe(map((incorporacioes: Incorporacion[]) => incorporacioes));
@@ -47,32 +49,64 @@ export class TablaIncorporacionComponent
   private urlPlural = '/procesos/incorporaciones';
   private urlSingular = this.urlPlural + '/incorporacion';
   private urlSingularId = (id: Id) => this.urlPlural + '/incorporacion/' + id;
+
   dataSource: MatTableDataSource<Incorporacion> = new MatTableDataSource();
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _entidad: IncorporacionService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog,
-    private _pdf: PDFService
+    private _pdf: PDFService,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._entidad
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        ordenarPorComprobanteDescendente(),
-        pipeFromArray(this.filtros),
-        tap(entidades => {
-          this.dataSource = new MatTableDataSource(entidades);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        }),
-        first()
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorComprobanteDescendente(),
+            pipeFromArray(this.filtros),
+            tap((entidades: Incorporacion[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }
