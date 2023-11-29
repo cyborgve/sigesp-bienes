@@ -1,4 +1,3 @@
-import { Responsable } from '@core/models/otros-modulos/responsable';
 import { Activo } from '@core/models/definiciones/activo';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';

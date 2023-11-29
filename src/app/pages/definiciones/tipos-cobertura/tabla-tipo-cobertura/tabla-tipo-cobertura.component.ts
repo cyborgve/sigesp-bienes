@@ -1,6 +1,6 @@
 import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,

@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { first, tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -19,7 +19,6 @@ import { SedeService } from '@core/services/definiciones/sede.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
 import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';

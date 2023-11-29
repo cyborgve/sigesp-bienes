@@ -21,7 +21,7 @@ import { Id } from '@core/types/id';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 

@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SigespService } from 'sigesp';
 import { adaptarProveedores } from '@core/utils/pipes-rxjs/adaptadores/adaptar-proveedor';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';

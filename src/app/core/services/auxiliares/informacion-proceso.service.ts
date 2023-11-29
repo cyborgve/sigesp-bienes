@@ -2,7 +2,7 @@ import { Retorno } from '@core/models/procesos/retorno';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Id } from '@core/types/id';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { EmpresaService } from '../otros-modulos/empresa.service';

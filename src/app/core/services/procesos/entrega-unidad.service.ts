@@ -15,7 +15,6 @@ import { ejecutarEntregaUnidad } from '@core/utils/pipes-rxjs/procesos/ejecutar-
 import { map, switchMap } from 'rxjs/operators';
 import { reversarEntregaUnidad } from '@core/utils/pipes-rxjs/procesos/reversar-entrega-unidad';
 import { UnidadAdministrativaService } from '../definiciones/unidad-administrativa.service';
-import { ejecutarEntregaUnidadActivos } from '@core/utils/pipes-rxjs/procesos/ejecutar-entrega-unidad-activos';
 import { ActivoService } from '../definiciones/activo.service';
 
 @Injectable({

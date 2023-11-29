@@ -1,5 +1,5 @@
 import { adaptarResponsables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-responsable';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

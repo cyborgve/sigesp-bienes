@@ -6,7 +6,7 @@ import { InformacionProcesoService } from './informacion-proceso.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
 

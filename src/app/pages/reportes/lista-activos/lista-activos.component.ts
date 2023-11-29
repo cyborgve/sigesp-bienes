@@ -1,27 +1,46 @@
-import { filtrarActivosPorTipoSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-sede';
-import { filtrarActivosPorEstadoUso } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-uso';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { take, tap, first, map, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
+
 import { Activo } from '@core/models/definiciones/activo';
-import { XLSXService } from '@core/services/auxiliares/xlsx.service';
+import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
+import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
+
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { ActivoComponenteService } from '@core/services/definiciones/activo-componente.service';
+import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
+import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { MarcaService } from '@core/services/definiciones/marca.service';
+import { ModeloService } from '@core/services/definiciones/modelo.service';
+import { SedeService } from '@core/services/definiciones/sede.service';
+import { SeguroService } from '@core/services/definiciones/seguro.service';
+import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
+import { XLSXService } from '@core/services/auxiliares/xlsx.service';
+
+import { filtrarActivosPorTipoSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-sede';
+import { filtrarActivosPorEstadoUso } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-uso';
 import { filtrarActivosPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-fecha';
-import { take, tap, first, map, switchMap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 import { filtrarActivosPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo';
 import { filtrarActivosPorMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-marca';
-import { ModeloService } from '@core/services/definiciones/modelo.service';
 import { filtrarActivosPorModelo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-modelo';
 import { filtrarActivosPorMoneda } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-moneda';
 import { filtrarActivosPorRotulacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-rotulacion';
 import { filtrarActivosPorColor } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-color';
 import { filtrarActivosPorCategoria } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-categoria';
 import { filtrarActivosPorOrigen } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-origen';
-import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
 import { filtrarActivosPorFuenteFinanciamiento } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-fuente-financiamiento';
 import { filtrarActivosPorClase } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-clase';
 import { filtrarActivosPorCentroCostos } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-centro-costo';
@@ -30,37 +49,22 @@ import { filtrarActivosPorTipoAnimal } from '@core/utils/pipes-rxjs/operadores/f
 import { filtrarActivosPorPropositoSemoviente } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-proposito-semoviente';
 import { filtrarActivosPorRaza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-raza';
 import { filtrarActivosPorTipoComponente } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-componente';
-import { ActivoComponenteService } from '@core/services/definiciones/activo-componente.service';
 import { filtrarActivosPorMetodoDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-metodo-depreciacion';
-import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
 import { filtrarActivosPorCuentaContable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-cuenta-contable';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
 import { filtrarActivosPorResponsable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-responsable';
 import { filtrarActivosPorEstadoConservacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-conservacion';
 import { filtrarActivosPorTipoMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-marca';
-import { MarcaService } from '@core/services/definiciones/marca.service';
-import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 import { filtrarActivosPorCategoriaUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-categoria-unidad-administrativa';
 import { filtrarActivosPorCiudad } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-ciudad';
-import { SedeService } from '@core/services/definiciones/sede.service';
 import { filtrarActivosPorPais } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-pais';
 import { filtrarActivosPorEstado } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado';
 import { filtrarActivosPorMunicipio } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-municipio';
 import { filtrarActivosPorParroquia } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-parroquia';
 import { filtrarActivosPorAseguradora } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-aseguradora';
-import { SeguroService } from '@core/services/definiciones/seguro.service';
 import { filtrarActivosPorTipoCobertura } from '@core/utils/pipes-rxjs/operadores/filtrar-por-tipo-cobertura';
 import { filtrarActivosPorTipoPoliza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-poliza';
-import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
-import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
 
 type Chip = { indice: number; nombre: string; valor: string; color: string };
 

@@ -1,5 +1,5 @@
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
-import { tap, switchMap, take, first, filter, map } from 'rxjs/operators';
+import { tap, switchMap, take, first, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';

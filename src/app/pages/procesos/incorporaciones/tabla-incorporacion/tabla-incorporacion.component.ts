@@ -23,7 +23,7 @@ import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operado
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { pipe } from 'rxjs';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { filter, switchMap, take, tap, map } from 'rxjs/operators';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 

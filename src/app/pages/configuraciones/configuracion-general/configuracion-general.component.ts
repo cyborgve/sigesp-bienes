@@ -64,7 +64,6 @@ export class ConfiguracionGeneralComponent implements Entidad {
     this._entidad
       .buscarPorId(1)
       .pipe(
-        tap(console.log),
         tap((ent: Configuracion) =>
           this.formulario.patchValue({
             empresaId: ent.empresaId,

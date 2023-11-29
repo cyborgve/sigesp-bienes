@@ -12,7 +12,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { filter, first, switchMap, take, tap, map } from 'rxjs/operators';
+import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorAutorizacionSalidaComponent } from '../buscador-autorizacion-salida/buscador-autorizacion-salida.component';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';

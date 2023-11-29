@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { tap, filter, switchMap, take } from 'rxjs/operators';
 import { EstadoUso } from '@core/models/definiciones/estado-uso';
 import {
   Component,

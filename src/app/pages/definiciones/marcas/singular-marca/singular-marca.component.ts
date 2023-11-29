@@ -15,7 +15,6 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { TipoMarca } from '@core/models/definiciones/tipo-marca';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { Basica } from '@core/models/auxiliares/basica';
 
 @Component({
   selector: 'app-singular-marca',

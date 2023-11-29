@@ -19,7 +19,7 @@ import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { RotulacionService } from '@core/services/definiciones/rotulacion.service';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';

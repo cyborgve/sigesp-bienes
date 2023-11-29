@@ -22,13 +22,7 @@ import { adaptarActivo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { adaptarActivos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
-import { convertirSnakeCaseACamelCase } from '@core/utils/funciones/convertir-snake-case-a-camel-case';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
-import {
-  adaptarActivoLista,
-  adaptarActivosLista,
-} from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-lista';
+import { adaptarActivosLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-lista';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 
 @Injectable({

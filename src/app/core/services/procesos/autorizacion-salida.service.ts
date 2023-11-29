@@ -1,5 +1,5 @@
 import { PDFService } from '@core/services/auxiliares/pdf.service';
-import { tap, switchMap, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
