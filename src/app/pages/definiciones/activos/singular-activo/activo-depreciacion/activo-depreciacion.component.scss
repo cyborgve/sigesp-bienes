@@ -8,7 +8,6 @@
   @apply col-span-2;
 }
 
-.plantillaDepreciacion,
 .metodoDepreciacion {
   @apply col-span-3;
 }
@@ -17,6 +16,7 @@
   @apply col-start-7;
 }
 
+.plantillaDepreciacion,
 .cuentaContableGasto,
 .cuentaContableDepreciacion {
   @apply col-span-4;

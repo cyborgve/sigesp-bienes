@@ -48,6 +48,8 @@ export class ConfiguracionGeneralComponent implements Entidad {
       usarMascaraCodigoActivo: [undefined],
       activarPaginacion: [undefined],
       opcionesPaginacion: [undefined],
+      mostrarBotonesInicioFinal: [undefined],
+      mostrarOpcionesPaginacion: [undefined],
       decorarFiltros: [undefined],
       abrirImprimirProceso: [undefined],
       prefijoSerialRotulacion: [undefined],
@@ -62,6 +64,7 @@ export class ConfiguracionGeneralComponent implements Entidad {
     this._entidad
       .buscarPorId(1)
       .pipe(
+        tap(console.log),
         tap((ent: Configuracion) =>
           this.formulario.patchValue({
             empresaId: ent.empresaId,
@@ -77,6 +80,8 @@ export class ConfiguracionGeneralComponent implements Entidad {
             usarMascaraCodigoActivo: ent.usarMascaraCodigoActivo,
             activarPaginacion: ent.activarPaginacion,
             opcionesPaginacion: ent.opcionesPaginacion,
+            mostrarBotonesInicioFinal: ent.mostrarBotonesInicioFinal,
+            mostrarOpcionesPaginacion: ent.mostrarOpcionesPaginacion,
             decorarFiltros: ent.decorarFiltros,
             abrirImprimirProceso: ent.abrirImprimirProceso,
             prefijoSerialRotulacion: ent.prefijoSerialRotulacion,
@@ -94,7 +99,7 @@ export class ConfiguracionGeneralComponent implements Entidad {
   }
 
   guardar(): void {
-    let configuracion = prepararConfiguracion(this.formulario.value);
+    let configuracion: any = prepararConfiguracion(this.formulario.value);
     this._entidad
       .actualizar(this.id, configuracion, this.titulo, false)
       .pipe(first())

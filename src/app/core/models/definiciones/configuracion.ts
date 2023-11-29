@@ -12,6 +12,8 @@ export interface Configuracion extends Basica {
   usarMascaraCodigoActivo: number;
   activarPaginacion: number;
   opcionesPaginacion: number[];
+  mostrarBotonesInicioFinal: number;
+  mostrarOpcionesPaginacion: number;
   decorarFiltros: number;
   abrirImprimirProceso: number;
   prefijoSerialRotulacion: string;

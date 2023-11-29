@@ -1,42 +1,38 @@
-.generarAsientosContables,
-.fechaIncorporacionAutomatica,
-.opcionesPaginacion,
-.separadorMascaraCodigo {
-  @apply col-span-3;
+.card-generales {
+  @apply grid grid-cols-7 gap-x-2;
 }
 
-.prefijoSerialRotulacion,
-.activarPaginacion,
-.longitudCatalogoCuentas,
-.longitudCodigoInstitucional,
-.afectacionDepreciacion,
-.normativaActivos {
+.generales-fields {
+  @apply col-span-5 grid grid-cols-4 gap-x-2;
+}
+
+.formatos {
+  @apply col-span-3 grid grid-cols-2 gap-x-2;
+}
+
+.general-slides {
   @apply col-span-2;
 }
 
-.formatoCatalogoCuentaGeneral,
-.formatoCodigoInstitucional {
-  @apply col-span-3;
+.paginacion-otros {
+  @apply grid grid-cols-2 gap-x-2;
 }
 
-.toggle {
-  @apply col-span-4 row-span-2 grid grid-cols-1 gap-4 text-center;
+.paginacion {
+  @apply grid grid-cols-7;
 }
 
-.contenedor-singular {
-  @apply pb-1 pr-20;
-}
-.contenedorPaginacion {
-  padding: 1rem;
-  padding-top: 0%;
-  padding-right: 5rem;
+.paginacion-slides {
+  @apply col-span-4 grid grid-cols-1;
 }
 
-.imprimirProceso {
-  @apply col-span-3 pt-4;
+.paginacion-fields {
+  @apply col-span-3 grid grid-cols-1;
+}
+.otros {
+  @apply grid grid-cols-7;
 }
 
-.activarPaginacion,
-.decorarFiltros {
-  @apply col-span-2 pt-4;
+.otros-slides {
+  @apply col-span-4 grid grid-cols-1;
 }

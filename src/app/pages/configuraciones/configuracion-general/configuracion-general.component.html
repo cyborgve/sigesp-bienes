@@ -4,47 +4,79 @@
       [titulo]="titulo"
       [creado]="formulario.value.creado"
       [modificado]="formulario.value.modificado"></app-encabezado-definicion>
-    <mat-card>
-      <article class="contenido">
-        <!-- normativa activos -->
-        <mat-form-field appearance="fill" class="normativaActivos">
-          <mat-label>Normativa de los Activos</mat-label>
-          <mat-select formControlName="normativaActivos">
-            <mat-option
-              *ngFor="let normativa of normativasActivo"
-              [value]="normativa[1]"
-              >{{ normativa[0] }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-        <!-- afectacion depreciacion -->
-        <mat-form-field appearance="fill" class="afectacionDepreciacion">
-          <mat-label>Afectación depreciación</mat-label>
-          <mat-select formControlName="afectacionDepreciacion">
-            <mat-option
-              *ngFor="let afectacion of tiposAfectacionDepreciacion"
-              [value]="afectacion.charAt(0)"
-              >{{ afectacion | titlecase }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-        <!-- longitud catalogo de cuentas -->
-        <mat-form-field appearance="fill" class="longitudCatalogoCuentas">
-          <mat-label>Longitud catálogo cuentas</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="longitudCatalogoCuentas" />
-        </mat-form-field>
-        <!-- longitud codigo institucional -->
-        <mat-form-field appearance="fill" class="longitudCodigoInstitucional">
-          <mat-label>Longitud máx. cód. institucional</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="longitudCodigoInstitucional" />
-        </mat-form-field>
-        <article class="toggle">
+    <article class="inferior superior">
+      <mat-card class="card-generales">
+        <section class="generales-fields">
+          <!-- normativa activos -->
+          <mat-form-field appearance="fill" class="normativaActivos">
+            <mat-label>Normativa de los Activos</mat-label>
+            <mat-select formControlName="normativaActivos">
+              <mat-option
+                *ngFor="let normativa of normativasActivo"
+                [value]="normativa[1]"
+                >{{ normativa[0] }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <!-- afectacion depreciacion -->
+          <mat-form-field appearance="fill" class="afectacionDepreciacion">
+            <mat-label>Afectación depreciación</mat-label>
+            <mat-select formControlName="afectacionDepreciacion">
+              <mat-option
+                *ngFor="let afectacion of tiposAfectacionDepreciacion"
+                [value]="afectacion.charAt(0)"
+                >{{ afectacion | titlecase }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <!-- longitud catalogo de cuentas -->
+          <mat-form-field appearance="fill" class="longitudCatalogoCuentas">
+            <mat-label>Longitud catálogo cuentas</mat-label>
+            <input
+              type="number"
+              matInput
+              formControlName="longitudCatalogoCuentas" />
+          </mat-form-field>
+          <!-- longitud codigo institucional -->
+          <mat-form-field appearance="fill" class="longitudCodigoInstitucional">
+            <mat-label>Longitud máx. cód. institucional</mat-label>
+            <input
+              type="number"
+              matInput
+              formControlName="longitudCodigoInstitucional" />
+          </mat-form-field>
+          <!-- prefijoSerialRotulacion -->
+          <mat-form-field appearance="fill" class="prefijoSerialRotulacion">
+            <mat-label>Prefijo Serial de Rotulación</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="prefijoSerialRotulacion" />
+          </mat-form-field>
+          <article class="formatos">
+            <!-- formatoCatalogoCuentaGeneral -->
+            <mat-form-field
+              appearance="fill"
+              class="formatoCatalogoCuentaGeneral">
+              <mat-label>Formato catálogo cuenta general</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="formatoCatalogoCuentaGeneral" />
+            </mat-form-field>
+            <!-- formato codigo institucional -->
+            <mat-form-field
+              appearance="fill"
+              class="formatoCodigoInstitucional">
+              <mat-label>Formato código institucional</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="formatoCodigoInstitucional" />
+            </mat-form-field>
+          </article>
+        </section>
+        <section class="general-slides">
           <!-- generarAsientosContables -->
           <mat-slide-toggle
             formControlName="generarAsientosContables"
@@ -63,58 +95,55 @@
             class="usarMascaraCodigoActivo"
             >Usar máscara en el código del activo</mat-slide-toggle
           >
-        </article>
-        <!-- prefijo serial rotulacion -->
-        <mat-form-field appearance="fill" class="prefijoSerialRotulacion">
-          <mat-label>Prefijo Serial Rotulación</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="prefijoSerialRotulacion" />
-        </mat-form-field>
-        <!-- formatoCatalogoCuentaGeneral -->
-        <mat-form-field appearance="fill" class="formatoCatalogoCuentaGeneral">
-          <mat-label>Formato catálogo cuenta general</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="formatoCatalogoCuentaGeneral" />
-        </mat-form-field>
-        <!-- formato codigo institucional -->
-        <mat-form-field appearance="fill" class="formatoCodigoInstitucional">
-          <mat-label>Formato código institucional</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="formatoCodigoInstitucional" />
-        </mat-form-field>
-      </article>
-    </mat-card>
-  </section>
-  <section class="contenedorPaginacion">
-    <mat-card>
-      <article class="contenido">
-        <mat-slide-toggle
-          class="activarPaginacion"
-          formControlName="activarPaginacion"
-          >Activar paginación</mat-slide-toggle
-        >
-        <mat-form-field appearance="fill" class="opcionesPaginacion">
-          <mat-label>Opciones de paginación</mat-label>
-          <input type="text" matInput formControlName="opcionesPaginacion" />
-        </mat-form-field>
-        <mat-slide-toggle
-          class="decorarFiltros"
-          formControlName="decorarFiltros"
-          >Decorar filtros</mat-slide-toggle
-        >
-        <mat-slide-toggle
-          class="imprimirProceso"
-          formControlName="abrirImprimirProceso"
-          >Abrir imprimir proceso</mat-slide-toggle
-        >
-      </article>
-    </mat-card>
+        </section>
+      </mat-card>
+    </article>
+    <article class="inferior">
+      <mat-card class="paginacion-otros">
+        <section class="paginacion">
+          <article class="paginacion-slides">
+            <mat-slide-toggle
+              class="activarPaginacion"
+              formControlName="activarPaginacion"
+              >Activar paginación</mat-slide-toggle
+            >
+            <mat-slide-toggle
+              class="mostrarBotonesInicioFinal"
+              formControlName="mostrarBotonesInicioFinal"
+              >Mostrar opciones de Inicio y Final</mat-slide-toggle
+            >
+            <mat-slide-toggle
+              class="mostrarOpcionesPaginacion"
+              formControlName="mostrarOpcionesPaginacion"
+              >Mostrar opciones de paginación</mat-slide-toggle
+            >
+          </article>
+          <article class="paginacion-fields">
+            <mat-form-field appearance="fill" class="opcionesPaginacion">
+              <mat-label>Opciones de paginación</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="opcionesPaginacion" />
+            </mat-form-field>
+          </article>
+        </section>
+        <section class="otros">
+          <article class="otros-slides">
+            <mat-slide-toggle
+              class="decorarFiltros"
+              formControlName="decorarFiltros"
+              >Decorar filtros</mat-slide-toggle
+            >
+            <mat-slide-toggle
+              class="imprimirProceso"
+              formControlName="abrirImprimirProceso"
+              >Abrir imprimir proceso</mat-slide-toggle
+            >
+          </article>
+        </section>
+      </mat-card>
+    </article>
   </section>
 </form>
 <app-toolbar

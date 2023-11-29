@@ -14,14 +14,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 import { Id } from '@core/types/id';
 import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabla-tipo-animal',
@@ -43,31 +45,63 @@ export class TablaTipoAnimalComponent
   private urlPlural = '/definiciones/tipos-animal';
   private urlSingular = this.urlPlural + '/tipo-animal';
   private urlSingularId = (id: Id) => this.urlPlural + '/tipo-animal/' + id;
+
   dataSource: MatTableDataSource<TipoAnimal> = new MatTableDataSource();
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _entidad: TipoAnimalService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._entidad
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        pipeFromArray(this.filtros),
-        ordenarPorCodigo(),
-        tap(entidades => {
-          this.dataSource = new MatTableDataSource(entidades);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        }),
-        first()
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            pipeFromArray(this.filtros),
+            tap((entidades: TipoAnimal[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }
