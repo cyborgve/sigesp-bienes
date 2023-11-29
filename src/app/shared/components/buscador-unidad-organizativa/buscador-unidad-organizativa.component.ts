@@ -1,4 +1,4 @@
-import { first, tap } from 'rxjs/operators';
+import { first, tap, take, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -12,6 +12,8 @@ import { UnidadOrganizativa } from '@core/models/otros-modulos/unidad-organizati
 import { UnidadOrganizativaService } from '@core/services/otros-modulos/unidad-organizativa.service';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 @Component({
   selector: 'app-buscador-unidad-organizativa',
@@ -22,35 +24,65 @@ export class BuscadorUnidadOrganizativaComponent
   implements TablaEntidad<UnidadOrganizativa>, AfterViewInit
 {
   titulo = 'buscador de unidades organizativas';
-  @ViewChild(MatSort) matSort: MatSort;
-  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   ocultarNuevo = true;
   columnasVisibles = ['codigo', 'denominacion', 'creado', 'modificado'];
   dataSource: MatTableDataSource<UnidadOrganizativa> = new MatTableDataSource();
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorUnidadOrganizativaComponent>,
-    private _unidadOrganizativa: UnidadOrganizativaService,
+    private _entidad: UnidadOrganizativaService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._unidadOrganizativa
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        first(),
-        filtrarValoresIniciales(),
-        ordenarPorCodigo(),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
-          this.dataSource.sort = this.matSort;
-          this.dataSource.paginator = this.matPaginator;
-        })
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            tap((entidades: UnidadOrganizativa[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }

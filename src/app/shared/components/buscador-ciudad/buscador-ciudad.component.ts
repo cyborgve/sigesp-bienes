@@ -1,4 +1,4 @@
-import { first, tap } from 'rxjs/operators';
+import { tap, take, switchMap } from 'rxjs/operators';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Ciudad } from '@core/models/otros-modulos/ciudad';
@@ -10,8 +10,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { CiudadService } from '@core/services/otros-modulos/ciudad.service';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 @Component({
   selector: 'app-buscador-ciudad',
@@ -22,35 +23,65 @@ export class BuscadorCiudadComponent
   implements TablaEntidad<Ciudad>, AfterViewInit
 {
   titulo = 'buscador de ciudades';
-  @ViewChild(MatSort) matSort: MatSort;
-  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['CIUDADES'];
   dataSource: MatTableDataSource<Ciudad> = new MatTableDataSource();
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorCiudadComponent>,
-    private _ciudad: CiudadService,
+    private _entidad: CiudadService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._ciudad
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        first(),
-        filtrarValoresIniciales(),
-        ordenarPorCodigo(),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
-          this.dataSource.sort = this.matSort;
-          this.dataSource.paginator = this.matPaginator;
-        })
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            tap((entidades: Ciudad[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }

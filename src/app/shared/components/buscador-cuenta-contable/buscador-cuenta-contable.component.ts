@@ -9,12 +9,15 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, take, switchMap } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
 import { adaptarCuentasContables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuentas-contables';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
+import { CuentaContableService } from '@core/services/otros-modulos/cuenta-contable.service';
 
 const filtroInicial = () => pipe(map((cuentas: CuentaContable[]) => cuentas));
 
@@ -27,38 +30,67 @@ export class BuscadorCuentaContableComponent
   implements TablaEntidad<CuentaContable>, AfterViewInit
 {
   titulo = 'buscador de cuentas contables';
-  @ViewChild(MatSort) matSort: MatSort;
-  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() filtros = [filtroInicial()];
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES.CUENTAS_CONTABLES;
   dataSource: MatTableDataSource<CuentaContable> = new MatTableDataSource();
-  @Input() filtros = [filtroInicial()];
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorCuentaContableComponent>,
-    private _sigesp: SigespService,
+    private _entidad: CuentaContableService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._sigesp
-      .getCuentasInstitucionales()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        adaptarCuentasContables(),
-        filtrarValoresIniciales(),
-        ordenarPorCodigo(),
-        pipeFromArray(this.filtros),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
-          this.dataSource.sort = this.matSort;
-          this.dataSource.paginator = this.matPaginator;
-        }),
-        first()
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            pipeFromArray(this.filtros),
+            tap((entidades: CuentaContable[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }

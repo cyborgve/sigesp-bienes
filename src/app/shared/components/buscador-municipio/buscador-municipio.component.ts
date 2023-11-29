@@ -1,5 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, take, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -14,6 +14,8 @@ import { MunicipioService } from '@core/services/otros-modulos/municipio.service
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 const filtroInicial = () => pipe(map((municipios: Municipio[]) => municipios));
 
@@ -26,37 +28,67 @@ export class BuscadorMunicipioComponent
   implements TablaEntidad<Municipio>, AfterViewInit
 {
   titulo = 'buscador de municipios';
-  @ViewChild(MatSort) matSort: MatSort;
-  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() filtros = [filtroInicial()];
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['MUNICIPIOS'];
   dataSource: MatTableDataSource<Municipio> = new MatTableDataSource();
-  @Input() filtros = [filtroInicial()];
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorMunicipioComponent>,
-    private _municipio: MunicipioService,
+    private _entidad: MunicipioService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._municipio
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        first(),
-        filtrarValoresIniciales(),
-        ordenarPorCodigo(),
-        pipeFromArray(this.filtros),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
-          this.dataSource.sort = this.matSort;
-          this.dataSource.paginator = this.matPaginator;
-        })
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            pipeFromArray(this.filtros),
+            tap((entidades: Municipio[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }

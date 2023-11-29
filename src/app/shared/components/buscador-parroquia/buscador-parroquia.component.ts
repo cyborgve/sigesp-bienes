@@ -1,5 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, take, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -14,6 +14,8 @@ import { ParroquiaService } from '@core/services/otros-modulos/parroquia.service
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 const filtroInicial = () => pipe(map((parroquias: Parroquia[]) => parroquias));
 
@@ -26,37 +28,67 @@ export class BuscadorParroquiaComponent
   implements TablaEntidad<Parroquia>, AfterViewInit
 {
   titulo = 'buscador de parroquias';
-  @ViewChild(MatSort) matSort: MatSort;
-  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() filtros = [filtroInicial()];
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['PARROQUIAS'];
   dataSource: MatTableDataSource<Parroquia> = new MatTableDataSource();
-  @Input() filtros = [filtroInicial()];
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorParroquiaComponent>,
-    private _parroquias: ParroquiaService,
+    private _entidad: ParroquiaService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._parroquias
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        filtrarValoresIniciales(),
-        ordenarPorCodigo(),
-        pipeFromArray(this.filtros),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
-          this.dataSource.sort = this.matSort;
-          this.dataSource.paginator = this.matPaginator;
-        }),
-        first()
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            pipeFromArray(this.filtros),
+            tap((entidades: Parroquia[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }
