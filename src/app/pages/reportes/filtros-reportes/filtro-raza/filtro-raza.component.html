@@ -27,7 +27,15 @@
         readonly="true"
         [value]="
           formulario.value.raza | denominacionRaza | async | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.raza !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarRaza()">
         <mat-icon>search</mat-icon>
       </button>

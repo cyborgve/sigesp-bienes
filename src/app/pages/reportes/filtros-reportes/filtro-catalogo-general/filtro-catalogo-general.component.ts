@@ -17,6 +17,10 @@ export class FiltroCatalogoGeneralComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ catalogoGeneral: 0 });
+  }
+
   buscarCatalogoGeneral() {
     let filtroSumatorias = () =>
       pipe(

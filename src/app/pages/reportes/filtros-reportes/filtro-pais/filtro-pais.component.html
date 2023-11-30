@@ -27,7 +27,15 @@
         readonly="true"
         [value]="
           formulario.value.pais | denominacionPais | async | corregirSeleccionar
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.pais !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarPais()">
         <mat-icon>search</mat-icon>
       </button>

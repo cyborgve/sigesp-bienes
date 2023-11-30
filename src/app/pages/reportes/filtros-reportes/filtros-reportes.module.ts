@@ -1,21 +1,47 @@
-import { BuscadorCatalogoGeneralModule } from '@pages/definiciones/catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FiltroCatalogoGeneralComponent } from './filtro-catalogo-general/filtro-catalogo-general.component';
-import { FiltroRangoFechasComponent } from './filtro-rango-fechas/filtro-rango-fechas.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+
 import { SharedModule } from '@shared/shared.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { BuscadorCatalogoGeneralModule } from '@pages/definiciones/catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.module';
+import { BuscadorCategoriaModule } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.module';
+import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
+import { BuscadorCategoriaUnidadModule } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad/buscador-categoria-unidad.module';
+import { BuscadorClaseModule } from '@pages/definiciones/clases/buscador-clase/buscador-clase.module';
+import { BuscadorColorModule } from '@pages/definiciones/colores/buscador-color/buscador-color.module';
+import { BuscadorEstadoConservacionModule } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.module';
+import { BuscadorEstadoUsoModule } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.module';
+import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
+import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
+import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.module';
+import { BuscadorPropositoSemovienteModule } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.module';
+import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/buscador-raza.module';
+import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
+import { BuscadorAseguradoraModule } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.module';
+import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.module';
+import { BuscadorTipoCoberturaModule } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.module';
+import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
+import { BuscadorTipoMarcaModule } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.module';
+import { BuscadorTipoPolizaModule } from '@pages/definiciones/tipos-poliza/buscador-tipo-poliza/buscador-tipo-poliza.module';
+import { BuscadorTipoSedeModule } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.module';
+import { BuscadorTipoSemovienteModule } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.module';
+import { BuscadorTipoUsoModule } from '@pages/definiciones/tipos-uso/buscador-tipo-uso/buscador-tipo-uso.module';
+import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
+import { FiltroCatalogoGeneralComponent } from './filtro-catalogo-general/filtro-catalogo-general.component';
+import { FiltroRangoFechasComponent } from './filtro-rango-fechas/filtro-rango-fechas.component';
 import { FiltroTipoActivoComponent } from './filtro-tipo-activo/filtro-tipo-activo.component';
 import { FiltroCategoriaComponent } from './filtro-categoria/filtro-categoria.component';
-import { BuscadorCategoriaModule } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.module';
 import { FiltroRotulacionComponent } from './filtro-rotulacion/filtro-rotulacion.component';
-import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
 import { FiltroColorComponent } from './filtro-color/filtro-color.component';
 import { FiltroMarcaComponent } from './filtro-marca/filtro-marca.component';
 import { FiltroModeloComponent } from './filtro-modelo/filtro-modelo.component';
@@ -48,33 +74,10 @@ import { FiltroPaisComponent } from './filtro-pais/filtro-pais.component';
 import { FiltroParroquiaComponent } from './filtro-parroquia/filtro-parroquia.component';
 import { FiltroProveedorComponent } from './filtro-proveedor/filtro-proveedor.component';
 import { FiltroBeneficiarioComponent } from './filtro-beneficiario/filtro-beneficiario.component';
-import { BuscadorCategoriaUnidadModule } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad/buscador-categoria-unidad.module';
-import { BuscadorClaseModule } from '@pages/definiciones/clases/buscador-clase/buscador-clase.module';
-import { BuscadorColorModule } from '@pages/definiciones/colores/buscador-color/buscador-color.module';
-import { BuscadorEstadoConservacionModule } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.module';
-import { BuscadorEstadoUsoModule } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.module';
-import { BuscadorMarcaModule } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.module';
-import { BuscadorModeloModule } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.module';
-import { BuscadorOrigenModule } from '@pages/definiciones/origenes/buscador-origen/buscador-origen.module';
-import { BuscadorPropositoSemovienteModule } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.module';
-import { BuscadorRazaModule } from '@pages/definiciones/razas/buscador-raza/buscador-raza.module';
-import { BuscadorSedeModule } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.module';
-import { BuscadorAseguradoraModule } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.module';
-import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.module';
-import { BuscadorTipoCoberturaModule } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.module';
-import { BuscadorTipoComponenteModule } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.module';
-import { BuscadorTipoMarcaModule } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.module';
-import { BuscadorTipoPolizaModule } from '@pages/definiciones/tipos-poliza/buscador-tipo-poliza/buscador-tipo-poliza.module';
-import { BuscadorTipoSedeModule } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.module';
-import { BuscadorTipoSemovienteModule } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.module';
-import { BuscadorTipoUsoModule } from '@pages/definiciones/tipos-uso/buscador-tipo-uso/buscador-tipo-uso.module';
-import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 import { FiltroMetodoDepreciacionComponent } from './filtro-metodo-depreciacion/filtro-metodo-depreciacion.component';
 import { FiltroPropiedadesComponent } from './filtro-propiedades/filtro-propiedades.component';
-import { MatChipsModule } from '@angular/material/chips';
 import { FiltroTipoResponsableComponent } from './filtro-tipo-responsable/filtro-tipo-responsable.component';
 import { FiltroCategoriaUnidadAdministrativaComponent } from './filtro-categoria-unidad-administrativa/filtro-categoria-unidad-administrativa.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const sharedComponents = [
   FiltroCatalogoGeneralComponent,
@@ -134,6 +137,7 @@ const sharedComponents = [
     MatSelectModule,
     MatDatepickerModule,
     MatChipsModule,
+    MatTooltipModule,
     DragDropModule,
     BuscadorCatalogoGeneralModule,
     BuscadorCategoriaModule,

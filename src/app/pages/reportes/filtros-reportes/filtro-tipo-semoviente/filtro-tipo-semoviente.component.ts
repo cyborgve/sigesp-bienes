@@ -16,6 +16,10 @@ export class FiltroTipoSemovienteComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ tipoSemoviente: 0 });
+  }
+
   buscarTipoSemoviente() {
     let dialog = this._dialog.open(BuscadorTipoSemovienteComponent, {
       width: '85%',

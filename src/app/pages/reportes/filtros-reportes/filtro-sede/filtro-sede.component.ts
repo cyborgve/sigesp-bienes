@@ -16,6 +16,10 @@ export class FiltroSedeComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ sede: 0 });
+  }
+
   buscarSede() {
     let dialog = this._dialog.open(BuscadorSedeComponent, {
       width: '85%',

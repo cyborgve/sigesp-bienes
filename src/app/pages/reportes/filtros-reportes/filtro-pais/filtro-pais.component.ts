@@ -16,6 +16,10 @@ export class FiltroPaisComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ pais: 'Todos' });
+  }
+
   buscarPais() {
     let dialog = this._dialog.open(BuscadorPaisComponent, {
       width: '85%',

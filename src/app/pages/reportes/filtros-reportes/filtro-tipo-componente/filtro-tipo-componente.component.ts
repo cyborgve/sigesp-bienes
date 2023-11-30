@@ -13,7 +13,12 @@ import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-compo
 export class FiltroTipoComponenteComponent {
   @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
+
   constructor(private _dialog: MatDialog) {}
+
+  reiniciar() {
+    this.formulario.patchValue({ tipoComponente: 0 });
+  }
 
   buscarTipoComponente() {
     let dialog = this._dialog.open(BuscadorTipoComponenteComponent, {

@@ -16,6 +16,10 @@ export class FiltroCuentaContableComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ cuentaContable: 'Todos' });
+  }
+
   buscarCuentaContable() {
     let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
       width: '85%',

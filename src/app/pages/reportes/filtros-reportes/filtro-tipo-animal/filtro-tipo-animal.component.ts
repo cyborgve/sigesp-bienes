@@ -16,6 +16,10 @@ export class FiltroTipoAnimalComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ tipoAnimal: 0 });
+  }
+
   buscarTipoAnimal() {
     let dialog = this._dialog.open(BuscadorTipoAnimalComponent, {
       width: '85%',

@@ -16,6 +16,10 @@ export class FiltroModeloComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ modelo: 0 });
+  }
+
   buscarModelo() {
     let dialog = this._dialog.open(BuscadorModeloComponent, {
       width: '85%',

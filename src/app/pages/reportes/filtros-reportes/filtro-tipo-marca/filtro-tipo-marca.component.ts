@@ -16,6 +16,10 @@ export class FiltroTipoMarcaComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ tipoMarca: 0 });
+  }
+
   buscarTipoMarca() {
     let dialog = this._dialog.open(BuscadorTipoMarcaComponent, {
       width: '85%',

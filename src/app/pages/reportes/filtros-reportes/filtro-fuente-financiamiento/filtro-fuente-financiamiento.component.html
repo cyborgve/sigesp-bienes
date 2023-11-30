@@ -31,7 +31,15 @@
           formulario.value.fuenteFinanciamiento
             | denominacionFuenteFinanciamiento
             | async
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.fuenteFinanciamiento !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

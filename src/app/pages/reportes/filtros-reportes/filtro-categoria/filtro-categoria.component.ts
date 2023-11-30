@@ -16,6 +16,10 @@ export class FiltroCategoriaComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ categoria: 0 });
+  }
+
   buscarCategoria() {
     let dialog = this._dialog.open(BuscadorCategoriaComponent, {
       width: '85%',

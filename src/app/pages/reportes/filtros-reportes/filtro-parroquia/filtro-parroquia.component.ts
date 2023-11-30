@@ -16,6 +16,10 @@ export class FiltroParroquiaComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ parroquia: 'Todos' });
+  }
+
   buscarParroquia() {
     let dialog = this._dialog.open(BuscadorParroquiaComponent, {
       width: '85%',

@@ -13,7 +13,12 @@ import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
 export class FiltroTipoPolizaComponent {
   @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
+
   constructor(private _dialog: MatDialog) {}
+
+  reiniciar() {
+    this.formulario.patchValue({ tipoPoliza: 0 });
+  }
 
   buscarTipoPoliza() {
     let dialog = this._dialog.open(BuscadorTipoPolizaComponent, {

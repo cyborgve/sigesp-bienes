@@ -29,7 +29,15 @@
         readonly="true"
         [value]="
           formulario.value.tipoUso | denominacionTipoUso | async | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.tipoUso !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarTipoUso()">
         <mat-icon>search</mat-icon>
       </button>

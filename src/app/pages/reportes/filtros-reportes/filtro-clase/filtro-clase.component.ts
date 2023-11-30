@@ -16,6 +16,10 @@ export class FiltroClaseComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ clase: 0 });
+  }
+
   buscarClase() {
     let dialog = this._dialog.open(BuscadorClaseComponent, {
       width: '85%',

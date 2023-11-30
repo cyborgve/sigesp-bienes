@@ -16,6 +16,10 @@ export class FiltroUnidadAdministrativaComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ unidadAdministrativa: 0 });
+  }
+
   buscarUnidadAdministrativa() {
     let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
       width: '85%',

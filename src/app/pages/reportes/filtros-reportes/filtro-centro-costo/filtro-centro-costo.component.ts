@@ -16,6 +16,10 @@ export class FiltroCentroCostoComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ catalogoGeneral: '---' });
+  }
+
   buscarCentroCostos() {
     let dialog = this._dialog.open(BuscadorCentroCostoComponent, {
       width: '85%',

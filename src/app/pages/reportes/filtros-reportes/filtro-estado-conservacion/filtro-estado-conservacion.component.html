@@ -32,7 +32,15 @@
             | denominacionEstadoConservacion
             | async
             | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.estadoConservacion !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

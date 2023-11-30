@@ -16,6 +16,10 @@ export class FiltroRotulacionComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ rotulacion: 0 });
+  }
+
   buscarRotulacion() {
     let dialog = this._dialog.open(BuscadorRotulacionComponent, {
       width: '85%',

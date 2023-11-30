@@ -27,7 +27,15 @@
         readonly="true"
         [value]="
           formulario.value.marca | denominacionMarca | async | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.marca !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarMarca()">
         <mat-icon>search</mat-icon>
       </button>

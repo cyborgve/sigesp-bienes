@@ -30,7 +30,15 @@
             | denominacionMunicipio
             | async
             | corregirSeleccionar
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.municipio !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

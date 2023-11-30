@@ -16,6 +16,10 @@ export class FiltroEstadoComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ estado: 'Todos' });
+  }
+
   buscarEstado() {
     let dialog = this._dialog.open(BuscadorEstadoComponent, {
       width: '85%',

@@ -16,6 +16,10 @@ export class FiltroAseguradoraComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ aseguradora: 0 });
+  }
+
   buscarAseguradora() {
     let dialog = this._dialog.open(BuscadorAseguradoraComponent, {
       width: '85%',
