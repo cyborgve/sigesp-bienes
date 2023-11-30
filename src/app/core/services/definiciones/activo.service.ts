@@ -24,6 +24,9 @@ import { adaptarActivos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activ
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { adaptarActivosLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-lista';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
+import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
+import { adaptarActivosInventario } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-inventario';
+import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +37,7 @@ export class ActivoService extends GenericService<Activo> {
   }
 
   private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
+  private apiUrlInventario = () => `${this.apiUrl}?inventario=${'inventario'}`;
 
   constructor(
     protected _http: HttpClient,
@@ -132,6 +136,17 @@ export class ActivoService extends GenericService<Activo> {
       map((resultado: any) => resultado.data),
       map((lista: any[]) => lista.map(item => normalizarObjeto(item))),
       adaptarActivosLista()
+    );
+  }
+
+  buscarTodosInventario(): Observable<ActivoListaInventario[]> {
+    return this._http.get<any[]>(this.apiUrlInventario()).pipe(
+      map((resultado: any) => resultado.data),
+      map((inventario: any[]) =>
+        inventario.map(activo => normalizarObjeto(activo))
+      ),
+      adaptarActivosInventario(),
+      map(activos => activos.sort((a, b) => (a.codigo > b.codigo ? 1 : -1)))
     );
   }
 }

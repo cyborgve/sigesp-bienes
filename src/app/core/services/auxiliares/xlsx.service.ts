@@ -79,7 +79,7 @@ export class XLSXService {
       workSheet,
       'Lista: Inventario de Bienes'
     );
-    const nombreArchivo = this.generarNombreArchivo('dpereciaciones-mensuales');
+    const nombreArchivo = this.generarNombreArchivo('inventario-activos');
     this.guardarArchivo(workBook, nombreArchivo);
   }
 
@@ -124,7 +124,7 @@ export class XLSXService {
   private crearWorkBook(proceso: any): XLSX.WorkBook {
     const workBook = XLSX.utils.book_new();
     const workSheetProceso = this.crearWorkSheet(proceso);
-    XLSX.utils.book_append_sheet(workBook, workSheetProceso, 'Datos Generales');
+    XLSX.utils.book_append_sheet(workBook, workSheetProceso, 'Lista de Bienes');
     return workBook;
   }
 
