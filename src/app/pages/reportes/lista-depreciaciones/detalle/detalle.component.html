@@ -13,14 +13,14 @@
     <ng-container matColumnDef="comprobante">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.comprobante | corregirCodigo }}
+        {{ row.comprobante }}
       </td>
     </ng-container>
     <!-- activo -->
     <ng-container matColumnDef="activo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Bien</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.activo | denominacionActivo | async }}
+        {{ row.activo }}
       </td>
     </ng-container>
     <!-- identificador -->
@@ -30,13 +30,20 @@
         {{ row.identificador }}
       </td>
     </ng-container>
+    <!-- costo -->
+    <ng-container matColumnDef="costo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.costo }}
+      </td>
+    </ng-container>
     <!-- metodo -->
     <ng-container matColumnDef="metodo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Método de Depreciación
       </th>
       <td mat-cell *matCellDef="let row">
-        {{ row.metodo | corregirMetodoDepreciacion | titlecase }}
+        {{ row.metodo }}
       </td>
     </ng-container>
     <!-- creado -->

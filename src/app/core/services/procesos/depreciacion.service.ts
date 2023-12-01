@@ -1,6 +1,6 @@
 import { adaptarDepreciacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion';
 import { adaptarDepreciaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
@@ -16,12 +16,15 @@ import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-repor
 import { PDFService } from '../auxiliares/pdf.service';
 import { ejecutarDepreciacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-depreciacion';
 import { reversarDepreciacion } from '@core/utils/pipes-rxjs/procesos/reversar-depreciacion';
+import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
+import { adaptarDepreciacionesLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion-lista';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DepreciacionService extends GenericService<Depreciacion> {
   private apiUrlActivo = (activo: Id) => `${this.apiUrl}?activo=${activo}`;
+  private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'depreciacion').valor;
   }
@@ -38,6 +41,14 @@ export class DepreciacionService extends GenericService<Depreciacion> {
 
   buscarTodos(): Observable<Depreciacion[]> {
     return super.buscarTodos().pipe(adaptarDepreciaciones());
+  }
+
+  buscarTodosLista(): Observable<DepreciacionLista[]> {
+    return this._http.get<any>(this.apiUrlLista()).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      adaptarDepreciacionesLista()
+    );
   }
 
   buscarPorActivo(activo: Id): Observable<Depreciacion> {

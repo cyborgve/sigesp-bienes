@@ -15,6 +15,11 @@ td.mat-column-identificador {
   @apply w-44;
 }
 
+th.mat-column-costo,
+td.mat-column-costo {
+  @apply text-right pr-8;
+}
+
 th.mat-column-activo,
 td.mat-column-activo {
   @apply w-fit;

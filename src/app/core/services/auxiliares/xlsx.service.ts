@@ -9,6 +9,7 @@ import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { Observable } from 'rxjs';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
+import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
 
 @Injectable({
   providedIn: 'root',
@@ -31,25 +32,18 @@ export class XLSXService {
     );
   }
 
-  listaDepreciaciones(depreciaciones: Depreciacion[]): Observable<any> {
-    return this._informacionProceso.listaDepreciaciones(depreciaciones).pipe(
-      tap(depreciacionesTraducidas => {
-        const listaDepreciaciones = depreciacionesTraducidas.map(depreciacion =>
-          convertirObjetoLista(depreciacion)
-        );
-        const workBook = XLSX.utils.book_new();
-        const workSheet = XLSX.utils.json_to_sheet(listaDepreciaciones);
-        XLSX.utils.book_append_sheet(
-          workBook,
-          workSheet,
-          'Depreciaciones Registradas'
-        );
-        const nombreArchivo = this.generarNombreArchivo(
-          'depreciaciones-reistradas'
-        );
-        this.guardarArchivo(workBook, nombreArchivo);
-      })
+  listaDepreciaciones(depreciaciones: DepreciacionLista[]): void {
+    const workBook = XLSX.utils.book_new();
+    const workSheet = XLSX.utils.json_to_sheet(depreciaciones);
+    XLSX.utils.book_append_sheet(
+      workBook,
+      workSheet,
+      'Depreciaciones Registradas'
     );
+    const nombreArchivo = this.generarNombreArchivo(
+      'depreciaciones-reistradas'
+    );
+    this.guardarArchivo(workBook, nombreArchivo);
   }
 
   listaDepreciacionesAnualesMensuales(

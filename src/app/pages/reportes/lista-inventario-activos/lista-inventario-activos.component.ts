@@ -113,7 +113,6 @@ export class ListaInventarioActivosComponent
           listaInventario.filter(activo => codigos.includes(activo.codigo))
         ),
         tap(activos => this._xlsx.listaInventarioActivos(activos)),
-        tap(console.log),
         take(1)
       )
       .subscribe();

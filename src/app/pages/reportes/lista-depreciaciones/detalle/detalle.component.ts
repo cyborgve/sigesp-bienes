@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Depreciacion } from '@core/models/procesos/depreciacion';
+import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
 
 @Component({
   selector: 'app-detalle',
@@ -13,9 +13,10 @@ export class DetalleComponent {
     'comprobante',
     'activo',
     'identificador',
+    'costo',
     'metodo',
     'creado',
   ];
-  @Input() dataSource: MatTableDataSource<Depreciacion> =
+  @Input() dataSource: MatTableDataSource<DepreciacionLista> =
     new MatTableDataSource();
 }
