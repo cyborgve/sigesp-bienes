@@ -1,15 +1,13 @@
-import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import * as XLSX from 'xlsx';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
-import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
-import { Observable } from 'rxjs';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
+import { ActaPrestamoLista } from '@core/models/auxiliares/acta-prestamo-lista';
 
 @Injectable({
   providedIn: 'root',
@@ -17,19 +15,13 @@ import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-de
 export class XLSXService {
   constructor(private _informacionProceso: InformacionProcesoService) {}
 
-  listaActasPrestamo(actasPrestamo: ActaPrestamo[]): Observable<any> {
-    return this._informacionProceso.listaActasPrestamo(actasPrestamo).pipe(
-      tap(actasTraducidas => {
-        const listaActas = actasTraducidas.map(acta =>
-          convertirObjetoLista(acta)
-        );
-        const workBook = XLSX.utils.book_new();
-        const workSheet = XLSX.utils.json_to_sheet(listaActas);
-        XLSX.utils.book_append_sheet(workBook, workSheet, 'Actas de Préstamo');
-        const nombreArchivo = this.generarNombreArchivo('actas-prestamo');
-        this.guardarArchivo(workBook, nombreArchivo);
-      })
-    );
+  listaActasPrestamo(actasPrestamo: ActaPrestamoLista[]): void {
+    const listaActas = actasPrestamo.map(acta => convertirObjetoLista(acta));
+    const workBook = XLSX.utils.book_new();
+    const workSheet = XLSX.utils.json_to_sheet(listaActas);
+    XLSX.utils.book_append_sheet(workBook, workSheet, 'Actas de Préstamo');
+    const nombreArchivo = this.generarNombreArchivo('actas-prestamo');
+    this.guardarArchivo(workBook, nombreArchivo);
   }
 
   listaDepreciaciones(depreciaciones: DepreciacionLista[]): void {

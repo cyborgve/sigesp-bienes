@@ -8,7 +8,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
+import { ActaPrestamoLista } from '@core/models/auxiliares/acta-prestamo-lista';
 
 @Component({
   selector: 'app-detalle',
@@ -25,10 +25,9 @@ export class DetalleComponent implements AfterViewInit {
     'unidadAdministrativaReceptora',
     'creado',
   ];
-  @Input() dataSource: MatTableDataSource<ActaPrestamo>;
+  @Input() dataSource: MatTableDataSource<ActaPrestamoLista>;
 
   ngAfterViewInit(): void {
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }

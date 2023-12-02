@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
+import { ActaPrestamoLista } from '@core/models/auxiliares/acta-prestamo-lista';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
@@ -19,7 +20,7 @@ import { take, tap } from 'rxjs/operators';
 })
 export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
   private subscripciones: Subscription[] = [];
-  dataSource: MatTableDataSource<ActaPrestamo> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActaPrestamoLista> = new MatTableDataSource();
   titulo = 'Reportes: Lista de Actas de Préstamo Registradas';
   fechaEmision = new Date();
   rangosFechas = RANGOS_FECHAS;
@@ -67,22 +68,18 @@ export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
 
   private recargarDatos() {
     this._actaPrestamo
-      .buscarTodos()
+      .buscarTodosLista()
       .pipe(
         filtrarProcesoPorFecha(this.formularioRangoFechas),
-        tap(
-          (actasPrestamo: ActaPrestamo[]) =>
-            (this.dataSource = new MatTableDataSource(actasPrestamo))
-        ),
+        tap(activos => {
+          this.dataSource = new MatTableDataSource(activos);
+        }),
         take(1)
       )
       .subscribe();
   }
 
   guardar() {
-    this._xlsx
-      .listaActasPrestamo(this.dataSource.data)
-      .pipe(take(1))
-      .subscribe();
+    this._xlsx.listaActasPrestamo(this.dataSource.data);
   }
 }
