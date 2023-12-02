@@ -1,12 +1,12 @@
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
-import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';
+import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
 
 export const filtrarDepreciacionesAnuales = () =>
   pipe(
-    map((detallesDepreciacion: DetalleDepreciacion[]) =>
-      detallesDepreciacion.filter(
-        detalle => (detallesDepreciacion.indexOf(detalle) + 1) % 12 === 0
+    map((activoListaDepreciacion: ActivoListaDepreciacion[]) =>
+      activoListaDepreciacion.filter(
+        detalle => (activoListaDepreciacion.indexOf(detalle) + 1) % 12 === 0
       )
     )
   );

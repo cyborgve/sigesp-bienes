@@ -1,8 +1,5 @@
-import { TipoActivo } from '@core/types/tipo-activo';
-import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
-
 export interface ActivoListaDepreciacion {
-  fechaDepreciacion: string;
+  fechaDepreciacion: Date;
   codigo: string;
   denominacion: string;
   tipo: string;

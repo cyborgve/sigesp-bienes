@@ -1,5 +1,3 @@
-import { ordenarDetallesDepreciacionPorFecha } from '@core/utils/pipes-rxjs/operadores/ordenar-detalles-depreciacion-fecha';
-import { DepreciacionDetalleService } from '@core/services/procesos/depreciacion-detalle.service';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,9 +10,9 @@ import { DepreciacionService } from '@core/services/procesos/depreciacion.servic
 import { Subscription } from 'rxjs';
 import { tap, take } from 'rxjs/operators';
 import { filtrarDepreciacionesMensualesPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-depreciaciones-mensuales-por-fecha';
-import { transformarActivoListaDepreciacion } from '@core/utils/pipes-rxjs/transformacion/transformar-activo-lista-depreciacion';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { ordenarActivoListaDepreciacionPorFecha } from '@core/utils/pipes-rxjs/operadores/ordenar-detalles-depreciacion-fecha';
 
 @Component({
   selector: 'app-lista-depreciaciones-mensuales',
@@ -39,9 +37,6 @@ export class ListaDepreciacionesMensualesComponent
   constructor(
     private _formBuilder: FormBuilder,
     private _depreciacion: DepreciacionService,
-    private _depreciacionDetalle: DepreciacionDetalleService,
-    private _activo: ActivoService,
-    private _moneda: MonedaService,
     private _xlsx: XLSXService,
     private _configuracion: ConfiguracionService
   ) {
@@ -54,6 +49,7 @@ export class ListaDepreciacionesMensualesComponent
   }
 
   ngAfterViewInit(): void {
+    this.recargarDepreciaciones();
     this._configuracion
       .buscarPorId(1)
       .pipe(
@@ -76,17 +72,14 @@ export class ListaDepreciacionesMensualesComponent
   }
 
   private recargarDepreciaciones() {
-    this._depreciacionDetalle
-      .buscarTodos()
+    this._depreciacion
+      .buscarTodosMensuales()
       .pipe(
         filtrarDepreciacionesMensualesPorFecha(this.formularioRangoFechas),
-        ordenarDetallesDepreciacionPorFecha(),
-        transformarActivoListaDepreciacion(
-          this._depreciacion,
-          this._activo,
-          this._moneda
-        ),
-        tap(activos => (this.dataSource = new MatTableDataSource(activos))),
+        ordenarActivoListaDepreciacionPorFecha(),
+        tap(activos => {
+          this.dataSource = new MatTableDataSource(activos);
+        }),
         take(1)
       )
       .subscribe();

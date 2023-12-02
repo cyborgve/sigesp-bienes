@@ -79,9 +79,6 @@ export class ListaDepreciacionesComponent implements AfterViewInit, OnDestroy {
   }
 
   guardar() {
-    let depreciaciones = this.dataSource.data.map(depreciacion =>
-      convertirObjetoLista(depreciacion)
-    );
-    this._xlsx.listaDepreciaciones(depreciaciones);
+    this._xlsx.listaDepreciaciones(this.dataSource.data);
   }
 }

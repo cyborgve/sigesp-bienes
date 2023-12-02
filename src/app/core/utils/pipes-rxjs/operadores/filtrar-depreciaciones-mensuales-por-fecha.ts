@@ -2,15 +2,15 @@ import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import moment from 'moment';
 import { FormGroup } from '@angular/forms';
-import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';
+import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
 
 export const filtrarDepreciacionesMensualesPorFecha = (
   formularioRangoFechas: FormGroup
 ) =>
   pipe(
-    map((depreciacionesMensuales: DetalleDepreciacion[]) =>
+    map((depreciacionesMensuales: ActivoListaDepreciacion[]) =>
       depreciacionesMensuales.filter(depreciacionMensual => {
-        let fechaDepreciacion = moment(depreciacionMensual.fecha);
+        let fechaDepreciacion = moment(depreciacionMensual.fechaDepreciacion);
         let fechaInicio = moment(formularioRangoFechas.value.fechaInicio);
         let fechaFin = moment(formularioRangoFechas.value.fechaFin);
         if (formularioRangoFechas.value.rango === 'TODOS') {
@@ -27,7 +27,7 @@ export const filtrarDepreciacionesMensualesPorFecha = (
           );
           fechaFin = fechaInicio.endOf('day');
         }
-
+        //TODO: revisar si esta funcionando correctamente
         return fechaDepreciacion.isBetween(fechaInicio, fechaFin);
       })
     )

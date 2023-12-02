@@ -18,6 +18,8 @@ import { ejecutarDepreciacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-d
 import { reversarDepreciacion } from '@core/utils/pipes-rxjs/procesos/reversar-depreciacion';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
 import { adaptarDepreciacionesLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion-lista';
+import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
+import { adaptarDepreciacionesMensuales } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion-mensual';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +27,7 @@ import { adaptarDepreciacionesLista } from '@core/utils/pipes-rxjs/adaptadores/a
 export class DepreciacionService extends GenericService<Depreciacion> {
   private apiUrlActivo = (activo: Id) => `${this.apiUrl}?activo=${activo}`;
   private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
+  private apiUrlMensuales = () => `${this.apiUrl}?mensuales=${'mensuales'}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'depreciacion').valor;
   }
@@ -48,6 +51,14 @@ export class DepreciacionService extends GenericService<Depreciacion> {
       map((resultado: any) => resultado.data),
       map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
       adaptarDepreciacionesLista()
+    );
+  }
+
+  buscarTodosMensuales(): Observable<ActivoListaDepreciacion[]> {
+    return this._http.get<any>(this.apiUrlMensuales()).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      adaptarDepreciacionesMensuales()
     );
   }
 

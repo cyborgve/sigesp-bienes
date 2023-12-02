@@ -5,11 +5,11 @@ import * as XLSX from 'xlsx';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
-import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { Observable } from 'rxjs';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
+import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +33,11 @@ export class XLSXService {
   }
 
   listaDepreciaciones(depreciaciones: DepreciacionLista[]): void {
+    let lista = depreciaciones.map(depreciacion =>
+      convertirObjetoLista(depreciacion)
+    );
     const workBook = XLSX.utils.book_new();
-    const workSheet = XLSX.utils.json_to_sheet(depreciaciones);
+    const workSheet = XLSX.utils.json_to_sheet(lista);
     XLSX.utils.book_append_sheet(
       workBook,
       workSheet,
@@ -47,7 +50,7 @@ export class XLSXService {
   }
 
   listaDepreciacionesAnualesMensuales(
-    depreciaciones: any[],
+    depreciaciones: ActivoListaDepreciacion[],
     periodo: 'anuales' | 'mensuales'
   ): void {
     const listaDepreciaciones = depreciaciones.map(depreciacion =>
@@ -58,9 +61,11 @@ export class XLSXService {
     XLSX.utils.book_append_sheet(
       workBook,
       workSheet,
-      `Lista: Depreciaciones Registradas ${periodo}`
+      `Depreciaciones ${periodo}`
     );
-    const nombreArchivo = this.generarNombreArchivo('depreciaciones-anuales');
+    const nombreArchivo = this.generarNombreArchivo(
+      `depreciaciones-${periodo}`
+    );
     this.guardarArchivo(workBook, nombreArchivo);
   }
 
@@ -68,11 +73,7 @@ export class XLSXService {
     const listaActivos = activos.map(activo => convertirObjetoLista(activo));
     const workBook = XLSX.utils.book_new();
     const workSheet = XLSX.utils.json_to_sheet(listaActivos);
-    XLSX.utils.book_append_sheet(
-      workBook,
-      workSheet,
-      'Lista: Inventario de Bienes'
-    );
+    XLSX.utils.book_append_sheet(workBook, workSheet, 'Inventario de Bienes');
     const nombreArchivo = this.generarNombreArchivo('inventario-activos');
     this.guardarArchivo(workBook, nombreArchivo);
   }
@@ -80,7 +81,7 @@ export class XLSXService {
   listaActivos(activos: ActivoLista[]): void {
     const workBook = XLSX.utils.book_new();
     const workSheet = XLSX.utils.json_to_sheet(activos);
-    XLSX.utils.book_append_sheet(workBook, workSheet, 'Lista: Bienes');
+    XLSX.utils.book_append_sheet(workBook, workSheet, 'Bienes');
     const nombreArchivo = this.generarNombreArchivo('lista-bienes');
     this.guardarArchivo(workBook, nombreArchivo);
   }
