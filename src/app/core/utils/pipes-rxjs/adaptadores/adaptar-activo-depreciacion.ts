@@ -14,7 +14,7 @@ const adaptar = (depreciacion: any) =>
     id: Number(depreciacion.id),
     activoId: Number(depreciacion.activoId),
     depreciable: Number(depreciacion.depreciable),
-    metodoDepreciacion: depreciacion.MetodoDepreciacion,
+    metodoDepreciacion: depreciacion.metodoDepreciacion,
     cuentaContableGasto: depreciacion.cuentaContableGasto,
     cuentaContableDepreciacion: depreciacion.cuentaContableDepreciacion,
     vidaUtil: Number(depreciacion.vidaUtil),

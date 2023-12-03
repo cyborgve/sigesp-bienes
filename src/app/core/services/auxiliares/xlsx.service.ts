@@ -1,8 +1,6 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { TipoProceso } from '@core/types/tipo-proceso';
 import * as XLSX from 'xlsx';
-import { InformacionProcesoService } from './informacion-proceso.service';
-import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
@@ -13,86 +11,97 @@ import { ActaPrestamoLista } from '@core/models/auxiliares/acta-prestamo-lista';
   providedIn: 'root',
 })
 export class XLSXService {
-  constructor(private _informacionProceso: InformacionProcesoService) {}
-
   listaActasPrestamo(actasPrestamo: ActaPrestamoLista[]): void {
-    const listaActas = actasPrestamo.map(acta => convertirObjetoLista(acta));
-    const workBook = XLSX.utils.book_new();
-    const workSheet = XLSX.utils.json_to_sheet(listaActas);
-    XLSX.utils.book_append_sheet(workBook, workSheet, 'Actas de Préstamo');
-    const nombreArchivo = this.generarNombreArchivo('actas-prestamo');
-    this.guardarArchivo(workBook, nombreArchivo);
+    try {
+      const listaActas = this.convertirLista(actasPrestamo);
+      const workBook = this.generarLibroDeTrabajo(
+        listaActas,
+        'Actas de Préstamo'
+      );
+      const nombreArchivo = this.generarNombreArchivo('actas-prestamo');
+      this.guardarArchivo(workBook, nombreArchivo);
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   listaDepreciaciones(depreciaciones: DepreciacionLista[]): void {
-    let lista = depreciaciones.map(depreciacion =>
-      convertirObjetoLista(depreciacion)
-    );
-    const workBook = XLSX.utils.book_new();
-    const workSheet = XLSX.utils.json_to_sheet(lista);
-    XLSX.utils.book_append_sheet(
-      workBook,
-      workSheet,
-      'Depreciaciones Registradas'
-    );
-    const nombreArchivo = this.generarNombreArchivo(
-      'depreciaciones-reistradas'
-    );
-    this.guardarArchivo(workBook, nombreArchivo);
+    try {
+      const lista = this.convertirLista(depreciaciones);
+      const workBook = this.generarLibroDeTrabajo(
+        lista,
+        'Depreciaciones Registradas'
+      );
+      const nombreArchivo = this.generarNombreArchivo(
+        'depreciaciones-registradas'
+      );
+      this.guardarArchivo(workBook, nombreArchivo);
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   listaDepreciacionesAnualesMensuales(
     depreciaciones: ActivoListaDepreciacion[],
     periodo: 'anuales' | 'mensuales'
   ): void {
-    const listaDepreciaciones = depreciaciones.map(depreciacion =>
-      convertirObjetoLista(depreciacion)
-    );
-    const workBook = XLSX.utils.book_new();
-    const workSheet = XLSX.utils.json_to_sheet(listaDepreciaciones);
-    XLSX.utils.book_append_sheet(
-      workBook,
-      workSheet,
-      `Depreciaciones ${periodo}`
-    );
-    const nombreArchivo = this.generarNombreArchivo(
-      `depreciaciones-${periodo}`
-    );
-    this.guardarArchivo(workBook, nombreArchivo);
+    try {
+      const listaDepreciaciones = this.convertirLista(depreciaciones);
+      const workBook = this.generarLibroDeTrabajo(
+        listaDepreciaciones,
+        `Depreciaciones ${periodo}`
+      );
+      const nombreArchivo = this.generarNombreArchivo(
+        `depreciaciones-${periodo}`
+      );
+      this.guardarArchivo(workBook, nombreArchivo);
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   listaInventarioActivos(activos: any[]): void {
-    const listaActivos = activos.map(activo => convertirObjetoLista(activo));
-    const workBook = XLSX.utils.book_new();
-    const workSheet = XLSX.utils.json_to_sheet(listaActivos);
-    XLSX.utils.book_append_sheet(workBook, workSheet, 'Inventario de Bienes');
-    const nombreArchivo = this.generarNombreArchivo('inventario-activos');
-    this.guardarArchivo(workBook, nombreArchivo);
+    try {
+      const listaActivos = this.convertirLista(activos);
+      const workBook = this.generarLibroDeTrabajo(
+        listaActivos,
+        'Inventario de Bienes'
+      );
+      const nombreArchivo = this.generarNombreArchivo('inventario-activos');
+      this.guardarArchivo(workBook, nombreArchivo, {
+        compression: true,
+      });
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   listaActivos(activos: ActivoLista[]): void {
+    try {
+      const workBook = this.generarLibroDeTrabajo(activos, 'Bienes');
+      const nombreArchivo = this.generarNombreArchivo('lista-bienes');
+      this.guardarArchivo(workBook, nombreArchivo);
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  private handleError(error: any): void {
+    console.error('Error:', error);
+  }
+
+  private convertirLista(objetos: any[]): any[] {
+    return objetos.map(objeto => convertirObjetoLista(objeto));
+  }
+
+  private generarLibroDeTrabajo(
+    lista: any[],
+    nombreHoja: string
+  ): XLSX.WorkBook {
     const workBook = XLSX.utils.book_new();
-    const workSheet = XLSX.utils.json_to_sheet(activos);
-    XLSX.utils.book_append_sheet(workBook, workSheet, 'Bienes');
-    const nombreArchivo = this.generarNombreArchivo('lista-bienes');
-    this.guardarArchivo(workBook, nombreArchivo);
-  }
-
-  exportarProceso(
-    data: any,
-    tipo: TipoProceso,
-    activosMultiples: boolean
-  ): void {
-    this._informacionProceso.obtener(data, tipo).subscribe((proceso: any) => {
-      const fileName = this.generarNombreArchivo(tipo);
-      const workBook = this.crearWorkBook(proceso);
-      if (activosMultiples) this.agregarHojaActivos(workBook, proceso.activos);
-      this.guardarArchivo(workBook, fileName);
-    });
-  }
-
-  private generarNombreArchivo(nombre: string): string {
-    return `sbn_${nombre}_${this.formatearFecha(new Date())}.xlsx`;
+    const workSheet = XLSX.utils.json_to_sheet(lista);
+    XLSX.utils.book_append_sheet(workBook, workSheet, nombreHoja);
+    return workBook;
   }
 
   private formatearFecha(fecha: Date): string {
@@ -108,30 +117,15 @@ export class XLSXService {
       .replace(', ', '-')}`;
   }
 
-  private crearWorkBook(proceso: any): XLSX.WorkBook {
-    const workBook = XLSX.utils.book_new();
-    const workSheetProceso = this.crearWorkSheet(proceso);
-    XLSX.utils.book_append_sheet(workBook, workSheetProceso, 'Lista de Bienes');
-    return workBook;
-  }
-
-  private crearWorkSheet(data: any): XLSX.WorkSheet {
-    return XLSX.utils.json_to_sheet([data]);
-  }
-
-  private agregarHojaActivos(
+  private guardarArchivo(
     workBook: XLSX.WorkBook,
-    activos: ActivoProceso[]
+    fileName: string,
+    opciones?: XLSX.WritingOptions
   ): void {
-    const workSheetActivos = this.crearWorkSheetActivos(activos);
-    XLSX.utils.book_append_sheet(workBook, workSheetActivos, 'Activos');
+    XLSX.writeFile(workBook, fileName, opciones);
   }
 
-  private crearWorkSheetActivos(activos: ActivoProceso[]): XLSX.WorkSheet {
-    return XLSX.utils.json_to_sheet(activos);
-  }
-
-  private guardarArchivo(workBook: XLSX.WorkBook, fileName: string): void {
-    XLSX.writeFile(workBook, fileName);
+  private generarNombreArchivo(nombre: string): string {
+    return `sbn_${nombre}_${this.formatearFecha(new Date())}.xlsx`;
   }
 }
