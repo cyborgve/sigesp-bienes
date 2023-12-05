@@ -9,11 +9,10 @@ export const adaptarFuentesFinanciamiento = () =>
 
 const adaptar = (fuente: any) =>
   <FuenteFinanciamiento>{
-    empresaId: undefined,
-    id: fuente['codigo'],
-    codigo: fuente['codigoFuenteFinanciamiento'],
-    denominacion: fuente.denominacionFuenteFinanciamiento,
-    explicacion: fuente.explicacionFuenteFinanciamiento,
-    creado: new Date(),
-    modificado: new Date(),
+    empresaId: Number(fuente.empresaId),
+    id: Number(fuente.id),
+    codigo: fuente.codigo,
+    denominacion: fuente.denominacion,
+    creado: fuente.creado,
+    modificado: fuente.modificado,
   };

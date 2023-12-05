@@ -2,36 +2,17 @@ import { map } from 'rxjs/operators';
 import { Estado } from '@core/models/otros-modulos/estado';
 import { pipe } from 'rxjs';
 
-interface EstadoIn {
-  codpai: string;
-  codest: string;
-  desest: string;
-  ciucapest: string;
-}
-
-export const adaptarEstado = () =>
-  pipe(
-    map((res: any) => res.data as EstadoIn[]),
-    map(data => data[0] as EstadoIn),
-    map(adaptar)
-  );
+export const adaptarEstado = () => pipe(map(adaptar));
 export const adaptarEstados = () =>
-  pipe(
-    map((res: any) => res.data as EstadoIn[]),
-    map(estadosIn => estadosIn.map(adaptar))
-  );
+  pipe(map((estados: any[]) => estados.map(adaptar)));
 
-const adaptar = estadoIn =>
+const adaptar = (estado: any) =>
   <Estado>{
-    empresaId: undefined,
-    id:
-      estadoIn.codest === '---'
-        ? estadoIn.codest
-        : estadoIn.codpai + '-' + estadoIn.codest,
-    codigo: estadoIn.codest,
-    paisId: estadoIn.codpai,
-    capital: estadoIn.ciucapest,
-    denominacion: estadoIn.desest,
-    creado: new Date(),
-    modificado: new Date(),
+    id: estado.id,
+    codigo: estado.codigo,
+    pais: estado.pais,
+    capital: estado.capital,
+    denominacion: estado.denominacion,
+    creado: estado.creado,
+    modificado: estado.modificado,
   };

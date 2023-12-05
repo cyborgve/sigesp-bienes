@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -31,7 +31,7 @@ export class FuenteFinanciamientoService {
   buscarPorId(id: Id): Observable<FuenteFinanciamiento> {
     return this._http.get<FuenteFinanciamiento>(this.apiUrlId(id)).pipe(
       map((res: any) => res.data),
-      map(proveedores => proveedores[0]),
+      map(data => data[0]),
       adaptarFuenteFinanciamiento()
     );
   }

@@ -105,7 +105,7 @@ export class InformacionProcesoService {
   private responsable = (responsable: Id) =>
     this._responsable
       .buscarPorId(responsable)
-      .pipe(map(resp => `${resp.cedula} - ${resp.nombre} ${resp.apellido}`));
+      .pipe(map(resp => `${resp.cedula} - ${resp.nombres} ${resp.apellidos}`));
 
   private unidadAdministrativa = (unidadAdministrativa: Id) =>
     this.denominacionEntidad(this._unidadAdministrativa, unidadAdministrativa);

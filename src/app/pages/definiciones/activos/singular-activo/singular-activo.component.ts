@@ -350,7 +350,7 @@ export class SingularActivoComponent implements Entidad {
               origenId: 0,
               descripcionOtraClase: '',
               fuenteFinanciamiento: '--',
-              codigoCentroCostos: '--',
+              codigoCentroCostos: '---',
               especificacionesTecnicas: '',
               oficinaRegistro: '',
               referenciaRegistro: '',

@@ -1,9 +1,11 @@
 import { Id } from '@core/types/id';
-import { Basica } from '../auxiliares/basica';
 
-export interface Ciudad extends Basica {
-  paisId: Id;
-  estadoId: Id;
+export interface Ciudad {
+  id: Id;
   codigo: string;
+  pais: string;
+  estado: string;
   denominacion: string;
+  creado: Date;
+  modificado: Date;
 }

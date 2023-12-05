@@ -6,12 +6,13 @@ export const adaptarCentroCostos = () => pipe(map(adaptar));
 export const adaptarCentrosCostos = () =>
   pipe(map((centrosCostos: any[]) => centrosCostos.map(adaptar)));
 
-const adaptar = (centroCosto: any) =>
+const adaptar = (centroCostos: any) =>
   <CentroCostos>{
-    empresaId: centroCosto.idEmpresa,
-    id: centroCosto.centro,
-    codigo: centroCosto.centro,
-    denominacion: centroCosto.denominacion,
-    creado: new Date(),
-    modificado: new Date(),
+    empresaId: Number(centroCostos.empresaId),
+    id: centroCostos.id,
+    codigo: centroCostos.codigo,
+    denominacion: centroCostos.denominacion,
+    enterprise_id: centroCostos.enterprise_id,
+    creado: centroCostos.creado,
+    modificado: centroCostos.modificado,
   };

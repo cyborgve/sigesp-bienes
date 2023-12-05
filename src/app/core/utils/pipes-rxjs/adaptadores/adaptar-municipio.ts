@@ -2,41 +2,18 @@ import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Municipio } from '@core/models/otros-modulos/municipio';
 
-interface MunicipioIn {
-  codpai: string;
-  codest: string;
-  codmun: string;
-  desmun: string;
-  capmun: string;
-}
-
-export const adaptarMunicipio = () =>
-  pipe(
-    map((res: any) => res.data as MunicipioIn[]),
-    map(municipios => municipios[0]),
-    map(adaptar)
-  );
+export const adaptarMunicipio = () => pipe(map(adaptar));
 export const adaptarMunicipios = () =>
-  pipe(
-    map((res: any) => res.data as MunicipioIn[]),
-    map(municipiosIn => municipiosIn.map(adaptar))
-  );
+  pipe(map((municipios: any[]) => municipios.map(adaptar)));
 
-const adaptar = municipioIn =>
+const adaptar = (municipio: any) =>
   <Municipio>{
-    empresaId: undefined,
-    id:
-      municipioIn.codmun === '---'
-        ? municipioIn.codmun
-        : municipioIn.codpai +
-          '-' +
-          municipioIn.codest +
-          '-' +
-          municipioIn.codmun,
-    codigo: String(municipioIn.codmun),
-    paisId: municipioIn.codpai,
-    estadoId: municipioIn.codpai + '-' + municipioIn.codest,
-    denominacion: municipioIn.desmun,
-    creado: new Date(),
-    modificado: new Date(),
+    id: municipio.id,
+    codigo: municipio.codigo,
+    pais: municipio.pais,
+    estado: municipio.estado,
+    capital: municipio.capital,
+    denominacion: municipio.denominacion,
+    creado: municipio.creado,
+    modificado: municipio.modificado,
   };

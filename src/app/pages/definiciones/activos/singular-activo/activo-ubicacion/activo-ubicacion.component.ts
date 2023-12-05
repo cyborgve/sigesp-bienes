@@ -9,6 +9,7 @@ import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/busc
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { ModoFormulario } from '@core/types/modo-formulario';
+import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -30,8 +31,12 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({ unidadAdministrativaId: entidad.id })
+        tap((entidad: UnidadAdministrativa) =>
+          this.formulario.patchValue({
+            unidadAdministrativaId: entidad.id,
+            responsableId: entidad.responsable,
+            fechaIngreso: new Date(),
+          })
         ),
         take(1)
       )
@@ -49,23 +54,6 @@ export class ActivoUbicacionComponent {
         filter(todo => !!todo),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ sedeId: entidad.id })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarResponsable() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({ responsableId: entidad.id })
         ),
         take(1)
       )

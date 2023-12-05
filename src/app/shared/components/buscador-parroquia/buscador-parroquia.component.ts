@@ -1,5 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, map, take, switchMap } from 'rxjs/operators';
+import { tap, map, take, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -11,7 +11,6 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
 import { ParroquiaService } from '@core/services/otros-modulos/parroquia.service';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';

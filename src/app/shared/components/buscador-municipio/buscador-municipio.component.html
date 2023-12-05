@@ -15,11 +15,16 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Denominación</th>
       <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
     </ng-container>
+    <!-- capital -->
+    <ng-container matColumnDef="capital">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Capital</th>
+      <td mat-cell *matCellDef="let row">{{ row.capital }}</td>
+    </ng-container>
     <!-- estadoId -->
     <ng-container matColumnDef="estadoId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.estadoId | denominacionEstado | async }}
+        {{ row.estado }}
       </td>
     </ng-container>
     <!-- creado -->

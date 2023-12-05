@@ -1,10 +1,12 @@
-import { Basica } from '../auxiliares/basica';
 import { Id } from '@core/types/id';
 
-export interface Parroquia extends Basica {
+export interface Parroquia {
+  id: Id;
   codigo: string;
+  pais: string;
+  estado: string;
+  municipio: string;
   denominacion: string;
-  paisId: Id;
-  estadoId: Id;
-  municipioId: Id;
+  creado: Date;
+  modificado: Date;
 }

@@ -11,7 +11,6 @@ import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Municipio } from '@core/models/otros-modulos/municipio';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { MunicipioService } from '@core/services/otros-modulos/municipio.service';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';

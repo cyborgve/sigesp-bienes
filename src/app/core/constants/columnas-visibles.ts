@@ -191,7 +191,14 @@ export const COLUMNAS_VISIBLES = {
   CENTROS_COSTO: ['codigo', 'denominacion', 'creado', 'modificado'],
   PROVEEDORES: ['rif', 'denominacion', 'creado', 'modificado'],
   BENEFICIARIOS: ['cedula', 'nombre', 'creado', 'modificado'],
-  PARROQUIAS: ['codigo', 'denominacion', 'municipioId', 'creado', 'modificado'],
+  PARROQUIAS: [
+    'codigo',
+    'denominacion',
+    'estadoId',
+    'municipioId',
+    'creado',
+    'modificado',
+  ],
 
   /** PROCESOS */
   ACTAS_PRESTAMO: [

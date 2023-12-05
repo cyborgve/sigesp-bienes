@@ -8,15 +8,12 @@ export const adaptarMonedas = () =>
 
 const adaptar = (moneda: any) =>
   <Moneda>{
-    empresaId: Number(moneda.idEmpresa),
-    id: moneda.codigo,
+    empresaId: undefined,
+    id: Number(moneda.id),
     codigo: moneda.codigo,
     denominacion: moneda.denominacion,
     iso: moneda.iso,
     simbolo: moneda.simbolo,
-    decimales: moneda.decimales,
-    separadorDecimal: moneda.separadorDecimal,
-    separadorMiles: moneda.separadorMiles,
-    creado: new Date(),
-    modificado: new Date(),
+    creado: moneda.creado,
+    modificado: moneda.modificado,
   };

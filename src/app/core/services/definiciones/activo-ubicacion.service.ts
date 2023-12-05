@@ -6,7 +6,6 @@ import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { convertirTipoOracion } from '@core/utils/funciones/convertir-tipo-oracion';
 import { adaptarActivosUbicacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-ubicacion';
 import { adaptarActivoUbicacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-ubicacion';
 

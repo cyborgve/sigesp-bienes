@@ -1,47 +1,19 @@
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
-import { Id } from '@core/types/id';
 
-interface ParroquiaIn {
-  codpai: Id;
-  codest: Id;
-  codmun: Id;
-  codpar: Id;
-  despar: string;
-}
-
-export const adaptarParroquia = () =>
-  pipe(
-    map((res: any) => res.data as ParroquiaIn[]),
-    map(data => data[0]),
-    map(adaptar)
-  );
+export const adaptarParroquia = () => pipe(map(adaptar));
 export const adaptarParroquias = () =>
-  pipe(
-    map((res: any) => res.data as ParroquiaIn[]),
-    map(parroquiasIn => parroquiasIn.map(adaptar))
-  );
+  pipe(map((parroquias: any[]) => parroquias.map(adaptar)));
 
-const adaptar = parroquiaIn =>
+const adaptar = (parroquia: any) =>
   <Parroquia>{
-    empresaId: undefined,
-    id:
-      parroquiaIn.codpar === '---'
-        ? parroquiaIn.codpar
-        : parroquiaIn.codpai +
-          '-' +
-          parroquiaIn.codest +
-          '-' +
-          parroquiaIn.codmun +
-          '-' +
-          parroquiaIn.codpar,
-    municipioId:
-      parroquiaIn.codpai + '-' + parroquiaIn.codest + '-' + parroquiaIn.codmun,
-    estadoId: parroquiaIn.codest,
-    paisId: parroquiaIn.codpai,
-    codigo: parroquiaIn.codpar,
-    denominacion: parroquiaIn.despar,
-    creado: new Date(),
-    modificado: new Date(),
+    id: parroquia.id,
+    pais: parroquia.pais,
+    estado: parroquia.estado,
+    municipio: parroquia.municipio,
+    codigo: parroquia.codigo,
+    denominacion: parroquia.denominacion,
+    creado: parroquia.creado,
+    modificado: parroquia.modificado,
   };

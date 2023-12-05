@@ -31,7 +31,7 @@ export class CentroCostosService {
   buscarPorId(id: Id): Observable<CentroCostos> {
     return this._http.get<CentroCostos>(this.apiUrlId(id)).pipe(
       map((res: any) => res.data),
-      map(proveedores => proveedores[0]),
+      map((data: any[]) => data[0]),
       adaptarCentroCostos()
     );
   }

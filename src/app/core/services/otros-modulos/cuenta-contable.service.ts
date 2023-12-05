@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -22,16 +22,16 @@ export class CuentaContableService {
 
   buscarTodos(): Observable<CuentaContable[]> {
     return this._http.get<CuentaContable[]>(this.apiUrl).pipe(
-      map((res: any) => res.data),
+      map((resultado: any) => resultado.data),
       adaptarCuentasContables(),
-      filtrarValoresIniciales()
+      map(cuentas => cuentas.filter(cuenta => cuenta.nivel > 5))
     );
   }
 
   buscarPorId(id: Id): Observable<CuentaContable> {
     return this._http.get<CuentaContable>(this.apiUrlId(id)).pipe(
-      map((res: any) => res.data),
-      map(proveedores => proveedores[0]),
+      map((resultado: any) => resultado.data),
+      map(data => data[0]),
       adaptarCuentaContable()
     );
   }

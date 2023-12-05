@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { adaptarCentrosCostos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-centro-costo';
+import { CentroCostosService } from '@core/services/otros-modulos/centro-costos.service';
+import { adaptarCentroCostos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-centro-costo';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SigespService } from 'sigesp';
 
 @Pipe({
   name: 'denominacionCentroCostos',
@@ -10,13 +10,13 @@ import { SigespService } from 'sigesp';
 export class DenominacionCentroCostosPipe implements PipeTransform {
   transform(value: string): Observable<string> {
     if (value === null || value === undefined) return of('');
-    if (value === '--') return of('--');
-    return this._sigesp.getCentroCosto('all').pipe(
-      adaptarCentrosCostos(),
-      map(centros => centros.find(centro => centro.id === value)),
-      map(centro => centro['denominacion'])
+    if (value === '---') return of('---');
+    if (value === '--') return of('---');
+    return this._centroCostos.buscarPorId(value).pipe(
+      adaptarCentroCostos(),
+      map(centroCostos => centroCostos.denominacion)
     );
   }
 
-  constructor(private _sigesp: SigespService) {}
+  constructor(private _centroCostos: CentroCostosService) {}
 }
