@@ -283,7 +283,10 @@ export class SingularIncorporacionComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         tap((causaMovimiento: CausaMovimiento) =>
-          this.formulario.patchValue({ causaMovimiento: causaMovimiento.id })
+          this.formulario.patchValue({
+            causaMovimiento: causaMovimiento.id,
+            fechaEntrega: new Date(),
+          })
         ),
         take(1)
       )

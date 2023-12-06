@@ -7,6 +7,7 @@ import { Empresa } from '@core/models/otros-modulos/empresa';
 import { adaptarEmpresas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-empresa';
 import { Id } from '@core/types/id';
 import { adaptarEmpresa } from '@core/utils/pipes-rxjs/adaptadores/adaptar-empresa';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
   providedIn: 'root',
@@ -20,13 +21,16 @@ export class EmpresaService {
   datosGeneralesTodasLasEmpresas(): Observable<Empresa[]> {
     return this._http.get<Empresa[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
       adaptarEmpresas()
     );
   }
 
   datosGenerales(id: Id): Observable<Empresa> {
     return this._http.get<Empresa>(this.apiUrlId(id)).pipe(
-      map((resultado: any) => resultado.data[0]),
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data[0]),
+      map(objeto => normalizarObjeto(objeto)),
       adaptarEmpresa()
     );
   }

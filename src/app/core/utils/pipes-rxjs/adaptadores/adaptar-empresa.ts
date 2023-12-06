@@ -8,13 +8,13 @@ export const adaptarEmpresas = () =>
 
 const adaptar = (empresa: any) =>
   <Empresa>{
-    id: Number(empresa.id_empresa),
-    rif: empresa.rifemp,
-    nombre: empresa.nomemp,
-    nombreAbreviado: empresa.titemp,
-    direccion: empresa.diremp,
-    telefono: empresa.telemp,
-    fax: empresa.faxemp,
-    correoElectronico: empresa.emaemp,
-    paginaWeb: empresa.webemp,
+    id: Number(empresa.id),
+    rif: empresa.rif,
+    nombre: empresa.nombre,
+    nombreAbreviado: empresa.nombreAbreviado,
+    direccion: empresa.direccion,
+    telefono: empresa.telefono,
+    fax: empresa.fax,
+    correoElectronico: empresa.correoElectronico,
+    paginaWeb: empresa.paginaWeb,
   };

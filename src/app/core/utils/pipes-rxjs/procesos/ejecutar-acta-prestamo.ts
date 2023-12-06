@@ -13,8 +13,10 @@ export const ejecutarActaPrestamo = (
           map(activoUbicacion => {
             activoUbicacion.unidadAdministrativaId =
               actaPrestamo.unidadAdministrativaReceptora;
-            activoUbicacion.responsableUsoId =
+            activoUbicacion.responsableId =
               actaPrestamo.unidadReceptoraResponsable;
+            activoUbicacion.referenciaEstado =
+              'ACTA DE PRÉSTAMO-' + actaPrestamo.id;
             return activoUbicacion;
           })
         )

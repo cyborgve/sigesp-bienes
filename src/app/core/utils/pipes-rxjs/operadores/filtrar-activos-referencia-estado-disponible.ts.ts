@@ -11,12 +11,12 @@ export const filtrarActivosReferenciaEstadoDisponible = (
         map(ubicaciones =>
           ubicaciones.filter(
             ubicacion =>
-              ubicacion.referenciaEstado === null ||
-              ubicacion.referenciaEstado === ''
+              ubicacion.referenciaEstado !== null &&
+              ubicacion.referenciaEstado.trim() !== ''
           )
         ),
         map(ubicaciones => ubicaciones.map(ubicacion => ubicacion.activoId)),
-        map(ids => activos.filter(activo => ids.includes(activo.id)))
+        map(ids => activos.filter(activo => !ids.includes(activo.id)))
       )
     )
   );
