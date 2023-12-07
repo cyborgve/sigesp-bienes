@@ -1,3 +1,4 @@
+import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { END_POINTS } from '@core/constants/end-points';
