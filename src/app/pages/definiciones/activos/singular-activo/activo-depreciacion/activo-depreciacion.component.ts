@@ -1,3 +1,4 @@
+import { ModoFormulario } from '@core/types/modo-formulario';
 import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
 import { tap, filter, take } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
@@ -5,12 +6,12 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
-import { BuscadorPlantillaDepreciacionComponent } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
 import { Subscription } from 'rxjs';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
+import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -20,6 +21,9 @@ import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 export class ActivoDepreciacionComponent implements OnDestroy {
   private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup;
+  @Input() activoDepreciable: boolean;
+  @Input() formularioEspecial: FormGroup;
+  @Input() modoFormulario: ModoFormulario;
 
   metodosDepreciacion = METODOS_DEPRECIACION;
   unidadesTiempo = UNIDADES_MEDIDA['TIEMPO'];
@@ -29,6 +33,14 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
+
+  mostrarGenerarDepreciacion = () => {
+    return (
+      this.modoFormulario === 'CREANDO' &&
+      (this.formulario.value.depreciable === 1 ||
+        this.formulario.value.depreciable === true)
+    );
+  };
 
   buscarCuentaContableGasto() {
     let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
@@ -69,7 +81,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   }
 
   buscarPlantillaDepreciacion() {
-    let dialog = this._dialog.open(BuscadorPlantillaDepreciacionComponent, {
+    let dialog = this._dialog.open(BuscadorPlantillaIntegracionComponent, {
       width: '85%',
       height: '95%',
     });

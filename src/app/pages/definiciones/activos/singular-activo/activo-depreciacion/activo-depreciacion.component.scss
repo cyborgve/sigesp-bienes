@@ -4,16 +4,13 @@
 
 .monedaValorRescate,
 .valorRescate,
-.unidadVidaUtil {
+.unidadVidaUtil,
+.metodoDepreciacion {
   @apply col-span-2;
 }
 
-.metodoDepreciacion {
+.depreciable {
   @apply col-span-3;
-}
-
-.metodoDepreciacion {
-  @apply col-start-7;
 }
 
 .plantillaDepreciacion,
@@ -22,7 +19,7 @@
   @apply col-span-4;
 }
 
-.depreciable {
+.avisoDepreciable {
   @apply col-span-full pb-4;
 }
 
@@ -36,8 +33,4 @@
 
 .cuentaContableGasto {
   @apply col-start-1;
-}
-
-mat-slide-toggle {
-  @apply col-span-2;
 }

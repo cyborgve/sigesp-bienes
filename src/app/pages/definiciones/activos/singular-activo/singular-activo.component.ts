@@ -17,6 +17,7 @@ import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacio
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '../buscador-activo/buscador-activo.component';
+import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
 
 @Component({
   selector: 'app-singular-activo',
@@ -33,6 +34,7 @@ export class SingularActivoComponent implements Entidad {
   formularioComponentes: FormGroup;
   formularioDepreciacion: FormGroup;
   formularioUbicacion: FormGroup;
+  formularioEspecial: FormGroup;
 
   tabLabels = [
     'datos generales',
@@ -170,6 +172,11 @@ export class SingularActivoComponent implements Entidad {
 
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+
+    this.formularioEspecial = this._formBuilder.group({
+      generarIncorporacion: [false],
+      generarDepreciacion: [false],
+    });
   }
 
   private actualizarFormulario() {
@@ -574,16 +581,26 @@ export class SingularActivoComponent implements Entidad {
       )
       .subscribe(() => this.irAtras());
   }
+
   imprimir(): void {
     throw new Error('Method not implemented.');
   }
+
   irAtras(): void {
     this._location.back();
   }
+
   irAlInicio(): void {
     this._router.navigate(['/definiciones']);
   }
+
   salir(): void {
     throw new Error('Method not implemented.');
   }
+
+  activoDepreciable = () => {
+    let activoDepreciar: Activo = this.formularioDatosGenerales.value;
+    activoDepreciar.depreciacion = this.formularioDepreciacion.value;
+    return comprobarActivoDepreciable(activoDepreciar);
+  };
 }
