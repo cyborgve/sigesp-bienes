@@ -30,10 +30,13 @@
               [formulario]="formularioComponentes"></app-activo-componentes>
             <app-activo-depreciacion
               *ngSwitchCase="'depreciación'"
-              [formulario]="formularioDepreciacion"></app-activo-depreciacion>
+              [formulario]="formularioDepreciacion"
+              [activoDepreciable]="activoDepreciable()"
+              [modoFormulario]="modoFormulario"></app-activo-depreciacion>
             <app-activo-ubicacion
               *ngSwitchCase="'ubicación'"
               [formulario]="formularioUbicacion"
+              [formularioEspecial]="formularioEspecial"
               [modoFormulario]="modoFormulario"></app-activo-ubicacion>
           </ng-container>
         </article>

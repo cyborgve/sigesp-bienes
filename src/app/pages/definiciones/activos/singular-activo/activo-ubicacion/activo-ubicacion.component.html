@@ -1,7 +1,13 @@
 <form [formGroup]="formulario">
   <section class="contenido">
     <!-- unidad administrativa id -->
-    <mat-form-field appearance="fill" class="unidadAdministrativaId">
+    <mat-form-field
+      appearance="fill"
+      [ngClass]="
+        modoFormulario === 'CREANDO'
+          ? 'unidadAdministrativaIdCreando'
+          : 'unidadAdministrativaId'
+      ">
       <mat-label>Unidad administrativa</mat-label>
       <input
         type="text"
@@ -36,6 +42,9 @@
         [for]="fechaIngresoPicker"></mat-datepicker-toggle>
       <mat-datepicker #fechaIngresoPicker></mat-datepicker>
     </mat-form-field>
+    <!-- boton de generacion -->
+    <ng-container
+      *ngTemplateOutlet="templateGenerarIncorporacion"></ng-container>
     <!-- sede id -->
     <mat-form-field appearance="fill" class="sedeId">
       <mat-label>Sede</mat-label>
@@ -144,3 +153,23 @@
     </mat-form-field>
   </section>
 </form>
+
+<ng-template #templateGenerarIncorporacion>
+  <article class="generarIncorporacion" *ngIf="modoFormulario === 'CREANDO'">
+    <form [formGroup]="formularioEspecial">
+      <mat-slide-toggle formControlName="generarIncorporacion"
+        >Generar incorporación al guardar</mat-slide-toggle
+      >
+      <p
+        class="explicacion"
+        *ngIf="
+          !activoIncorporado() &&
+          (formularioEspecial.value.generarIncorporacion === true ||
+            formularioEspecial.value.generarIncorporacion === 1)
+        ">
+        Es necesario que esten seleccionados los campos: unidad administrativa,
+        sede, y responsable de uso
+      </p>
+    </form>
+  </article>
+</ng-template>

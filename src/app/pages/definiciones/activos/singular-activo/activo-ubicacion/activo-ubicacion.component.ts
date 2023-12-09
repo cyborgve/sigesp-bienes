@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
@@ -10,6 +10,7 @@ import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unida
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
+import { comprobarActivoIncorporado } from '@core/utils/funciones/comprobar-activo-incorporado';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -18,9 +19,12 @@ import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administr
 })
 export class ActivoUbicacionComponent {
   @Input() formulario: FormGroup;
+  @Input() formularioEspecial: FormGroup;
   @Input() modoFormulario: ModoFormulario;
 
   constructor(private _dialog: MatDialog) {}
+
+  activoIncorporado = () => comprobarActivoIncorporado(this.formulario.value);
 
   buscarUnidadAdministrativa() {
     let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
