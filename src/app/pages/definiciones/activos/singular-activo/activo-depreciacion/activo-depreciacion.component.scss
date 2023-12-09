@@ -34,3 +34,11 @@
 .cuentaContableGasto {
   @apply col-start-1;
 }
+
+.nota {
+  @apply text-xs pl-2;
+}
+
+.negritas {
+  @apply font-medium;
+}

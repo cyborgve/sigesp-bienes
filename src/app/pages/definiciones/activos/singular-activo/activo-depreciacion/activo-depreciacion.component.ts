@@ -12,6 +12,9 @@ import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/busc
 import { Basica } from '@core/models/auxiliares/basica';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
+import { Activo } from '@core/models/definiciones/activo';
+import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
+import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -21,8 +24,8 @@ import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plant
 export class ActivoDepreciacionComponent implements OnDestroy {
   private subscripciones: Subscription[] = [];
   @Input() formulario: FormGroup;
-  @Input() activoDepreciable: boolean;
   @Input() formularioEspecial: FormGroup;
+  @Input() formularioDatosGenerales: FormGroup;
   @Input() modoFormulario: ModoFormulario;
 
   metodosDepreciacion = METODOS_DEPRECIACION;
@@ -33,10 +36,6 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
-
-  mostrarGenerarDepreciacion = () => {
-    return this.modoFormulario === 'CREANDO';
-  };
 
   buscarCuentaContableGasto() {
     let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
@@ -115,4 +114,25 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       )
       .subscribe();
   }
+
+  mostrarGenerarDepreciacion = () => {
+    return this.modoFormulario === 'CREANDO';
+  };
+
+  activoDepreciable = () => {
+    let activoDepreciar = this.formularioDatosGenerales.value as Activo;
+    activoDepreciar.depreciacion = this.formulario.value as ActivoDepreciacion;
+    return comprobarActivoDepreciable(activoDepreciar);
+  };
+
+  valorMonedaAsignados = () => {
+    let { valorAdquisicion, monedaId } = this.formularioDatosGenerales
+      .value as Activo;
+    let comprobaciones = [
+      valorAdquisicion > 0,
+      monedaId !== null,
+      monedaId !== '0',
+    ];
+    return comprobaciones.every(todo => !!todo);
+  };
 }

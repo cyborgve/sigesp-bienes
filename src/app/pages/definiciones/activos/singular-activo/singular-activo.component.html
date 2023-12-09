@@ -31,7 +31,8 @@
             <app-activo-depreciacion
               *ngSwitchCase="'depreciación'"
               [formulario]="formularioDepreciacion"
-              [activoDepreciable]="activoDepreciable()"
+              [formularioEspecial]="formularioEspecial"
+              [formularioDatosGenerales]="formularioDatosGenerales"
               [modoFormulario]="modoFormulario"></app-activo-depreciacion>
             <app-activo-ubicacion
               *ngSwitchCase="'ubicación'"

@@ -27,6 +27,8 @@ import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
 import { adaptarActivosInventario } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-inventario';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
+import { generarIncorporacionAutomatica } from '@core/utils/pipes-rxjs/procesos/generar-incorporacion-automatica';
+import { generarDepreciacionAutomatica } from '@core/utils/pipes-rxjs/procesos/generar-depreciacion-automatica';
 
 @Injectable({
   providedIn: 'root',
@@ -106,7 +108,9 @@ export class ActivoService extends GenericService<Activo> {
             };
           })
         );
-      })
+      }),
+      generarIncorporacionAutomatica(),
+      generarDepreciacionAutomatica()
     );
   }
 

@@ -7,7 +7,7 @@
         formulario.value.depreciable === 1 ||
         formulario.value.depreciable === true
       ">
-      <ng-container *ngIf="activoDepreciable; else noDepreciable">
+      <ng-container *ngIf="activoDepreciable(); else noDepreciable">
         <span class="depreciable-sub">Este activo es depreciable </span>
         <mat-icon class="depreciable-sub">check</mat-icon>
       </ng-container>
@@ -15,8 +15,14 @@
         ><span class="noDepreciable-sub"
           >Este activo aun no es depreciable, llene todos los campos para
           hacerlo depreciable.</span
-        ></ng-template
-      >
+        >
+        <p class="nota" *ngIf="!valorMonedaAsignados()">
+          En la pestaña <span class="negritas">Datos Generales</span>, debe
+          asignar valores a los campos
+          <span class="negritas"> Valor de Adquisición </span> y
+          <span class="negritas">Moneda</span>
+        </p>
+      </ng-template>
     </article>
     <article class="depreciable">
       <!-- depreciable -->

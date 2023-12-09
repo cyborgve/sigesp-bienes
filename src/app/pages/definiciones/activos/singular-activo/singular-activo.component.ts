@@ -597,10 +597,4 @@ export class SingularActivoComponent implements Entidad {
   salir(): void {
     throw new Error('Method not implemented.');
   }
-
-  activoDepreciable = () => {
-    let activoDepreciar: Activo = this.formularioDatosGenerales.value;
-    activoDepreciar.depreciacion = this.formularioDepreciacion.value;
-    return comprobarActivoDepreciable(activoDepreciar);
-  };
 }
