@@ -35,11 +35,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   }
 
   mostrarGenerarDepreciacion = () => {
-    return (
-      this.modoFormulario === 'CREANDO' &&
-      (this.formulario.value.depreciable === 1 ||
-        this.formulario.value.depreciable === true)
-    );
+    return this.modoFormulario === 'CREANDO';
   };
 
   buscarCuentaContableGasto() {
