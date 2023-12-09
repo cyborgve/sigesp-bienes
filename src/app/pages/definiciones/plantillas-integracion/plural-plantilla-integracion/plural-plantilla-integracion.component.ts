@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-plural-plantilla-depreciacion',
-  templateUrl: './plural-plantilla-depreciacion.component.html',
-  styleUrls: ['./plural-plantilla-depreciacion.component.scss'],
+  selector: 'app-plural-plantilla-integracion',
+  templateUrl: './plural-plantilla-integracion.component.html',
+  styleUrls: ['./plural-plantilla-integracion.component.scss'],
 })
-export class PluralPlantillaDepreciacionComponent {
-  titulo = 'plantillas depreciación';
+export class PluralPlantillaIntegracionComponent {
+  titulo = 'plantillas integracion';
 
   constructor(private _location: Location, private _router: Router) {}
 

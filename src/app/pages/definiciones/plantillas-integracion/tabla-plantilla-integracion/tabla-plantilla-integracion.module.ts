@@ -1,22 +1,20 @@
-import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TablaPlantillaDepreciacionRoutingModule } from './tabla-plantilla-depreciacion-routing.module';
-import { TablaPlantillaDepreciacionComponent } from './tabla-plantilla-depreciacion.component';
+import { TablaPlantillaIntegracionComponent } from './tabla-plantilla-integracion.component';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '@shared/shared.module';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [TablaPlantillaDepreciacionComponent],
+  declarations: [TablaPlantillaIntegracionComponent],
   imports: [
     CommonModule,
     RouterModule,
-    TablaPlantillaDepreciacionRoutingModule,
     SharedModule,
     MatCardModule,
     MatTableModule,
@@ -24,6 +22,6 @@ import { SharedModule } from '@shared/shared.module';
     MatPaginatorModule,
     MatDialogModule,
   ],
-  exports: [TablaPlantillaDepreciacionComponent],
+  exports: [TablaPlantillaIntegracionComponent],
 })
-export class TablaPlantillaDepreciacionModule {}
+export class TablaPlantillaIntegracionModule {}

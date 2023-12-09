@@ -1,30 +1,30 @@
-import { take, tap, first, filter, switchMap } from 'rxjs/operators';
+import { tap, take, filter, first, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CORRELATIVOS } from '@core/constants/correlativos';
+import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
+import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 import { Entidad } from '@core/models/auxiliares/entidad';
-import { PlantillaDepreciacionService } from '@core/services/definiciones/plantilla-depreciacion.service';
+import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { BuscadorPlantillaDepreciacionComponent } from '../buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.component';
-import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
-import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
-import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { Subscription } from 'rxjs';
+import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
+import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
-import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
-import { CORRELATIVOS } from '@core/constants/correlativos';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
-import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
+import { BuscadorPlantillaIntegracionComponent } from '../buscador-plantilla-integracion/buscador-plantilla-integracion.component';
+import { PlantillaIntegracionService } from '@core/services/definiciones/plantilla-integracion.service';
 
 @Component({
-  selector: 'app-singular-plantilla-depreciacion',
-  templateUrl: './singular-plantilla-depreciacion.component.html',
-  styleUrls: ['./singular-plantilla-depreciacion.component.scss'],
+  selector: 'app-singular-plantilla-integracion',
+  templateUrl: './singular-plantilla-integracion.component.html',
+  styleUrls: ['./singular-plantilla-integracion.component.scss'],
 })
-export class SingularPlantillaDepreciacionComponent
+export class SingularPlantillaIntegracionComponent
   implements Entidad, OnDestroy
 {
   private subscripciones: Subscription[] = [];
@@ -36,7 +36,7 @@ export class SingularPlantillaDepreciacionComponent
   unidades = UNIDADES_MEDIDA['TIEMPO'];
 
   constructor(
-    private _entidad: PlantillaDepreciacionService,
+    private _entidad: PlantillaIntegracionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _formBuilder: FormBuilder,
@@ -71,6 +71,7 @@ export class SingularPlantillaDepreciacionComponent
       this._entidad
         .buscarPorId(this.id)
         .pipe(
+          tap(console.log),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,
@@ -117,7 +118,7 @@ export class SingularPlantillaDepreciacionComponent
   }
 
   importar() {
-    let dialog = this._dialog.open(BuscadorPlantillaDepreciacionComponent, {
+    let dialog = this._dialog.open(BuscadorPlantillaIntegracionComponent, {
       width: '95%',
       height: '85%',
     });
@@ -126,7 +127,7 @@ export class SingularPlantillaDepreciacionComponent
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
-          tap((entidad: PlantillaDepreciacion) =>
+          tap((entidad: PlantillaIntegracion) =>
             this.formulario.patchValue({
               denominacion: entidad.denominacion,
               metodoDepreciacion: entidad.metodoDepreciacion,
@@ -142,7 +143,7 @@ export class SingularPlantillaDepreciacionComponent
   }
 
   guardar() {
-    let entidad: PlantillaDepreciacion = this.formulario.value;
+    let entidad: PlantillaIntegracion = this.formulario.value;
     entidad.modificado = new Date();
     if (this.modoFormulario === 'CREANDO') {
       entidad.creado = new Date();
