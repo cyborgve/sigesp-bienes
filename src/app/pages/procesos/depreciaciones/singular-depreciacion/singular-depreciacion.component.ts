@@ -29,6 +29,7 @@ import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubica
 import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
 import { filtrarActivosDepreciables } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-depreciables';
 import { filtrarActivosSinDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-depreciacion';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -57,7 +58,8 @@ export class SingularDepreciacionComponent implements Entidad {
     private _activoUbicacion: ActivoUbicacionService,
     private _activoDepreciacion: ActivoDepreciacionService,
     private _moneda: MonedaService,
-    private _depreciacion: DepreciacionService
+    private _depreciacion: DepreciacionService,
+    private _pdf: PDFService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -194,7 +196,12 @@ export class SingularDepreciacionComponent implements Entidad {
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo)
-        .pipe(first())
+        .pipe(
+          switchMap(depreciacion =>
+            this._pdf.abrirReporte(depreciacion, 'DEPRECIACIÓN')
+          ),
+          first()
+        )
         .subscribe(depreciacion =>
           depreciacion ? this.reiniciarFormulario() : undefined
         );

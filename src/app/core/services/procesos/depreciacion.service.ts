@@ -13,7 +13,6 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DepreciacionDetalleService } from './depreciacion-detalle.service';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
-import { PDFService } from '../auxiliares/pdf.service';
 import { ejecutarDepreciacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-depreciacion';
 import { reversarDepreciacion } from '@core/utils/pipes-rxjs/procesos/reversar-depreciacion';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
@@ -36,8 +35,7 @@ export class DepreciacionService extends GenericService<Depreciacion> {
     protected _http: HttpClient,
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
-    private _detalleDepreciacion: DepreciacionDetalleService,
-    private _pdf: PDFService
+    private _detalleDepreciacion: DepreciacionDetalleService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -111,8 +109,7 @@ export class DepreciacionService extends GenericService<Depreciacion> {
           })
         );
       }),
-      ejecutarDepreciacion(),
-      abrirReporteProceso(this._pdf, 'DEPRECIACIÓN')
+      ejecutarDepreciacion()
     );
   }
 
