@@ -26,9 +26,10 @@ import { adaptarActivosLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
 import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
 import { adaptarActivosInventario } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-inventario';
-import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { generarIncorporacionAutomatica } from '@core/utils/pipes-rxjs/procesos/generar-incorporacion-automatica';
 import { generarDepreciacionAutomatica } from '@core/utils/pipes-rxjs/procesos/generar-depreciacion-automatica';
+import { IncorporacionService } from '../procesos/incorporacion.service';
+import { DepreciacionService } from '../procesos/depreciacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,9 @@ export class ActivoService extends GenericService<Activo> {
     private _activoDetalle: ActivoDetalleService,
     private _activoComponente: ActivoComponenteService,
     private _activoDepreciacion: ActivoDepreciacionService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activoUbicacion: ActivoUbicacionService,
+    private _incorporacion: IncorporacionService,
+    private _depreciacion: DepreciacionService
   ) {
     super(_http, _sigesp, _snackbar);
   }
@@ -83,7 +86,12 @@ export class ActivoService extends GenericService<Activo> {
     );
   }
 
-  guardar(activoIn: Activo, tipoDato: string): Observable<Activo> {
+  guardar(
+    activoIn: Activo,
+    tipoDato: string,
+    generarIncorporacion?: boolean,
+    generarDepreciacion?: boolean
+  ): Observable<Activo> {
     return super.guardar(activoIn, tipoDato).pipe(
       adaptarActivo(),
       switchMap((activoGuardado: any) => {
@@ -109,8 +117,8 @@ export class ActivoService extends GenericService<Activo> {
           })
         );
       }),
-      generarIncorporacionAutomatica(),
-      generarDepreciacionAutomatica()
+      generarIncorporacionAutomatica(generarIncorporacion, this._incorporacion),
+      generarDepreciacionAutomatica(generarDepreciacion, this._depreciacion)
     );
   }
 

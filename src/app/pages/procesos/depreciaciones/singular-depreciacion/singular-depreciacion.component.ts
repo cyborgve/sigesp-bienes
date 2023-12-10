@@ -30,6 +30,7 @@ import { ActivoDepreciacionService } from '@core/services/definiciones/activo-de
 import { filtrarActivosDepreciables } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-depreciables';
 import { filtrarActivosSinDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-depreciacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
+import { normalizarMetodoDepreciacion } from '@core/utils/funciones/normalizar-metodo-depreciacion';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -277,10 +278,7 @@ export class SingularDepreciacionComponent implements Entidad {
             activo.depreciacion.vidaUtil,
             activo.depreciacion.unidadVidaUtil,
             activo.depreciacion.valorRescate,
-            METODOS_DEPRECIACION.find(
-              md =>
-                md.substring(0, 3) === activo.depreciacion.metodoDepreciacion
-            )
+            normalizarMetodoDepreciacion(activo.depreciacion.metodoDepreciacion)
           );
 
           this.formulario.patchValue({
