@@ -547,8 +547,10 @@ export class SingularActivoComponent implements Entidad {
       .value as ActivoDepreciacion;
     activo.ubicacion = this.formularioUbicacion.value as ActivoUbicacion;
     if (this.modoFormulario === 'CREANDO') {
+      let { generarIncorporacion, generarDepreciacion } =
+        this.formularioEspecial.value;
       this._activo
-        .guardar(activo, this.titulo)
+        .guardar(activo, this.titulo, generarIncorporacion, generarDepreciacion)
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {
