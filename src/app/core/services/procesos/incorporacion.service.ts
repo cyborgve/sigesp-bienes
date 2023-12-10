@@ -12,9 +12,7 @@ import { adaptarIncorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adapt
 import { Id } from '@core/types/id';
 import { adaptarIncorporacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-incorporacion';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
-import { PDFService } from '../auxiliares/pdf.service';
 import { ejecutarIncorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-incorporacion';
-import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { reversarIncorporacion } from '@core/utils/pipes-rxjs/procesos/reversar-incorporacion';
 
 @Injectable({
@@ -30,8 +28,7 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _incorporacionActivo: IncorporacionActivoService,
-    private _activoUbicacion: ActivoUbicacionService,
-    private _pdf: PDFService
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -77,8 +74,7 @@ export class IncorporacionService extends GenericService<Incorporacion> {
           })
         );
       }),
-      ejecutarIncorporacion(this._activoUbicacion),
-      abrirReporteProceso(this._pdf, 'INCORPORACIÓN')
+      ejecutarIncorporacion(this._activoUbicacion)
     );
   }
 
