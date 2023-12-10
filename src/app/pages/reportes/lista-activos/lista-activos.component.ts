@@ -128,7 +128,7 @@ export class ListaActivosComponent implements AfterViewInit {
       origen: [0],
       fuenteFinanciamiento: ['Todos'],
       clase: [0],
-      centroCostos: ['---'],
+      centroCostos: ['Todos'],
       tipoSemoviente: [0],
       propositoSemoviente: [0],
       tipoAnimal: [0],

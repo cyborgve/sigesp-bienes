@@ -10,7 +10,7 @@ export const filtrarActivosPorCentroCostos = (
 ) =>
   pipe(
     switchMap((activos: Activo[]) =>
-      centroCostos && centroCostos !== '---'
+      centroCostos && centroCostos !== 'Todos'
         ? _activoDetalle.buscarTodos().pipe(
             map(detalles =>
               detalles.filter(

@@ -24,6 +24,7 @@ import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
+import { catalogoOrdenadoPorCuentas } from '@core/utils/pipes-rxjs/operadores/catalogo-ordenado-por-cuentas';
 
 @Component({
   selector: 'app-tabla-catalogo-general',
@@ -91,6 +92,7 @@ export class TablaCatalogoGeneralComponent
         switchMap(configuracion =>
           this._entidad.buscarTodos().pipe(
             ordenarPorCodigo(),
+            catalogoOrdenadoPorCuentas(),
             pipeFromArray(this.filtros),
             tap((entidades: CatalogoGeneral[]) => {
               this.dataSource = new MatTableDataSource(entidades);

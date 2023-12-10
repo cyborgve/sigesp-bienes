@@ -11,6 +11,7 @@ export class DenominacionPaisPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
     if (value === null || value === undefined) return of('');
     if (value === '---') return of('---');
+    if (value === 'Todos') return of('Todos');
     return this._pais.buscarPorId(value).pipe(map(pais => pais.denominacion));
   }
 

@@ -17,7 +17,7 @@ export class FiltroCentroCostoComponent {
   constructor(private _dialog: MatDialog) {}
 
   reiniciar() {
-    this.formulario.patchValue({ catalogoGeneral: '---' });
+    this.formulario.patchValue({ centroCostos: 'Todos' });
   }
 
   buscarCentroCostos() {

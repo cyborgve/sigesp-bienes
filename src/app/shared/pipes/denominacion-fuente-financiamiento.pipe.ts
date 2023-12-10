@@ -11,7 +11,7 @@ import { FuenteFinanciamientoService } from '@core/services/otros-modulos/fuente
 export class DenominacionFuenteFinanciamientoPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
     if (value === null || value === undefined) return of('');
-    if (value === '--') return of('--');
+    if (value === '---') return of('---');
     if (value === 'Todos') return of('Todos');
     return this._fuenteFinanciamiento
       .buscarPorId(value)
