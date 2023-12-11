@@ -71,7 +71,6 @@ export class SingularPlantillaIntegracionComponent
       this._entidad
         .buscarPorId(this.id)
         .pipe(
-          tap(console.log),
           tap(entidad => {
             this.formulario.patchValue({
               empresaId: entidad.empresaId,

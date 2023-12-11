@@ -1,4 +1,4 @@
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -24,8 +24,7 @@ export class ParroquiaService {
     return this._http.get<Parroquia[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
       map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
-      adaptarParroquias(),
-      tap(console.log)
+      adaptarParroquias()
     );
   }
 

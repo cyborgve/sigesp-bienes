@@ -101,12 +101,12 @@ export class ActivoService extends GenericService<Activo> {
         detalle.activoId = Number(activoGuardado.id);
         depreciacion.activoId = Number(activoGuardado.id);
         ubicacion.activoId = Number(activoGuardado.id);
-        let complementosGuardar = [
+        let guardarComplementos = [
           this._activoDetalle.guardar(detalle, undefined, false),
           this._activoDepreciacion.guardar(depreciacion, undefined, false),
           this._activoUbicacion.guardar(ubicacion, undefined, false),
         ];
-        return forkJoin(complementosGuardar).pipe(
+        return forkJoin(guardarComplementos).pipe(
           map(([detalle, depreciacion, ubicacion]) => {
             return {
               ...activoGuardado,

@@ -11,6 +11,7 @@ export class DenominacionCentroCostosPipe implements PipeTransform {
   transform(value: string): Observable<string> {
     if (value === null || value === undefined) return of('');
     if (value === '---') return of('---');
+    if (value === '--') return of('---');
     if (value === 'Todos') return of('Todos');
     return this._centroCostos.buscarPorId(value).pipe(
       adaptarCentroCostos(),

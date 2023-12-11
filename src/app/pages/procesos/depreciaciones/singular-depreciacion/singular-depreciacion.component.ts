@@ -258,7 +258,6 @@ export class SingularDepreciacionComponent implements Entidad {
       width: '85%',
       data: {
         filtros: [
-          filtrarActivosIncorporados(this._activoUbicacion),
           filtrarActivosSinDepreciacion(this._depreciacion),
           filtrarActivosDepreciables(this._activoDepreciacion),
         ],

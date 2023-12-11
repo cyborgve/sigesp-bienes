@@ -17,7 +17,6 @@ import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacio
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '../buscador-activo/buscador-activo.component';
-import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
 
 @Component({
   selector: 'app-singular-activo',
@@ -426,7 +425,7 @@ export class SingularActivoComponent implements Entidad {
               fechaIngreso: undefined,
               estadoUsoId: 0,
               estadoConservacionId: 0,
-              descripcionEstadoConservacion: 0,
+              descripcionEstadoConservacion: '',
               responsableId: '---',
               responsableUsoId: '---',
               creado: new Date(),

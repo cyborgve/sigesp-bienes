@@ -16,7 +16,7 @@ export class DenominacionResponsablePipe implements PipeTransform {
       filter(todo => !!todo),
       map(
         responsable =>
-          `${responsable.rif} - ${responsable.nombres} ${responsable.apellidos}`
+          `${responsable.rif}  ${responsable.nombres} ${responsable.apellidos}`
       )
     );
   }
