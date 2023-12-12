@@ -23,9 +23,98 @@
           <mat-label>Denominación</mat-label>
           <input type="text" matInput formControlName="denominacion" />
         </mat-form-field>
+        <!-- tipo plantilla integracion -->
+        <mat-form-field appearance="fill" class="tipoPlantillaIntegracion">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipoPlantilla">
+            <mat-option value="">Seleccionar</mat-option>
+            <mat-option
+              *ngFor="let tipoPlantilla of tiposPlantillaIntegracion"
+              [value]="tipoPlantilla.substring(0, 3)"
+              >{{ tipoPlantilla | titlecase }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
       </article>
+      <!-- plantilla depreciacion -->
+      <section class="plantillaDepreciacion">
+        <!-- metodo de depreciacion -->
+        <mat-form-field appearance="fill" class="metodoDepreciacion">
+          <mat-label>Método de Depreciación</mat-label>
+          <mat-select formControlName="metodoDepreciacion">
+            <mat-option value="">Seleccionar</mat-option>
+            <mat-option
+              *ngFor="let metodoDepreciacion of metodosDepreciacion"
+              [value]="metodoDepreciacion.substring(0, 3)"
+              >{{ metodoDepreciacion | titlecase }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <!-- vida util -->
+        <mat-form-field appearance="fill" class="vidaUtil">
+          <mat-label>Vida Útil</mat-label>
+          <input type="number" matInput formControlName="vidaUtil" />
+        </mat-form-field>
+        <!-- unidad para vida util -->
+        <mat-form-field appearance="fill" class="unidadVidaUtil">
+          <mat-label>Unidad para Vida Útil</mat-label>
+          <mat-select formControlName="unidadVidaUtil">
+            <mat-option value="">Seleccionar</mat-option>
+            <mat-option
+              *ngFor="let unidad of unidadesVidaUtil"
+              [value]="unidad.substring(0, 3)"
+              >{{ unidad | titlecase }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <article class="cuentasContables">
+          <!-- cuentaContableGasto -->
+          <mat-form-field appearance="fill" class="cuentaContableGasto">
+            <mat-label>Cuenta Contable de Gasto</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="cuentaContableGasto"
+              readonly="true"
+              [value]="
+                formulario.value.cuentaContableGasto
+                  | denominacionCuentaContable
+                  | async
+                  | corregirSeleccionar
+              " />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              (click)="buscarCuentaContableGasto()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+          <!-- cuentaContableDepreciacion -->
+          <mat-form-field appearance="fill" class="cuentaContableDepreciacion">
+            <mat-label>Cuenta Contable de Depreciación</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="cuentaContableDepreciacion"
+              readonly="true"
+              [value]="
+                formulario.value.cuentaContableDepreciacion
+                  | denominacionCuentaContable
+                  | async
+                  | corregirSeleccionar
+              " />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              (click)="buscarCuentaContableDepreciacion()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </article>
+      </section>
     </mat-card>
-    <!-- botones -->
   </form>
 </section>
 <!-- barra de herramientas lateral -->

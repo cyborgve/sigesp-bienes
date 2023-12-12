@@ -101,6 +101,7 @@ export const COLUMNAS_VISIBLES = {
   ],
   PLANTILLAS_INTEGRACION: [
     'codigo',
+    'tipoPlantilla',
     'denominacion',
     'creado',
     'modificado',

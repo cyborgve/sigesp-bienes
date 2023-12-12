@@ -1,3 +1,4 @@
+import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +15,10 @@ import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorPlantillaIntegracionComponent } from '../buscador-plantilla-integracion/buscador-plantilla-integracion.component';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
+import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
+import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
+import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
+import { TIPOS_PLANTILLA_INTEGRACION } from '@core/constants/tipos-plantilla-integracion';
 
 @Component({
   selector: 'app-singular-plantilla-integracion',
@@ -28,6 +33,11 @@ export class SingularPlantillaIntegracionComponent
   id: Id;
   titulo = CORRELATIVOS[14].nombre;
   formulario: FormGroup;
+
+  metodosDepreciacion = METODOS_DEPRECIACION;
+  unidadesVidaUtil = UNIDADES_MEDIDA.TIEMPO;
+  tiposPlantillaIntegracion = TIPOS_PLANTILLA_INTEGRACION;
+
   constructor(
     private _entidad: PlantillaIntegracionService,
     private _activatedRoute: ActivatedRoute,
@@ -43,6 +53,12 @@ export class SingularPlantillaIntegracionComponent
       id: [undefined],
       codigo: [undefined],
       denominacion: [undefined, Validators.required],
+      tipoPlantilla: [undefined, Validators.required],
+      metodoDepreciacion: [undefined],
+      vidaUtil: [undefined],
+      unidadVidaUtil: [undefined],
+      cuentaContableGasto: [undefined],
+      cuentaContableDepreciacion: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -66,6 +82,12 @@ export class SingularPlantillaIntegracionComponent
               id: entidad.id,
               codigo: entidad.codigo,
               denominacion: entidad.denominacion,
+              tipoPlantilla: entidad.tipoPlantilla,
+              metodoDepreciacion: entidad.metodoDepreciacion,
+              vidaUtil: entidad.vidaUtil,
+              unidadVidaUtil: entidad.unidadVidaUtil,
+              cuentaContableGasto: entidad.cuentaContableGasto,
+              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
@@ -84,6 +106,12 @@ export class SingularPlantillaIntegracionComponent
               id: 0,
               codigo: `${ser}-${cor}`,
               denominacion: '',
+              tipoPlantilla: '',
+              metodoDepreciacion: '',
+              vidaUtil: 0,
+              unidadVidaUtil: '',
+              cuentaContableGasto: '---',
+              cuentaContableDepreciacion: '---',
               creado: new Date(),
               modificado: new Date(),
             });
@@ -166,5 +194,41 @@ export class SingularPlantillaIntegracionComponent
 
   salir() {
     throw new Error('Method not implemented.');
+  }
+
+  buscarCuentaContableGasto() {
+    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+      width: '95%',
+      height: '85%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((cuentaContable: CuentaContable) =>
+          this.formulario.patchValue({ cuentaContableGasto: cuentaContable.id })
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  buscarCuentaContableDepreciacion() {
+    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+      width: '95%',
+      height: '85%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((cuentaContable: CuentaContable) =>
+          this.formulario.patchValue({
+            cuentaContableDepreciacion: cuentaContable.id,
+          })
+        ),
+        take(1)
+      )
+      .subscribe();
   }
 }

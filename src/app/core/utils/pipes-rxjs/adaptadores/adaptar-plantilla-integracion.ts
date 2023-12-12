@@ -12,6 +12,7 @@ const adaptar = (plantilla: any) =>
     id: Number(plantilla.id),
     codigo: plantilla.codigo,
     denominacion: plantilla.denominacion,
+    tipoPlantilla: plantilla.tipoPlantilla,
     metodoDepreciacion: plantilla.metodoDepreciacion,
     cuentaContableGasto: plantilla.cuentaContableGasto,
     cuentaContableDepreciacion: plantilla.cuentaContableDepreciacion,

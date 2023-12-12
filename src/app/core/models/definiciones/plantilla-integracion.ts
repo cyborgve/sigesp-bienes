@@ -5,6 +5,7 @@ import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
 export interface PlantillaIntegracion extends Basica {
   codigo: string;
   denominacion: string;
+  tipoPlantilla: string;
   metodoDepreciacion: MetodoDepreciacion;
   cuentaContableGasto: Id;
   cuentaContableDepreciacion: Id;

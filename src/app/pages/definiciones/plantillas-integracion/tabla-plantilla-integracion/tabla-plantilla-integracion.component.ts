@@ -38,7 +38,8 @@ export class TablaPlantillaIntegracionComponent
   @Input() titulo: string = '';
   @Input() ocultarNuevo: boolean = false;
   @Input() ocultarEncabezado: boolean = false;
-  @Input() columnasVisibles: string[] = COLUMNAS_VISIBLES.ASEGURADORAS;
+  @Input() columnasVisibles: string[] =
+    COLUMNAS_VISIBLES.PLANTILLAS_INTEGRACION;
   @Input() filtros = [filtroArranque()];
   @Output() dobleClick = new EventEmitter();
 
