@@ -126,7 +126,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         filter(todo => !!todo),
         tap((entidad: PlantillaIntegracion) => {
           this.formulario.patchValue({
-            metodosDepreciacion: entidad.metodoDepreciacion,
+            metodoDepreciacion: entidad.metodoDepreciacion,
             vidaUtil: entidad.vidaUtil,
             unidadVidaUtil: entidad.unidadVidaUtil,
             cuentaContableGasto: entidad.cuentaContableGasto,
