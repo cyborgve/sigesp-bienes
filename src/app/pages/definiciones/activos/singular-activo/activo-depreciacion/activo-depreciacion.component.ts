@@ -1,5 +1,4 @@
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { PlantillaDepreciacion } from '@core/models/definiciones/plantilla-depreciacion';
 import { tap, filter, take } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -11,7 +10,6 @@ import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { Basica } from '@core/models/auxiliares/basica';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
-import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
@@ -68,29 +66,6 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             cuentaContableDepreciacion: cuentaContable.id,
-          })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarPlantillaDepreciacion() {
-    let dialog = this._dialog.open(BuscadorPlantillaIntegracionComponent, {
-      width: '85%',
-      height: '95%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap((entidad: PlantillaDepreciacion) =>
-          this.formulario.patchValue({
-            metodoDepreciacion: entidad.metodoDepreciacion,
-            cuentaContableGasto: entidad.cuentaContableGasto,
-            cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
-            vidaUtil: entidad.vidaUtil,
-            unidadVidaUtil: entidad.unidadVidaUtil,
           })
         ),
         take(1)

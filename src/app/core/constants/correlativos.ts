@@ -25,9 +25,9 @@ export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
   { nombre: 'modelo', id: 13, tabla: 'sbn_modelos' },
   { nombre: 'origen', id: 14, tabla: 'sbn_origenes' },
   {
-    nombre: 'plantilla de depreciación',
+    nombre: 'plantilla de integración',
     id: 15,
-    tabla: 'sbn_plantillas_depreciacion',
+    tabla: 'sbn_plantillas_integracion',
   },
   {
     nombre: 'propósito semoviente',

@@ -1,7 +1,6 @@
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
-import { normalizarMetodoDepreciacion } from '@core/utils/funciones/normalizar-metodo-depreciacion';
 
 export const adaptarPlantillaIntegracion = () => pipe(map(adaptar));
 export const adaptarPlantillasIntegracion = () =>

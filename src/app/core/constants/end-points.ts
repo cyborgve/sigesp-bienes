@@ -33,8 +33,8 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     valor: 'dao/sbn/proposito-semoviente-dao.php',
   },
   {
-    clave: 'plantillaDepreciacion',
-    valor: 'dao/sbn/plantilla-depreciacion-dao.php',
+    clave: 'plantillaIntegracion',
+    valor: 'dao/sbn/plantilla-integracion-dao.php',
   },
   { clave: 'raza', valor: 'dao/sbn/raza-dao.php' },
   { clave: 'responsable', valor: 'dao/sbn/responsable-dao.php' },
