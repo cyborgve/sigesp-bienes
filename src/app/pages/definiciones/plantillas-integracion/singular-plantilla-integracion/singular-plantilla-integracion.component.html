@@ -62,7 +62,7 @@
             <mat-option value="">Seleccionar</mat-option>
             <mat-option
               *ngFor="let unidad of unidadesVidaUtil"
-              [value]="unidad.substring(0, 3)"
+              [value]="unidad"
               >{{ unidad | titlecase }}</mat-option
             >
           </mat-select>

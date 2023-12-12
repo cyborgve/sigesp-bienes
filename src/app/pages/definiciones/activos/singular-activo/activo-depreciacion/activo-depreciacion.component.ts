@@ -15,6 +15,7 @@ import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacio
 import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
 import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
+import { filtrarPlantillasIntegracionPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-plantillas-integracion-por-tipo';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -117,6 +118,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
     let dialog = this._dialog.open(BuscadorPlantillaIntegracionComponent, {
       width: '85%',
       height: '95%',
+      data: { filtros: [filtrarPlantillasIntegracionPorTipo('DEP')] },
     });
     dialog
       .afterClosed()
