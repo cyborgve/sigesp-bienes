@@ -75,6 +75,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./retornos/retornos.module').then(m => m.RetornosModule),
   },
+  {
+    path: 'integraciones',
+    loadChildren: () =>
+      import('./integraciones/integraciones.module').then(
+        m => m.IntegracionesModule
+      ),
+  },
 ];
 
 @NgModule({
