@@ -14,7 +14,7 @@ import { Id } from '@core/types/id';
 })
 export class PlantillaIntegracionService extends GenericService<PlantillaIntegracion> {
   protected getEntidadUrl(): string {
-    return END_POINTS.find(ep => ep.clave === 'plantillaItegracion').valor;
+    return END_POINTS.find(ep => ep.clave === 'plantillaIntegracion').valor;
   }
 
   buscarTodos(): Observable<PlantillaIntegracion[]> {
