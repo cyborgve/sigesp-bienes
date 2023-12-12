@@ -32,7 +32,15 @@
       <!-- generar depreciacion -->
       <ng-container *ngTemplateOutlet="generarDepreciacion"> </ng-container>
     </article>
-    <!-- plantilla de depreciacion -->
+    <!-- plantillas de integracion -->
+    <button
+      mat-stroked-button
+      color="primary"
+      class="boton"
+      type="button"
+      (click)="buscarPlantillaIntegracion()">
+      Plantillas de Integración
+    </button>
 
     <!-- metodo depreciacion -->
     <mat-form-field appearance="fill" class="metodoDepreciacion">

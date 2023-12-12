@@ -99,7 +99,7 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  PLANTILLAS_DEPRECIACION: [
+  PLANTILLAS_INTEGRACION: [
     'codigo',
     'denominacion',
     'creado',

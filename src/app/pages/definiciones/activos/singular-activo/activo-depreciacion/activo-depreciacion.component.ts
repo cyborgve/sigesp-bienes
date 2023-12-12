@@ -13,6 +13,8 @@ import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacion';
 import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
+import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
+import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -110,4 +112,27 @@ export class ActivoDepreciacionComponent implements OnDestroy {
     ];
     return comprobaciones.every(todo => !!todo);
   };
+
+  buscarPlantillaIntegracion() {
+    let dialog = this._dialog.open(BuscadorPlantillaIntegracionComponent, {
+      width: '85%',
+      height: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((entidad: PlantillaIntegracion) => {
+          this.formulario.patchValue({
+            metodosDepreciacion: entidad.metodoDepreciacion,
+            vidaUtil: entidad.vidaUtil,
+            unidadVidaUtil: entidad.unidadVidaUtil,
+            cuentaContableGasto: entidad.cuentaContableGasto,
+            cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+          });
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
 }

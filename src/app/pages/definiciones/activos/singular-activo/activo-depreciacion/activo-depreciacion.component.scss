@@ -13,7 +13,10 @@
   @apply col-span-3;
 }
 
-.plantillaDepreciacion,
+.boton {
+  @apply col-start-6 col-span-2 h-[60px];
+}
+
 .cuentaContableGasto,
 .cuentaContableDepreciacion {
   @apply col-span-4;
