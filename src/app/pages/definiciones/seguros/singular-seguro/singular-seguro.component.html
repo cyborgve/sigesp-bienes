@@ -15,7 +15,7 @@
             type="text"
             matInput
             formControlName="codigo"
-            readonly="true"
+            readonly
             [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
         <!-- denominacion -->
@@ -35,7 +35,7 @@
             type="text"
             matInput
             formControlName="aseguradoraId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.aseguradoraId | denominacionAseguradora | async
             " />
@@ -54,7 +54,7 @@
             type="text"
             matInput
             formControlName="tipoPolizaId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.tipoPolizaId | denominacionTipoPoliza | async
             " />
@@ -73,7 +73,7 @@
             type="text"
             matInput
             formControlName="tipoCoberturaId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.tipoCoberturaId
                 | denominacionTipoCobertura
@@ -94,7 +94,7 @@
             [matDatepicker]="pickerFechaInicioPoliza"
             matInput
             formControlName="fechaInicioPoliza"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             [for]="pickerFechaInicioPoliza"
             matSuffix></mat-datepicker-toggle>
@@ -107,7 +107,7 @@
             [matDatepicker]="pickerFechaFinPoliza"
             matInput
             formControlName="fechaFinPoliza"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             [for]="pickerFechaFinPoliza"
             matSuffix></mat-datepicker-toggle>
@@ -132,7 +132,7 @@
             type="text"
             matInput
             formControlName="monedaId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.monedaId
                 | denominacionMoneda
@@ -154,7 +154,7 @@
             type="text"
             matInput
             formControlName="monedaSecundariaId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.monedaSecundariaId
                 | denominacionMoneda
@@ -176,7 +176,7 @@
             type="text"
             matInput
             formControlName="coberturaAdicional"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.coberturaAdicional
                 | denominacionTipoCobertura

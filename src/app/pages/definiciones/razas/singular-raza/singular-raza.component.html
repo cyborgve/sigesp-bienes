@@ -15,7 +15,7 @@
             type="text"
             matInput
             formControlName="codigo"
-            readonly="true"
+            readonly
             [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
         <!-- tipoAnimalId -->
@@ -25,7 +25,7 @@
             type="text"
             matInput
             formControlName="tipoAnimalId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.tipoAnimalId | denominacionTipoAnimal | async
             " />

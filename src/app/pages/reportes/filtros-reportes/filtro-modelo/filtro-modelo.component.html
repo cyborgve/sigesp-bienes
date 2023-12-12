@@ -24,7 +24,7 @@
         matInput
         type="text"
         formControlName="modelo"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.modelo | denominacionModelo | async | corregirTodos
         " /><button

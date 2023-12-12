@@ -1,6 +1,6 @@
 {
   "name": "sigesp_bienes",
-  "version": "0.59.320",
+  "version": "0.59.321",
   "contributors": [
     {
       "name": "Richard Iribarren",
@@ -17,7 +17,6 @@
     "build": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /SigespERP/sigesp_bienes/",
     "build:stats": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /SigespERP/sigesp_bienes/ --stats-json",
     "build:pruebas": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /sigesp_pruebas/sigesp_bienes/",
-    "build:erp": "ng build --aot --build-optimizer --output-hashing=none --prod --base-href /SigespERP/bienes/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

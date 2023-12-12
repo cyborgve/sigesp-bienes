@@ -15,7 +15,7 @@
             type="text"
             matInput
             formControlName="codigo"
-            readonly="true"
+            readonly
             [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
         <!-- denominacion -->
@@ -30,7 +30,7 @@
             matInput
             [matDatepicker]="pickerFechaOrigen"
             formControlName="fechaOrigen"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             matSuffix
             [for]="pickerFechaOrigen"></mat-datepicker-toggle>
@@ -43,7 +43,7 @@
             matInput
             [matDatepicker]="pickerFechaAdquisicion"
             formControlName="fechaAdquisicion"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             matSuffix
             [for]="pickerFechaAdquisicion"></mat-datepicker-toggle>
@@ -85,7 +85,7 @@
             matInput
             formControlName="fechaFactura"
             [matDatepicker]="pickerFechaFactura"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             [for]="pickerFechaFactura"
             matSuffix></mat-datepicker-toggle>
@@ -103,7 +103,7 @@
             type="text"
             matInput
             formControlName="proveedorId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.proveedorId
                 | denominacionProveedor
@@ -143,7 +143,7 @@
             type="text"
             matInput
             formControlName="nombreBenefactor"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.nombreBenefactor
                 | denominacionBeneficiario
@@ -165,7 +165,7 @@
             type="text"
             matInput
             formControlName="nombreBeneficiario"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.nombreBeneficiario
                 | denominacionBeneficiario

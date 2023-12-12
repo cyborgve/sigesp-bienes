@@ -13,7 +13,7 @@
         type="text"
         matInput
         formControlName="unidadAdministrativaId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.unidadAdministrativaId
             | denominacionUnidadAdministrativa
@@ -35,7 +35,7 @@
         matInput
         [matDatepicker]="fechaIngresoPicker"
         formControlName="fechaIngreso"
-        readonly="true" />
+        readonly />
       <mat-datepicker-toggle
         *ngIf="modoFormulario === 'CREANDO'"
         matSuffix
@@ -46,13 +46,15 @@
     <ng-container
       *ngTemplateOutlet="templateGenerarIncorporacion"></ng-container>
     <!-- sede id -->
-    <mat-form-field appearance="fill" class="sedeId">
+    <mat-form-field
+      appearance="fill"
+      [ngClass]="modoFormulario === 'CREANDO' ? 'sedeIdCreando' : 'sedeId'">
       <mat-label>Sede</mat-label>
       <input
         type="text"
         matInput
         formControlName="sedeId"
-        readonly="true"
+        readonly
         [value]="formulario.value.sedeId | denominacionSede | async" />
       <button
         *ngIf="modoFormulario === 'CREANDO'"
@@ -63,6 +65,18 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
+    <!-- causa movimiento -->
+    <mat-form-field appearance="fill" class="causaMovimiento">
+      <mat-label>Causa del Movimiento</mat-label>
+      <input type="text" matInput readonly />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarCausaMovimiento()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
     <!-- responsable id -->
     <mat-form-field appearance="fill" class="responsableId">
       <mat-label>Responsable</mat-label>
@@ -70,7 +84,7 @@
         type="text"
         matInput
         formControlName="responsableId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.responsableId
             | denominacionResponsable
@@ -85,7 +99,7 @@
         type="text"
         matInput
         formControlName="responsableUsoId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.responsableUsoId
             | denominacionResponsable
@@ -108,7 +122,7 @@
         type="text"
         matInput
         formControlName="estadoUsoId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.estadoUsoId | denominacionEstadoUso | async
         " />
@@ -127,7 +141,7 @@
         type="text"
         matInput
         formControlName="estadoConservacionId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.estadoConservacionId
             | denominacionEstadoConservacion

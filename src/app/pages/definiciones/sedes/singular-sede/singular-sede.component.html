@@ -15,7 +15,7 @@
             type="text"
             matInput
             formControlName="codigo"
-            readonly="true"
+            readonly
             [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
         <!-- denominacion -->
@@ -30,7 +30,7 @@
             type="text"
             matInput
             formControlName="tipoSedeId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.tipoSedeId | denominacionTipoSede | async
             " />
@@ -61,7 +61,7 @@
             type="text"
             matInput
             formControlName="paisId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.paisId
                 | denominacionPais
@@ -83,7 +83,7 @@
             type="text"
             matInput
             formControlName="estadoId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.estadoId
                 | denominacionEstado
@@ -105,7 +105,7 @@
             type="text"
             matInput
             formControlName="municipioId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.municipioId
                 | denominacionMunicipio
@@ -127,7 +127,7 @@
             type="text"
             matInput
             formControlName="parroquiaId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.parroquiaId
                 | denominacionParroquia
@@ -149,7 +149,7 @@
             type="text"
             matInput
             formControlName="ciudadId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.ciudadId
                 | denominacionCiudad
