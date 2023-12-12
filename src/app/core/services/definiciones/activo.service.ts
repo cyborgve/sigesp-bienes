@@ -89,8 +89,12 @@ export class ActivoService extends GenericService<Activo> {
   guardar(
     activoIn: Activo,
     tipoDato: string,
-    generarIncorporacion?: boolean,
-    generarDepreciacion?: boolean
+    notificar?: boolean,
+    opciones?: {
+      generarIncorporacion?: boolean;
+      generarDepreciacion?: boolean;
+      causaMovimiento?: Id;
+    }
   ): Observable<Activo> {
     return super.guardar(activoIn, tipoDato).pipe(
       adaptarActivo(),
@@ -117,8 +121,15 @@ export class ActivoService extends GenericService<Activo> {
           })
         );
       }),
-      generarIncorporacionAutomatica(generarIncorporacion, this._incorporacion),
-      generarDepreciacionAutomatica(generarDepreciacion, this._depreciacion)
+      generarIncorporacionAutomatica(
+        opciones.generarIncorporacion,
+        opciones.causaMovimiento,
+        this._incorporacion
+      ),
+      generarDepreciacionAutomatica(
+        opciones.generarDepreciacion,
+        this._depreciacion
+      )
     );
   }
 

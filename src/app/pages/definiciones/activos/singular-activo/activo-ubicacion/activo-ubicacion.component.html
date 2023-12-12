@@ -66,17 +66,7 @@
       </button>
     </mat-form-field>
     <!-- causa movimiento -->
-    <mat-form-field appearance="fill" class="causaMovimiento">
-      <mat-label>Causa del Movimiento</mat-label>
-      <input type="text" matInput readonly />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarCausaMovimiento()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+    <ng-container *ngTemplateOutlet="causaMovimiento"></ng-container>
     <!-- responsable id -->
     <mat-form-field appearance="fill" class="responsableId">
       <mat-label>Responsable</mat-label>
@@ -167,7 +157,7 @@
 </form>
 
 <ng-template #templateGenerarIncorporacion>
-  <article class="generarIncorporacion" *ngIf="modoFormulario === 'CREANDO'">
+  <section class="generarIncorporacion" *ngIf="modoFormulario === 'CREANDO'">
     <form [formGroup]="formularioEspecial">
       <mat-slide-toggle formControlName="generarIncorporacion"
         >Generar incorporación al guardar</mat-slide-toggle
@@ -183,5 +173,32 @@
         sede, y responsable de uso
       </p>
     </form>
-  </article>
+  </section>
+</ng-template>
+
+<ng-template #causaMovimiento>
+  <section class="causaMovimiento" *ngIf="modoFormulario === 'CREANDO'">
+    <form [formGroup]="formularioEspecial">
+      <mat-form-field appearance="fill" class="causa">
+        <mat-label>Causa del Movimiento</mat-label>
+        <input
+          type="text"
+          matInput
+          readonly
+          formControlName="causaMovimiento"
+          [value]="
+            formularioEspecial.value.causaMovimiento
+              | denominacionCausaMovimiento
+              | async
+          " />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarCausaMovimiento()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </section>
 </ng-template>

@@ -2,6 +2,7 @@ import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { Activo } from '@core/models/definiciones/activo';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { IncorporacionService } from '@core/services/procesos/incorporacion.service';
+import { Id } from '@core/types/id';
 import { comprobarActivoIncorporado } from '@core/utils/funciones/comprobar-activo-incorporado';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { of, pipe } from 'rxjs';
@@ -9,6 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 export const generarIncorporacionAutomatica = (
   generarIncorporacion: boolean,
+  causaMovimiento: Id,
   _incorporacion: IncorporacionService
 ) =>
   pipe(
@@ -21,7 +23,7 @@ export const generarIncorporacionAutomatica = (
             empresaId: 0,
             id: 0,
             comprobante: '0000-00000000',
-            causaMovimiento: 1,
+            causaMovimiento: Number(causaMovimiento),
             unidadAdministrativa: ubicacion.unidadAdministrativaId,
             sede: ubicacion.sedeId,
             fechaEntrega: ubicacion.fechaIngreso,

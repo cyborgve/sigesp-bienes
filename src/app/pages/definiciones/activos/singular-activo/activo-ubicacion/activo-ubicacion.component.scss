@@ -26,10 +26,22 @@
   @apply col-start-1 col-span-full;
 }
 
+.sedeIdCreando {
+  @apply col-span-8;
+}
+
 .generarIncorporacion {
   @apply col-span-3;
 }
 
 .explicacion {
   @apply text-xs;
+}
+
+.causaMovimiento {
+  @apply col-span-4;
+}
+
+.causa {
+  @apply w-full;
 }

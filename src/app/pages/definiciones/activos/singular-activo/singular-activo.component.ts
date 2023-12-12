@@ -175,6 +175,7 @@ export class SingularActivoComponent implements Entidad {
     this.formularioEspecial = this._formBuilder.group({
       generarIncorporacion: [false],
       generarDepreciacion: [false],
+      causaMovimiento: [0],
     });
   }
 
@@ -546,10 +547,14 @@ export class SingularActivoComponent implements Entidad {
       .value as ActivoDepreciacion;
     activo.ubicacion = this.formularioUbicacion.value as ActivoUbicacion;
     if (this.modoFormulario === 'CREANDO') {
-      let { generarIncorporacion, generarDepreciacion } =
+      let { generarIncorporacion, generarDepreciacion, causaMovimiento } =
         this.formularioEspecial.value;
       this._activo
-        .guardar(activo, this.titulo, generarIncorporacion, generarDepreciacion)
+        .guardar(activo, this.titulo, true, {
+          generarIncorporacion,
+          generarDepreciacion,
+          causaMovimiento,
+        })
         .pipe(first())
         .subscribe(() => this.irAtras());
     } else {

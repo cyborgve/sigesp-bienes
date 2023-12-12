@@ -11,6 +11,8 @@ import { BuscadorResponsableComponent } from '@shared/components/buscador-respon
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { comprobarActivoIncorporado } from '@core/utils/funciones/comprobar-activo-incorporado';
+import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
+import { filtrarCausasMovimientoPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-causas-movimiento-por-tipo';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -109,6 +111,24 @@ export class ActivoUbicacionComponent {
         filter(todo => !!todo),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ estadoUsoId: entidad.id })
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  buscarCausaMovimiento() {
+    let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
+      height: '95%',
+      width: '85%',
+      data: { filtros: [filtrarCausasMovimientoPorTipo('INCORPORACIÓN')] },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((entidad: Basica) =>
+          this.formularioEspecial.patchValue({ causaMovimiento: entidad.id })
         ),
         take(1)
       )
