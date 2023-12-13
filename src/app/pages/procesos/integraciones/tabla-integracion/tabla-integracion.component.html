@@ -1,1 +1,96 @@
-<p>tabla-integracion works!</p>
+<app-encabezado-definiciones
+  [titulo]="titulo"
+  [ocultarNuevo]="ocultarNuevo"
+  (nuevo)="nuevo()"
+  (filtrarDatos)="filtrar($event)"
+  (limpiarBuscadorEvento)="filtrar($event)"
+  [hidden]="ocultarEncabezado"></app-encabezado-definiciones>
+
+<mat-card>
+  <section class="filtros">
+    <app-filtro-rango-fechas
+      [formulario]="formularioRangoFechas"
+      [sinDecorar]="filtrosSinDecorar"></app-filtro-rango-fechas>
+  </section>
+</mat-card>
+<mat-card class="card-table">
+  <!-- tabla -->
+  <table mat-table [dataSource]="dataSource" class="table" matSort>
+    <!-- tipo -->
+    <ng-container matColumnDef="tipo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Proceso</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.tipo }}
+      </td>
+    </ng-container>
+    <!-- comprobante -->
+    <ng-container matColumnDef="comprobante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.comprobante | corregirCodigo }}
+      </td>
+    </ng-container>
+    <!-- activo -->
+    <ng-container matColumnDef="activo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bien</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.activo | denominacionActivo | async }}
+      </td>
+    </ng-container>
+    <!-- identificador -->
+    <ng-container matColumnDef="identificador">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.identificador }}
+      </td>
+    </ng-container>
+    <!-- creado -->
+    <ng-container matColumnDef="creado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.creado | date : 'medium' }}
+      </td>
+    </ng-container>
+    <!-- modificado -->
+    <ng-container matColumnDef="modificado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.modificado | date : 'medium' }}
+      </td>
+    </ng-container>
+
+    <!-- acciones-proceso -->
+    <ng-container matColumnDef="acciones-proceso">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let row">
+        <mat-slide-toggle>Integrar</mat-slide-toggle>
+        <mat-slide-toggle>Bloquear</mat-slide-toggle>
+      </td>
+    </ng-container>
+
+    <!-- ejecuta el armado de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: columnasVisibles"
+      class="row-hover"
+      (dblclick)="dobleClick.emit(row)"></tr>
+
+    <!-- mostrar cuando no hay datos que coincidan -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No hay datos para mostrar que concidan con la busqueda "{{
+          dataSource.filter
+        }}"
+      </td>
+    </tr>
+  </table>
+  <!-- <mat-paginator
+    *ngIf="activarPaginacion"
+    [length]="dataSource.data.length"
+    [pageSize]="itemsPorPagina"
+    [showFirstLastButtons]="mostrarBotonesInicioFinal"
+    [pageSizeOptions]="opcionesPaginacion"
+    [hidePageSize]="!mostrarOpcionesPaginacion">
+  </mat-paginator> -->
+</mat-card>

@@ -268,6 +268,14 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones-proceso',
   ],
+  INTEGRACIONES: [
+    'tipo',
+    'comprobante',
+    'activo',
+    'creado',
+    'modificado',
+    'acciones-proceso',
+  ],
   MODIFICACIONES: [
     'comprobante',
     'activo',

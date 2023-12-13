@@ -1,1 +1,12 @@
-<app-tabla-integracion></app-tabla-integracion>
+<section class="contenedor-singular">
+  <app-tabla-integracion
+    [titulo]="titulo"
+    [ocultarNuevo]="true"></app-tabla-integracion>
+</section>
+<app-toolbar
+  [mostrarBorrar]="false"
+  [mostrarBuscar]="false"
+  [mostrarExportar]="false"
+  [mostrarGuardar]="false"
+  [mostrarImportar]="false"
+  [mostrarEjecutar]="true"></app-toolbar>
