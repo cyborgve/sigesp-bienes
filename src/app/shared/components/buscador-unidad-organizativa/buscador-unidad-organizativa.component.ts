@@ -1,4 +1,4 @@
-import { first, tap, take, switchMap } from 'rxjs/operators';
+import { tap, take, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -6,11 +6,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { UnidadOrganizativa } from '@core/models/otros-modulos/unidad-organizativa';
 import { UnidadOrganizativaService } from '@core/services/otros-modulos/unidad-organizativa.service';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
