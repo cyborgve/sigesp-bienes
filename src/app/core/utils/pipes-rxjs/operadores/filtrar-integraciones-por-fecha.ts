@@ -1,12 +1,15 @@
 import { FormGroup } from '@angular/forms';
-import { Activo } from '@core/models/definiciones/activo';
+import { Integracion } from '@core/models/procesos/integracion';
 import moment from 'moment';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
-export const filtrarActivosPorFecha = (formularioRangoFechas: FormGroup) =>
+
+export const filtrarIntegracionesPorFecha = (
+  formularioRangoFechas: FormGroup
+) =>
   pipe(
-    map((activos: Activo[]) =>
-      activos.filter(activo => {
+    map((integraciones: Integracion[]) =>
+      integraciones.filter(integracion => {
         let valores = formularioRangoFechas.value;
         let fechaInicio = valores.fechaInicio
           ? moment(valores.fechaInicio)
@@ -19,8 +22,8 @@ export const filtrarActivosPorFecha = (formularioRangoFechas: FormGroup) =>
           fechaFin = fechaInicio.endOf('day');
         }
         return valores.fechaReferencia === 'CREADO'
-          ? moment(activo.creado).isBetween(fechaInicio, fechaFin)
-          : moment(activo.modificado).isBetween(fechaInicio, fechaFin);
+          ? moment(integracion.creado).isBetween(fechaInicio, fechaFin)
+          : moment(integracion.modificado).isBetween(fechaInicio, fechaFin);
       })
     )
   );

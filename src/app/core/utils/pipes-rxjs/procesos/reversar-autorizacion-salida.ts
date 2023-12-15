@@ -1,6 +1,7 @@
-import { AutorizacionSalida } from '@core/models/procesos/autorizacion-salida';
+import { AutorizacionSalidaService } from '@core/services/procesos/autorizacion-salida.service';
 import { pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-export const reversarAutorizacionSalida = () =>
-  pipe(map((autorizacionSalida: AutorizacionSalida) => autorizacionSalida));
+export const reversarAutorizacionSalida = (
+  _autorizacionSalida: AutorizacionSalidaService
+) => pipe(tap());

@@ -101,4 +101,5 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'retorno', valor: 'dao/sbn/retorno-dao.php' },
   { clave: 'retornoActivo', valor: 'dao/sbn/retorno-activo-dao.php' },
   { clave: 'unidadOrganizativa', valor: 'dao/sbn/unidad-organizativa-dao.php' },
+  { clave: 'integracion', valor: 'dao/sbn/integracion-dao.php' },
 ];

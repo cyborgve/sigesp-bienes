@@ -1,0 +1,33 @@
+<!-- filtro -->
+<ng-container *ngIf="sinDecorar; else decorado">
+  <ng-container *ngTemplateOutlet="contenido"></ng-container>
+</ng-container>
+
+<!-- decorado -->
+<ng-template #decorado>
+  <mat-card class="filtro-card">
+    <mat-card-title class="filtro-titulo"
+      >Filtrar por Tipo de Proceso</mat-card-title
+    >
+    <p class="filtro-descripcion">
+      Seleccione el tipo de proceso, si no selecciona ninguno se muestran todos
+      los registros
+    </p>
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </mat-card>
+</ng-template>
+
+<!-- contenido -->
+<ng-template #contenido>
+  <form [formGroup]="formulario">
+    <mat-form-field appearance="fill" class="filtro-input">
+      <mat-label>Tipo de Proceso</mat-label>
+      <mat-select formControlName="tipoProceso">
+        <mat-option value="TODOS" selected>Todos</mat-option>
+        <mat-option *ngFor="let tipo of tiposProceso" [value]="tipo">{{
+          tipo | titlecase
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</ng-template>

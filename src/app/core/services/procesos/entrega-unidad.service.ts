@@ -65,7 +65,7 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
       switchMap(entregaUnidad =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? entregaUnidad : eliminada)),
-          reversarEntregaUnidad(),
+          reversarEntregaUnidad(this),
           map(entrega => !!entrega)
         )
       )

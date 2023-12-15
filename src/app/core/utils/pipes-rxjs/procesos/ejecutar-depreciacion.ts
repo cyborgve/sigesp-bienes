@@ -1,6 +1,6 @@
-import { Depreciacion } from '@core/models/procesos/depreciacion';
+import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-export const ejecutarDepreciacion = () =>
-  pipe(map((depreciacion: Depreciacion) => depreciacion));
+export const ejecutarDepreciacion = (_depreciacion: DepreciacionService) =>
+  pipe(tap);

@@ -80,7 +80,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
           })
         );
       }),
-      ejecutarAutorizacionSalida(),
+      ejecutarAutorizacionSalida(this),
       abrirReporteProceso(this._pdf, 'AUTORIZACIÓN DE SALIDA')
     );
   }
@@ -93,7 +93,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
             if (eliminado) return autorizacionSalida;
             return eliminado;
           }),
-          reversarAutorizacionSalida(),
+          reversarAutorizacionSalida(this),
           map(autorizacionSalida => !!autorizacionSalida)
         )
       )

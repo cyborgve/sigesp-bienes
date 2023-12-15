@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Integracion } from '@core/models/procesos/integracion';
 
 @Component({
   selector: 'app-plural-integracion',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class PluralIntegracionComponent {
   titulo = 'integraciones';
+
+  porAprobar: Integracion[] = [];
+  porIntegrar: Integracion[] = [];
 }

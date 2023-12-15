@@ -255,12 +255,12 @@ export const MENU: MenuItem[] = [
         icon: 'network_intelligence_update',
         image: './assets/images/svg/network_intelligence_update.svg',
       },
-      // {
-      //   label: 'Integraciones',
-      //   routerLink: 'integraciones',
-      //   icon: 'sync',
-      //   image: './assets/images/svg/sync.svg',
-      // },
+      {
+        label: 'Integraciones',
+        routerLink: 'integraciones',
+        icon: 'sync',
+        image: './assets/images/svg/sync.svg',
+      },
     ],
   },
   {

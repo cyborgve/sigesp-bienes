@@ -1,6 +1,6 @@
 import { adaptarDepreciacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion';
 import { adaptarDepreciaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
@@ -12,7 +12,6 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DepreciacionDetalleService } from './depreciacion-detalle.service';
-import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ejecutarDepreciacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-depreciacion';
 import { reversarDepreciacion } from '@core/utils/pipes-rxjs/procesos/reversar-depreciacion';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
@@ -108,8 +107,7 @@ export class DepreciacionService extends GenericService<Depreciacion> {
             return depreciacion;
           })
         );
-      }),
-      ejecutarDepreciacion()
+      })
     );
   }
 
@@ -118,7 +116,6 @@ export class DepreciacionService extends GenericService<Depreciacion> {
       switchMap(depreciacion =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? depreciacion : eliminada)),
-          reversarDepreciacion(),
           map(depreciacion => !!depreciacion)
         )
       )
