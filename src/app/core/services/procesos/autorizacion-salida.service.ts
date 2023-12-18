@@ -15,6 +15,7 @@ import { adaptarAutorizacionSalida } from '@core/utils/pipes-rxjs/adaptadores/ad
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ejecutarAutorizacionSalida } from '@core/utils/pipes-rxjs/procesos/ejecutar-autorizacion-salida';
 import { reversarAutorizacionSalida } from '@core/utils/pipes-rxjs/procesos/reversar-autorizacion-salida';
+import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _autorizacionSalidaActivo: AutorizacionSalidaActivoService,
+    private _activoUbicacion: ActivoUbicacionService,
     private _pdf: PDFService
   ) {
     super(_http, _sigesp, _snackBar);
@@ -80,7 +82,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
           })
         );
       }),
-      ejecutarAutorizacionSalida(this),
+      ejecutarAutorizacionSalida(this._activoUbicacion),
       abrirReporteProceso(this._pdf, 'AUTORIZACIÓN DE SALIDA')
     );
   }
@@ -93,7 +95,7 @@ export class AutorizacionSalidaService extends GenericService<AutorizacionSalida
             if (eliminado) return autorizacionSalida;
             return eliminado;
           }),
-          reversarAutorizacionSalida(this),
+          reversarAutorizacionSalida(this._activoUbicacion),
           map(autorizacionSalida => !!autorizacionSalida)
         )
       )
