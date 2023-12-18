@@ -63,8 +63,8 @@ export interface ActivoLista {
   raza: string;
   depreciable: string;
   metodoDepreciacion: string;
-  cuentaContableGasto: string;
-  cuentaContableDepreciacion: string;
+  cuentaContableDebe: string;
+  cuentaContableHaber: string;
   vidaUtil: number;
   unidadVidaUtil: string;
   valorRescate: number;

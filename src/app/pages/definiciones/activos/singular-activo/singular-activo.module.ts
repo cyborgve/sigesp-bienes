@@ -43,6 +43,7 @@ import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades
 import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.module';
 import { BuscadorPlantillaIntegracionModule } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.module';
 import { BuscadorCausaMovimientoModule } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.module';
+import { ActivoIntegracionComponent } from './activo-integracion/activo-integracion.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { BuscadorCausaMovimientoModule } from '@pages/definiciones/causas-movimi
     ActivoDepreciacionComponent,
     ActivoDetallesComponent,
     ActivoUbicacionComponent,
+    ActivoIntegracionComponent,
   ],
   imports: [
     CommonModule,

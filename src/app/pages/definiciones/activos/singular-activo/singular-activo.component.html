@@ -39,6 +39,9 @@
               [formulario]="formularioUbicacion"
               [formularioEspecial]="formularioEspecial"
               [modoFormulario]="modoFormulario"></app-activo-ubicacion>
+            <app-activo-integracion
+              *ngSwitchCase="'integración'"
+              [formulario]="formularioIntegracion"></app-activo-integracion>
           </ng-container>
         </article>
       </mat-tab>

@@ -209,4 +209,8 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
         .subscribe()
     );
   }
+
+  reiniciarBuscarCuentaReferencia() {
+    this.formulario.patchValue({ cuentaReferencia: 0 });
+  }
 }

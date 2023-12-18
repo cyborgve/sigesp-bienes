@@ -15,6 +15,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { OPCIONES_INTEGRACION_PROCESOS } from '@core/constants/opciones-proceso-integracion';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Configuracion } from '@core/models/definiciones/configuracion';
@@ -72,18 +73,19 @@ export class TablaIntegracionComponent
     private _configuracion: ConfiguracionService,
     private _formBuilder: FormBuilder
   ) {
+    let fechaCalculada = FECHAS_CALCULADAS['ESTE MES'];
     this.formularioRangoFechas = this._formBuilder.group({
-      rango: ['TODOS'],
-      fechaInicio: [undefined],
-      fechaFin: [undefined],
+      rango: ['ESTE MES'],
+      fechaInicio: [fechaCalculada[0]],
+      fechaFin: [fechaCalculada[1]],
       fechaReferencia: ['CREADO'],
     });
 
     this.formulario = this._formBuilder.group({
       tipoProceso: ['TODOS'],
-      estadoRegistro: ['TODOS'],
-      estadoAprobacion: ['TODOS'],
-      estadoIntegracion: ['TODOS'],
+      estadoRegistro: ['NO REGISTRADOS'],
+      estadoAprobacion: ['NO APROBADOS'],
+      estadoIntegracion: ['NO INTEGRADOS'],
     });
   }
 

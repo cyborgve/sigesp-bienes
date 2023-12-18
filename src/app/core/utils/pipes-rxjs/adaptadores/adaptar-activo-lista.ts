@@ -81,8 +81,8 @@ const adaptar = (activoLista: any) =>
     metodoDepreciacion: normalizarMetodoDepreciacion(
       activoLista.metodoDepreciacion
     ),
-    cuentaContableGasto: activoLista.cuentaContableGasto,
-    cuentaContableDepreciacion: activoLista.cuentaContableDepreciacion,
+    cuentaContableDebe: activoLista.cuentaContableDebe,
+    cuentaContableHaber: activoLista.cuentaContableHaber,
     vidaUtil: Number(activoLista.vidaUtil),
     unidadVidaUtil: activoLista.unidadVidaUtil,
     valorRescate: Number(activoLista.valorRescate),
@@ -95,6 +95,10 @@ const adaptar = (activoLista: any) =>
     descripcionEstadoConservacion: activoLista.descripcionEstadoCOnservacion,
     responsablePrimario: activoLista.responsablePrimario,
     responsableUso: activoLista.responsableUso,
+    modificacionCuentaContableDebe: activoLista.modCuentaContableDebe,
+    modificacionCuentaContableHaber: activoLista.modCuentaContableHaber,
+    desincorporacionCuentaContableDebe: activoLista.desCuentaContableDebe,
+    desincorporacionCuentaContableHaber: activoLista.desCuentaContableHaber,
     creado: activoLista.creado,
     modificado: activoLista.modificado,
   };

@@ -7,8 +7,8 @@ export interface PlantillaIntegracion extends Basica {
   denominacion: string;
   tipoPlantilla: string;
   metodoDepreciacion: MetodoDepreciacion;
-  cuentaContableGasto: Id;
-  cuentaContableDepreciacion: Id;
+  cuentaContableDebe: Id;
+  cuentaContableHaber: Id;
   vidaUtil: number;
   unidadVidaUtil: string;
 }

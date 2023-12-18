@@ -38,7 +38,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
     this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
-  buscarCuentaContableGasto() {
+  buscarCuentaContableDebe() {
     let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
       width: '85%',
       height: '95%',
@@ -49,7 +49,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         filter(todo => !!todo),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
-            cuentaContableGasto: cuentaContable.id,
+            cuentaContableDebe: cuentaContable.id,
           })
         ),
         take(1)
@@ -57,7 +57,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       .subscribe();
   }
 
-  buscarCuentaContableDepreciacion() {
+  buscarCuentaContableHaber() {
     let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
       width: '85%',
       height: '95%',
@@ -68,7 +68,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
         filter(todo => !!todo),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
-            cuentaContableDepreciacion: cuentaContable.id,
+            cuentaContableHaber: cuentaContable.id,
           })
         ),
         take(1)
@@ -129,8 +129,8 @@ export class ActivoDepreciacionComponent implements OnDestroy {
             metodoDepreciacion: entidad.metodoDepreciacion,
             vidaUtil: entidad.vidaUtil,
             unidadVidaUtil: entidad.unidadVidaUtil,
-            cuentaContableGasto: entidad.cuentaContableGasto,
-            cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+            cuentaContableDebe: entidad.cuentaContableDebe,
+            cuentaContableHaber: entidad.cuentaContableHaber,
           });
         }),
         take(1)

@@ -57,8 +57,8 @@ export class SingularPlantillaIntegracionComponent
       metodoDepreciacion: [undefined],
       vidaUtil: [undefined],
       unidadVidaUtil: [undefined],
-      cuentaContableGasto: [undefined],
-      cuentaContableDepreciacion: [undefined],
+      cuentaContableDebe: [undefined],
+      cuentaContableHaber: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -86,8 +86,8 @@ export class SingularPlantillaIntegracionComponent
               metodoDepreciacion: entidad.metodoDepreciacion,
               vidaUtil: entidad.vidaUtil,
               unidadVidaUtil: entidad.unidadVidaUtil,
-              cuentaContableGasto: entidad.cuentaContableGasto,
-              cuentaContableDepreciacion: entidad.cuentaContableDepreciacion,
+              cuentaContableDebe: entidad.cuentaContableDebe,
+              cuentaContableHaber: entidad.cuentaContableHaber,
               creado: entidad.creado,
               modificado: entidad.modificado,
             });
@@ -110,8 +110,8 @@ export class SingularPlantillaIntegracionComponent
               metodoDepreciacion: '',
               vidaUtil: 0,
               unidadVidaUtil: '',
-              cuentaContableGasto: '---',
-              cuentaContableDepreciacion: '---',
+              cuentaContableDebe: '---',
+              cuentaContableHaber: '---',
               creado: new Date(),
               modificado: new Date(),
             });
@@ -196,7 +196,7 @@ export class SingularPlantillaIntegracionComponent
     throw new Error('Method not implemented.');
   }
 
-  buscarCuentaContableGasto() {
+  buscarCuentaContableDebe() {
     let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
       width: '95%',
       height: '85%',
@@ -206,14 +206,14 @@ export class SingularPlantillaIntegracionComponent
       .pipe(
         filter(todo => !!todo),
         tap((cuentaContable: CuentaContable) =>
-          this.formulario.patchValue({ cuentaContableGasto: cuentaContable.id })
+          this.formulario.patchValue({ cuentaContableDebe: cuentaContable.id })
         ),
         take(1)
       )
       .subscribe();
   }
 
-  buscarCuentaContableDepreciacion() {
+  buscarCuentaContableHaber() {
     let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
       width: '95%',
       height: '85%',
@@ -224,7 +224,7 @@ export class SingularPlantillaIntegracionComponent
         filter(todo => !!todo),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
-            cuentaContableDepreciacion: cuentaContable.id,
+            cuentaContableHaber: cuentaContable.id,
           })
         ),
         take(1)

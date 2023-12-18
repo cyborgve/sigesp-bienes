@@ -70,15 +70,15 @@
       </mat-select>
     </mat-form-field>
     <!-- cuenta contable del gasto -->
-    <mat-form-field appearance="fill" class="cuentaContableGasto">
+    <mat-form-field appearance="fill" class="cuentaContableDebe">
       <mat-label>Cuenta de gasto</mat-label>
       <input
         type="text"
         matInput
-        formControlName="cuentaContableGasto"
+        formControlName="cuentaContableDebe"
         readonly
         [value]="
-          formulario.value.cuentaContableGasto
+          formulario.value.cuentaContableDebe
             | denominacionCuentaContable
             | async
             | corregirSeleccionar
@@ -87,20 +87,20 @@
         type="button"
         mat-icon-button
         matSuffix
-        (click)="buscarCuentaContableGasto()">
+        (click)="buscarCuentaContableDebe()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
     <!-- cuenta contable de depreciacion -->
-    <mat-form-field appearance="fill" class="cuentaContableDepreciacion">
+    <mat-form-field appearance="fill" class="cuentaContableHaber">
       <mat-label>Cuenta de depreciación</mat-label>
       <input
         type="text"
         matInput
-        formControlName="cuentaContableDepreciacion"
+        formControlName="cuentaContableHaber"
         readonly
         [value]="
-          formulario.value.cuentaContableDepreciacion
+          formulario.value.cuentaContableHaber
             | denominacionCuentaContable
             | async
             | corregirSeleccionar
@@ -109,7 +109,7 @@
         type="button"
         mat-icon-button
         matSuffix
-        (click)="buscarCuentaContableDepreciacion()">
+        (click)="buscarCuentaContableHaber()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>

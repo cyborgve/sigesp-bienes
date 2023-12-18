@@ -46,6 +46,15 @@
           <button
             type="button"
             mat-icon-button
+            matTooltip="Reiniciar filtro"
+            matPrefix
+            *ngIf="formulario.value.cuentaReferencia !== 0"
+            (click)="reiniciarBuscarCuentaReferencia()">
+            <mat-icon>cleaning_services</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
             matSuffix
             (click)="buscarCuentaReferencia()">
             <mat-icon>search</mat-icon>

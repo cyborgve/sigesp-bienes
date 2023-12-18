@@ -39,45 +39,56 @@
       <!-- plantilla depreciacion -->
       <section class="plantillaDepreciacion">
         <!-- metodo de depreciacion -->
-        <mat-form-field appearance="fill" class="metodoDepreciacion">
-          <mat-label>Método de Depreciación</mat-label>
-          <mat-select formControlName="metodoDepreciacion">
-            <mat-option value="">Seleccionar</mat-option>
-            <mat-option
-              *ngFor="let metodoDepreciacion of metodosDepreciacion"
-              [value]="metodoDepreciacion.substring(0, 3)"
-              >{{ metodoDepreciacion | titlecase }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
+        <ng-container *ngIf="formulario.value.tipoPlantilla === 'DEP'">
+          <mat-form-field appearance="fill" class="metodoDepreciacion">
+            <mat-label>Método de Depreciación</mat-label>
+            <mat-select formControlName="metodoDepreciacion">
+              <mat-option value="">Seleccionar</mat-option>
+              <mat-option
+                *ngFor="let metodoDepreciacion of metodosDepreciacion"
+                [value]="metodoDepreciacion.substring(0, 3)"
+                >{{ metodoDepreciacion | titlecase }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
         <!-- vida util -->
-        <mat-form-field appearance="fill" class="vidaUtil">
-          <mat-label>Vida Útil</mat-label>
-          <input type="number" matInput formControlName="vidaUtil" />
-        </mat-form-field>
+        <ng-container *ngIf="formulario.value.tipoPlantilla === 'DEP'">
+          <mat-form-field appearance="fill" class="vidaUtil">
+            <mat-label>Vida Útil</mat-label>
+            <input type="number" matInput formControlName="vidaUtil" />
+          </mat-form-field>
+        </ng-container>
         <!-- unidad para vida util -->
-        <mat-form-field appearance="fill" class="unidadVidaUtil">
-          <mat-label>Unidad para Vida Útil</mat-label>
-          <mat-select formControlName="unidadVidaUtil">
-            <mat-option value="">Seleccionar</mat-option>
-            <mat-option
-              *ngFor="let unidad of unidadesVidaUtil"
-              [value]="unidad"
-              >{{ unidad | titlecase }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-        <article class="cuentasContables">
-          <!-- cuentaContableGasto -->
-          <mat-form-field appearance="fill" class="cuentaContableGasto">
-            <mat-label>Cuenta Contable de Gasto</mat-label>
+        <ng-container *ngIf="formulario.value.tipoPlantilla === 'DEP'">
+          <mat-form-field appearance="fill" class="unidadVidaUtil">
+            <mat-label>Unidad para Vida Útil</mat-label>
+            <mat-select formControlName="unidadVidaUtil">
+              <mat-option value="">Seleccionar</mat-option>
+              <mat-option
+                *ngFor="let unidad of unidadesVidaUtil"
+                [value]="unidad"
+                >{{ unidad | titlecase }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <article
+          [ngClass]="
+            formulario.value.tipoPlantilla === 'DEP'
+              ? 'cuentasContables'
+              : 'cuentasContablesFull'
+          ">
+          <!-- cuentaContableDebe -->
+          <mat-form-field appearance="fill" class="cuentaContableDebe">
+            <mat-label>Cuenta Contable: DEBE</mat-label>
             <input
               type="text"
               matInput
-              formControlName="cuentaContableGasto"
+              formControlName="cuentaContableDebe"
               readonly
               [value]="
-                formulario.value.cuentaContableGasto
+                formulario.value.cuentaContableDebe
                   | denominacionCuentaContable
                   | async
                   | corregirSeleccionar
@@ -86,20 +97,20 @@
               type="button"
               mat-icon-button
               matSuffix
-              (click)="buscarCuentaContableGasto()">
+              (click)="buscarCuentaContableDebe()">
               <mat-icon>search</mat-icon>
             </button>
           </mat-form-field>
-          <!-- cuentaContableDepreciacion -->
-          <mat-form-field appearance="fill" class="cuentaContableDepreciacion">
-            <mat-label>Cuenta Contable de Depreciación</mat-label>
+          <!-- cuentaContableHaber -->
+          <mat-form-field appearance="fill" class="cuentaContableHaber">
+            <mat-label>Cuenta Contable: HABER</mat-label>
             <input
               type="text"
               matInput
-              formControlName="cuentaContableDepreciacion"
+              formControlName="cuentaContableHaber"
               readonly
               [value]="
-                formulario.value.cuentaContableDepreciacion
+                formulario.value.cuentaContableHaber
                   | denominacionCuentaContable
                   | async
                   | corregirSeleccionar
@@ -108,7 +119,7 @@
               type="button"
               mat-icon-button
               matSuffix
-              (click)="buscarCuentaContableDepreciacion()">
+              (click)="buscarCuentaContableHaber()">
               <mat-icon>search</mat-icon>
             </button>
           </mat-form-field>

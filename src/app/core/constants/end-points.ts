@@ -4,6 +4,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'activoComponente', valor: 'dao/sbn/activo-componente-dao.php' },
   { clave: 'activoDepreciacion', valor: 'dao/sbn/activo-depreciacion-dao.php' },
   { clave: 'activoDetalle', valor: 'dao/sbn/activo-detalle-dao.php' },
+  { clave: 'activoIntegracion', valor: 'dao/sbn/activo-integracion-dao.php' },
   { clave: 'activoUbicacion', valor: 'dao/sbn/activo-ubicacion-dao.php' },
   { clave: 'aseguradoras', valor: 'dao/sbn/aseguradora-dao.php' },
   { clave: 'catalogoGeneral', valor: 'dao/sbn/catalogo-general-dao.php' },

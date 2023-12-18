@@ -17,3 +17,7 @@
 .cuentasContables {
   @apply col-span-7 grid grid-cols-2 gap-x-2;
 }
+
+.cuentasContablesFull {
+  @apply col-span-full grid grid-cols-2 gap-x-2;
+}

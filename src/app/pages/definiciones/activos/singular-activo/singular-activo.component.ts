@@ -17,6 +17,7 @@ import { ActivoDepreciacion } from '@core/models/definiciones/activo-depreciacio
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '../buscador-activo/buscador-activo.component';
+import { ActivoIntegracion } from '@core/models/definiciones/activo-integracion';
 
 @Component({
   selector: 'app-singular-activo',
@@ -33,6 +34,7 @@ export class SingularActivoComponent implements Entidad {
   formularioComponentes: FormGroup;
   formularioDepreciacion: FormGroup;
   formularioUbicacion: FormGroup;
+  formularioIntegracion: FormGroup;
   formularioEspecial: FormGroup;
 
   tabLabels = [
@@ -41,6 +43,7 @@ export class SingularActivoComponent implements Entidad {
     'componentes',
     'depreciación',
     'ubicación',
+    'integración',
   ];
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -143,8 +146,8 @@ export class SingularActivoComponent implements Entidad {
       activoId: [undefined],
       depreciable: [undefined],
       metodoDepreciacion: [undefined, Validators.required],
-      cuentaContableGasto: [undefined, Validators.required],
-      cuentaContableDepreciacion: [undefined, Validators.required],
+      cuentaContableDebe: [undefined, Validators.required],
+      cuentaContableHaber: [undefined, Validators.required],
       vidaUtil: [undefined, Validators.required],
       unidadVidaUtil: [undefined, Validators.required],
       valorRescate: [undefined, Validators.required],
@@ -165,6 +168,18 @@ export class SingularActivoComponent implements Entidad {
       descripcionEstadoConservacion: [undefined],
       responsableId: [undefined, Validators.required],
       responsableUsoId: [undefined, Validators.required],
+      creado: [undefined],
+      modificado: [undefined],
+    });
+
+    this.formularioIntegracion = this._formBuilder.group({
+      empresaId: [undefined],
+      id: [undefined],
+      activoId: [undefined],
+      modCuentaContableDebe: [undefined],
+      modCuentaContableHaber: [undefined],
+      desCuentaContableDebe: [undefined],
+      desCuentaContableHaber: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -209,103 +224,119 @@ export class SingularActivoComponent implements Entidad {
               modificado: activo.modificado,
             })
           ),
-          tap(activo =>
+          tap(activo => {
+            let { detalle } = activo;
             this.formularioDetalles.patchValue({
-              empresaId: activo.detalle.empresaId,
-              id: activo.detalle.id,
-              activoId: activo.detalle.activoId,
-              garantia: activo.detalle.garantia,
-              unidadGarantia: activo.detalle.unidadGarantia,
-              inicioGarantia: activo.detalle.inicioGarantia,
-              finGarantia: activo.detalle.finGarantia,
-              asegurado: activo.detalle.asegurado,
-              claseId: activo.detalle.claseId,
-              origenId: activo.detalle.origenId,
-              descripcionOtraClase: activo.detalle.descripcionOtraClase,
-              fuenteFinanciamiento: activo.detalle.fuenteFinanciamiento,
-              codigoCentroCostos: activo.detalle.codigoCentroCostos,
-              especificacionesTecnicas: activo.detalle.especificacionesTecnicas,
-              oficinaRegistro: activo.detalle.oficinaRegistro,
-              referenciaRegistro: activo.detalle.referenciaRegistro,
-              tomo: activo.detalle.tomo,
-              folio: activo.detalle.folio,
-              protocolo: activo.detalle.protocolo,
-              numeroRegistro: activo.detalle.numeroRegistro,
-              fechaRegistrado: activo.detalle.fechaRegistrado,
-              propietarioAnterior: activo.detalle.propietarioAnterior,
-              dependencias: activo.detalle.dependencias,
-              areaConstruccion: activo.detalle.areaConstruccion,
-              unidadAreaConstruccion: activo.detalle.unidadAreaConstruccion,
-              areaTerreno: activo.detalle.areaTerreno,
-              unidadAreaTerreno: activo.detalle.unidadAreaTerreno,
-              especificacionesInmueble: activo.detalle.especificacionesTecnicas,
-              perteneceASede: activo.detalle.perteneceASede,
-              sedeUbicacionId: activo.detalle.sedeUbicacionId,
-              especificacionesColor: activo.detalle.especificacionesColor,
-              serialCarroceria: activo.detalle.serialCarroceria,
-              serialMotor: activo.detalle.serialMotor,
-              placas: activo.detalle.placas,
-              numeroTituloPropiedad: activo.detalle.numeroTituloPropiedad,
-              capacidad: activo.detalle.capacidad,
-              nombre: activo.detalle.nombre,
-              usoId: activo.detalle.usoId,
-              tieneGps: activo.detalle.tieneGps,
-              especificacionesGps: activo.detalle.especificacionesGps,
-              tipoAnimalId: activo.detalle.tipoAnimalId,
-              tipoSemovienteId: activo.detalle.tipoSemovienteId,
-              genero: activo.detalle.genero,
-              propositoSemovienteId: activo.detalle.propositoSemovienteId,
-              peso: activo.detalle.peso,
-              unidadMedidaPeso: activo.detalle.unidadMedidaPeso,
-              numeroHierro: activo.detalle.numeroHierro,
-              especificacionesAnimal: activo.detalle.especificacionesAnimal,
-              fechaNacimientoAnimal: activo.detalle.fechaNacimientoAnimal,
-              razaId: activo.detalle.razaId,
-              creado: activo.detalle.creado,
-              modificado: activo.detalle.modificado,
-            })
-          ),
+              empresaId: detalle.empresaId,
+              id: detalle.id,
+              activoId: detalle.activoId,
+              garantia: detalle.garantia,
+              unidadGarantia: detalle.unidadGarantia,
+              inicioGarantia: detalle.inicioGarantia,
+              finGarantia: detalle.finGarantia,
+              asegurado: detalle.asegurado,
+              claseId: detalle.claseId,
+              origenId: detalle.origenId,
+              descripcionOtraClase: detalle.descripcionOtraClase,
+              fuenteFinanciamiento: detalle.fuenteFinanciamiento,
+              codigoCentroCostos: detalle.codigoCentroCostos,
+              especificacionesTecnicas: detalle.especificacionesTecnicas,
+              oficinaRegistro: detalle.oficinaRegistro,
+              referenciaRegistro: detalle.referenciaRegistro,
+              tomo: detalle.tomo,
+              folio: detalle.folio,
+              protocolo: detalle.protocolo,
+              numeroRegistro: detalle.numeroRegistro,
+              fechaRegistrado: detalle.fechaRegistrado,
+              propietarioAnterior: detalle.propietarioAnterior,
+              dependencias: detalle.dependencias,
+              areaConstruccion: detalle.areaConstruccion,
+              unidadAreaConstruccion: detalle.unidadAreaConstruccion,
+              areaTerreno: detalle.areaTerreno,
+              unidadAreaTerreno: detalle.unidadAreaTerreno,
+              especificacionesInmueble: detalle.especificacionesTecnicas,
+              perteneceASede: detalle.perteneceASede,
+              sedeUbicacionId: detalle.sedeUbicacionId,
+              especificacionesColor: detalle.especificacionesColor,
+              serialCarroceria: detalle.serialCarroceria,
+              serialMotor: detalle.serialMotor,
+              placas: detalle.placas,
+              numeroTituloPropiedad: detalle.numeroTituloPropiedad,
+              capacidad: detalle.capacidad,
+              nombre: detalle.nombre,
+              usoId: detalle.usoId,
+              tieneGps: detalle.tieneGps,
+              especificacionesGps: detalle.especificacionesGps,
+              tipoAnimalId: detalle.tipoAnimalId,
+              tipoSemovienteId: detalle.tipoSemovienteId,
+              genero: detalle.genero,
+              propositoSemovienteId: detalle.propositoSemovienteId,
+              peso: detalle.peso,
+              unidadMedidaPeso: detalle.unidadMedidaPeso,
+              numeroHierro: detalle.numeroHierro,
+              especificacionesAnimal: detalle.especificacionesAnimal,
+              fechaNacimientoAnimal: detalle.fechaNacimientoAnimal,
+              razaId: detalle.razaId,
+              creado: detalle.creado,
+              modificado: detalle.modificado,
+            });
+          }),
           tap(activo =>
             this.formularioComponentes.patchValue({
               componentes: activo.componentes,
             })
           ),
-          tap(activo =>
+          tap(activo => {
+            let { depreciacion } = activo;
             this.formularioDepreciacion.patchValue({
-              empresaId: activo.depreciacion.empresaId,
-              id: activo.depreciacion.id,
-              activoId: activo.depreciacion.activoId,
-              depreciable: activo.depreciacion.depreciable,
-              metodoDepreciacion: activo.depreciacion.metodoDepreciacion,
-              cuentaContableGasto: activo.depreciacion.cuentaContableGasto,
-              cuentaContableDepreciacion:
-                activo.depreciacion.cuentaContableDepreciacion,
-              vidaUtil: activo.depreciacion.vidaUtil,
-              unidadVidaUtil: activo.depreciacion.unidadVidaUtil,
-              valorRescate: activo.depreciacion.valorRescate,
-              monedaValorRescate: activo.depreciacion.monedaValorRescate,
-              creado: activo.depreciacion.creado,
-              modificado: activo.depreciacion.modificado,
-            })
-          ),
-          tap(activo =>
+              empresaId: depreciacion.empresaId,
+              id: depreciacion.id,
+              activoId: depreciacion.activoId,
+              depreciable: depreciacion.depreciable,
+              metodoDepreciacion: depreciacion.metodoDepreciacion,
+              cuentaContableDebe: depreciacion.cuentaContableDebe,
+              cuentaContableHaber: depreciacion.cuentaContableHaber,
+              vidaUtil: depreciacion.vidaUtil,
+              unidadVidaUtil: depreciacion.unidadVidaUtil,
+              valorRescate: depreciacion.valorRescate,
+              monedaValorRescate: depreciacion.monedaValorRescate,
+              creado: depreciacion.creado,
+              modificado: depreciacion.modificado,
+            });
+          }),
+          tap(activo => {
+            let { ubicacion } = activo;
             this.formularioUbicacion.patchValue({
-              empresaId: activo.ubicacion.empresaId,
-              id: activo.ubicacion.id,
-              activoId: activo.ubicacion.activoId,
-              sedeId: activo.ubicacion.sedeId,
-              unidadAdministrativaId: activo.ubicacion.unidadAdministrativaId,
-              fechaIngreso: activo.ubicacion.fechaIngreso,
-              estadoUsoId: activo.ubicacion.estadoUsoId,
-              estadoConservacionId: activo.ubicacion.estadoConservacionId,
+              empresaId: ubicacion.empresaId,
+              id: ubicacion.id,
+              activoId: ubicacion.activoId,
+              sedeId: ubicacion.sedeId,
+              unidadAdministrativaId: ubicacion.unidadAdministrativaId,
+              fechaIngreso: ubicacion.fechaIngreso,
+              estadoUsoId: ubicacion.estadoUsoId,
+              estadoConservacionId: ubicacion.estadoConservacionId,
               descripcionEstadoConservacion:
-                activo.ubicacion.descripcionEstadoConservacion,
-              responsableId: activo.ubicacion.responsableId,
-              responsableUsoId: activo.ubicacion.responsableUsoId,
-              creado: activo.ubicacion.creado,
-              modificado: activo.ubicacion.modificado,
-            })
-          ),
+                ubicacion.descripcionEstadoConservacion,
+              responsableId: ubicacion.responsableId,
+              responsableUsoId: ubicacion.responsableUsoId,
+              creado: ubicacion.creado,
+              modificado: ubicacion.modificado,
+            });
+          }),
+          tap(activo => {
+            let { integracion } = activo;
+            this.formularioIntegracion.patchValue({
+              empresaId: integracion.empresaId,
+              id: integracion.id,
+              activoId: integracion.activoId,
+              modCuentaContableDebe: integracion.modCuentaContableDebe,
+              modCuentaContableHaber: integracion.modCuentaContableHaber,
+              desCuentaContableDebe: integracion.desCuentaContableDebe,
+              desCuentaContableHaber: integracion.desCuentaContableHaber,
+              creado: integracion.creado,
+              modificado: integracion.modificado,
+            });
+          }),
           take(1)
         )
         .subscribe();
@@ -316,7 +347,7 @@ export class SingularActivoComponent implements Entidad {
           tap(correlativo => {
             let ser = correlativo.serie.toString().padStart(4, '0');
             let cor = correlativo.correlativo.toString().padStart(8, '0');
-            return this.formularioDatosGenerales.patchValue({
+            this.formularioDatosGenerales.patchValue({
               empresaId: 0,
               id: 0,
               codigo: `${ser}-${cor}`,
@@ -406,8 +437,8 @@ export class SingularActivoComponent implements Entidad {
               activoId: 0,
               depreciable: 0,
               metodoDepreciacion: '',
-              cuentaContableGasto: '--',
-              cuentaContableDepreciacion: '--',
+              cuentaContableDebe: '--',
+              cuentaContableHaber: '--',
               vidaUtil: 0,
               unidadVidaUtil: '',
               valorRescate: 0,
@@ -429,6 +460,19 @@ export class SingularActivoComponent implements Entidad {
               descripcionEstadoConservacion: '',
               responsableId: '---',
               responsableUsoId: '---',
+              creado: new Date(),
+              modificado: new Date(),
+            })
+          ),
+          tap(() =>
+            this.formularioIntegracion.patchValue({
+              empresaId: 0,
+              id: 0,
+              activoId: 0,
+              modCuentaContableDebe: '--',
+              modCuentaContableHaber: '--',
+              desCuentaContableDebe: '--',
+              desCuentaContableHaber: '--',
               creado: new Date(),
               modificado: new Date(),
             })
@@ -465,76 +509,87 @@ export class SingularActivoComponent implements Entidad {
             categoriaId: activo.categoriaId,
           })
         ),
-        tap(activo =>
+        tap(activo => {
+          let { detalle } = activo;
           this.formularioDetalles.patchValue({
-            garantia: activo.detalle.garantia,
-            unidadGarantia: activo.detalle.unidadGarantia,
-            claseId: activo.detalle.claseId,
-            origenId: activo.detalle.origenId,
-            descripcionOtraClase: activo.detalle.descripcionOtraClase,
-            fuenteFinanciamiento: activo.detalle.fuenteFinanciamiento,
-            codigoCentroCostos: activo.detalle.codigoCentroCostos,
-            especificacionesTecnicas: activo.detalle.especificacionesTecnicas,
-            oficinaRegistro: activo.detalle.oficinaRegistro,
-            referenciaRegistro: activo.detalle.referenciaRegistro,
-            tomo: activo.detalle.tomo,
-            folio: activo.detalle.folio,
-            protocolo: activo.detalle.protocolo,
-            numeroRegistro: activo.detalle.numeroRegistro,
-            fechaRegistrado: activo.detalle.fechaRegistrado,
-            propietarioAnterior: activo.detalle.propietarioAnterior,
-            dependencias: activo.detalle.dependencias,
-            areaConstruccion: activo.detalle.areaConstruccion,
-            unidadAreaConstruccion: activo.detalle.unidadAreaConstruccion,
-            areaTerreno: activo.detalle.areaTerreno,
-            unidadAreaTerreno: activo.detalle.unidadAreaTerreno,
-            especificacionesInmueble: activo.detalle.especificacionesTecnicas,
-            perteneceASede: activo.detalle.perteneceASede,
-            sedeUbicacionId: activo.detalle.sedeUbicacionId,
-            especificacionesColor: activo.detalle.especificacionesColor,
-            numeroTituloPropiedad: activo.detalle.numeroTituloPropiedad,
-            capacidad: activo.detalle.capacidad,
-            nombre: activo.detalle.nombre,
-            usoId: activo.detalle.usoId,
-            tieneGps: activo.detalle.tieneGps,
-            especificacionesGps: activo.detalle.especificacionesGps,
-            tipoAnimalId: activo.detalle.tipoAnimalId,
-            tipoSemovienteId: activo.detalle.tipoSemovienteId,
-            genero: activo.detalle.genero,
-            propositoSemovienteId: activo.detalle.propositoSemovienteId,
-            peso: activo.detalle.peso,
-            unidadMedidaPeso: activo.detalle.unidadMedidaPeso,
-            numeroHierro: activo.detalle.numeroHierro,
-            especificacionesAnimal: activo.detalle.especificacionesAnimal,
-            fechaNacimientoAnimal: activo.detalle.fechaNacimientoAnimal,
-            razaId: activo.detalle.razaId,
-          })
-        ),
-        tap(activo =>
+            garantia: detalle.garantia,
+            unidadGarantia: detalle.unidadGarantia,
+            claseId: detalle.claseId,
+            origenId: detalle.origenId,
+            descripcionOtraClase: detalle.descripcionOtraClase,
+            fuenteFinanciamiento: detalle.fuenteFinanciamiento,
+            codigoCentroCostos: detalle.codigoCentroCostos,
+            especificacionesTecnicas: detalle.especificacionesTecnicas,
+            oficinaRegistro: detalle.oficinaRegistro,
+            referenciaRegistro: detalle.referenciaRegistro,
+            tomo: detalle.tomo,
+            folio: detalle.folio,
+            protocolo: detalle.protocolo,
+            numeroRegistro: detalle.numeroRegistro,
+            fechaRegistrado: detalle.fechaRegistrado,
+            propietarioAnterior: detalle.propietarioAnterior,
+            dependencias: detalle.dependencias,
+            areaConstruccion: detalle.areaConstruccion,
+            unidadAreaConstruccion: detalle.unidadAreaConstruccion,
+            areaTerreno: detalle.areaTerreno,
+            unidadAreaTerreno: detalle.unidadAreaTerreno,
+            especificacionesInmueble: detalle.especificacionesTecnicas,
+            perteneceASede: detalle.perteneceASede,
+            sedeUbicacionId: detalle.sedeUbicacionId,
+            especificacionesColor: detalle.especificacionesColor,
+            numeroTituloPropiedad: detalle.numeroTituloPropiedad,
+            capacidad: detalle.capacidad,
+            nombre: detalle.nombre,
+            usoId: detalle.usoId,
+            tieneGps: detalle.tieneGps,
+            especificacionesGps: detalle.especificacionesGps,
+            tipoAnimalId: detalle.tipoAnimalId,
+            tipoSemovienteId: detalle.tipoSemovienteId,
+            genero: detalle.genero,
+            propositoSemovienteId: detalle.propositoSemovienteId,
+            peso: detalle.peso,
+            unidadMedidaPeso: detalle.unidadMedidaPeso,
+            numeroHierro: detalle.numeroHierro,
+            especificacionesAnimal: detalle.especificacionesAnimal,
+            fechaNacimientoAnimal: detalle.fechaNacimientoAnimal,
+            razaId: detalle.razaId,
+          });
+        }),
+        tap(activo => {
+          let { depreciacion } = activo;
           this.formularioDepreciacion.patchValue({
-            depreciable: activo.depreciacion.depreciable,
-            metodoDepreciacion: activo.depreciacion.metodoDepreciacion,
-            cuentaContableGasto: activo.depreciacion.cuentaContableGasto,
-            cuentaContableDepreciacion:
-              activo.depreciacion.cuentaContableDepreciacion,
-            vidaUtil: activo.depreciacion.vidaUtil,
-            unidadVidaUtil: activo.depreciacion.unidadVidaUtil,
-            valorRescate: activo.depreciacion.valorRescate,
-            monedaValorRescate: activo.depreciacion.monedaValorRescate,
-          })
-        ),
-        tap(activo =>
+            depreciable: depreciacion.depreciable,
+            metodoDepreciacion: depreciacion.metodoDepreciacion,
+            cuentaContableDebe: depreciacion.cuentaContableDebe,
+            cuentaContableHaber: depreciacion.cuentaContableHaber,
+            vidaUtil: depreciacion.vidaUtil,
+            unidadVidaUtil: depreciacion.unidadVidaUtil,
+            valorRescate: depreciacion.valorRescate,
+            monedaValorRescate: depreciacion.monedaValorRescate,
+          });
+        }),
+        tap(activo => {
+          let { ubicacion } = activo;
           this.formularioUbicacion.patchValue({
-            sedeId: activo.ubicacion.sedeId,
-            unidadAdministrativaId: activo.ubicacion.unidadAdministrativaId,
-            estadoUsoId: activo.ubicacion.estadoUsoId,
-            estadoConservacionId: activo.ubicacion.estadoConservacionId,
+            sedeId: ubicacion.sedeId,
+            unidadAdministrativaId: ubicacion.unidadAdministrativaId,
+            estadoUsoId: ubicacion.estadoUsoId,
+            estadoConservacionId: ubicacion.estadoConservacionId,
             descripcionEstadoConservacion:
-              activo.ubicacion.descripcionEstadoConservacion,
-            responsableId: activo.ubicacion.responsableId,
-            responsableUsoId: activo.ubicacion.responsableUsoId,
-          })
-        ),
+              ubicacion.descripcionEstadoConservacion,
+            responsableId: ubicacion.responsableId,
+            responsableUsoId: ubicacion.responsableUsoId,
+          });
+        }),
+        tap(activo => {
+          let { integracion } = activo;
+          this.formularioIntegracion = this._formBuilder.group({
+            modCuentaContableDebe: integracion.modCuentaContableDebe,
+            modCuentaContableHaber: integracion.modCuentaContableHaber,
+            desCuentaContableDebe: integracion.desCuentaContableDebe,
+            desCuentaContableHaber: integracion.desCuentaContableHaber,
+          });
+        }),
         take(1)
       )
       .subscribe();
@@ -546,6 +601,7 @@ export class SingularActivoComponent implements Entidad {
     activo.depreciacion = this.formularioDepreciacion
       .value as ActivoDepreciacion;
     activo.ubicacion = this.formularioUbicacion.value as ActivoUbicacion;
+    activo.integracion = this.formularioIntegracion.value as ActivoIntegracion;
     if (this.modoFormulario === 'CREANDO') {
       let { generarIncorporacion, generarDepreciacion, causaMovimiento } =
         this.formularioEspecial.value;

@@ -4,6 +4,7 @@ import { ActivoComponente } from './activo-componente';
 import { ActivoDepreciacion } from './activo-depreciacion';
 import { ActivoDetalle } from './activo-detalle';
 import { ActivoUbicacion } from './activo-ubicacion';
+import { ActivoIntegracion } from './activo-integracion';
 
 export interface Activo extends Basica {
   codigo: string;
@@ -26,4 +27,5 @@ export interface Activo extends Basica {
   componentes: ActivoComponente[];
   depreciacion: ActivoDepreciacion;
   ubicacion: ActivoUbicacion;
+  integracion: ActivoIntegracion;
 }

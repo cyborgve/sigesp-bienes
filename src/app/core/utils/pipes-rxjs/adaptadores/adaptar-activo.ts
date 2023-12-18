@@ -30,6 +30,7 @@ const adaptar = (activo: any) =>
     componentes: activo.componentes,
     depreciacion: activo.depreciacion,
     ubicacion: activo.ubicacion,
+    integracion: activo.integracion,
     creado: activo.creado,
     modificado: activo.modificado,
   };

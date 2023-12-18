@@ -17,8 +17,8 @@
   @apply col-start-5 col-span-3 h-[60px];
 }
 
-.cuentaContableGasto,
-.cuentaContableDepreciacion {
+.cuentaContableDebe,
+.cuentaContableHaber {
   @apply col-span-4;
 }
 
@@ -34,7 +34,7 @@
   @apply text-red-700 text-lg font-medium pl-2;
 }
 
-.cuentaContableGasto {
+.cuentaContableDebe {
   @apply col-start-1;
 }
 
