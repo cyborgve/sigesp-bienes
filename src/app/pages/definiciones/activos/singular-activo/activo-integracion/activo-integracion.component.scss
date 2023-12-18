@@ -1,0 +1,20 @@
+h3 {
+  @apply mb-4 pl-2 text-primary col-span-full;
+}
+
+.datos-modificacion,
+.datos-desincorporacion {
+  @apply col-span-full grid grid-cols-12 gap-2;
+}
+
+.desCuentaContableDebe,
+.desCuentaContableHaber,
+.modCuentaContableDebe,
+.modCuentaContableHaber {
+  @apply col-span-5;
+}
+
+.botonPlantillaModificacion,
+.botonPlantillaDesincorporacion {
+  @apply col-span-2 h-[60px] font-normal text-xs;
+}

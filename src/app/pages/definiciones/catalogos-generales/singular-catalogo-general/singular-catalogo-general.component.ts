@@ -185,7 +185,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
     const filtroCuentas = () =>
       pipe(
         map((catalogos: CatalogoGeneral[]) =>
-          catalogos.filter(catalogo => catalogo.estadoMovimiento === 'Sum')
+          catalogos.filter(catalogo => catalogo.estadoMovimiento === 'S')
         )
       );
     let dialog = this._dialog.open(BuscadorCatalogoGeneralComponent, {
@@ -208,5 +208,9 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
         )
         .subscribe()
     );
+  }
+
+  reiniciarBuscarCuentaReferencia() {
+    this.formulario.patchValue({ cuentaReferencia: 0 });
   }
 }

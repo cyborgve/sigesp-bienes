@@ -26,13 +26,21 @@
         matInput
         type="text"
         formControlName="tipoCobertura"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.tipoCobertura
             | denominacionTipoCobertura
             | async
             | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.tipoCobertura !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

@@ -10,11 +10,11 @@ import { Id } from '@core/types/id';
 export class DenominacionParroquiaPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
     if (value === null || value === undefined) return of('');
+    if (value === '---') return of('---');
     if (value === 'Todos') return of('Todos');
-    return this._parroquia.buscarTodos().pipe(
-      map(parroquias => parroquias.find(p => p.id === String(value))),
-      map(parroquia => parroquia['denominacion'])
-    );
+    return this._parroquia
+      .buscarPorId(value)
+      .pipe(map(parroquia => parroquia['denominacion']));
   }
   constructor(private _parroquia: ParroquiaService) {}
 }

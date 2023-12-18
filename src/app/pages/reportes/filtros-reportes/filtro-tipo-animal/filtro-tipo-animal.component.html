@@ -26,13 +26,21 @@
         matInput
         type="text"
         formControlName="tipoAnimal"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.tipoAnimal
             | denominacionTipoAnimal
             | async
             | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.tipoAnimal !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

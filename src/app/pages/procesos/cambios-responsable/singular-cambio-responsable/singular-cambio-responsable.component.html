@@ -14,7 +14,7 @@
             type="text"
             matInput
             formControlName="activo"
-            readonly="true"
+            readonly
             [value]="formulario.value.activo | denominacionActivo | async" />
           <button
             type="button"
@@ -31,16 +31,12 @@
             type="text"
             matInput
             formControlName="identificador"
-            readonly="true" />
+            readonly />
         </mat-form-field>
         <!-- serial -->
         <mat-form-field appearance="fill" class="serial">
           <mat-label>Serial</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="serial"
-            readonly="true" />
+          <input type="text" matInput formControlName="serial" readonly />
         </mat-form-field>
         <!-- tipoResponsable -->
         <mat-form-field appearance="fill" class="tipoResponsable">
@@ -61,7 +57,7 @@
             type="text"
             matInput
             formControlName="responsableActual"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.responsableActual
                 | denominacionResponsable
@@ -76,7 +72,7 @@
             type="text"
             matInput
             formControlName="nuevoResponsable"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.nuevoResponsable
                 | denominacionResponsable

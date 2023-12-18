@@ -26,13 +26,21 @@
         matInput
         type="text"
         formControlName="propositoSemoviente"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.propositoSemoviente
             | denominacionPropositoSemoviente
             | async
             | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.propositoSemoviente !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

@@ -16,6 +16,10 @@ export class FiltroFuenteFinanciamientoComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ fuenteFinanciamiento: 'Todos' });
+  }
+
   buscarFuenteFinanciamiento() {
     let dialog = this._dialog.open(BuscadorFuenteFinanciamientoComponent, {
       width: '85%',

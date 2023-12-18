@@ -1,17 +1,7 @@
-.tabla,
-.tabla-card {
+.tabla {
   @apply w-full;
 }
 
-.th.mat-column-denominacion,
-.td.mat-column-denominacion {
-  @apply w-fit;
-}
-
-th.mat-column-fechaDepreciacion,
-td.mat-column-fechaDepreciacion {
-  @apply w-28;
-}
 th.mat-column-codigo,
 td.mat-column-codigo {
   @apply w-20;

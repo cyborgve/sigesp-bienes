@@ -10,11 +10,12 @@ import { CiudadService } from '@core/services/otros-modulos/ciudad.service';
 export class DenominacionCiudadPipe implements PipeTransform {
   transform(value: Id): Observable<string> {
     if (value === null || value === undefined) return of('');
+    if (value === '---') return of('---');
+    if (value === '--') return of('---');
     if (value === 'Todos') return of('Todos');
-    return this._ciudad.buscarTodos().pipe(
-      map(ciudades => ciudades.find(ciudad => ciudad.id === value)),
-      map(ciudad => ciudad['denominacion'])
-    );
+    return this._ciudad
+      .buscarPorId(value)
+      .pipe(map(ciudad => ciudad['denominacion']));
   }
 
   constructor(private _ciudad: CiudadService) {}

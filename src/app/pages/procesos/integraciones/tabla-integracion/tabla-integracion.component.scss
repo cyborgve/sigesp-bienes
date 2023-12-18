@@ -1,0 +1,19 @@
+td.mat-column-acciones {
+  @apply text-start;
+}
+
+.filtros {
+  @apply grid grid-cols-3 gap-2;
+}
+
+app-filtro-rango-fechas {
+  @apply col-span-2;
+}
+
+.negritas {
+  @apply font-medium;
+}
+
+.normal {
+  @apply font-normal;
+}

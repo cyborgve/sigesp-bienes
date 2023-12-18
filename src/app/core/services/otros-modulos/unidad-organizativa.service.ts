@@ -7,6 +7,7 @@ import { SigespService } from 'sigesp';
 import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
 import { adaptarUnidadesOrganizativas } from '@core/utils/pipes-rxjs/adaptadores/adaptar-unidad-organizativa';
 import { UnidadOrganizativa } from '@core/models/otros-modulos/unidad-organizativa';
+import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,7 @@ export class UnidadOrganizativaService {
     return this._http.get<UnidadOrganizativa[]>(this.apiUrl).pipe(
       map((respuesta: any) => respuesta.data),
       adaptarUnidadesOrganizativas(),
+      filtrarValoresIniciales(),
       ordenarPorId()
     );
   }

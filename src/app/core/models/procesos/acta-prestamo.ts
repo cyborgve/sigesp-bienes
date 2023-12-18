@@ -3,7 +3,7 @@ import { Id } from '@core/types/id';
 import { ActivoProceso } from '../auxiliares/activo-proceso';
 
 export interface ActaPrestamo extends Basica {
-  comprobante: number;
+  comprobante: string;
   unidadAdministrativaCedente: Id;
   unidadCedenteResponsable: Id;
   unidadAdministrativaReceptora: Id;

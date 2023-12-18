@@ -16,6 +16,10 @@ export class FiltroColorComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ color: 0 });
+  }
+
   buscarColor() {
     let dialog = this._dialog.open(BuscadorColorComponent, {
       width: '85%',

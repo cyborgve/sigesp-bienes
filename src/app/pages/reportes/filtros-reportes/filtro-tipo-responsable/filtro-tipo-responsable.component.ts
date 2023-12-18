@@ -11,5 +11,7 @@ export class FiltroTipoResponsableComponent {
   @Input() sinDecorar: boolean = false;
   tiposResponsable = ['Ambos', 'Responsable Principal', 'Responsable de Uso'];
 
-  constructor() {}
+  reiniciar() {
+    this.formulario.patchValue({ tipoResponsable: 0 });
+  }
 }

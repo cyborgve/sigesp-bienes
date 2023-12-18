@@ -15,7 +15,7 @@
             type="text"
             matInput
             formControlName="codigo"
-            readonly="true"
+            readonly
             [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
         <!-- denominacion -->
@@ -30,7 +30,7 @@
             type="text"
             matInput
             formControlName="tipoComponenteId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.tipoComponenteId
                 | denominacionTipoComponente
@@ -51,7 +51,7 @@
             type="text"
             matInput
             formControlName="modeloId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.modeloId | denominacionMarcaModelo | async
             " />
@@ -75,7 +75,7 @@
             type="text"
             matInput
             formControlName="moneda"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.moneda
                 | denominacionMoneda
@@ -97,7 +97,7 @@
             type="text"
             matInput
             formControlName="activoId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.activoId
                 | denominacionActivo

@@ -1,8 +1,13 @@
 <form [formGroup]="formulario">
   <section class="contenido">
     <!-- aviso depreciable -->
-    <article class="depreciable">
-      <ng-container *ngIf="formulario.valid; else noDepreciable">
+    <article
+      class="avisoDepreciable"
+      *ngIf="
+        formulario.value.depreciable === 1 ||
+        formulario.value.depreciable === true
+      ">
+      <ng-container *ngIf="activoDepreciable(); else noDepreciable">
         <span class="depreciable-sub">Este activo es depreciable </span>
         <mat-icon class="depreciable-sub">check</mat-icon>
       </ng-container>
@@ -10,25 +15,33 @@
         ><span class="noDepreciable-sub"
           >Este activo aun no es depreciable, llene todos los campos para
           hacerlo depreciable.</span
-        ></ng-template
-      >
+        >
+        <p class="nota" *ngIf="!valorMonedaAsignados()">
+          En la pestaña <span class="negritas">Datos Generales</span>, debe
+          asignar valores a los campos
+          <span class="negritas"> Valor de Adquisición </span> y
+          <span class="negritas">Moneda</span>
+        </p>
+      </ng-template>
     </article>
-    <!-- depreciable -->
-    <mat-slide-toggle formControlName="depreciable"
-      >Depreciable</mat-slide-toggle
-    >
-    <!-- plantilla de depreciacion -->
-    <mat-form-field appearance="fill" class="plantillaDepreciacion">
-      <mat-label>Plantilla depreciación</mat-label>
-      <input type="text" matInput value="Seleccionar" readonly="true" />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarPlantillaDepreciacion()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+    <article class="depreciable">
+      <!-- depreciable -->
+      <mat-slide-toggle formControlName="depreciable"
+        >Depreciable</mat-slide-toggle
+      >
+      <!-- generar depreciacion -->
+      <ng-container *ngTemplateOutlet="generarDepreciacion"> </ng-container>
+    </article>
+    <!-- plantillas de integracion -->
+    <button
+      mat-stroked-button
+      color="primary"
+      class="boton"
+      type="button"
+      (click)="buscarPlantillaIntegracion()">
+      Plantillas de Integración
+    </button>
+
     <!-- metodo depreciacion -->
     <mat-form-field appearance="fill" class="metodoDepreciacion">
       <mat-label>Método de depreciación</mat-label>
@@ -57,15 +70,15 @@
       </mat-select>
     </mat-form-field>
     <!-- cuenta contable del gasto -->
-    <mat-form-field appearance="fill" class="cuentaContableGasto">
+    <mat-form-field appearance="fill" class="cuentaContableDebe">
       <mat-label>Cuenta de gasto</mat-label>
       <input
         type="text"
         matInput
-        formControlName="cuentaContableGasto"
-        readonly="true"
+        formControlName="cuentaContableDebe"
+        readonly
         [value]="
-          formulario.value.cuentaContableGasto
+          formulario.value.cuentaContableDebe
             | denominacionCuentaContable
             | async
             | corregirSeleccionar
@@ -74,20 +87,20 @@
         type="button"
         mat-icon-button
         matSuffix
-        (click)="buscarCuentaContableGasto()">
+        (click)="buscarCuentaContableDebe()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
     <!-- cuenta contable de depreciacion -->
-    <mat-form-field appearance="fill" class="cuentaContableDepreciacion">
+    <mat-form-field appearance="fill" class="cuentaContableHaber">
       <mat-label>Cuenta de depreciación</mat-label>
       <input
         type="text"
         matInput
-        formControlName="cuentaContableDepreciacion"
-        readonly="true"
+        formControlName="cuentaContableHaber"
+        readonly
         [value]="
-          formulario.value.cuentaContableDepreciacion
+          formulario.value.cuentaContableHaber
             | denominacionCuentaContable
             | async
             | corregirSeleccionar
@@ -96,7 +109,7 @@
         type="button"
         mat-icon-button
         matSuffix
-        (click)="buscarCuentaContableDepreciacion()">
+        (click)="buscarCuentaContableHaber()">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
@@ -112,13 +125,12 @@
         type="text"
         matInput
         formControlName="monedaValorRescate"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.monedaValorRescate
             | denominacionMoneda
             | async
             | corregirSeleccionar
-            | titlecase
         " />
       <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
         <mat-icon>search</mat-icon>
@@ -126,3 +138,13 @@
     </mat-form-field>
   </section>
 </form>
+
+<ng-template #generarDepreciacion>
+  <form [formGroup]="formularioEspecial">
+    <section *ngIf="mostrarGenerarDepreciacion()">
+      <mat-slide-toggle formControlName="generarDepreciacion"
+        >Generar depreciacion al guardar</mat-slide-toggle
+      >
+    </section>
+  </form>
+</ng-template>

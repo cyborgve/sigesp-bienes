@@ -16,6 +16,10 @@ export class FiltroOrigenComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ origen: 0 });
+  }
+
   buscarOrigen() {
     let dialog = this._dialog.open(BuscadorOrigenComponent, {
       width: '85%',

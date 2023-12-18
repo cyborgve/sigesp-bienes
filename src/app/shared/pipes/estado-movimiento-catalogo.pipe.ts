@@ -7,7 +7,7 @@ import { ESTADOS_MOVIMIENTO_CATALOGO } from '@core/constants/estado-movimiento-c
 export class EstadoMovimientoCatalogoPipe implements PipeTransform {
   transform(value: string): string {
     return ESTADOS_MOVIMIENTO_CATALOGO.find(
-      emc => emc.substring(0, 3) === value
+      emc => emc.substring(0, 1) === value
     );
   }
 }

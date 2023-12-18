@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,6 +16,10 @@ import { GenericService } from '../auxiliares/generic.service';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ejecutarActaPrestamo } from '@core/utils/pipes-rxjs/procesos/ejecutar-acta-prestamo';
 import { reversarActaPrestamo } from '@core/utils/pipes-rxjs/procesos/reversar-acta-prestamo';
+import { ActaPrestamoLista } from '@core/models/auxiliares/acta-prestamo-lista';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { adaptarActasPrestamoLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-acta-prestamo-lista';
+import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +28,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'actaPrestamo').valor;
   }
+  private apiUrlLista = () => `${this.apiUrl}?lista='lista'`;
 
   constructor(
     protected _http: HttpClient,
@@ -38,6 +43,15 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
 
   buscarTodos(): Observable<ActaPrestamo[]> {
     return super.buscarTodos().pipe(adaptarActasPrestamo());
+  }
+
+  buscarTodosLista(): Observable<ActaPrestamoLista[]> {
+    return this._http.get<any>(this.apiUrlLista()).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      adaptarActasPrestamoLista(),
+      ordenarPorId()
+    );
   }
 
   buscarPorId(id: Id): Observable<ActaPrestamo> {

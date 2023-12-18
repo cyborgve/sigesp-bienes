@@ -1,4 +1,6 @@
-export interface ActivoListaInventario {
+import { Basica } from './basica';
+
+export interface ActivoListaInventario extends Basica {
   codigo: string;
   tipo: string;
   denominacion: string;
@@ -7,7 +9,5 @@ export interface ActivoListaInventario {
   marcaModelo: string;
   serial: string;
   condicion: string;
-  creado: string;
-  modificado: string;
   precio: string;
 }

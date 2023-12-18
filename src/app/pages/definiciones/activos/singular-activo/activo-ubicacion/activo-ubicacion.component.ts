@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
@@ -9,6 +9,10 @@ import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/busc
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { ModoFormulario } from '@core/types/modo-formulario';
+import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
+import { comprobarActivoIncorporado } from '@core/utils/funciones/comprobar-activo-incorporado';
+import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
+import { filtrarCausasMovimientoPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-causas-movimiento-por-tipo';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -17,9 +21,12 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 })
 export class ActivoUbicacionComponent {
   @Input() formulario: FormGroup;
+  @Input() formularioEspecial: FormGroup;
   @Input() modoFormulario: ModoFormulario;
 
   constructor(private _dialog: MatDialog) {}
+
+  activoIncorporado = () => comprobarActivoIncorporado(this.formulario.value);
 
   buscarUnidadAdministrativa() {
     let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
@@ -30,8 +37,12 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({ unidadAdministrativaId: entidad.id })
+        tap((entidad: UnidadAdministrativa) =>
+          this.formulario.patchValue({
+            unidadAdministrativaId: entidad.id,
+            responsableId: entidad.responsable,
+            fechaIngreso: new Date(),
+          })
         ),
         take(1)
       )
@@ -49,23 +60,6 @@ export class ActivoUbicacionComponent {
         filter(todo => !!todo),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ sedeId: entidad.id })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarResponsable() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap((entidad: Basica) =>
-          this.formulario.patchValue({ responsableId: entidad.id })
         ),
         take(1)
       )
@@ -117,6 +111,24 @@ export class ActivoUbicacionComponent {
         filter(todo => !!todo),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ estadoUsoId: entidad.id })
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  buscarCausaMovimiento() {
+    let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
+      height: '95%',
+      width: '85%',
+      data: { filtros: [filtrarCausasMovimientoPorTipo('INCORPORACIÓN')] },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        tap((entidad: Basica) =>
+          this.formularioEspecial.patchValue({ causaMovimiento: entidad.id })
         ),
         take(1)
       )

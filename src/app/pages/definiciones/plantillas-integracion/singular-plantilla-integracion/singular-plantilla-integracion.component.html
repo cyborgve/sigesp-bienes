@@ -1,0 +1,143 @@
+<section class="contenedor-singular">
+  <form [formGroup]="formulario">
+    <!-- encabezado -->
+    <app-encabezado-definicion
+      [titulo]="titulo"
+      [creado]="formulario.value.creado"
+      [modificado]="formulario.value.modificado"></app-encabezado-definicion>
+    <!-- datos -->
+    <mat-card>
+      <article class="contenido">
+        <!-- codigo -->
+        <mat-form-field appearance="fill" class="codigo">
+          <mat-label>Código</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="codigo"
+            readonly
+            [value]="formulario.value.codigo | corregirCodigo" />
+        </mat-form-field>
+        <!-- denominacion -->
+        <mat-form-field appearance="fill" class="denominacion">
+          <mat-label>Denominación</mat-label>
+          <input type="text" matInput formControlName="denominacion" />
+        </mat-form-field>
+        <!-- tipo plantilla integracion -->
+        <mat-form-field appearance="fill" class="tipoPlantillaIntegracion">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipoPlantilla">
+            <mat-option value="">Seleccionar</mat-option>
+            <mat-option
+              *ngFor="let tipoPlantilla of tiposPlantillaIntegracion"
+              [value]="tipoPlantilla.substring(0, 3)"
+              >{{ tipoPlantilla | titlecase }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </article>
+      <!-- plantilla depreciacion -->
+      <section class="plantillaDepreciacion">
+        <!-- metodo de depreciacion -->
+        <ng-container *ngIf="formulario.value.tipoPlantilla === 'DEP'">
+          <mat-form-field appearance="fill" class="metodoDepreciacion">
+            <mat-label>Método de Depreciación</mat-label>
+            <mat-select formControlName="metodoDepreciacion">
+              <mat-option value="">Seleccionar</mat-option>
+              <mat-option
+                *ngFor="let metodoDepreciacion of metodosDepreciacion"
+                [value]="metodoDepreciacion.substring(0, 3)"
+                >{{ metodoDepreciacion | titlecase }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <!-- vida util -->
+        <ng-container *ngIf="formulario.value.tipoPlantilla === 'DEP'">
+          <mat-form-field appearance="fill" class="vidaUtil">
+            <mat-label>Vida Útil</mat-label>
+            <input type="number" matInput formControlName="vidaUtil" />
+          </mat-form-field>
+        </ng-container>
+        <!-- unidad para vida util -->
+        <ng-container *ngIf="formulario.value.tipoPlantilla === 'DEP'">
+          <mat-form-field appearance="fill" class="unidadVidaUtil">
+            <mat-label>Unidad para Vida Útil</mat-label>
+            <mat-select formControlName="unidadVidaUtil">
+              <mat-option value="">Seleccionar</mat-option>
+              <mat-option
+                *ngFor="let unidad of unidadesVidaUtil"
+                [value]="unidad"
+                >{{ unidad | titlecase }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <article
+          [ngClass]="
+            formulario.value.tipoPlantilla === 'DEP'
+              ? 'cuentasContables'
+              : 'cuentasContablesFull'
+          ">
+          <!-- cuentaContableDebe -->
+          <mat-form-field appearance="fill" class="cuentaContableDebe">
+            <mat-label>Cuenta Contable: DEBE</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="cuentaContableDebe"
+              readonly
+              [value]="
+                formulario.value.cuentaContableDebe
+                  | denominacionCuentaContable
+                  | async
+                  | corregirSeleccionar
+              " />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              (click)="buscarCuentaContableDebe()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+          <!-- cuentaContableHaber -->
+          <mat-form-field appearance="fill" class="cuentaContableHaber">
+            <mat-label>Cuenta Contable: HABER</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="cuentaContableHaber"
+              readonly
+              [value]="
+                formulario.value.cuentaContableHaber
+                  | denominacionCuentaContable
+                  | async
+                  | corregirSeleccionar
+              " />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              (click)="buscarCuentaContableHaber()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </article>
+      </section>
+    </mat-card>
+  </form>
+</section>
+<!-- barra de herramientas lateral -->
+<app-toolbar
+  (importar)="importar()"
+  (guardar)="guardar()"
+  (borrar)="borrar()"
+  (imprimir)="imprimir()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  (salir)="salir()"
+  [desabilitarGuardar]="formulario.invalid"
+  [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
+  [mostrarBuscar]="false"
+  [mostrarSalir]="false"></app-toolbar>

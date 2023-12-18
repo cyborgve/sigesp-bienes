@@ -21,7 +21,9 @@ import { Id } from '@core/types/id';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 @Component({
   selector: 'app-tabla-desincorporacion',
@@ -42,31 +44,63 @@ export class TablaDesincorporacionComponent
   private urlSingular = this.urlPlural + '/desincorporacion';
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/desincorporacion/' + id;
+
   dataSource: MatTableDataSource<Desincorporacion> = new MatTableDataSource();
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _entidad: DesincorporacionService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog,
-    private _pdf: PDFService
+    private _pdf: PDFService,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._entidad
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        ordenarPorComprobanteDescendente(),
-        tap(entidades => {
-          this.dataSource = new MatTableDataSource(entidades);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        }),
-        first()
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorComprobanteDescendente(),
+            tap((entidades: Desincorporacion[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }

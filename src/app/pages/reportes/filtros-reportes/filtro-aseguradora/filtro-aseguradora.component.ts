@@ -1,5 +1,5 @@
-import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
+import { tap, take, filter } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorAseguradoraComponent } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.component';
@@ -15,6 +15,10 @@ export class FiltroAseguradoraComponent {
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}
+
+  reiniciar() {
+    this.formulario.patchValue({ aseguradora: 0 });
+  }
 
   buscarAseguradora() {
     let dialog = this._dialog.open(BuscadorAseguradoraComponent, {

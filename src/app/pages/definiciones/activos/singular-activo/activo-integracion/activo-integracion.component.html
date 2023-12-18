@@ -1,0 +1,118 @@
+<form [formGroup]="formulario">
+  <section class="contenido">
+    <!-- datos modificacion -->
+    <h3>Datos para integrar Modificaciones</h3>
+    <article class="datos-modificacion">
+      <!-- aplicar plantilla modificacion -->
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="aplicarPlantillaModificacion()"
+        color="primary"
+        class="botonPlantillaModificacion">
+        Plantillas Modificación
+      </button>
+      <!-- modificacion cuenta contable debe -->
+      <mat-form-field appearance="fill" class="modCuentaContableDebe">
+        <mat-label>Cuenta Contable: DEBE</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="modCuentaContableDebe"
+          readonly="true"
+          [value]="
+            formulario.value.modCuentaContableDebe
+              | denominacionCuentaContable
+              | async
+              | corregirSeleccionar
+          " />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarModCuentaContableDebe()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      <!-- modificacion cuenta contable haber -->
+      <mat-form-field appearance="fill" class="modCuentaContableHaber">
+        <mat-label>Cuenta Contable: HABER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="modCuentaContableHaber"
+          readonly="true"
+          [value]="
+            formulario.value.modCuentaContableHaber
+              | denominacionCuentaContable
+              | async
+              | corregirSeleccionar
+          " />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarModCuentaContableHaber()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </article>
+    <!-- datos desincorporacion -->
+    <h3>Datos para integrar Desincorporaciones</h3>
+    <article class="datos-desincorporacion">
+      <!-- aplicar plantilla desincorporacion -->
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="aplicarPlantillaDesincorporacion()"
+        color="primary"
+        class="botonPlantillaDesincorporacion">
+        Plantillas Desincorporación
+      </button>
+      <!-- desincorporacion cuenta contable debe -->
+      <mat-form-field appearance="fill" class="desCuentaContableDebe">
+        <mat-label>Cuenta Contable: DEBE</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="desCuentaContableDebe"
+          readonly="true"
+          [value]="
+            formulario.value.desCuentaContableDebe
+              | denominacionCuentaContable
+              | async
+              | corregirSeleccionar
+          " />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarDesCuentaContableDebe()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      <!-- desincorporacion cuenta contable haber -->
+      <mat-form-field appearance="fill" class="desCuentaContableHaber">
+        <mat-label>Cuenta Contable: HABER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="desCuentaContableHaber"
+          readonly="true"
+          [value]="
+            formulario.value.desCuentaContableHaber
+              | denominacionCuentaContable
+              | async
+              | corregirSeleccionar
+          " />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarDesCuentaContableHaber()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </article>
+  </section>
+</form>

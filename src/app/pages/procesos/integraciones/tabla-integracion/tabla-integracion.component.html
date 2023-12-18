@@ -1,0 +1,118 @@
+<app-encabezado-definiciones
+  [titulo]="titulo"
+  [ocultarNuevo]="ocultarNuevo"
+  (nuevo)="nuevo()"
+  (filtrarDatos)="filtrar($event)"
+  (limpiarBuscadorEvento)="filtrar($event)"
+  [hidden]="ocultarEncabezado"></app-encabezado-definiciones>
+
+<mat-card class="superior inferior">
+  <section class="filtros">
+    <app-filtro-rango-fechas
+      [formulario]="formularioRangoFechas"
+      [sinDecorar]="filtrosSinDecorar"></app-filtro-rango-fechas>
+    <app-filtro-tipo-proceso
+      [formulario]="formulario"
+      [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-proceso>
+    <app-filtro-registrados
+      [formulario]="formulario"
+      [sinDecorar]="filtrosSinDecorar"></app-filtro-registrados>
+    <app-filtro-aprobados
+      [formulario]="formulario"
+      [sinDecorar]="filtrosSinDecorar"></app-filtro-aprobados>
+    <app-filtro-integrados
+      [formulario]="formulario"
+      [sinDecorar]="filtrosSinDecorar"></app-filtro-integrados>
+  </section>
+</mat-card>
+
+<mat-card class="card-table superior inferior">
+  <!-- tabla -->
+  <table mat-table [dataSource]="dataSource" class="table" matSort>
+    <!-- tipo -->
+    <ng-container matColumnDef="tipo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Proceso</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.tipoProceso | titlecase }}
+      </td>
+    </ng-container>
+    <!-- comprobante -->
+    <ng-container matColumnDef="comprobante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.comprobante | corregirCodigo }}
+      </td>
+    </ng-container>
+    <!-- activo -->
+    <ng-container matColumnDef="activo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bien</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.activo }}
+      </td>
+    </ng-container>
+    <!-- creado -->
+    <ng-container matColumnDef="creado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.creado | date : 'medium' }}
+      </td>
+    </ng-container>
+    <!-- modificado -->
+    <ng-container matColumnDef="modificado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modificado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.modificado | date : 'medium' }}
+      </td>
+    </ng-container>
+
+    <!-- acciones-proceso -->
+    <ng-container matColumnDef="acciones-proceso">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-slide-toggle #toggleAprobarTodos (toggleChange)="aprobarTodos()"
+          >Aprobar Todos</mat-slide-toggle
+        >
+        <mat-slide-toggle #toggleIntegrarTodos (toggleChange)="integrarTodos()"
+          >Integrar Todos</mat-slide-toggle
+        >
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-slide-toggle
+          #toggleAprobar
+          [checked]="aprobar(row)"
+          [disabled]="!opciones[row.tipoProceso]['aprobar']"
+          (toggleChange)="actualizarAprobar(!toggleAprobar.checked, row)"
+          >{{
+            toggleAprobar.checked ? 'Aprobado' : 'Aprobar'
+          }}</mat-slide-toggle
+        >
+        <mat-slide-toggle
+          #toggleIntegrar
+          [checked]="integrar(row)"
+          [disabled]="!opciones[row.tipoProceso]['integrar']"
+          (toggleChange)="actualizarIntegrar(!toggleIntegrar.checked, row)"
+          >{{
+            toggleIntegrar.checked ? 'Integrado' : 'Integrar'
+          }}</mat-slide-toggle
+        >
+      </td>
+    </ng-container>
+
+    <!-- ejecuta el armado de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: columnasVisibles"
+      class="row-hover"
+      [ngClass]="row.registrado === 0 ? 'negritas' : 'normal'"
+      (dblclick)="dobleClick.emit(row)"></tr>
+
+    <!-- mostrar cuando no hay datos que coincidan -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No hay datos para mostrar que concidan con la busqueda "{{
+          dataSource.filter
+        }}"
+      </td>
+    </tr>
+  </table>
+</mat-card>

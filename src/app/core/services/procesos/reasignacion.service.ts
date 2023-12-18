@@ -71,7 +71,7 @@ export class ReasignacionService extends GenericService<Reasignacion> {
           })
         );
       }),
-      ejecutarReasignacion(),
+      ejecutarReasignacion(this),
       abrirReporteProceso(this._pdf, 'REASIGNACIÓN')
     );
   }
@@ -81,7 +81,7 @@ export class ReasignacionService extends GenericService<Reasignacion> {
       switchMap(reasignacion =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? reasignacion : eliminada)),
-          reversarReasignacion(),
+          reversarReasignacion(this),
           map(reasignacion => !!reasignacion)
         )
       )

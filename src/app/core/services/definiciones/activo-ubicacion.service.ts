@@ -1,4 +1,4 @@
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from '@core/services/auxiliares/generic.service';
@@ -6,7 +6,6 @@ import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { convertirTipoOracion } from '@core/utils/funciones/convertir-tipo-oracion';
 import { adaptarActivosUbicacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-ubicacion';
 import { adaptarActivoUbicacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-ubicacion';
 

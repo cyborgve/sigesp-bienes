@@ -16,8 +16,9 @@ export const reversarActaPrestamo = (
             .map(activoUbicacion => {
               activoUbicacion.unidadAdministrativaId =
                 actaPrestamo.unidadAdministrativaCedente;
-              activoUbicacion.responsableUsoId =
+              activoUbicacion.responsableId =
                 actaPrestamo.unidadCedenteResponsable;
+              activoUbicacion.referenciaEstado = null;
               return activoUbicacion;
             })
             .map(activoUbicacion =>

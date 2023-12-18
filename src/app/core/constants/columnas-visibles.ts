@@ -99,8 +99,9 @@ export const COLUMNAS_VISIBLES = {
     'modificado',
     'acciones',
   ],
-  PLANTILLAS_DEPRECIACION: [
+  PLANTILLAS_INTEGRACION: [
     'codigo',
+    'tipoPlantilla',
     'denominacion',
     'creado',
     'modificado',
@@ -191,7 +192,14 @@ export const COLUMNAS_VISIBLES = {
   CENTROS_COSTO: ['codigo', 'denominacion', 'creado', 'modificado'],
   PROVEEDORES: ['rif', 'denominacion', 'creado', 'modificado'],
   BENEFICIARIOS: ['cedula', 'nombre', 'creado', 'modificado'],
-  PARROQUIAS: ['codigo', 'denominacion', 'municipioId', 'creado', 'modificado'],
+  PARROQUIAS: [
+    'codigo',
+    'denominacion',
+    'estadoId',
+    'municipioId',
+    'creado',
+    'modificado',
+  ],
 
   /** PROCESOS */
   ACTAS_PRESTAMO: [
@@ -256,6 +264,14 @@ export const COLUMNAS_VISIBLES = {
     'comprobante',
     'causaMovimiento',
     'unidadAdministrativa',
+    'creado',
+    'modificado',
+    'acciones-proceso',
+  ],
+  INTEGRACIONES: [
+    'comprobante',
+    'tipo',
+    'activo',
     'creado',
     'modificado',
     'acciones-proceso',

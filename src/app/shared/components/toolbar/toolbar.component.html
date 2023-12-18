@@ -65,6 +65,17 @@
       <i class="material-icons">superscript</i>
     </button>
   </ng-container>
+  <!-- ejecutar -->
+  <ng-container *ngIf="mostrarEjecutar">
+    <button
+      mat-button
+      matTooltip="Ejecutar"
+      type="button"
+      (click)="ejecutar.emit()"
+      [disabled]="desabilitarExportar">
+      <i class="material-icons">published_with_changes</i>
+    </button>
+  </ng-container>
   <!--ir atras -->
   <ng-container *ngIf="mostrarIrAtras">
     <button

@@ -16,7 +16,7 @@
             type="text"
             matInput
             formControlName="causaMovimiento"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.causaMovimiento
                 | denominacionCausaMovimiento
@@ -37,7 +37,7 @@
             type="text"
             matInput
             formControlName="unidadAdministrativa"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.unidadAdministrativa
                 | denominacionUnidadAdministrativa
@@ -58,7 +58,7 @@
             type="text"
             matInput
             formControlName="sede"
-            readonly="true"
+            readonly
             [value]="formulario.value.sede | denominacionSede | async" />
           <button
             type="button"
@@ -75,7 +75,7 @@
             matInput
             formControlName="fechaEntrega"
             [matDatepicker]="pickerFechaEntrega"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle matSuffix [for]="pickerFechaEntrega">
           </mat-datepicker-toggle>
           <mat-datepicker #pickerFechaEntrega></mat-datepicker>
@@ -87,7 +87,7 @@
             type="text"
             matInput
             formControlName="responsablePrimario"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.responsablePrimario
                 | denominacionResponsable
@@ -102,7 +102,7 @@
             type="text"
             matInput
             formControlName="responsableUso"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.responsableUso
                 | denominacionResponsable

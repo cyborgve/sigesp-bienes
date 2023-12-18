@@ -3,7 +3,6 @@ import { pipe } from 'rxjs';
 import { Clase } from '@core/models/definiciones/clase';
 
 export const adaptarClase = () => pipe(map(adaptar));
-
 export const adaptarClases = () =>
   pipe(map((clases: any[]) => clases.map(adaptar)));
 

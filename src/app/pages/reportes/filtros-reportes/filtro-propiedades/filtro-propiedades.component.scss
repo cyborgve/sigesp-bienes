@@ -2,19 +2,10 @@
   @apply text-base text-primary;
 }
 
-.contenedor {
-  @apply w-full flex gap-x-8;
-}
-
-.disponibles,
-.seleccionadas {
-  @apply w-1/2;
+.contenido {
+  @apply w-full grid grid-cols-2 gap-x-4;
 }
 
 .titulo-filtro {
   @apply text-primary;
-}
-
-mat-chip-list {
-  @apply w-full h-full;
 }

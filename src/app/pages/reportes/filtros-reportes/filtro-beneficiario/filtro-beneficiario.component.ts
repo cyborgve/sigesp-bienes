@@ -16,6 +16,10 @@ export class FiltroBeneficiarioComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ beneficiario: '---' });
+  }
+
   buscarBeneficiario() {
     let dialog = this._dialog.open(BuscadorBeneficiarioComponent, {
       width: '85%',

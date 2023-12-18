@@ -1,5 +1,5 @@
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { tap, map, take } from 'rxjs/operators';
+import { tap, map, take, switchMap } from 'rxjs/operators';
 import { Component, AfterViewInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -12,6 +12,8 @@ import { Responsable } from '@core/models/otros-modulos/responsable';
 import { Location } from '@angular/common';
 import { pipe } from 'rxjs';
 import { ResponsableService } from '@core/services/otros-modulos/responsable.service';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 const filtroInicial = () =>
   pipe(map((responsables: Responsable[]) => responsables));
@@ -25,34 +27,65 @@ export class BuscadorResponsableComponent
   implements TablaEntidad<Responsable>, AfterViewInit
 {
   titulo = 'buscador de Responsables';
-  @ViewChild(MatSort) matSort: MatSort;
-  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() filtros = [filtroInicial()];
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['RESPONSABLES'];
   dataSource: MatTableDataSource<Responsable> = new MatTableDataSource();
-  @Input() filtros = [filtroInicial()];
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorResponsableComponent>,
     private _location: Location,
     private _router: Router,
-    private _responsable: ResponsableService
+    private _entidad: ResponsableService,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._responsable
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        pipeFromArray(this.filtros),
-        tap(responsables => {
-          this.dataSource = new MatTableDataSource(responsables);
-          this.dataSource.sort = this.matSort;
-          this.dataSource.paginator = this.matPaginator;
-        }),
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            pipeFromArray(this.filtros),
+            tap((entidades: Responsable[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
         take(1)
       )
       .subscribe();

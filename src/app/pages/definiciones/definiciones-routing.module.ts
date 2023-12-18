@@ -134,13 +134,6 @@ const routes: Routes = [
       import('./tipos-marca/tipos-marca.module').then(m => m.TiposMarcaModule),
   },
   {
-    path: 'plantillas-depreciacion',
-    loadChildren: () =>
-      import('./plantillas-depreciacion/plantillas-depreciacion.module').then(
-        m => m.PlantillasDepreciacionModule
-      ),
-  },
-  {
     path: 'tipos-animal',
     loadChildren: () =>
       import('./tipos-animal/tipos-animal.module').then(
@@ -178,6 +171,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./catalogos-generales/catalogos-generales.module').then(
         m => m.CatalogosGeneralesModule
+      ),
+  },
+  {
+    path: 'plantillas-integracion',
+    loadChildren: () =>
+      import('./plantillas-integracion/plantillas-integracion.module').then(
+        m => m.PlantillasIntegracionModule
       ),
   },
 ];

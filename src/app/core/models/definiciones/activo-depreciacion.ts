@@ -7,8 +7,8 @@ export interface ActivoDepreciacion extends Basica {
   activoId: Id;
   depreciable: number;
   metodoDepreciacion: MetodoDepreciacion;
-  cuentaContableGasto: string;
-  cuentaContableDepreciacion: string;
+  cuentaContableDebe: string;
+  cuentaContableHaber: string;
   vidaUtil: number;
   unidadVidaUtil: UnidadDeTiempo;
   valorRescate: number;

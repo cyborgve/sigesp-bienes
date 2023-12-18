@@ -22,14 +22,16 @@ import { adaptarActivo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { adaptarActivos } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
-import { convertirSnakeCaseACamelCase } from '@core/utils/funciones/convertir-snake-case-a-camel-case';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
-import {
-  adaptarActivoLista,
-  adaptarActivosLista,
-} from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-lista';
+import { adaptarActivosLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-lista';
 import { ActivoLista } from '@core/models/auxiliares/activo-lista';
+import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
+import { adaptarActivosInventario } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-inventario';
+import { generarIncorporacionAutomatica } from '@core/utils/pipes-rxjs/procesos/generar-incorporacion-automatica';
+import { generarDepreciacionAutomatica } from '@core/utils/pipes-rxjs/procesos/generar-depreciacion-automatica';
+import { IncorporacionService } from '../procesos/incorporacion.service';
+import { DepreciacionService } from '../procesos/depreciacion.service';
+import { ActivoIntegracionService } from './activo-integracion.service';
+import { ActivoIntegracion } from '@core/models/definiciones/activo-integracion';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +42,7 @@ export class ActivoService extends GenericService<Activo> {
   }
 
   private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
+  private apiUrlInventario = () => `${this.apiUrl}?inventario=${'inventario'}`;
 
   constructor(
     protected _http: HttpClient,
@@ -48,7 +51,10 @@ export class ActivoService extends GenericService<Activo> {
     private _activoDetalle: ActivoDetalleService,
     private _activoComponente: ActivoComponenteService,
     private _activoDepreciacion: ActivoDepreciacionService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activoUbicacion: ActivoUbicacionService,
+    private _activoIntegracion: ActivoIntegracionService,
+    private _incorporacion: IncorporacionService,
+    private _depreciacion: DepreciacionService
   ) {
     super(_http, _sigesp, _snackbar);
   }
@@ -66,49 +72,75 @@ export class ActivoService extends GenericService<Activo> {
           this._activoDepreciacion.buscarPorActivo(activo.id),
           this._activoUbicacion.buscarPorActivo(activo.id),
           this._activoComponente.buscarPorActivo(activo.id),
+          this._activoIntegracion.buscarPorActivo(activo.id),
         ];
         return forkJoin(buscarComplementos).pipe(
-          map(([detalle, depreciacion, ubicacion, componentes]) => {
-            let activoCompleto: Activo = {
-              ...activo,
-              detalle: detalle as ActivoDetalle,
-              depreciacion: depreciacion as ActivoDepreciacion,
-              ubicacion: ubicacion as ActivoUbicacion,
-              componentes: componentes as ActivoComponente[],
-            };
-            return activoCompleto;
-          })
+          map(
+            ([detalle, depreciacion, ubicacion, componentes, integracion]) => {
+              let activoCompleto: Activo = {
+                ...activo,
+                detalle: detalle as ActivoDetalle,
+                depreciacion: depreciacion as ActivoDepreciacion,
+                ubicacion: ubicacion as ActivoUbicacion,
+                componentes: componentes as ActivoComponente[],
+                integracion: integracion as ActivoIntegracion,
+              };
+              return activoCompleto;
+            }
+          )
         );
       })
     );
   }
 
-  guardar(activoIn: Activo, tipoDato: string): Observable<Activo> {
-    return super.guardar(activoIn, tipoDato).pipe(
+  guardar(
+    activoIn: Activo,
+    tipoDato: string,
+    notificar?: boolean,
+    opciones?: {
+      generarIncorporacion?: boolean;
+      generarDepreciacion?: boolean;
+      causaMovimiento?: Id;
+    }
+  ): Observable<Activo> {
+    return super.guardar(activoIn, tipoDato, notificar).pipe(
       adaptarActivo(),
       switchMap((activoGuardado: any) => {
         let detalle = prepararActivoDetalle(activoIn.detalle);
         let depreciacion = prepararActivoDepreciacion(activoIn.depreciacion);
         let ubicacion = prepararActivoUbicacion(activoIn.ubicacion);
+        let integracion = activoIn.integracion;
         detalle.activoId = Number(activoGuardado.id);
         depreciacion.activoId = Number(activoGuardado.id);
         ubicacion.activoId = Number(activoGuardado.id);
-        let complementosGuardar = [
+        integracion.activoId = Number(activoGuardado.id);
+        let guardarComplementos = [
           this._activoDetalle.guardar(detalle, undefined, false),
           this._activoDepreciacion.guardar(depreciacion, undefined, false),
           this._activoUbicacion.guardar(ubicacion, undefined, false),
+          this._activoIntegracion.guardar(integracion, undefined, false),
         ];
-        return forkJoin(complementosGuardar).pipe(
-          map(([detalle, depreciacion, ubicacion]) => {
+        return forkJoin(guardarComplementos).pipe(
+          map(([detalle, depreciacion, ubicacion, integracion]) => {
             return {
               ...activoGuardado,
               detalle: detalle,
               depreciacion: depreciacion,
               ubicacion: ubicacion,
+              integracion: integracion,
             };
           })
         );
-      })
+      }),
+      generarIncorporacionAutomatica(
+        opciones.generarIncorporacion,
+        opciones.causaMovimiento,
+        this._incorporacion
+      ),
+      generarDepreciacionAutomatica(
+        opciones.generarDepreciacion,
+        this._depreciacion
+      )
     );
   }
 
@@ -118,14 +150,16 @@ export class ActivoService extends GenericService<Activo> {
       this._activoDetalle.actualizar(id, activo.detalle, '', false),
       this._activoDepreciacion.actualizar(id, activo.depreciacion, '', false),
       this._activoUbicacion.actualizar(id, activo.ubicacion, '', false),
+      this._activoIntegracion.actualizar(id, activo.integracion, '', false),
     ];
     return forkJoin(peticionesActualizar).pipe(
-      map(([act, det, dep, ubi]) => {
+      map(([act, det, dep, ubi, int]) => {
         if (
           Number(act) > 0 &&
           Number(det) > 0 &&
           Number(dep) > 0 &&
-          Number(ubi) > 0
+          Number(ubi) > 0 &&
+          Number(int) > 0
         )
           return 1;
         else return 0;
@@ -138,6 +172,17 @@ export class ActivoService extends GenericService<Activo> {
       map((resultado: any) => resultado.data),
       map((lista: any[]) => lista.map(item => normalizarObjeto(item))),
       adaptarActivosLista()
+    );
+  }
+
+  buscarTodosInventario(): Observable<ActivoListaInventario[]> {
+    return this._http.get<any[]>(this.apiUrlInventario()).pipe(
+      map((resultado: any) => resultado.data),
+      map((inventario: any[]) =>
+        inventario.map(activo => normalizarObjeto(activo))
+      ),
+      adaptarActivosInventario(),
+      map(activos => activos.sort((a, b) => (a.codigo > b.codigo ? 1 : -1)))
     );
   }
 }

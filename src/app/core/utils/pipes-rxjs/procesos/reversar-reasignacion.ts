@@ -1,6 +1,6 @@
-import { Reasignacion } from '@core/models/procesos/reasignacion';
+import { ReasignacionService } from '@core/services/procesos/reasignacion.service';
 import { pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-export const reversarReasignacion = () =>
-  pipe(map((reasignacion: Reasignacion) => reasignacion));
+export const reversarReasignacion = (_reasignacion: ReasignacionService) =>
+  pipe(tap());

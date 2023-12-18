@@ -24,13 +24,21 @@
         matInput
         type="text"
         formControlName="ciudad"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.ciudad
             | denominacionCiudad
             | async
             | corregirSeleccionar
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.ciudad !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarCiudad()">
         <mat-icon>search</mat-icon>
       </button>

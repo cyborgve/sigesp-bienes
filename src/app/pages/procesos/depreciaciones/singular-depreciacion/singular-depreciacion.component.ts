@@ -1,4 +1,4 @@
-import { tap, take, first, filter, switchMap, map } from 'rxjs/operators';
+import { tap, take, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -29,6 +29,8 @@ import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubica
 import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
 import { filtrarActivosDepreciables } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-depreciables';
 import { filtrarActivosSinDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-depreciacion';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
+import { normalizarMetodoDepreciacion } from '@core/utils/funciones/normalizar-metodo-depreciacion';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -57,7 +59,8 @@ export class SingularDepreciacionComponent implements Entidad {
     private _activoUbicacion: ActivoUbicacionService,
     private _activoDepreciacion: ActivoDepreciacionService,
     private _moneda: MonedaService,
-    private _depreciacion: DepreciacionService
+    private _depreciacion: DepreciacionService,
+    private _pdf: PDFService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -194,7 +197,12 @@ export class SingularDepreciacionComponent implements Entidad {
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo)
-        .pipe(first())
+        .pipe(
+          switchMap(depreciacion =>
+            this._pdf.abrirReporte(depreciacion, 'DEPRECIACIÓN')
+          ),
+          first()
+        )
         .subscribe(depreciacion =>
           depreciacion ? this.reiniciarFormulario() : undefined
         );
@@ -250,7 +258,6 @@ export class SingularDepreciacionComponent implements Entidad {
       width: '85%',
       data: {
         filtros: [
-          filtrarActivosIncorporados(this._activoUbicacion),
           filtrarActivosSinDepreciacion(this._depreciacion),
           filtrarActivosDepreciables(this._activoDepreciacion),
         ],
@@ -270,10 +277,7 @@ export class SingularDepreciacionComponent implements Entidad {
             activo.depreciacion.vidaUtil,
             activo.depreciacion.unidadVidaUtil,
             activo.depreciacion.valorRescate,
-            METODOS_DEPRECIACION.find(
-              md =>
-                md.substring(0, 3) === activo.depreciacion.metodoDepreciacion
-            )
+            normalizarMetodoDepreciacion(activo.depreciacion.metodoDepreciacion)
           );
 
           this.formulario.patchValue({

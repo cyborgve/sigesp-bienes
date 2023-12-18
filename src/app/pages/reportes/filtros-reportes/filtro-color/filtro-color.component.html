@@ -24,10 +24,18 @@
         matInput
         type="text"
         formControlName="color"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.color | denominacionColor | async | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.color !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarColor()">
         <mat-icon>search</mat-icon>
       </button>

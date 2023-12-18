@@ -16,7 +16,7 @@
             type="text"
             matInput
             formControlName="unidadAdministrativa"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.unidadAdministrativa
                 | denominacionUnidadAdministrativa
@@ -37,7 +37,7 @@
             type="text"
             matInput
             formControlName="sede"
-            readonly="true"
+            readonly
             [value]="formulario.value.sede | denominacionSede | async" />
           <button
             type="button"
@@ -54,7 +54,7 @@
             type="text"
             matInput
             formControlName="responsableAnterior"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.responsableAnterior
                 | denominacionResponsable
@@ -69,7 +69,7 @@
             type="text"
             matInput
             formControlName="nuevoResponsable"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.nuevoResponsable
                 | denominacionResponsable

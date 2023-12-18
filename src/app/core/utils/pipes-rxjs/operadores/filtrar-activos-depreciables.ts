@@ -11,8 +11,7 @@ export const filtrarActivosDepreciables = (
       _activoDepreciacion.buscarTodos().pipe(
         map(depreciaciones =>
           depreciaciones.filter((depreciacion, indice) => {
-            let activo = activos[indice];
-            activo.depreciacion = depreciacion;
+            let activo = { ...activos[indice], depreciacion } as Activo;
             return comprobarActivoDepreciable(activo);
           })
         ),

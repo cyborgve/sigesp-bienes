@@ -51,7 +51,7 @@ export class SingularUnidadAdministrativaComponent
       denominacion: [undefined, Validators.required],
       categoria: [undefined],
       unidadOrganizativa: [undefined, Validators.required],
-      responsable: [undefined],
+      responsable: [undefined, Validators.required],
       creado: [undefined],
       modificado: [undefined],
     });

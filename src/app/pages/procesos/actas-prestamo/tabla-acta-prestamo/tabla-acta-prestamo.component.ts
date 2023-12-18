@@ -22,8 +22,10 @@ import { Id } from '@core/types/id';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ordenarPorComprobanteDescendente } from '@core/utils/pipes-rxjs/operadores/ordenar-por-comprobante-descendente';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
-import { filter, first, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 @Component({
   selector: 'app-tabla-acta-prestamo',
@@ -45,32 +47,64 @@ export class TablaActaPrestamoComponent
   private urlPlural = '/procesos/actas-prestamo';
   private urlSingular = this.urlPlural + '/acta-prestamo';
   private urlSingularId = (id: Id) => this.urlPlural + '/acta-prestamo/' + id;
+
   dataSource: MatTableDataSource<ActaPrestamo> = new MatTableDataSource();
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _entidad: ActaPrestamoService,
     private _location: Location,
     private _router: Router,
     private _dialog: MatDialog,
-    private _pdf: PDFService
+    private _pdf: PDFService,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._entidad
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        pipeFromArray(this.filtros),
-        ordenarPorComprobanteDescendente(),
-        tap(entidades => {
-          this.dataSource = new MatTableDataSource(entidades);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        }),
-        first()
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorComprobanteDescendente(),
+            pipeFromArray(this.filtros),
+            tap((entidades: ActaPrestamo[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }

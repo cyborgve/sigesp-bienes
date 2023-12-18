@@ -25,7 +25,7 @@
             <mat-option value="">Seleccionar</mat-option>
             <mat-option
               *ngFor="let estado of estadosMovimiento"
-              [value]="estado.substring(0, 3)"
+              [value]="estado.substring(0, 1)"
               >{{ estado }}</mat-option
             >
           </mat-select>
@@ -37,12 +37,21 @@
             type="text"
             matInput
             formControlName="cuentaReferencia"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.cuentaReferencia
                 | denominacionCatalogoGeneral
                 | async
             " />
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Reiniciar filtro"
+            matPrefix
+            *ngIf="formulario.value.cuentaReferencia !== 0"
+            (click)="reiniciarBuscarCuentaReferencia()">
+            <mat-icon>cleaning_services</mat-icon>
+          </button>
           <button
             type="button"
             mat-icon-button

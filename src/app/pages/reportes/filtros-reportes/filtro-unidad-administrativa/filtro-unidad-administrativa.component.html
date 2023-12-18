@@ -26,13 +26,21 @@
         matInput
         type="text"
         formControlName="unidadAdministrativa"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.unidadAdministrativa
             | denominacionUnidadAdministrativa
             | async
             | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.unidadAdministrativa !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

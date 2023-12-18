@@ -16,6 +16,10 @@ export class FiltroCiudadComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ ciudad: 'Todos' });
+  }
+
   buscarCiudad() {
     let dialog = this._dialog.open(BuscadorCiudadComponent, {
       width: '85%',

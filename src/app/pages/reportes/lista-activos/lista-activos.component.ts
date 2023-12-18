@@ -1,27 +1,46 @@
-import { filtrarActivosPorTipoSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-sede';
-import { filtrarActivosPorEstadoUso } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-uso';
 import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { take, tap, first, map, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
+
 import { Activo } from '@core/models/definiciones/activo';
-import { XLSXService } from '@core/services/auxiliares/xlsx.service';
+import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
+import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
+
 import { ActivoService } from '@core/services/definiciones/activo.service';
+import { ActivoComponenteService } from '@core/services/definiciones/activo-componente.service';
+import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
+import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { MarcaService } from '@core/services/definiciones/marca.service';
+import { ModeloService } from '@core/services/definiciones/modelo.service';
+import { SedeService } from '@core/services/definiciones/sede.service';
+import { SeguroService } from '@core/services/definiciones/seguro.service';
+import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
+import { XLSXService } from '@core/services/auxiliares/xlsx.service';
+
+import { filtrarActivosPorTipoSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-sede';
+import { filtrarActivosPorEstadoUso } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-uso';
 import { filtrarActivosPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-fecha';
-import { take, tap, first, map, switchMap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 import { filtrarActivosPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo';
 import { filtrarActivosPorMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-marca';
-import { ModeloService } from '@core/services/definiciones/modelo.service';
 import { filtrarActivosPorModelo } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-modelo';
 import { filtrarActivosPorMoneda } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-moneda';
 import { filtrarActivosPorRotulacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-rotulacion';
 import { filtrarActivosPorColor } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-color';
 import { filtrarActivosPorCategoria } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-categoria';
 import { filtrarActivosPorOrigen } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-origen';
-import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
 import { filtrarActivosPorFuenteFinanciamiento } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-fuente-financiamiento';
 import { filtrarActivosPorClase } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-clase';
 import { filtrarActivosPorCentroCostos } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-centro-costo';
@@ -30,31 +49,24 @@ import { filtrarActivosPorTipoAnimal } from '@core/utils/pipes-rxjs/operadores/f
 import { filtrarActivosPorPropositoSemoviente } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-proposito-semoviente';
 import { filtrarActivosPorRaza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-raza';
 import { filtrarActivosPorTipoComponente } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-componente';
-import { ActivoComponenteService } from '@core/services/definiciones/activo-componente.service';
 import { filtrarActivosPorMetodoDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-metodo-depreciacion';
-import { ActivoDepreciacionService } from '@core/services/definiciones/activo-depreciacion.service';
 import { filtrarActivosPorCuentaContable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-cuenta-contable';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
-import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
 import { filtrarActivosPorResponsable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-responsable';
 import { filtrarActivosPorEstadoConservacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado-conservacion';
 import { filtrarActivosPorTipoMarca } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-marca';
-import { MarcaService } from '@core/services/definiciones/marca.service';
-import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 import { filtrarActivosPorCategoriaUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-categoria-unidad-administrativa';
 import { filtrarActivosPorCiudad } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-ciudad';
-import { SedeService } from '@core/services/definiciones/sede.service';
 import { filtrarActivosPorPais } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-pais';
 import { filtrarActivosPorEstado } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-estado';
 import { filtrarActivosPorMunicipio } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-municipio';
 import { filtrarActivosPorParroquia } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-parroquia';
 import { filtrarActivosPorAseguradora } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-aseguradora';
-import { SeguroService } from '@core/services/definiciones/seguro.service';
 import { filtrarActivosPorTipoCobertura } from '@core/utils/pipes-rxjs/operadores/filtrar-por-tipo-cobertura';
 import { filtrarActivosPorTipoPoliza } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-tipo-poliza';
-import { filtrarActivosPorCatalogoGeneral } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-catalogo-general';
-import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+
+type Chip = { indice: number; nombre: string; valor: string; color: string };
 
 @Component({
   selector: 'app-lista-activos',
@@ -72,10 +84,14 @@ export class ListaActivosComponent implements AfterViewInit {
   filtrosSinDecorar: boolean = false;
   formularioFiltrosActivos: FormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
-
-  // este activo se utiliza para definir
-  // las propiedades a seleccionar
-  activo = <Activo>{};
+  private readonly propiedadTodos: Chip = {
+    indice: -1,
+    nombre: 'Todos',
+    valor: 'TODOS',
+    color: 'none',
+  };
+  propiedadesDisponibles: Chip[] = [];
+  propiedadesSeleccionadas: Chip[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -112,23 +128,23 @@ export class ListaActivosComponent implements AfterViewInit {
       origen: [0],
       fuenteFinanciamiento: ['Todos'],
       clase: [0],
-      centroCostos: ['---'],
+      centroCostos: ['Todos'],
       tipoSemoviente: [0],
       propositoSemoviente: [0],
       tipoAnimal: [0],
       raza: [0],
-      // componentes
+      //* componentes */
       tipoComponente: [0],
-      //depreciacion
+      //* depreciacion */
       metodoDepreciacion: ['TODOS'],
       cuentaContable: ['Todos'],
-      // ubicacion
+      //* ubicacion */
       unidadAdministrativa: [0],
       sede: [0],
       responsable: ['Todos'],
       estadoUso: [0],
       estadoConservacion: [0],
-      // otros
+      //* Otros */
       tipoMarca: [0],
       categoriaUnidadAdministrativa: [0],
       ciudad: ['Todos'],
@@ -145,6 +161,7 @@ export class ListaActivosComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.propiedadesSeleccionadas.push(this.propiedadTodos);
     this._configuracion
       .buscarPorId(1)
       .pipe(
@@ -153,6 +170,32 @@ export class ListaActivosComponent implements AfterViewInit {
             (this.filtrosSinDecorar =
               configuracion.decorarFiltros === 0 ? true : false)
         ),
+        switchMap(() =>
+          this._activo.buscarTodosLista().pipe(
+            map(activos => activos[0]),
+            map(activo => Object.keys(activo)),
+            tap(propiedades =>
+              propiedades.forEach((propiedad, indice) =>
+                this.propiedadesDisponibles.push({
+                  indice: indice,
+                  nombre: convertirCamelCaseATitulo(propiedad),
+                  valor: propiedad,
+                  color: `${
+                    indice < 16
+                      ? 'none'
+                      : indice < 62
+                      ? 'accent'
+                      : indice < 70
+                      ? 'warn'
+                      : indice < 78
+                      ? 'primary'
+                      : 'none'
+                  }`,
+                })
+              )
+            )
+          )
+        ),
         take(1)
       )
       .subscribe();
@@ -160,10 +203,10 @@ export class ListaActivosComponent implements AfterViewInit {
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges.subscribe(() =>
         this.recargarDatos()
+      ),
+      this.formularioFiltrosActivos.valueChanges.subscribe(() =>
+        this.recargarDatos()
       )
-    );
-    this.formularioFiltrosActivos.valueChanges.subscribe(() =>
-      this.recargarDatos()
     );
   }
 
@@ -313,15 +356,81 @@ export class ListaActivosComponent implements AfterViewInit {
 
   guardar() {
     let activosSeleccionados = this.dataSource.data.map(activo => activo.id);
+    let propiedades = this.propiedadesSeleccionadas
+      .filter(propiedad => propiedad.indice !== -1)
+      .map(propiedad => propiedad.nombre);
     this._activo
       .buscarTodosLista()
       .pipe(
         map(activos =>
           activos.filter(activo => activosSeleccionados.includes(activo.id))
         ),
-        switchMap(lista => this._xlsx.listaActivos(lista)),
+        map(listaActivos =>
+          listaActivos.map(activo => convertirObjetoLista(activo))
+        ),
+        map(listaActivos =>
+          listaActivos.map(activo => {
+            if (propiedades.length > 0) {
+              let activoModificado: any = {};
+              propiedades.forEach(propiedad => {
+                activoModificado[propiedad] = activo[propiedad];
+              });
+              return activoModificado;
+            }
+            return activo;
+          })
+        ),
+        tap(lista => this._xlsx.listaActivos(lista)),
         first()
       )
       .subscribe();
   }
+
+  soltar(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer !== event.container)
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    else
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    this.ordenarPropiedades();
+  }
+
+  ordenarPropiedades = () => {
+    this.propiedadesDisponibles =
+      this.propiedadesDisponibles.length > 1
+        ? this.propiedadesDisponibles
+            .sort((a, b) => (a.indice > b.indice ? 1 : -1))
+            .filter(propiedad => propiedad.indice !== -1)
+        : [this.propiedadTodos];
+    this.propiedadesSeleccionadas =
+      this.propiedadesSeleccionadas.length > 1
+        ? this.propiedadesSeleccionadas.filter(
+            propiedad => propiedad.indice !== -1
+          )
+        : [this.propiedadTodos];
+  };
+
+  agregarPropiedad = (propiedad: Chip) => {
+    if (propiedad.indice !== -1)
+      this.propiedadesDisponibles
+        .splice(this.propiedadesDisponibles.indexOf(propiedad), 1)
+        .forEach(chip => this.propiedadesSeleccionadas.push(chip));
+    this.ordenarPropiedades();
+  };
+
+  eliminarPropiedad = (propiedad: Chip) => {
+    if (propiedad.indice !== -1)
+      this.propiedadesSeleccionadas
+        .splice(this.propiedadesSeleccionadas.indexOf(propiedad), 1)
+        .forEach(chip => this.propiedadesDisponibles.push(chip));
+    this.ordenarPropiedades();
+  };
 }

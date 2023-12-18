@@ -9,6 +9,9 @@ import { take, tap } from 'rxjs/operators';
 import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { filtrarProcesoPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-proceso-por-fecha';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
+import { convertirCamelCaseATitulo } from '@core/utils/funciones/convertir-camel-case-a-titulo';
+import { convertirObjetoLista } from '@core/utils/funciones/convertir-objeto-lista';
 
 @Component({
   selector: 'app-lista-depreciaciones',
@@ -20,7 +23,7 @@ export class ListaDepreciacionesComponent implements AfterViewInit, OnDestroy {
   titulo = 'Reportes: Lista de Depreciaciones Registradas';
   fechaEmision = new Date();
   formularioRangoFechas: FormGroup;
-  dataSource: MatTableDataSource<Depreciacion> = new MatTableDataSource();
+  dataSource: MatTableDataSource<DepreciacionLista> = new MatTableDataSource();
   filtrosSinDecorar: boolean = false;
 
   deshabilitarGuardar = () => this.dataSource.data.length === 0;
@@ -64,7 +67,7 @@ export class ListaDepreciacionesComponent implements AfterViewInit, OnDestroy {
 
   private recargarDepreciaciones() {
     this._depreciacion
-      .buscarTodos()
+      .buscarTodosLista()
       .pipe(
         filtrarProcesoPorFecha(this.formularioRangoFechas),
         tap(depreciaciones => {
@@ -76,9 +79,6 @@ export class ListaDepreciacionesComponent implements AfterViewInit, OnDestroy {
   }
 
   guardar() {
-    this._xlsx
-      .listaDepreciaciones(this.dataSource.data)
-      .pipe(take(1))
-      .subscribe();
+    this._xlsx.listaDepreciaciones(this.dataSource.data);
   }
 }

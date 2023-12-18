@@ -8,7 +8,6 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Id } from '@core/types/id';
 import { ModoFormulario } from '@core/types/modo-formulario';
-import { adaptarConfiguracion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-configuracion';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { prepararConfiguracion } from '@core/utils/funciones/preparar-configuracion';
 import { Location } from '@angular/common';
@@ -49,8 +48,11 @@ export class ConfiguracionGeneralComponent implements Entidad {
       usarMascaraCodigoActivo: [undefined],
       activarPaginacion: [undefined],
       opcionesPaginacion: [undefined],
+      mostrarBotonesInicioFinal: [undefined],
+      mostrarOpcionesPaginacion: [undefined],
       decorarFiltros: [undefined],
       abrirImprimirProceso: [undefined],
+      prefijoSerialRotulacion: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -62,7 +64,6 @@ export class ConfiguracionGeneralComponent implements Entidad {
     this._entidad
       .buscarPorId(1)
       .pipe(
-        tap(console.log),
         tap((ent: Configuracion) =>
           this.formulario.patchValue({
             empresaId: ent.empresaId,
@@ -78,8 +79,11 @@ export class ConfiguracionGeneralComponent implements Entidad {
             usarMascaraCodigoActivo: ent.usarMascaraCodigoActivo,
             activarPaginacion: ent.activarPaginacion,
             opcionesPaginacion: ent.opcionesPaginacion,
+            mostrarBotonesInicioFinal: ent.mostrarBotonesInicioFinal,
+            mostrarOpcionesPaginacion: ent.mostrarOpcionesPaginacion,
             decorarFiltros: ent.decorarFiltros,
             abrirImprimirProceso: ent.abrirImprimirProceso,
+            prefijoSerialRotulacion: ent.prefijoSerialRotulacion,
             creado: ent.creado,
             modificado: ent.modificado,
           })
@@ -94,8 +98,7 @@ export class ConfiguracionGeneralComponent implements Entidad {
   }
 
   guardar(): void {
-    let configuracion = prepararConfiguracion(this.formulario.value);
-    console.log(configuracion);
+    let configuracion: any = prepararConfiguracion(this.formulario.value);
     this._entidad
       .actualizar(this.id, configuracion, this.titulo, false)
       .pipe(first())

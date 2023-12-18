@@ -4,6 +4,7 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'activoComponente', valor: 'dao/sbn/activo-componente-dao.php' },
   { clave: 'activoDepreciacion', valor: 'dao/sbn/activo-depreciacion-dao.php' },
   { clave: 'activoDetalle', valor: 'dao/sbn/activo-detalle-dao.php' },
+  { clave: 'activoIntegracion', valor: 'dao/sbn/activo-integracion-dao.php' },
   { clave: 'activoUbicacion', valor: 'dao/sbn/activo-ubicacion-dao.php' },
   { clave: 'aseguradoras', valor: 'dao/sbn/aseguradora-dao.php' },
   { clave: 'catalogoGeneral', valor: 'dao/sbn/catalogo-general-dao.php' },
@@ -33,8 +34,8 @@ export const END_POINTS: { clave: string; valor: string }[] = [
     valor: 'dao/sbn/proposito-semoviente-dao.php',
   },
   {
-    clave: 'plantillaDepreciacion',
-    valor: 'dao/sbn/plantilla-depreciacion-dao.php',
+    clave: 'plantillaIntegracion',
+    valor: 'dao/sbn/plantilla-integracion-dao.php',
   },
   { clave: 'raza', valor: 'dao/sbn/raza-dao.php' },
   { clave: 'responsable', valor: 'dao/sbn/responsable-dao.php' },
@@ -101,4 +102,5 @@ export const END_POINTS: { clave: string; valor: string }[] = [
   { clave: 'retorno', valor: 'dao/sbn/retorno-dao.php' },
   { clave: 'retornoActivo', valor: 'dao/sbn/retorno-activo-dao.php' },
   { clave: 'unidadOrganizativa', valor: 'dao/sbn/unidad-organizativa-dao.php' },
+  { clave: 'integracion', valor: 'dao/sbn/integracion-dao.php' },
 ];

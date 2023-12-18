@@ -15,7 +15,7 @@
             type="text"
             matInput
             formControlName="codigo"
-            readonly="true"
+            readonly
             [value]="formulario.value.codigo | corregirCodigo" />
         </mat-form-field>
         <!-- denominacion -->
@@ -30,7 +30,7 @@
             matInput
             [matDatepicker]="pickerFechaOrigen"
             formControlName="fechaOrigen"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             matSuffix
             [for]="pickerFechaOrigen"></mat-datepicker-toggle>
@@ -43,7 +43,7 @@
             matInput
             [matDatepicker]="pickerFechaAdquisicion"
             formControlName="fechaAdquisicion"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             matSuffix
             [for]="pickerFechaAdquisicion"></mat-datepicker-toggle>
@@ -85,7 +85,7 @@
             matInput
             formControlName="fechaFactura"
             [matDatepicker]="pickerFechaFactura"
-            readonly="true" />
+            readonly />
           <mat-datepicker-toggle
             [for]="pickerFechaFactura"
             matSuffix></mat-datepicker-toggle>
@@ -103,13 +103,22 @@
             type="text"
             matInput
             formControlName="proveedorId"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.proveedorId
                 | denominacionProveedor
                 | async
                 | corregirSeleccionar
             " />
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Reiniciar filtro"
+            matPrefix
+            *ngIf="formulario.value.proveedorId !== '---'"
+            (click)="reiniciarBuscarProveedor()">
+            <mat-icon>cleaning_services</mat-icon>
+          </button>
           <button
             type="button"
             mat-icon-button
@@ -139,24 +148,7 @@
         <!-- nombreBenefactor -->
         <mat-form-field appearance="fill" class="nombreBenefactor">
           <mat-label>Nombre del Benefactor</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="nombreBenefactor"
-            readonly="true"
-            [value]="
-              formulario.value.nombreBenefactor
-                | denominacionBeneficiario
-                | async
-                | corregirSeleccionar
-            " />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarBenefactor()">
-            <mat-icon>search</mat-icon>
-          </button>
+          <input type="text" matInput formControlName="nombreBenefactor" />
         </mat-form-field>
         <!-- nombreBeneficiario -->
         <mat-form-field appearance="fill" class="nombreBeneficiario">
@@ -165,13 +157,22 @@
             type="text"
             matInput
             formControlName="nombreBeneficiario"
-            readonly="true"
+            readonly
             [value]="
               formulario.value.nombreBeneficiario
                 | denominacionBeneficiario
                 | async
                 | corregirSeleccionar
             " />
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Reiniciar filtro"
+            matPrefix
+            *ngIf="formulario.value.nombreBeneficiario !== '---'"
+            (click)="reiniciarBuscarBeneficiario()">
+            <mat-icon>cleaning_services</mat-icon>
+          </button>
           <button
             type="button"
             mat-icon-button

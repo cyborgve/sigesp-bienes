@@ -1,0 +1,23 @@
+.denominacion {
+  @apply col-span-6;
+}
+
+.unidadVidaUtil,
+.metodoDepreciacion {
+  @apply col-span-2;
+}
+.tipoPlantillaIntegracion {
+  @apply col-span-3;
+}
+
+.plantillaDepreciacion {
+  @apply col-span-full grid grid-cols-12 gap-x-2;
+}
+
+.cuentasContables {
+  @apply col-span-7 grid grid-cols-2 gap-x-2;
+}
+
+.cuentasContablesFull {
+  @apply col-span-full grid grid-cols-2 gap-x-2;
+}

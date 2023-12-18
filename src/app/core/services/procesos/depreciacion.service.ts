@@ -12,16 +12,20 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DepreciacionDetalleService } from './depreciacion-detalle.service';
-import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
-import { PDFService } from '../auxiliares/pdf.service';
 import { ejecutarDepreciacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-depreciacion';
 import { reversarDepreciacion } from '@core/utils/pipes-rxjs/procesos/reversar-depreciacion';
+import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
+import { adaptarDepreciacionesLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion-lista';
+import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
+import { adaptarDepreciacionesMensuales } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion-mensual';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DepreciacionService extends GenericService<Depreciacion> {
   private apiUrlActivo = (activo: Id) => `${this.apiUrl}?activo=${activo}`;
+  private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
+  private apiUrlMensuales = () => `${this.apiUrl}?mensuales=${'mensuales'}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'depreciacion').valor;
   }
@@ -30,14 +34,29 @@ export class DepreciacionService extends GenericService<Depreciacion> {
     protected _http: HttpClient,
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
-    private _detalleDepreciacion: DepreciacionDetalleService,
-    private _pdf: PDFService
+    private _detalleDepreciacion: DepreciacionDetalleService
   ) {
     super(_http, _sigesp, _snackBar);
   }
 
   buscarTodos(): Observable<Depreciacion[]> {
     return super.buscarTodos().pipe(adaptarDepreciaciones());
+  }
+
+  buscarTodosLista(): Observable<DepreciacionLista[]> {
+    return this._http.get<any>(this.apiUrlLista()).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      adaptarDepreciacionesLista()
+    );
+  }
+
+  buscarTodosMensuales(): Observable<ActivoListaDepreciacion[]> {
+    return this._http.get<any>(this.apiUrlMensuales()).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      adaptarDepreciacionesMensuales()
+    );
   }
 
   buscarPorActivo(activo: Id): Observable<Depreciacion> {
@@ -88,9 +107,7 @@ export class DepreciacionService extends GenericService<Depreciacion> {
             return depreciacion;
           })
         );
-      }),
-      ejecutarDepreciacion(),
-      abrirReporteProceso(this._pdf, 'DEPRECIACIÓN')
+      })
     );
   }
 
@@ -99,7 +116,6 @@ export class DepreciacionService extends GenericService<Depreciacion> {
       switchMap(depreciacion =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? depreciacion : eliminada)),
-          reversarDepreciacion(),
           map(depreciacion => !!depreciacion)
         )
       )

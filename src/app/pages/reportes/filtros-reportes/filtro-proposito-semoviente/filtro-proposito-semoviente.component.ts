@@ -16,6 +16,10 @@ export class FiltroPropositoSemovienteComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ propositoSemoviente: 0 });
+  }
+
   buscarPropositoSemoviente() {
     let dialog = this._dialog.open(BuscadorPropositoSemovienteComponent, {
       width: '85%',

@@ -26,10 +26,18 @@
         matInput
         type="text"
         formControlName="responsable"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.responsable | denominacionResponsable | async
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.responsable !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

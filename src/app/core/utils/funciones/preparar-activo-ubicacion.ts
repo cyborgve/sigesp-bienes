@@ -13,6 +13,7 @@ export const prepararActivoUbicacion = (ubicacion: any) => {
     descripcionEstadoConservacion: ubicacion.descripcionEstadoConservacion,
     responsableId: ubicacion.responsableId,
     responsableUsoId: ubicacion.responsableUsoId,
+    referenciaEstado: ubicacion.referenciaEstado,
     creado: ubicacion.creado,
     modificado: ubicacion.modificado,
   };

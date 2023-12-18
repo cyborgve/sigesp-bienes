@@ -16,6 +16,10 @@ export class FiltroMunicipioComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ municipio: 'Todos' });
+  }
+
   buscarMunicipio() {
     let dialog = this._dialog.open(BuscadorMunicipioComponent, {
       width: '85%',

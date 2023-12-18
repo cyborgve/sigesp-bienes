@@ -26,13 +26,21 @@
         matInput
         type="text"
         formControlName="centroCostos"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.centroCostos
             | denominacionCentroCostos
             | async
             | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.centroCostos !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

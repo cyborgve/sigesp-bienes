@@ -88,6 +88,8 @@ import { BuscadorLineEnterpriseComponent } from './components/buscador-line-ente
 import { ListaDepreciacionesComponent } from './components/lista-depreciaciones/lista-depreciaciones.component';
 import { CorregirTodosPipe } from './pipes/corregir-todos.pipe';
 import { CorregirTipoActivoPipe } from './pipes/corregir-tipo-activo.pipe';
+import { CorregirTipoPlantillaIntegracionPipe } from './pipes/corregir-tipo-plantilla-integracion.pipe';
+import { CorregirReferenciaEstadoPipe } from './pipes/corregir-referencia-estado.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -185,6 +187,8 @@ const sharedPipes = [
     ListaDepreciacionesComponent,
     CorregirTodosPipe,
     CorregirTipoActivoPipe,
+    CorregirTipoPlantillaIntegracionPipe,
+    CorregirReferenciaEstadoPipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
   exports: [
@@ -193,6 +197,8 @@ const sharedPipes = [
     ListaDepreciacionesComponent,
     CorregirTodosPipe,
     CorregirTipoActivoPipe,
+    CorregirTipoPlantillaIntegracionPipe,
+    CorregirReferenciaEstadoPipe,
   ],
 })
 export class SharedModule {}

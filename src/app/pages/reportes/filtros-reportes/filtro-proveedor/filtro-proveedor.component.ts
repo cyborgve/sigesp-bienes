@@ -16,6 +16,10 @@ export class FiltroProveedorComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ proveedor: 0 });
+  }
+
   buscarProveedor() {
     let dialog = this._dialog.open(BuscadorProveedorComponent, {
       width: '85%',

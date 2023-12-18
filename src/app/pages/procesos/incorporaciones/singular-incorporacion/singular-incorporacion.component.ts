@@ -29,6 +29,7 @@ import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-p
 import { pipe } from 'rxjs';
 import { filtrarActivosSinIncorporar } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-incoporar';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { PDFService } from '@core/services/auxiliares/pdf.service';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -52,7 +53,8 @@ export class SingularIncorporacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activoUbicacion: ActivoUbicacionService
+    private _activoUbicacion: ActivoUbicacionService,
+    private _pdf: PDFService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -187,7 +189,12 @@ export class SingularIncorporacionComponent implements Entidad {
     if (this.modoFormulario === 'CREANDO') {
       this._incorporacion
         .guardar(entidad, this.titulo, true)
-        .pipe(first())
+        .pipe(
+          first(),
+          switchMap(incorporacion =>
+            this._pdf.abrirReporte(incorporacion, 'INCORPORACIÓN')
+          )
+        )
         .subscribe(incorporacion => {
           incorporacion ? this.reiniciarFormulario() : undefined;
         });
@@ -283,7 +290,10 @@ export class SingularIncorporacionComponent implements Entidad {
       .pipe(
         filter(todo => !!todo),
         tap((causaMovimiento: CausaMovimiento) =>
-          this.formulario.patchValue({ causaMovimiento: causaMovimiento.id })
+          this.formulario.patchValue({
+            causaMovimiento: causaMovimiento.id,
+            fechaEntrega: new Date(),
+          })
         ),
         take(1)
       )

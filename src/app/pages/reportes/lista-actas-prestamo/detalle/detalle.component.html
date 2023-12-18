@@ -4,7 +4,7 @@
     <ng-container matColumnDef="comprobante">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.comprobante | corregirCodigo }}
+        {{ row.comprobante }}
       </td>
     </ng-container>
     <!-- unidadAdministrativaCedente -->
@@ -13,11 +13,7 @@
         Unidad Administrativa Cedente
       </th>
       <td mat-cell *matCellDef="let row">
-        {{
-          row.unidadAdministrativaCedente
-            | denominacionUnidadAdministrativa
-            | async
-        }}
+        {{ row.unidadAdministrativaCedente }}
       </td>
     </ng-container>
     <!-- unidadAdministrativaReceptora -->
@@ -26,11 +22,7 @@
         Unidad Administrativa Receptora
       </th>
       <td mat-cell *matCellDef="let row">
-        {{
-          row.unidadAdministrativaReceptora
-            | denominacionUnidadAdministrativa
-            | async
-        }}
+        {{ row.unidadAdministrativaReceptora }}
       </td>
     </ng-container>
     <!-- creado -->

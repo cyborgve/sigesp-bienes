@@ -1,6 +1,6 @@
-import { EntregaUnidad } from '@core/models/procesos/entrega-unidad';
+import { EntregaUnidadService } from '@core/services/procesos/entrega-unidad.service';
 import { pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-export const reversarEntregaUnidad = () =>
-  pipe(map((entregaUnidad: EntregaUnidad) => entregaUnidad));
+export const reversarEntregaUnidad = (_entregaUnidad: EntregaUnidadService) =>
+  pipe(tap());

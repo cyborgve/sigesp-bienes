@@ -11,4 +11,5 @@ export interface ActivoUbicacion extends Basica {
   descripcionEstadoConservacion: string;
   responsableId: Id;
   responsableUsoId: Id;
+  referenciaEstado: string;
 }

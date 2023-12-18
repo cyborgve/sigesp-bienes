@@ -1,4 +1,7 @@
 export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
+  /******************************/
+  /** D E F I N I C I O N E S  **/
+  /******************************/
   { nombre: 'bien', id: 1, tabla: 'sbn_activos' },
   { nombre: 'bien - componente', id: 2, tabla: 'sbn_activos_componentes' },
   { nombre: 'aseguradora', id: 3, tabla: 'sbn_aseguradoras' },
@@ -22,9 +25,9 @@ export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
   { nombre: 'modelo', id: 13, tabla: 'sbn_modelos' },
   { nombre: 'origen', id: 14, tabla: 'sbn_origenes' },
   {
-    nombre: 'plantilla de depreciación',
+    nombre: 'plantilla de integración',
     id: 15,
-    tabla: 'sbn_plantillas_depreciacion',
+    tabla: 'sbn_plantillas_integracion',
   },
   {
     nombre: 'propósito semoviente',
@@ -73,4 +76,8 @@ export const CORRELATIVOS: { nombre: string; id: number; tabla: string }[] = [
   { nombre: 'modificación', id: 37, tabla: 'sbn_modificaciones' },
   { nombre: 'reasignación', id: 38, tabla: 'sbn_reasignaciones' },
   { nombre: 'retorno', id: 39, tabla: 'sbn_retornos' },
+  /**************************/
+  /** A U X I L I A R E S  **/
+  /**************************/
+  { nombre: 'serial de rotulación', id: 40, tabla: 'sbn_serial_rotulacion' },
 ];

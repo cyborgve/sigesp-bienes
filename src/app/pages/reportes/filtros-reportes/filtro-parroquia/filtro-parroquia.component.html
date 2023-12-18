@@ -24,13 +24,21 @@
         matInput
         type="text"
         formControlName="parroquia"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.parroquia
             | denominacionParroquia
             | async
             | corregirSeleccionar
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.parroquia !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

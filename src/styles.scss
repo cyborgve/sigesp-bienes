@@ -74,28 +74,28 @@ $mat-myapp-secondary: (
 );
 
 $mat-myapp-accent: (
-  50: #e0f7f9,
-  100: #b3ecf1,
-  200: #80e0e7,
-  300: #4dd3dd,
-  400: #26c9d6,
-  500: #00c0cf,
-  600: #00baca,
-  700: #00b2c3,
-  800: #00aabd,
-  900: #009cb2,
-  A100: #dbfaff,
-  A200: #a8f3ff,
-  A400: #75ebff,
-  A700: #5ce8ff,
+  50: #e1f0f1,
+  100: #b4dbdd,
+  200: #83c3c6,
+  300: #51aaaf,
+  400: #2b989d,
+  500: #06868c,
+  600: #057e84,
+  700: #047379,
+  800: #03696f,
+  900: #02565c,
+  A100: #8df6ff,
+  A200: #5af2ff,
+  A400: #27eeff,
+  A700: #0eecff,
   contrast: (
     50: #000000,
     100: #000000,
     200: #000000,
     300: #000000,
-    400: #000000,
-    500: #000000,
-    600: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
     700: #ffffff,
     800: #ffffff,
     900: #ffffff,
@@ -141,8 +141,8 @@ $mat-myapp-warn: (
 
 $primary: mat-palette($mat-myapp-primary);
 $secondary: mat-palette($mat-myapp-secondary);
-$accent: mat-palette($mat-myapp-accent);
-$warn: mat-palette($mat-myapp-warn);
+$accent: mat-palette($mat-light-blue, 700);
+$warn: mat-palette($mat-red, 900);
 
 $theme: mat-light-theme($primary, $accent, $warn);
 
@@ -208,13 +208,13 @@ td.mat-column-acciones-proceso {
 
 th.mat-column-acciones,
 td.mat-column-acciones {
-  width: 8rem !important;
-  text-align: center !important;
+  width: 8rem;
+  text-align: center;
 }
 
 th.mat-column-creado,
 th.mat-column-modificado {
-  @apply w-2/12;
+  @apply w-48 pl-4;
 }
 
 mat-datepicker-toggle {

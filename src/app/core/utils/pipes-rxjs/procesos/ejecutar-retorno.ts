@@ -1,5 +1,5 @@
-import { Retorno } from '@core/models/procesos/retorno';
+import { RetornoService } from '@core/services/procesos/retorno.service';
 import { pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-export const ejecutarRetorno = () => pipe(map((retorno: Retorno) => retorno));
+export const ejecutarRetorno = (_retorno: RetornoService) => pipe(tap());

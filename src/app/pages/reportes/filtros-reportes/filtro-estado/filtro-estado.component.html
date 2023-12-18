@@ -24,8 +24,16 @@
         matInput
         type="text"
         formControlName="estado"
-        readonly="true"
-        [value]="formulario.value.estado | denominacionEstado | async" />
+        readonly
+        [value]="formulario.value.estado | denominacionEstado | async" /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.estado !== 'Todos'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarEstado()">
         <mat-icon>search</mat-icon>
       </button>

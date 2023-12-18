@@ -24,10 +24,18 @@
         matInput
         type="text"
         formControlName="moneda"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.moneda | denominacionMoneda | async | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.moneda !== '0'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
         <mat-icon>search</mat-icon>
       </button>

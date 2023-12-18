@@ -15,9 +15,9 @@ export const filtrarActivosPorCuentaContable = (
             map(depreciaciones =>
               depreciaciones.filter(depreciacion => {
                 let cuentaGasto =
-                  depreciacion.cuentaContableGasto === cuentaContable;
+                  depreciacion.cuentaContableDebe === cuentaContable;
                 let cuentaDepreciacion =
-                  depreciacion.cuentaContableDepreciacion === cuentaContable;
+                  depreciacion.cuentaContableHaber === cuentaContable;
                 return cuentaGasto || cuentaDepreciacion;
               })
             ),

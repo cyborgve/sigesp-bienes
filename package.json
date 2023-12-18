@@ -1,6 +1,14 @@
 {
   "name": "sigesp_bienes",
-  "version": "0.58.288",
+
+  "version": "0.59.330",
+  "contributors": [
+    {
+      "name": "Richard Iribarren",
+      "email": "richardiribarren@gmail.com",
+      "url": "https://github.com/cyborgve"
+    }
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",

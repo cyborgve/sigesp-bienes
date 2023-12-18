@@ -16,6 +16,10 @@ export class FiltroResponsableComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ responsable: 'Todos' });
+  }
+
   buscarResponsable() {
     let dialog = this._dialog.open(BuscadorResponsableComponent, {
       width: '85%',

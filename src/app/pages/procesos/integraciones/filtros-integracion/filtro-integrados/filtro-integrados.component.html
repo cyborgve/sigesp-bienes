@@ -1,0 +1,34 @@
+<!-- filtro -->
+<ng-container *ngIf="sinDecorar; else decorado">
+  <ng-container *ngTemplateOutlet="contenido"></ng-container>
+</ng-container>
+
+<!-- decorado -->
+<ng-template #decorado>
+  <mat-card class="filtro-card">
+    <mat-card-title class="filtro-titulo"
+      >Filtrar Estado de Integración</mat-card-title
+    >
+    <p class="filtro-descripcion">
+      Seleccione el estado de integración, si no selecciona ninguno se muestran
+      todos los registros
+    </p>
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </mat-card>
+</ng-template>
+
+<!-- contenido -->
+<ng-template #contenido>
+  <form [formGroup]="formulario">
+    <mat-form-field appearance="fill" class="filtro-input">
+      <mat-label>Estado de Integración</mat-label>
+      <mat-select formControlName="estadoIntegracion">
+        <mat-option
+          *ngFor="let estado of ['TODOS', 'INTEGRADOS', 'NO INTEGRADOS']"
+          [value]="estado"
+          >{{ estado | titlecase }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </form>
+</ng-template>

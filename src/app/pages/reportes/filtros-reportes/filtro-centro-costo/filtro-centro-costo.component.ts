@@ -2,7 +2,7 @@ import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { CentroCosto } from '@core/models/otros-modulos/centro-costo';
+import { CentroCostos } from '@core/models/otros-modulos/centro-costos';
 import { BuscadorCentroCostoComponent } from '@shared/components/buscador-centro-costo/buscador-centro-costo.component';
 
 @Component({
@@ -16,6 +16,10 @@ export class FiltroCentroCostoComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ centroCostos: 'Todos' });
+  }
+
   buscarCentroCostos() {
     let dialog = this._dialog.open(BuscadorCentroCostoComponent, {
       width: '85%',
@@ -25,7 +29,7 @@ export class FiltroCentroCostoComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap((centroCostos: CentroCosto) =>
+        tap((centroCostos: CentroCostos) =>
           this.formulario.patchValue({ centroCostos: centroCostos.id })
         ),
         take(1)

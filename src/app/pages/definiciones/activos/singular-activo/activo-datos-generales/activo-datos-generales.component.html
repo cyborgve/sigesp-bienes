@@ -7,7 +7,7 @@
         type="text"
         matInput
         formControlName="codigo"
-        readonly="true"
+        readonly
         [value]="formulario.value.codigo | corregirCodigo" />
     </mat-form-field>
     <!-- tipo de activo -->
@@ -29,7 +29,7 @@
         matInput
         [matDatepicker]="fechaRegistroPicker"
         formControlName="fechaRegistro"
-        readonly="true" />
+        readonly />
       <mat-datepicker-toggle
         matSuffix
         [for]="fechaRegistroPicker"></mat-datepicker-toggle>
@@ -41,7 +41,7 @@
       <input
         matInput
         formControlName="catalogoCuentas"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.catalogoCuentas | denominacionCatalogoGeneral | async
         " />
@@ -56,7 +56,7 @@
     <!-- serial rotulacion -->
     <mat-form-field appearance="fill" class="serialRotulacion">
       <mat-label>Serial Rotulación</mat-label>
-      <input type="text" matInput formControlName="serialRotulacion" />
+      <input type="text" matInput formControlName="serialRotulacion" readonly />
     </mat-form-field>
     <!-- denominacion -->
     <mat-form-field appearance="fill" class="denominacion">
@@ -70,7 +70,7 @@
         matInput
         [matDatepicker]="fechaAdquisicionPicker"
         formControlName="fechaAdquisicion"
-        readonly="true" />
+        readonly />
       <mat-datepicker-toggle
         matSuffix
         [for]="fechaAdquisicionPicker"></mat-datepicker-toggle>
@@ -88,7 +88,7 @@
         type="text"
         matInput
         formControlName="monedaId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.monedaId
             | denominacionMoneda
@@ -106,7 +106,7 @@
         type="text"
         matInput
         formControlName="modeloId"
-        readonly="true"
+        readonly
         [value]="formulario.value.modeloId | denominacionMarcaModelo | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarModelo()">
         <mat-icon>search</mat-icon>
@@ -129,7 +129,7 @@
         type="text"
         matInput
         formControlName="colorId"
-        readonly="true"
+        readonly
         [value]="formulario.value.colorId | denominacionColor | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarColor()">
         <mat-icon>search</mat-icon>
@@ -142,7 +142,7 @@
         type="text"
         matInput
         formControlName="rotulacionId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.rotulacionId | denominacionRotulacion | async
         " />
@@ -161,7 +161,7 @@
         type="text"
         matInput
         formControlName="categoriaId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.categoriaId | denominacionCategoria | async
         " />

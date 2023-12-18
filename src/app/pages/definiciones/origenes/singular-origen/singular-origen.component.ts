@@ -280,4 +280,11 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       )
       .subscribe();
   }
+
+  reiniciarBuscarProveedor = () => {
+    this.formulario.patchValue({ proveedorId: '---' });
+  };
+  reiniciarBuscarBeneficiario = () => {
+    this.formulario.patchValue({ nombreBeneficiario: '---' });
+  };
 }

@@ -24,13 +24,21 @@
         matInput
         type="text"
         formControlName="proveedor"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.proveedor
             | denominacionProveedor
             | async
             | corregirSeleccionar
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.proveedor !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button
         type="button"
         mat-icon-button

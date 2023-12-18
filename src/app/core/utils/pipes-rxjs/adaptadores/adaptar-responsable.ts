@@ -8,13 +8,13 @@ export const adaptarResponsables = () =>
 
 const adaptar = (responsable: any) =>
   <Responsable>{
-    empresaId: Number(responsable.id_empresa),
-    id: responsable.id_personal,
-    codigo: responsable.codper,
-    cedula: responsable.cedper,
-    rif: responsable.rifper,
-    nombre: responsable.nomper,
-    apellido: responsable.apeper,
-    creado: new Date(),
-    modificado: new Date(),
+    empresaId: Number(responsable.empresaId),
+    id: responsable.id,
+    codigo: responsable.codigo,
+    cedula: responsable.cedula,
+    rif: responsable.rif,
+    nombres: responsable.nombres,
+    apellidos: responsable.apellidos,
+    creado: responsable.creado,
+    modificado: responsable.modificado,
   };

@@ -24,7 +24,7 @@
     <ng-container matColumnDef="paisId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>País</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.paisId | denominacionPais | async }}
+        {{ row.pais }}
       </td>
     </ng-container>
     <!-- creado -->
@@ -59,4 +59,12 @@
       </td>
     </tr>
   </table>
+  <mat-paginator
+    *ngIf="activarPaginacion"
+    [length]="dataSource.data.length"
+    [pageSize]="itemsPorPagina"
+    [showFirstLastButtons]="mostrarBotonesInicioFinal"
+    [pageSizeOptions]="opcionesPaginacion"
+    [hidePageSize]="!mostrarOpcionesPaginacion">
+  </mat-paginator>
 </mat-card>

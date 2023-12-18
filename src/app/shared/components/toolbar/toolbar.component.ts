@@ -31,6 +31,7 @@ export class ToolbarComponent implements OnInit {
   @Input() mostrarIrAtras: boolean = true;
   @Input() mostrarIrAlInicio: boolean = true;
   @Input() mostrarSalir: boolean = true;
+  @Input() mostrarEjecutar: boolean = false;
   @Input() toolTipPersonalizado: string;
 
   @Input() desabilitarBuscar: boolean = false;
@@ -42,6 +43,7 @@ export class ToolbarComponent implements OnInit {
   @Input() desabilitarIrAtras: boolean = false;
   @Input() desabilitarIrAlInicio: boolean = false;
   @Input() desabilitarSalir: boolean = false;
+  @Input() desabilitarEjecutar: boolean = false;
 
   @Output() buscar = new EventEmitter();
   @Output() importar = new EventEmitter();
@@ -52,6 +54,7 @@ export class ToolbarComponent implements OnInit {
   @Output() irAtras = new EventEmitter();
   @Output() irAlInicio = new EventEmitter();
   @Output() salir = new EventEmitter();
+  @Output() ejecutar = new EventEmitter();
 
   offset: number = 0;
 

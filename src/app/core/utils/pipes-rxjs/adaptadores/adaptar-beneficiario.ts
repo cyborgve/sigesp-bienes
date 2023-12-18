@@ -8,11 +8,11 @@ export const adaptarBeneficiarios = () =>
 
 const adaptar = (beneficiario: any) =>
   <Beneficiario>{
-    empresaId: Number(beneficiario.id_empresa),
-    id: Number(beneficiario.id_proveedor),
-    cedula: beneficiario.nacpro + '-' + beneficiario.cedben,
-    rif: beneficiario.rifppro,
-    nombre: beneficiario.nompro,
-    creado: new Date(),
-    modificado: new Date(),
+    empresaId: Number(beneficiario.empresa_id),
+    id: Number(beneficiario.id),
+    cedula: beneficiario.cedula,
+    rif: beneficiario.rif,
+    nombre: beneficiario.nombre,
+    creado: beneficiario.creado,
+    modificado: beneficiario.modificado,
   };

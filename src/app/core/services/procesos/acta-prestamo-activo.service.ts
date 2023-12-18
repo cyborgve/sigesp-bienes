@@ -1,4 +1,4 @@
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { END_POINTS } from '@core/constants/end-points';

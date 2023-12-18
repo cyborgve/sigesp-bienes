@@ -19,20 +19,21 @@
 
 <!-- contenido -->
 <ng-template #contenido>
-  <section class="contenedor" cdkDropListGroup>
+  <section class="contenido" cdkDropListGroup>
     <mat-card class="disponibles mat-elevation-z2">
       <mat-card-title class="titulo-propiedades"
         >Propiedades disponibles</mat-card-title
       >
-      <article class="caja">
+      <article class="propiedades">
         <mat-chip-list
           cdkDropList
           [cdkDropListData]="propiedadesDisponibles"
-          (cdkDropListDropped)="soltar($event)">
+          (cdkDropListDropped)="accionSoltar.emit($event)">
           <mat-chip
             cdkDrag
             *ngFor="let propiedad of propiedadesDisponibles"
             class="propiedad"
+            (dblclick)="accionAgregar.emit(propiedad)"
             [color]="propiedad.color"
             selected>
             {{ propiedad.nombre }}
@@ -44,15 +45,16 @@
       <mat-card-title class="titulo-propiedades"
         >Propiedades seleccionadas</mat-card-title
       >
-      <article class="caja">
+      <article class="propiedades">
         <mat-chip-list
           cdkDropList
           [cdkDropListData]="propiedadesSeleccionadas"
-          (cdkDropListDropped)="soltar($event)">
+          (cdkDropListDropped)="accionSoltar.emit($event)">
           <mat-chip
             cdkDrag
             *ngFor="let propiedad of propiedadesSeleccionadas"
             class="propiedad"
+            (dblclick)="accionEliminar.emit(propiedad)"
             [color]="propiedad.color"
             selected>
             {{ propiedad.nombre }}

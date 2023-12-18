@@ -16,6 +16,10 @@ export class FiltroTipoUsoComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ tipoUso: 0 });
+  }
+
   buscarTipoUso() {
     let dialog = this._dialog.open(BuscadorTipoUsoComponent, {
       width: '85%',

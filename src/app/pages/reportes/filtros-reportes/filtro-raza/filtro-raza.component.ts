@@ -16,6 +16,10 @@ export class FiltroRazaComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ raza: 0 });
+  }
+
   buscarRaza() {
     let dialog = this._dialog.open(BuscadorRazaComponent, {
       width: '85%',

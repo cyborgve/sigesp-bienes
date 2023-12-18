@@ -39,9 +39,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BuscadorRotulacionModule } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.module';
-import { BuscadorPlantillaDepreciacionModule } from '@pages/definiciones/plantillas-depreciacion/buscador-plantilla-depreciacion/buscador-plantilla-depreciacion.module';
 import { BuscadorUnidadAdministrativaModule } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.module';
+import { BuscadorPlantillaIntegracionModule } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.module';
+import { BuscadorCausaMovimientoModule } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.module';
+import { ActivoIntegracionComponent } from './activo-integracion/activo-integracion.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/busca
     ActivoDepreciacionComponent,
     ActivoDetallesComponent,
     ActivoUbicacionComponent,
+    ActivoIntegracionComponent,
   ],
   imports: [
     CommonModule,
@@ -83,9 +86,10 @@ import { BuscadorTipoAnimalModule } from '@pages/definiciones/tipos-animal/busca
     BuscadorSeguroModule,
     BuscadorRazaModule,
     BuscadorRotulacionModule,
-    BuscadorPlantillaDepreciacionModule,
     BuscadorUnidadAdministrativaModule,
     BuscadorCatalogoGeneralModule,
+    BuscadorPlantillaIntegracionModule,
+    BuscadorCausaMovimientoModule,
   ],
 })
 export class SingularActivoModule {}

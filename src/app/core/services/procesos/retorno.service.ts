@@ -71,7 +71,7 @@ export class RetornoService extends GenericService<Retorno> {
           })
         );
       }),
-      ejecutarRetorno(),
+      ejecutarRetorno(this),
       abrirReporteProceso(this._pdf, 'RETORNO')
     );
   }
@@ -81,7 +81,7 @@ export class RetornoService extends GenericService<Retorno> {
       switchMap(retorno =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? retorno : eliminada)),
-          reversarRetorno(),
+          reversarRetorno(this),
           map(retorno => !!retorno)
         )
       )

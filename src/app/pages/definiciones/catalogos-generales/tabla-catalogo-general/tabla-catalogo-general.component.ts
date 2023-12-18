@@ -1,6 +1,5 @@
-import { catalogoOrdenadoPorCuentas } from '@core/utils/pipes-rxjs/operadores/catalogo-ordenado-por-cuentas';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
-import { first, tap, filter, switchMap, take, map } from 'rxjs/operators';
+import { tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   AfterViewInit,
@@ -22,6 +21,10 @@ import { CatalogoGeneralService } from '@core/services/definiciones/catalogo-gen
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { filtroArranque } from '@core/utils/pipes-rxjs/operadores/filtro-inicial';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
+import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
+import { catalogoOrdenadoPorCuentas } from '@core/utils/pipes-rxjs/operadores/catalogo-ordenado-por-cuentas';
 
 @Component({
   selector: 'app-tabla-catalogo-general',
@@ -44,36 +47,64 @@ export class TablaCatalogoGeneralComponent
   private urlSingular = this.urlPlural + '/catalogo-general';
   private urlSingularId = (id: Id) =>
     this.urlPlural + '/catalogo-general/' + id;
+
   dataSource: MatTableDataSource<CatalogoGeneral> = new MatTableDataSource();
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _entidad: CatalogoGeneralService,
     private _location: Location,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._entidad
-      .buscarTodos()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        catalogoOrdenadoPorCuentas(),
-        pipeFromArray(this.filtros),
-        tap((entidades: CatalogoGeneral[]) => {
-          this.dataSource = new MatTableDataSource(entidades);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        }),
-        map(catalogos =>
-          catalogos.sort((a, b) =>
-            a.catalogoCuentas > b.catalogoCuentas ? 1 : -1
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            catalogoOrdenadoPorCuentas(),
+            pipeFromArray(this.filtros),
+            tap((entidades: CatalogoGeneral[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
           )
         ),
-        first()
+        take(1)
       )
       .subscribe();
   }

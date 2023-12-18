@@ -37,8 +37,8 @@
       <mat-form-field appearance="fill" class="fechas">
         <mat-label>Fechas seleccionadas</mat-label>
         <mat-date-range-input [rangePicker]="rangoPersPicker">
-          <input matStartDate formControlName="fechaInicio" readonly="true" />
-          <input matEndDate formControlName="fechaFin" readonly="true" />
+          <input matStartDate formControlName="fechaInicio" readonly />
+          <input matEndDate formControlName="fechaFin" readonly />
         </mat-date-range-input>
         <mat-datepicker-toggle
           matSuffix
@@ -60,7 +60,7 @@
             type="text"
             matInput
             formControlName="fechaReferencia"
-            readonly="true"
+            readonly
             value="Fecha de creación" />
         </ng-template>
       </mat-form-field>

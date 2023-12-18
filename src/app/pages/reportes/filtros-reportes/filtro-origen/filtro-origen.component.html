@@ -24,10 +24,18 @@
         matInput
         type="text"
         formControlName="origen"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.origen | denominacionOrigen | async | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.origen !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarOrigen()">
         <mat-icon>search</mat-icon>
       </button>

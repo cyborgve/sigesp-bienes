@@ -24,10 +24,18 @@
         matInput
         type="text"
         formControlName="sede"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.sede | denominacionSede | async | corregirTodos
-        " />
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.sede !== 0"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
       <button type="button" mat-icon-button matSuffix (click)="buscarSede()">
         <mat-icon>search</mat-icon>
       </button>

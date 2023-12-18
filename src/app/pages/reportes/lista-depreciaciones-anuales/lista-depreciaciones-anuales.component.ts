@@ -1,4 +1,4 @@
-import { ordenarDetallesDepreciacionPorFecha } from '@core/utils/pipes-rxjs/operadores/ordenar-detalles-depreciacion-fecha';
+import { ordenarActivoListaDepreciacionPorFecha } from '@core/utils/pipes-rxjs/operadores/ordenar-detalles-depreciacion-fecha';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +12,6 @@ import { DepreciacionDetalleService } from '@core/services/procesos/depreciacion
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { filtrarDepreciacionesAnuales } from '@core/utils/pipes-rxjs/operadores/filtrar-depreciaciones-anuales';
 import { filtrarDepreciacionesAnualesPorRangoDeFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-depreciaciones-por-fecha';
-import { transformarActivoListaDepreciacion } from '@core/utils/pipes-rxjs/transformacion/transformar-activo-lista-depreciacion';
 import { Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
@@ -40,9 +39,6 @@ export class ListaDepreciacionesAnualesComponent
   constructor(
     private _formBuilder: FormBuilder,
     private _depreciacion: DepreciacionService,
-    private _depreciacionDetalle: DepreciacionDetalleService,
-    private _activo: ActivoService,
-    private _moneda: MonedaService,
     private _xlsx: XLSXService,
     private _configuracion: ConfiguracionService
   ) {
@@ -78,17 +74,12 @@ export class ListaDepreciacionesAnualesComponent
   }
 
   private recargarDatos() {
-    this._depreciacionDetalle
-      .buscarTodos()
+    this._depreciacion
+      .buscarTodosMensuales()
       .pipe(
         filtrarDepreciacionesAnuales(),
         filtrarDepreciacionesAnualesPorRangoDeFecha(this.formularioRangoFechas),
-        ordenarDetallesDepreciacionPorFecha(),
-        transformarActivoListaDepreciacion(
-          this._depreciacion,
-          this._activo,
-          this._moneda
-        ),
+        ordenarActivoListaDepreciacionPorFecha(),
         tap(activos => (this.dataSource = new MatTableDataSource(activos))),
         take(1)
       )
@@ -96,9 +87,9 @@ export class ListaDepreciacionesAnualesComponent
   }
 
   guardar() {
-    this._xlsx
-      .listaDepreciacionesAnualesMensuales(this.dataSource.data, 'anuales')
-      .pipe(take(1))
-      .subscribe();
+    this._xlsx.listaDepreciacionesAnualesMensuales(
+      this.dataSource.data,
+      'anuales'
+    );
   }
 }

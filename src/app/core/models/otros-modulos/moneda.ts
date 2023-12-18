@@ -1,11 +1,11 @@
-import { Basica } from '../auxiliares/basica';
+import { Id } from '@core/types/id';
 
-export interface Moneda extends Basica {
+export interface Moneda {
+  id: Id;
   codigo: string;
   denominacion: string;
   iso: string;
   simbolo: string;
-  separadorDecimal: string;
-  separadorMiles: string;
-  decimales: number;
+  creado: Date;
+  modificado: Date;
 }

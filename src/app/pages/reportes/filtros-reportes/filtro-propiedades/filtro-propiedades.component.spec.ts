@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PropiedadesActivoComponent } from './filtro-propiedades.component';
+import { FiltroPropiedadesComponent } from './filtro-propiedades.component';
 
-describe('PropiedadesActivoComponent', () => {
-  let component: PropiedadesActivoComponent;
-  let fixture: ComponentFixture<PropiedadesActivoComponent>;
+describe('FiltroPropiedadesComponent', () => {
+  let component: FiltroPropiedadesComponent;
+  let fixture: ComponentFixture<FiltroPropiedadesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PropiedadesActivoComponent],
+      declarations: [FiltroPropiedadesComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PropiedadesActivoComponent);
+    fixture = TestBed.createComponent(FiltroPropiedadesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

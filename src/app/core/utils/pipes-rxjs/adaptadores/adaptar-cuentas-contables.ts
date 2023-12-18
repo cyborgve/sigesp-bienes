@@ -8,10 +8,13 @@ export const adaptarCuentasContables = () =>
 
 const adaptar = (cuentaContable: any) =>
   <CuentaContable>{
-    empresaId: undefined,
-    id: cuentaContable.cuenta,
-    codigo: cuentaContable.cuenta,
+    empresaId: Number(cuentaContable.empresaId),
+    id: cuentaContable.id,
+    codigo: cuentaContable.id,
     denominacion: cuentaContable.denominacion,
-    creado: new Date(),
-    modificado: new Date(),
+    estatus: cuentaContable.estatus,
+    nivel: Number(cuentaContable.nivel),
+    referencia: cuentaContable.referencia,
+    creado: cuentaContable.creado,
+    modificado: cuentaContable.modificado,
   };

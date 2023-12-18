@@ -24,7 +24,7 @@
         matInput
         [matDatepicker]="inicioGarantiaPicker"
         formControlName="inicioGarantia"
-        readonly="true" />
+        readonly />
       <mat-datepicker-toggle
         matSuffix
         [for]="inicioGarantiaPicker"></mat-datepicker-toggle>
@@ -37,7 +37,7 @@
         matInput
         [matDatepicker]="finGarantiaPicker"
         formControlName="finGarantia"
-        readonly="true" />
+        readonly />
       <mat-datepicker-toggle
         matSuffix
         [for]="finGarantiaPicker"></mat-datepicker-toggle>
@@ -50,7 +50,7 @@
         type="text"
         matInput
         formControlName="origenId"
-        readonly="true"
+        readonly
         [value]="formulario.value.origenId | denominacionOrigen | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarOrigen()">
         <mat-icon>search</mat-icon>
@@ -78,7 +78,7 @@
         type="text"
         matInput
         formControlName="fuenteFinanciamiento"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.fuenteFinanciamiento
             | denominacionFuenteFinanciamiento
@@ -100,7 +100,7 @@
         type="text"
         matInput
         formControlName="claseId"
-        readonly="true"
+        readonly
         [value]="formulario.value.claseId | denominacionClase | async" />
       <button type="button" mat-icon-button matSuffix (click)="buscarClase()">
         <mat-icon>search</mat-icon>
@@ -118,12 +118,11 @@
         type="text"
         matInput
         formControlName="codigoCentroCostos"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.codigoCentroCostos
             | denominacionCentroCostos
             | async
-            | titlecase
             | corregirSeleccionar
         " />
       <button
@@ -183,7 +182,7 @@
           matInput
           [matDatepicker]="fechaRegistradoPicker"
           formControlName="fechaRegistrado"
-          readonly="true" />
+          readonly />
         <mat-datepicker-toggle
           matSuffix
           [for]="fechaRegistradoPicker"></mat-datepicker-toggle>
@@ -223,7 +222,7 @@
           <input
             type="text"
             matInput
-            readonly="true"
+            readonly
             [value]="
               formulario.value.sedeUbicacionId | denominacionSede | async
             " />
@@ -285,7 +284,7 @@
           type="text"
           matInput
           formControlName="tipoUsoId"
-          readonly="true"
+          readonly
           [value]="formulario.value.tipoUsoId | denominacionTipoUso | async" />
         <button
           type="button"
@@ -326,7 +325,7 @@
           type="text"
           matInput
           formControlName="tipoSemovienteId"
-          readonly="true"
+          readonly
           [value]="
             formulario.value.tipoSemovienteId
               | denominacionTipoSemoviente
@@ -359,7 +358,7 @@
           type="text"
           matInput
           formControlName="propositoSemovienteId"
-          readonly="true"
+          readonly
           [value]="
             formulario.value.propositoSemovienteId
               | denominacionPropositoSemoviente
@@ -402,7 +401,7 @@
           type="text"
           matInput
           formControlName="tipoAnimalId"
-          readonly="true"
+          readonly
           [value]="
             formulario.value.tipoAnimalId | denominacionTipoAnimal | async
           " />
@@ -421,7 +420,7 @@
           matInput
           [matDatepicker]="fechaNacimientoAnimalPicker"
           formControlName="fechaNacimientoAnimal"
-          readonly="true" />
+          readonly />
         <mat-datepicker-toggle
           matSuffix
           [for]="fechaNacimientoAnimalPicker"></mat-datepicker-toggle>
@@ -434,7 +433,7 @@
           type="text"
           matInput
           formControlName="razaId"
-          readonly="true"
+          readonly
           [value]="formulario.value.razaId | denominacionRaza | async" />
         <button type="button" mat-icon-button matSuffix (click)="buscarRaza()">
           <mat-icon>search</mat-icon>

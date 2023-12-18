@@ -2,7 +2,7 @@ import { Retorno } from '@core/models/procesos/retorno';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Id } from '@core/types/id';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { EmpresaService } from '../otros-modulos/empresa.service';
@@ -105,7 +105,7 @@ export class InformacionProcesoService {
   private responsable = (responsable: Id) =>
     this._responsable
       .buscarPorId(responsable)
-      .pipe(map(resp => `${resp.cedula} - ${resp.nombre} ${resp.apellido}`));
+      .pipe(map(resp => `${resp.cedula} - ${resp.nombres} ${resp.apellidos}`));
 
   private unidadAdministrativa = (unidadAdministrativa: Id) =>
     this.denominacionEntidad(this._unidadAdministrativa, unidadAdministrativa);

@@ -1,13 +1,23 @@
 <form [formGroup]="formulario">
   <section class="contenido">
+    <h3 *ngIf="formulario.value.referenciaEstado">
+      Estado Temporal:
+      {{ formulario.value.referenciaEstado | corregirReferenciaEstado }}
+    </h3>
     <!-- unidad administrativa id -->
-    <mat-form-field appearance="fill" class="unidadAdministrativaId">
+    <mat-form-field
+      appearance="fill"
+      [ngClass]="
+        modoFormulario === 'CREANDO'
+          ? 'unidadAdministrativaIdCreando'
+          : 'unidadAdministrativaId'
+      ">
       <mat-label>Unidad administrativa</mat-label>
       <input
         type="text"
         matInput
         formControlName="unidadAdministrativaId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.unidadAdministrativaId
             | denominacionUnidadAdministrativa
@@ -29,21 +39,26 @@
         matInput
         [matDatepicker]="fechaIngresoPicker"
         formControlName="fechaIngreso"
-        readonly="true" />
+        readonly />
       <mat-datepicker-toggle
         *ngIf="modoFormulario === 'CREANDO'"
         matSuffix
         [for]="fechaIngresoPicker"></mat-datepicker-toggle>
       <mat-datepicker #fechaIngresoPicker></mat-datepicker>
     </mat-form-field>
+    <!-- boton de generacion -->
+    <ng-container
+      *ngTemplateOutlet="templateGenerarIncorporacion"></ng-container>
     <!-- sede id -->
-    <mat-form-field appearance="fill" class="sedeId">
+    <mat-form-field
+      appearance="fill"
+      [ngClass]="modoFormulario === 'CREANDO' ? 'sedeIdCreando' : 'sedeId'">
       <mat-label>Sede</mat-label>
       <input
         type="text"
         matInput
         formControlName="sedeId"
-        readonly="true"
+        readonly
         [value]="formulario.value.sedeId | denominacionSede | async" />
       <button
         *ngIf="modoFormulario === 'CREANDO'"
@@ -54,6 +69,8 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
+    <!-- causa movimiento -->
+    <ng-container *ngTemplateOutlet="causaMovimiento"></ng-container>
     <!-- responsable id -->
     <mat-form-field appearance="fill" class="responsableId">
       <mat-label>Responsable</mat-label>
@@ -61,21 +78,13 @@
         type="text"
         matInput
         formControlName="responsableId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.responsableId
             | denominacionResponsable
             | async
             | corregirSeleccionar
         " />
-      <button
-        *ngIf="modoFormulario === 'CREANDO'"
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="buscarResponsable()">
-        <mat-icon>search</mat-icon>
-      </button>
     </mat-form-field>
     <!-- responsable uso id -->
     <mat-form-field appearance="fill" class="responsableUsoId">
@@ -84,7 +93,7 @@
         type="text"
         matInput
         formControlName="responsableUsoId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.responsableUsoId
             | denominacionResponsable
@@ -107,12 +116,11 @@
         type="text"
         matInput
         formControlName="estadoUsoId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.estadoUsoId | denominacionEstadoUso | async
         " />
       <button
-        *ngIf="modoFormulario === 'CREANDO'"
         type="button"
         mat-icon-button
         matSuffix
@@ -127,14 +135,13 @@
         type="text"
         matInput
         formControlName="estadoConservacionId"
-        readonly="true"
+        readonly
         [value]="
           formulario.value.estadoConservacionId
             | denominacionEstadoConservacion
             | async
         " />
       <button
-        *ngIf="modoFormulario === 'CREANDO'"
         type="button"
         mat-icon-button
         matSuffix
@@ -152,3 +159,50 @@
     </mat-form-field>
   </section>
 </form>
+
+<ng-template #templateGenerarIncorporacion>
+  <section class="generarIncorporacion" *ngIf="modoFormulario === 'CREANDO'">
+    <form [formGroup]="formularioEspecial">
+      <mat-slide-toggle formControlName="generarIncorporacion"
+        >Generar incorporación al guardar</mat-slide-toggle
+      >
+      <p
+        class="explicacion"
+        *ngIf="
+          !activoIncorporado() &&
+          (formularioEspecial.value.generarIncorporacion === true ||
+            formularioEspecial.value.generarIncorporacion === 1)
+        ">
+        Es necesario que esten seleccionados los campos: unidad administrativa,
+        sede, y responsable de uso
+      </p>
+    </form>
+  </section>
+</ng-template>
+
+<ng-template #causaMovimiento>
+  <section class="causaMovimiento" *ngIf="modoFormulario === 'CREANDO'">
+    <form [formGroup]="formularioEspecial">
+      <mat-form-field appearance="fill" class="causa">
+        <mat-label>Causa del Movimiento</mat-label>
+        <input
+          type="text"
+          matInput
+          readonly
+          formControlName="causaMovimiento"
+          [value]="
+            formularioEspecial.value.causaMovimiento
+              | denominacionCausaMovimiento
+              | async
+          " />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarCausaMovimiento()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </section>
+</ng-template>

@@ -16,6 +16,10 @@ export class FiltroTipoCoberturaComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ tipoCobertura: 0 });
+  }
+
   buscarTipoCobertura() {
     let dialog = this._dialog.open(BuscadorTipoCoberturaComponent, {
       width: '85%',

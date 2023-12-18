@@ -9,12 +9,15 @@ import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financiamiento';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, switchMap, take } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 import { adaptarFuentesFinanciamiento } from '@core/utils/pipes-rxjs/adaptadores/adaptar-fuente-financiamiento';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { FuenteFinanciamientoService } from '@core/services/otros-modulos/fuente-financiamiento.service';
+import { Configuracion } from '@core/models/definiciones/configuracion';
 
 const filtroInicial = () =>
   pipe(map((fuentes: FuenteFinanciamiento[]) => fuentes));
@@ -28,39 +31,68 @@ export class BuscadorFuenteFinanciamientoComponent
   implements TablaEntidad<FuenteFinanciamiento>, AfterViewInit
 {
   titulo = 'buscador de fuentes de financiamiento';
-  @ViewChild(MatSort) matSort: MatSort;
-  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() filtros = [filtroInicial()];
   ocultarNuevo = true;
   columnasVisibles = COLUMNAS_VISIBLES['FUENTES_FINANCIEMIENTO'];
   dataSource: MatTableDataSource<FuenteFinanciamiento> =
     new MatTableDataSource();
-  @Input() filtros = [filtroInicial()];
+  activarPaginacion: boolean = false;
+  opcionesPaginacion: number[] = [6];
+  mostrarBotonesInicioFinal: boolean = true;
+  mostrarOpcionesPaginacion: boolean = true;
+  itemsPorPagina = 6;
 
   constructor(
     private _dialogRef: MatDialogRef<BuscadorFuenteFinanciamientoComponent>,
-    private _sigesp: SigespService,
+    private _entidad: FuenteFinanciamientoService,
     private _location: Location,
-    private _router: Router
+    private _router: Router,
+    private _configuracion: ConfiguracionService
   ) {}
 
   ngAfterViewInit(): void {
+    this._configuracion
+      .buscarPorId(1)
+      .pipe(
+        tap(configuracion => this.ajustarConfiguracion(configuracion)),
+        take(1)
+      )
+      .subscribe();
     this.recargarDatos();
   }
 
+  private ajustarConfiguracion(configuracion: Configuracion) {
+    this.activarPaginacion =
+      configuracion.activarPaginacion === 1 ? true : false;
+    this.opcionesPaginacion = configuracion.opcionesPaginacion;
+    this.mostrarBotonesInicioFinal =
+      configuracion.mostrarBotonesInicioFinal === 1 ? true : false;
+    this.mostrarOpcionesPaginacion =
+      configuracion.mostrarOpcionesPaginacion === 1 ? true : false;
+    this.itemsPorPagina = configuracion.opcionesPaginacion[0];
+  }
+
   private recargarDatos() {
-    this._sigesp
-      .getFuenteFinanciamiento()
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        adaptarFuentesFinanciamiento(),
-        filtrarValoresIniciales(),
-        ordenarPorCodigo(),
-        pipeFromArray(this.filtros),
-        tap(cuentas => {
-          this.dataSource = new MatTableDataSource(cuentas);
-          this.dataSource.sort = this.matSort;
-          this.dataSource.paginator = this.matPaginator;
-        }),
-        first()
+        switchMap(configuracion =>
+          this._entidad.buscarTodos().pipe(
+            ordenarPorCodigo(),
+            pipeFromArray(this.filtros),
+            tap((entidades: FuenteFinanciamiento[]) => {
+              this.dataSource = new MatTableDataSource(entidades);
+              this.dataSource.sort = this.sort;
+              if (configuracion.activarPaginacion) {
+                this.ajustarConfiguracion(configuracion);
+                this.dataSource.paginator = this.paginator;
+              }
+            })
+          )
+        ),
+        take(1)
       )
       .subscribe();
   }

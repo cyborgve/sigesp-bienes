@@ -1,9 +1,11 @@
+import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';
+
 export const normalizarMetodoDepreciacion = (metodoDepreciaicion: string) => {
   let metodos = {
-    LIN: 'Linea Recta',
-    SUM: 'Suma de Dígitos',
-    SAL: 'Saldo Decreciente',
-    UNI: 'Unidades de Producción',
+    LIN: 'LINEA RECTA',
+    SUM: 'SUMA DE DIGITOS',
+    SAL: 'SALDO DECRECIENTE',
+    UNI: 'UNIDADES DE PRODUCCION',
   };
-  return metodos[metodoDepreciaicion];
+  return metodos[metodoDepreciaicion] as MetodoDepreciacion;
 };

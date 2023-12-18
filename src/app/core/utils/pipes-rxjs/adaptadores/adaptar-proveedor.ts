@@ -8,10 +8,10 @@ export const adaptarProveedores = () =>
 
 const adaptar = proveedor =>
   <Proveedor>{
-    empresaId: Number(proveedor.id_empresa),
-    id: Number(proveedor.id_proveedor),
-    rif: proveedor.rifpro,
-    denominacion: proveedor.nompro,
-    creado: new Date(),
-    modificado: new Date(),
+    empresaId: Number(proveedor.empresaId),
+    id: Number(proveedor.id),
+    rif: proveedor.rif,
+    denominacion: proveedor.nombre,
+    creado: proveedor.creado,
+    modificado: proveedor.modificado,
   };

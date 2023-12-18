@@ -1,4 +1,3 @@
-import { Responsable } from '@core/models/otros-modulos/responsable';
 import { Activo } from '@core/models/definiciones/activo';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -30,6 +29,7 @@ import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
+import { filtrarActivosReferenciaEstadoDisponible } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-referencia-estado-disponible.ts';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -312,6 +312,7 @@ export class SingularActaPrestamoComponent
       data: {
         filtros: [
           filtrarActivosIncorporados(this._activoUbicacion),
+          filtrarActivosReferenciaEstadoDisponible(this._activoUbicacion),
           filtrarActivosPorUnidadAdministrativa(
             this.formulario.value.unidadAdministrativaCedente,
             this._activoUbicacion

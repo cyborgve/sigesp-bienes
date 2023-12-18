@@ -7,20 +7,18 @@ export const filtrarActivosPorFecha = (formularioRangoFechas: FormGroup) =>
   pipe(
     map((activos: Activo[]) =>
       activos.filter(activo => {
-        let fechaInicio = formularioRangoFechas.value.fechaInicio
-          ? moment(formularioRangoFechas.value.fechaInicio)
+        let valores = formularioRangoFechas.value;
+        let fechaInicio = valores.fechaInicio
+          ? moment(valores.fechaInicio)
           : moment(new Date(1));
-        let fechaFin = formularioRangoFechas.value.fechaFin
-          ? moment(formularioRangoFechas.value.fechaFin)
+        let fechaFin = valores.fechaFin
+          ? moment(valores.fechaFin)
           : moment(new Date());
-        if (
-          formularioRangoFechas.value.rango === 'HOY' ||
-          formularioRangoFechas.value.rango === 'AYER'
-        ) {
+        if (valores.rango === 'HOY' || valores.rango === 'AYER') {
           fechaInicio = fechaInicio.startOf('day');
           fechaFin = fechaInicio.endOf('day');
         }
-        return formularioRangoFechas.value.fechaReferencia === 'CREADO'
+        return valores.fechaReferencia === 'CREADO'
           ? moment(activo.creado).isBetween(fechaInicio, fechaFin)
           : moment(activo.modificado).isBetween(fechaInicio, fechaFin);
       })

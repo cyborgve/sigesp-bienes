@@ -3,9 +3,9 @@ import { Activo } from '@core/models/definiciones/activo';
 
 export const convertirActivoProceso = (activo: Activo) => {
   return <ActivoProceso>{
-    empresaId: activo.empresaId ? activo.empresaId : undefined,
-    id: activo.id ? activo.id : undefined,
-    proceso: undefined,
+    empresaId: activo.empresaId ? activo.empresaId : 0,
+    id: activo.id ? activo.id : 0,
+    proceso: 0,
     activo: activo.id,
     tipoActivo: activo.tipoActivo,
     codigo: activo.codigo,

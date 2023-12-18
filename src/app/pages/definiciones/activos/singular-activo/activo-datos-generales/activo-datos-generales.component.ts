@@ -51,7 +51,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
     let soloCuentas = () =>
       pipe(
         map((cuentas: CatalogoGeneral[]) =>
-          cuentas.filter(cuenta => cuenta.estadoMovimiento === 'Cue')
+          cuentas.filter(cuenta => cuenta.estadoMovimiento === 'C')
         )
       );
     let dialog = this._dialog.open(BuscadorCatalogoGeneralComponent, {

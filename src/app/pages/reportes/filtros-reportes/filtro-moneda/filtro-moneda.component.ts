@@ -16,6 +16,10 @@ export class FiltroMonedaComponent {
 
   constructor(private _dialog: MatDialog) {}
 
+  reiniciar() {
+    this.formulario.patchValue({ moneda: '0' });
+  }
+
   buscarMoneda() {
     let dialog = this._dialog.open(BuscadorMonedaComponent, {
       width: '85%',
