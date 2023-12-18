@@ -15,7 +15,9 @@ export const ejecutarActaPrestamo = (
               actaPrestamo.unidadAdministrativaReceptora;
             activoUbicacion.responsableId =
               actaPrestamo.unidadReceptoraResponsable;
-            activoUbicacion.referenciaEstado = `ACTA DE PRÉSTAMO-${actaPrestamo.comprobante},${actaPrestamo.id}`;
+            activoUbicacion.referenciaEstado = `ACTA DE PRÉSTAMO-${actaPrestamo.comprobante.substring(
+              5
+            )},${actaPrestamo.id}`;
             return activoUbicacion;
           })
         )
