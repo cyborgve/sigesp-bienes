@@ -1,5 +1,9 @@
 <form [formGroup]="formulario">
   <section class="contenido">
+    <h3 *ngIf="formulario.value.referenciaEstado">
+      Estado Temporal:
+      {{ formulario.value.referenciaEstado | corregirReferenciaEstado }}
+    </h3>
     <!-- unidad administrativa id -->
     <mat-form-field
       appearance="fill"

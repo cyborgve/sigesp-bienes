@@ -168,6 +168,7 @@ export class SingularActivoComponent implements Entidad {
       descripcionEstadoConservacion: [undefined],
       responsableId: [undefined, Validators.required],
       responsableUsoId: [undefined, Validators.required],
+      referenciaEstado: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
@@ -319,6 +320,7 @@ export class SingularActivoComponent implements Entidad {
                 ubicacion.descripcionEstadoConservacion,
               responsableId: ubicacion.responsableId,
               responsableUsoId: ubicacion.responsableUsoId,
+              referenciaEstado: ubicacion.referenciaEstado,
               creado: ubicacion.creado,
               modificado: ubicacion.modificado,
             });
@@ -460,6 +462,7 @@ export class SingularActivoComponent implements Entidad {
               descripcionEstadoConservacion: '',
               responsableId: '---',
               responsableUsoId: '---',
+              referenciaEstado: undefined,
               creado: new Date(),
               modificado: new Date(),
             })
