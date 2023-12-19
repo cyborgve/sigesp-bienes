@@ -96,7 +96,7 @@ export class TablaIntegracionComponent
         tap(configuracion => {
           this.ajustarConfiguracion(configuracion);
           this.filtrosSinDecorar =
-            configuracion.decorarFiltros === 1 ? true : false;
+            configuracion.decorarFiltros === 1 ? false : true;
         }),
         take(1)
       )

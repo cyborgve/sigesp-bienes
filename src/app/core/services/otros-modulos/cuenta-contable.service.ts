@@ -1,4 +1,4 @@
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -9,7 +9,6 @@ import {
   adaptarCuentaContable,
   adaptarCuentasContables,
 } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuentas-contables';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +23,7 @@ export class CuentaContableService {
     return this._http.get<CuentaContable[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
       adaptarCuentasContables(),
-      map(cuentas => cuentas.filter(cuenta => cuenta.nivel > 5))
+      map(cuentas => cuentas.filter(cuenta => cuenta.estatus === 'C'))
     );
   }
 
