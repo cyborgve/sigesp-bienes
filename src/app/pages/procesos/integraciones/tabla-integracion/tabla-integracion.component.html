@@ -10,19 +10,19 @@
   <section class="filtros">
     <app-filtro-rango-fechas
       [formulario]="formularioRangoFechas"
-      [sinDecorar]="filtrosSinDecorar"></app-filtro-rango-fechas>
+      [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-rango-fechas>
     <app-filtro-tipo-proceso
       [formulario]="formulario"
-      [sinDecorar]="filtrosSinDecorar"></app-filtro-tipo-proceso>
+      [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-tipo-proceso>
     <app-filtro-registrados
       [formulario]="formulario"
-      [sinDecorar]="filtrosSinDecorar"></app-filtro-registrados>
+      [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-registrados>
     <app-filtro-aprobados
       [formulario]="formulario"
-      [sinDecorar]="filtrosSinDecorar"></app-filtro-aprobados>
+      [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-aprobados>
     <app-filtro-integrados
       [formulario]="formulario"
-      [sinDecorar]="filtrosSinDecorar"></app-filtro-integrados>
+      [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-integrados>
   </section>
 </mat-card>
 
@@ -111,7 +111,7 @@
       <td class="mat-cell" colspan="4">
         No hay datos para mostrar que concidan con la busqueda "{{
           dataSource.filter
-        }}"
+        }}, ni con los filtros seleccionados"
       </td>
     </tr>
   </table>

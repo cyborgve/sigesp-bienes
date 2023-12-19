@@ -171,10 +171,11 @@
         *ngIf="
           !activoIncorporado() &&
           (formularioEspecial.value.generarIncorporacion === true ||
-            formularioEspecial.value.generarIncorporacion === 1)
+            formularioEspecial.value.generarIncorporacion === 1) &&
+          formularioEspecial.value.causaMovimiento === 0
         ">
         Es necesario que esten seleccionados los campos: unidad administrativa,
-        sede, y responsable de uso
+        sede, causa de movimiento y responsable de uso
       </p>
     </form>
   </section>

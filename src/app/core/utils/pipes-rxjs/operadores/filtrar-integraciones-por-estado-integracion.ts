@@ -8,9 +8,9 @@ export const filtrarIntegracionesPorEstadoIntegracion = (
   pipe(
     map((integraciones: Integracion[]) => {
       if (estadoAprobacion === 'INTEGRADOS')
-        return integraciones.filter(integracion => integracion.aprobado);
+        return integraciones.filter(integracion => integracion.aprobado == 1);
       if (estadoAprobacion === 'NO INTEGRADOS')
-        return integraciones.filter(integracion => !integracion.aprobado);
+        return integraciones.filter(integracion => integracion.aprobado == 0);
       return integraciones;
     })
   );
