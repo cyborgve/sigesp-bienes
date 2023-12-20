@@ -78,6 +78,10 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => this.recargarDatos());
   };
 
+  botonEjecutarHabilitado = () =>
+    this.dataSource.data.filter(integracion => integracion.registrado === 0)
+      .length > 0;
+
   irAtras = () => {
     this._location.back();
   };
