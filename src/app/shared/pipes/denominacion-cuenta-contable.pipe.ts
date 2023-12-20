@@ -1,21 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { CuentaContableService } from '@core/services/otros-modulos/cuenta-contable.service';
+import { Id } from '@core/types/id';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SigespService } from 'sigesp';
 
 @Pipe({
   name: 'denominacionCuentaContable',
 })
 export class DenominacionCuentaContablePipe implements PipeTransform {
-  transform(value: string): Observable<string> {
-    if (value === null || value === undefined) return of('');
-    if (value === '--') return of('--');
-    if (value === '---') return of('---');
-    if (value === 'Todos') return of('Todos');
-    return this._sigesp.getCuentasInstitucionales().pipe(
-      map(cuentas => cuentas.find(cta => cta.cuenta === value)),
-      map(cuenta => cuenta['denominacion'])
-    );
+  transform(id: Id): Observable<string> {
+    if (id === null || id === undefined) return of('');
+    if (id === '--') return of('--');
+    if (id === '---') return of('---');
+    if (id === 'Todos') return of('Todos');
+    return this._cuentaContable
+      .buscarPorId(id)
+      .pipe(map(cuenta => `${cuenta.id}-${cuenta.denominacion}`));
   }
-  constructor(private _sigesp: SigespService) {}
+  constructor(private _cuentaContable: CuentaContableService) {}
 }

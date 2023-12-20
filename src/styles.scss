@@ -141,7 +141,7 @@ $mat-myapp-warn: (
 
 $primary: mat-palette($mat-myapp-primary);
 $secondary: mat-palette($mat-myapp-secondary);
-$accent: mat-palette($mat-light-blue, 700);
+$accent: mat-palette($primary, A100);
 $warn: mat-palette($mat-red, 900);
 
 $theme: mat-light-theme($primary, $accent, $warn);

@@ -119,23 +119,7 @@
       <input type="number" matInput formControlName="valorRescate" />
     </mat-form-field>
     <!-- valor rescate moneda id  -->
-    <mat-form-field appearance="fill" class="monedaValorRescate">
-      <mat-label>Moneda</mat-label>
-      <input
-        type="text"
-        matInput
-        formControlName="monedaValorRescate"
-        readonly
-        [value]="
-          formulario.value.monedaValorRescate
-            | denominacionMoneda
-            | async
-            | corregirSeleccionar
-        " />
-      <button type="button" mat-icon-button matSuffix (click)="buscarMoneda()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+    <ng-container *ngTemplateOutlet="moneda"></ng-container>
   </section>
 </form>
 
@@ -147,4 +131,25 @@
       >
     </section>
   </form>
+</ng-template>
+
+<ng-template #moneda>
+  <section class="monedaValorRescate">
+    <form formGroup="formularioDatosGenerales">
+      <mat-form-field appearance="fill">
+        <mat-label>Moneda</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="monedaId"
+          readonly
+          [value]="
+            formularioDatosGenerales.value.monedaId
+              | denominacionMoneda
+              | async
+              | corregirSeleccionar
+          " />
+      </mat-form-field>
+    </form>
+  </section>
 </ng-template>

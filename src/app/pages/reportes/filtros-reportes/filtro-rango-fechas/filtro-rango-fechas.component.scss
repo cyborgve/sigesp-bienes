@@ -3,7 +3,7 @@ mat-datepicker-toggle {
 }
 
 .rangoFechas {
-  @apply w-full grid grid-cols-10 gap-x-2;
+  @apply w-full grid grid-cols-12 gap-x-2;
 }
 
 .rango {
@@ -11,9 +11,9 @@ mat-datepicker-toggle {
 }
 
 .fechas {
-  @apply col-span-3;
+  @apply col-span-4;
 }
 
 .fechaReferencia {
-  @apply col-span-2;
+  @apply col-span-3;
 }

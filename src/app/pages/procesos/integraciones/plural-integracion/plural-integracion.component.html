@@ -1,9 +1,17 @@
 <section class="contenedor-singular">
   <app-tabla-integracion
     [titulo]="titulo"
-    [ocultarNuevo]="true"></app-tabla-integracion>
+    [ocultarNuevo]="true"
+    [dataSource]="dataSource"
+    [configuracion]="configuracion"
+    [formulario]="formulario"
+    [formularioRangoFechas]="formularioRangoFechas"></app-tabla-integracion>
 </section>
 <app-toolbar
+  (ejecutar)="ejecutar()"
+  (irAtras)="irAtras()"
+  (irAlInicio)="irAlInicio()"
+  [desabilitarEjecutar]="!botonEjecutarHabilitado()"
   [mostrarBorrar]="false"
   [mostrarBuscar]="false"
   [mostrarExportar]="false"

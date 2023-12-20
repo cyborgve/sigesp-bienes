@@ -2,7 +2,10 @@
   @apply col-span-1;
 }
 
-.monedaValorRescate,
+.monedaValorRescate {
+  @apply col-span-2;
+}
+
 .valorRescate,
 .unidadVidaUtil,
 .metodoDepreciacion {
@@ -31,7 +34,7 @@
 }
 
 .noDepreciable-sub {
-  @apply text-red-700 text-lg font-medium pl-2;
+  @apply text-lg font-medium pl-2;
 }
 
 .cuentaContableDebe {

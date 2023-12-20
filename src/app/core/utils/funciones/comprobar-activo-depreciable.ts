@@ -11,7 +11,7 @@ export const comprobarActivoDepreciable = (activo: Activo) => {
     depreciacion.cuentaContableDebe !== '---',
     depreciacion.cuentaContableHaber !== '---',
     depreciacion.depreciable !== 0,
-    depreciacion.valorRescate > 0,
+    depreciacion.valorRescate > -1,
     depreciacion.monedaValorRescate !== '---',
   ];
   return esDepreciable.every(valor => !!valor);
