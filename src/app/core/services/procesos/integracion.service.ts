@@ -13,6 +13,7 @@ import {
   adaptarIntegracion,
   adaptarIntegraciones,
 } from '@core/utils/pipes-rxjs/adaptadores/adaptar-integracion';
+import { TipoProceso } from '@core/types/tipo-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -73,13 +74,13 @@ export class IntegracionService extends GenericService<Integracion> {
     notificar?: boolean
   ): Observable<Integracion[]> {
     let guardarIntegraciones = integraciones
-      .filter(integracion => integracion.registrado == 0)
-      .map(integracion => {
-        integracion.aprobado = 0;
-        integracion.integrado = 0;
-        return integracion;
-      })
+      .filter(
+        integracion =>
+          integracion.registrado == 0 &&
+          (integracion.aprobado === 1 || integracion.integrado === 1)
+      )
       .map(integracion => this.guardar(integracion, undefined, false));
+    console.log(integraciones);
     return forkJoin(guardarIntegraciones).pipe(
       tap(integracionesGuardadas => {
         if (notificar) {
@@ -92,7 +93,13 @@ export class IntegracionService extends GenericService<Integracion> {
     );
   }
 
-  eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
+  eliminar(
+    id: Id,
+    tipoDato: string,
+    notificar?: boolean,
+    tipoProceso?: TipoProceso,
+    comprobante?: string
+  ): Observable<boolean> {
     return null;
   }
 }
