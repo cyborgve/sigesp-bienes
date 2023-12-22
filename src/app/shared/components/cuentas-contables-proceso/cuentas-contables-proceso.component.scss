@@ -20,7 +20,7 @@ th.mat-column-haber,
 td.mat-column-haber,
 th.mat-column-monto,
 td.mat-column-monto {
-  @apply w-32 text-right;
+  @apply w-72 text-right;
 }
 
 th.mat-column-denominacion,
@@ -30,5 +30,5 @@ td.mat-column-denominacion {
 
 th.mat-column-cuentaProceso,
 td.mat-column-cuentaProceso {
-  @apply w-fit text-left;
+  @apply w-48 text-left;
 }

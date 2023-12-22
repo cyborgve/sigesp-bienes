@@ -8,7 +8,8 @@
       color="primary"
       class="agregarCuentaContable"
       (click)="agregarCuentaContable.emit()"
-      [disabled]="agregarCuentaContableDeshabilitado">
+      [disabled]="agregarCuentaContableDeshabilitado"
+      *ngIf="agregarCuentaContableVisible">
       <mat-icon>add</mat-icon>
       Agregar cuenta contable
     </button>
@@ -29,21 +30,14 @@
     <ng-container matColumnDef="debe">
       <th mat-header-cell *matHeaderCellDef>Debe</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.debe }}
+        {{ (row.procedencia === 'D' ? row.monto : 0) | number : '1.2-2' }}
       </td>
     </ng-container>
     <!-- haber -->
     <ng-container matColumnDef="haber">
       <th mat-header-cell *matHeaderCellDef>Haber</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.haber }}
-      </td>
-    </ng-container>
-    <!-- monto -->
-    <ng-container matColumnDef="monto">
-      <th mat-header-cell *matHeaderCellDef>Monto</th>
-      <td mat-cell *matCellDef="let row">
-        {{ row.monto }}
+        {{ (row.procedencia === 'H' ? row.monto : 0) | number : '1.2-2' }}
       </td>
     </ng-container>
 

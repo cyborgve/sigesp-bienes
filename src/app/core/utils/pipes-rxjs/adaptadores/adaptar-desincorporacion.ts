@@ -18,6 +18,9 @@ const adaptar = (desincorporacion: any) =>
     cuentasContables: desincorporacion.cuentasContables
       ? desincorporacion.cuentasContables
       : [],
+    ubicaciones: desincorporacion.ubicaciones
+      ? desincorporacion.ubicaciones
+      : [],
     creado: desincorporacion.creado,
     modificado: desincorporacion.modificado,
   };
