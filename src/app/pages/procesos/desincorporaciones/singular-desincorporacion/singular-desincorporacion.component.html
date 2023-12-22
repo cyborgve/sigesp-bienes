@@ -74,9 +74,9 @@
   </section>
   <section class="contenedor-singular inferior">
     <app-cuentas-contables-proceso
-      (agregarCuentaContable)="agregarCuentaContable()"
       (removerCuentaContable)="removerCuentaContable($event)"
       [dataSource]="cuentasDataSource"
+      [agregarCuentaContableVisible]="false"
       [agregarCuentaContableDeshabilitado]="
         activosDataSource.data.length === 0
       "></app-cuentas-contables-proceso>

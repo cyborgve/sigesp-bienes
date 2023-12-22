@@ -20,6 +20,8 @@ import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-p
 import { PDFService } from '../auxiliares/pdf.service';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ejecutarDesincorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-desincorporacion';
+import { ActivoIntegracionService } from '../definiciones/activo-integracion.service';
+import { convertirDesincorporacionUbicacion } from '@core/utils/funciones/convertir-desincorporacion-ubicacion';
 
 @Injectable({
   providedIn: 'root',
@@ -75,6 +77,19 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
   ): Observable<Desincorporacion> {
     return super.guardar(entidad, tipoProceso, notificar).pipe(
       adaptarDesincorporacion(),
+      switchMap(desincorporacion => {
+        let buscarUbicaciones = desincorporacion.activos.map(activoProceso =>
+          this._activoUbicacion
+            .buscarPorActivo(activoProceso.activo)
+            .pipe(map(convertirDesincorporacionUbicacion))
+        );
+        return forkJoin(buscarUbicaciones).pipe(
+          map(ubicacionesEncontradas => {
+            desincorporacion.ubicaciones = ubicacionesEncontradas;
+            return desincorporacion;
+          })
+        );
+      }),
       switchMap(desincorporacion => {
         let guardarActivos = entidad.activos
           .map(activoProceso => {

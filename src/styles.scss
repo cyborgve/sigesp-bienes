@@ -197,7 +197,12 @@ td.mat-column-denominacion {
 
 th.mat-column-codigo,
 td.mat-column-codigo {
-  width: 12rem;
+  @apply w-28;
+}
+
+th.mat-column-cuentaContable,
+td.mat-column-cuentaContable {
+  @apply w-40;
 }
 
 th.mat-column-acciones-proceso,
@@ -214,7 +219,7 @@ td.mat-column-acciones {
 
 th.mat-column-creado,
 th.mat-column-modificado {
-  @apply w-48 pl-4;
+  @apply w-52 pl-4;
 }
 
 mat-datepicker-toggle {
