@@ -34,7 +34,7 @@ export abstract class GenericService<T extends Basica>
   buscarTodos(): Observable<T[]> {
     return this._http.get<T[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
-      map(resultado => resultado.map(entidad => normalizarObjeto(entidad))),
+      map(resultado => resultado.map(normalizarObjeto)),
       map(resultado => resultado as T[]),
       filtrarValoresIniciales(),
       ordenarPorId()
@@ -44,7 +44,7 @@ export abstract class GenericService<T extends Basica>
   buscarPorId(id: Id): Observable<T> {
     return this._http.get<T>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data[0]),
-      map(resultado => normalizarObjeto(resultado)),
+      map(normalizarObjeto),
       map(resultado => resultado as T)
     );
   }
@@ -56,7 +56,7 @@ export abstract class GenericService<T extends Basica>
   ): Observable<T> {
     return this._http.post<T>(this.apiUrl, entidad).pipe(
       map((resultado: any) => resultado.data[0]),
-      map(resultado => normalizarObjeto(resultado)),
+      map(normalizarObjeto),
       map(resultado => resultado),
       tap(resultado => {
         if (notificar) {

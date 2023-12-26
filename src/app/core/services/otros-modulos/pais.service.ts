@@ -23,7 +23,7 @@ export class PaisService {
   buscarTodos(): Observable<Pais[]> {
     return this._http.get<Pais[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarPaises()
     );
   }
@@ -31,7 +31,7 @@ export class PaisService {
   buscarPorId(id: Id): Observable<Pais> {
     return this._http.get<Pais>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       map(data => data[0]),
       adaptarPais()
     );

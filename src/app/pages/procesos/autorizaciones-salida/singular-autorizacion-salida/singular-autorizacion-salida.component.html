@@ -75,6 +75,7 @@
 <!-- tabla activos -->
 <section class="contenedor-singular inferior">
   <app-activos-proceso
+    [ocultarAgregarActivo]="false"
     [dataSource]="dataSource"
     [agregarActivoDeshabilitado]="formularioInvalido()"
     (agregarActivo)="agregarActivo()"

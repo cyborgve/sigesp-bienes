@@ -46,7 +46,7 @@ export class DepreciacionService extends GenericService<Depreciacion> {
   buscarTodosLista(): Observable<DepreciacionLista[]> {
     return this._http.get<any>(this.apiUrlLista()).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarDepreciacionesLista()
     );
   }
@@ -54,7 +54,7 @@ export class DepreciacionService extends GenericService<Depreciacion> {
   buscarTodosMensuales(): Observable<ActivoListaDepreciacion[]> {
     return this._http.get<any>(this.apiUrlMensuales()).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarDepreciacionesMensuales()
     );
   }

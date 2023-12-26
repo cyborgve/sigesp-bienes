@@ -3,7 +3,7 @@ import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export const adaptarDesincorporacionUbicacion = () => pipe(map(adaptar));
-export const adaptarDesincorporacionUbicaciones = () =>
+export const adaptarDesincorporacionesUbicacion = () =>
   pipe(map((ubicaciones: any[]) => ubicaciones.map(adaptar)));
 
 const adaptar = (ubicacion: any) =>

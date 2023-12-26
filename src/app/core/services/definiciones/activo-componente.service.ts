@@ -26,7 +26,7 @@ export class ActivoComponenteService extends GenericService<ActivoComponente> {
   buscarPorActivo(activoId: Id): Observable<ActivoComponente[]> {
     return this._http.get<ActivoComponente>(this.apiUrlActivoId(activoId)).pipe(
       map((res: any) => res.data),
-      map(componentes => componentes.map(c => normalizarObjeto(c))),
+      map(componentes => componentes.map(normalizarObjeto)),
       adaptarActivosComponente()
     );
   }

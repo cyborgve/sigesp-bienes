@@ -30,6 +30,7 @@ import { pipe } from 'rxjs';
 import { filtrarActivosSinIncorporar } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-incoporar';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
+import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -248,7 +249,12 @@ export class SingularIncorporacionComponent implements Entidad {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
-      data: { filtros: [filtrarActivosSinIncorporar(this._activoUbicacion)] },
+      data: {
+        filtros: [
+          filtrarActivosSeleccionados(this.dataSource.data),
+          filtrarActivosSinIncorporar(this._activoUbicacion),
+        ],
+      },
     });
     dialog
       .afterClosed()

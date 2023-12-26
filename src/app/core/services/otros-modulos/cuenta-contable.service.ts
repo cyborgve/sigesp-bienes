@@ -8,7 +8,7 @@ import { SigespService } from 'sigesp';
 import {
   adaptarCuentaContable,
   adaptarCuentasContables,
-} from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuentas-contables';
+} from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuenta-contable';
 
 @Injectable({
   providedIn: 'root',

@@ -8,31 +8,30 @@ export const reversarDesincorporacion = (
 ) =>
   pipe(
     switchMap((desincorporacion: Desincorporacion) => {
-      let ubicarActivos = desincorporacion.activos.map(activoProceso =>
-        _activoUbicacion.buscarPorActivo(activoProceso.activo).pipe(
-          map(ubicacion => {
-            ubicacion.unidadAdministrativaId = 0;
-            ubicacion.sedeId = 0;
-            ubicacion.responsableId = '---';
-            ubicacion.responsableUsoId = '---';
-            ubicacion.fechaIngreso = undefined;
-            return ubicacion;
+      let { ubicaciones } = desincorporacion;
+      let buscarActivosUbicacion = ubicaciones.map(ubicacion =>
+        _activoUbicacion.buscarPorActivo(ubicacion.activo).pipe(
+          map(activoUbicacion => {
+            activoUbicacion.unidadAdministrativaId =
+              ubicacion.unidadAdministrativa;
+            activoUbicacion.sedeId = ubicacion.sede;
+            activoUbicacion.responsableId = ubicacion.responsable;
+            activoUbicacion.responsableUsoId = ubicacion.responsableUso;
+            return activoUbicacion;
           })
         )
       );
-      return forkJoin(ubicarActivos).pipe(
-        switchMap(ubicaciones => {
-          let desincorporarActivos = ubicaciones.map(ubicacion =>
+      return forkJoin(buscarActivosUbicacion).pipe(
+        switchMap(activosUbicacion => {
+          let reversar = activosUbicacion.map(activoUbicacion =>
             _activoUbicacion.actualizar(
-              ubicacion.id,
-              ubicacion,
+              activoUbicacion.id,
+              activoUbicacion,
               undefined,
               false
             )
           );
-          return forkJoin(desincorporarActivos).pipe(
-            map(() => desincorporacion)
-          );
+          return forkJoin(reversar).pipe(map(() => desincorporacion));
         })
       );
     })

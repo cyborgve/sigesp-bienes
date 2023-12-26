@@ -6,9 +6,9 @@ import { Id } from '@core/types/id';
 import { Observable } from 'rxjs';
 import {
   adaptarDesincorporacionUbicacion,
-  adaptarDesincorporacionUbicaciones,
+  adaptarDesincorporacionesUbicacion,
 } from '@core/utils/pipes-rxjs/adaptadores/adaptar-desincorporacion-ubicacion';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
@@ -16,21 +16,20 @@ import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 })
 export class DesincorporacionUbicacionService extends GenericService<DesincorporacionUbicacion> {
   protected getEntidadUrl(): string {
-    return END_POINTS.find(ep => (ep.clave = 'dessincorporacionUbicacion'))
+    return END_POINTS.find(ep => ep.clave === 'desincorporacionUbicacion')
       .valor;
   }
-
   private apiUrlProceso = (proceso: Id) => `${this.apiUrl}?proceso=${proceso}`;
 
   buscarTodos(): Observable<DesincorporacionUbicacion[]> {
-    return super.buscarTodos().pipe(adaptarDesincorporacionUbicaciones());
+    return super.buscarTodos().pipe(adaptarDesincorporacionesUbicacion());
   }
 
   buscarTodosPorProceso(proceso: Id): Observable<DesincorporacionUbicacion[]> {
     return this._http.get<any>(this.apiUrlProceso(proceso)).pipe(
       map((resultado: any) => resultado.data),
       map((data: any[]) => data.map(normalizarObjeto)),
-      adaptarDesincorporacionUbicaciones()
+      adaptarDesincorporacionesUbicacion()
     );
   }
 

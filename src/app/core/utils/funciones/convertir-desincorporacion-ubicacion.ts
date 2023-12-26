@@ -2,17 +2,17 @@ import { DesincorporacionUbicacion } from '@core/models/auxiliares/desincorporac
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 
 export const convertirDesincorporacionUbicacion = (
-  ubicacion: ActivoUbicacion
+  activoUbicacion: ActivoUbicacion
 ) =>
   <DesincorporacionUbicacion>{
-    empresaId: ubicacion.empresaId,
-    id: ubicacion.id,
-    activo: ubicacion.activoId,
-    proceso: undefined,
-    unidadAdministrativa: ubicacion.unidadAdministrativaId,
-    sede: ubicacion.sedeId,
-    responsable: ubicacion.responsableId,
-    responsableUso: ubicacion.responsableUsoId,
+    empresaId: 0,
+    id: 0,
+    proceso: 0,
+    activo: activoUbicacion.activoId,
+    unidadAdministrativa: activoUbicacion.unidadAdministrativaId,
+    sede: activoUbicacion.sedeId,
+    responsable: activoUbicacion.responsableId,
+    responsableUso: activoUbicacion.responsableUsoId,
     creado: new Date(),
     modificado: new Date(),
   };

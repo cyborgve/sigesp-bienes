@@ -25,9 +25,7 @@ export class RetornoActivoService extends GenericService<ActivoProceso> {
   buscarTodosPorProceso(proceso: Id) {
     return this._http.get(this.apiUrlProceso(proceso)).pipe(
       map((resultado: any) => resultado.data),
-      map((procesos: any[]) =>
-        procesos.map(proceso => normalizarObjeto(proceso))
-      ),
+      map((procesos: any[]) => procesos.map(normalizarObjeto)),
       adaptarActivosProceso()
     );
   }

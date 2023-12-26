@@ -54,7 +54,7 @@ export class IntegracionService extends GenericService<Integracion> {
       .pipe(
         map((resultado: any) => resultado.data),
         map((data: any[]) => data[0]),
-        map(objeto => normalizarObjeto(objeto)),
+        map(normalizarObjeto),
         adaptarIntegracion()
       );
   }
@@ -80,7 +80,6 @@ export class IntegracionService extends GenericService<Integracion> {
           (integracion.aprobado === 1 || integracion.integrado === 1)
       )
       .map(integracion => this.guardar(integracion, undefined, false));
-    console.log(integraciones);
     return forkJoin(guardarIntegraciones).pipe(
       tap(integracionesGuardadas => {
         if (notificar) {

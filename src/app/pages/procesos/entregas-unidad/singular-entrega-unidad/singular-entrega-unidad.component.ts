@@ -1,6 +1,6 @@
-import { tap, take, switchMap, first, filter } from 'rxjs/operators';
+import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,17 +20,29 @@ import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/b
 import { Sede } from '@core/models/definiciones/sede';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
+import { Subscription } from 'rxjs';
+import { ActivoService } from '@core/services/definiciones/activo.service';
+import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
+import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
+import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 
 @Component({
   selector: 'app-singular-entrega-unidad',
   templateUrl: './singular-entrega-unidad.component.html',
   styleUrls: ['./singular-entrega-unidad.component.scss'],
 })
-export class SingularEntregaUnidadComponent implements Entidad {
+export class SingularEntregaUnidadComponent
+  implements Entidad, OnInit, OnDestroy
+{
+  private subscripciones: Subscription[] = [];
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[34].nombre;
   formulario: FormGroup;
+  dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
 
   constructor(
     private _entidad: EntregaUnidadService,
@@ -39,7 +51,9 @@ export class SingularEntregaUnidadComponent implements Entidad {
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
-    private _correlativo: CorrelativoService
+    private _correlativo: CorrelativoService,
+    private _activo: ActivoService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -50,11 +64,47 @@ export class SingularEntregaUnidadComponent implements Entidad {
       responsableAnterior: [undefined, Validators.required],
       nuevoResponsable: [undefined, Validators.required],
       observaciones: [undefined],
+      activos: [undefined],
       creado: [undefined],
       modificado: [undefined],
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.reiniciarFormulario();
+  }
+
+  ngOnInit(): void {
+    this.subscripciones.push(
+      this.formulario.valueChanges
+        .pipe(
+          tap(valoresFormulario => {
+            let { unidadAdministrativa, sede } = valoresFormulario;
+            if (unidadAdministrativa !== 0 && sede !== 0) {
+              this._activo
+                .buscarTodos()
+                .pipe(
+                  filtrarActivosPorUnidadAdministrativa(
+                    unidadAdministrativa,
+                    this._activoUbicacion
+                  ),
+                  filtrarActivosPorSede(sede, this._activoUbicacion),
+                  map(activos => activos.map(convertirActivoProceso)),
+                  tap(activos => {
+                    this.dataSource = new MatTableDataSource(activos);
+                  }),
+                  take(1)
+                )
+                .subscribe();
+            } else {
+              this.dataSource = new MatTableDataSource();
+            }
+          })
+        )
+        .subscribe()
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 
   formularioValido = () =>
@@ -103,6 +153,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
               responsableAnterior: '',
               nuevoResponsable: '---',
               observaciones: '',
+              activos: [],
               creado: new Date(),
               modificado: new Date(),
             });
@@ -140,6 +191,7 @@ export class SingularEntregaUnidadComponent implements Entidad {
 
   guardar() {
     let entidad: EntregaUnidad = this.formulario.value;
+    entidad.activos = this.dataSource.data;
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo)

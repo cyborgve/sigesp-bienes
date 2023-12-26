@@ -58,15 +58,6 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <!-- boton depreciar -->
-        <button
-          type="button"
-          mat-stroked-button
-          color="primary"
-          [disabled]="depreciarDeshabilitado || formulario.invalid"
-          class="boton-depreciar">
-          Depreciar
-        </button>
         <!-- observaciones -->
         <mat-form-field appearance="fill" class="observaciones">
           <mat-label>Observaciones</mat-label>
@@ -88,9 +79,7 @@
 </section>
 <section class="contenedor-singular inferior">
   <app-cuentas-contables-proceso
-    (agregarCuentaContable)="agregarCuentaContable()"
-    (removerCuentaContable)="removerCuentaContable($event)"
-    [agregarCuentaContableDeshabilitado]="dataComponentes.data.length === 0"
+    [agregarCuentaContableVisible]="false"
     [dataSource]="dataCuentasContables"></app-cuentas-contables-proceso>
 </section>
 <!-- barra de herramientas lateral -->

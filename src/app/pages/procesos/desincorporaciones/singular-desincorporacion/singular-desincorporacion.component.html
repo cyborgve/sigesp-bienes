@@ -65,6 +65,7 @@
   </section>
   <section class="contenedor-singular superior inferior">
     <app-activos-proceso
+      [ocultarAgregarActivo]="false"
       (agregarActivo)="agregarActivo()"
       (removerActivo)="removerActivo($event)"
       [dataSource]="activosDataSource"
@@ -72,14 +73,25 @@
         !agregarActivoHabilitado()
       "></app-activos-proceso>
   </section>
-  <section class="contenedor-singular inferior">
+  <section class="contenedor-singular inferior superior">
     <app-cuentas-contables-proceso
-      (removerCuentaContable)="removerCuentaContable($event)"
       [dataSource]="cuentasDataSource"
       [agregarCuentaContableVisible]="false"
       [agregarCuentaContableDeshabilitado]="
         activosDataSource.data.length === 0
       "></app-cuentas-contables-proceso>
+  </section>
+  <section class="contenedor-singular inferior">
+    <mat-card>
+      <article class="contenido">
+        <p class="totalDebe">
+          {{ formulario.value.debe | number : '1.2-2' }}
+        </p>
+        <p class="totalHaber">
+          {{ formulario.value.haber | number : '1.2-2' }}
+        </p>
+      </article>
+    </mat-card>
   </section>
 </form>
 <!-- barra de herramientas lateral -->

@@ -25,7 +25,7 @@ export class DesincorporacionActivoService extends GenericService<ActivoProceso>
   buscarTodosPorProceso(desincorporacion: Id): Observable<ActivoProceso[]> {
     return this._http.get(this.apiUrlProceso(desincorporacion)).pipe(
       map((resultado: any) => resultado.data),
-      map(resultado => resultado.map(objeto => normalizarObjeto(objeto))),
+      map(resultado => resultado.map(normalizarObjeto)),
       adaptarActivosProceso()
     );
   }

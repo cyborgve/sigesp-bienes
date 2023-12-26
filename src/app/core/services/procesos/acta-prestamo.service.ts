@@ -48,7 +48,7 @@ export class ActaPrestamoService extends GenericService<ActaPrestamo> {
   buscarTodosLista(): Observable<ActaPrestamoLista[]> {
     return this._http.get<any>(this.apiUrlLista()).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarActasPrestamoLista(),
       ordenarPorId()
     );
