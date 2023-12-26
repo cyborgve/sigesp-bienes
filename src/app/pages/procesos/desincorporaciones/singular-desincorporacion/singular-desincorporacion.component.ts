@@ -402,6 +402,24 @@ export class SingularDesincorporacionComponent
             })
           );
         }),
+        tap(() => {
+          let debe = 0;
+          let haber = 0;
+          this.cuentasDataSource.data
+            .filter(cuentaProceso => cuentaProceso.procedencia === 'D')
+            .map(cuentaProceso => cuentaProceso.monto)
+            .forEach(monto => (debe += monto));
+          this.cuentasDataSource.data
+            .filter(cuentaProceso => cuentaProceso.procedencia === 'H')
+            .map(cuentaProceso => cuentaProceso.monto)
+            .forEach(monto => (haber += monto));
+          let diferencia = debe - haber;
+          this.formulario.patchValue({
+            debe: debe,
+            haber: haber,
+            diferencia: diferencia,
+          });
+        }),
         take(1)
       )
       .subscribe();
@@ -430,6 +448,24 @@ export class SingularDesincorporacionComponent
           data[indiceHaber]['monto'] -= valorAdquisicion;
           if (data[indiceHaber]['monto'] <= 0) data.splice(indiceHaber, 1);
           this.cuentasDataSource = new MatTableDataSource(data);
+        }),
+        tap(() => {
+          let debe = 0;
+          let haber = 0;
+          this.cuentasDataSource.data
+            .filter(cuentaProceso => cuentaProceso.procedencia === 'D')
+            .map(cuentaProceso => cuentaProceso.monto)
+            .forEach(monto => (debe += monto));
+          this.cuentasDataSource.data
+            .filter(cuentaProceso => cuentaProceso.procedencia === 'H')
+            .map(cuentaProceso => cuentaProceso.monto)
+            .forEach(monto => (haber += monto));
+          let diferencia = debe - haber;
+          this.formulario.patchValue({
+            debe: debe,
+            haber: haber,
+            diferencia: diferencia,
+          });
         }),
         take(1)
       )

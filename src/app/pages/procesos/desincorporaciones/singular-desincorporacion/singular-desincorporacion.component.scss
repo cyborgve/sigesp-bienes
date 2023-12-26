@@ -17,3 +17,16 @@
 .observaciones {
   @apply col-start-1 col-span-full;
 }
+
+.totalDebe {
+  @apply text-right col-start-9 col-span-2 pr-14;
+}
+
+.totalHaber {
+  @apply text-right col-span-2 pr-6;
+}
+
+.totalDebe,
+.totalHaber {
+  @apply font-semibold text-gray-400;
+}
