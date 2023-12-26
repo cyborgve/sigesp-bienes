@@ -80,7 +80,6 @@ export class IntegracionService extends GenericService<Integracion> {
           (integracion.aprobado === 1 || integracion.integrado === 1)
       )
       .map(integracion => this.guardar(integracion, undefined, false));
-    console.log(integraciones);
     return forkJoin(guardarIntegraciones).pipe(
       tap(integracionesGuardadas => {
         if (notificar) {
