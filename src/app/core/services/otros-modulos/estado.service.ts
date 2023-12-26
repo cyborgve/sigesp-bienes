@@ -23,7 +23,7 @@ export class EstadoService {
   buscarTodos(): Observable<Estado[]> {
     return this._http.get<Estado[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarEstados()
     );
   }
@@ -31,7 +31,7 @@ export class EstadoService {
   buscarPorId(id: Id): Observable<Estado> {
     return this._http.get<Estado>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       map(data => data[0]),
       adaptarEstado()
     );

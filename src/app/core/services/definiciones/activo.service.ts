@@ -170,7 +170,7 @@ export class ActivoService extends GenericService<Activo> {
   buscarTodosLista(): Observable<ActivoLista[]> {
     return this._http.get<any[]>(this.apiUrlLista()).pipe(
       map((resultado: any) => resultado.data),
-      map((lista: any[]) => lista.map(item => normalizarObjeto(item))),
+      map((lista: any[]) => lista.map(normalizarObjeto)),
       adaptarActivosLista()
     );
   }
@@ -178,9 +178,7 @@ export class ActivoService extends GenericService<Activo> {
   buscarTodosInventario(): Observable<ActivoListaInventario[]> {
     return this._http.get<any[]>(this.apiUrlInventario()).pipe(
       map((resultado: any) => resultado.data),
-      map((inventario: any[]) =>
-        inventario.map(activo => normalizarObjeto(activo))
-      ),
+      map((inventario: any[]) => inventario.map(normalizarObjeto)),
       adaptarActivosInventario(),
       map(activos => activos.sort((a, b) => (a.codigo > b.codigo ? 1 : -1)))
     );

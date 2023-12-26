@@ -1,6 +1,7 @@
+import { convertirDesincorporacionUbicacion } from '@core/utils/funciones/convertir-desincorporacion-ubicacion';
 import { reversarDesincorporacion } from '@core/utils/pipes-rxjs/procesos/reversar-desincorporacion';
 import { TipoProceso } from '@core/types/tipo-proceso';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Desincorporacion } from '@core/models/procesos/desincorporacion';
 import { END_POINTS } from '@core/constants/end-points';
@@ -20,6 +21,8 @@ import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-p
 import { PDFService } from '../auxiliares/pdf.service';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ejecutarDesincorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-desincorporacion';
+import { DesincorporacionUbicacionService } from './desincorporacion-ubicacion.service';
+import { DesincorporacionUbicacion } from '@core/models/auxiliares/desincorporacion-ubicacion';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +38,7 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
     protected _snackBar: MatSnackBar,
     private _desincorporacionActivo: DesincorporacionActivoService,
     private _desincorporacionCuenta: DesincorporacionCuentaService,
+    private _desincorporacionUbicacion: DesincorporacionUbicacionService,
     private _activoUbicacion: ActivoUbicacionService,
     private _pdf: PDFService
   ) {
@@ -49,20 +53,28 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
     return super.buscarPorId(id).pipe(
       adaptarDesincorporacion(),
       switchMap(desincorporacion => {
-        let buscarComplementos: Observable<any>[] = [
+        let buscarComplementos = [
           this._desincorporacionActivo.buscarTodosPorProceso(
             desincorporacion.id
           ),
           this._desincorporacionCuenta.buscarTodosPorProceso(
             desincorporacion.id
           ),
+          this._desincorporacionUbicacion.buscarTodosPorProceso(
+            desincorporacion.id
+          ),
         ];
         return forkJoin(buscarComplementos).pipe(
-          map(([activosProceso, cuentasProceso]) => {
-            desincorporacion.activos = activosProceso;
-            desincorporacion.cuentasContables = cuentasProceso;
-            return desincorporacion;
-          })
+          map(
+            ([activosProceso, cuentasProceso, desincorporacionUbicaciones]) => {
+              desincorporacion.activos = activosProceso as ActivoProceso[];
+              desincorporacion.cuentasContables =
+                cuentasProceso as CuentaContableProceso[];
+              desincorporacion.ubicaciones =
+                desincorporacionUbicaciones as DesincorporacionUbicacion[];
+              return desincorporacion;
+            }
+          )
         );
       })
     );
@@ -75,6 +87,19 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
   ): Observable<Desincorporacion> {
     return super.guardar(entidad, tipoProceso, notificar).pipe(
       adaptarDesincorporacion(),
+      switchMap(desincorporacion => {
+        let buscarUbicaciones = entidad.activos.map(activoProceso =>
+          this._activoUbicacion
+            .buscarPorId(activoProceso.activo)
+            .pipe(map(convertirDesincorporacionUbicacion))
+        );
+        return forkJoin(buscarUbicaciones).pipe(
+          map(ubicaciones => {
+            desincorporacion.ubicaciones = ubicaciones;
+            return desincorporacion;
+          })
+        );
+      }),
       switchMap(desincorporacion => {
         let guardarActivos = entidad.activos
           .map(activoProceso => {
@@ -100,17 +125,31 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
               false
             )
           );
-        return forkJoin([...guardarActivos, ...guardarCuentas]).pipe(
-          map(activosCuentas => {
-            desincorporacion.activos = activosCuentas.slice(
+        let guardarUbicaciones = desincorporacion.ubicaciones
+          .map(ubicacion => {
+            ubicacion.proceso = desincorporacion.id;
+            return ubicacion;
+          })
+          .map(ubicacion =>
+            this._desincorporacionUbicacion.guardar(ubicacion, undefined, false)
+          );
+        return forkJoin([
+          ...guardarActivos,
+          ...guardarCuentas,
+          ...guardarUbicaciones,
+        ]).pipe(
+          map(activosCuentasUbicaciones => {
+            desincorporacion.activos = activosCuentasUbicaciones.slice(
               0,
               guardarActivos.length
             ) as ActivoProceso[];
-            desincorporacion.cuentasContables = activosCuentas.slice(
-              guardarActivos.length
+            desincorporacion.cuentasContables = activosCuentasUbicaciones.slice(
+              guardarActivos.length,
+              guardarActivos.length + guardarCuentas.length
             ) as CuentaContableProceso[];
-
-            activosCuentas;
+            desincorporacion.ubicaciones = activosCuentasUbicaciones.slice(
+              guardarActivos.length + guardarCuentas.length
+            ) as DesincorporacionUbicacion[];
             return desincorporacion;
           })
         );

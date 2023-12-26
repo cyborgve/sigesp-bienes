@@ -14,7 +14,7 @@ import { SigespService } from 'sigesp';
 import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
 import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { pipe } from 'rxjs';
-import { adaptarCuentasContables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuentas-contables';
+import { adaptarCuentasContables } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuenta-contable';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { CuentaContableService } from '@core/services/otros-modulos/cuenta-contable.service';

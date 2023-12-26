@@ -9,10 +9,12 @@ export const adaptarCuentasContablesProceso = () =>
 const adaptar = (cuentaContable: any) =>
   <CuentaContableProceso>{
     empresaId: Number(cuentaContable.empresaId),
-    id: Number(cuentaContable.Id),
+    id: Number(cuentaContable.id),
     cuentaContable: cuentaContable.cuentaContable,
     proceso: Number(cuentaContable.proceso),
     denominacion: cuentaContable.denominacion,
+    procedencia: cuentaContable.procedencia,
+    monto: Number(cuentaContable.monto),
     creado: cuentaContable.creado,
     modificado: cuentaContable.modificado,
   };

@@ -21,7 +21,7 @@ export class EmpresaService {
   datosGeneralesTodasLasEmpresas(): Observable<Empresa[]> {
     return this._http.get<Empresa[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarEmpresas()
     );
   }
@@ -30,7 +30,7 @@ export class EmpresaService {
     return this._http.get<Empresa>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data),
       map((data: any[]) => data[0]),
-      map(objeto => normalizarObjeto(objeto)),
+      map(normalizarObjeto),
       adaptarEmpresa()
     );
   }

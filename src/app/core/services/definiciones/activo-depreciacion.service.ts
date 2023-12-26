@@ -28,7 +28,7 @@ export class ActivoDepreciacionService extends GenericService<ActivoDepreciacion
       .get<ActivoDepreciacion>(this.apiUrlActivoId(activoId))
       .pipe(
         map((res: any) => res.data[0]),
-        map((res: any) => normalizarObjeto(res)),
+        map(normalizarObjeto),
         adaptarActivoDepreciacion()
       );
   }

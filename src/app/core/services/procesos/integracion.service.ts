@@ -54,7 +54,7 @@ export class IntegracionService extends GenericService<Integracion> {
       .pipe(
         map((resultado: any) => resultado.data),
         map((data: any[]) => data[0]),
-        map(objeto => normalizarObjeto(objeto)),
+        map(normalizarObjeto),
         adaptarIntegracion()
       );
   }

@@ -23,7 +23,7 @@ export class ParroquiaService {
   buscarTodos(): Observable<Parroquia[]> {
     return this._http.get<Parroquia[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarParroquias()
     );
   }
@@ -31,7 +31,7 @@ export class ParroquiaService {
   buscarPorId(id: Id): Observable<Parroquia> {
     return this._http.get<Parroquia>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       map(data => data[0]),
       adaptarParroquia()
     );

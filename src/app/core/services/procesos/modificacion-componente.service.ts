@@ -25,7 +25,7 @@ export class ModificacionComponenteService extends GenericService<ComponenteProc
   buscarTodosPorProceso(proceso: Id): Observable<ComponenteProceso[]> {
     return this._http.get(this.apiUrlProceso(proceso)).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(cuenta => normalizarObjeto(cuenta))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarComponentesProceso()
     );
   }

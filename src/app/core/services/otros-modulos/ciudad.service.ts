@@ -23,7 +23,7 @@ export class CiudadService {
   buscarTodos(): Observable<Ciudad[]> {
     return this._http.get<Ciudad[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarCiudades()
     );
   }
@@ -31,7 +31,7 @@ export class CiudadService {
   buscarPorId(id: Id): Observable<Ciudad> {
     return this._http.get<Ciudad>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       map(data => data[0]),
       adaptarCiudad()
     );

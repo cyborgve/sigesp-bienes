@@ -24,7 +24,7 @@ export class BeneficiarioService {
   buscarTodos(): Observable<Beneficiario[]> {
     return this._http.get<Beneficiario[]>(this.apiUrl).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarBeneficiarios(),
       filtrarValoresIniciales()
     );
@@ -33,7 +33,7 @@ export class BeneficiarioService {
   buscarPorId(id: Id): Observable<Beneficiario> {
     return this._http.get<Beneficiario>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(objeto => normalizarObjeto(objeto))),
+      map((data: any[]) => data.map(normalizarObjeto)),
       map(data => data[0]),
       adaptarBeneficiario()
     );

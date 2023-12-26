@@ -33,7 +33,7 @@ export class ActivoIntegracionService extends GenericService<ActivoIntegracion> 
       .get<ActivoIntegracion>(this.apiUrlActivoId(activoId))
       .pipe(
         map((res: any) => res.data[0]),
-        map(actDet => normalizarObjeto(actDet)),
+        map(normalizarObjeto),
         adaptarActivoIntegracion()
       );
   }
