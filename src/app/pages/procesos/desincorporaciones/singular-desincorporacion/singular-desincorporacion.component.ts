@@ -1,6 +1,5 @@
-import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { tap, switchMap, take, first, filter, map } from 'rxjs/operators';
-import { Subscription, forkJoin, pipe } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,12 +22,10 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
-import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
 import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
 import { ActivoService } from '@core/services/definiciones/activo.service';
-import { CausaMovimientoService } from '@core/services/definiciones/causa-movimiento.service';
 import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
@@ -38,7 +35,6 @@ import { filtrarCausasMovimientoPorTipo } from '@core/utils/pipes-rxjs/operadore
 import { ActivoIntegracionService } from '@core/services/definiciones/activo-integracion.service';
 import { CuentaContableService } from '@core/services/otros-modulos/cuenta-contable.service';
 import { Activo } from '@core/models/definiciones/activo';
-import { DataSource } from '@angular/cdk/collections';
 import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
 
 @Component({
@@ -346,12 +342,15 @@ export class SingularDesincorporacionComponent
 
   removerActivo(activo: ActivoProceso) {
     let data = this.activosDataSource.data;
-    data.splice(data.indexOf(activo), 1).forEach(this.removerCuentaContable);
+    data
+      .splice(data.indexOf(activo), 1)
+      .forEach(activoEliminado =>
+        this.removerCuentasContables(activoEliminado)
+      );
     this.activosDataSource = new MatTableDataSource(data);
   }
 
   agregarCuentasContables(activo: Activo) {
-    console.log('agregandoCuentaContable', activo);
     this._activoIntegracion
       .buscarPorActivo(activo.id)
       .pipe(
@@ -408,22 +407,33 @@ export class SingularDesincorporacionComponent
       .subscribe();
   }
 
-  removerCuentaContable(activoProceso: ActivoProceso) {
-    this._activo.buscarPorId(activoProceso.activo).pipe(
-      tap(activoCompleto => {
-        let { integracion, valorAdquisicion } = activoCompleto;
-        let { desCuentaContableDebe, desCuentaContableHaber } = integracion;
-        let { data } = this.cuentasDataSource;
-        let indice = data.findIndex(
-          dato =>
-            dato.cuentaContable === desCuentaContableDebe &&
-            dato.procedencia === 'D'
-        );
-        data[indice]['monto'] -= valorAdquisicion;
-        if (data[indice]['monto'] <= 0) data.splice(indice, 1);
-        this.cuentasDataSource = new MatTableDataSource(data);
-      })
-    );
+  removerCuentasContables(activoProceso: ActivoProceso) {
+    this._activo
+      .buscarPorId(activoProceso.activo)
+      .pipe(
+        tap(activoCompleto => {
+          let { integracion, valorAdquisicion } = activoCompleto;
+          let { desCuentaContableDebe, desCuentaContableHaber } = integracion;
+          let { data } = this.cuentasDataSource;
+          let indiceDebe = data.findIndex(
+            dato =>
+              dato.cuentaContable === desCuentaContableDebe &&
+              dato.procedencia === 'D'
+          );
+          data[indiceDebe]['monto'] -= valorAdquisicion;
+          if (data[indiceDebe]['monto'] <= 0) data.splice(indiceDebe, 1);
+          let indiceHaber = data.findIndex(
+            dato =>
+              dato.cuentaContable === desCuentaContableHaber &&
+              dato.procedencia === 'H'
+          );
+          data[indiceHaber]['monto'] -= valorAdquisicion;
+          if (data[indiceHaber]['monto'] <= 0) data.splice(indiceHaber, 1);
+          this.cuentasDataSource = new MatTableDataSource(data);
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
   private reiniciarFormulario() {

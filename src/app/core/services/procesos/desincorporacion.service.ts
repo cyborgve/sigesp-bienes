@@ -20,7 +20,6 @@ import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-p
 import { PDFService } from '../auxiliares/pdf.service';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ejecutarDesincorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-desincorporacion';
-import { ActivoIntegracionService } from '../definiciones/activo-integracion.service';
 import { convertirDesincorporacionUbicacion } from '@core/utils/funciones/convertir-desincorporacion-ubicacion';
 
 @Injectable({
@@ -37,6 +36,7 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
     protected _snackBar: MatSnackBar,
     private _desincorporacionActivo: DesincorporacionActivoService,
     private _desincorporacionCuenta: DesincorporacionCuentaService,
+    private _desincorporacionUbicacion: DesincorporacionActivoService,
     private _activoUbicacion: ActivoUbicacionService,
     private _pdf: PDFService
   ) {
@@ -78,7 +78,7 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
     return super.guardar(entidad, tipoProceso, notificar).pipe(
       adaptarDesincorporacion(),
       switchMap(desincorporacion => {
-        let buscarUbicaciones = desincorporacion.activos.map(activoProceso =>
+        let buscarUbicaciones = entidad.activos.map(activoProceso =>
           this._activoUbicacion
             .buscarPorActivo(activoProceso.activo)
             .pipe(map(convertirDesincorporacionUbicacion))
