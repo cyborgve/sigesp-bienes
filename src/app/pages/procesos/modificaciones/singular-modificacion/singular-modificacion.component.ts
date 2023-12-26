@@ -1,3 +1,4 @@
+import { ActivoIntegracionService } from '@core/services/definiciones/activo-integracion.service';
 import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Location } from '@angular/common';
@@ -54,7 +55,8 @@ export class SingularModificacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _activo: ActivoService,
+    private _activoIntegracion: ActivoIntegracionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -296,6 +298,7 @@ export class SingularModificacionComponent implements Entidad {
             ...this.dataComponentes.data,
             convertirComponenteProceso(activoComponente),
           ]);
+          this.agregarCuentaContable(activoComponente);
         }),
         take(1)
       )
@@ -310,25 +313,60 @@ export class SingularModificacionComponent implements Entidad {
     this.dataComponentes = new MatTableDataSource(this.dataComponentes.data);
   }
 
-  agregarCuentaContable() {
-    let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
+  agregarCuentaContable(componente: ActivoComponente) {
+    this._activoIntegracion
+      .buscarPorActivo(this.formulario.value.activo)
       .pipe(
-        filter(todo => !!todo),
-        tap(
-          (cuentaContable: CuentaContable) =>
-            (this.dataCuentasContables = new MatTableDataSource([
-              ...this.dataCuentasContables.data,
-              convertirCuentaProceso(cuentaContable),
-            ]))
-        ),
+        tap(activoIntegracion => {
+          let cuentaDebe = <CuentaContableProceso>{
+            empresaId: 0,
+            id: 0,
+            proceso: 0,
+            cuentaContable: activoIntegracion.modCuentaContableDebe,
+            denominacion: activoIntegracion.modCuentaContableDebe,
+            procedencia: 'D',
+            monto: componente.costo,
+            creado: new Date(),
+            modificado: new Date(),
+          };
+          let cuentaHaber = <CuentaContableProceso>{
+            empresaId: 0,
+            id: 0,
+            proceso: 0,
+            cuentaContable: activoIntegracion.modCuentaContableHaber,
+            denominacion: activoIntegracion.modCuentaContableHaber,
+            procedencia: 'H',
+            monto: componente.costo,
+            creado: new Date(),
+            modificado: new Date(),
+          };
+          let data = this.dataCuentasContables.data;
+          data.push(cuentaDebe);
+          data.push(cuentaHaber);
+          this.dataCuentasContables = new MatTableDataSource(data);
+        }),
         take(1)
       )
       .subscribe();
+
+    // let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
+    //   height: '95%',
+    //   width: '85%',
+    // });
+    // dialog
+    //   .afterClosed()
+    //   .pipe(
+    //     filter(todo => !!todo),
+    //     tap(
+    //       (cuentaContable: CuentaContable) =>
+    //         (this.dataCuentasContables = new MatTableDataSource([
+    //           ...this.dataCuentasContables.data,
+    //           convertirCuentaProceso(cuentaContable),
+    //         ]))
+    //     ),
+    //     take(1)
+    //   )
+    //   .subscribe();
   }
 
   removerCuentaContable(cuentaProceso: CuentaContableProceso) {
