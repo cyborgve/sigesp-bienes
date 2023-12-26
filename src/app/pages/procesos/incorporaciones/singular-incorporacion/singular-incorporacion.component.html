@@ -130,6 +130,7 @@
   </section>
   <section class="contenedor-singular inferior">
     <app-activos-proceso
+      [ocultarAgregarActivo]="false"
       (agregarActivo)="agregarActivo()"
       (removerActivo)="eliminarActivo($event)"
       [agregarActivoDeshabilitado]="formularioInvalido()"
