@@ -1,3 +1,4 @@
+import { locale } from 'moment';
 import { Basica } from '@core/models/auxiliares/basica';
 import { tap, first, take, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
@@ -201,6 +202,7 @@ export class SingularActivoComponent implements Entidad {
       this._activo
         .buscarPorId(this.id)
         .pipe(
+          tap(console.log),
           tap(activo =>
             this.formularioDatosGenerales.patchValue({
               empresaId: activo.empresaId,
