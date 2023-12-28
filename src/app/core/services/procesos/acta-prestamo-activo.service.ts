@@ -32,7 +32,7 @@ export class ActaPrestamoActivoService extends GenericService<ActivoProceso> {
       .get<ActivoProceso[]>(this.apiUrlActaPrestamo(actaPestamo))
       .pipe(
         map((resultado: any) => resultado.data),
-        map((resultado: any[]) => resultado.map(res => normalizarObjeto(res))),
+        map((resultado: any[]) => resultado.map(normalizarObjeto)),
         adaptarActivosProceso()
       );
   }

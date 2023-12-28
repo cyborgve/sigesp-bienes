@@ -1,3 +1,4 @@
+import { locale } from 'moment';
 import { Basica } from '@core/models/auxiliares/basica';
 import { tap, first, take, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';

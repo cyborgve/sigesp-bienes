@@ -15,7 +15,6 @@ import { ejecutarEntregaUnidad } from '@core/utils/pipes-rxjs/procesos/ejecutar-
 import { map, switchMap } from 'rxjs/operators';
 import { reversarEntregaUnidad } from '@core/utils/pipes-rxjs/procesos/reversar-entrega-unidad';
 import { UnidadAdministrativaService } from '../definiciones/unidad-administrativa.service';
-import { ActivoService } from '../definiciones/activo.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 
 @Injectable({
@@ -31,7 +30,6 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _unidadAdministrativa: UnidadAdministrativaService,
-    private _activo: ActivoService,
     private _activoUbicacion: ActivoUbicacionService,
     private _pdf: PDFService
   ) {
@@ -55,7 +53,10 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
       .guardar(entidad, tipoDato, notificar)
       .pipe(
         adaptarEntregaUnidad(),
-        ejecutarEntregaUnidad(this._unidadAdministrativa),
+        ejecutarEntregaUnidad(
+          this._unidadAdministrativa,
+          this._activoUbicacion
+        ),
         abrirReporteProceso(this._pdf, 'ENTREGA DE UNIDAD')
       );
   }
@@ -65,7 +66,11 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
       switchMap(entregaUnidad =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? entregaUnidad : eliminada)),
-          reversarEntregaUnidad(this),
+          reversarEntregaUnidad(
+            entregaUnidad,
+            this._unidadAdministrativa,
+            this._activoUbicacion
+          ),
           map(entrega => !!entrega)
         )
       )

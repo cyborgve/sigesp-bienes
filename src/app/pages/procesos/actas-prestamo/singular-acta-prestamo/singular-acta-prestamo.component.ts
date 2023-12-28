@@ -30,6 +30,7 @@ import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/fi
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 import { filtrarActivosReferenciaEstadoDisponible } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-referencia-estado-disponible.ts';
+import { filtrarUnidadesAdministrativasNoSeleccionadas } from '@core/utils/pipes-rxjs/operadores/filtrar-unidades-administrativas-no-seleccionadas';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -250,6 +251,13 @@ export class SingularActaPrestamoComponent
     let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
       height: '95%',
       width: '95%',
+      data: {
+        filtros: [
+          filtrarUnidadesAdministrativasNoSeleccionadas([
+            this.formulario.value.unidadAdministrativaReceptora,
+          ]),
+        ],
+      },
     });
     dialog
       .afterClosed()
@@ -270,6 +278,13 @@ export class SingularActaPrestamoComponent
     let dialog = this._dialog.open(BuscadorUnidadAdministrativaComponent, {
       height: '95%',
       width: '95%',
+      data: {
+        filtros: [
+          filtrarUnidadesAdministrativasNoSeleccionadas([
+            this.formulario.value.unidadAdministrativaCedente,
+          ]),
+        ],
+      },
     });
     dialog
       .afterClosed()

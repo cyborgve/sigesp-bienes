@@ -85,6 +85,7 @@ export class ActivoService extends GenericService<Activo> {
                 componentes: componentes as ActivoComponente[],
                 integracion: integracion as ActivoIntegracion,
               };
+              activoCompleto;
               return activoCompleto;
             }
           )

@@ -26,9 +26,7 @@ export class DepreciacionDetalleService extends GenericService<DetalleDepreciaci
     return this._http.get(this.apiUrlProceso(depreciacion)).pipe(
       map((resultado: any) => resultado.data),
       map((detallesDepreciacion: any[]) =>
-        detallesDepreciacion.map(detalleDepreciacion =>
-          normalizarObjeto(detalleDepreciacion)
-        )
+        detallesDepreciacion.map(normalizarObjeto)
       ),
       adaptarDetallesDepreciacion(),
       map(detalles =>

@@ -1,6 +1,6 @@
 {
   "name": "sigesp_bienes",
-  "version": "0.59.357",
+  "version": "0.59.358",
   "contributors": [
     {
       "name": "Richard Iribarren",
@@ -42,7 +42,7 @@
     "ngx-toastr": "^11.3.3",
     "pdfmake": "^0.2.7",
     "rxjs": "^6.6.3",
-    "sigesp": "^0.9.59-20230906",
+    "sigesp": "^0.9.91-20231211",
     "sweetalert2": "^11.7.12",
     "tslib": "^1.14.1",
     "typescript": "^4.1.6",
