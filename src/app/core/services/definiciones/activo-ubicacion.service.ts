@@ -24,7 +24,8 @@ export class ActivoUbicacionService extends GenericService<ActivoUbicacion> {
 
   buscarPorActivo(activoId: Id): Observable<ActivoUbicacion> {
     return this._http.get<ActivoUbicacion>(this.apiUrlActivoId(activoId)).pipe(
-      map((res: any) => res.data as ActivoUbicacion[]),
+      map((res: any) => res.data),
+      map((data: any[]) => data[0]),
       map(normalizarObjeto),
       adaptarActivoUbicacion()
     );

@@ -202,7 +202,6 @@ export class SingularActivoComponent implements Entidad {
       this._activo
         .buscarPorId(this.id)
         .pipe(
-          tap(console.log),
           tap(activo =>
             this.formularioDatosGenerales.patchValue({
               empresaId: activo.empresaId,
