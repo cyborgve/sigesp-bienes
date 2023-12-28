@@ -27,9 +27,7 @@ export class AutorizacionSalidaActivoService extends GenericService<ActivoProces
       .get<ActivoProceso[]>(this.apiUrlProceso(autorizacionSalida))
       .pipe(
         map((resultado: any) => resultado.data),
-        map((datos: any[]) =>
-          datos.map(activoProceso => normalizarObjeto(activoProceso))
-        ),
+        map((datos: any[]) => datos.map(normalizarObjeto)),
         adaptarActivosProceso()
       );
   }
