@@ -33,7 +33,7 @@ const adaptar = (configuracion: any) => {
     mostrarBotonesInicioFinal: Number(configuracion.mostrarBotonesInicioFinal),
     mostrarOpcionesPaginacion: Number(configuracion.mostrarOpcionesPaginacion),
     decorarFiltros: Number(configuracion.decorarFiltros),
-    abrirImprimirProceso: Number(configuracion.abrirImprimirProceso),
+    serialRotulacionAutogenerado: Number(configuracion.abrirImprimirProceso),
     prefijoSerialRotulacion: configuracion.prefijoSerialRotulacion,
     creado: configuracion.creado,
     modificado: configuracion.modificado,

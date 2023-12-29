@@ -18,7 +18,7 @@ export const ConfiguracionPorDefecto = () =>
     mostrarBotonesInicioFinal: 1,
     mostrarOpcionesPaginacion: 1,
     decorarFiltros: 0,
-    abrirImprimirProceso: 1,
+    serialRotulacionAutogenerado: 1,
     prefijoSerialRotulacion: 'SBN',
     creado: new Date(),
     modificado: new Date(),

@@ -34,7 +34,9 @@ export const prepararConfiguracion = (configuracion: any) => ({
     configuracion.mostrarOpcionesPaginacion
   ),
   decorarFiltros: booleanLogico(configuracion.decorarFiltros),
-  abrirImprimirProceso: booleanLogico(configuracion.abrirImprimirProceso),
+  abrirImprimirProceso: booleanLogico(
+    configuracion.serialRotulacionAutogenerado
+  ),
   prefijoSerialRotulacion: String(
     configuracion.prefijoSerialRotulacion
   ).substring(0, 3),

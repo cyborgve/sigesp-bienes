@@ -1,5 +1,5 @@
 import { DenominacionMarcaPipe } from '@shared/pipes/denominacion-marca.pipe';
-import { tap, map, first, filter } from 'rxjs/operators';
+import { tap, map, filter, take, switchMap } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,7 +8,6 @@ import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marc
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
 import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-color/buscador-color.component';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
-import { MMoneda, SigespService } from 'sigesp';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { BuscadorRotulacionComponent } from '@pages/definiciones/rotulaciones/buscador-rotulacion/buscador-rotulacion.component';
 import { Subscription, pipe } from 'rxjs';
@@ -16,6 +15,8 @@ import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/busc
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { BuscadorCatalogoGeneralComponent } from '@pages/definiciones/catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.component';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -27,18 +28,34 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
   @Input() formulario: FormGroup;
 
   tiposActivo = TIPOS_ACTIVO;
-  monedas: MMoneda[] = [];
+  monedas: Moneda[] = [];
   buscadorMarca = BuscadorMarcaComponent;
   denominacionMarcaPipe = DenominacionMarcaPipe;
 
-  constructor(private _dialog: MatDialog, private _sigesp: SigespService) {}
+  constructor(
+    private _dialog: MatDialog,
+    private _moneda: MonedaService,
+    private _configuracion: ConfiguracionService
+  ) {}
+
+  serialRotulacionAutogenerado = true;
 
   ngOnInit(): void {
-    this._sigesp
-      .getMonedas('todas')
+    this._configuracion
+      .buscarPorId(1)
       .pipe(
-        first(),
-        tap(monedas => (this.monedas = monedas))
+        tap(configuracion => {
+          this.serialRotulacionAutogenerado =
+            configuracion.serialRotulacionAutogenerado === 1;
+          if (!this.serialRotulacionAutogenerado)
+            this.formulario.patchValue({ serialRotulacion: '' });
+        }),
+        switchMap(() =>
+          this._moneda
+            .buscarTodos()
+            .pipe(tap(monedas => (this.monedas = monedas)))
+        ),
+        take(1)
       )
       .subscribe();
   }
