@@ -15,6 +15,9 @@ export interface Configuracion extends Basica {
   mostrarBotonesInicioFinal: number;
   mostrarOpcionesPaginacion: number;
   decorarFiltros: number;
-  abrirImprimirProceso: number;
+  // TODO: Los cambios de este campo solo estaran en el front,
+  // pendientes por modificar en el backend y la base de datos
+  // abrirImprimirProceso: number;
+  serialRotulacionAutogenerado: number;
   prefijoSerialRotulacion: string;
 }

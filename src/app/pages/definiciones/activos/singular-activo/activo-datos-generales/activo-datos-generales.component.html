@@ -56,7 +56,12 @@
     <!-- serial rotulacion -->
     <mat-form-field appearance="fill" class="serialRotulacion">
       <mat-label>Serial Rotulación</mat-label>
-      <input type="text" matInput formControlName="serialRotulacion" readonly />
+      <input
+        type="text"
+        matInput
+        formControlName="serialRotulacion"
+        placeholder="Escriba aqui el serial de rotulación"
+        [readonly]="serialRotulacionAutogenerado" />
     </mat-form-field>
     <!-- denominacion -->
     <mat-form-field appearance="fill" class="denominacion">
