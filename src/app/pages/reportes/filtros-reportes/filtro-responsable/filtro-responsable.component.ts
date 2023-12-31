@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-responsable',
@@ -29,6 +30,7 @@ export class FiltroResponsableComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.responsable),
         tap((responsable: Responsable) =>
           this.formulario.patchValue({ responsable: responsable.id })
         ),

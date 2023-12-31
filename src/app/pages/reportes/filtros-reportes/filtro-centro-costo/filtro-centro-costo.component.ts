@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CentroCostos } from '@core/models/otros-modulos/centro-costos';
 import { BuscadorCentroCostoComponent } from '@shared/components/buscador-centro-costo/buscador-centro-costo.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-centro-costo',
@@ -29,6 +30,7 @@ export class FiltroCentroCostoComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.centroCostos),
         tap((centroCostos: CentroCostos) =>
           this.formulario.patchValue({ centroCostos: centroCostos.id })
         ),

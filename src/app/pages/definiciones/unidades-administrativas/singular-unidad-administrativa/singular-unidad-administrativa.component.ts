@@ -21,6 +21,7 @@ import { BuscadorResponsableComponent } from '@shared/components/buscador-respon
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorUnidadOrganizativaComponent } from '@shared/components/buscador-unidad-organizativa/buscador-unidad-organizativa.component';
 import { UnidadOrganizativa } from '@core/models/otros-modulos/unidad-organizativa';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-unidad-administrativa',
@@ -193,6 +194,7 @@ export class SingularUnidadAdministrativaComponent
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.categoria),
           tap((categoria: CategoriaUnidadAdministrativa) =>
             this.formulario.patchValue({ categoria: categoria.id })
           )
@@ -211,6 +213,7 @@ export class SingularUnidadAdministrativaComponent
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.responsable),
           tap((responsable: Responsable) =>
             this.formulario.patchValue({ responsable: responsable.id })
           )
@@ -229,6 +232,7 @@ export class SingularUnidadAdministrativaComponent
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.unidadOrganizativa),
           tap((unidadOrganizativa: UnidadOrganizativa) =>
             this.formulario.patchValue({
               unidadOrganizativa: unidadOrganizativa.id,

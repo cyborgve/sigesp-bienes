@@ -28,6 +28,7 @@ import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/op
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-entrega-unidad',
@@ -257,6 +258,7 @@ export class SingularEntregaUnidadComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.sede),
         tap((entidad: Sede) =>
           this.formulario.patchValue({ sede: entidad.id })
         ),
@@ -274,6 +276,7 @@ export class SingularEntregaUnidadComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.unidadAdministrativa),
         tap((unidadAdministrativa: UnidadAdministrativa) =>
           this.formulario.patchValue({
             unidadAdministrativa: unidadAdministrativa.id,
@@ -294,6 +297,7 @@ export class SingularEntregaUnidadComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.responsableAnterior),
         tap((entidad: Responsable) =>
           this.formulario.patchValue({ responsableAnterior: entidad.id })
         ),
@@ -311,6 +315,7 @@ export class SingularEntregaUnidadComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.nuevoResponsable),
         tap((entidad: Responsable) =>
           this.formulario.patchValue({ nuevoResponsable: entidad.id })
         ),

@@ -31,6 +31,7 @@ import { filtrarActivosDepreciables } from '@core/utils/pipes-rxjs/operadores/fi
 import { filtrarActivosSinDepreciacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-depreciacion';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { normalizarMetodoDepreciacion } from '@core/utils/funciones/normalizar-metodo-depreciacion';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-depreciacion',
@@ -267,6 +268,7 @@ export class SingularDepreciacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.activo),
         switchMap((activoParcial: Activo) =>
           this._activo.buscarPorId(activoParcial.id)
         ),

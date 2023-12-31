@@ -31,6 +31,7 @@ import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubica
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-autorizacion-salida',
@@ -284,6 +285,7 @@ export class SingularAutorizacionSalidaComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.unidadAdministrativa),
         tap((entidad: Basica) =>
           this.formulario.patchValue({
             unidadAdministrativa: entidad.id,
@@ -303,6 +305,7 @@ export class SingularAutorizacionSalidaComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.empreseAutorizada),
         tap((proveedor: Proveedor) =>
           this.formulario.patchValue({ empresaAutorizada: proveedor.id })
         )

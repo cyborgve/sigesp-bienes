@@ -22,6 +22,7 @@ import { Modelo } from '@core/models/definiciones/modelo';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { Moneda } from '@core/models/otros-modulos/moneda';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-componente',
@@ -207,6 +208,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.tipoComponenteId),
           tap((tipoComponente: TipoComponente) =>
             this.formulario.patchValue({
               tipoComponenteId: tipoComponente.id,
@@ -227,6 +229,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.activoId),
           tap((activo: Activo) =>
             this.formulario.patchValue({ activoId: activo.id })
           )
@@ -245,6 +248,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.modeloId),
           tap((modelo: Modelo) =>
             this.formulario.patchValue({ modeloId: modelo.id })
           )
@@ -263,6 +267,7 @@ export class SingularComponenteComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.moneda),
           tap((moneda: Moneda) =>
             this.formulario.patchValue({ moneda: moneda.id })
           )

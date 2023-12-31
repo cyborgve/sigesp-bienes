@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Location } from '@angular/common';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-modelo',
@@ -181,6 +182,7 @@ export class SingularModeloComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.marcaId),
           tap((marca: Marca) =>
             this.formulario.patchValue({ marcaId: marca.id })
           )

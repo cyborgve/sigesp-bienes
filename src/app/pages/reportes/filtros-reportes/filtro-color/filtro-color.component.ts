@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Color } from '@core/models/definiciones/color';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-color/buscador-color.component';
 import { take, tap, filter } from 'rxjs/operators';
 
@@ -29,6 +30,7 @@ export class FiltroColorComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.color),
         tap((color: Color) => this.formulario.patchValue({ color: color.id })),
         take(1)
       )

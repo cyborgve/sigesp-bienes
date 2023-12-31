@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoPolizaComponent } from '@pages/definiciones/tipos-poliza/buscador-tipo-poliza/buscador-tipo-poliza.component';
 import { TipoPoliza } from '@core/models/definiciones/tipo-poliza';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-poliza',
@@ -29,6 +30,7 @@ export class FiltroTipoPolizaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoPoliza),
         tap((tipoPoliza: TipoPoliza) =>
           this.formulario.patchValue({ tipoPoliza: tipoPoliza.id })
         ),

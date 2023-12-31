@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-cuenta-contable',
@@ -29,6 +30,7 @@ export class FiltroCuentaContableComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.cuentaContable),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({ cuentaContable: cuentaContable.id })
         ),

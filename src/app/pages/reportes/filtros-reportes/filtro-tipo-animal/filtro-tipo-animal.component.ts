@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';
 import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-animal',
@@ -29,6 +30,7 @@ export class FiltroTipoAnimalComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoAnimal),
         tap((tipoAnimal: TipoAnimal) =>
           this.formulario.patchValue({ tipoAnimal: tipoAnimal.id })
         ),

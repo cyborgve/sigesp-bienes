@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedor/buscador-proveedor.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-proveedor',
@@ -29,6 +30,7 @@ export class FiltroProveedorComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.proveedor),
         tap((proveedor: Proveedor) =>
           this.formulario.patchValue({ proveedor: proveedor.id })
         ),

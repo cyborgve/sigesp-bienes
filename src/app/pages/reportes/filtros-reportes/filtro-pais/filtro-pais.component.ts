@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorPaisComponent } from '@shared/components/buscador-pais/buscador-pais.component';
 import { Pais } from '@core/models/otros-modulos/pais';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-pais',
@@ -29,6 +30,7 @@ export class FiltroPaisComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.pais),
         tap((pais: Pais) => this.formulario.patchValue({ pais: pais.id })),
         take(1)
       )

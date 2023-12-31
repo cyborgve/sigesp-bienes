@@ -21,16 +21,14 @@ import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { Activo } from '@core/models/definiciones/activo';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { BuscadorComponenteComponent } from '@pages/definiciones/activos-componentes/buscador-componente/buscador-componente.component';
-import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
-import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';
 import { convertirComponenteProceso } from '@core/utils/funciones/convertir-componente-proceso';
-import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-activo-depreciable';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-modificacion',
@@ -250,6 +248,7 @@ export class SingularModificacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.causaMoviiento),
         tap((causaMovimiento: CausaMovimiento) =>
           this.formulario.patchValue({ causaMovimiento: causaMovimiento.id })
         ),
@@ -348,25 +347,6 @@ export class SingularModificacionComponent implements Entidad {
         take(1)
       )
       .subscribe();
-
-    // let dialog = this._dialog.open(BuscadorCuentaContableComponent, {
-    //   height: '95%',
-    //   width: '85%',
-    // });
-    // dialog
-    //   .afterClosed()
-    //   .pipe(
-    //     filter(todo => !!todo),
-    //     tap(
-    //       (cuentaContable: CuentaContable) =>
-    //         (this.dataCuentasContables = new MatTableDataSource([
-    //           ...this.dataCuentasContables.data,
-    //           convertirCuentaProceso(cuentaContable),
-    //         ]))
-    //     ),
-    //     take(1)
-    //   )
-    //   .subscribe();
   }
 
   removerCuentaContable(cuentaProceso: CuentaContableProceso) {

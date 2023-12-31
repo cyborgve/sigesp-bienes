@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorParroquiaComponent } from '@shared/components/buscador-parroquia/buscador-parroquia.component';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-parroquia',
@@ -29,6 +30,7 @@ export class FiltroParroquiaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.parroquia),
         tap((parroquia: Parroquia) =>
           this.formulario.patchValue({ parroquia: parroquia.id })
         ),

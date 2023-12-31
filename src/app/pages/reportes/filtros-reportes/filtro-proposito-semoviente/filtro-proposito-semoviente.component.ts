@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PropositoSemoviente } from '@core/models/definiciones/proposito-semoviente';
 import { BuscadorPropositoSemovienteComponent } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-proposito-semoviente',
@@ -29,6 +30,7 @@ export class FiltroPropositoSemovienteComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.propositoSemoviente),
         tap((propositoSemoviente: PropositoSemoviente) =>
           this.formulario.patchValue({
             propositoSemoviente: propositoSemoviente.id,

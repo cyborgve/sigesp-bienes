@@ -27,6 +27,7 @@ import { ActivoService } from '@core/services/definiciones/activo.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-reasignacion',
@@ -258,6 +259,7 @@ export class SingularReasignacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.causaMovimiento),
         tap((causaMovimiento: CausaMovimiento) =>
           this.formulario.patchValue({ causaMovimiento: causaMovimiento.id })
         ),
@@ -275,6 +277,7 @@ export class SingularReasignacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.sede),
         tap((sede: Sede) =>
           this.formulario.patchValue({
             sede: sede.id,
@@ -294,6 +297,7 @@ export class SingularReasignacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.responsablePrimario),
         tap((responsable: Responsable) =>
           this.formulario.patchValue({
             responsablePrimario: responsable.id,
@@ -313,6 +317,7 @@ export class SingularReasignacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.responsableUso),
         tap((responsable: Responsable) =>
           this.formulario.patchValue({
             responsableUso: responsable.id,

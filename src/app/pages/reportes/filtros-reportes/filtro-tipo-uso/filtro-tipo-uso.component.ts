@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoUsoComponent } from '@pages/definiciones/tipos-uso/buscador-tipo-uso/buscador-tipo-uso.component';
 import { TipoUso } from '@core/models/definiciones/tipo-uso';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-uso',
@@ -29,6 +30,7 @@ export class FiltroTipoUsoComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoUso),
         tap((tipoUso: TipoUso) =>
           this.formulario.patchValue({ tipoUso: tipoUso.id })
         ),

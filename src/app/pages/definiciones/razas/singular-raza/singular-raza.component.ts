@@ -15,6 +15,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-raza',
@@ -175,6 +176,7 @@ export class SingularRazaComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoAnimalId),
         tap((tipoAnimal: TipoAnimal) =>
           this.formulario.patchValue({ tipoAnimalId: tipoAnimal.id })
         ),

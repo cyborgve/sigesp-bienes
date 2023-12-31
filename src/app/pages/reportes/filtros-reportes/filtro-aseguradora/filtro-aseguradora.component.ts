@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorAseguradoraComponent } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.component';
 import { Aseguradora } from '@core/models/definiciones/aseguradora';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-aseguradora',
@@ -29,6 +30,7 @@ export class FiltroAseguradoraComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.aseguradora),
         tap((aseguradora: Aseguradora) =>
           this.formulario.patchValue({ aseguradora: aseguradora.id })
         ),

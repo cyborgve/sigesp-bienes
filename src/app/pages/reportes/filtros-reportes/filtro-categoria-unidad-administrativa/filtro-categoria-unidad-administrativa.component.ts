@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorCategoriaUnidadComponent } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad/buscador-categoria-unidad.component';
 import { filter, take, tap } from 'rxjs/operators';
 
@@ -29,6 +30,9 @@ export class FiltroCategoriaUnidadAdministrativaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(
+          this.formulario.value.categoriaUnidadAdministrativa
+        ),
         tap((categoriaUnidadAdministrativa: CategoriaUnidadAdministrativa) =>
           this.formulario.patchValue({
             categoriaUnidadAdministrativa: categoriaUnidadAdministrativa.id,

@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-unidad-administrativa',
@@ -29,6 +30,7 @@ export class FiltroUnidadAdministrativaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.unidadAdministrativa),
         tap((unidadAdministrativa: UnidadAdministrativa) =>
           this.formulario.patchValue({
             unidadAdministrativa: unidadAdministrativa.id,

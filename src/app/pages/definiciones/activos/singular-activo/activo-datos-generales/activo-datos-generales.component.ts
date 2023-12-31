@@ -17,6 +17,7 @@ import { BuscadorCatalogoGeneralComponent } from '@pages/definiciones/catalogos-
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { MonedaService } from '@core/services/otros-modulos/moneda.service';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-activo-datos-generales',
@@ -81,6 +82,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.catalogoCuentas),
           tap((catalogoGeneral: CatalogoGeneral) =>
             this.formulario.patchValue({
               catalogoCuentas: catalogoGeneral.id,
@@ -101,6 +103,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.monedaId),
           tap((moneda: Moneda) =>
             this.formulario.patchValue({ monedaId: moneda.id })
           )
@@ -119,6 +122,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.modeloId),
           map(entidad => entidad),
           tap(entidad => this.formulario.patchValue({ modeloId: entidad.id }))
         )
@@ -136,6 +140,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.colorId),
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
             this.formulario.patchValue({ colorId: entidad.id })
@@ -155,6 +160,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.rotulacionId),
           map(entidad => entidad as Basica),
           tap(entidad =>
             this.formulario.patchValue({ rotulacionId: entidad.id })
@@ -174,6 +180,7 @@ export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.categoriaId),
           map(entidad => entidad as Basica),
           tap(entidad =>
             this.formulario.patchValue({ categoriaId: entidad.id })
