@@ -385,7 +385,7 @@ export class SingularDesincorporacionComponent
               let { data } = this.cuentasDataSource;
               cuentasContables.forEach(c => {
                 if (
-                  data.some(
+                  data.find(
                     dato =>
                       dato.cuentaContable === c.cuentaContable &&
                       dato.procedencia === c.procedencia
