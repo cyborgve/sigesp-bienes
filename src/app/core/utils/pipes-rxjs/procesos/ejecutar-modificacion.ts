@@ -35,8 +35,8 @@ export const ejecutarModificacion = (
           return forkJoin(asignarComponentes).pipe(map(() => modificacion));
         })
       );
-    })
-    //segundaParte(_depreciacion, _activoComponente)
+    }),
+    segundaParte(_depreciacion, _activoComponente)
   );
 
 const segundaParte = (
@@ -67,7 +67,12 @@ const segundaParte = (
             modificacion.creado,
             valorTotalModificacion
           );
-        })
+        }),
+        switchMap(depreciacion =>
+          _depreciacion
+            .actualizar(depreciacion.id, depreciacion, undefined, false)
+            .pipe(map(() => modificacion))
+        )
       );
     })
   );

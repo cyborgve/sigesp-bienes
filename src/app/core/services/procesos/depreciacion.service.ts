@@ -117,6 +117,32 @@ export class DepreciacionService extends GenericService<Depreciacion> {
     );
   }
 
+  actualizar(
+    id: Id,
+    entidad: Depreciacion,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<number> {
+    let actualizarDepreciacion = [
+      super.actualizar(id, entidad, tipoDato, notificar),
+      ...entidad.detalles.map(detalle =>
+        this._detalleDepreciacion.actualizar(
+          detalle.id,
+          detalle,
+          undefined,
+          false
+        )
+      ),
+    ];
+    return forkJoin(actualizarDepreciacion).pipe(
+      map(resultadosActualizacionDepreciacion =>
+        resultadosActualizacionDepreciacion.every(resultado => resultado === 1)
+          ? 1
+          : 0
+      )
+    );
+  }
+
   eliminar(id: Id, tipoDato: string, notificar?: boolean): Observable<boolean> {
     return this.buscarPorId(id).pipe(
       switchMap(depreciacion =>

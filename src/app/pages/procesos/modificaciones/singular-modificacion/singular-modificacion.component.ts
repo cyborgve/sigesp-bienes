@@ -33,6 +33,7 @@ import { filtrarComponentesNoSeleccionados } from '@core/utils/pipes-rxjs/operad
 import { CuentaContableService } from '@core/services/otros-modulos/cuenta-contable.service';
 import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
 import { ActivoComponenteService } from '@core/services/definiciones/activo-componente.service';
+import { filtrarComponentesDisponibles } from '@core/utils/pipes-rxjs/operadores/filtrar-componentes-disponibles';
 
 @Component({
   selector: 'app-singular-modificacion',
@@ -297,7 +298,10 @@ export class SingularModificacionComponent implements Entidad {
       height: '95%',
       width: '85%',
       data: {
-        filtros: [filtrarComponentesNoSeleccionados(this.dataComponentes.data)],
+        filtros: [
+          filtrarComponentesNoSeleccionados(this.dataComponentes.data),
+          filtrarComponentesDisponibles(),
+        ],
       },
     });
     dialog
