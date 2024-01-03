@@ -264,7 +264,9 @@ export class SingularActaPrestamoComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        puedeActualizarFormulario(this.formulario.value.unidadAdministrativa),
+        puedeActualizarFormulario(
+          this.formulario.value.unidadAdministrativaCedente
+        ),
         tap(unidadAdministrativa =>
           this.formulario.patchValue({
             unidadAdministrativaCedente: unidadAdministrativa.id,
@@ -315,7 +317,7 @@ export class SingularActaPrestamoComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        puedeActualizarFormulario(this.formulario.value.responsable),
+        puedeActualizarFormulario(this.formulario.value.testigo),
         tap(responsable =>
           this.formulario.patchValue({
             testigo: responsable.id,

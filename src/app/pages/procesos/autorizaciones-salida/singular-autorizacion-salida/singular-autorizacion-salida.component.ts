@@ -305,7 +305,7 @@ export class SingularAutorizacionSalidaComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        puedeActualizarFormulario(this.formulario.value.empreseAutorizada),
+        puedeActualizarFormulario(this.formulario.value.empresaAutorizada),
         tap((proveedor: Proveedor) =>
           this.formulario.patchValue({ empresaAutorizada: proveedor.id })
         )
