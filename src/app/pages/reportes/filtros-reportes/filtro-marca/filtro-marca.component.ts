@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
 import { Marca } from '@core/models/definiciones/marca';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-marca',
@@ -29,6 +30,7 @@ export class FiltroMarcaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.marca),
         tap((marca: Marca) => this.formulario.patchValue({ marca: marca.id })),
         take(1)
       )

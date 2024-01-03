@@ -1,6 +1,6 @@
 import { Activo } from '../definiciones/activo';
 
-export interface Integracion {
+export interface Contabilizacion {
   tipo: 'contabilizar' | 'reversarContabilizar';
   bienes: {
     procede: 'SBNCAJ' | 'SBNCDN' | 'SBNCDP';

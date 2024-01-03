@@ -23,6 +23,7 @@ import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-benef
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-retorno',
@@ -224,6 +225,7 @@ export class SingularRetornoComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.beneficiario),
         tap((beneficiario: Beneficiario) =>
           this.formulario.patchValue({ beneficiario: beneficiario.id })
         ),

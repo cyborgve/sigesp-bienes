@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { Sede } from '@core/models/definiciones/sede';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-sede',
@@ -29,6 +30,7 @@ export class FiltroSedeComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.sede),
         tap((sede: Sede) => this.formulario.patchValue({ sede: sede.id })),
         take(1)
       )

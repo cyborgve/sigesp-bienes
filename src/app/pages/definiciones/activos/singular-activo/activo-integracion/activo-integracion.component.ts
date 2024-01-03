@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { filtrarPlantillasIntegracionPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-plantillas-integracion-por-tipo';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { filter, take, tap } from 'rxjs/operators';
@@ -27,6 +28,7 @@ export class ActivoIntegracionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.modCuentaContableDebe),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             modCuentaContableDebe: cuentaContable.id,
@@ -46,6 +48,7 @@ export class ActivoIntegracionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.modCuentaCOntableHaber),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             modCuentaContableHaber: cuentaContable.id,
@@ -65,6 +68,7 @@ export class ActivoIntegracionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.desCuentaContableDebe),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             desCuentaContableDebe: cuentaContable.id,
@@ -84,6 +88,7 @@ export class ActivoIntegracionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.desCuentaContableHaber),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             desCuentaContableHaber: cuentaContable.id,

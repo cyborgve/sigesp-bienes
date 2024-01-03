@@ -15,6 +15,7 @@ import { BuscadorCatalogoGeneralComponent } from '../buscador-catalogo-general/b
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { ESTADOS_MOVIMIENTO_CATALOGO } from '@core/constants/estado-movimiento-catalogo';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-catalogo-general',
@@ -198,6 +199,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.cuentaReferencia),
           tap((catalogoGeneral: CatalogoGeneral) => {
             if (catalogoGeneral) {
               this.formulario.patchValue({

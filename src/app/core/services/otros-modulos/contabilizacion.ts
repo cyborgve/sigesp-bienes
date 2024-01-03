@@ -4,11 +4,11 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class IntegracionService {
+export class ContabilizacionService {
   private apiUrl = 'dao/sbn/integrar-bienes-dao.php';
 
   constructor(private _http: HttpClient) {}
 
-  integrar() {}
-  reversarIntegracion() {}
+  contabilizar() {}
+  reversarContabilizacion() {}
 }

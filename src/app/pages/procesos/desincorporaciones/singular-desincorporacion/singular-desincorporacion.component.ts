@@ -36,6 +36,7 @@ import { ActivoIntegracionService } from '@core/services/definiciones/activo-int
 import { CuentaContableService } from '@core/services/otros-modulos/cuenta-contable.service';
 import { Activo } from '@core/models/definiciones/activo';
 import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-desincorporacion',
@@ -273,6 +274,7 @@ export class SingularDesincorporacionComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.unidadAdministrativa),
         tap((unidadAdministrativa: UnidadAdministrativa) => {
           if (unidadAdministrativa) {
             this.formulario.patchValue({
@@ -297,6 +299,7 @@ export class SingularDesincorporacionComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.causaMovimiento),
         tap((causaMovimiento: CausaMovimiento) => {
           if (causaMovimiento) {
             this.formulario.patchValue({
@@ -382,7 +385,7 @@ export class SingularDesincorporacionComponent
               let { data } = this.cuentasDataSource;
               cuentasContables.forEach(c => {
                 if (
-                  data.some(
+                  data.find(
                     dato =>
                       dato.cuentaContable === c.cuentaContable &&
                       dato.procedencia === c.procedencia

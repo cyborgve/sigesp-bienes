@@ -19,6 +19,7 @@ import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { TIPOS_PLANTILLA_INTEGRACION } from '@core/constants/tipos-plantilla-integracion';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-plantilla-integracion',
@@ -205,6 +206,7 @@ export class SingularPlantillaIntegracionComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.cuentaContableDebe),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({ cuentaContableDebe: cuentaContable.id })
         ),
@@ -222,6 +224,7 @@ export class SingularPlantillaIntegracionComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.cuentaContableHaber),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             cuentaContableHaber: cuentaContable.id,

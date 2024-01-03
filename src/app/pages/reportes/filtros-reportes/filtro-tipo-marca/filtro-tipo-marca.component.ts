@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoMarcaComponent } from '@pages/definiciones/tipos-marca/buscador-tipo-marca/buscador-tipo-marca.component';
 import { TipoMarca } from '@core/models/definiciones/tipo-marca';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-marca',
@@ -29,6 +30,7 @@ export class FiltroTipoMarcaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoMarca),
         tap((tipoMarca: TipoMarca) =>
           this.formulario.patchValue({ tipoMarca: tipoMarca.id })
         ),

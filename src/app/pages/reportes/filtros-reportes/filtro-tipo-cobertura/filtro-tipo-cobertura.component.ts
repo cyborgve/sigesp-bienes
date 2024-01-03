@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoCoberturaComponent } from '@pages/definiciones/tipos-cobertura/buscador-tipo-cobertura/buscador-tipo-cobertura.component';
 import { TipoCobertura } from '@core/models/definiciones/tipo-cobertura';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-cobertura',
@@ -29,6 +30,7 @@ export class FiltroTipoCoberturaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoCobertura),
         tap((tipoCobertura: TipoCobertura) =>
           this.formulario.patchValue({ tipoCorbertura: tipoCobertura.id })
         ),

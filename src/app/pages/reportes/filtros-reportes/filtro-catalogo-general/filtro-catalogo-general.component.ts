@@ -5,6 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { tap, take, map, filter } from 'rxjs/operators';
 import { CatalogoGeneral } from '@core/models/definiciones/catalogo-general';
 import { pipe } from 'rxjs';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-catalogo-general',
@@ -37,6 +38,7 @@ export class FiltroCatalogoGeneralComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.catalogoGeneral),
         tap((catalogoGeneral: CatalogoGeneral) =>
           this.formulario.patchValue({ catalogoGeneral: catalogoGeneral.id })
         ),

@@ -12,8 +12,6 @@ import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DepreciacionDetalleService } from './depreciacion-detalle.service';
-import { ejecutarDepreciacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-depreciacion';
-import { reversarDepreciacion } from '@core/utils/pipes-rxjs/procesos/reversar-depreciacion';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
 import { adaptarDepreciacionesLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion-lista';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
@@ -63,7 +61,15 @@ export class DepreciacionService extends GenericService<Depreciacion> {
     return this._http.get<Depreciacion[]>(this.apiUrlActivo(activo)).pipe(
       map((resultado: any) => resultado.data),
       map(data => normalizarObjeto(data[0])),
-      adaptarDepreciacion()
+      adaptarDepreciacion(),
+      switchMap(depreciacion =>
+        this._detalleDepreciacion.buscarTodosPorProceso(depreciacion.id).pipe(
+          map(detallesDepreciacion => {
+            depreciacion.detalles = detallesDepreciacion;
+            return depreciacion;
+          })
+        )
+      )
     );
   }
 
@@ -108,6 +114,32 @@ export class DepreciacionService extends GenericService<Depreciacion> {
           })
         );
       })
+    );
+  }
+
+  actualizar(
+    id: Id,
+    entidad: Depreciacion,
+    tipoDato: string,
+    notificar?: boolean
+  ): Observable<number> {
+    let actualizarDepreciacion = [
+      super.actualizar(id, entidad, tipoDato, notificar),
+      ...entidad.detalles.map(detalle =>
+        this._detalleDepreciacion.actualizar(
+          detalle.id,
+          detalle,
+          undefined,
+          false
+        )
+      ),
+    ];
+    return forkJoin(actualizarDepreciacion).pipe(
+      map(resultadosActualizacionDepreciacion =>
+        resultadosActualizacionDepreciacion.every(resultado => resultado === 1)
+          ? 1
+          : 0
+      )
     );
   }
 

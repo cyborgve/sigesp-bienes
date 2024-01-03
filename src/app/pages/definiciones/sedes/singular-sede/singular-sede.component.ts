@@ -26,6 +26,7 @@ import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscad
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
 import { BuscadorParroquiaComponent } from '@shared/components/buscador-parroquia/buscador-parroquia.component';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-sede',
@@ -235,6 +236,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.paisId),
           tap((pais: Pais) => this.formulario.patchValue({ paisId: pais.id }))
         )
         .subscribe()
@@ -251,6 +253,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.estadoId),
           tap((estado: Estado) =>
             this.formulario.patchValue({ estadoId: estado.id })
           )
@@ -269,6 +272,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.municipioId),
           tap((municipio: Municipio) =>
             this.formulario.patchValue({ municipioId: municipio.id })
           )
@@ -287,6 +291,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.parroquiaId),
           tap((parroquia: Parroquia) =>
             this.formulario.patchValue({ parroquiaId: parroquia.id })
           )
@@ -305,6 +310,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.ciudadId),
           tap((ciudad: Ciudad) =>
             this.formulario.patchValue({ ciudadId: ciudad.id })
           )
@@ -323,6 +329,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.tipoSedeId),
           tap((entidad: TipoSede) =>
             this.formulario.patchValue({ tipoSedeId: entidad.id })
           )

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Clase } from '@core/models/definiciones/clase';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorClaseComponent } from '@pages/definiciones/clases/buscador-clase/buscador-clase.component';
 import { take, tap, filter } from 'rxjs/operators';
 
@@ -29,6 +30,7 @@ export class FiltroClaseComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.clase),
         tap((clase: Clase) => this.formulario.patchValue({ clase: clase.id })),
         take(1)
       )

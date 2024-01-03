@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-sede',
@@ -29,6 +30,7 @@ export class FiltroTipoSedeComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoSede),
         tap((tipoSede: TipoSede) =>
           this.formulario.patchValue({ tipoSede: tipoSede.id })
         ),

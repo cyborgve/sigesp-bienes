@@ -74,7 +74,7 @@
   <app-componentes-proceso
     (agregarComponente)="agregarComponente()"
     (removerComponente)="removerComponente($event)"
-    [agregarComponentesDeshabilitado]="formulario.invalid"
+    [agregarComponentesDeshabilitado]="agregarComponentesDeshabilitado()"
     [dataSource]="dataComponentes"></app-componentes-proceso>
 </section>
 <section class="contenedor-singular inferior">

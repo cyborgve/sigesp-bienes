@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadoUso } from '@core/models/definiciones/estado-uso';
 import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-estado-uso',
@@ -29,6 +30,7 @@ export class FiltroEstadoUsoComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.estadoUso),
         tap((estadoUso: EstadoUso) =>
           this.formulario.patchValue({ estadoUso: estadoUso.id })
         ),

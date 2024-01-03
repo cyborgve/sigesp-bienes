@@ -15,6 +15,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { TipoMarca } from '@core/models/definiciones/tipo-marca';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { CORRELATIVOS } from '@core/constants/correlativos';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-marca',
@@ -172,6 +173,7 @@ export class SingularMarcaComponent implements Entidad {
       .beforeClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoMarca),
         tap((tipoMarca: TipoMarca) =>
           this.formulario.patchValue({ tipo: tipoMarca.id })
         ),
@@ -189,6 +191,7 @@ export class SingularMarcaComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipo),
         tap(entidad => this.formulario.patchValue({ tipo: entidad.id })),
         take(1)
       )

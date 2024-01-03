@@ -1,6 +1,20 @@
-import { IntegracionService } from '@core/services/procesos/integracion.service';
-import { pipe } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Integracion } from '@core/models/procesos/integracion';
+import { ContabilizacionService } from '@core/services/otros-modulos/contabilizacion';
+import { of, pipe } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
-export const ejecutarIntegracion = (_integracion: IntegracionService) =>
-  pipe(tap());
+const procesosIntegrables = [
+  'DEPRECIACIÓN',
+  'DESINCORPORACIÓN',
+  'MODIFICACIÓN',
+];
+
+export const ejecutarIntegracion = (_contabilizacion: ContabilizacionService) =>
+  pipe(
+    switchMap((integraciones: Integracion[]) => {
+      let procesosPorIntegrar = integraciones.filter(integracion =>
+        procesosIntegrables.includes(integracion.tipoProceso)
+      );
+      return of(procesosPorIntegrar);
+    })
+  );

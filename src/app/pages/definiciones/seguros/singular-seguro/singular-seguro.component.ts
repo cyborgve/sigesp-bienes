@@ -21,6 +21,7 @@ import { CorrelativoService } from '@core/services/definiciones/correlativo.serv
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { Moneda } from '@core/models/otros-modulos/moneda';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-seguro',
@@ -227,6 +228,7 @@ export class SingularSeguroComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.aseguradoraId),
         tap((entidad: Aseguradora) =>
           this.formulario.patchValue({
             aseguradoraId: entidad.id,
@@ -246,6 +248,7 @@ export class SingularSeguroComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoPoliza),
         tap((entidad: TipoPoliza) =>
           this.formulario.patchValue({
             tipoPolizaId: entidad.id,
@@ -265,6 +268,7 @@ export class SingularSeguroComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoCoberturaId),
         tap((entidad: TipoCobertura) =>
           this.formulario.patchValue({ tipoCoberturaId: entidad.id })
         ),
@@ -282,6 +286,7 @@ export class SingularSeguroComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.coberturaAdicional),
         tap((entidad: TipoCobertura) =>
           this.formulario.patchValue({ coberturaAdicional: entidad.id })
         ),
@@ -299,6 +304,7 @@ export class SingularSeguroComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.monedaId),
         tap((entidad: Moneda) =>
           this.formulario.patchValue({ monedaId: entidad.id })
         ),
@@ -316,6 +322,7 @@ export class SingularSeguroComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.monedaSecundariaId),
         tap((entidad: Moneda) =>
           this.formulario.patchValue({ monedaSecundariaId: entidad.id })
         ),

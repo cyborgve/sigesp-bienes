@@ -1,5 +1,6 @@
 import { DetalleDepreciacion } from '@core/models/procesos/detalle-depreciacion';
 import moment from 'moment';
+import 'moment/locale/es';
 import { convertirUnidadTiempo } from './convertir-unidad-tiempo';
 import { UnidadDeTiempo } from '@core/types/unidades-tiempo';
 import { MetodoDepreciacion } from '@core/types/metodo-depreciacion';

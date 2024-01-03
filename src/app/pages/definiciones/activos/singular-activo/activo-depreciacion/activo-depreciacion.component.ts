@@ -16,6 +16,7 @@ import { comprobarActivoDepreciable } from '@core/utils/funciones/comprobar-acti
 import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
 import { filtrarPlantillasIntegracionPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-plantillas-integracion-por-tipo';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -47,6 +48,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.cuentaContableDebe),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             cuentaContableDebe: cuentaContable.id,
@@ -66,6 +68,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.cuentaContableHaber),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             cuentaContableHaber: cuentaContable.id,
@@ -85,6 +88,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.monedaValorRescate),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ monedaValorRescate: entidad.id })
         ),

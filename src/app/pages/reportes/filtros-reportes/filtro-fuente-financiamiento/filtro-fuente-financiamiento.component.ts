@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financiamiento';
 import { BuscadorFuenteFinanciamientoComponent } from '@shared/components/buscador-fuente-financiamiento/buscador-fuente-financiamiento.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-fuente-financiamiento',
@@ -29,6 +30,7 @@ export class FiltroFuenteFinanciamientoComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.fuenteFinanciamiento),
         tap((fuenteFinanciamiento: FuenteFinanciamiento) =>
           this.formulario.patchValue({
             fuenteFinanciamiento: fuenteFinanciamiento.id,

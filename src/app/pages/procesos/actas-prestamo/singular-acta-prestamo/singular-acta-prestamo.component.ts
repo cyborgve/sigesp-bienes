@@ -31,6 +31,7 @@ import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubica
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 import { filtrarActivosReferenciaEstadoDisponible } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-referencia-estado-disponible.ts';
 import { filtrarUnidadesAdministrativasNoSeleccionadas } from '@core/utils/pipes-rxjs/operadores/filtrar-unidades-administrativas-no-seleccionadas';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -263,6 +264,9 @@ export class SingularActaPrestamoComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(
+          this.formulario.value.unidadAdministrativaCedente
+        ),
         tap(unidadAdministrativa =>
           this.formulario.patchValue({
             unidadAdministrativaCedente: unidadAdministrativa.id,
@@ -290,6 +294,9 @@ export class SingularActaPrestamoComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(
+          this.formulario.value.unidadAdministrativaReceptora
+        ),
         tap(unidadAdministrativa =>
           this.formulario.patchValue({
             unidadAdministrativaReceptora: unidadAdministrativa.id,
@@ -310,6 +317,7 @@ export class SingularActaPrestamoComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.testigo),
         tap(responsable =>
           this.formulario.patchValue({
             testigo: responsable.id,

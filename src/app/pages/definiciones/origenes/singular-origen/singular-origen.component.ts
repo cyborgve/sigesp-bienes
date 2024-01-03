@@ -19,6 +19,7 @@ import { BuscadorProveedorComponent } from '@shared/components/buscador-proveedo
 import { Proveedor } from '@core/models/otros-modulos/proveedor';
 import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-origen',
@@ -233,6 +234,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.proveedorId),
         tap((proveedor: Proveedor) => {
           if (proveedor) {
             this.formulario.patchValue({ proveedorId: proveedor.id });
@@ -252,6 +254,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.nombreBenefactor),
         tap((beneficiario: Beneficiario) => {
           if (beneficiario) {
             this.formulario.patchValue({ nombreBenefactor: beneficiario.id });
@@ -271,6 +274,7 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.nombreBeneficiario),
         tap((beneficiario: Beneficiario) => {
           if (beneficiario) {
             this.formulario.patchValue({ nombreBeneficiario: beneficiario.id });

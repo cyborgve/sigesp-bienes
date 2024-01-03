@@ -19,6 +19,7 @@ import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-repor
 import { ejecutarModificacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-modificacion';
 import { ActivoComponenteService } from '../definiciones/activo-componente.service';
 import { reversarModificacion } from '@core/utils/pipes-rxjs/procesos/reversar-modificacion';
+import { DepreciacionService } from './depreciacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,8 @@ export class ModificacionService extends GenericService<Modificacion> {
     private _modificacionComponentes: ModificacionComponenteService,
     private _modificacionCuentaContable: ModificacionCuentaContableService,
     private _pdf: PDFService,
-    private _activoComponente: ActivoComponenteService
+    private _activoComponente: ActivoComponenteService,
+    private _depreciacion: DepreciacionService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -106,7 +108,7 @@ export class ModificacionService extends GenericService<Modificacion> {
           })
         );
       }),
-      ejecutarModificacion(this._activoComponente),
+      ejecutarModificacion(this._activoComponente, this._depreciacion),
       abrirReporteProceso(this._pdf, 'MODIFICACIÓN')
     );
   }

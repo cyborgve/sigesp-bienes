@@ -23,8 +23,8 @@ import { BuscadorResponsableComponent } from '@shared/components/buscador-respon
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { Subscription, forkJoin } from 'rxjs';
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
-import { ActivoService } from '@core/services/definiciones/activo.service';
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-cambio-responsable',
@@ -53,8 +53,7 @@ export class SingularCambioResponsableComponent
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activoUbicacion: ActivoUbicacionService,
-    private _activo: ActivoService
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -267,6 +266,7 @@ export class SingularCambioResponsableComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.activo),
         tap((activo: Activo) => {
           this.formulario.patchValue({
             activo: activo.id,
@@ -300,6 +300,7 @@ export class SingularCambioResponsableComponent
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.nuevoResponsable),
         tap((responsable: Responsable) => {
           if (responsable) {
             this.formulario.patchValue({ nuevoResponsable: responsable.id });

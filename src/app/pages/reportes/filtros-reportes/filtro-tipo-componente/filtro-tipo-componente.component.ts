@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TipoComponente } from '@core/models/definiciones/tipo-componente';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-componente',
@@ -29,6 +30,7 @@ export class FiltroTipoComponenteComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoComponente),
         tap((tipoComponente: TipoComponente) =>
           this.formulario.patchValue({ tipoComponente: tipoComponente.id })
         ),

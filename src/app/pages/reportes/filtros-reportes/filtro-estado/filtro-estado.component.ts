@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Estado } from '@core/models/otros-modulos/estado';
 import { BuscadorEstadoComponent } from '@shared/components/buscador-estado/buscador-estado.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-estado',
@@ -29,6 +30,7 @@ export class FiltroEstadoComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.estado),
         tap((estado: Estado) =>
           this.formulario.patchValue({ estado: estado.id })
         ),

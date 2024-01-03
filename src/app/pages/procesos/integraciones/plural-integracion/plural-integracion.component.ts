@@ -1,23 +1,25 @@
-import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Integracion } from '@core/models/procesos/integracion';
-import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { filtrarIntegracionesPorEstadoAprobacion } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-estado-aprobacion';
 import { filtrarIntegracionesPorEstadoIntegracion } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-estado-integracion';
 import { filtrarIntegracionesPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-fecha';
 import { filtrarIntegracionesPorTipoProceso } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-tipo-proceso';
 import { ordenarIntegracionesPorFechaDescendiente } from '@core/utils/pipes-rxjs/operadores/ordenar-integraciones-por fecha-descendente';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, map } from 'rxjs/operators';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { Subscription } from 'rxjs';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ConfiguracionPorDefecto } from '@core/utils/funciones/configuracion-por-defecto';
 import { filtrarIntegracionesPorEstadoRegistro } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-estado-registro';
+import { ejecutarIntegracion } from '@core/utils/pipes-rxjs/procesos/ejecutar-integracion';
+import { ContabilizacionService } from '@core/services/otros-modulos/contabilizacion';
+import { IntegracionService } from '@core/services/procesos/integracion.service';
+import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 
 @Component({
   selector: 'app-plural-integracion',
@@ -36,6 +38,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   configuracion: Configuracion = ConfiguracionPorDefecto();
 
   constructor(
+    private _contabilizacion: ContabilizacionService,
     private _integracion: IntegracionService,
     private _router: Router,
     private _location: Location,
@@ -74,7 +77,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   ejecutar = () => {
     this._integracion
       .guardarTodos(this.dataSource.data, true)
-      .pipe(take(1))
+      .pipe(ejecutarIntegracion(this._contabilizacion), take(1))
       .subscribe(() => this.recargarDatos());
   };
 

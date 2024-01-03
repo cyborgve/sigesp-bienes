@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
 import { TipoSemoviente } from '@core/models/definiciones/tipo-semoviente';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-tipo-semoviente',
@@ -29,6 +30,7 @@ export class FiltroTipoSemovienteComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.tipoSemoviente),
         tap((tipoSemoviente: TipoSemoviente) =>
           this.formulario.patchValue({ tipoSemoviente: tipoSemoviente.id })
         ),

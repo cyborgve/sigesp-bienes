@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
 import { take, tap, filter } from 'rxjs/operators';
 
@@ -29,6 +30,7 @@ export class FiltroBeneficiarioComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.beneficiario),
         tap((beneficiario: Beneficiario) =>
           this.formulario.patchValue({ beneficiario: beneficiario.id })
         ),

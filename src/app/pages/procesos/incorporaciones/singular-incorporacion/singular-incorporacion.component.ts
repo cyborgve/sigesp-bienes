@@ -31,6 +31,7 @@ import { filtrarActivosSinIncorporar } from '@core/utils/pipes-rxjs/operadores/f
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
 import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-singular-incorporacion',
@@ -295,6 +296,7 @@ export class SingularIncorporacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.causaMovimiento),
         tap((causaMovimiento: CausaMovimiento) =>
           this.formulario.patchValue({
             causaMovimiento: causaMovimiento.id,
@@ -315,6 +317,7 @@ export class SingularIncorporacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.unodadAdministrativa),
         tap((unidadAdministrativa: UnidadAdministrativa) =>
           this.formulario.patchValue({
             unidadAdministrativa: unidadAdministrativa.id,
@@ -335,6 +338,7 @@ export class SingularIncorporacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.sede),
         tap((sede: Sede) =>
           this.formulario.patchValue({
             sede: sede.id,
@@ -354,6 +358,7 @@ export class SingularIncorporacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.responsableUso),
         tap((responsable: Responsable) =>
           this.formulario.patchValue({
             responsableUso: responsable.id,

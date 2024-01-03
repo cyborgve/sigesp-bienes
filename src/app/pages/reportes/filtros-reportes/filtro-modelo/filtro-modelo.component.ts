@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Modelo } from '@core/models/definiciones/modelo';
 import { BuscadorModeloComponent } from '@pages/definiciones/modelos/buscador-modelo/buscador-modelo.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-modelo',
@@ -29,6 +30,7 @@ export class FiltroModeloComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.modelo),
         tap((modelo: Modelo) =>
           this.formulario.patchValue({ modelo: modelo.id })
         ),

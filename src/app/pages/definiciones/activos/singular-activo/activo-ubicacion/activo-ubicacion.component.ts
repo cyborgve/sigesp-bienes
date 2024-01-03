@@ -13,6 +13,7 @@ import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administr
 import { comprobarActivoIncorporado } from '@core/utils/funciones/comprobar-activo-incorporado';
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { filtrarCausasMovimientoPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-causas-movimiento-por-tipo';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-activo-ubicacion',
@@ -37,6 +38,7 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.unidadAdministrativaId),
         tap((entidad: UnidadAdministrativa) =>
           this.formulario.patchValue({
             unidadAdministrativaId: entidad.id,
@@ -58,6 +60,7 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.sedeId),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ sedeId: entidad.id })
         ),
@@ -75,6 +78,7 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.responsableUsoId),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ responsableUsoId: entidad.id })
         ),
@@ -92,6 +96,7 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.estadoConservacionId),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ estadoConservacionId: entidad.id })
         ),
@@ -109,6 +114,7 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.EstadoUsoId),
         tap((entidad: Basica) =>
           this.formulario.patchValue({ estadoUsoId: entidad.id })
         ),
@@ -127,6 +133,7 @@ export class ActivoUbicacionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.causaMovimiento),
         tap((entidad: Basica) =>
           this.formularioEspecial.patchValue({ causaMovimiento: entidad.id })
         ),

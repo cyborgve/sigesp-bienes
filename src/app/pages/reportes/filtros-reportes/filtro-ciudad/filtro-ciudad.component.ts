@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorCiudadComponent } from '@shared/components/buscador-ciudad/buscador-ciudad.component';
 import { Ciudad } from '@core/models/otros-modulos/ciudad';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-ciudad',
@@ -29,6 +30,7 @@ export class FiltroCiudadComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.ciudad),
         tap((ciudad: Ciudad) =>
           this.formulario.patchValue({ ciudad: ciudad.id })
         ),

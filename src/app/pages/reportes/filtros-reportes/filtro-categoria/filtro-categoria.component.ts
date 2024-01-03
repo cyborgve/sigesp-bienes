@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { tap, take, filter } from 'rxjs/operators';
 import { BuscadorCategoriaComponent } from '@pages/definiciones/categorias/buscador-categoria/buscador-categoria.component';
 import { Categoria } from '@core/models/definiciones/categoria';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-categoria',
@@ -29,6 +30,7 @@ export class FiltroCategoriaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.categoria),
         tap((categoria: Categoria) =>
           this.formulario.patchValue({ categoria: categoria.id })
         ),

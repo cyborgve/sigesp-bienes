@@ -102,6 +102,7 @@ export class SingularTipoComponenteComponent implements Entidad, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          filter(entidad => entidad.id !== this.formulario.value),
           tap((entidad: TipoComponente) => {
             this.formulario.patchValue({
               denominacion: entidad.denominacion,
@@ -139,6 +140,7 @@ export class SingularTipoComponenteComponent implements Entidad, OnDestroy {
         .beforeClosed()
         .pipe(
           filter(todo => !!todo),
+          filter(entidad => entidad.id !== this.formulario.value),
           switchMap(() =>
             this._entidad.eliminar(
               this.formulario.value.id,

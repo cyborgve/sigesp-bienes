@@ -10,6 +10,7 @@ const adaptar = (detalleDepreciacion: any) =>
   <DetalleDepreciacion>{
     empresaId: Number(detalleDepreciacion.empresaId),
     id: Number(detalleDepreciacion.id),
+    proceso: Number(detalleDepreciacion.proceso),
     fecha: detalleDepreciacion.fecha,
     meses: Number(detalleDepreciacion.meses),
     dias: Number(detalleDepreciacion.dias),

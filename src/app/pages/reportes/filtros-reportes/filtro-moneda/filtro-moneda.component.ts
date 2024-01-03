@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-filtro-moneda',
@@ -29,6 +30,7 @@ export class FiltroMonedaComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.moneda),
         tap((moneda: Moneda) =>
           this.formulario.patchValue({ moneda: moneda.id })
         ),

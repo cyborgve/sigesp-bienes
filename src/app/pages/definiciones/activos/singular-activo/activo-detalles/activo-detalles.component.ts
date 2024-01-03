@@ -18,6 +18,7 @@ import { BuscadorFuenteFinanciamientoComponent } from '@shared/components/buscad
 import { UNIDADES_MEDIDA } from '@core/constants/unidades-medida';
 import { BuscadorCentroCostoComponent } from '@shared/components/buscador-centro-costo/buscador-centro-costo.component';
 import { BuscadorTipoAnimalComponent } from '@pages/definiciones/tipos-animal/buscador-tipo-animal/buscador-tipo-animal.component';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
   selector: 'app-activo-detalles',
@@ -59,6 +60,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.sedeUbicacionId),
           map(entidad => entidad as Basica),
           tap(entidad =>
             this.formulario.patchValue({ sedeUbicacionId: entidad.id })
@@ -78,6 +80,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.tipoSemovienteId),
           map(entidad => entidad as Basica),
           tap(entidad =>
             this.formulario.patchValue({ tipoSemovienteId: entidad.id })
@@ -97,6 +100,9 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(
+            this.formulario.value.propositoSemovienteId
+          ),
           map(entidad => entidad as Basica),
           tap(entidad =>
             this.formulario.patchValue({
@@ -118,6 +124,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.tipoAnimal),
           map(tipoAnimal => tipoAnimal as Basica),
           tap(entidad => this.formulario.patchValue({ tipoAnimal: entidad.id }))
         )
@@ -135,6 +142,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.razaId),
           map(entidad => entidad as Basica),
           tap(entidad => this.formulario.patchValue({ razaId: entidad.id }))
         )
@@ -152,6 +160,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.seguroId),
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
             this.formulario.patchValue({ seguroId: entidad.id })
@@ -171,6 +180,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.fuenteFinanciaiento),
           tap((fuente: FuenteFinanciamiento) =>
             this.formulario.patchValue({ fuenteFinanciamiento: fuente.id })
           )
@@ -189,6 +199,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.calseId),
           map(entidad => entidad as Basica),
           tap((entidad: Basica) =>
             this.formulario.patchValue({ claseId: entidad.id })
@@ -208,6 +219,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.origenId),
           map(entidad => entidad as Basica),
           tap((origen: Basica) =>
             this.formulario.patchValue({ origenId: origen.id })
@@ -227,6 +239,7 @@ export class ActivoDetallesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter(todo => !!todo),
+          puedeActualizarFormulario(this.formulario.value.codigoCentroCostos),
           tap(entidad =>
             this.formulario.patchValue({ codigoCentroCostos: entidad.id })
           )
