@@ -67,7 +67,6 @@ export const recalcularDepreciacion = (
 // import { Depreciacion } from '@core/models/procesos/depreciacion';
 // import { calcularDepreciacion } from './depreciacion';
 // import moment from 'moment';
-// import 'moment/locale/es';
 // import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 // import { UnidadDeTiempo } from '@core/types/unidades-tiempo';
 
