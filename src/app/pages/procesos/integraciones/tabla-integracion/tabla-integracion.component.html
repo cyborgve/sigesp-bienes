@@ -26,6 +26,30 @@
   </section>
 </mat-card>
 
+<mat-card class="superior inferior">
+  <ng-container
+    *ngIf="
+      formularioIntegracion.value.lineEnterprise === 'Seleccionar';
+      then noSeleccionado;
+      else seleccionado
+    ">
+  </ng-container>
+  <ng-template #noSeleccionado>
+    <p class="indicacionesLine" id="pNoSeleccionado">
+      Es necesario seleccionar <b>Line Enterprise</b> para ejecutar las
+      integraciones
+    </p>
+  </ng-template>
+  <ng-template #seleccionado>
+    <p class="indicacionesLine" id="pSeleccionado">
+      <b>Line Enterprise</b> listo para ejecutar las integraciones
+    </p>
+  </ng-template>
+  <app-filtro-line-enterprise
+    [formulario]="formularioIntegracion"
+    [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-line-enterprise>
+</mat-card>
+
 <mat-card class="card-table superior inferior">
   <!-- tabla -->
   <table mat-table [dataSource]="dataSource" class="table" matSort>

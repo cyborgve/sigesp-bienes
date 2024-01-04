@@ -78,6 +78,7 @@ import { FiltroMetodoDepreciacionComponent } from './filtro-metodo-depreciacion/
 import { FiltroPropiedadesComponent } from './filtro-propiedades/filtro-propiedades.component';
 import { FiltroTipoResponsableComponent } from './filtro-tipo-responsable/filtro-tipo-responsable.component';
 import { FiltroCategoriaUnidadAdministrativaComponent } from './filtro-categoria-unidad-administrativa/filtro-categoria-unidad-administrativa.component';
+import { FiltroLineEnterpriseComponent } from './filtro-line-enterprise/filtro-line-enterprise.component';
 
 const sharedComponents = [
   FiltroCatalogoGeneralComponent,
@@ -125,7 +126,7 @@ const sharedComponents = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents],
+  declarations: [...sharedComponents, FiltroLineEnterpriseComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -164,6 +165,6 @@ const sharedComponents = [
     BuscadorTipoUsoModule,
     BuscadorUnidadAdministrativaModule,
   ],
-  exports: [...sharedComponents],
+  exports: [...sharedComponents, FiltroLineEnterpriseComponent],
 })
 export class FiltrosReportesModule {}
