@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CorregirSeleccionarPipe implements PipeTransform {
   transform(value: string): string {
     if (value)
-      return value === '---' ||
+      return value === '000' ||
+        value === '---' ||
         value === '--' ||
         value.toLowerCase() === 'ninguno' ||
         value.toLowerCase() === 'ninguna' ||

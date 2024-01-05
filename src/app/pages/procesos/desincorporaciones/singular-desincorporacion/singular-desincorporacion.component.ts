@@ -35,7 +35,7 @@ import { filtrarCausasMovimientoPorTipo } from '@core/utils/pipes-rxjs/operadore
 import { ActivoIntegracionService } from '@core/services/definiciones/activo-integracion.service';
 import { CuentaContableService } from '@core/services/otros-modulos/cuenta-contable.service';
 import { Activo } from '@core/models/definiciones/activo';
-import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
+import { filtrarActivosNoSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-no-seleccionados';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
@@ -323,7 +323,7 @@ export class SingularDesincorporacionComponent
             this.formulario.value.unidadAdministrativa,
             this._activoUbicacion
           ),
-          filtrarActivosSeleccionados(this.activosDataSource.data),
+          filtrarActivosNoSeleccionados(this.activosDataSource.data),
         ],
       },
     });

@@ -23,7 +23,6 @@ export const recalcularDepreciacion = (
     mensual: depreciacionExistente.depreciacionMensual,
     detalles: depreciacionExistente.detalles.slice(0, indice + 1),
   };
-  console.log(depreciacionAntesModificacion);
 
   // Calcular la nueva base de depreciación
   const nuevaBaseDepreciacion =
@@ -67,7 +66,6 @@ export const recalcularDepreciacion = (
 // import { Depreciacion } from '@core/models/procesos/depreciacion';
 // import { calcularDepreciacion } from './depreciacion';
 // import moment from 'moment';
-// import 'moment/locale/es';
 // import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 // import { UnidadDeTiempo } from '@core/types/unidades-tiempo';
 

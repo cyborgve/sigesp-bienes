@@ -1,0 +1,50 @@
+<!-- filtro -->
+<ng-container *ngIf="sinDecorar; else decorado">
+  <ng-container *ngTemplateOutlet="contenido"></ng-container>
+</ng-container>
+
+<!-- decorado -->
+<ng-template #decorado>
+  <mat-card class="filtro-card">
+    <mat-card-title class="filtro-titulo"
+      >Filtrar por Line Enterprise</mat-card-title
+    >
+    <p class="filtro-descripcion">
+      Seleccione la Line Enterprise para el grupo de procesos, si no selecciona
+      ninguna no se podra ejecutar la aprobación o integración.
+    </p>
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </mat-card>
+</ng-template>
+
+<!-- contenido -->
+<ng-template #contenido>
+  <form [formGroup]="formulario">
+    <mat-form-field appearance="fill" class="filtro-input">
+      <mat-label>Line Enterprise</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="lineEnterprise"
+        readonly
+        [value]="
+          formulario.value.lineEnterprise | denominacionLineEnterprise | async
+        " /><button
+        type="button"
+        mat-icon-button
+        matTooltip="Reiniciar filtro"
+        matPrefix
+        *ngIf="formulario.value.lineEnterprise !== 'Seleccionar'"
+        (click)="reiniciar()">
+        <mat-icon>cleaning_services</mat-icon>
+      </button>
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="buscarLineEnterprise()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+</ng-template>

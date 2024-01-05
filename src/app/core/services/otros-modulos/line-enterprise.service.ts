@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,12 +7,13 @@ import { SigespService } from 'sigesp';
 import { LineEnterprise } from '@core/models/otros-modulos/line-enterprise';
 import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
 import { adaptarLinesEnterprise } from '@core/utils/pipes-rxjs/adaptadores/adaptar-line-enterprise';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LineEnterpriseService {
-  private apiUrl = this._sigesp.URL + '/dao/sbn/sigesp-line-enterprise-dao.php';
+  private apiUrl = this._sigesp.URL + '/dao/sbn/line-enterprise-dao.php';
   private apiUrlId = (id: Id) => `${this.apiUrl}?id=${id}`;
 
   constructor(private _sigesp: SigespService, private _http: HttpClient) {}
@@ -20,6 +21,7 @@ export class LineEnterpriseService {
   buscarTodos(): Observable<LineEnterprise[]> {
     return this._http.get<LineEnterprise[]>(this.apiUrl).pipe(
       map((respuesta: any) => respuesta.data),
+      map((data: any[]) => data.map(normalizarObjeto)),
       adaptarLinesEnterprise(),
       ordenarPorId()
     );

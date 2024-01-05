@@ -131,9 +131,14 @@ export class SingularEntregaUnidadComponent
               responsableAnterior: entidad.responsableAnterior,
               nuevoResponsable: entidad.nuevoResponsable,
               observaciones: entidad.observaciones,
+              activos: entidad.activos,
               creado: entidad.creado,
               modificado: entidad.modificado,
             })
+          ),
+          tap(
+            entidad =>
+              (this.dataSource = new MatTableDataSource(entidad.activos))
           ),
           take(1)
         )

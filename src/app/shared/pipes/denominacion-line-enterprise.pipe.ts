@@ -7,8 +7,9 @@ import { LineEnterpriseService } from '@core/services/otros-modulos/line-enterpr
   name: 'denominacionLineEnterprise',
 })
 export class DenominacionLineEnterprisePipe implements PipeTransform {
-  transform(value: number): Observable<string> {
+  transform(value: string): Observable<string> {
     if (value === null || value === undefined) return of('');
+    if (value === 'Seleccionar') return of('Seleccionar');
     return this._lineEnterprice
       .buscarPorId(value)
       .pipe(map(lineEnterprise => lineEnterprise.denominacion));
