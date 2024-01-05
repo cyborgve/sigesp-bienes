@@ -81,8 +81,18 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
 
   ejecutar = () => {
     this._integracion
-      .guardarTodos(this.dataSource.data, true)
-      .pipe(ejecutarIntegracion(this._contabilizacion), take(1))
+      .guardarTodos(
+        this.dataSource.data,
+        this.formularioIntegracion.value.lineEnterprice,
+        true
+      )
+      .pipe(
+        ejecutarIntegracion(
+          this._contabilizacion,
+          this.formularioIntegracion.value.lineEnterprise
+        ),
+        take(1)
+      )
       .subscribe(() => this.recargarDatos());
   };
 

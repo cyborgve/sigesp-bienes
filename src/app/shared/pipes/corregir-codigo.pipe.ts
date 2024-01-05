@@ -6,6 +6,7 @@ import { Id } from '@core/types/id';
 })
 export class CorregirCodigoPipe implements PipeTransform {
   transform(value: Id): string {
+    if (String(value).length === 15) return String(value);
     return value?.toString().toUpperCase() !== 'AUTOGENERADO'
       ? corregirCodigo(value)
       : String(value);
