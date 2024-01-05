@@ -30,7 +30,7 @@ import { pipe } from 'rxjs';
 import { filtrarActivosSinIncorporar } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-incoporar';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { PDFService } from '@core/services/auxiliares/pdf.service';
-import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
+import { filtrarActivosNoSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-no-seleccionados';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
@@ -252,7 +252,7 @@ export class SingularIncorporacionComponent implements Entidad {
       width: '85%',
       data: {
         filtros: [
-          filtrarActivosSeleccionados(this.dataSource.data),
+          filtrarActivosNoSeleccionados(this.dataSource.data),
           filtrarActivosSinIncorporar(this._activoUbicacion),
         ],
       },
