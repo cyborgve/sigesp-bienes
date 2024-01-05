@@ -7,10 +7,10 @@
 <ng-template #decorado>
   <mat-card class="filtro-card">
     <mat-card-title class="filtro-titulo"
-      >Filtrar por Line Enterprise</mat-card-title
+      >Filtrar por Linea Empresa</mat-card-title
     >
     <p class="filtro-descripcion">
-      Seleccione la Line Enterprise para el grupo de procesos, si no selecciona
+      Seleccione la Linea Empresa para el grupo de procesos, si no selecciona
       ninguna no se podra ejecutar la aprobación o integración.
     </p>
     <ng-container *ngTemplateOutlet="contenido"></ng-container>
@@ -21,7 +21,7 @@
 <ng-template #contenido>
   <form [formGroup]="formulario">
     <mat-form-field appearance="fill" class="filtro-input">
-      <mat-label>Line Enterprise</mat-label>
+      <mat-label>Linea Empresa</mat-label>
       <input
         matInput
         type="text"

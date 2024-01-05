@@ -9,9 +9,6 @@ import { Router } from '@angular/router';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { LineEnterprise } from '@core/models/otros-modulos/line-enterprise';
 import { LineEnterpriseService } from '@core/services/otros-modulos/line-enterprise.service';
-import { adaptarLinesEnterprise } from '@core/utils/pipes-rxjs/adaptadores/adaptar-line-enterprise';
-import { filtrarValoresIniciales } from '@core/utils/pipes-rxjs/operadores/filtrar-valores-iniciales';
-import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 
@@ -23,7 +20,7 @@ import { Configuracion } from '@core/models/definiciones/configuracion';
 export class BuscadorLineEnterpriseComponent
   implements TablaEntidad<LineEnterprise>, AfterViewInit
 {
-  titulo = 'buscador de line enterprise';
+  titulo = 'buscador de linea Empresa';
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ocultarNuevo = true;
@@ -71,7 +68,6 @@ export class BuscadorLineEnterpriseComponent
       .pipe(
         switchMap(configuracion =>
           this._entidad.buscarTodos().pipe(
-            filtrarValoresIniciales(),
             tap((entidades: LineEnterprise[]) => {
               this.dataSource = new MatTableDataSource(entidades);
               this.dataSource.sort = this.sort;
