@@ -23,7 +23,6 @@ export const recalcularDepreciacion = (
     mensual: depreciacionExistente.depreciacionMensual,
     detalles: depreciacionExistente.detalles.slice(0, indice + 1),
   };
-  console.log(depreciacionAntesModificacion);
 
   // Calcular la nueva base de depreciación
   const nuevaBaseDepreciacion =
