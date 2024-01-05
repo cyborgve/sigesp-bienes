@@ -16,6 +16,7 @@ const adaptar = (entregaUnidad: any) =>
     responsableAnterior: entregaUnidad.responsableAnterior,
     nuevoResponsable: entregaUnidad.nuevoResponsable,
     observaciones: entregaUnidad.observaciones,
+    activos: entregaUnidad.activos,
     creado: entregaUnidad.creado,
     modificado: entregaUnidad.modificado,
   };

@@ -8,13 +8,13 @@ export const adaptarLinesEnterprise = () =>
 
 const adaptar = (lineEnterprise: any) =>
   <LineEnterprise>{
-    empresaId: Number(lineEnterprise.id_empresa),
-    id: Number(lineEnterprise.id_enterprise),
+    empresaId: Number(lineEnterprise.idEmpresa),
+    id: Number(lineEnterprise.idEnterprise),
     codigo: lineEnterprise.codigo,
     denominacion: lineEnterprise.denominacion,
     titulo: lineEnterprise.titulo,
     rif: lineEnterprise.rif,
     direccion: lineEnterprise.direccion,
-    creado: lineEnterprise.creado,
-    modificado: lineEnterprise.modificado,
+    creado: lineEnterprise.creado || new Date(),
+    modificado: lineEnterprise.modificado || new Date(),
   };

@@ -12,8 +12,11 @@ export const FECHAS_CALCULADAS: {
   TODOS: [Date | undefined, Date | undefined];
   PERSONALIZADO: [Date | undefined, Date | undefined];
 } = {
-  HOY: [new Date(), undefined],
-  AYER: [moment(new Date()).subtract(1, 'days').toDate(), undefined],
+  HOY: [moment(new Date()).startOf('day').toDate(), undefined],
+  AYER: [
+    moment(new Date()).subtract(1, 'days').startOf('day').toDate(),
+    undefined,
+  ],
   'ESTA SEMANA': [
     moment(new Date()).startOf('week').toDate(),
     moment(new Date()).endOf('week').toDate(),

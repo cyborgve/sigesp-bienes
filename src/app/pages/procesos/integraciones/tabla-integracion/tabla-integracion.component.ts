@@ -45,6 +45,7 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
 
   @Input() formularioRangoFechas: FormGroup;
   @Input() formulario: FormGroup;
+  @Input() formularioIntegracion: FormGroup;
   opciones = OPCIONES_INTEGRACION_PROCESOS;
 
   constructor(private _location: Location, private _router: Router) {}

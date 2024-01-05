@@ -6,7 +6,8 @@ import {
   UrlTree,
   Router,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { SigespService } from 'sigesp';
 
 @Injectable({
@@ -18,20 +19,21 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    return new Promise((resolve, reject) => {
-      this.sigesp.isLogged().then(resp => {
-        if (!resp) {
+  ): Observable<boolean | UrlTree> {
+    return from(this.sigesp.isLogged()).pipe(
+      map(isLogged => {
+        if (!isLogged) {
           this.router.navigate(['/auth/unauthenticated']);
-          resolve(false);
+          return false;
         } else {
-          resolve(true);
+          return true;
         }
-      });
-    });
+      }),
+      catchError(error => {
+        console.error('Error verificando la autenticación:', error);
+        // Redirigir a página de error o manejar de otra manera
+        return of(false);
+      })
+    );
   }
 }

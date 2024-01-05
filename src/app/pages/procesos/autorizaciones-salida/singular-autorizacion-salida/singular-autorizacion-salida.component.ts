@@ -30,7 +30,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
-import { filtrarActivosSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-seleccionados';
+import { filtrarActivosNoSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-no-seleccionados';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 
 @Component({
@@ -244,7 +244,7 @@ export class SingularAutorizacionSalidaComponent
       width: '85%',
       data: {
         filtros: [
-          filtrarActivosSeleccionados(this.dataSource.data),
+          filtrarActivosNoSeleccionados(this.dataSource.data),
           filtrarActivosIncorporados(this._activoUbicacion),
           filtrarActivosPorUnidadAdministrativa(
             this.formulario.value.unidadAdministrativa,

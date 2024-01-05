@@ -71,6 +71,7 @@ export class IntegracionService extends GenericService<Integracion> {
 
   guardarTodos(
     integraciones: Integracion[],
+    lineEnterprise: Id,
     notificar?: boolean
   ): Observable<Integracion[]> {
     let guardarIntegraciones = integraciones

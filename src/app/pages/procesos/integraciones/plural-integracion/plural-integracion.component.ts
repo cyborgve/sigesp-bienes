@@ -17,7 +17,7 @@ import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ConfiguracionPorDefecto } from '@core/utils/funciones/configuracion-por-defecto';
 import { filtrarIntegracionesPorEstadoRegistro } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-estado-registro';
 import { ejecutarIntegracion } from '@core/utils/pipes-rxjs/procesos/ejecutar-integracion';
-import { ContabilizacionService } from '@core/services/otros-modulos/contabilizacion';
+import { ContabilizacionService } from '@core/services/otros-modulos/contabilizacion.service';
 import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 
@@ -34,6 +34,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   integrarTodos: boolean = false;
   formularioRangoFechas: FormGroup;
   formulario: FormGroup;
+  formularioIntegracion: FormGroup;
   tipoProceso: TipoProceso;
   configuracion: Configuracion = ConfiguracionPorDefecto();
 
@@ -59,6 +60,10 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
       estadoAprobacion: ['NO APROBADOS'],
       estadoIntegracion: ['NO INTEGRADOS'],
     });
+
+    this.formularioIntegracion = this._formBuilder.group({
+      lineEnterprise: ['Seleccionar'],
+    });
   }
 
   ngAfterViewInit(): void {
@@ -76,8 +81,18 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
 
   ejecutar = () => {
     this._integracion
-      .guardarTodos(this.dataSource.data, true)
-      .pipe(ejecutarIntegracion(this._contabilizacion), take(1))
+      .guardarTodos(
+        this.dataSource.data,
+        this.formularioIntegracion.value.lineEnterprice,
+        true
+      )
+      .pipe(
+        ejecutarIntegracion(
+          this._contabilizacion,
+          this.formularioIntegracion.value.lineEnterprise
+        ),
+        take(1)
+      )
       .subscribe(() => this.recargarDatos());
   };
 
@@ -85,7 +100,8 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     this.dataSource.data.filter(integracion => integracion.registrado === 0)
       .length > 0 &&
     this.dataSource.data.filter(integracion => integracion.aprobado === 1)
-      .length > 0;
+      .length > 0 &&
+    this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar';
 
   irAtras = () => {
     this._location.back();

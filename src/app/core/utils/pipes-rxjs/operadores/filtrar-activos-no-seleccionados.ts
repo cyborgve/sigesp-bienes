@@ -3,7 +3,7 @@ import { Activo } from '@core/models/definiciones/activo';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export const filtrarActivosSeleccionados = (
+export const filtrarActivosNoSeleccionados = (
   activosSeleccionados: ActivoProceso[]
 ) =>
   pipe(

@@ -90,6 +90,7 @@ import { CorregirTodosPipe } from './pipes/corregir-todos.pipe';
 import { CorregirTipoActivoPipe } from './pipes/corregir-tipo-activo.pipe';
 import { CorregirTipoPlantillaIntegracionPipe } from './pipes/corregir-tipo-plantilla-integracion.pipe';
 import { CorregirReferenciaEstadoPipe } from './pipes/corregir-referencia-estado.pipe';
+import { DenoinacionLineEnterprisePipe } from './pipes/denoinacion-line-enterprise.pipe';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -189,6 +190,7 @@ const sharedPipes = [
     CorregirTipoActivoPipe,
     CorregirTipoPlantillaIntegracionPipe,
     CorregirReferenciaEstadoPipe,
+    DenoinacionLineEnterprisePipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
   exports: [
@@ -199,6 +201,7 @@ const sharedPipes = [
     CorregirTipoActivoPipe,
     CorregirTipoPlantillaIntegracionPipe,
     CorregirReferenciaEstadoPipe,
+    DenoinacionLineEnterprisePipe,
   ],
 })
 export class SharedModule {}

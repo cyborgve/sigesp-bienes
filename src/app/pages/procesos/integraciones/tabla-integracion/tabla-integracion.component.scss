@@ -17,3 +17,15 @@ app-filtro-rango-fechas {
 .normal {
   @apply font-normal;
 }
+
+.indicacionesLine {
+  @apply pl-4 pb-4 text-lg;
+}
+
+#pNoSeleccionado {
+  @apply text-warn;
+}
+
+#pSeleccionado {
+  @apply text-green-900;
+}

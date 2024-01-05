@@ -27,7 +27,7 @@ export class BuscadorLineEnterpriseComponent
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ocultarNuevo = true;
-  columnasVisibles = [];
+  columnasVisibles = ['codigo', 'denominacion', 'creado', 'modificado'];
   dataSource: MatTableDataSource<LineEnterprise> = new MatTableDataSource();
   activarPaginacion: boolean = false;
   opcionesPaginacion: number[] = [6];
@@ -71,7 +71,7 @@ export class BuscadorLineEnterpriseComponent
       .pipe(
         switchMap(configuracion =>
           this._entidad.buscarTodos().pipe(
-            ordenarPorCodigo(),
+            filtrarValoresIniciales(),
             tap((entidades: LineEnterprise[]) => {
               this.dataSource = new MatTableDataSource(entidades);
               this.dataSource.sort = this.sort;
