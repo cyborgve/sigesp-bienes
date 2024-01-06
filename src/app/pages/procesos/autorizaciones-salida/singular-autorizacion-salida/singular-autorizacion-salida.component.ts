@@ -32,6 +32,7 @@ import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/fi
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 import { filtrarActivosNoSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-no-seleccionados';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 
 @Component({
   selector: 'app-singular-autorizacion-salida',
@@ -68,6 +69,7 @@ export class SingularAutorizacionSalidaComponent
       unidadAdministrativa: [undefined, Validators.required],
       empresaAutorizada: [undefined, Validators.required],
       personaAutorizada: [undefined, Validators.required],
+      testigo: [undefined, Validators.required],
       explicacion: [undefined, Validators.required],
       observaciones: [undefined],
       activos: [undefined],
@@ -113,6 +115,7 @@ export class SingularAutorizacionSalidaComponent
               unidadAdministrativa: entidad.unidadAdministrativa,
               empresaAutorizada: entidad.empresaAutorizada,
               personaAutorizada: entidad.personaAutorizada,
+              testigo: entidad.testigo,
               explicacion: entidad.explicacion,
               observaciones: entidad.observaciones,
               activos: [],
@@ -137,6 +140,7 @@ export class SingularAutorizacionSalidaComponent
               unidadAdministrativa: 0,
               empresaAutorizada: '---',
               personaAutorizada: '',
+              testigo: '',
               explicacion: '',
               observaciones: '',
               activos: [],
@@ -154,6 +158,7 @@ export class SingularAutorizacionSalidaComponent
     this.formulario.value.unidadAdministrativa === 0 ||
     this.formulario.value.empresaAutorizada === '---' ||
     this.formulario.value.personaAutorizada === '' ||
+    this.formulario.value.testigo === '' ||
     this.formulario.value.explicacion === '';
 
   deshabilitarGuardar = () =>
@@ -173,6 +178,7 @@ export class SingularAutorizacionSalidaComponent
             unidadAdministrativa: entidad.unidadAdministrativa,
             empresaAutorizada: entidad.empresaAutorizada,
             personaAutorizada: entidad.personaAutorizada,
+            testigo: entidad.testigo,
             explicacion: entidad.explicacion,
             observaciones: entidad.observaciones,
           })
@@ -309,6 +315,26 @@ export class SingularAutorizacionSalidaComponent
         tap((proveedor: Proveedor) =>
           this.formulario.patchValue({ empresaAutorizada: proveedor.id })
         )
+      )
+      .subscribe();
+  }
+
+  buscarTestigo() {
+    let dialog = this._dialog.open(BuscadorResponsableComponent, {
+      height: '95%',
+      width: '95%',
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => !!todo),
+        puedeActualizarFormulario(this.formulario.value.testigo),
+        tap(responsable =>
+          this.formulario.patchValue({
+            testigo: responsable.id,
+          })
+        ),
+        take(1)
       )
       .subscribe();
   }

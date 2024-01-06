@@ -71,12 +71,16 @@ const actaPrestamo = (proceso: any) => ({
 const autorizacionSalida = (proceso: any) => ({
   columns: [
     {
-      width: '50%',
+      width: '33.33%',
       stack: [campoFirma('Empresa Autorizada:', proceso.empresaAutorizada)],
     },
     {
-      width: '50%',
+      width: '33.33%',
       stack: [campoFirma('Persona Autorizada', proceso.personaAutorizada)],
+    },
+    {
+      width: '33.33%',
+      stack: [campoFirma('Testigo', proceso.testigo)],
     },
   ],
 });
