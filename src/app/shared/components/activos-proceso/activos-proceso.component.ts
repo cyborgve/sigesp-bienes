@@ -15,6 +15,5 @@ export class ActivosProcesoComponent {
   @Input() agregarActivoDeshabilitado: boolean = true;
   @Input() ocultarAgregarActivo: boolean = true;
   @Input() ocultarEncabezado: boolean = true;
-
-  columnasVisibles = COLUMNAS_VISIBLES.ACTIVOS;
+  @Input() columnasVisibles = COLUMNAS_VISIBLES.ACTIVOS;
 }

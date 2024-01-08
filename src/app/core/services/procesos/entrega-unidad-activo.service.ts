@@ -15,10 +15,10 @@ import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
   providedIn: 'root',
 })
 export class EntregaUnidadActivoService extends GenericService<ActivoProceso> {
-  private apiUrlProceso = (proceso: Id) => `${this.apiUrl}?proceso=${proceso}`;
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'entregaUnidadActivo').valor;
   }
+  private apiUrlProceso = (proceso: Id) => `${this.apiUrl}?proceso=${proceso}`;
 
   buscarTodos(): Observable<ActivoProceso[]> {
     return super.buscarTodos().pipe(adaptarActivosProceso());

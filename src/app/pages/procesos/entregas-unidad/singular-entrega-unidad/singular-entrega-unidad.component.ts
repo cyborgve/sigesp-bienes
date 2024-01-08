@@ -29,6 +29,7 @@ import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubica
 import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 
 @Component({
   selector: 'app-singular-entrega-unidad',
@@ -44,6 +45,7 @@ export class SingularEntregaUnidadComponent
   titulo = CORRELATIVOS[34].nombre;
   formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
+  columnasVisibles = COLUMNAS_VISIBLES.ACTIVOS.filter(cv => cv !== 'acciones');
 
   constructor(
     private _entidad: EntregaUnidadService,
@@ -163,6 +165,7 @@ export class SingularEntregaUnidadComponent
               creado: new Date(),
               modificado: new Date(),
             });
+            this.dataSource = new MatTableDataSource();
           }),
           take(1)
         )
@@ -287,24 +290,6 @@ export class SingularEntregaUnidadComponent
             unidadAdministrativa: unidadAdministrativa.id,
             responsableAnterior: unidadAdministrativa.responsable,
           })
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  buscarResponsableActual() {
-    let dialog = this._dialog.open(BuscadorResponsableComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        puedeActualizarFormulario(this.formulario.value.responsableAnterior),
-        tap((entidad: Responsable) =>
-          this.formulario.patchValue({ responsableAnterior: entidad.id })
         ),
         take(1)
       )

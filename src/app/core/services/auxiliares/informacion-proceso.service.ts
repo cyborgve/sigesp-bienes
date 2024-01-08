@@ -389,6 +389,7 @@ export class InformacionProcesoService {
       this.sede(entregaUnidad.sede),
       this.responsable(entregaUnidad.responsableAnterior),
       this.responsable(entregaUnidad.nuevoResponsable),
+      this.activosProceso(entregaUnidad.activos),
     ];
     return forkJoin(buscarInformacion).pipe(
       map(
@@ -398,6 +399,7 @@ export class InformacionProcesoService {
           sede,
           responsableAnterior,
           nuevoResponsable,
+          activos,
         ]) => ({
           empresaId: empresa,
           id: entregaUnidad.id,
@@ -407,6 +409,7 @@ export class InformacionProcesoService {
           responsableAnterior: responsableAnterior,
           nuevoResponsable: nuevoResponsable,
           observaciones: entregaUnidad.observaciones,
+          activos: activos,
           creado: new Date(entregaUnidad.creado),
           modificado: new Date(entregaUnidad.modificado),
         })

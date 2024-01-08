@@ -44,9 +44,17 @@ export const reversarEntregaUnidad = (
             undefined,
             false
           );
+          let actualizarActivosUbicacion = activosUbicacion.map(ubicacion =>
+            _activoUbicacion.actualizar(
+              ubicacion.id,
+              ubicacion,
+              undefined,
+              false
+            )
+          );
           return forkJoin([
             actualizarUnidadAdministrativa,
-            ...activosUbicacion,
+            ...actualizarActivosUbicacion,
           ]);
         })
       );
