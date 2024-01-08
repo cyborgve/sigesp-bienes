@@ -14,6 +14,7 @@ const adaptar = (autorizacion: any) =>
     unidadAdministrativa: Number(autorizacion.unidadAdministrativa),
     empresaAutorizada: autorizacion.empresaAutorizada,
     personaAutorizada: autorizacion.personaAutorizada,
+    testigo: autorizacion.testigo,
     explicacion: autorizacion.explicacion,
     observaciones: autorizacion.observaciones,
     activos: autorizacion.activos ? autorizacion.activos : [],

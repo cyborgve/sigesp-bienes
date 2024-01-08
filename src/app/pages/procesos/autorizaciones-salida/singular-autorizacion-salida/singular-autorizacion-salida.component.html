@@ -55,6 +55,27 @@
           <mat-label>Persona autorizada</mat-label>
           <input type="text" matInput formControlName="personaAutorizada" />
         </mat-form-field>
+        <!-- testigo -->
+        <mat-form-field appearance="fill" class="testigo">
+          <mat-label>Testigo</mat-label>
+          <input
+            matInput
+            formControlName="testigo"
+            readonly
+            [value]="
+              formulario.value.testigo
+                | denominacionResponsable
+                | async
+                | corregirSeleccionar
+            " />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="buscarTestigo()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
         <!-- explicacion -->
         <mat-form-field appearance="fill" class="explicacion">
           <mat-label>Explicación</mat-label>

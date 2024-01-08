@@ -7,6 +7,7 @@ export interface AutorizacionSalida extends Basica {
   unidadAdministrativa: Id;
   empresaAutorizada: Id;
   personaAutorizada: Id;
+  testigo: Id;
   explicacion: string;
   observaciones: string;
   activos: ActivoProceso[];

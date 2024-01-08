@@ -20,23 +20,34 @@ export const reporteEntregaUnidad = (
   empresa: Empresa,
   proceso: any,
   usuarioActivo: any
-) => ({
-  pageSize: 'letter',
-  pageOrientation: 'portrait',
-  info: {
-    title: `${tipoProceso}-${proceso.comprobante}`,
-    subject: 'Comprobante de ejecucion de proceso',
-    author: `${usuarioActivo.nombre} ${usuarioActivo.apellido}`,
-    creator: 'Sigesp ERP - Bienes Nacionales',
-  },
-  content: [
-    seccionEncabezadoReporte(empresa, proceso, tipoProceso),
-    datosGenerales(proceso),
-    bienesAfectados(activos),
-  ],
-  footer: seccionPiePaginaReporte(proceso, tipoProceso),
-  styles: estilosProcesoReporte(),
-});
+) => {
+  proceso.activos.forEach((activo: any) =>
+    activos.push([
+      activo.codigo,
+      activo.tipoActivo,
+      activo.denominacion,
+      activo.identificador,
+      { text: activo.valor, alignment: 'right' },
+    ])
+  );
+  return {
+    pageSize: 'letter',
+    pageOrientation: 'portrait',
+    info: {
+      title: `${tipoProceso}-${proceso.comprobante}`,
+      subject: 'Comprobante de ejecucion de proceso',
+      author: `${usuarioActivo.nombre} ${usuarioActivo.apellido}`,
+      creator: 'Sigesp ERP - Bienes Nacionales',
+    },
+    content: [
+      seccionEncabezadoReporte(empresa, proceso, tipoProceso),
+      datosGenerales(proceso),
+      bienesAfectados(activos),
+    ],
+    footer: seccionPiePaginaReporte(proceso, tipoProceso),
+    styles: estilosProcesoReporte(),
+  };
+};
 
 const datosGenerales = (proceso: any) => [
   campoTextoConTituloReporte(

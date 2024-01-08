@@ -63,7 +63,6 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
   ): Observable<EntregaUnidad> {
     return super.guardar(entidad, tipoDato, notificar).pipe(
       adaptarEntregaUnidad(),
-      tap(console.log),
       switchMap(entregaUnidad => {
         let guardarActivos = entidad.activos
           .map(activoProceso => {
@@ -74,7 +73,6 @@ export class EntregaUnidadService extends GenericService<EntregaUnidad> {
             this._entregaUnidadActivo.guardar(activoProceso, undefined, false)
           );
         return forkJoin(guardarActivos).pipe(
-          tap(console.log),
           map(activosGuardados => {
             entregaUnidad.activos = activosGuardados;
             return entregaUnidad;

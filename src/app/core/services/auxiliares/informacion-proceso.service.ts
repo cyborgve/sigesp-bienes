@@ -258,6 +258,7 @@ export class InformacionProcesoService {
       this.empresa(autorizacionSalida.empresaId),
       this.unidadAdministrativa(autorizacionSalida.unidadAdministrativa),
       this.proveedor(autorizacionSalida.empresaAutorizada),
+      this.responsable(autorizacionSalida.testigo),
       this.activosProceso(autorizacionSalida.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
@@ -266,6 +267,7 @@ export class InformacionProcesoService {
           empresa,
           unidadAdministrativaCedente,
           empresaAutorizada,
+          testigo,
           activos,
         ]) => ({
           empresaId: empresa,
@@ -274,6 +276,7 @@ export class InformacionProcesoService {
           unidadAdministrativa: unidadAdministrativaCedente,
           empresaAutorizada: empresaAutorizada,
           personaAutorizada: autorizacionSalida.personaAutorizada,
+          testigo: testigo,
           explicacion: autorizacionSalida.explicacion,
           observaciones: autorizacionSalida.observaciones,
           activos: activos,
@@ -386,6 +389,7 @@ export class InformacionProcesoService {
       this.sede(entregaUnidad.sede),
       this.responsable(entregaUnidad.responsableAnterior),
       this.responsable(entregaUnidad.nuevoResponsable),
+      this.activosProceso(entregaUnidad.activos),
     ];
     return forkJoin(buscarInformacion).pipe(
       map(
@@ -395,6 +399,7 @@ export class InformacionProcesoService {
           sede,
           responsableAnterior,
           nuevoResponsable,
+          activos,
         ]) => ({
           empresaId: empresa,
           id: entregaUnidad.id,
@@ -404,6 +409,7 @@ export class InformacionProcesoService {
           responsableAnterior: responsableAnterior,
           nuevoResponsable: nuevoResponsable,
           observaciones: entregaUnidad.observaciones,
+          activos: activos,
           creado: new Date(entregaUnidad.creado),
           modificado: new Date(entregaUnidad.modificado),
         })

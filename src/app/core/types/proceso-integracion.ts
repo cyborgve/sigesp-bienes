@@ -1,4 +1,4 @@
 export type ProcesoIntegracion =
-  | 'DEPRECIACIÓN'
+  | 'DEPRECIACIÓN MENSUAL'
   | 'MODIFICACIÓN'
   | 'DESINCORPORACIÓN';
