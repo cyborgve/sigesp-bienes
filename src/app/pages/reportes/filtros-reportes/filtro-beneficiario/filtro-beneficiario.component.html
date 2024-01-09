@@ -37,7 +37,7 @@
         mat-icon-button
         matTooltip="Reiniciar filtro"
         matPrefix
-        *ngIf="formulario.value.beneficiario !== 0"
+        *ngIf="formulario.value.beneficiario !== 'Todos'"
         (click)="reiniciar()">
         <mat-icon>cleaning_services</mat-icon>
       </button>

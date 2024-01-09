@@ -20,6 +20,8 @@ import { ejecutarModificacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-m
 import { ActivoComponenteService } from '../definiciones/activo-componente.service';
 import { reversarModificacion } from '@core/utils/pipes-rxjs/procesos/reversar-modificacion';
 import { DepreciacionService } from './depreciacion.service';
+import { ActivoService } from '../definiciones/activo.service';
+import { __asyncDelegator } from 'tslib';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +39,8 @@ export class ModificacionService extends GenericService<Modificacion> {
     private _modificacionCuentaContable: ModificacionCuentaContableService,
     private _pdf: PDFService,
     private _activoComponente: ActivoComponenteService,
-    private _depreciacion: DepreciacionService
+    private _depreciacion: DepreciacionService,
+    private _activo: ActivoService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -118,7 +121,11 @@ export class ModificacionService extends GenericService<Modificacion> {
       switchMap(modificacion =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? modificacion : eliminada)),
-          reversarModificacion(this._activoComponente),
+          reversarModificacion(
+            this._activoComponente,
+            this._depreciacion,
+            this._activo
+          ),
           map(modificacion => !!modificacion)
         )
       )

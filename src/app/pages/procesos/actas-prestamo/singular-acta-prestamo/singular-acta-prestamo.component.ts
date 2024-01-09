@@ -32,6 +32,7 @@ import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/op
 import { filtrarActivosReferenciaEstadoDisponible } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-referencia-estado-disponible.ts';
 import { filtrarUnidadesAdministrativasNoSeleccionadas } from '@core/utils/pipes-rxjs/operadores/filtrar-unidades-administrativas-no-seleccionadas';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { filtrarActivosNoSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-no-seleccionados';
 
 @Component({
   selector: 'app-singular-acta-prestamo',
@@ -334,6 +335,7 @@ export class SingularActaPrestamoComponent
       width: '85%',
       data: {
         filtros: [
+          filtrarActivosNoSeleccionados(this.dataSource.data),
           filtrarActivosIncorporados(this._activoUbicacion),
           filtrarActivosReferenciaEstadoDisponible(this._activoUbicacion),
           filtrarActivosPorUnidadAdministrativa(

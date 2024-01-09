@@ -9,40 +9,27 @@
   <section class="contenedor-singular superior inferior">
     <mat-card>
       <article class="contenido">
-        <!-- beneficiario -->
-        <mat-form-field appearance="fill" class="beneficiario">
-          <mat-label>Beneficiario</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="beneficiario"
-            readonly
-            [value]="
-              formulario.value.beneficiario
-                | denominacionBeneficiario
-                | async
-                | corregirSeleccionar
-            " />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="buscarBeneficiario()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
-        <!-- tipoProceso -->
-        <mat-form-field appearance="fill" class="tipoComprobante">
-          <mat-label>Tipo de Proceso</mat-label>
-          <mat-select formControlName="tipoComprobante">
-            <mat-option value="">Seleccionar</mat-option>
-            <mat-option value="ACTA DE PRÉSTAMO">Acta de Préstamo</mat-option>
-            <mat-option value="AUTORIZACIÓN DE SALIDA"
-              >Autorización de Salida</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-        <!-- observaciones -->
+        <app-filtro-rango-fechas
+          class="filtroRangoFechas"
+          [sinDecorar]="filtrosSinDecorar"
+          [formulario]="formularioRangoFechas"></app-filtro-rango-fechas>
+        <app-filtro-tipo-proceso
+          class="filtroTipoProceso"
+          [sinDecorar]="filtrosSinDecorar"
+          [tiposProceso]="tiposProceso"
+          [formulario]="formularioFiltros"></app-filtro-tipo-proceso>
+        <app-filtro-proveedor
+          class="filtroProveedor"
+          [sinDecorar]="filtrosSinDecorar"
+          [formulario]="formularioFiltros"></app-filtro-proveedor>
+        <app-filtro-beneficiario
+          class="filtroBeneficiario"
+          [sinDecorar]="filtrosSinDecorar"
+          [formulario]="formularioFiltros"></app-filtro-beneficiario>
+        <app-filtro-responsable
+          class="filtroResponsable"
+          [sinDecorar]="filtrosSinDecorar"
+          [formulario]="formularioFiltros"></app-filtro-responsable>
         <mat-form-field appearance="fill" class="observaciones">
           <mat-label>Observaciones</mat-label>
           <textarea
@@ -59,6 +46,7 @@
     (agregarActivo)="agregarActivo()"
     (removerActivo)="removerActivo($event)"
     [agregarActivoDeshabilitado]="false"
+    [columnasVisibles]="columnasVisibles"
     [dataSource]="dataSource"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->

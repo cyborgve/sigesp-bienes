@@ -32,6 +32,8 @@ import { IncorporacionService } from '../procesos/incorporacion.service';
 import { DepreciacionService } from '../procesos/depreciacion.service';
 import { ActivoIntegracionService } from './activo-integracion.service';
 import { ActivoIntegracion } from '@core/models/definiciones/activo-integracion';
+import { ActivoListaRetorno } from '@core/models/auxiliares/activo-lista-retorno';
+import { adaptarActivosListaRetorno } from '@core/utils/pipes-rxjs/adaptadores/adaptar-activo-lista-retorno';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +45,7 @@ export class ActivoService extends GenericService<Activo> {
 
   private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
   private apiUrlInventario = () => `${this.apiUrl}?inventario=${'inventario'}`;
+  private apiUrlRetornos = () => `${this.apiUrl}?retornos=${'retornos'}`;
 
   constructor(
     protected _http: HttpClient,
@@ -182,6 +185,14 @@ export class ActivoService extends GenericService<Activo> {
       map((inventario: any[]) => inventario.map(normalizarObjeto)),
       adaptarActivosInventario(),
       map(activos => activos.sort((a, b) => (a.codigo > b.codigo ? 1 : -1)))
+    );
+  }
+
+  buscarTodosRetornos(): Observable<ActivoListaRetorno[]> {
+    return this._http.get<any[]>(this.apiUrlRetornos()).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(normalizarObjeto)),
+      adaptarActivosListaRetorno()
     );
   }
 }
