@@ -1,6 +1,12 @@
-.tipoComprobante,
-.beneficiario {
-  @apply col-span-6;
+.filtroTipoProceso,
+.filtroProveedor,
+.filtroBeneficiario,
+.filtroResponsable {
+  @apply col-span-4;
+}
+
+.filtroRangoFechas {
+  @apply col-span-8;
 }
 
 .observaciones {

@@ -10,5 +10,5 @@ import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 export class FiltroTipoProcesoComponent {
   @Input() formulario: FormGroup;
   @Input() sinDecorar = false;
-  tiposProceso = TIPOS_PROCESO;
+  @Input() tiposProceso = TIPOS_PROCESO;
 }

@@ -40,11 +40,18 @@
         {{ row.creado | date : 'medium' }}
       </td>
     </ng-container>
-    <!-- modificado -->
-    <ng-container matColumnDef="modificado">
-      <th mat-header-cell *matHeaderCellDef>Modificado</th>
+    <!-- fechaProoceso -->
+    <ng-container matColumnDef="fechaProceso">
+      <th mat-header-cell *matHeaderCellDef>Fecha Proceso</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.modificado | date : 'medium' }}
+        {{ row.fechaProceso | date : 'medium' }}
+      </td>
+    </ng-container>
+    <!-- fechaProceso -->
+    <ng-container matColumnDef="fechaProoceso">
+      <th mat-header-cell *matHeaderCellDef>Fecha del Proceso</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.fechaProoceso | date : 'medium' }}
       </td>
     </ng-container>
     <!-- acciones -->
@@ -54,6 +61,26 @@
         <app-botones-acciones
           (eliminar)="removerActivo.emit(row)"
           deshabilitarEditar="true"></app-botones-acciones>
+      </td>
+    </ng-container>
+
+    <!-- tipoProceso -->
+    <ng-container matColumnDef="tipoProceso">
+      <th mat-header-cell *matHeaderCellDef>Tipo de Proceso</th>
+      <td mat-cell *matCellDef="let row">{{ row.tipoProceso | titlecase }}</td>
+    </ng-container>
+
+    <!-- proceso -->
+    <ng-container matColumnDef="proceso">
+      <th mat-header-cell *matHeaderCellDef>Proceso</th>
+      <td mat-cell *matCellDef="let row">{{ row.proceso }}</td>
+    </ng-container>
+
+    <!-- retornar -->
+    <ng-container matColumnDef="retornar">
+      <th mat-header-cell *matHeaderCellDef>Retornar</th>
+      <td mat-cell *matCellDef="let row">
+        <mat-slide-toggle checked="row.retornar">Retornar</mat-slide-toggle>
       </td>
     </ng-container>
 

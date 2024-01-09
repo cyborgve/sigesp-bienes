@@ -1,6 +1,6 @@
 import { tap, take, switchMap, first, filter } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,25 +18,33 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { Retorno } from '@core/models/procesos/retorno';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
-import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 import { BuscadorBeneficiarioComponent } from '@shared/components/buscador-beneficiario/buscador-beneficiario.component';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
+import { TipoProceso } from '@core/types/tipo-proceso';
+import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
+import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 
 @Component({
   selector: 'app-singular-retorno',
   templateUrl: './singular-retorno.component.html',
   styleUrls: ['./singular-retorno.component.scss'],
 })
-export class SingularRetornoComponent implements Entidad {
+export class SingularRetornoComponent implements Entidad, AfterViewInit {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[38].nombre;
   formulario: FormGroup;
-  dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
-  tiposProceso = TIPOS_PROCESO;
+  formularioFiltros: FormGroup;
+  formularioRangoFechas: FormGroup;
+  dataSource: MatTableDataSource<ActivoProceso | ActivoListaInventario> =
+    new MatTableDataSource();
+  tiposProceso: TipoProceso[] = ['ACTA DE PRÉSTAMO', 'AUTORIZACIÓN DE SALIDA'];
+  filtrosSinDecorar = true;
+  columnasVisibles = COLUMNAS_VISIBLES.ACTIVOS_LISTA_RETORNOS;
 
   constructor(
     private _entidad: RetornoService,
@@ -48,6 +56,18 @@ export class SingularRetornoComponent implements Entidad {
     private _correlativo: CorrelativoService,
     private _activo: ActivoService
   ) {
+    this.formularioRangoFechas = this._formBuilder.group({
+      rango: ['ESTE MES'],
+      fechaInicio: [FECHAS_CALCULADAS['ESTE MES'][0]],
+      fechaFin: [FECHAS_CALCULADAS['ESTE MES'][1]],
+      fechaReferencia: ['CREADO'],
+    });
+    this.formularioFiltros = this._formBuilder.group({
+      proveedor: ['Todos'],
+      beneficiario: ['Todos'],
+      tipoProceso: ['Todos'],
+      responsable: ['Todos'],
+    });
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
       id: [undefined],
@@ -61,6 +81,17 @@ export class SingularRetornoComponent implements Entidad {
     });
     this.id = this._activatedRoute.snapshot.params['id'];
     this.actualizarFormulario();
+  }
+
+  ngAfterViewInit(): void {
+    this._activo
+      .buscarTodosRetornos()
+      .pipe(
+        tap(console.log),
+        tap(activos => (this.dataSource = new MatTableDataSource(activos))),
+        take(1)
+      )
+      .subscribe();
   }
 
   private actualizarFormulario() {
@@ -135,7 +166,7 @@ export class SingularRetornoComponent implements Entidad {
 
   guardar() {
     let entidad: Retorno = this.formulario.value;
-    entidad.activos = this.dataSource.data;
+    entidad.activos = this.dataSource.data as ActivoProceso[];
     if (this.modoFormulario === 'CREANDO') {
       this._entidad
         .guardar(entidad, this.titulo.toUpperCase())

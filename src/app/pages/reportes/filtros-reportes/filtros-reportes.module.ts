@@ -123,10 +123,11 @@ const sharedComponents = [
   FiltroPropiedadesComponent,
   FiltroTipoResponsableComponent,
   FiltroCategoriaUnidadAdministrativaComponent,
+  FiltroLineEnterpriseComponent,
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, FiltroLineEnterpriseComponent],
+  declarations: [...sharedComponents],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -165,6 +166,6 @@ const sharedComponents = [
     BuscadorTipoUsoModule,
     BuscadorUnidadAdministrativaModule,
   ],
-  exports: [...sharedComponents, FiltroLineEnterpriseComponent],
+  exports: [...sharedComponents],
 })
 export class FiltrosReportesModule {}

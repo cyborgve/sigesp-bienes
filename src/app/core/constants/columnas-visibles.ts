@@ -307,4 +307,12 @@ export const COLUMNAS_VISIBLES = {
     //'depreciacionAcumulada',
     'valorContable',
   ],
+  ACTIVOS_LISTA_RETORNOS: [
+    'codigo',
+    'denominacion',
+    'tipoProceso',
+    'proceso',
+    'fechaProceso',
+    'retornar',
+  ],
 };

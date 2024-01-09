@@ -23,7 +23,7 @@
     <mat-form-field appearance="fill" class="filtro-input">
       <mat-label>Tipo de Proceso</mat-label>
       <mat-select formControlName="tipoProceso">
-        <mat-option value="TODOS" selected>Todos</mat-option>
+        <mat-option value="Todos">Todos</mat-option>
         <mat-option *ngFor="let tipo of tiposProceso" [value]="tipo">{{
           tipo | titlecase
         }}</mat-option>

@@ -18,7 +18,7 @@ export class FiltroBeneficiarioComponent {
   constructor(private _dialog: MatDialog) {}
 
   reiniciar() {
-    this.formulario.patchValue({ beneficiario: '---' });
+    this.formulario.patchValue({ beneficiario: 'Todos' });
   }
 
   buscarBeneficiario() {
