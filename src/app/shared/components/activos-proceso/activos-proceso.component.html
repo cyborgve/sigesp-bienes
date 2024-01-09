@@ -40,6 +40,13 @@
         {{ row.creado | date : 'medium' }}
       </td>
     </ng-container>
+    <!-- modificado -->
+    <ng-container matColumnDef="modificado">
+      <th mat-header-cell *matHeaderCellDef>Modificado</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.modificado | date : 'medium' }}
+      </td>
+    </ng-container>
     <!-- fechaProoceso -->
     <ng-container matColumnDef="fechaProceso">
       <th mat-header-cell *matHeaderCellDef>Fecha Proceso</th>
