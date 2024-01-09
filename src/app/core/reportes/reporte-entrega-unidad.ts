@@ -6,21 +6,21 @@ import { campoTextoConTituloReporte } from './auxiliares/campo-texto-titulo-repo
 import { seccionPiePaginaReporte } from './secciones/seccion-pie-pagina-reporte';
 
 const tipoProceso: TipoProceso = 'ENTREGA DE UNIDAD';
-const activos = [
-  [
-    'Código',
-    'Tipo',
-    'Denominación',
-    'Identificador',
-    { text: 'Valor', alignment: 'right' },
-  ],
-];
 
 export const reporteEntregaUnidad = (
   empresa: Empresa,
   proceso: any,
   usuarioActivo: any
 ) => {
+  const activos = [
+    [
+      'Código',
+      'Tipo',
+      'Denominación',
+      'Identificador',
+      { text: 'Valor', alignment: 'right' },
+    ],
+  ];
   proceso.activos.forEach((activo: any) =>
     activos.push([
       activo.codigo,
