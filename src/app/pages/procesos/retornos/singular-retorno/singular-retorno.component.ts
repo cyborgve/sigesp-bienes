@@ -27,6 +27,8 @@ import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { TipoProceso } from '@core/types/tipo-proceso';
 import { ActivoListaInventario } from '@core/models/auxiliares/activo-lista-inventario';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
+import { filtrarActivosRetornoPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-retorno-por-fecha';
+import { filtrarActivosRetornoPorTipoProceso } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-retorno-por-tipo-proceso';
 
 @Component({
   selector: 'app-singular-retorno',
@@ -57,9 +59,9 @@ export class SingularRetornoComponent implements Entidad, AfterViewInit {
     private _activo: ActivoService
   ) {
     this.formularioRangoFechas = this._formBuilder.group({
-      rango: ['ESTE MES'],
-      fechaInicio: [FECHAS_CALCULADAS['ESTE MES'][0]],
-      fechaFin: [FECHAS_CALCULADAS['ESTE MES'][1]],
+      rango: ['TODOS'],
+      fechaInicio: [FECHAS_CALCULADAS['TODOS'][0]],
+      fechaFin: [FECHAS_CALCULADAS['TODOS'][1]],
       fechaReferencia: ['CREADO'],
     });
     this.formularioFiltros = this._formBuilder.group({
@@ -84,9 +86,23 @@ export class SingularRetornoComponent implements Entidad, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.formularioRangoFechas.valueChanges.subscribe(() =>
+      this.recargarListaRetornos()
+    );
+    this.formularioFiltros.valueChanges.subscribe(() =>
+      this.recargarListaRetornos()
+    );
+    this.recargarListaRetornos();
+  }
+
+  private recargarListaRetornos() {
     this._activo
       .buscarTodosRetornos()
       .pipe(
+        filtrarActivosRetornoPorTipoProceso(
+          this.formularioFiltros.value.tipoProceso
+        ),
+        filtrarActivosRetornoPorFecha(this.formularioRangoFechas),
         tap(activos => (this.dataSource = new MatTableDataSource(activos))),
         take(1)
       )
@@ -218,49 +234,5 @@ export class SingularRetornoComponent implements Entidad, AfterViewInit {
 
   salir() {
     throw new Error('Method not implemented.');
-  }
-
-  agregarActivo() {
-    let dialog = this._dialog.open(BuscadorActivoComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        tap(
-          (activo: Activo) =>
-            (this.dataSource = new MatTableDataSource([
-              ...this.dataSource.data,
-              convertirActivoProceso(activo),
-            ]))
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  removerActivo(activo: ActivoProceso) {
-    this.dataSource.data.splice(this.dataSource.data.indexOf(activo), 1);
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
-  }
-
-  buscarBeneficiario() {
-    let dialog = this._dialog.open(BuscadorBeneficiarioComponent, {
-      height: '95%',
-      width: '85%',
-    });
-    dialog
-      .afterClosed()
-      .pipe(
-        filter(todo => !!todo),
-        puedeActualizarFormulario(this.formulario.value.beneficiario),
-        tap((beneficiario: Beneficiario) =>
-          this.formulario.patchValue({ beneficiario: beneficiario.id })
-        ),
-        take(1)
-      )
-      .subscribe();
   }
 }

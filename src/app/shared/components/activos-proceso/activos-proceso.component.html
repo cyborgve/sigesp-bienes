@@ -13,6 +13,23 @@
       <mat-icon>add</mat-icon>
       Agregar Bienes
     </button>
+    <mat-form-field class="buscar" *ngIf="mostrarBuscar">
+      <mat-label>Buscar</mat-label>
+      <input
+        #inputBuscar
+        type="text"
+        matInput
+        (keyup)="buscar($event)"
+        placeholder="escriba el texto a buscar" />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        *ngIf="inputBuscar.value"
+        (click)="limpiarBuscar()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
   </article>
   <!-- tabla activos -->
   <table mat-table [dataSource]="dataSource" class="table">
@@ -91,7 +108,7 @@
     <ng-container matColumnDef="retornar">
       <th mat-header-cell *matHeaderCellDef>Retornar</th>
       <td mat-cell *matCellDef="let row">
-        <mat-slide-toggle checked="row.retornar">Retornar</mat-slide-toggle>
+        <mat-slide-toggle [checked]="row.retornar">Retornar</mat-slide-toggle>
       </td>
     </ng-container>
 

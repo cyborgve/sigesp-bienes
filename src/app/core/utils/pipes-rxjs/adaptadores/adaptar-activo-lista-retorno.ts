@@ -17,6 +17,7 @@ const adaptar = (activo: any) =>
     tipoActivo: activo.tipoActivo,
     denominacion: activo.denominacion,
     codigo: activo.codigo,
+    retornar: activo.retornar,
     creado: activo.creado,
     modificado: activo.modificado,
   };

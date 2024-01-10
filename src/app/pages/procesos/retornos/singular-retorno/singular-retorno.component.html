@@ -18,7 +18,7 @@
           [sinDecorar]="filtrosSinDecorar"
           [tiposProceso]="tiposProceso"
           [formulario]="formularioFiltros"></app-filtro-tipo-proceso>
-        <app-filtro-proveedor
+        <!-- <app-filtro-proveedor
           class="filtroProveedor"
           [sinDecorar]="filtrosSinDecorar"
           [formulario]="formularioFiltros"></app-filtro-proveedor>
@@ -29,7 +29,7 @@
         <app-filtro-responsable
           class="filtroResponsable"
           [sinDecorar]="filtrosSinDecorar"
-          [formulario]="formularioFiltros"></app-filtro-responsable>
+          [formulario]="formularioFiltros"></app-filtro-responsable> -->
         <mat-form-field appearance="fill" class="observaciones">
           <mat-label>Observaciones</mat-label>
           <textarea
@@ -43,10 +43,9 @@
 </form>
 <section class="contenedor-singular inferior">
   <app-activos-proceso
-    (agregarActivo)="agregarActivo()"
-    (removerActivo)="removerActivo($event)"
     [agregarActivoDeshabilitado]="false"
     [columnasVisibles]="columnasVisibles"
+    [mostrarBuscar]="true"
     [dataSource]="dataSource"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->

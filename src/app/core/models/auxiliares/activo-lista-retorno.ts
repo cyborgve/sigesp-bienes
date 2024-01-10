@@ -11,4 +11,5 @@ export interface ActivoListaRetorno extends Basica {
   tipoActivo: TipoActivo;
   codigo: string;
   denominacion: string;
+  retornar: boolean;
 }
