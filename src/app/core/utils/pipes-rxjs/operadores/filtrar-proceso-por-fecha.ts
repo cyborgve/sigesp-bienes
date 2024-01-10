@@ -3,26 +3,16 @@ import { pipe } from 'rxjs';
 import moment from 'moment';
 import { FormGroup } from '@angular/forms';
 
-export const filtrarProcesoPorFecha = (formularioRangoFechas: FormGroup) =>
+export const filtrarProcesoPorFecha = (formulario: FormGroup) =>
   pipe(
-    map((procesos: any[]) =>
-      procesos.filter(proceso => {
-        let fechaInicio = formularioRangoFechas.value.fechaInicio
-          ? moment(formularioRangoFechas.value.fechaInicio)
-          : moment(new Date(1));
-        let fechaFin = formularioRangoFechas.value.fechaFin
-          ? moment(formularioRangoFechas.value.fechaFin)
-          : moment(new Date());
-        if (
-          formularioRangoFechas.value.rango === 'HOY' ||
-          formularioRangoFechas.value.rango === 'AYER'
-        ) {
-          fechaInicio = fechaInicio.startOf('day');
-          fechaFin = fechaInicio.endOf('day');
-        }
-        return formularioRangoFechas.value.fechaReferencia === 'CREADO'
-          ? moment(proceso.creado).isBetween(fechaInicio, fechaFin)
-          : moment(proceso.modificado).isBetween(fechaInicio, fechaFin);
-      })
-    )
+    map((procesos: any[]) => {
+      let { fechaReferencia, fechaInicio, fechaFin } = formulario.value;
+      let nfechaInicio = moment(fechaInicio || new Date(1)).startOf('day');
+      let nfechaFin = moment(fechaFin || new Date()).endOf('day');
+      return procesos.filter(proceso =>
+        fechaReferencia === 'CREADO'
+          ? moment(proceso.creado).isBetween(nfechaInicio, nfechaFin)
+          : moment(proceso.modificado).isBetween(nfechaInicio, nfechaFin)
+      );
+    })
   );

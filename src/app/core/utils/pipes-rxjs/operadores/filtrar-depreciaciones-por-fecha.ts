@@ -5,17 +5,15 @@ import moment from 'moment';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
 
 export const filtrarDepreciacionesAnualesPorRangoDeFecha = (
-  formularioRangoFechas: FormGroup
+  formulario: FormGroup
 ) =>
   pipe(
-    map((activosListaDepreciacion: ActivoListaDepreciacion[]) =>
-      activosListaDepreciacion.filter(activoListaDepreciacion => {
-        let fechaInicio = moment(formularioRangoFechas.value.fechaInicio);
-        let fechaFin = moment(formularioRangoFechas.value.fechaFin);
-        let fechaDepreciacion = moment(
-          activoListaDepreciacion.fechaDepreciacion
-        );
-        return fechaDepreciacion.isBetween(fechaInicio, fechaFin);
-      })
-    )
+    map((activosListaDepreciacion: ActivoListaDepreciacion[]) => {
+      let { fechaInicio, fechaFin } = formulario.value;
+      let nfechaInicio = moment(fechaInicio || new Date(1)).startOf('day');
+      let nfechaFin = moment(fechaFin || new Date()).endOf('day');
+      return activosListaDepreciacion.filter(activo =>
+        moment(activo.fechaDepreciacion).isBetween(nfechaInicio, nfechaFin)
+      );
+    })
   );

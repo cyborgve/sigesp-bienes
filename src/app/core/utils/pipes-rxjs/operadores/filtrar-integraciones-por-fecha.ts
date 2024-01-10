@@ -4,26 +4,16 @@ import moment from 'moment';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export const filtrarIntegracionesPorFecha = (
-  formularioRangoFechas: FormGroup
-) =>
+export const filtrarIntegracionesPorFecha = (formulario: FormGroup) =>
   pipe(
-    map((integraciones: Integracion[]) =>
-      integraciones.filter(integracion => {
-        let valores = formularioRangoFechas.value;
-        let fechaInicio = valores.fechaInicio
-          ? moment(valores.fechaInicio)
-          : moment(new Date(1));
-        let fechaFin = valores.fechaFin
-          ? moment(valores.fechaFin)
-          : moment(new Date());
-        if (valores.rango === 'HOY' || valores.rango === 'AYER') {
-          fechaInicio = fechaInicio.startOf('day');
-          fechaFin = fechaInicio.endOf('day');
-        }
-        return valores.fechaReferencia === 'CREADO'
-          ? moment(integracion.creado).isBetween(fechaInicio, fechaFin)
-          : moment(integracion.modificado).isBetween(fechaInicio, fechaFin);
-      })
-    )
+    map((integraciones: Integracion[]) => {
+      let { fechaReferencia, fechaInicio, fechaFin } = formulario.value;
+      let nfechaInicio = moment(fechaInicio || new Date(1)).startOf('day');
+      let nfechaFin = moment(fechaFin || new Date()).endOf('day');
+      return integraciones.filter(integracion =>
+        fechaReferencia === 'CREADO'
+          ? moment(integracion.creado).isBetween(nfechaInicio, nfechaFin)
+          : moment(integracion.modificado).isBetween(nfechaInicio, nfechaFin)
+      );
+    })
   );
