@@ -87,7 +87,6 @@ export class SingularRetornoComponent implements Entidad, AfterViewInit {
     this._activo
       .buscarTodosRetornos()
       .pipe(
-        tap(console.log),
         tap(activos => (this.dataSource = new MatTableDataSource(activos))),
         take(1)
       )
