@@ -1,7 +1,8 @@
 import { Activo } from '@core/models/definiciones/activo';
 
-export const comprobarActivoDepreciable = (activo: Activo) => {
-  let { valorAdquisicion, monedaId, fechaAdquisicion, depreciacion } = activo;
+export const comprobarActivoDepreciable = (activoCompleto: Activo) => {
+  let { valorAdquisicion, monedaId, fechaAdquisicion, depreciacion } =
+    activoCompleto;
   let esDepreciable = [
     valorAdquisicion > 0,
     monedaId !== '---',

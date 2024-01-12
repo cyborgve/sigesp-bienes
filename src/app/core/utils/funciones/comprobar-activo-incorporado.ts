@@ -1,23 +1,25 @@
 import { ActivoUbicacion } from '@core/models/definiciones/activo-ubicacion';
 
 export const comprobarActivoIncorporado = (ubicacion: ActivoUbicacion) => {
+  let { sedeId, unidadAdministrativaId, responsableId, responsableUsoId } =
+    ubicacion;
   let incorporado = [
-    ubicacion.sedeId !== 0,
-    ubicacion.sedeId !== '0',
-    ubicacion.sedeId !== null,
-    ubicacion.unidadAdministrativaId !== 0,
-    ubicacion.unidadAdministrativaId !== '0',
-    ubicacion.unidadAdministrativaId !== null,
-    ubicacion.responsableId !== null,
-    ubicacion.responsableId !== '0',
-    ubicacion.responsableId !== '---',
-    ubicacion.responsableId !== '--',
-    ubicacion.responsableId !== '',
-    ubicacion.responsableUsoId !== null,
-    ubicacion.responsableUsoId !== '0',
-    ubicacion.responsableUsoId !== '---',
-    ubicacion.responsableUsoId !== '--',
-    ubicacion.responsableUsoId !== '',
+    sedeId !== 0,
+    !Number.isNaN(sedeId),
+    sedeId !== null,
+    unidadAdministrativaId !== 0,
+    !Number.isNaN(unidadAdministrativaId),
+    unidadAdministrativaId !== null,
+    responsableId !== null,
+    responsableId !== '0',
+    responsableId !== '---',
+    responsableId !== '--',
+    responsableId !== '',
+    responsableUsoId !== null,
+    responsableUsoId !== '0',
+    responsableUsoId !== '---',
+    responsableUsoId !== '--',
+    responsableUsoId !== '',
   ];
   return incorporado.every(valor => !!valor);
 };

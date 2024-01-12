@@ -33,6 +33,7 @@
               [formulario]="formularioDepreciacion"
               [formularioEspecial]="formularioEspecial"
               [formularioDatosGenerales]="formularioDatosGenerales"
+              [formularioDetalles]="formularioDetalles"
               [modoFormulario]="modoFormulario"></app-activo-depreciacion>
             <app-activo-ubicacion
               *ngSwitchCase="'ubicación'"
@@ -41,6 +42,7 @@
               [modoFormulario]="modoFormulario"></app-activo-ubicacion>
             <app-activo-integracion
               *ngSwitchCase="'integración'"
+              [formularioDetalles]="formularioDetalles"
               [formulario]="formularioIntegracion"></app-activo-integracion>
           </ng-container>
         </article>

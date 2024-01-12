@@ -1,4 +1,8 @@
 <form [formGroup]="formulario">
+  <p class="nota" *ngIf="!centroCostosAsignado()">
+    En la pestaña <b>Detalles</b> debe seleccionar el
+    <b>Centro de Costos</b> para realizar la integracion
+  </p>
   <section class="contenido">
     <!-- datos modificacion -->
     <h3>Datos para integrar Modificaciones</h3>

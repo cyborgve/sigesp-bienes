@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
+import { activoCentroCostosAsignado } from '@core/utils/funciones/activo-centro-costos-asignado';
 import { filtrarPlantillasIntegracionPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-plantillas-integracion-por-tipo';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plantillas-integracion/buscador-plantilla-integracion/buscador-plantilla-integracion.component';
@@ -16,6 +18,7 @@ import { filter, take, tap } from 'rxjs/operators';
 })
 export class ActivoIntegracionComponent {
   @Input() formulario: FormGroup;
+  @Input() formularioDetalles: FormGroup;
 
   constructor(private _dialog: MatDialog) {}
 
@@ -48,7 +51,7 @@ export class ActivoIntegracionComponent {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        puedeActualizarFormulario(this.formulario.value.modCuentaCOntableHaber),
+        puedeActualizarFormulario(this.formulario.value.modCuentaContableHaber),
         tap((cuentaContable: CuentaContable) =>
           this.formulario.patchValue({
             modCuentaContableHaber: cuentaContable.id,
@@ -142,4 +145,7 @@ export class ActivoIntegracionComponent {
       )
       .subscribe();
   };
+
+  centroCostosAsignado = () =>
+    activoCentroCostosAsignado(this.formularioDetalles.value);
 }

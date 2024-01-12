@@ -17,6 +17,9 @@ import { BuscadorPlantillaIntegracionComponent } from '@pages/definiciones/plant
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
 import { filtrarPlantillasIntegracionPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-plantillas-integracion-por-tipo';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { activoCentroCostosAsignado } from '@core/utils/funciones/activo-centro-costos-asignado';
+import { activoCostoAsignado } from '@core/utils/funciones/activo-costo-asignado';
+import { activoMonedaAsignada } from '@core/utils/funciones/activo-moneda-asignada';
 
 @Component({
   selector: 'app-activo-depreciacion',
@@ -28,6 +31,7 @@ export class ActivoDepreciacionComponent implements OnDestroy {
   @Input() formulario: FormGroup;
   @Input() formularioEspecial: FormGroup;
   @Input() formularioDatosGenerales: FormGroup;
+  @Input() formularioDetalles: FormGroup;
   @Input() modoFormulario: ModoFormulario;
 
   metodosDepreciacion = METODOS_DEPRECIACION;
@@ -107,16 +111,12 @@ export class ActivoDepreciacionComponent implements OnDestroy {
     return comprobarActivoDepreciable(activoDepreciar);
   };
 
-  valorMonedaAsignados = () => {
-    let { valorAdquisicion, monedaId } = this.formularioDatosGenerales
-      .value as Activo;
-    let comprobaciones = [
-      valorAdquisicion > 0,
-      monedaId !== null,
-      monedaId !== '0',
-    ];
-    return comprobaciones.every(todo => !!todo);
-  };
+  costoMonedaAsignados = () =>
+    activoCostoAsignado(this.formularioDatosGenerales.value) &&
+    activoMonedaAsignada(this.formularioDatosGenerales.value);
+
+  centroCostosAsignado = () =>
+    activoCentroCostosAsignado(this.formularioDetalles.value);
 
   buscarPlantillaIntegracion() {
     let dialog = this._dialog.open(BuscadorPlantillaIntegracionComponent, {

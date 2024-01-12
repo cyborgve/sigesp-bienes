@@ -16,11 +16,14 @@
           >Este activo aun no es depreciable, llene todos los campos para
           hacerlo depreciable.</span
         >
-        <p class="nota" *ngIf="!valorMonedaAsignados()">
-          En la pestaña <span class="negritas">Datos Generales</span>, debe
-          asignar valores a los campos
-          <span class="negritas"> Valor de Adquisición </span> y
+        <p class="nota" *ngIf="!costoMonedaAsignados()">
+          En la pestaña <b>Datos Generales</b>, debe asignar valores a los
+          campos <b> Valor de Adquisición </b> y
           <span class="negritas">Moneda</span>
+        </p>
+        <p class="nota" *ngIf="!centroCostosAsignado()">
+          En la pestaña <b>Detalles</b> debe seleccionar el
+          <b>Centro de Costos</b> para realizar la integracion
         </p>
       </ng-template>
     </article>
