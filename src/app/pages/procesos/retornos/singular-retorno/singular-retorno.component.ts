@@ -65,10 +65,10 @@ export class SingularRetornoComponent implements Entidad, AfterViewInit {
       fechaReferencia: ['CREADO'],
     });
     this.formularioFiltros = this._formBuilder.group({
-      proveedor: ['Todos'],
-      beneficiario: ['Todos'],
-      tipoProceso: ['Todos'],
-      responsable: ['Todos'],
+      proveedor: ['TODOS'],
+      beneficiario: ['TODOS'],
+      tipoProceso: ['TODOS'],
+      responsable: ['TODOS'],
     });
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],

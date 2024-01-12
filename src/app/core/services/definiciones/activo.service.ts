@@ -1,4 +1,4 @@
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
@@ -192,7 +192,8 @@ export class ActivoService extends GenericService<Activo> {
     return this._http.get<any[]>(this.apiUrlRetornos()).pipe(
       map((resultado: any) => resultado.data),
       map((data: any[]) => data.map(normalizarObjeto)),
-      adaptarActivosListaRetorno()
+      adaptarActivosListaRetorno(),
+      tap(console.log)
     );
   }
 }

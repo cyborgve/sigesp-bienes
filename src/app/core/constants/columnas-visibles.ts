@@ -312,6 +312,7 @@ export const COLUMNAS_VISIBLES = {
     'denominacion',
     'tipoProceso',
     'proceso',
+    'autorizadoResponsable',
     'fechaProceso',
     'retornar',
   ],

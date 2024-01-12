@@ -13,3 +13,25 @@
 .buscar {
   @apply w-64 h-14 ml-4;
 }
+
+th.mat-column-retornar,
+td.mat-column-retornar {
+  @apply w-32;
+}
+
+th.mat-column-fechaProceso,
+td.mat-column-fechaProceso {
+  @apply w-60;
+}
+
+th.mat-column-proceso,
+td.mat-column-proceso,
+th.mat-column-codigo,
+td.mat-column-codigo {
+  @apply w-24;
+}
+
+th.mat-column-tipoProceso,
+td.mat-column-tipoProceso {
+  @apply w-48;
+}
