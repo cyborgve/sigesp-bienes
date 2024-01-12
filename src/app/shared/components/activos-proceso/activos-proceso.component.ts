@@ -20,6 +20,7 @@ export class ActivosProcesoComponent {
   @ViewChild('inputBuscar') inputBuscar: ElementRef<HTMLInputElement>;
   @Output() agregarActivo = new EventEmitter();
   @Output() removerActivo = new EventEmitter();
+  @Output() cambiarEstadoActivo = new EventEmitter();
   @Input() dataSource: MatTableDataSource<Activo | ActivoListaRetorno> =
     new MatTableDataSource();
   @Input() agregarActivoDeshabilitado: boolean = true;

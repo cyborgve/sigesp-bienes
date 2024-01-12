@@ -116,7 +116,17 @@
     <ng-container matColumnDef="retornar">
       <th mat-header-cell *matHeaderCellDef>Retornar</th>
       <td mat-cell *matCellDef="let row">
-        <mat-slide-toggle [checked]="row.retornar">Retornar</mat-slide-toggle>
+        <mat-slide-toggle
+          #retornar
+          [checked]="row.retornar"
+          (toggleChange)="
+            cambiarEstadoActivo.emit({
+              activo: row,
+              nuevoEstado: !retornar.checked
+            })
+          "
+          >Retornar</mat-slide-toggle
+        >
       </td>
     </ng-container>
 

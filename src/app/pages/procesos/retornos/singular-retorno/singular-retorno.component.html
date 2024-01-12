@@ -1,4 +1,5 @@
 <form [formGroup]="formulario">
+  <!-- encabezado -->
   <section class="contenedor-singular superior">
     <app-encabezado-procesos
       [titulo]="titulo"
@@ -6,6 +7,7 @@
       [creado]="formulario.value.creado"
       [modificado]="formulario.value.modificado"></app-encabezado-procesos>
   </section>
+  <!-- filtros y observaciones -->
   <section class="contenedor-singular superior inferior">
     <mat-card>
       <article class="contenido">
@@ -17,19 +19,7 @@
           class="filtroTipoProceso"
           [sinDecorar]="filtrosSinDecorar"
           [tiposProceso]="tiposProceso"
-          [formulario]="formularioFiltros"></app-filtro-tipo-proceso>
-        <!-- <app-filtro-proveedor
-          class="filtroProveedor"
-          [sinDecorar]="filtrosSinDecorar"
-          [formulario]="formularioFiltros"></app-filtro-proveedor>
-        <app-filtro-beneficiario
-          class="filtroBeneficiario"
-          [sinDecorar]="filtrosSinDecorar"
-          [formulario]="formularioFiltros"></app-filtro-beneficiario>
-        <app-filtro-responsable
-          class="filtroResponsable"
-          [sinDecorar]="filtrosSinDecorar"
-          [formulario]="formularioFiltros"></app-filtro-responsable> -->
+          [formulario]="formulario"></app-filtro-tipo-proceso>
         <mat-form-field appearance="fill" class="observaciones">
           <mat-label>Observaciones</mat-label>
           <textarea
@@ -41,16 +31,21 @@
     </mat-card>
   </section>
 </form>
+<!-- lista de activos -->
 <section class="contenedor-singular inferior">
   <app-activos-proceso
     [agregarActivoDeshabilitado]="false"
     [columnasVisibles]="columnasVisibles"
     [mostrarBuscar]="true"
+    (cambiarEstadoActivo)="cambiarEstadoActivo($event)"
     [dataSource]="dataSource"></app-activos-proceso>
 </section>
 <!-- barra de herramientas lateral -->
 <app-toolbar
-  (importar)="importar()"
+  [mostrarBorrar]="false"
+  [mostrarEjecutar]="true"
+  [mostrarGuardar]="false"
+  [mostrarImportar]="false"
   (guardar)="guardar()"
   (borrar)="borrar()"
   (imprimir)="imprimir()"
@@ -58,7 +53,8 @@
   (irAlInicio)="irAlInicio()"
   (salir)="salir()"
   (buscar)="buscar()"
-  [desabilitarGuardar]="formulario.invalid"
+  (ejecutar)="ejecutar()"
+  [desabilitarEjecutar]="deshabilitarEjecutar | async"
   [desabilitarBorrar]="modoFormulario !== 'EDITANDO'"
   toolTipPersonalizado="Ir a Procesos"
   [mostrarSalir]="false"></app-toolbar>

@@ -18,7 +18,7 @@ const adaptar = (activo: any) =>
     denominacion: activo.denominacion,
     codigo: activo.codigo,
     autorizadoResponsable: activo.autorizadoResponsable,
-    retornar: activo.retornar,
+    retornar: false,
     creado: activo.creado,
     modificado: activo.modificado,
   };

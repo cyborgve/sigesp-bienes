@@ -10,6 +10,17 @@
       <i class="material-icons">save</i>
     </button>
   </ng-container>
+  <!-- ejecutar -->
+  <ng-container *ngIf="mostrarEjecutar">
+    <button
+      mat-button
+      matTooltip="Ejecutar"
+      type="button"
+      (click)="ejecutar.emit()"
+      [disabled]="desabilitarEjecutar">
+      <i class="material-icons">published_with_changes</i>
+    </button>
+  </ng-container>
   <!-- imprimir -->
   <ng-container *ngIf="mostrarImprimir">
     <button
@@ -63,17 +74,6 @@
       (click)="exportar.emit()"
       [disabled]="desabilitarExportar">
       <i class="material-icons">superscript</i>
-    </button>
-  </ng-container>
-  <!-- ejecutar -->
-  <ng-container *ngIf="mostrarEjecutar">
-    <button
-      mat-button
-      matTooltip="Ejecutar"
-      type="button"
-      (click)="ejecutar.emit()"
-      [disabled]="desabilitarEjecutar">
-      <i class="material-icons">published_with_changes</i>
     </button>
   </ng-container>
   <!--ir atras -->

@@ -192,8 +192,7 @@ export class ActivoService extends GenericService<Activo> {
     return this._http.get<any[]>(this.apiUrlRetornos()).pipe(
       map((resultado: any) => resultado.data),
       map((data: any[]) => data.map(normalizarObjeto)),
-      adaptarActivosListaRetorno(),
-      tap(console.log)
+      adaptarActivosListaRetorno()
     );
   }
 }
