@@ -270,37 +270,37 @@ export const MENU: MenuItem[] = [
     image: './assets/images/svg/print.svg',
     items: [
       {
-        label: 'Lista de Bienes',
+        label: 'Bienes',
         routerLink: 'lista-activos',
         icon: 'tv_options_edit_channels',
         image: './assets/images/svg/tv_options_edit_channels.svg',
       },
       {
-        label: 'Lista Actas de Préstamo',
+        label: 'Actas de Préstamo',
         routerLink: 'lista-actas-prestamo',
         icon: 'import_contacts',
         image: './assets/images/svg/import_contacts.svg',
       },
       {
-        label: 'Lista Depreciaciones Anuales',
+        label: 'Depreciaciones Anuales',
         routerLink: 'lista-depreciaciones-anuales',
         icon: 'stat_minus_2',
         image: './assets/images/svg/stat_minus_2.svg',
       },
       {
-        label: 'Lista Depreciaciones Mensuales',
+        label: 'Depreciaciones Mensuales',
         routerLink: 'lista-depreciaciones-mensuales',
         icon: 'stat_minus_3',
         image: './assets/images/svg/stat_minus_3.svg',
       },
       {
-        label: 'Lista Depreciaciones',
+        label: 'Depreciaciones',
         routerLink: 'lista-depreciaciones',
         icon: 'network_intelligence_history',
         image: './assets/images/svg/network_intelligence_history.svg',
       },
       {
-        label: 'lista Inventario de Bienes',
+        label: 'Inventario de Bienes',
         routerLink: 'lista-inventario-activos',
         icon: 'inventory',
         image: './assets/images/svg/inventory.svg',

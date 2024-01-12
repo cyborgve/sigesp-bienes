@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 export const filtrarActivosRetornoPorTipoProceso = (tipoProceso: any) =>
   pipe(
     map((activos: ActivoListaRetorno[]) =>
-      tipoProceso === 'Todos'
+      tipoProceso === 'TODOS'
         ? activos
         : activos.filter(activo => activo.tipoProceso === tipoProceso)
     )

@@ -26,7 +26,7 @@
     </article>
     <article class="depreciable">
       <!-- depreciable -->
-      <mat-slide-toggle formControlName="depreciable"
+      <mat-slide-toggle #depreciable formControlName="depreciable"
         >Depreciable</mat-slide-toggle
       >
       <!-- generar depreciacion -->
@@ -38,6 +38,7 @@
       color="primary"
       class="boton"
       type="button"
+      [disabled]="!depreciable.checked"
       (click)="buscarPlantillaIntegracion()">
       Plantillas de Integración
     </button>
