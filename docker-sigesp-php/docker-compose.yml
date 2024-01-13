@@ -1,0 +1,11 @@
+version: '3'
+services:
+  php-apache:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - /c/AppServ/www:/var/www/html
+    ports:
+      - 80:80
