@@ -1,5 +1,5 @@
 import { switchMap, map, tap } from 'rxjs/operators';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Retorno } from '@core/models/procesos/retorno';
 import { END_POINTS } from '@core/constants/end-points';
@@ -15,6 +15,11 @@ import { Id } from '@core/types/id';
 import { ejecutarRetorno } from '@core/utils/pipes-rxjs/procesos/ejecutar-retorno';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { reversarRetorno } from '@core/utils/pipes-rxjs/procesos/reversar-retorno';
+import { ActivoListaRetorno } from '@core/models/auxiliares/activo-lista-retorno';
+import { generarRetornos } from '@core/utils/pipes-rxjs/procesos/generar-retornos';
+import { ActaPrestamoService } from './acta-prestamo.service';
+import { AutorizacionSalidaService } from './autorizacion-salida.service';
+import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +34,9 @@ export class RetornoService extends GenericService<Retorno> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _retornoActivo: RetornoActivoService,
+    private _actaPrestamo: ActaPrestamoService,
+    private _autorizacionSalida: AutorizacionSalidaService,
+    private _activoUbicacion: ActivoUbicacionService,
     private _pdf: PDFService
   ) {
     super(_http, _sigesp, _snackBar);
@@ -71,8 +79,31 @@ export class RetornoService extends GenericService<Retorno> {
           })
         );
       }),
-      ejecutarRetorno(this),
+      ejecutarRetorno(
+        this._activoUbicacion,
+        this._actaPrestamo,
+        this._autorizacionSalida
+      ),
       abrirReporteProceso(this._pdf, 'RETORNO')
+    );
+  }
+
+  guardarTodos(
+    observaciones: string,
+    activosListaRetorno: ActivoListaRetorno[]
+  ): Observable<Retorno[]> {
+    return of(activosListaRetorno).pipe(
+      generarRetornos(
+        observaciones,
+        this._actaPrestamo,
+        this._autorizacionSalida
+      ),
+      switchMap(retornos => {
+        let guardarRetornos = retornos.map(retorno =>
+          this.guardar(retorno, 'RETORNO', true)
+        );
+        return forkJoin(guardarRetornos);
+      })
     );
   }
 

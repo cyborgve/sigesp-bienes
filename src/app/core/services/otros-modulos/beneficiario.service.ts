@@ -33,8 +33,7 @@ export class BeneficiarioService {
   buscarPorId(id: Id): Observable<Beneficiario> {
     return this._http.get<Beneficiario>(this.apiUrlId(id)).pipe(
       map((resultado: any) => resultado.data),
-      map((data: any[]) => data.map(normalizarObjeto)),
-      map(data => data[0]),
+      map((data: any[]) => data.map(normalizarObjeto)[0]),
       adaptarBeneficiario()
     );
   }

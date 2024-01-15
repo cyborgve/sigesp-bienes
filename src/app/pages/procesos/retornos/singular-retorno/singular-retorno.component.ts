@@ -122,7 +122,15 @@ export class SingularRetornoComponent
       .subscribe();
   }
 
-  ejecutar() {}
+  ejecutar() {
+    let activosListaReporte = (
+      this.dataSource.data as ActivoListaRetorno[]
+    ).filter(alr => alr.retornar === true);
+    this._entidad
+      .guardarTodos(this.formulario.value.observaciones, activosListaReporte)
+      .pipe(take(1))
+      .subscribe();
+  }
 
   cambiarEstadoActivo(event: any) {
     let activo: ActivoListaRetorno = event.activo;

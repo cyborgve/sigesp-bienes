@@ -8,7 +8,7 @@ export const adaptarBeneficiarios = () =>
 
 const adaptar = (beneficiario: any) =>
   <Beneficiario>{
-    empresaId: Number(beneficiario.empresa_id),
+    empresaId: Number(beneficiario.empresaId),
     id: Number(beneficiario.id),
     cedula: beneficiario.cedula,
     rif: beneficiario.rif,
