@@ -20,6 +20,10 @@ import { generarRetornos } from '@core/utils/pipes-rxjs/procesos/generar-retorno
 import { ActaPrestamoService } from './acta-prestamo.service';
 import { AutorizacionSalidaService } from './autorizacion-salida.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
+import { prepararActivoProcesoRetorno } from '@core/utils/funciones/preparar-activo-proceso-retorno';
+import { RetornoLista } from '@core/models/auxiliares/retorno-lista';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { adaptarRetornosLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-retorno-lista';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +32,7 @@ export class RetornoService extends GenericService<Retorno> {
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'retorno').valor;
   }
+  private apiUrlLista = () => `${this.apiUrl}?lista=${'lista'}`;
 
   constructor(
     protected _http: HttpClient,
@@ -44,6 +49,14 @@ export class RetornoService extends GenericService<Retorno> {
 
   buscarTodos(): Observable<Retorno[]> {
     return super.buscarTodos().pipe(adaptarRetornos());
+  }
+
+  buscarTodosLista(): Observable<RetornoLista[]> {
+    return this._http.get(this.apiUrlLista()).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(normalizarObjeto)),
+      adaptarRetornosLista()
+    );
   }
 
   buscarPorId(id: Id): Observable<Retorno> {
@@ -68,10 +81,12 @@ export class RetornoService extends GenericService<Retorno> {
     return super.guardar(entidad, tipoDato, notificar).pipe(
       adaptarRetorno(),
       switchMap(retornoGuardado => {
-        let guardarActivos = entidad.activos.map(activo => {
-          activo.proceso = retornoGuardado.id;
-          return this._retornoActivo.guardar(activo, undefined, false);
-        });
+        let guardarActivos = entidad.activos
+          .map(prepararActivoProcesoRetorno)
+          .map(activo => {
+            activo.proceso = retornoGuardado.id;
+            return this._retornoActivo.guardar(activo, undefined, false);
+          });
         return forkJoin(guardarActivos).pipe(
           map(activosGuardados => {
             retornoGuardado.activos = activosGuardados;

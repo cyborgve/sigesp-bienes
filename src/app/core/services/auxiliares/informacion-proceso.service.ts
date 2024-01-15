@@ -524,15 +524,14 @@ export class InformacionProcesoService {
   private retorno(retorno: Retorno) {
     let obtenerInformacion = [
       this.empresa(retorno.empresaId),
-      this.beneficiario(retorno.beneficiario),
       this.activosProceso(retorno.activos),
     ];
     return forkJoin(obtenerInformacion).pipe(
-      map(([empresa, beneficiario, activos]) => ({
+      map(([empresa, activos]) => ({
         empresaId: empresa,
         id: retorno.id,
         comprobante: retorno.comprobante.toString().substring(5),
-        beneficiario: beneficiario,
+        beneficiario: retorno.beneficiario,
         observaciones: retorno.observaciones,
         activos: activos,
         creado: retorno.creado,

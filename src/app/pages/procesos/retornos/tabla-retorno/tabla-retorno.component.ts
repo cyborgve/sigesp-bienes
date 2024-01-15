@@ -24,6 +24,7 @@ import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-e
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
+import { RetornoLista } from '@core/models/auxiliares/retorno-lista';
 
 @Component({
   selector: 'app-tabla-retorno',
@@ -44,7 +45,7 @@ export class TablaRetornoComponent
   private urlSingular = this.urlPlural + '/retorno';
   private urlSingularId = (id: Id) => this.urlPlural + '/retorno/' + id;
 
-  dataSource: MatTableDataSource<Retorno> = new MatTableDataSource();
+  dataSource: MatTableDataSource<RetornoLista> = new MatTableDataSource();
   activarPaginacion: boolean = false;
   opcionesPaginacion: number[] = [6];
   mostrarBotonesInicioFinal: boolean = true;
@@ -87,9 +88,9 @@ export class TablaRetornoComponent
       .buscarPorId(1)
       .pipe(
         switchMap(configuracion =>
-          this._entidad.buscarTodos().pipe(
+          this._entidad.buscarTodosLista().pipe(
             ordenarPorComprobanteDescendente(),
-            tap((entidades: Retorno[]) => {
+            tap((entidades: RetornoLista[]) => {
               this.dataSource = new MatTableDataSource(entidades);
               this.dataSource.sort = this.sort;
               if (configuracion.activarPaginacion) {
@@ -149,4 +150,7 @@ export class TablaRetornoComponent
       )
       .subscribe(() => this.recargarDatos());
   }
+
+  //TODO: verificar procedencia del retorno
+  mostrarResponsable = () => true;
 }
