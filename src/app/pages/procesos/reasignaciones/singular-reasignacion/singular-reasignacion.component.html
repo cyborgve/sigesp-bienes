@@ -120,6 +120,7 @@
   <app-activos-proceso
     (agregarActivo)="agregarActivo()"
     (removerActivo)="removerActivo($event)"
+    [ocultarAgregarActivo]="false"
     [agregarActivoDeshabilitado]="agregarActivosDeshabilitado()"
     [dataSource]="dataSource"></app-activos-proceso>
 </section>

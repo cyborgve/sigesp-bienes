@@ -522,16 +522,21 @@ export class InformacionProcesoService {
 
   /** RETORNO */
   private retorno(retorno: Retorno) {
+    let buscarBeneficiario =
+      String(retorno.activos[0].documentoRelacionado).substring(0, 3) === 'ACT'
+        ? this.responsable(retorno.beneficiario)
+        : this.proveedor(retorno.beneficiario);
     let obtenerInformacion = [
       this.empresa(retorno.empresaId),
       this.activosProceso(retorno.activos),
+      buscarBeneficiario,
     ];
     return forkJoin(obtenerInformacion).pipe(
-      map(([empresa, activos]) => ({
+      map(([empresa, activos, beneficiario]) => ({
         empresaId: empresa,
         id: retorno.id,
         comprobante: retorno.comprobante.toString().substring(5),
-        beneficiario: retorno.beneficiario,
+        beneficiario: beneficiario,
         observaciones: retorno.observaciones,
         activos: activos,
         creado: retorno.creado,

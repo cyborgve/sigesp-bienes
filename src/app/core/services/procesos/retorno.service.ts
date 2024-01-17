@@ -127,7 +127,11 @@ export class RetornoService extends GenericService<Retorno> {
       switchMap(retorno =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? retorno : eliminada)),
-          reversarRetorno(this),
+          reversarRetorno(
+            this._activoUbicacion,
+            this._actaPrestamo,
+            this._autorizacionSalida
+          ),
           map(retorno => !!retorno)
         )
       )
