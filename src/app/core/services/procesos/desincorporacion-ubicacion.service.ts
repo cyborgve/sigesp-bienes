@@ -1,3 +1,4 @@
+import { prepararDesincorporacionUbicacion } from './../../utils/funciones/preparar-desincorporacion-ubicacion';
 import { Injectable } from '@angular/core';
 import { GenericService } from '../auxiliares/generic.service';
 import { DesincorporacionUbicacion } from '@core/models/auxiliares/desincorporacion-ubicacion';
@@ -43,7 +44,7 @@ export class DesincorporacionUbicacionService extends GenericService<Desincorpor
     notificar?: boolean
   ): Observable<DesincorporacionUbicacion> {
     return super
-      .guardar(entidad, tipoDato, notificar)
+      .guardar(prepararDesincorporacionUbicacion(entidad), tipoDato, notificar)
       .pipe(adaptarDesincorporacionUbicacion());
   }
 }
