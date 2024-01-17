@@ -1,6 +1,6 @@
 import { Id } from '@core/types/id';
 import { Basica } from '../auxiliares/basica';
-import { ActivoProceso } from '../auxiliares/activo-proceso';
+import { ActivoProcesoReasignacion } from '../auxiliares/activo-proceso-reasignacion';
 
 export interface Reasignacion extends Basica {
   comprobante: Id;
@@ -10,5 +10,5 @@ export interface Reasignacion extends Basica {
   sede: Id;
   fechaEntrega: Date;
   observaciones: string;
-  activos: ActivoProceso[];
+  activos: ActivoProcesoReasignacion[];
 }

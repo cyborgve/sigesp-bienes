@@ -25,9 +25,10 @@ import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-ac
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
-import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { ActivoProcesoReasignacion } from '@core/models/auxiliares/activo-proceso-reasignacion';
+import { convertirActivoProcesoReasignacion } from '@core/utils/funciones/convertir-activo-proceso-reasignacion';
+import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 
 @Component({
   selector: 'app-singular-reasignacion',
@@ -39,7 +40,8 @@ export class SingularReasignacionComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[37].nombre;
   formulario: FormGroup;
-  dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
+  dataSource: MatTableDataSource<ActivoProcesoReasignacion> =
+    new MatTableDataSource();
 
   constructor(
     private _entidad: ReasignacionService,
@@ -49,7 +51,7 @@ export class SingularReasignacionComponent implements Entidad {
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,
-    private _activo: ActivoService
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     this.formulario = this._formBuilder.group({
       empresaId: [undefined],
@@ -226,19 +228,25 @@ export class SingularReasignacionComponent implements Entidad {
       .afterClosed()
       .pipe(
         filter(todo => !!todo),
-        tap(
-          (activo: Activo) =>
-            (this.dataSource = new MatTableDataSource([
-              ...this.dataSource.data,
-              convertirActivoProceso(activo),
-            ]))
+        switchMap((activo: Activo) =>
+          this._activoUbicacion.buscarPorActivo(activo.id).pipe(
+            tap(activoUbicacion => {
+              this.dataSource = new MatTableDataSource([
+                ...this.dataSource.data,
+                convertirActivoProcesoReasignacion(activo, {
+                  responsableAnterior: activoUbicacion.responsableId,
+                  responsableUsoAnterior: activoUbicacion.responsableUsoId,
+                }),
+              ]);
+            })
+          )
         ),
         take(1)
       )
       .subscribe();
   }
 
-  removerActivo(activoProceso: ActivoProceso) {
+  removerActivo(activoProceso: ActivoProcesoReasignacion) {
     this.dataSource.data.splice(this.dataSource.data.indexOf(activoProceso), 1);
     this.dataSource = new MatTableDataSource(this.dataSource.data);
   }

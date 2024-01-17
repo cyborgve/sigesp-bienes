@@ -15,6 +15,7 @@ import { adaptarReasignacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-
 import { ejecutarReasignacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-reasignacion';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { reversarReasignacion } from '@core/utils/pipes-rxjs/procesos/reversar-reasignacion';
+import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,8 @@ export class ReasignacionService extends GenericService<Reasignacion> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _reasignacionActivo: ReasignacionActivoService,
-    private _pdf: PDFService
+    private _pdf: PDFService,
+    private _activoUbicacion: ActivoUbicacionService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -81,7 +83,7 @@ export class ReasignacionService extends GenericService<Reasignacion> {
       switchMap(reasignacion =>
         super.eliminar(id, tipoDato, notificar).pipe(
           map(eliminada => (eliminada ? reasignacion : eliminada)),
-          reversarReasignacion(this),
+          reversarReasignacion(this._activoUbicacion),
           map(reasignacion => !!reasignacion)
         )
       )
