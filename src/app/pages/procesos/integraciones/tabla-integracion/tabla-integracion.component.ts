@@ -123,19 +123,19 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
     this.dataSource.data.forEach(
       dato => (dato.aprobado = this.toggleAprobarTodos.checked ? 0 : 1)
     );
-    if (this.toggleIntegrarTodos) {
-      this.toggleIntegrarTodos.checked = false;
-      this.dataSource.data.forEach(dato => (dato.integrado = 0));
-    }
+    // if (this.toggleIntegrarTodos) {
+    //   this.toggleIntegrarTodos.checked = false;
+    //   this.dataSource.data.forEach(dato => (dato.integrado = 0));
+    // }
   };
 
   integrarTodos = () => {
     this.dataSource.data.forEach(dato => {
       dato.integrado = this.toggleIntegrarTodos.checked ? 0 : 1;
     });
-    if (!this.toggleIntegrarTodos.checked) {
-      this.toggleAprobarTodos.checked = true;
-      this.dataSource.data.forEach(dato => (dato.aprobado = 1));
-    }
+    // if (!this.toggleIntegrarTodos.checked) {
+    //   this.toggleAprobarTodos.checked = true;
+    //   this.dataSource.data.forEach(dato => (dato.aprobado = 1));
+    // }
   };
 }
