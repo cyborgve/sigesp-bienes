@@ -8,8 +8,12 @@ export const filtrarIntegracionesPorFecha = (formulario: FormGroup) =>
   pipe(
     map((integraciones: Integracion[]) => {
       let { fechaReferencia, fechaInicio, fechaFin } = formulario.value;
-      let nfechaInicio = moment(fechaInicio || new Date(1)).startOf('day');
-      let nfechaFin = moment(fechaFin || new Date()).endOf('day');
+      let nfechaInicio = moment(fechaInicio || new Date(1))
+        .startOf('day')
+        .subtract(1, 'millisecond');
+      let nfechaFin = moment(fechaFin || new Date())
+        .endOf('day')
+        .add(1, 'millisecond');
       return integraciones.filter(integracion =>
         fechaReferencia === 'CREADO'
           ? moment(integracion.creado).isBetween(nfechaInicio, nfechaFin)
