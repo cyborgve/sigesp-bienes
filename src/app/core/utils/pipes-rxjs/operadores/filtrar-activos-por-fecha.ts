@@ -7,8 +7,12 @@ export const filtrarActivosPorFecha = (formulario: FormGroup) =>
   pipe(
     map((activos: Activo[]) => {
       let { fechaInicio, fechaFin, fechaReferencia } = formulario.value;
-      let nfechaInicio = moment(fechaInicio || new Date(1)).startOf('day');
-      let nfechaFin = moment(fechaFin || new Date()).endOf('day');
+      let nfechaInicio = moment(fechaInicio || new Date(1))
+        .startOf('day')
+        .subtract(1, 'millisecond');
+      let nfechaFin = moment(fechaFin || new Date())
+        .endOf('day')
+        .add(1, 'millisecond');
       return activos.filter(activo => {
         return fechaReferencia === 'CREADO'
           ? moment(activo.creado).isBetween(nfechaInicio, nfechaFin)

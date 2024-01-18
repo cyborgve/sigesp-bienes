@@ -1,5 +1,5 @@
 import { Integracion } from '@core/models/procesos/integracion';
-import { ContabilizacionService } from '@core/services/otros-modulos/contabilizacion.service';
+import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { Id } from '@core/types/id';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';

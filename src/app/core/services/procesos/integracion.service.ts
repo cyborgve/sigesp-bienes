@@ -14,6 +14,9 @@ import {
   adaptarIntegraciones,
 } from '@core/utils/pipes-rxjs/adaptadores/adaptar-integracion';
 import { TipoProceso } from '@core/types/tipo-proceso';
+import { generarComprobantesContables } from '@core/utils/pipes-rxjs/procesos/generar-comprobantes-contables';
+import { ActivoService } from '../definiciones/activo.service';
+import { UnidadAdministrativaService } from '../definiciones/unidad-administrativa.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +38,9 @@ export class IntegracionService extends GenericService<Integracion> {
   constructor(
     protected _http: HttpClient,
     protected _sigesp: SigespService,
-    protected _snackBar: MatSnackBar
+    protected _snackBar: MatSnackBar,
+    private _activo: ActivoService,
+    private _unidadAdministrativa: UnidadAdministrativaService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -73,7 +78,7 @@ export class IntegracionService extends GenericService<Integracion> {
     integraciones: Integracion[],
     lineEnterprise: Id,
     notificar?: boolean
-  ): Observable<Integracion[]> {
+  ): Observable<any> {
     let guardarIntegraciones = integraciones
       .filter(
         integracion =>
@@ -89,7 +94,8 @@ export class IntegracionService extends GenericService<Integracion> {
             duration: 6000,
           });
         }
-      })
+      }),
+      generarComprobantesContables(this._activo, this._unidadAdministrativa)
     );
   }
 

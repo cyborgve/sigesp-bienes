@@ -10,8 +10,12 @@ export const filtrarDepreciacionesAnualesPorRangoDeFecha = (
   pipe(
     map((activosListaDepreciacion: ActivoListaDepreciacion[]) => {
       let { fechaInicio, fechaFin } = formulario.value;
-      let nfechaInicio = moment(fechaInicio || new Date(1)).startOf('day');
-      let nfechaFin = moment(fechaFin || new Date()).endOf('day');
+      let nfechaInicio = moment(fechaInicio || new Date(1))
+        .startOf('day')
+        .subtract(1, 'millisecond');
+      let nfechaFin = moment(fechaFin || new Date())
+        .endOf('day')
+        .add(1, 'millisecond');
       return activosListaDepreciacion.filter(activo =>
         moment(activo.fechaDepreciacion).isBetween(nfechaInicio, nfechaFin)
       );

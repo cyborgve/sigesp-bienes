@@ -4,8 +4,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
-import { ActivoService } from '@core/services/definiciones/activo.service';
-import { MonedaService } from '@core/services/otros-modulos/moneda.service';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { Subscription } from 'rxjs';
 import { tap, take } from 'rxjs/operators';

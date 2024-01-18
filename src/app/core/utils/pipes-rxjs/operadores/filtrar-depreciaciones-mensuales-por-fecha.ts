@@ -11,23 +11,16 @@ export const filtrarDepreciacionesMensualesPorFecha = (
     map((depreciacionesMensuales: ActivoListaDepreciacion[]) =>
       depreciacionesMensuales.filter(depreciacionMensual => {
         let fechaDepreciacion = moment(depreciacionMensual.fechaDepreciacion);
-        let fechaInicio = moment(formularioRangoFechas.value.fechaInicio);
-        let fechaFin = moment(formularioRangoFechas.value.fechaFin);
+        let fechaInicio = moment(formularioRangoFechas.value.fechaInicio)
+          .startOf('day')
+          .subtract(1, 'millisecond');
+        let fechaFin = moment(formularioRangoFechas.value.fechaFin)
+          .endOf('day')
+          .add(1, 'millisecond');
         if (formularioRangoFechas.value.rango === 'TODOS') {
           fechaInicio = moment(new Date(1));
           fechaFin = moment(new Date());
         }
-
-        if (
-          formularioRangoFechas.value.rango === 'HOY' ||
-          formularioRangoFechas.value.rango === 'AYER'
-        ) {
-          fechaInicio = moment(formularioRangoFechas.value.fechaInicio).startOf(
-            'day'
-          );
-          fechaFin = fechaInicio.endOf('day');
-        }
-        //TODO: revisar si esta funcionando correctamente
         return fechaDepreciacion.isBetween(fechaInicio, fechaFin);
       })
     )

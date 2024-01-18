@@ -1,11 +1,11 @@
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
 import { ActivoIntegracionService } from '@core/services/definiciones/activo-integracion.service';
-import { activoModificable } from '@core/utils/funciones/activo-modificable';
+import { activoDesincorporable } from '@core/utils/funciones/activo-desincorporable';
 import { forkJoin, pipe } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-export const filtrarActivosModificables = (
+export const filtrarActivosDesincorporables = (
   _activoDetalle: ActivoDetalleService,
   _activoIntegracion: ActivoIntegracionService
 ) =>
@@ -23,7 +23,7 @@ export const filtrarActivosModificables = (
               detalle: detalles[indiceDetalle],
               integracion: integracion,
             } as Activo;
-            return activoModificable(activo);
+            return activoDesincorporable(activo);
           });
         }),
         map(integraciones =>

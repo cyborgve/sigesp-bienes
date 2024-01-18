@@ -10,14 +10,13 @@ import { filtrarIntegracionesPorEstadoIntegracion } from '@core/utils/pipes-rxjs
 import { filtrarIntegracionesPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-fecha';
 import { filtrarIntegracionesPorTipoProceso } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-tipo-proceso';
 import { ordenarIntegracionesPorFechaDescendiente } from '@core/utils/pipes-rxjs/operadores/ordenar-integraciones-por fecha-descendente';
-import { take, tap, map } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { Subscription } from 'rxjs';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ConfiguracionPorDefecto } from '@core/utils/funciones/configuracion-por-defecto';
 import { filtrarIntegracionesPorEstadoRegistro } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-estado-registro';
-import { ejecutarIntegracion } from '@core/utils/pipes-rxjs/procesos/ejecutar-integracion';
-import { ContabilizacionService } from '@core/services/otros-modulos/contabilizacion.service';
+import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 
@@ -86,13 +85,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
         this.formularioIntegracion.value.lineEnterprice,
         true
       )
-      .pipe(
-        ejecutarIntegracion(
-          this._contabilizacion,
-          this.formularioIntegracion.value.lineEnterprise
-        ),
-        take(1)
-      )
+      .pipe(take(1))
       .subscribe(() => this.recargarDatos());
   };
 

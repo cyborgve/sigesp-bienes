@@ -34,6 +34,8 @@ import { CuentaContableService } from '@core/services/otros-modulos/cuenta-conta
 import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
 import { ActivoComponenteService } from '@core/services/definiciones/activo-componente.service';
 import { filtrarComponentesDisponibles } from '@core/utils/pipes-rxjs/operadores/filtrar-componentes-disponibles';
+import { filtrarActivosModificables } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-modificables';
+import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
 
 @Component({
   selector: 'app-singular-modificacion',
@@ -61,6 +63,7 @@ export class SingularModificacionComponent implements Entidad {
     private _correlativo: CorrelativoService,
     private _activo: ActivoService,
     private _activoIntegracion: ActivoIntegracionService,
+    private _activoDetalle: ActivoDetalleService,
     private _cuentaContable: CuentaContableService,
     private _activoComponente: ActivoComponenteService
   ) {
@@ -269,6 +272,14 @@ export class SingularModificacionComponent implements Entidad {
     let dialog = this._dialog.open(BuscadorActivoComponent, {
       height: '95%',
       width: '85%',
+      data: {
+        filtros: [
+          filtrarActivosModificables(
+            this._activoDetalle,
+            this._activoIntegracion
+          ),
+        ],
+      },
     });
     dialog
       .afterClosed()
@@ -284,10 +295,6 @@ export class SingularModificacionComponent implements Entidad {
           });
         }),
         switchMap(activo => this._activo.buscarPorId(activo.id)),
-        tap(
-          activo =>
-            (this.depreciarDeshabilitado = !comprobarActivoDepreciable(activo))
-        ),
         take(1)
       )
       .subscribe();

@@ -37,6 +37,8 @@ import { CuentaContableService } from '@core/services/otros-modulos/cuenta-conta
 import { Activo } from '@core/models/definiciones/activo';
 import { filtrarActivosNoSeleccionados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-no-seleccionados';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { ActivoDetalleService } from '@core/services/definiciones/activo-detalle.service';
+import { filtrarActivosDesincorporables } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-desincorporables';
 
 @Component({
   selector: 'app-singular-desincorporacion',
@@ -66,6 +68,7 @@ export class SingularDesincorporacionComponent
     private _correlativo: CorrelativoService,
     private _activo: ActivoService,
     private _activoUbicacion: ActivoUbicacionService,
+    private _activoDetalle: ActivoDetalleService,
     private _activoIntegracion: ActivoIntegracionService,
     private _cuentaContable: CuentaContableService,
     private _snackBar: MatSnackBar
@@ -322,6 +325,10 @@ export class SingularDesincorporacionComponent
           filtrarActivosPorUnidadAdministrativa(
             this.formulario.value.unidadAdministrativa,
             this._activoUbicacion
+          ),
+          filtrarActivosDesincorporables(
+            this._activoDetalle,
+            this._activoIntegracion
           ),
           filtrarActivosNoSeleccionados(this.activosDataSource.data),
         ],
