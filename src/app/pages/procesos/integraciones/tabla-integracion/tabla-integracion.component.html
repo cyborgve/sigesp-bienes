@@ -71,7 +71,7 @@
     <ng-container matColumnDef="activo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Bien</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.activo }}
+        {{ row.activo | corregirDenominacionActivo }}
       </td>
     </ng-container>
     <!-- creado -->

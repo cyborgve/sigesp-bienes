@@ -14,9 +14,10 @@ import {
   adaptarIntegraciones,
 } from '@core/utils/pipes-rxjs/adaptadores/adaptar-integracion';
 import { TipoProceso } from '@core/types/tipo-proceso';
-import { generarComprobantesContables } from '@core/utils/pipes-rxjs/procesos/generar-comprobantes-contables';
 import { ActivoService } from '../definiciones/activo.service';
 import { UnidadAdministrativaService } from '../definiciones/unidad-administrativa.service';
+import { ejecutarIntegracion } from '@core/utils/pipes-rxjs/procesos/ejecutar-integracion';
+import { ContabilizacionService } from '../otros-modulos/contabilidad.service';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +41,8 @@ export class IntegracionService extends GenericService<Integracion> {
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _activo: ActivoService,
-    private _unidadAdministrativa: UnidadAdministrativaService
+    private _unidadAdministrativa: UnidadAdministrativaService,
+    private _contabilizacion: ContabilizacionService
   ) {
     super(_http, _sigesp, _snackBar);
   }
@@ -94,8 +96,7 @@ export class IntegracionService extends GenericService<Integracion> {
             duration: 6000,
           });
         }
-      }),
-      generarComprobantesContables(this._activo, this._unidadAdministrativa)
+      })
     );
   }
 

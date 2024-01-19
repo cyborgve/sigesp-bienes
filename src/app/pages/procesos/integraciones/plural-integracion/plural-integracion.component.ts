@@ -19,6 +19,12 @@ import { filtrarIntegracionesPorEstadoRegistro } from '@core/utils/pipes-rxjs/op
 import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
+import { ejecutarIntegracion } from '@core/utils/pipes-rxjs/procesos/ejecutar-integracion';
+import { ActivoService } from '@core/services/definiciones/activo.service';
+import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
+import { ModificacionService } from '@core/services/procesos/modificacion.service';
+import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
+import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 
 @Component({
   selector: 'app-plural-integracion',
@@ -43,7 +49,12 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     private _router: Router,
     private _location: Location,
     private _configuracion: ConfiguracionService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _activo: ActivoService,
+    private _depreciacion: DepreciacionService,
+    private _modificacion: ModificacionService,
+    private _desincorporacion: DesincorporacionService,
+    private _unidadAdministrativa: UnidadAdministrativaService
   ) {
     let esteMes = FECHAS_CALCULADAS['ESTE MES'];
     this.formularioRangoFechas = this._formBuilder.group({
@@ -85,7 +96,18 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
         this.formularioIntegracion.value.lineEnterprice,
         true
       )
-      .pipe(take(1))
+      .pipe(
+        ejecutarIntegracion(
+          this.formularioIntegracion.value.lineEnterprise,
+          this._activo,
+          this._unidadAdministrativa,
+          this._depreciacion,
+          this._desincorporacion,
+          this._modificacion,
+          this._contabilizacion
+        ),
+        take(1)
+      )
       .subscribe(() => this.recargarDatos());
   };
 

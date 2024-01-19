@@ -14,7 +14,7 @@ interface ProcesoContable {
   providedIn: 'root',
 })
 export class ContabilizacionService {
-  private apiUrl = this._sigesp.URL + 'dao/sbn/integrar-bienes-dao.php';
+  private apiUrl = this._sigesp.URL + '/dao/sbn/integrar-bienes-dao.php';
 
   constructor(private _http: HttpClient, private _sigesp: SigespService) {}
 
