@@ -72,7 +72,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     });
 
     this.formularioIntegracion = this._formBuilder.group({
-      lineEnterprise: ['Seleccionar'],
+      lineEnterprise: [0],
     });
   }
 
@@ -85,7 +85,6 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     this.subscripciones.push(
       this.formulario.valueChanges.subscribe(() => this.recargarDatos())
     );
-
     this.recargarDatos();
   }
 
@@ -112,11 +111,28 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   };
 
   botonEjecutarHabilitado = () =>
-    this.dataSource.data.filter(integracion => integracion.registrado === 0)
-      .length > 0 &&
-    this.dataSource.data.filter(integracion => integracion.aprobado === 1)
-      .length > 0 &&
-    this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar';
+    this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar' &&
+    (this.existenAprobaciones() || this.existenIntegraciones());
+
+  private existenAprobaciones = () =>
+    this.dataSource.data.filter(
+      integracion => integracion.registrado == 0 && integracion.aprobado == 1
+    ).length > 0;
+
+  private existenReversoAprobaciones = () =>
+    this.dataSource.data.filter(
+      integracion => integracion.registrado == 1 && integracion.aprobado == 0
+    ).length > 0;
+
+  private existenIntegraciones = () =>
+    this.dataSource.data.filter(
+      integracion => integracion.registrado == 0 && integracion.integrado == 1
+    ).length > 0;
+
+  private existenReversoIntegraciones = () =>
+    this.dataSource.data.filter(
+      integracion => integracion.registrado == 1 && integracion.integrado === 0
+    ).length > 0;
 
   irAtras = () => {
     this._location.back();

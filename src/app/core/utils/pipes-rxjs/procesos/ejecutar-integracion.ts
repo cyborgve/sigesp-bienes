@@ -7,7 +7,8 @@ import { DepreciacionService } from '@core/services/procesos/depreciacion.servic
 import { contabilizarDepreciacionesMensuales } from './contabilizar-depreciaciones-mensuales';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
-import { tap } from 'rxjs/operators';
+import { contabilizarDesincorporaciones } from './contabilizar-desincorporaciones';
+import { contabilizarModificaciones } from './contabilizar-modificaciones';
 
 export const ejecutarIntegracion = (
   lineaEmpresa: Id,

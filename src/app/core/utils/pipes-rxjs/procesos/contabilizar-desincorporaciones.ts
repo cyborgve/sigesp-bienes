@@ -31,15 +31,15 @@ export const contabilizarDesincorporaciones = (
       );
       return convertirDesincorporaciones.pipe(
         toArray(),
-        switchMap(comprobantes =>
-          _contabilizacion.contabilizar(comprobantes).pipe(
+        switchMap(comprobantes => {
+          return _contabilizacion.contabilizar(comprobantes).pipe(
             tap(res => {
-              //aqui se puede realizar una accion con la respuesta
+              //aqui se puede realizar una accion con la respuesta de contabilidad.
               console.log(res);
             }),
             map(() => integraciones)
-          )
-        )
+          );
+        })
       );
     })
   );
@@ -52,10 +52,12 @@ const generarComprobanteContableDesincorporacion = (
 ) =>
   pipe(
     switchMap((integracion: Integracion) => {
-      let buscarActivo = _activo.buscarPorId(integracion.activo);
-      let buscarDesincorporacion = _desincorporacion.buscarPorId(
-        Number(integracion.comprobante.split(',')[1])
-      );
+      let activoId =
+        String(integracion.activo).split(',').length > 1
+          ? Number(String(integracion.activo).split(',')[0])
+          : Number(integracion.activo);
+      let buscarActivo = _activo.buscarPorId(activoId);
+      let buscarDesincorporacion = _desincorporacion.buscarPorActivo(activoId);
       return forkJoin([buscarActivo, buscarDesincorporacion]).pipe(
         switchMap(([activoEncontrado, desincorporacionEncontrada]) =>
           _unidadAdministrativa
@@ -68,24 +70,24 @@ const generarComprobanteContableDesincorporacion = (
                 let { desCuentaContableDebe, desCuentaContableHaber } =
                   activoEncontrado.integracion;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
-                let { debe, haber } = desincorporacionEncontrada;
-                let { tipoProceso } = integracion;
-                return <ComprobanteContable>{
-                  procede: TIPOS_PROCEDE[tipoProceso],
+                let fechaIntegracion = integracion.creado;
+                let monto = desincorporacionEncontrada.debe;
+                let comprobanteSalida = <ComprobanteContable>{
+                  procede: TIPOS_PROCEDE[integracion.tipoProceso],
                   lineaEmpresa: lineaEmpresa,
                   centroCostos: codigoCentroCostos,
                   unidadAdministrativa: unidadOrganizativa,
                   fuenteFinanciamiento: fuenteFinanciamiento,
                   comprobante: comprobante,
-                  monto: debe,
-                  creado: new Date(),
+                  monto: monto,
+                  creado: fechaIntegracion,
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
                       comprobante: comprobante,
                       cuentaContable: desCuentaContableDebe,
                       procedencia: 'D',
-                      monto: debe,
+                      monto: monto,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                     {
@@ -93,11 +95,13 @@ const generarComprobanteContableDesincorporacion = (
                       comprobante: comprobante,
                       cuentaContable: desCuentaContableHaber,
                       procedencia: 'H',
-                      monto: haber,
+                      monto: monto,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                   ],
                 };
+                console.log(comprobanteSalida);
+                return comprobanteSalida;
               })
             )
         )

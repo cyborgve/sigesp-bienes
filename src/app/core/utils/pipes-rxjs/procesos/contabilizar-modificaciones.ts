@@ -22,7 +22,7 @@ export const contabilizarModificaciones = (
         inte => inte.tipoProceso === 'MODIFICACIÓN'
       );
       let convertirModificaciones = from(modificaciones).pipe(
-        generarComprobanteContableDesincorporacion(
+        generarComprobanteContableModificacion(
           lineaEmpresa,
           _activo,
           _unidadAdministrativa,
@@ -31,31 +31,33 @@ export const contabilizarModificaciones = (
       );
       return convertirModificaciones.pipe(
         toArray(),
-        switchMap(comprobantes =>
-          _contabilizacion.contabilizar(comprobantes).pipe(
+        switchMap(comprobantes => {
+          return _contabilizacion.contabilizar(comprobantes).pipe(
             tap(res => {
-              //aqui se puede realizar una accion con la respuesta
+              //aqui se puede realizar una accion con la respuesta de contabilidad.
               console.log(res);
             }),
             map(() => integraciones)
-          )
-        )
+          );
+        })
       );
     })
   );
 
-const generarComprobanteContableDesincorporacion = (
+const generarComprobanteContableModificacion = (
   lineaEmpresa: Id,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
-  _modificaciones: ModificacionService
+  _modificacion: ModificacionService
 ) =>
   pipe(
     switchMap((integracion: Integracion) => {
-      let buscarActivo = _activo.buscarPorId(integracion.activo);
-      let buscarModificacion = _modificaciones.buscarPorId(
-        Number(integracion.comprobante.split(',')[1])
-      );
+      let activoId =
+        String(integracion.activo).split(',').length > 1
+          ? Number(String(integracion.activo).split(',')[0])
+          : Number(integracion.activo);
+      let buscarActivo = _activo.buscarPorId(activoId);
+      let buscarModificacion = _modificacion.buscarPorActivo(activoId);
       return forkJoin([buscarActivo, buscarModificacion]).pipe(
         switchMap(([activoEncontrado, modificacionEncontrada]) =>
           _unidadAdministrativa
@@ -65,39 +67,42 @@ const generarComprobanteContableDesincorporacion = (
                 let { comprobante } = integracion;
                 let { codigoCentroCostos, fuenteFinanciamiento } =
                   activoEncontrado.detalle;
-                let { desCuentaContableDebe, desCuentaContableHaber } =
-                  activoEncontrado.integracion;
+                let { cuentaContableDebe, cuentaContableHaber } =
+                  activoEncontrado.depreciacion;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
-                //let { debe, haber } = desincorporacionEncontrada;
-                let { tipoProceso } = integracion;
-                return <ComprobanteContable>{
-                  procede: TIPOS_PROCEDE[tipoProceso],
+                let fechaIntegracion = integracion.creado;
+                //FIXME: hay que colocar el monto total de la modificacion.
+                let monto = 0;
+                let comprobanteSalida = <ComprobanteContable>{
+                  procede: TIPOS_PROCEDE[integracion.tipoProceso],
                   lineaEmpresa: lineaEmpresa,
                   centroCostos: codigoCentroCostos,
                   unidadAdministrativa: unidadOrganizativa,
                   fuenteFinanciamiento: fuenteFinanciamiento,
                   comprobante: comprobante,
-                  monto: 0,
+                  monto: monto,
                   creado: new Date(),
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
                       comprobante: comprobante,
-                      cuentaContable: desCuentaContableDebe,
+                      cuentaContable: cuentaContableDebe,
                       procedencia: 'D',
-                      monto: 0,
+                      monto: monto,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                     {
                       centroCostos: codigoCentroCostos,
                       comprobante: comprobante,
-                      cuentaContable: desCuentaContableHaber,
+                      cuentaContable: cuentaContableHaber,
                       procedencia: 'H',
-                      monto: 0,
+                      monto: monto,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                   ],
                 };
+                console.log(comprobanteSalida);
+                return comprobanteSalida;
               })
             )
         )

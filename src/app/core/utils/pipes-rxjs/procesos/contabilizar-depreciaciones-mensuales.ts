@@ -35,7 +35,7 @@ export const contabilizarDepreciacionesMensuales = (
         switchMap(comprobantes => {
           return _contabilizacion.contabilizar(comprobantes).pipe(
             tap(res => {
-              //aqui se puede realizar una accion con la respuesta
+              //aqui se puede realizar una accion con la respuesta de contabilidad.
               console.log(res);
             }),
             map(() => integraciones)

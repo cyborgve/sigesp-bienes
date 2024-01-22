@@ -30,6 +30,7 @@ export class ModificacionService extends GenericService<Modificacion> {
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'modificacion').valor;
   }
+  private apiUrlActivo = (activo: Id) => `${this.apiUrl}?activo=${activo}`;
 
   constructor(
     protected _http: HttpClient,
@@ -51,6 +52,31 @@ export class ModificacionService extends GenericService<Modificacion> {
 
   buscarPorId(id: Id): Observable<Modificacion> {
     return super.buscarPorId(id).pipe(
+      adaptarModificacion(),
+      switchMap(modificacionGuardada => {
+        let buscarComplementos = [
+          this._modificacionComponentes.buscarTodosPorProceso(
+            modificacionGuardada.id
+          ),
+          this._modificacionCuentaContable.buscarTodosPorProceso(
+            modificacionGuardada.id
+          ),
+        ];
+        return forkJoin(buscarComplementos).pipe(
+          map(([componentes, cuentas]) => {
+            modificacionGuardada.modificaciones =
+              componentes as ComponenteProceso[];
+            modificacionGuardada.cuentasContables =
+              cuentas as CuentaContableProceso[];
+            return modificacionGuardada;
+          })
+        );
+      })
+    );
+  }
+
+  buscarPorActivo(id: Id): Observable<Modificacion> {
+    return this._http.get(this.apiUrlActivo(id)).pipe(
       adaptarModificacion(),
       switchMap(modificacionGuardada => {
         let buscarComplementos = [

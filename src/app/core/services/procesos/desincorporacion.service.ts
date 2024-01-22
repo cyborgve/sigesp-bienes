@@ -31,6 +31,7 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'desincorporacion').valor;
   }
+  private apiUrlActivo = (activo: Id) => `${this.apiUrl}?activo=${activo}`;
 
   constructor(
     protected _http: HttpClient,
@@ -51,6 +52,37 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
 
   buscarPorId(id: Id): Observable<Desincorporacion> {
     return super.buscarPorId(id).pipe(
+      adaptarDesincorporacion(),
+      switchMap(desincorporacion => {
+        let buscarComplementos = [
+          this._desincorporacionActivo.buscarTodosPorProceso(
+            desincorporacion.id
+          ),
+          this._desincorporacionCuenta.buscarTodosPorProceso(
+            desincorporacion.id
+          ),
+          this._desincorporacionUbicacion.buscarTodosPorProceso(
+            desincorporacion.id
+          ),
+        ];
+        return forkJoin(buscarComplementos).pipe(
+          map(
+            ([activosProceso, cuentasProceso, desincorporacionUbicaciones]) => {
+              desincorporacion.activos = activosProceso as ActivoProceso[];
+              desincorporacion.cuentasContables =
+                cuentasProceso as CuentaContableProceso[];
+              desincorporacion.ubicaciones =
+                desincorporacionUbicaciones as DesincorporacionUbicacion[];
+              return desincorporacion;
+            }
+          )
+        );
+      })
+    );
+  }
+
+  buscarPorActivo(id: Id): Observable<Desincorporacion> {
+    return this._http.get(this.apiUrlActivo(id)).pipe(
       adaptarDesincorporacion(),
       switchMap(desincorporacion => {
         let buscarComplementos = [
