@@ -1,16 +1,29 @@
+import { PROCESOS_INTEGRABLES } from '@core/constants/procesos-integrables';
 import { Integracion } from '@core/models/procesos/integracion';
+import { TipoProceso } from '@core/types/tipo-proceso';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export const filtrarIntegracionesPorEstadoIntegracion = (
-  estadoAprobacion: string
+  estadoIntegracion: string
 ) =>
   pipe(
     map((integraciones: Integracion[]) => {
-      if (estadoAprobacion === 'INTEGRADOS')
-        return integraciones.filter(integracion => integracion.aprobado == 1);
-      if (estadoAprobacion === 'NO INTEGRADOS')
-        return integraciones.filter(integracion => integracion.aprobado == 0);
+      if (estadoIntegracion === 'INTEGRADOS')
+        return integraciones.filter(integracion =>
+          procesoIntegrable(integracion.tipoProceso)
+            ? integracion.integrado === 1
+            : 1
+        );
+      if (estadoIntegracion === 'NO INTEGRADOS')
+        return integraciones.filter(integracion =>
+          procesoIntegrable(integracion.tipoProceso)
+            ? integracion.integrado === 0
+            : 1
+        );
       return integraciones;
     })
   );
+
+const procesoIntegrable = (tipoProceso: TipoProceso) =>
+  PROCESOS_INTEGRABLES.some(proceso => proceso === tipoProceso);

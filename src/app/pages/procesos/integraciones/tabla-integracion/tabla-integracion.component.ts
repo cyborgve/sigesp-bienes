@@ -95,6 +95,9 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
   actualizarAprobar = (aprobado: boolean, integracion: Integracion) => {
     let data = this.dataSource.data;
     data[this.indice(integracion)].aprobado = aprobado ? 1 : 0;
+    if (!aprobado) {
+      data[this.indice(integracion)].integrado = 0;
+    }
     this.toggleAprobarTodos.checked = data
       .map(d => d.aprobado)
       .every(b => b === 0);
@@ -104,12 +107,16 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
     this.dataSource = new MatTableDataSource(data);
   };
 
-  integrar = (integracion: Integracion) =>
+  integrar = (integracion: Integracion) => {
     this.dataSource.data[this.indice(integracion)].integrado === 1;
+  };
 
   actualizarIntegrar = (integrado: boolean, integracion: Integracion) => {
     let data = this.dataSource.data;
     data[this.indice(integracion)].integrado = integrado ? 1 : 0;
+    if (integrado) {
+      data[this.indice(integracion)].aprobado = 1;
+    }
     this.toggleIntegrarTodos.checked = data
       .map(dato => dato.integrado)
       .every(n => n === 0);
@@ -123,19 +130,19 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
     this.dataSource.data.forEach(
       dato => (dato.aprobado = this.toggleAprobarTodos.checked ? 0 : 1)
     );
-    // if (this.toggleIntegrarTodos) {
-    //   this.toggleIntegrarTodos.checked = false;
-    //   this.dataSource.data.forEach(dato => (dato.integrado = 0));
-    // }
+    if (this.toggleIntegrarTodos) {
+      this.toggleIntegrarTodos.checked = false;
+      this.dataSource.data.forEach(dato => (dato.integrado = 0));
+    }
   };
 
   integrarTodos = () => {
     this.dataSource.data.forEach(dato => {
       dato.integrado = this.toggleIntegrarTodos.checked ? 0 : 1;
     });
-    // if (!this.toggleIntegrarTodos.checked) {
-    //   this.toggleAprobarTodos.checked = true;
-    //   this.dataSource.data.forEach(dato => (dato.aprobado = 1));
-    // }
+    if (!this.toggleIntegrarTodos.checked) {
+      this.toggleAprobarTodos.checked = true;
+      this.dataSource.data.forEach(dato => (dato.aprobado = 1));
+    }
   };
 }

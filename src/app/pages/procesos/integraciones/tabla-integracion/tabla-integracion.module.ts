@@ -12,6 +12,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FiltrosReportesModule } from '@pages/reportes/filtros-reportes/filtros-reportes.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FiltrosIntegracionesModule } from '../filtros-integracion/filtros-integraciones.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [TablaIntegracionComponent],
@@ -25,6 +27,8 @@ import { FiltrosIntegracionesModule } from '../filtros-integracion/filtros-integ
     MatPaginatorModule,
     MatDialogModule,
     MatSlideToggleModule,
+    MatInputModule,
+    MatDatepickerModule,
     FiltrosReportesModule,
     FiltrosIntegracionesModule,
   ],

@@ -27,27 +27,44 @@
 </mat-card>
 
 <mat-card class="superior inferior">
-  <ng-container
-    *ngIf="
-      formularioIntegracion.value.lineEnterprise === 'Seleccionar';
-      then noSeleccionado;
-      else seleccionado
-    ">
-  </ng-container>
-  <ng-template #noSeleccionado>
-    <p class="indicacionesLine" id="pNoSeleccionado">
-      Es necesario seleccionar <b>Linea Empresa</b> para ejecutar las
-      integraciones
-    </p>
-  </ng-template>
-  <ng-template #seleccionado>
-    <p class="indicacionesLine" id="pSeleccionado">
-      <b>Linea Empresa</b> listo para ejecutar las integraciones
-    </p>
-  </ng-template>
-  <app-filtro-line-enterprise
-    [formulario]="formularioIntegracion"
-    [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-line-enterprise>
+  <section class="datosIntegracion">
+    <ng-container
+      *ngIf="
+        formularioIntegracion.value.lineEnterprise === 'Seleccionar';
+        then noSeleccionado;
+        else seleccionado
+      ">
+    </ng-container>
+    <ng-template #noSeleccionado>
+      <p class="indicacionesLine" id="pNoSeleccionado">
+        Es necesario seleccionar <b>Linea Empresa</b> para ejecutar las
+        integraciones
+      </p>
+    </ng-template>
+    <ng-template #seleccionado>
+      <p class="indicacionesLine" id="pSeleccionado">
+        <b>Linea Empresa</b> listo para ejecutar las integraciones
+      </p>
+    </ng-template>
+    <app-filtro-line-enterprise
+      class="lineaEmpresa"
+      [formulario]="formularioIntegracion"
+      [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-line-enterprise>
+    <!-- fecha de integracion -->
+    <form [formGroup]="formularioIntegracion">
+      <mat-form-field appearance="fill" class="fechaIntegracion">
+        <mat-label>Fecha de Integración</mat-label>
+        <input
+          matInput
+          formControlName="fechaIntegracion"
+          [matDatepicker]="pickerFechaIntegracion"
+          readonly />
+        <mat-datepicker-toggle matSuffix [for]="pickerFechaIntegracion">
+        </mat-datepicker-toggle>
+        <mat-datepicker #pickerFechaIntegracion></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </section>
 </mat-card>
 
 <mat-card class="card-table superior inferior">

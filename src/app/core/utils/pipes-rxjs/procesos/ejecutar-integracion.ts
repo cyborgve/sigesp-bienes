@@ -12,6 +12,8 @@ import { contabilizarModificaciones } from './contabilizar-modificaciones';
 
 export const ejecutarIntegracion = (
   lineaEmpresa: Id,
+  fechaIntegraciones: Date,
+  observaciones: string,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _depreciacion: DepreciacionService,
@@ -22,6 +24,8 @@ export const ejecutarIntegracion = (
   pipe(
     contabilizarDepreciacionesMensuales(
       lineaEmpresa,
+      fechaIntegraciones,
+      observaciones,
       _activo,
       _unidadAdministrativa,
       _depreciacion,

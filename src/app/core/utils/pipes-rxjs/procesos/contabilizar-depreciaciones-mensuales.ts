@@ -12,6 +12,8 @@ import { map, switchMap, tap, toArray } from 'rxjs/operators';
 
 export const contabilizarDepreciacionesMensuales = (
   lineaEmpresa: Id,
+  fechaIntegraciones: Date,
+  observaciones: string,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _depreciacion: DepreciacionService,
@@ -19,12 +21,14 @@ export const contabilizarDepreciacionesMensuales = (
 ) =>
   pipe(
     switchMap((integraciones: Integracion[]) => {
-      let depreciaciones = integraciones.filter(
-        inte => inte.tipoProceso === 'DEPRECIACIÓN MENSUAL'
-      );
+      let depreciaciones = integraciones
+        .filter(inte => inte.tipoProceso === 'DEPRECIACIÓN MENSUAL')
+        .filter(integracion => integracion.aprobado === 1);
       let convertirDepreciaciones = from(depreciaciones).pipe(
         generarComprobanteContableDepreciacion(
           lineaEmpresa,
+          fechaIntegraciones,
+          observaciones,
           _activo,
           _unidadAdministrativa,
           _depreciacion
@@ -47,6 +51,8 @@ export const contabilizarDepreciacionesMensuales = (
 
 const generarComprobanteContableDepreciacion = (
   lineaEmpresa: Id,
+  fechaIntegracion: Date,
+  observaciones: string,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _depreciacion: DepreciacionService
@@ -71,8 +77,7 @@ const generarComprobanteContableDepreciacion = (
                 let { cuentaContableDebe, cuentaContableHaber } =
                   activoEncontrado.depreciacion;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
-                let fechaIntegracion = integracion.creado;
-                let descripcion = 'Prueba Integracion Depreciacion';
+                let descripcion = `Depreciacion: ${observaciones}`;
                 let indiceDepreciacionMensual =
                   depreciacionEncontrada.detalles.findIndex(detalle => {
                     let fechadep = detalle.fecha;
@@ -83,7 +88,7 @@ const generarComprobanteContableDepreciacion = (
                         moment(fechadep).startOf('day').get('month')
                     );
                   });
-                let fechaCreado = moment().format('YYYY-MM-DD');
+                let fecha = moment(fechaIntegracion).format('YYYY-MM-DD');
                 let depreciacionMensual =
                   depreciacionEncontrada.detalles[indiceDepreciacionMensual];
                 let comprobanteSalida = <ComprobanteContable>{
@@ -96,14 +101,14 @@ const generarComprobanteContableDepreciacion = (
                   monto: depreciacionMensual.depreciacionMensual,
                   aprobado: aprobado,
                   descripcion: descripcion,
-                  creado: fechaCreado,
+                  creado: fecha,
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
                       comprobante: comprobante,
                       cuentaContable: cuentaContableDebe,
                       procedencia: 'D',
-                      creado: fechaIntegracion,
+                      creado: fecha,
                       descripcion: descripcion,
                       monto: depreciacionMensual.depreciacionMensual,
                       unidadOrganizativa: unidadOrganizativa,
@@ -115,7 +120,7 @@ const generarComprobanteContableDepreciacion = (
                       procedencia: 'H',
                       monto: depreciacionMensual.depreciacionMensual,
                       descripcion: descripcion,
-                      creado: fechaCreado,
+                      creado: fecha,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                   ],

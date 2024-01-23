@@ -25,6 +25,7 @@ import { DepreciacionService } from '@core/services/procesos/depreciacion.servic
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
+import { PROCESOS_INTEGRABLES } from '@core/constants/procesos-integrables';
 
 @Component({
   selector: 'app-plural-integracion',
@@ -33,6 +34,7 @@ import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-
 })
 export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   private subscripciones: Subscription[] = [];
+  private integracionesInicial: Integracion[] = [];
   titulo = 'integraciones';
   dataSource: MatTableDataSource<Integracion> = new MatTableDataSource();
   aprobarTodos: boolean = false;
@@ -73,10 +75,18 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
 
     this.formularioIntegracion = this._formBuilder.group({
       lineEnterprise: [0],
+      fechaIntegracion: [new Date()],
     });
   }
 
   ngAfterViewInit(): void {
+    this._integracion
+      .buscarTodos()
+      .pipe(
+        tap(integraciones => (this.integracionesInicial = integraciones)),
+        take(1)
+      )
+      .subscribe();
     this.subscripciones.push(
       this.formularioRangoFechas.valueChanges.subscribe(() =>
         this.recargarDatos()
@@ -98,6 +108,8 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
       .pipe(
         ejecutarIntegracion(
           this.formularioIntegracion.value.lineEnterprise,
+          this.formularioIntegracion.value.fechaIntegracion,
+          this.formulario.value.observaciones,
           this._activo,
           this._unidadAdministrativa,
           this._depreciacion,
@@ -111,28 +123,54 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   };
 
   botonEjecutarHabilitado = () =>
-    this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar' &&
-    (this.existenAprobaciones() || this.existenIntegraciones());
+    (this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar' &&
+      (this.existenAprobaciones() || this.existenReversoAprobaciones())) ||
+    this.existenIntegraciones();
 
-  private existenAprobaciones = () =>
-    this.dataSource.data.filter(
-      integracion => integracion.registrado == 0 && integracion.aprobado == 1
-    ).length > 0;
+  private existenAprobaciones = () => {
+    let data = this.dataSource.data;
+    return (
+      data.filter(
+        integracion =>
+          integracion.registrado === 0 && integracion.aprobado === 1
+      ).length > 0
+    );
+  };
 
-  private existenReversoAprobaciones = () =>
-    this.dataSource.data.filter(
-      integracion => integracion.registrado == 1 && integracion.aprobado == 0
-    ).length > 0;
+  private existenReversoAprobaciones = () => {
+    let data = this.dataSource.data;
+    return (
+      data.filter(
+        integracion =>
+          integracion.registrado === 1 && integracion.aprobado === 0
+      ).length > 0
+    );
+  };
 
-  private existenIntegraciones = () =>
-    this.dataSource.data.filter(
-      integracion => integracion.registrado == 0 && integracion.integrado == 1
-    ).length > 0;
+  private existenIntegraciones = () => {
+    let data = this.dataSource.data;
+    return (
+      data
+        .filter(integracion =>
+          PROCESOS_INTEGRABLES.some(proin => integracion.tipoProceso === proin)
+        )
+        .filter(
+          (integracion, indice) =>
+            this.integracionesInicial[indice]['integrado'] !==
+            integracion['integrado']
+        ).length > 0
+    );
+  };
 
   private existenReversoIntegraciones = () =>
-    this.dataSource.data.filter(
-      integracion => integracion.registrado == 1 && integracion.integrado === 0
-    ).length > 0;
+    this.dataSource.data
+      .filter(integracion =>
+        PROCESOS_INTEGRABLES.some(proin => proin === integracion.tipoProceso)
+      )
+      .filter(
+        integracion =>
+          integracion.registrado == 1 && integracion.integrado === 0
+      ).length > 0;
 
   irAtras = () => {
     this._location.back();
