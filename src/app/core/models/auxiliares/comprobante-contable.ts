@@ -5,17 +5,21 @@ export interface ComprobanteContable {
   lineaEmpresa: Id;
   unidadAdministrativa: Id;
   comprobante: string;
-  creado: Date;
+  creado: string;
+  descripcion: String;
   monto: number;
   centroCostos: Id;
   fuenteFinanciamiento?: Id;
   asientosContables: AsientoContable[];
+  aprobado: number;
 }
 
 interface AsientoContable {
   cuentaContable: String;
   procedencia: 'D' | 'H';
   comprobante: string;
+  creado: string;
+  descripcion: String;
   monto: number;
   centroCostos: Id;
   unidadOrganizativa: Id;

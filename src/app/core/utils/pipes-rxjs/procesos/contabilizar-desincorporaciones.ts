@@ -6,6 +6,7 @@ import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-
 import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { Id } from '@core/types/id';
+import moment from 'moment';
 import { forkJoin, from, pipe } from 'rxjs';
 import { map, switchMap, tap, toArray } from 'rxjs/operators';
 
@@ -70,7 +71,10 @@ const generarComprobanteContableDesincorporacion = (
                 let { desCuentaContableDebe, desCuentaContableHaber } =
                   activoEncontrado.integracion;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
-                let fechaIntegracion = integracion.creado;
+                let fechaIntegracion = moment(integracion.creado).format(
+                  'YYYY-MM-DD'
+                );
+                let descripcion = 'Prueba Integracion Desincorporacion';
                 let monto = desincorporacionEncontrada.debe;
                 let comprobanteSalida = <ComprobanteContable>{
                   procede: TIPOS_PROCEDE[integracion.tipoProceso],
@@ -79,8 +83,10 @@ const generarComprobanteContableDesincorporacion = (
                   unidadAdministrativa: unidadOrganizativa,
                   fuenteFinanciamiento: fuenteFinanciamiento,
                   comprobante: comprobante,
-                  monto: monto,
+                  aprobado: 1,
                   creado: fechaIntegracion,
+                  monto: monto,
+                  descripcion: descripcion,
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
@@ -88,6 +94,8 @@ const generarComprobanteContableDesincorporacion = (
                       cuentaContable: desCuentaContableDebe,
                       procedencia: 'D',
                       monto: monto,
+                      descripcion: descripcion,
+                      creado: fechaIntegracion,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                     {
@@ -96,6 +104,8 @@ const generarComprobanteContableDesincorporacion = (
                       cuentaContable: desCuentaContableHaber,
                       procedencia: 'H',
                       monto: monto,
+                      creado: fechaIntegracion,
+                      descripcion: descripcion,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                   ],

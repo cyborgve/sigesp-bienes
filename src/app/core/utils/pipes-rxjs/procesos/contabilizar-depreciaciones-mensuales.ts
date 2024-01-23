@@ -65,13 +65,14 @@ const generarComprobanteContableDepreciacion = (
             .buscarPorId(activoEncontrado.ubicacion.unidadAdministrativaId)
             .pipe(
               map(unidadAdministrativaEncontada => {
-                let { comprobante } = integracion;
+                let { comprobante, aprobado } = integracion;
                 let { codigoCentroCostos, fuenteFinanciamiento } =
                   activoEncontrado.detalle;
                 let { cuentaContableDebe, cuentaContableHaber } =
                   activoEncontrado.depreciacion;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
                 let fechaIntegracion = integracion.creado;
+                let descripcion = 'Prueba Integracion Depreciacion';
                 let indiceDepreciacionMensual =
                   depreciacionEncontrada.detalles.findIndex(detalle => {
                     let fechadep = detalle.fecha;
@@ -82,6 +83,7 @@ const generarComprobanteContableDepreciacion = (
                         moment(fechadep).startOf('day').get('month')
                     );
                   });
+                let fechaCreado = moment().format('YYYY-MM-DD');
                 let depreciacionMensual =
                   depreciacionEncontrada.detalles[indiceDepreciacionMensual];
                 let comprobanteSalida = <ComprobanteContable>{
@@ -92,13 +94,17 @@ const generarComprobanteContableDepreciacion = (
                   fuenteFinanciamiento: fuenteFinanciamiento,
                   comprobante: comprobante,
                   monto: depreciacionMensual.depreciacionMensual,
-                  creado: new Date(),
+                  aprobado: aprobado,
+                  descripcion: descripcion,
+                  creado: fechaCreado,
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
                       comprobante: comprobante,
                       cuentaContable: cuentaContableDebe,
                       procedencia: 'D',
+                      creado: fechaIntegracion,
+                      descripcion: descripcion,
                       monto: depreciacionMensual.depreciacionMensual,
                       unidadOrganizativa: unidadOrganizativa,
                     },
@@ -108,6 +114,8 @@ const generarComprobanteContableDepreciacion = (
                       cuentaContable: cuentaContableHaber,
                       procedencia: 'H',
                       monto: depreciacionMensual.depreciacionMensual,
+                      descripcion: descripcion,
+                      creado: fechaCreado,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                   ],

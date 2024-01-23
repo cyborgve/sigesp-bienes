@@ -6,6 +6,7 @@ import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-
 import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { Id } from '@core/types/id';
+import moment from 'moment';
 import { forkJoin, from, pipe } from 'rxjs';
 import { map, switchMap, tap, toArray } from 'rxjs/operators';
 
@@ -70,9 +71,12 @@ const generarComprobanteContableModificacion = (
                 let { cuentaContableDebe, cuentaContableHaber } =
                   activoEncontrado.depreciacion;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
-                let fechaIntegracion = integracion.creado;
+                let fechaIntegracion = moment(integracion.creado).format(
+                  'YYYY-MM-DD'
+                );
+                let descripcion = 'Prueba Integarcion Modificacion';
                 //FIXME: hay que colocar el monto total de la modificacion.
-                let monto = 0;
+                let monto = 100;
                 let comprobanteSalida = <ComprobanteContable>{
                   procede: TIPOS_PROCEDE[integracion.tipoProceso],
                   lineaEmpresa: lineaEmpresa,
@@ -81,7 +85,9 @@ const generarComprobanteContableModificacion = (
                   fuenteFinanciamiento: fuenteFinanciamiento,
                   comprobante: comprobante,
                   monto: monto,
-                  creado: new Date(),
+                  descripcion: descripcion,
+                  aprobado: integracion.aprobado,
+                  creado: fechaIntegracion,
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
@@ -89,6 +95,8 @@ const generarComprobanteContableModificacion = (
                       cuentaContable: cuentaContableDebe,
                       procedencia: 'D',
                       monto: monto,
+                      descripcion: descripcion,
+                      creado: fechaIntegracion,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                     {
@@ -97,6 +105,8 @@ const generarComprobanteContableModificacion = (
                       cuentaContable: cuentaContableHaber,
                       procedencia: 'H',
                       monto: monto,
+                      descripcion: descripcion,
+                      creado: fechaIntegracion,
                       unidadOrganizativa: unidadOrganizativa,
                     },
                   ],
