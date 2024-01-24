@@ -85,7 +85,8 @@ const generarComprobanteContableDesincirporacion = (
               );
               return forkJoin(buscarUnidadesAdministrativas).pipe(
                 map(unidadesAdministrativas => {
-                  let procede = TIPOS_PROCEDE[integracion.tipoProceso];
+                  let { tipoProceso, aprobado } = integracion;
+                  let procede = TIPOS_PROCEDE[tipoProceso];
                   let descripcion = `DESINCORPORACIÓN: ${observaciones}`;
                   let comprobante = integracion.comprobante.split(',')[0];
                   let fechaCreado =
@@ -110,6 +111,10 @@ const generarComprobanteContableDesincirporacion = (
                           monto: cuentaContable.monto,
                         }
                     );
+                  let monto = 0;
+                  asientosContables
+                    .filter(ac => ac.procedencia === 'D')
+                    .forEach(ac => (monto += monto));
                   return <ComprobanteContable>{
                     procede: procede,
                     lineaEmpresa: lineaEmpresa,
@@ -117,8 +122,8 @@ const generarComprobanteContableDesincirporacion = (
                     fuenteFinanciamiento: 0,
                     unidadAdministrativa: '---',
                     descripcion: descripcion,
-                    aprobado: 1,
-                    monto: 0,
+                    aprobado: aprobado,
+                    monto: monto,
                     comprobante: comprobante,
                     creado: fechaCreado,
                     asientosContables: asientosContables,

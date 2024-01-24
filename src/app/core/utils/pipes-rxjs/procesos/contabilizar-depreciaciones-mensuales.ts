@@ -71,7 +71,7 @@ const generarComprobanteContableDepreciacion = (
             .buscarPorId(activoEncontrado.ubicacion.unidadAdministrativaId)
             .pipe(
               map(unidadAdministrativaEncontada => {
-                let { comprobante, aprobado } = integracion;
+                let { comprobante, aprobado, tipoProceso } = integracion;
                 let { codigoCentroCostos, fuenteFinanciamiento } =
                   activoEncontrado.detalle;
                 let { cuentaContableDebe, cuentaContableHaber } =
@@ -92,7 +92,7 @@ const generarComprobanteContableDepreciacion = (
                 let depreciacionMensual =
                   depreciacionEncontrada.detalles[indiceDepreciacionMensual];
                 let comprobanteSalida = <ComprobanteContable>{
-                  procede: TIPOS_PROCEDE[integracion.tipoProceso],
+                  procede: TIPOS_PROCEDE[tipoProceso],
                   lineaEmpresa: lineaEmpresa,
                   centroCostos: codigoCentroCostos,
                   unidadAdministrativa: unidadOrganizativa,

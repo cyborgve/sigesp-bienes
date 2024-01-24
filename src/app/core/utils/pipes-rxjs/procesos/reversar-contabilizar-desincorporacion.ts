@@ -11,7 +11,7 @@ import moment from 'moment';
 import { forkJoin, from, pipe } from 'rxjs';
 import { map, switchMap, tap, toArray } from 'rxjs/operators';
 
-export const reversarContabilizarDesincorporaciones = (
+export const contabilizarDesincorporaciones = (
   lineaEmpresa: Id,
   fechaIntegraciones: Date,
   observaciones: string,
@@ -39,7 +39,7 @@ export const reversarContabilizarDesincorporaciones = (
       return convertirDesincorporaciones.pipe(
         toArray(),
         switchMap(comprobantes => {
-          return _contabilizacion.contabilizar(comprobantes).pipe(
+          return _contabilizacion.reversarContabilizacion(comprobantes).pipe(
             tap(res => {
               //aqui se puede realizar una accion con la respuesta de contabilidad.
               console.log(res);
@@ -85,7 +85,8 @@ const generarComprobanteContableDesincirporacion = (
               );
               return forkJoin(buscarUnidadesAdministrativas).pipe(
                 map(unidadesAdministrativas => {
-                  let procede = TIPOS_PROCEDE[integracion.tipoProceso];
+                  let { tipoProceso, aprobado } = integracion;
+                  let procede = TIPOS_PROCEDE[tipoProceso];
                   let descripcion = `DESINCORPORACIÓN: ${observaciones}`;
                   let comprobante = integracion.comprobante.split(',')[0];
                   let fechaCreado =
@@ -110,6 +111,10 @@ const generarComprobanteContableDesincirporacion = (
                           monto: cuentaContable.monto,
                         }
                     );
+                  let monto = 0;
+                  asientosContables
+                    .filter(ac => ac.procedencia === 'D')
+                    .forEach(ac => (monto += monto));
                   return <ComprobanteContable>{
                     procede: procede,
                     lineaEmpresa: lineaEmpresa,
@@ -117,8 +122,8 @@ const generarComprobanteContableDesincirporacion = (
                     fuenteFinanciamiento: 0,
                     unidadAdministrativa: '---',
                     descripcion: descripcion,
-                    aprobado: 1,
-                    monto: 0,
+                    aprobado: aprobado,
+                    monto: monto,
                     comprobante: comprobante,
                     creado: fechaCreado,
                     asientosContables: asientosContables,

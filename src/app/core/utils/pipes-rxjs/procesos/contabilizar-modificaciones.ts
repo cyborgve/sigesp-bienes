@@ -1,4 +1,5 @@
 import { TIPOS_PROCEDE } from '@core/constants/tipos-procede';
+import { AsientoContable } from '@core/models/auxiliares/asiento-contable';
 import { ComprobanteContable } from '@core/models/auxiliares/comprobante-contable';
 import { Integracion } from '@core/models/procesos/integracion';
 import { ActivoService } from '@core/services/definiciones/activo.service';
@@ -12,6 +13,8 @@ import { map, switchMap, tap, toArray } from 'rxjs/operators';
 
 export const contabilizarModificaciones = (
   lineaEmpresa: Id,
+  fechaIntegraciones: Date,
+  observaciones: string,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _modificacion: ModificacionService,
@@ -19,12 +22,14 @@ export const contabilizarModificaciones = (
 ) =>
   pipe(
     switchMap((integraciones: Integracion[]) => {
-      let modificaciones = integraciones.filter(
-        inte => inte.tipoProceso === 'MODIFICACIÓN'
-      );
+      let modificaciones = integraciones
+        .filter(inte => inte.tipoProceso === 'MODIFICACIÓN')
+        .filter(integracion => integracion.aprobado === 1);
       let convertirModificaciones = from(modificaciones).pipe(
         generarComprobanteContableModificacion(
           lineaEmpresa,
+          fechaIntegraciones,
+          observaciones,
           _activo,
           _unidadAdministrativa,
           _modificacion
@@ -47,6 +52,8 @@ export const contabilizarModificaciones = (
 
 const generarComprobanteContableModificacion = (
   lineaEmpresa: Id,
+  fechaIntegracion: Date,
+  observaciones: string,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _modificacion: ModificacionService
@@ -65,51 +72,43 @@ const generarComprobanteContableModificacion = (
             .buscarPorId(activoEncontrado.ubicacion.unidadAdministrativaId)
             .pipe(
               map(unidadAdministrativaEncontada => {
-                let { comprobante } = integracion;
+                let { comprobante, aprobado, tipoProceso } = integracion;
                 let { codigoCentroCostos, fuenteFinanciamiento } =
                   activoEncontrado.detalle;
-                let { cuentaContableDebe, cuentaContableHaber } =
-                  activoEncontrado.depreciacion;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
-                let fechaIntegracion = moment(integracion.creado).format(
-                  'YYYY-MM-DD'
+                let descripcion = `Modificacion: ${observaciones}`;
+                let monto = 0; // el monto se calcula en breve
+                let fecha = moment(fechaIntegracion).format('YYYY-MM-DD');
+                let { cuentasContables } = modificacionEncontrada;
+                let asientosContables = cuentasContables.map(
+                  ccp =>
+                    <AsientoContable>{
+                      comprobante: comprobante,
+                      centroCostos: codigoCentroCostos,
+                      cuentaContable: ccp.cuentaContable,
+                      procedencia: ccp.procedencia,
+                      unidadOrganizativa: unidadOrganizativa,
+                      descripcion: descripcion,
+                      monto: ccp.monto,
+                      creado: fecha,
+                    }
                 );
-                let descripcion = 'Prueba Integarcion Modificacion';
-                //FIXME: hay que colocar el monto total de la modificacion.
-                let monto = 100;
+                //se calsula el monto del comprobante
+                asientosContables
+                  .filter(ac => ac.procedencia === 'D')
+                  .forEach(ac => (monto += ac.monto));
                 let comprobanteSalida = <ComprobanteContable>{
-                  procede: TIPOS_PROCEDE[integracion.tipoProceso],
-                  lineaEmpresa: lineaEmpresa,
-                  centroCostos: codigoCentroCostos,
-                  unidadAdministrativa: unidadOrganizativa,
-                  fuenteFinanciamiento: fuenteFinanciamiento,
+                  procede: TIPOS_PROCEDE[tipoProceso],
+                  aprobado: aprobado,
                   comprobante: comprobante,
+                  centroCostos: codigoCentroCostos,
+                  fuenteFinanciamiento: fuenteFinanciamiento,
+                  lineaEmpresa: lineaEmpresa,
+                  unidadAdministrativa: unidadOrganizativa,
+                  creado: fecha,
                   monto: monto,
                   descripcion: descripcion,
-                  aprobado: integracion.aprobado,
-                  creado: fechaIntegracion,
-                  asientosContables: [
-                    {
-                      centroCostos: codigoCentroCostos,
-                      comprobante: comprobante,
-                      cuentaContable: cuentaContableDebe,
-                      procedencia: 'D',
-                      monto: monto,
-                      descripcion: descripcion,
-                      creado: fechaIntegracion,
-                      unidadOrganizativa: unidadOrganizativa,
-                    },
-                    {
-                      centroCostos: codigoCentroCostos,
-                      comprobante: comprobante,
-                      cuentaContable: cuentaContableHaber,
-                      procedencia: 'H',
-                      monto: monto,
-                      descripcion: descripcion,
-                      creado: fechaIntegracion,
-                      unidadOrganizativa: unidadOrganizativa,
-                    },
-                  ],
+                  asientosContables: asientosContables,
                 };
                 console.log(comprobanteSalida);
                 return comprobanteSalida;

@@ -7,7 +7,7 @@ export interface ComprobanteContable {
   unidadAdministrativa: Id;
   comprobante: string;
   creado: string;
-  descripcion: String;
+  descripcion: string;
   monto: number;
   centroCostos: Id;
   fuenteFinanciamiento?: Id;
