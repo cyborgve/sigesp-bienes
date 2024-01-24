@@ -1,7 +1,7 @@
 import { FuenteFinanciamiento } from '@core/models/otros-modulos/fuente-financiamiento';
 import { map, tap, filter } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorTipoSemovienteComponent } from '@pages/definiciones/tipos-semoviente/buscador-tipo-semoviente/buscador-tipo-semoviente.component';
 import { BuscadorPropositoSemovienteComponent } from '@pages/definiciones/propositos-semoviente/buscador-proposito-semoviente/buscador-proposito-semoviente.component';
@@ -27,7 +27,7 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
 })
 export class ActivoDetallesComponent implements OnInit, OnDestroy {
   private subscripciones: Subscription[] = [];
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() tipoActivo: TipoActivo = 'INMUEBLE';
 
   unidadesMedidaPeso = UNIDADES_MEDIDA['PESO'];

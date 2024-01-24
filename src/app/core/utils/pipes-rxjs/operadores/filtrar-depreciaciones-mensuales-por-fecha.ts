@@ -1,11 +1,11 @@
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import moment from 'moment';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
 
 export const filtrarDepreciacionesMensualesPorFecha = (
-  formularioRangoFechas: FormGroup
+  formularioRangoFechas: UntypedFormGroup
 ) =>
   pipe(
     map((depreciacionesMensuales: ActivoListaDepreciacion[]) =>

@@ -1,7 +1,7 @@
 import { take, tap, first, filter, switchMap, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -27,7 +27,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[3].nombre;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
   estadosMovimiento = ESTADOS_MOVIMIENTO_CATALOGO;
   deshabilitarCuentaReferencia: boolean;
 
@@ -35,7 +35,7 @@ export class SingularCatalogoGeneralComponent implements Entidad, OnDestroy {
     private _entidad: CatalogoGeneralService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

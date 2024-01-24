@@ -1,9 +1,9 @@
 import { map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import moment from 'moment';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
-export const filtrarProcesoPorFecha = (formulario: FormGroup) =>
+export const filtrarProcesoPorFecha = (formulario: UntypedFormGroup) =>
   pipe(
     map((procesos: any[]) => {
       let { fechaReferencia, fechaInicio, fechaFin } = formulario.value;

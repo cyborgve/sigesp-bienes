@@ -1,7 +1,7 @@
 import { tap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -32,8 +32,8 @@ export class SingularRetornoComponent
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[38].nombre;
-  formulario: FormGroup;
-  formularioRangoFechas: FormGroup;
+  formulario: UntypedFormGroup;
+  formularioRangoFechas: UntypedFormGroup;
   dataSource: MatTableDataSource<ActivoProceso | ActivoListaRetorno> =
     new MatTableDataSource();
   tiposProceso: TipoProceso[] = ['ACTA DE PRÉSTAMO', 'AUTORIZACIÓN DE SALIDA'];
@@ -45,7 +45,7 @@ export class SingularRetornoComponent
     private _entidad: RetornoService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _correlativo: CorrelativoService,
     private _activo: ActivoService

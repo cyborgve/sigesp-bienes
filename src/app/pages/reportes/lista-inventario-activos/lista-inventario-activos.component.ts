@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Activo } from '@core/models/definiciones/activo';
@@ -26,13 +26,13 @@ export class ListaInventarioActivosComponent
   @ViewChild(MatSort) sort: MatSort;
   titulo = 'Reportes: Lista de Inventario de Bienes';
   fechaEmision = new Date();
-  formularioRangoFechas: FormGroup;
-  formularioFiltros: FormGroup;
+  formularioRangoFechas: UntypedFormGroup;
+  formularioFiltros: UntypedFormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
   filtrosSinDecorar: boolean = false;
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _activo: ActivoService,
     private _activoUbicacion: ActivoUbicacionService,
     private _xlsx: XLSXService,

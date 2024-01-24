@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -17,7 +17,7 @@ export class FiltroRangoFechasComponent implements OnInit, OnDestroy {
   rangosFechas = RANGOS_FECHAS;
   rangoPersonalizado = () => this.formulario.value.rango !== 'PERSONALIZADO';
   tiposProceso = TIPOS_PROCESO;
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
   @Input() habilitarReferencia: boolean = false;
 

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   CdkDragDrop,
@@ -78,11 +78,11 @@ export class ListaActivosComponent implements AfterViewInit {
   titulo = 'Reportes: Lista de Bienes';
   fechaEmision = new Date();
   rangosFechas = RANGOS_FECHAS;
-  formularioRangoFechas: FormGroup;
+  formularioRangoFechas: UntypedFormGroup;
   procesos = TIPOS_PROCESO;
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'].filter(c => c !== 'acciones');
   filtrosSinDecorar: boolean = false;
-  formularioFiltrosActivos: FormGroup;
+  formularioFiltrosActivos: UntypedFormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
   private readonly propiedadTodos: Chip = {
     indice: -1,
@@ -94,7 +94,7 @@ export class ListaActivosComponent implements AfterViewInit {
   propiedadesSeleccionadas: Chip[] = [];
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _configuracion: ConfiguracionService,
     private _activo: ActivoService,
     private _activoDetalle: ActivoDetalleService,

@@ -5,7 +5,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Id } from '@core/types/id';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CategoriaUnidadAdministrativaService } from '@core/services/definiciones/categoria-unidad-administrativa.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -25,12 +25,12 @@ export class SingularCategoriaUnidadComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[5].nombre;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
   constructor(
     private _entidad: CategoriaUnidadAdministrativaService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

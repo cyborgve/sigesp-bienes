@@ -2,7 +2,7 @@ import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -42,7 +42,7 @@ export class SingularIncorporacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[35].nombre;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
   dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource([]);
 
   private;
@@ -51,7 +51,7 @@ export class SingularIncorporacionComponent implements Entidad {
     private _incorporacion: IncorporacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

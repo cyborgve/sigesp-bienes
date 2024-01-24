@@ -1,8 +1,8 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 
 export const ajustarConfiguracion = (
-  formulario: FormGroup,
+  formulario: UntypedFormGroup,
   configuracion: Configuracion
 ) => {
   formulario.value.activarPaginacion =
