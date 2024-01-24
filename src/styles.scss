@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~ngx-toastr/toastr';
@@ -139,14 +140,14 @@ $mat-myapp-warn: (
   ),
 );
 
-$primary: mat-palette($mat-myapp-primary);
-$secondary: mat-palette($mat-myapp-secondary);
-$accent: mat-palette($primary, A100);
-$warn: mat-palette($mat-red, 900);
+$primary: mat.define-palette($mat-myapp-primary);
+$secondary: mat.define-palette($mat-myapp-secondary);
+$accent: mat.define-palette($primary, A100);
+$warn: mat.define-palette(mat.$red-palette, 900);
 
-$theme: mat-light-theme($primary, $accent, $warn);
+$theme: mat.define-light-theme($primary, $accent, $warn);
 
-@include angular-material-theme($theme);
+@include mat.all-component-themes($theme);
 
 @tailwind base;
 @tailwind components;
