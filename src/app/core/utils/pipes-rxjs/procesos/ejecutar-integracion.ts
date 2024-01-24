@@ -10,6 +10,8 @@ import { ModificacionService } from '@core/services/procesos/modificacion.servic
 import { contabilizarDesincorporaciones } from './contabilizar-desincorporaciones';
 import { contabilizarModificaciones } from './contabilizar-modificaciones';
 import { reversarContabilizarDepreciacionesMensuales } from './reversar-contabilizar-depreciacion';
+import { reversarContabilizarDesincorporaciones } from './reversar-contabilizar-desincorporacion';
+import { reversarContabilizarModificaciones } from './reversar-contabilizar-modificacion';
 
 export const ejecutarIntegracion = (
   lineaEmpresa: Id,
@@ -40,19 +42,41 @@ export const ejecutarIntegracion = (
       _unidadAdministrativa,
       _depreciacion,
       _contabilizacion
+    ),
+    contabilizarDesincorporaciones(
+      lineaEmpresa,
+      fechaIntegraciones,
+      observaciones,
+      _activo,
+      _unidadAdministrativa,
+      _desincorporacion,
+      _contabilizacion
+    ),
+    reversarContabilizarDesincorporaciones(
+      lineaEmpresa,
+      fechaIntegraciones,
+      observaciones,
+      _activo,
+      _unidadAdministrativa,
+      _desincorporacion,
+      _contabilizacion
+    ),
+    contabilizarModificaciones(
+      lineaEmpresa,
+      fechaIntegraciones,
+      observaciones,
+      _activo,
+      _unidadAdministrativa,
+      _modificacion,
+      _contabilizacion
+    ),
+    reversarContabilizarModificaciones(
+      lineaEmpresa,
+      fechaIntegraciones,
+      observaciones,
+      _activo,
+      _unidadAdministrativa,
+      _modificacion,
+      _contabilizacion
     )
-    // contabilizarDesincorporaciones(
-    //   lineaEmpresa,
-    //   _activo,
-    //   _unidadAdministrativa,
-    //   _desincorporacion,
-    //   _contabilizacion
-    // ),
-    // contabilizarModificaciones(
-    //   lineaEmpresa,
-    //   _activo,
-    //   _unidadAdministrativa,
-    //   _modificacion,
-    //   _contabilizacion
-    // )
   );

@@ -11,7 +11,7 @@ import moment from 'moment';
 import { forkJoin, from, pipe } from 'rxjs';
 import { map, switchMap, tap, toArray } from 'rxjs/operators';
 
-export const contabilizarDesincorporaciones = (
+export const reversarContabilizarDesincorporaciones = (
   lineaEmpresa: Id,
   fechaIntegraciones: Date,
   observaciones: string,
