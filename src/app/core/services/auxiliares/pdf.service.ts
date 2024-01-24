@@ -6,16 +6,16 @@ import { EmpresaService } from '../otros-modulos/empresa.service';
 import { combineLatest } from 'rxjs';
 import { InformacionProcesoService } from './informacion-proceso.service';
 import { TipoProceso } from '@core/types/tipo-proceso';
-import { reporteEntregaUnidad } from '@core/reportes/reporte-entrega-unidad';
-import { reporteActaPrestamo } from '@core/reportes/reporte-acta-prestamo';
-import { reporteAutorizacionSalida } from '@core/reportes/reporte-autorizacion-salida';
-import { reporteCambioResponsable } from '@core/reportes/reporte-cambio-responsable';
-import { reporteDepreciacion } from '@core/reportes/reporte-depreciacion';
-import { reporteDesincorporacion } from '@core/reportes/reporte-desincorporacion';
-import { reporteIncorporacion } from '@core/reportes/reporte-incorporacion';
-import { reporteModificacion } from '@core/reportes/reporte-modificacion';
-import { reporteReasignacion } from '@core/reportes/reporte-reasignacion';
-import { reporteRetorno } from '@core/reportes/reporte-reotorno';
+import { reporteEntregaUnidad } from '@core/reports/reporte-entrega-unidad';
+import { reporteActaPrestamo } from '@core/reports/reporte-acta-prestamo';
+import { reporteAutorizacionSalida } from '@core/reports/reporte-autorizacion-salida';
+import { reporteCambioResponsable } from '@core/reports/reporte-cambio-responsable';
+import { reporteDepreciacion } from '@core/reports/reporte-depreciacion';
+import { reporteDesincorporacion } from '@core/reports/reporte-desincorporacion';
+import { reporteIncorporacion } from '@core/reports/reporte-incorporacion';
+import { reporteModificacion } from '@core/reports/reporte-modificacion';
+import { reporteReasignacion } from '@core/reports/reporte-reasignacion';
+import { reporteRetorno } from '@core/reports/reporte-reotorno';
 import { Id } from '@core/types/id';
 
 @Injectable({
