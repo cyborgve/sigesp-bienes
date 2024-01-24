@@ -82,7 +82,7 @@ export const reporteIncorporacion = (
       title: `${tipoProceso}-${proceso.comprobante}`,
       subject: 'Comprobante de ejecucion de proceso',
       author: usuarioActivo,
-      creator: 'Sigesp ERP - Bienes Nacionales',
+      creator: 'Sigesp ERP - Bienes',
     },
     content: [
       // Secciones del informe

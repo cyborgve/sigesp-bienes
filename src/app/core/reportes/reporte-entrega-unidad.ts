@@ -37,7 +37,7 @@ export const reporteEntregaUnidad = (
       title: `${tipoProceso}-${proceso.comprobante}`,
       subject: 'Comprobante de ejecucion de proceso',
       author: `${usuarioActivo.nombre} ${usuarioActivo.apellido}`,
-      creator: 'Sigesp ERP - Bienes Nacionales',
+      creator: 'Sigesp ERP - Bienes',
     },
     content: [
       seccionEncabezadoReporte(empresa, proceso, tipoProceso),

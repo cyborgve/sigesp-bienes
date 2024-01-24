@@ -24,7 +24,8 @@ export const contabilizarDesincorporaciones = (
     switchMap((integraciones: Integracion[]) => {
       let desincorporaciones = integraciones
         .filter(inte => inte.tipoProceso === 'DESINCORPORACIÓN')
-        .filter(integracion => integracion.aprobado === 1);
+        .filter(integracion => integracion.aprobado === 1)
+        .filter(integracion => integracion.integrado === 1);
       let convertirDesincorporaciones = from(desincorporaciones).pipe(
         generarComprobanteContableDesincirporacion(
           lineaEmpresa,
