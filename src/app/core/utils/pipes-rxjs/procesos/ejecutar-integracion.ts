@@ -9,6 +9,7 @@ import { DesincorporacionService } from '@core/services/procesos/desincorporacio
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { contabilizarDesincorporaciones } from './contabilizar-desincorporaciones';
 import { contabilizarModificaciones } from './contabilizar-modificaciones';
+import { reversarContabilizarDepreciacionesMensuales } from './reversar-contabilizar-depreciacion';
 
 export const ejecutarIntegracion = (
   lineaEmpresa: Id,
@@ -23,6 +24,15 @@ export const ejecutarIntegracion = (
 ) =>
   pipe(
     contabilizarDepreciacionesMensuales(
+      lineaEmpresa,
+      fechaIntegraciones,
+      observaciones,
+      _activo,
+      _unidadAdministrativa,
+      _depreciacion,
+      _contabilizacion
+    ),
+    reversarContabilizarDepreciacionesMensuales(
       lineaEmpresa,
       fechaIntegraciones,
       observaciones,

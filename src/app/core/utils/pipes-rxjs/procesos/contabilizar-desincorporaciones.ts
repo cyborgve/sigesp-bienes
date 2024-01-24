@@ -1,4 +1,5 @@
 import { TIPOS_PROCEDE } from '@core/constants/tipos-procede';
+import { AsientoContable } from '@core/models/auxiliares/asiento-contable';
 import { ComprobanteContable } from '@core/models/auxiliares/comprobante-contable';
 import { Integracion } from '@core/models/procesos/integracion';
 import { ActivoService } from '@core/services/definiciones/activo.service';
@@ -12,6 +13,8 @@ import { map, switchMap, tap, toArray } from 'rxjs/operators';
 
 export const contabilizarDesincorporaciones = (
   lineaEmpresa: Id,
+  fechaIntegraciones: Date,
+  observaciones: string,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _desincorporacion: DesincorporacionService,
@@ -19,12 +22,14 @@ export const contabilizarDesincorporaciones = (
 ) =>
   pipe(
     switchMap((integraciones: Integracion[]) => {
-      let desincorporaciones = integraciones.filter(
-        inte => inte.tipoProceso === 'DESINCORPORACIÓN'
-      );
+      let desincorporaciones = integraciones
+        .filter(inte => inte.tipoProceso === 'DESINCORPORACIÓN')
+        .filter(integracion => integracion.aprobado === 1);
       let convertirDesincorporaciones = from(desincorporaciones).pipe(
-        generarComprobanteContableDesincorporacion(
+        generarComprobanteContableDesincirporacion(
           lineaEmpresa,
+          fechaIntegraciones,
+          observaciones,
           _activo,
           _unidadAdministrativa,
           _desincorporacion
@@ -45,8 +50,10 @@ export const contabilizarDesincorporaciones = (
     })
   );
 
-const generarComprobanteContableDesincorporacion = (
+const generarComprobanteContableDesincirporacion = (
   lineaEmpresa: Id,
+  fechaIntegracion: Date,
+  observaciones: string,
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _desincorporacion: DesincorporacionService
@@ -57,64 +64,69 @@ const generarComprobanteContableDesincorporacion = (
         String(integracion.activo).split(',').length > 1
           ? Number(String(integracion.activo).split(',')[0])
           : Number(integracion.activo);
-      let buscarActivo = _activo.buscarPorId(activoId);
-      let buscarDesincorporacion = _desincorporacion.buscarPorActivo(activoId);
-      return forkJoin([buscarActivo, buscarDesincorporacion]).pipe(
-        switchMap(([activoEncontrado, desincorporacionEncontrada]) =>
-          _unidadAdministrativa
-            .buscarPorId(activoEncontrado.ubicacion.unidadAdministrativaId)
-            .pipe(
-              map(unidadAdministrativaEncontada => {
-                let { comprobante } = integracion;
-                let { codigoCentroCostos, fuenteFinanciamiento } =
-                  activoEncontrado.detalle;
-                let { desCuentaContableDebe, desCuentaContableHaber } =
-                  activoEncontrado.integracion;
-                let { unidadOrganizativa } = unidadAdministrativaEncontada;
-                let fechaIntegracion = moment(integracion.creado).format(
-                  'YYYY-MM-DD'
-                );
-                let descripcion = 'Prueba Integracion Desincorporacion';
-                let monto = desincorporacionEncontrada.debe;
-                let comprobanteSalida = <ComprobanteContable>{
-                  procede: TIPOS_PROCEDE[integracion.tipoProceso],
-                  lineaEmpresa: lineaEmpresa,
-                  centroCostos: codigoCentroCostos,
-                  unidadAdministrativa: unidadOrganizativa,
-                  fuenteFinanciamiento: fuenteFinanciamiento,
-                  comprobante: comprobante,
-                  aprobado: 1,
-                  creado: fechaIntegracion,
-                  monto: monto,
-                  descripcion: descripcion,
-                  asientosContables: [
-                    {
-                      centroCostos: codigoCentroCostos,
-                      comprobante: comprobante,
-                      cuentaContable: desCuentaContableDebe,
-                      procedencia: 'D',
-                      monto: monto,
-                      descripcion: descripcion,
-                      creado: fechaIntegracion,
-                      unidadOrganizativa: unidadOrganizativa,
-                    },
-                    {
-                      centroCostos: codigoCentroCostos,
-                      comprobante: comprobante,
-                      cuentaContable: desCuentaContableHaber,
-                      procedencia: 'H',
-                      monto: monto,
-                      creado: fechaIntegracion,
-                      descripcion: descripcion,
-                      unidadOrganizativa: unidadOrganizativa,
-                    },
-                  ],
-                };
-                console.log(comprobanteSalida);
-                return comprobanteSalida;
-              })
-            )
-        )
+      return _desincorporacion.buscarPorActivo(activoId).pipe(
+        switchMap(desincorporacionEncontrada => {
+          let buscarActivos = desincorporacionEncontrada.activos.map(
+            activoProceso => _activo.buscarPorId(activoProceso.activo)
+          );
+          return forkJoin(buscarActivos).pipe(
+            switchMap(activosEncontrados => {
+              let buscarUnidadesAdministrativas = activosEncontrados.map(
+                activo =>
+                  _unidadAdministrativa
+                    .buscarPorId(activo.ubicacion.unidadAdministrativaId)
+                    .pipe(
+                      map(unidad => ({
+                        unidadAdministrativa: unidad.unidadOrganizativa,
+                        activo: activo.id,
+                      }))
+                    )
+              );
+              return forkJoin(buscarUnidadesAdministrativas).pipe(
+                map(unidadesAdministrativas => {
+                  let procede = TIPOS_PROCEDE[integracion.tipoProceso];
+                  let descripcion = `DESINCORPORACIÓN: ${observaciones}`;
+                  let comprobante = integracion.comprobante.split(',')[0];
+                  let fechaCreado =
+                    moment(fechaIntegracion).format('YYYY-MM-DD');
+                  let asientosContables =
+                    desincorporacionEncontrada.cuentasContables.map(
+                      (cuentaContable, indice) =>
+                        <AsientoContable>{
+                          centroCostos:
+                            activosEncontrados[indice]['detalle'][
+                              'codigoCentroCostos'
+                            ],
+                          comprobante: comprobante,
+                          creado: fechaCreado,
+                          cuentaContable: cuentaContable.cuentaContable,
+                          unidadOrganizativa:
+                            unidadesAdministrativas[indice][
+                              'unidadAdministrativa'
+                            ],
+                          descripcion: descripcion,
+                          procedencia: cuentaContable.procedencia.charAt(0),
+                          monto: cuentaContable.monto,
+                        }
+                    );
+                  return <ComprobanteContable>{
+                    procede: procede,
+                    lineaEmpresa: lineaEmpresa,
+                    centroCostos: '---',
+                    fuenteFinanciamiento: 0,
+                    unidadAdministrativa: '---',
+                    descripcion: descripcion,
+                    aprobado: 1,
+                    monto: 0,
+                    comprobante: comprobante,
+                    creado: fechaCreado,
+                    asientosContables: asientosContables,
+                  };
+                })
+              );
+            })
+          );
+        })
       );
     })
   );
