@@ -24,6 +24,7 @@
       <mat-label>Tipo de Proceso</mat-label>
       <mat-select formControlName="tipoProceso">
         <mat-option value="TODOS">Todos</mat-option>
+        <mat-option value="TODOS INTEGRABLES">Todos Integrables</mat-option>
         <mat-option *ngFor="let tipo of tiposProceso" [value]="tipo">{{
           tipo | titlecase
         }}</mat-option>

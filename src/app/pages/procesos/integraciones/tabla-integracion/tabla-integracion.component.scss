@@ -18,10 +18,6 @@ app-filtro-rango-fechas {
   @apply font-normal;
 }
 
-.indicacionesLine {
-  @apply pl-4 pb-4 text-lg col-span-10;
-}
-
 #pNoSeleccionado {
   @apply text-warn;
 }
@@ -31,13 +27,21 @@ app-filtro-rango-fechas {
 }
 
 .datosIntegracion {
-  @apply w-full grid grid-cols-10 gap-x-2;
+  @apply grid grid-cols-10 gap-x-2;
 }
 
 .lineaEmpresa {
+  @apply col-span-8 pb-2;
+}
+
+.filtroLineaEmpresa {
   @apply col-span-8;
 }
 
-.fechaIntegracion {
+.fFechaIntegracion {
   @apply col-span-2;
+}
+
+.fechaIntegracion {
+  @apply w-full;
 }

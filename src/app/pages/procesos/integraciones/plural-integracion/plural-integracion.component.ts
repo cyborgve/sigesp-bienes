@@ -12,20 +12,20 @@ import { filtrarIntegracionesPorTipoProceso } from '@core/utils/pipes-rxjs/opera
 import { ordenarIntegracionesPorFechaDescendiente } from '@core/utils/pipes-rxjs/operadores/ordenar-integraciones-por fecha-descendente';
 import { take, tap } from 'rxjs/operators';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
-import { Subscription } from 'rxjs';
+import { Subscription, pipe } from 'rxjs';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ConfiguracionPorDefecto } from '@core/utils/funciones/configuracion-por-defecto';
 import { filtrarIntegracionesPorEstadoRegistro } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-estado-registro';
 import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
-import { ejecutarIntegracion } from '@core/utils/pipes-rxjs/procesos/ejecutar-integracion';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 import { PROCESOS_INTEGRABLES } from '@core/constants/procesos-integrables';
+import { prepararIntegracion } from '@core/utils/funciones/preparar-integracion';
 
 @Component({
   selector: 'app-plural-integracion',
@@ -42,7 +42,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   formularioRangoFechas: FormGroup;
   formulario: FormGroup;
   formularioIntegracion: FormGroup;
-  tipoProceso: TipoProceso;
+  procesoTipo: TipoProceso;
   configuracion: Configuracion = ConfiguracionPorDefecto();
 
   constructor(
@@ -99,77 +99,85 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   }
 
   ejecutar = () => {
+    let integraciones = this.dataSource.data.map(prepararIntegracion);
+    let { lineEnterprise, fechaIntegracion } = this.formulario.value;
+    let { observaciones } = this.formulario.value;
     this._integracion
-      .guardarTodos(
-        this.dataSource.data,
-        this.formularioIntegracion.value.lineEnterprice,
+      .procesarAprobaciones(integraciones, true)
+      .pipe(take(1))
+      .subscribe(() => this.recargarDatos());
+    this._integracion
+      .procesarReversarAprobaciones(integraciones, true)
+      .pipe(take(1))
+      .subscribe(() => this.recargarDatos());
+    this._integracion
+      .procesarDepreciaciones(
+        integraciones,
+        lineEnterprise,
+        fechaIntegracion,
+        observaciones,
         true
       )
+      .pipe(take(1))
+      .subscribe();
+    this._integracion
+      .buscarTodos()
       .pipe(
-        ejecutarIntegracion(
-          this.formularioIntegracion.value.lineEnterprise,
-          this.formularioIntegracion.value.fechaIntegracion,
-          this.formulario.value.observaciones,
-          this._activo,
-          this._unidadAdministrativa,
-          this._depreciacion,
-          this._desincorporacion,
-          this._modificacion,
-          this._contabilizacion
-        ),
+        tap(integraciones => (this.integracionesInicial = integraciones)),
         take(1)
       )
-      .subscribe(() => this.recargarDatos());
+      .subscribe();
   };
 
   botonEjecutarHabilitado = () =>
     (this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar' &&
-      (this.existenAprobaciones() || this.existenReversoAprobaciones())) ||
-    this.existenIntegraciones();
+      this.existenAprobaciones()) ||
+    this.existenReversoAprobaciones() ||
+    this.existenIntegraciones() ||
+    this.existenReversoIntegraciones();
 
-  private existenAprobaciones = () => {
-    let data = this.dataSource.data;
-    return (
-      data.filter(
+  private existenAprobaciones = () =>
+    this.dataSource.data
+      .map(prepararIntegracion)
+      .filter(
         integracion =>
           integracion.registrado === 0 && integracion.aprobado === 1
-      ).length > 0
-    );
-  };
+      ).length > 0;
 
   private existenReversoAprobaciones = () => {
     let data = this.dataSource.data;
     return (
-      data.filter(
-        integracion =>
-          integracion.registrado === 1 && integracion.aprobado === 0
-      ).length > 0
-    );
-  };
-
-  private existenIntegraciones = () => {
-    let data = this.dataSource.data;
-    return (
       data
-        .filter(integracion =>
-          PROCESOS_INTEGRABLES.some(proin => integracion.tipoProceso === proin)
-        )
+        .map(prepararIntegracion)
         .filter(
-          (integracion, indice) =>
-            this.integracionesInicial[indice]['integrado'] !==
-            integracion['integrado']
+          integracion =>
+            integracion.registrado === 1 && integracion.aprobado === 0
         ).length > 0
     );
   };
 
-  private existenReversoIntegraciones = () =>
+  private existenIntegraciones = () =>
     this.dataSource.data
+      .map(prepararIntegracion)
       .filter(integracion =>
-        PROCESOS_INTEGRABLES.some(proin => proin === integracion.tipoProceso)
+        PROCESOS_INTEGRABLES.some(proin => integracion.procesoTipo === proin)
       )
       .filter(
-        integracion =>
-          integracion.registrado == 1 && integracion.integrado === 0
+        (integracion, indice) =>
+          this.integracionesInicial[indice]['integrado'] !=
+            integracion['integrado'] && integracion.registrado == 1
+      ).length > 0;
+
+  private existenReversoIntegraciones = () =>
+    this.dataSource.data
+      .map(prepararIntegracion)
+      .filter(integracion =>
+        PROCESOS_INTEGRABLES.some(proin => proin === integracion.procesoTipo)
+      )
+      .filter(
+        (integracion, indice) =>
+          this.integracionesInicial[indice]['integrado'] !=
+            integracion['integrado'] && integracion.integrado == 0
       ).length > 0;
 
   irAtras = () => {

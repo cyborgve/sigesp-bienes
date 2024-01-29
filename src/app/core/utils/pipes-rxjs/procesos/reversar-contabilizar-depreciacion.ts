@@ -22,7 +22,7 @@ export const reversarContabilizarDepreciacionesMensuales = (
   pipe(
     switchMap((integraciones: Integracion[]) => {
       let depreciaciones = integraciones
-        .filter(inte => inte.tipoProceso === 'DEPRECIACIÓN MENSUAL')
+        .filter(inte => inte.procesoTipo === 'DEPRECIACIÓN MENSUAL')
         .filter(integracion => integracion.aprobado === 0);
       let convertirDepreciaciones = from(depreciaciones).pipe(
         generarComprobanteContableDepreciacion(
@@ -71,7 +71,7 @@ const generarComprobanteContableDepreciacion = (
             .buscarPorId(activoEncontrado.ubicacion.unidadAdministrativaId)
             .pipe(
               map(unidadAdministrativaEncontada => {
-                let { comprobante, aprobado } = integracion;
+                let { procesoComprobante, aprobado } = integracion;
                 let { codigoCentroCostos, fuenteFinanciamiento } =
                   activoEncontrado.detalle;
                 let { cuentaContableDebe, cuentaContableHaber } =
@@ -92,12 +92,12 @@ const generarComprobanteContableDepreciacion = (
                 let depreciacionMensual =
                   depreciacionEncontrada.detalles[indiceDepreciacionMensual];
                 let comprobanteSalida = <ComprobanteContable>{
-                  procede: TIPOS_PROCEDE[integracion.tipoProceso],
+                  procede: TIPOS_PROCEDE[integracion.procesoTipo],
                   lineaEmpresa: lineaEmpresa,
                   centroCostos: codigoCentroCostos,
                   unidadAdministrativa: unidadOrganizativa,
                   fuenteFinanciamiento: fuenteFinanciamiento,
-                  comprobante: comprobante,
+                  comprobante: procesoComprobante,
                   monto: depreciacionMensual.depreciacionMensual,
                   aprobado: aprobado,
                   descripcion: descripcion,
@@ -105,7 +105,7 @@ const generarComprobanteContableDepreciacion = (
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
-                      comprobante: comprobante,
+                      comprobante: procesoComprobante,
                       cuentaContable: cuentaContableDebe,
                       procedencia: 'D',
                       creado: fecha,
@@ -115,7 +115,7 @@ const generarComprobanteContableDepreciacion = (
                     },
                     {
                       centroCostos: codigoCentroCostos,
-                      comprobante: comprobante,
+                      comprobante: procesoComprobante,
                       cuentaContable: cuentaContableHaber,
                       procedencia: 'H',
                       monto: depreciacionMensual.depreciacionMensual,
@@ -125,7 +125,6 @@ const generarComprobanteContableDepreciacion = (
                     },
                   ],
                 };
-                console.log(comprobanteSalida);
                 return comprobanteSalida;
               })
             )

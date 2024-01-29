@@ -10,8 +10,9 @@ const adaptar = (integracion: any) =>
   <Integracion>{
     empresaId: Number(integracion.empresaId),
     id: Number(integracion.id),
-    comprobante: integracion.comprobante,
-    tipoProceso: integracion.tipoProceso,
+    proceso: Number(integracion.proceso),
+    procesoTipo: integracion.procesoTipo,
+    procesoComprobante: integracion.procesoComprobante,
     activo: integracion.activo,
     aprobado: Number(integracion.aprobado),
     integrado: Number(integracion.integrado),

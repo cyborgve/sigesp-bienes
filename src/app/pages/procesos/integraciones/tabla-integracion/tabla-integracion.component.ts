@@ -43,9 +43,9 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
   @Input() dataSource: MatTableDataSource<Integracion> =
     new MatTableDataSource();
 
-  @Input() formularioRangoFechas: FormGroup;
-  @Input() formulario: FormGroup;
-  @Input() formularioIntegracion: FormGroup;
+  @Input() formularioRangoFechas: FormGroup = new FormGroup({});
+  @Input() formulario: FormGroup = new FormGroup({});
+  @Input() formularioIntegracion: FormGroup = new FormGroup({});
   opciones = OPCIONES_INTEGRACION_PROCESOS;
 
   constructor(private _location: Location, private _router: Router) {}
@@ -85,12 +85,12 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
       integ =>
         integ.empresaId === integracion.empresaId &&
         integ.id === integracion.id &&
-        integ.comprobante === integracion.comprobante &&
-        integ.tipoProceso === integracion.tipoProceso
+        integ.procesoComprobante === integracion.procesoComprobante &&
+        integ.procesoTipo === integracion.procesoTipo
     );
 
   aprobar = (integracion: Integracion) =>
-    this.dataSource.data[this.indice(integracion)].aprobado === 1;
+    this.dataSource.data[this.indice(integracion)].aprobado == 1;
 
   actualizarAprobar = (aprobado: boolean, integracion: Integracion) => {
     let data = this.dataSource.data;
@@ -100,15 +100,15 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
     }
     this.toggleAprobarTodos.checked = data
       .map(d => d.aprobado)
-      .every(b => b === 0);
+      .every(b => b == 0);
     this.toggleAprobarTodos.checked = data
       .map(d => d.aprobado)
-      .every(b => b === 1);
+      .every(b => b == 1);
     this.dataSource = new MatTableDataSource(data);
   };
 
   integrar = (integracion: Integracion) => {
-    this.dataSource.data[this.indice(integracion)].integrado === 1;
+    this.dataSource.data[this.indice(integracion)].integrado == 1;
   };
 
   actualizarIntegrar = (integrado: boolean, integracion: Integracion) => {
@@ -119,10 +119,10 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
     }
     this.toggleIntegrarTodos.checked = data
       .map(dato => dato.integrado)
-      .every(n => n === 0);
+      .every(n => n == 0);
     this.toggleIntegrarTodos.checked = data
       .map(d => d.integrado)
-      .every(n => n === 1);
+      .every(n => n == 1);
     this.dataSource = new MatTableDataSource(data);
   };
 

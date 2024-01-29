@@ -11,7 +11,7 @@ import { filtrarActivosPorFecha } from '@core/utils/pipes-rxjs/operadores/filtra
 import { filtrarActivosPorResponsable } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-responsable';
 import { filtrarActivosPorSede } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-sede';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
-import { Subscription, pipe } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { tap, take, map } from 'rxjs/operators';
 
 @Component({
