@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Color } from '@core/models/definiciones/color';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
@@ -12,7 +12,7 @@ import { take, tap, filter } from 'rxjs/operators';
   styleUrls: ['./filtro-color.component.scss'],
 })
 export class FiltroColorComponent {
-  @Input() formulario: UntypedFormGroup;
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

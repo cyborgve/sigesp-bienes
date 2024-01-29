@@ -2,7 +2,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SeguroService } from '@core/services/definiciones/seguro.service';
@@ -32,13 +32,13 @@ export class SingularSeguroComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[19].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
 
   constructor(
     private _entidad: SeguroService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
@@ -24,13 +24,13 @@ export class ListaActasPrestamoComponent implements AfterViewInit, OnDestroy {
   titulo = 'Reportes: Lista de Actas de Préstamo Registradas';
   fechaEmision = new Date();
   rangosFechas = RANGOS_FECHAS;
-  formularioRangoFechas: UntypedFormGroup;
+  formularioRangoFechas: FormGroup;
   procesos = TIPOS_PROCESO;
   desactivarGuardar = () => this.dataSource.data.length === 0;
   filtrosSinDecorar: boolean = false;
 
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _actaPrestamo: ActaPrestamoService,
     private _xlsx: XLSXService,
     private _configuracion: ConfiguracionService

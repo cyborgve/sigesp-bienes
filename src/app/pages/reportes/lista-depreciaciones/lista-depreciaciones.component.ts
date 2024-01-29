@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
@@ -22,14 +22,14 @@ export class ListaDepreciacionesComponent implements AfterViewInit, OnDestroy {
   private subscripciones: Subscription[] = [];
   titulo = 'Reportes: Lista de Depreciaciones Registradas';
   fechaEmision = new Date();
-  formularioRangoFechas: UntypedFormGroup;
+  formularioRangoFechas: FormGroup;
   dataSource: MatTableDataSource<DepreciacionLista> = new MatTableDataSource();
   filtrosSinDecorar: boolean = false;
 
   deshabilitarGuardar = () => this.dataSource.data.length === 0;
 
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _depreciacion: DepreciacionService,
     private _xlsx: XLSXService,
     private _configuracion: ConfiguracionService

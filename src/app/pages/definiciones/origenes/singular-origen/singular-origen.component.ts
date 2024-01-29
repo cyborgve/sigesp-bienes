@@ -1,7 +1,7 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrigenService } from '@core/services/definiciones/origen.service';
@@ -31,14 +31,14 @@ export class SingularOrigenComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[13].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   modosAdquisicion = MODOS_ADQUISICION;
 
   constructor(
     private _entidad: OrigenService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

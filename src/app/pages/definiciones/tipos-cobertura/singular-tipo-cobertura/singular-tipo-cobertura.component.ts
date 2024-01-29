@@ -1,7 +1,7 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TipoCoberturaService } from '@core/services/definiciones/tipo-cobertura.service';
@@ -23,13 +23,13 @@ export class SingularTipoCoberturaComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[21].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
 
   constructor(
     private _entidad: TipoCoberturaService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

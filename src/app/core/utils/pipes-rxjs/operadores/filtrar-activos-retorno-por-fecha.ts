@@ -1,10 +1,10 @@
 import { ActivoListaRetorno } from '@core/models/auxiliares/activo-lista-retorno';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import moment from 'moment';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export const filtrarActivosRetornoPorFecha = (formulario: UntypedFormGroup) =>
+export const filtrarActivosRetornoPorFecha = (formulario: FormGroup) =>
   pipe(
     map((activosRetorno: ActivoListaRetorno[]) => {
       let { fechaInicio, fechaFin } = formulario.value;

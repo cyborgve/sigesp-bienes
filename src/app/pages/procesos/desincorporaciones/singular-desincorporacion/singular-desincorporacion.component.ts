@@ -2,7 +2,7 @@ import { tap, switchMap, take, first, filter, map } from 'rxjs/operators';
 import { Subscription, forkJoin } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -52,7 +52,7 @@ export class SingularDesincorporacionComponent
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[33].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   activosDataSource: MatTableDataSource<ActivoProceso> =
     new MatTableDataSource();
   cuentasDataSource: MatTableDataSource<CuentaContableProceso> =
@@ -62,7 +62,7 @@ export class SingularDesincorporacionComponent
     private _entidad: DesincorporacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

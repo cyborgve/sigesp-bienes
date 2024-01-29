@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
@@ -10,7 +10,7 @@ import { ActivoComponente } from '@core/models/definiciones/activo-componente';
   styleUrls: ['./activo-componentes.component.scss'],
 })
 export class ActivoComponentesComponent implements AfterViewInit {
-  @Input() formulario: UntypedFormGroup;
+  @Input() formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoComponente> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.COMPONENTES.filter(
     c => c !== 'acciones'

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LineEnterprise } from '@core/models/otros-modulos/line-enterprise';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
@@ -12,7 +12,7 @@ import { filter, take, tap } from 'rxjs/operators';
   styleUrls: ['./filtro-line-enterprise.component.scss'],
 })
 export class FiltroLineEnterpriseComponent {
-  @Input() formulario: UntypedFormGroup;
+  @Input() formulario: FormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

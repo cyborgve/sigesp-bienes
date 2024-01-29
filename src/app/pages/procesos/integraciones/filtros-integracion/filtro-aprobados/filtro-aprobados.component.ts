@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
 
 @Component({
@@ -8,7 +8,7 @@ import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';
   styleUrls: ['./filtro-aprobados.component.scss'],
 })
 export class FiltroAprobadosComponent {
-  @Input() formulario: UntypedFormGroup;
+  @Input() formulario: FormGroup;
   @Input() sinDecorar = false;
   tiposProceso = TIPOS_PROCESO;
 }

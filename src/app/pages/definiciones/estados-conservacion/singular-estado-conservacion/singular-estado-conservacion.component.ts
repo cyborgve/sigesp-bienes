@@ -1,7 +1,7 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Id } from '@core/types/id';
@@ -25,13 +25,13 @@ export class SingularEstadoConservacionComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[9].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
 
   constructor(
     private _entidad: EstadoConservacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

@@ -1,7 +1,7 @@
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -33,7 +33,7 @@ export class SingularPlantillaIntegracionComponent
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[14].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
 
   metodosDepreciacion = METODOS_DEPRECIACION;
   unidadesVidaUtil = UNIDADES_MEDIDA.TIEMPO;
@@ -43,7 +43,7 @@ export class SingularPlantillaIntegracionComponent
     private _entidad: PlantillaIntegracionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

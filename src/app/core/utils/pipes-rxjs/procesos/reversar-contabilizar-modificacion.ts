@@ -23,7 +23,7 @@ export const reversarContabilizarModificaciones = (
   pipe(
     switchMap((integraciones: Integracion[]) => {
       let modificaciones = integraciones
-        .filter(inte => inte.procesoTipo === 'MODIFICACIÓN')
+        .filter(inte => inte.tipoProceso === 'MODIFICACIÓN')
         .filter(integracion => integracion.aprobado === 0);
       let convertirModificaciones = from(modificaciones).pipe(
         generarComprobanteContableModificacion(
@@ -72,7 +72,7 @@ const generarComprobanteContableModificacion = (
             .buscarPorId(activoEncontrado.ubicacion.unidadAdministrativaId)
             .pipe(
               map(unidadAdministrativaEncontada => {
-                let { procesoComprobante, aprobado, procesoTipo } = integracion;
+                let { comprobante, aprobado, tipoProceso } = integracion;
                 let { codigoCentroCostos, fuenteFinanciamiento } =
                   activoEncontrado.detalle;
                 let { unidadOrganizativa } = unidadAdministrativaEncontada;
@@ -83,7 +83,7 @@ const generarComprobanteContableModificacion = (
                 let asientosContables = cuentasContables.map(
                   ccp =>
                     <AsientoContable>{
-                      comprobante: procesoComprobante,
+                      comprobante: comprobante,
                       centroCostos: codigoCentroCostos,
                       cuentaContable: ccp.cuentaContable,
                       procedencia: ccp.procedencia,
@@ -98,9 +98,9 @@ const generarComprobanteContableModificacion = (
                   .filter(ac => ac.procedencia === 'D')
                   .forEach(ac => (monto += ac.monto));
                 let comprobanteSalida = <ComprobanteContable>{
-                  procede: TIPOS_PROCEDE[procesoTipo],
+                  procede: TIPOS_PROCEDE[tipoProceso],
                   aprobado: aprobado,
-                  comprobante: procesoComprobante,
+                  comprobante: comprobante,
                   centroCostos: codigoCentroCostos,
                   fuenteFinanciamiento: fuenteFinanciamiento,
                   lineaEmpresa: lineaEmpresa,
@@ -110,6 +110,7 @@ const generarComprobanteContableModificacion = (
                   descripcion: descripcion,
                   asientosContables: asientosContables,
                 };
+                console.log(comprobanteSalida);
                 return comprobanteSalida;
               })
             )

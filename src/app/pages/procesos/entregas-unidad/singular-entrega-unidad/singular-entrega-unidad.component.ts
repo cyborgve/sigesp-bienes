@@ -1,7 +1,7 @@
 import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -43,7 +43,7 @@ export class SingularEntregaUnidadComponent
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[34].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.ACTIVOS.filter(cv => cv !== 'acciones');
 
@@ -51,7 +51,7 @@ export class SingularEntregaUnidadComponent
     private _entidad: EntregaUnidadService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

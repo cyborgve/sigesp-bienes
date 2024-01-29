@@ -1,10 +1,10 @@
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Integracion } from '@core/models/procesos/integracion';
 import moment from 'moment';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export const filtrarIntegracionesPorFecha = (formulario: UntypedFormGroup) =>
+export const filtrarIntegracionesPorFecha = (formulario: FormGroup) =>
   pipe(
     map((integraciones: Integracion[]) => {
       let { fechaReferencia, fechaInicio, fechaFin } = formulario.value;

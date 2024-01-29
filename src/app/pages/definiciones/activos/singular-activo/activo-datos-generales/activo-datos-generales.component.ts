@@ -1,7 +1,7 @@
 import { DenominacionMarcaPipe } from '@shared/pipes/denominacion-marca.pipe';
 import { tap, map, filter, take, switchMap } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Basica } from '@core/models/auxiliares/basica';
 import { BuscadorMarcaComponent } from '@pages/definiciones/marcas/buscador-marca/buscador-marca.component';
@@ -26,7 +26,7 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
 })
 export class ActivoDatosGeneralesComponent implements OnInit, OnDestroy {
   private subscripciones: Subscription[] = [];
-  @Input() formulario: UntypedFormGroup;
+  @Input() formulario: FormGroup;
 
   tiposActivo = TIPOS_ACTIVO;
   monedas: Moneda[] = [];

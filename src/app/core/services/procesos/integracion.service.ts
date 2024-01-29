@@ -6,25 +6,18 @@ import { SigespService } from 'sigesp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarIntegracion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-integracion';
+import {
+  adaptarIntegracion,
+  adaptarIntegraciones,
+} from '@core/utils/pipes-rxjs/adaptadores/adaptar-integracion';
+import { TipoProceso } from '@core/types/tipo-proceso';
 import { ActivoService } from '../definiciones/activo.service';
 import { UnidadAdministrativaService } from '../definiciones/unidad-administrativa.service';
+import { ejecutarIntegracion } from '@core/utils/pipes-rxjs/procesos/ejecutar-integracion';
 import { ContabilizacionService } from '../otros-modulos/contabilidad.service';
-import { aprobarIntegraciones } from '@core/utils/pipes-rxjs/procesos/aprobar-integraciones';
-import { reversarAprobarIntegraciones } from '@core/utils/pipes-rxjs/procesos/reversar-aprobar-integraciones';
-import { prepararIntegracion } from '@core/utils/funciones/preparar-integracion';
-import { contabilizarDepreciacionesMensuales } from '@core/utils/pipes-rxjs/procesos/contabilizar-depreciaciones-mensuales';
-import { DepreciacionService } from './depreciacion.service';
-import { reversarContabilizarDepreciacionesMensuales } from '@core/utils/pipes-rxjs/procesos/reversar-contabilizar-depreciacion';
-import { contabilizarDesincorporaciones } from '@core/utils/pipes-rxjs/procesos/contabilizar-desincorporaciones';
-import { DesincorporacionService } from './desincorporacion.service';
-import { reversarContabilizarDesincorporaciones } from '@core/utils/pipes-rxjs/procesos/reversar-contabilizar-desincorporacion';
-import { ModificacionService } from './modificacion.service';
-import { contabilizarModificaciones } from '@core/utils/pipes-rxjs/procesos/contabilizar-modificaciones';
-import { reversarContabilizarModificaciones } from '@core/utils/pipes-rxjs/procesos/reversar-contabilizar-modificacion';
 
 @Injectable({
   providedIn: 'root',
@@ -34,29 +27,43 @@ export class IntegracionService extends GenericService<Integracion> {
     return END_POINTS.find(ep => ep.clave === 'integracion').valor;
   }
 
+  private apiUrlIdIntegracion = (
+    id: Id,
+    comprobante: string,
+    tipoProceso: string
+  ) =>
+    `${this.apiUrlId(
+      id
+    )}?comprobante=${comprobante}?tipoProceso=${tipoProceso}`;
+
   constructor(
     protected _http: HttpClient,
     protected _sigesp: SigespService,
     protected _snackBar: MatSnackBar,
     private _activo: ActivoService,
     private _unidadAdministrativa: UnidadAdministrativaService,
-    private _depreciacion: DepreciacionService,
-    private _contabilizacion: ContabilizacionService,
-    private _desincorporacion: DesincorporacionService,
-    private _modificacion: ModificacionService
+    private _contabilizacion: ContabilizacionService
   ) {
     super(_http, _sigesp, _snackBar);
   }
 
   buscarTodos(): Observable<Integracion[]> {
-    return this._http.get<any>(this.apiUrl).pipe(
-      map((respuesta: any) => respuesta.data),
-      map((data: any[]) => data.map(normalizarObjeto))
-    );
+    return super.buscarTodos().pipe(adaptarIntegraciones());
   }
 
-  buscarPorId(id: Id): Observable<Integracion> {
-    return super.buscarPorId(id).pipe(adaptarIntegracion());
+  buscarPorId(
+    id: Id,
+    comprobante?: string,
+    tipoProceso?: string
+  ): Observable<Integracion> {
+    return this._http
+      .get<any>(this.apiUrlIdIntegracion(id, comprobante, tipoProceso))
+      .pipe(
+        map((resultado: any) => resultado.data),
+        map((data: any[]) => data[0]),
+        map(normalizarObjeto),
+        adaptarIntegracion()
+      );
   }
 
   guardar(
@@ -69,156 +76,37 @@ export class IntegracionService extends GenericService<Integracion> {
       .pipe(adaptarIntegracion());
   }
 
-  procesar(integraciones: Integracion[], notificar?: boolean): Observable<any> {
-    return of(integraciones).pipe(
-      aprobarIntegraciones(this, this._snackBar, true),
-      reversarAprobarIntegraciones(this, this._snackBar, true)
-    );
-  }
-
-  procesarAprobaciones(
+  guardarTodos(
     integraciones: Integracion[],
+    lineEnterprise: Id,
     notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      aprobarIntegraciones(this, this._snackBar, notificar)
-    );
-  }
-
-  procesarReversarAprobaciones(
-    integraciones: Integracion[],
-    notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      reversarAprobarIntegraciones(this, this._snackBar, notificar)
-    );
-  }
-
-  procesarDepreciaciones(
-    integraciones: Integracion[],
-    lineaEmpresa: Id,
-    fechaIntegraciones: Date,
-    observaciones: string,
-    notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      contabilizarDepreciacionesMensuales(
-        lineaEmpresa,
-        fechaIntegraciones,
-        observaciones,
-        this._activo,
-        this._unidadAdministrativa,
-        this._depreciacion,
-        this._contabilizacion
+  ): Observable<any> {
+    let guardarIntegraciones = integraciones
+      .filter(
+        integracion =>
+          integracion.registrado == 0 &&
+          (integracion.aprobado === 1 || integracion.integrado === 1)
       )
+      .map(integracion => this.guardar(integracion, undefined, false));
+    return forkJoin(guardarIntegraciones).pipe(
+      tap(integracionesGuardadas => {
+        if (notificar) {
+          let mensaje = `Se han registrado: ${integracionesGuardadas.length} Operaciones nuevas`;
+          this._snackBar.open(mensaje, undefined, {
+            duration: 6000,
+          });
+        }
+      })
     );
   }
 
-  procesarReversarDepreciaciones(
-    integraciones: Integracion[],
-    lineaEmpresa: Id,
-    fechaIntegraciones: Date,
-    observaciones: string,
-    notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      reversarContabilizarDepreciacionesMensuales(
-        lineaEmpresa,
-        fechaIntegraciones,
-        observaciones,
-        this._activo,
-        this._unidadAdministrativa,
-        this._depreciacion,
-        this._contabilizacion
-      )
-    );
-  }
-
-  procesarDesincorporaciones(
-    integraciones: Integracion[],
-    lineaEmpresa: Id,
-    fechaIntegraciones: Date,
-    observaciones: string,
-    notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      contabilizarDesincorporaciones(
-        lineaEmpresa,
-        fechaIntegraciones,
-        observaciones,
-        this._activo,
-        this._unidadAdministrativa,
-        this._desincorporacion,
-        this._contabilizacion
-      )
-    );
-  }
-
-  procesarReversarDesincorporaciones(
-    integraciones: Integracion[],
-    lineaEmpresa: Id,
-    fechaIntegraciones: Date,
-    observaciones: string,
-    notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      reversarContabilizarDesincorporaciones(
-        lineaEmpresa,
-        fechaIntegraciones,
-        observaciones,
-        this._activo,
-        this._unidadAdministrativa,
-        this._desincorporacion,
-        this._contabilizacion
-      )
-    );
-  }
-
-  procesarModificaciones(
-    integraciones: Integracion[],
-    lineaEmpresa: Id,
-    fechaIntegraciones: Date,
-    observaciones: string,
-    notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      contabilizarModificaciones(
-        lineaEmpresa,
-        fechaIntegraciones,
-        observaciones,
-        this._activo,
-        this._unidadAdministrativa,
-        this._modificacion,
-        this._contabilizacion
-      )
-    );
-  }
-
-  procesarReversarModificaciones(
-    integraciones: Integracion[],
-    lineaEmpresa: Id,
-    fechaIntegraciones: Date,
-    observaciones: string,
-    notificar?: boolean
-  ): Observable<Integracion[]> {
-    return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
-      reversarContabilizarModificaciones(
-        lineaEmpresa,
-        fechaIntegraciones,
-        observaciones,
-        this._activo,
-        this._unidadAdministrativa,
-        this._modificacion,
-        this._contabilizacion
-      )
-    );
+  eliminar(
+    id: Id,
+    tipoDato: string,
+    notificar?: boolean,
+    tipoProceso?: TipoProceso,
+    comprobante?: string
+  ): Observable<boolean> {
+    return null;
   }
 }

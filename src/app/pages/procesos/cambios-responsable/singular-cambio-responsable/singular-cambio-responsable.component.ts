@@ -1,7 +1,7 @@
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,7 +38,7 @@ export class SingularCambioResponsableComponent
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[31].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   dataSource: MatTableDataSource<Activo> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.CAMBIOS_RESPONSABLE;
   tiposResponsable = TIPOS_RESPONSABLE;
@@ -49,7 +49,7 @@ export class SingularCambioResponsableComponent
     private _cambioResponsable: CambioResponsableService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

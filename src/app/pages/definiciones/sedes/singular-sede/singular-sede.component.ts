@@ -1,7 +1,7 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -39,7 +39,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
 
   id: Id;
   titulo = CORRELATIVOS[18].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   tipos = ['Tipo 1', 'Tipo 2', 'Tipo 3'];
   localizaciones = ['Nacional', 'Internacional'];
   paises: Pais[] = [];
@@ -48,7 +48,7 @@ export class SingularSedeComponent implements Entidad, OnDestroy {
     private _entidad: SedeService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

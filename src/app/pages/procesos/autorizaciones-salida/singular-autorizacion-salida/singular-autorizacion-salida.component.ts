@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -46,7 +46,7 @@ export class SingularAutorizacionSalidaComponent
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[30].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoProceso> = new MatTableDataSource();
   columnasVisibles = COLUMNAS_VISIBLES.AUTORIZACIONES_SALIDA;
 
@@ -54,7 +54,7 @@ export class SingularAutorizacionSalidaComponent
     private _entidad: AutorizacionSalidaService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

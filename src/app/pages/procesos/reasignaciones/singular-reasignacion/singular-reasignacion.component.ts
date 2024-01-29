@@ -2,7 +2,7 @@ import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { pipe } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -39,7 +39,7 @@ export class SingularReasignacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[37].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   dataSource: MatTableDataSource<ActivoProcesoReasignacion> =
     new MatTableDataSource();
 
@@ -47,7 +47,7 @@ export class SingularReasignacionComponent implements Entidad {
     private _entidad: ReasignacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

@@ -4,7 +4,7 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Id } from '@core/types/id';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -25,12 +25,12 @@ export class SingularTipoAnimalComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[20].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   constructor(
     private _entidad: TipoAnimalService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

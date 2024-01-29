@@ -1,6 +1,6 @@
 import { ordenarActivoListaDepreciacionPorFecha } from '@core/utils/pipes-rxjs/operadores/ordenar-detalles-depreciacion-fecha';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
@@ -27,7 +27,7 @@ export class ListaDepreciacionesAnualesComponent
   private subscripciones: Subscription[] = [];
   titulo = 'Reportes: Lista de Depreciaciones Anuales';
   fechaEmision = new Date();
-  formularioRangoFechas: UntypedFormGroup;
+  formularioRangoFechas: FormGroup;
   dataSource: MatTableDataSource<ActivoListaDepreciacion> =
     new MatTableDataSource();
   columnasVisibles =
@@ -37,7 +37,7 @@ export class ListaDepreciacionesAnualesComponent
   filtrosSinDecorar: boolean = false;
 
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _depreciacion: DepreciacionService,
     private _xlsx: XLSXService,
     private _configuracion: ConfiguracionService

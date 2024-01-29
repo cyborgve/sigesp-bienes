@@ -1,7 +1,7 @@
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { tap, filter, take } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
@@ -28,10 +28,10 @@ import { activoMonedaAsignada } from '@core/utils/funciones/activo-moneda-asigna
 })
 export class ActivoDepreciacionComponent implements OnDestroy {
   private subscripciones: Subscription[] = [];
-  @Input() formulario: UntypedFormGroup;
-  @Input() formularioEspecial: UntypedFormGroup;
-  @Input() formularioDatosGenerales: UntypedFormGroup;
-  @Input() formularioDetalles: UntypedFormGroup;
+  @Input() formulario: FormGroup;
+  @Input() formularioEspecial: FormGroup;
+  @Input() formularioDatosGenerales: FormGroup;
+  @Input() formularioDetalles: FormGroup;
   @Input() modoFormulario: ModoFormulario;
 
   metodosDepreciacion = METODOS_DEPRECIACION;

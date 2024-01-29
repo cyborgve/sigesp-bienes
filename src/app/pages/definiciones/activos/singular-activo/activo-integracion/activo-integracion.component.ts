@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
@@ -17,8 +17,8 @@ import { filter, take, tap } from 'rxjs/operators';
   styleUrls: ['./activo-integracion.component.scss'],
 })
 export class ActivoIntegracionComponent {
-  @Input() formulario: UntypedFormGroup;
-  @Input() formularioDetalles: UntypedFormGroup;
+  @Input() formulario: FormGroup;
+  @Input() formularioDetalles: FormGroup;
 
   constructor(private _dialog: MatDialog) {}
 

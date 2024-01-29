@@ -1,7 +1,7 @@
 import { tap, first, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropositoSemovienteService } from '@core/services/definiciones/proposito-semoviente.service';
@@ -27,7 +27,7 @@ export class SingularPropositoSemovienteComponent
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[15].nombre;
-  formulario: UntypedFormGroup;
+  formulario: FormGroup;
   modosAdquisicion: string[] = [];
   formasAdquisicion: string[] = [];
 
@@ -35,7 +35,7 @@ export class SingularPropositoSemovienteComponent
     private _entidad: PropositoSemovienteService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

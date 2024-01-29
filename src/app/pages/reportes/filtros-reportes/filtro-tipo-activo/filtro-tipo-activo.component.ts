@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
 
 @Component({
@@ -8,7 +8,7 @@ import { TIPOS_ACTIVO } from '@core/constants/tipos_activo';
   styleUrls: ['./filtro-tipo-activo.component.scss'],
 })
 export class FiltroTipoActivoComponent {
-  @Input() formulario: UntypedFormGroup;
+  @Input() formulario: FormGroup;
   @Input() sinDecorar = false;
   tiposActivo = TIPOS_ACTIVO;
 }

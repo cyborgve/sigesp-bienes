@@ -3,7 +3,7 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { tap, first, take, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivoService } from '@core/services/definiciones/activo.service';
@@ -30,13 +30,13 @@ export class SingularActivoComponent implements Entidad {
   id: Id;
   titulo = CORRELATIVOS[0]['nombre'];
 
-  formularioDatosGenerales: UntypedFormGroup;
-  formularioDetalles: UntypedFormGroup;
-  formularioComponentes: UntypedFormGroup;
-  formularioDepreciacion: UntypedFormGroup;
-  formularioUbicacion: UntypedFormGroup;
-  formularioIntegracion: UntypedFormGroup;
-  formularioEspecial: UntypedFormGroup;
+  formularioDatosGenerales: FormGroup;
+  formularioDetalles: FormGroup;
+  formularioComponentes: FormGroup;
+  formularioDepreciacion: FormGroup;
+  formularioUbicacion: FormGroup;
+  formularioIntegracion: FormGroup;
+  formularioEspecial: FormGroup;
 
   tabLabels = [
     'datos generales',
@@ -52,7 +52,7 @@ export class SingularActivoComponent implements Entidad {
     private _activo: ActivoService,
     private _correlativo: CorrelativoService,
     private _dialog: MatDialog,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _location: Location
   ) {
     this.formularioDatosGenerales = this._formBuilder.group({
