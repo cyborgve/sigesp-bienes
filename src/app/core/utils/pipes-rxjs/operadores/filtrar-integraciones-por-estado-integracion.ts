@@ -10,17 +10,11 @@ export const filtrarIntegracionesPorEstadoIntegracion = (
   pipe(
     map((integraciones: Integracion[]) => {
       if (estadoIntegracion === 'INTEGRADOS')
-        return integraciones.filter(integracion =>
-          procesoIntegrable(integracion.tipoProceso)
-            ? integracion.integrado === 1
-            : 1
-        );
-      if (estadoIntegracion === 'NO INTEGRADOS')
-        return integraciones.filter(integracion =>
-          procesoIntegrable(integracion.tipoProceso)
-            ? integracion.integrado === 0
-            : 1
-        );
+        return integraciones.filter(integracion => {
+          if (procesoIntegrable(integracion.procesoTipo))
+            return integracion.integrado === 1;
+          return true;
+        });
       return integraciones;
     })
   );

@@ -28,30 +28,32 @@
 
 <mat-card class="superior inferior">
   <section class="datosIntegracion">
-    <ng-container
-      *ngIf="
-        formularioIntegracion.value.lineEnterprise === 'Seleccionar';
-        then noSeleccionado;
-        else seleccionado
-      ">
-    </ng-container>
-    <ng-template #noSeleccionado>
-      <p class="indicacionesLine" id="pNoSeleccionado">
-        Es necesario seleccionar <b>Linea Empresa</b> para ejecutar las
-        integraciones
-      </p>
-    </ng-template>
-    <ng-template #seleccionado>
-      <p class="indicacionesLine" id="pSeleccionado">
-        <b>Linea Empresa</b> listo para ejecutar las integraciones
-      </p>
-    </ng-template>
+    <article class="lineaEmpresa">
+      <ng-container
+        *ngIf="
+          formularioIntegracion.value.lineEnterprise === 'Seleccionar';
+          then noSeleccionado;
+          else seleccionado
+        ">
+      </ng-container>
+      <ng-template #noSeleccionado>
+        <p class="indicacionesLine" id="pNoSeleccionado">
+          Es necesario seleccionar <b>Linea Empresa</b> para ejecutar las
+          integraciones
+        </p>
+      </ng-template>
+      <ng-template #seleccionado>
+        <p class="indicacionesLine" id="pSeleccionado">
+          <b>Linea Empresa</b> listo para ejecutar las integraciones
+        </p>
+      </ng-template>
+    </article>
     <app-filtro-line-enterprise
-      class="lineaEmpresa"
+      class="filtroLineaEmpresa"
       [formulario]="formularioIntegracion"
       [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-line-enterprise>
     <!-- fecha de integracion -->
-    <form [formGroup]="formularioIntegracion">
+    <form [formGroup]="formularioIntegracion" class="fFechaIntegracion">
       <mat-form-field appearance="fill" class="fechaIntegracion">
         <mat-label>Fecha de Integración</mat-label>
         <input
@@ -74,14 +76,14 @@
     <ng-container matColumnDef="tipo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Proceso</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.tipoProceso | titlecase }}
+        {{ row.procesoTipo | titlecase }}
       </td>
     </ng-container>
     <!-- comprobante -->
     <ng-container matColumnDef="comprobante">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Comprobante</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.comprobante | corregirCodigo }}
+        {{ row.procesoComprobante | corregirCodigo }}
       </td>
     </ng-container>
     <!-- activo -->
@@ -119,9 +121,9 @@
       <td mat-cell *matCellDef="let row">
         <mat-slide-toggle
           #toggleAprobar
-          *ngIf="opciones[row.tipoProceso]['aprobar']"
+          *ngIf="opciones[row.procesoTipo]['aprobar']"
           [checked]="aprobar(row)"
-          [disabled]="!opciones[row.tipoProceso]['aprobar']"
+          [disabled]="!opciones[row.procesoTipo]['aprobar']"
           (toggleChange)="actualizarAprobar(!toggleAprobar.checked, row)"
           >{{
             toggleAprobar.checked ? 'Aprobado' : 'Aprobar'
@@ -129,9 +131,13 @@
         >
         <mat-slide-toggle
           #toggleIntegrar
-          *ngIf="opciones[row.tipoProceso]['integrar']"
+          *ngIf="
+            opciones[row.procesoTipo]['integrar'] &&
+            row.registrado == 1 &&
+            row.aprobado == 1
+          "
           [checked]="integrar(row)"
-          [disabled]="!opciones[row.tipoProceso]['integrar']"
+          [disabled]="!opciones[row.procesoTipo]['integrar']"
           (toggleChange)="actualizarIntegrar(!toggleIntegrar.checked, row)"
           >{{
             toggleIntegrar.checked ? 'Integrado' : 'Integrar'
@@ -146,7 +152,7 @@
       mat-row
       *matRowDef="let row; columns: columnasVisibles"
       class="row-hover"
-      [ngClass]="row.registrado === 0 ? 'negritas' : 'normal'"
+      [ngClass]="row.registrado == 0 ? 'negritas' : 'normal'"
       (dblclick)="dobleClick.emit(row)"></tr>
 
     <!-- mostrar cuando no hay datos que coincidan -->

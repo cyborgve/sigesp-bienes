@@ -11,4 +11,5 @@ export class FiltroTipoProcesoComponent {
   @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar = false;
   @Input() tiposProceso = TIPOS_PROCESO;
+  @Input() activarTodosIntegrables = false;
 }

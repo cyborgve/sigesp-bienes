@@ -23,7 +23,7 @@ export const reversarContabilizarDesincorporaciones = (
   pipe(
     switchMap((integraciones: Integracion[]) => {
       let desincorporaciones = integraciones
-        .filter(inte => inte.tipoProceso === 'DESINCORPORACIÓN')
+        .filter(inte => inte.procesoTipo === 'DESINCORPORACIÓN')
         .filter(integracion => integracion.aprobado === 1)
         .filter(integracion => integracion.integrado === 0);
       let convertirDesincorporaciones = from(desincorporaciones).pipe(
@@ -85,10 +85,11 @@ const generarComprobanteContableDesincirporacion = (
               );
               return forkJoin(buscarUnidadesAdministrativas).pipe(
                 map(unidadesAdministrativas => {
-                  let { tipoProceso, aprobado } = integracion;
-                  let procede = TIPOS_PROCEDE[tipoProceso];
+                  let { procesoTipo, aprobado } = integracion;
+                  let procede = TIPOS_PROCEDE[procesoTipo];
                   let descripcion = `DESINCORPORACIÓN: ${observaciones}`;
-                  let comprobante = integracion.comprobante.split(',')[0];
+                  let comprobante =
+                    integracion.procesoComprobante.split(',')[0];
                   let fechaCreado =
                     moment(fechaIntegracion).format('YYYY-MM-DD');
                   let asientosContables =
