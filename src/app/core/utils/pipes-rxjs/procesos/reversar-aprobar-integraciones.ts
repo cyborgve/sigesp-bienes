@@ -28,7 +28,7 @@ export const reversarAprobarIntegraciones = (
             _snackBar.open(mensaje, undefined, {
               duration: 6000,
             });
-          return integracionesCandidatas(integraciones);
+          return integraciones;
         })
       );
     })

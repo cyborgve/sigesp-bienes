@@ -1,14 +1,17 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TIPOS_PROCEDE } from '@core/constants/tipos-procede';
 import { ComprobanteContable } from '@core/models/auxiliares/comprobante-contable';
+import { ResultadoContabilidad } from '@core/models/auxiliares/resultado-contabilidad';
 import { Integracion } from '@core/models/procesos/integracion';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
+import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { Id } from '@core/types/id';
 import moment from 'moment';
-import { forkJoin, from, pipe } from 'rxjs';
-import { map, switchMap, tap, toArray } from 'rxjs/operators';
+import { forkJoin, from, of, pipe } from 'rxjs';
+import { filter, map, switchMap, tap, toArray } from 'rxjs/operators';
 
 export const contabilizarDepreciacionesMensuales = (
   lineaEmpresa: Id,
@@ -17,16 +20,20 @@ export const contabilizarDepreciacionesMensuales = (
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _depreciacion: DepreciacionService,
-  _contabilizacion: ContabilizacionService
+  _contabilizacion: ContabilizacionService,
+  _integracion: IntegracionService,
+  _snackBar: MatSnackBar,
+  notificar: boolean
 ) =>
   pipe(
-    switchMap((integraciones: Integracion[]) => {
-      let depreciaciones = integraciones
-        .filter(inte => inte.procesoTipo === 'DEPRECIACIÓN MENSUAL')
-        .filter(
-          integracion => integracion.aprobado == 1 && integracion.integrado == 1
-        );
-      let convertirDepreciaciones = from(depreciaciones).pipe(
+    filter(
+      (integraciones: Integracion[]) =>
+        integracionesCandidatas(integraciones).length > 0
+    ),
+    switchMap(integraciones => {
+      let convertirDepreciaciones = from(
+        integracionesCandidatas(integraciones)
+      ).pipe(
         generarComprobanteContableDepreciacion(
           lineaEmpresa,
           fechaIntegraciones,
@@ -38,14 +45,49 @@ export const contabilizarDepreciacionesMensuales = (
       );
       return convertirDepreciaciones.pipe(
         toArray(),
-        tap(comprobantes =>
-          console.log({ comprobantesDepreciacion: comprobantes })
-        ),
         switchMap(comprobantes => {
           return _contabilizacion.contabilizar(comprobantes).pipe(
-            tap(res => {
-              //aqui se puede realizar una accion con la respuesta de contabilidad.
-              console.log(res);
+            tap((resultado: ResultadoContabilidad) => {
+              if (resultado.data.length > 0) {
+                if (notificar) {
+                  let { data } = resultado;
+                  let exitosas = data.filter(
+                    comprobante => comprobante.estatus
+                  );
+                  let fallidas = data.filter(
+                    comprobante => !comprobante.estatus
+                  );
+                  let mensaje = `De ${data.length} depreciaciones enviadas, ${exitosas.length} 
+                  se contabilizaron con exito y ${fallidas.length} fallaron`;
+
+                  _snackBar.open(mensaje, undefined, {
+                    duration: 8000,
+                  });
+                }
+              }
+            }),
+            switchMap(resultado => {
+              let exitosas = resultado.data.filter(
+                comprobante => comprobante.estatus
+              );
+              let actualizarIntegraciones = exitosas
+                .map(comprobante =>
+                  integraciones.find(
+                    integracion =>
+                      integracion.procesoComprobante === comprobante.documento
+                  )
+                )
+                .map(integracion =>
+                  _integracion.actualizar(
+                    integracion.id,
+                    integracion,
+                    undefined,
+                    false
+                  )
+                );
+              return exitosas.length > 0
+                ? forkJoin(actualizarIntegraciones).pipe(map(() => resultado))
+                : of(resultado);
             }),
             map(() => integraciones)
           );
@@ -137,3 +179,9 @@ const generarComprobanteContableDepreciacion = (
       );
     })
   );
+
+const integracionesCandidatas = (integraciones: Integracion[]) =>
+  integraciones
+    .filter(integracion => integracion.procesoTipo === 'DEPRECIACIÓN MENSUAL')
+    .filter(integracion => integracion.aprobado == 1)
+    .filter(integracion => integracion.integrado == 1);

@@ -26,7 +26,7 @@ export class ContabilizacionService {
     return this._http.post(this.apiUrl, procesoContabilizar);
   }
 
-  reversarContabilizacion(comprobantesContables: ComprobanteContable[]) {
+  reversarContabilizar(comprobantesContables: ComprobanteContable[]) {
     let procesoReversar: ProcesoContable = {
       tipo: 'reversarContabilizar',
       comprobantes: comprobantesContables,

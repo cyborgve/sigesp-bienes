@@ -8,9 +8,16 @@ export const prepararIntegracion = (integracion: any) =>
     procesoTipo: integracion.procesoTipo,
     procesoComprobante: integracion.procesoComprobante,
     activo: integracion.activo,
-    aprobado: Number(integracion.aprobado),
-    integrado: Number(integracion.integrado),
-    registrado: Number(integracion.registrado),
+    aprobado: transformarValor(integracion.aprobado),
+    integrado: transformarValor(integracion.integrado),
+    registrado: transformarValor(integracion.registrado),
     creado: integracion.creado,
     modificado: integracion.modificado,
   };
+
+const transformarValor = (valor: any) => {
+  if (typeof valor === 'number') return valor;
+  if (typeof valor === 'boolean') return valor ? 1 : 0;
+  if (typeof valor === 'string') return Number(valor);
+  return 0;
+};

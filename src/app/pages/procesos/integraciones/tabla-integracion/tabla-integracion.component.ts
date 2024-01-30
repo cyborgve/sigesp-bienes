@@ -90,7 +90,7 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
     );
 
   aprobar = (integracion: Integracion) =>
-    this.dataSource.data[this.indice(integracion)].aprobado == 1;
+    this.dataSource['data'][this.indice(integracion)]['aprobado'] == 1;
 
   actualizarAprobar = (aprobado: boolean, integracion: Integracion) => {
     let data = this.dataSource.data;
@@ -107,13 +107,12 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
     this.dataSource = new MatTableDataSource(data);
   };
 
-  integrar = (integracion: Integracion) => {
-    this.dataSource.data[this.indice(integracion)].integrado == 1;
-  };
+  integrar = (integracion: Integracion) =>
+    this['dataSource']['data'][this.indice(integracion)]['integrado'] == 1;
 
   actualizarIntegrar = (integrado: boolean, integracion: Integracion) => {
     let data = this.dataSource.data;
-    data[this.indice(integracion)].integrado = integrado ? 1 : 0;
+    data[this.indice(integracion)]['integrado'] = integrado ? 1 : 0;
     if (integrado) {
       data[this.indice(integracion)].aprobado = 1;
     }

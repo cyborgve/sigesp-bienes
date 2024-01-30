@@ -10,7 +10,7 @@ import { filtrarIntegracionesPorEstadoIntegracion } from '@core/utils/pipes-rxjs
 import { filtrarIntegracionesPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-fecha';
 import { filtrarIntegracionesPorTipoProceso } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-tipo-proceso';
 import { ordenarIntegracionesPorFechaDescendiente } from '@core/utils/pipes-rxjs/operadores/ordenar-integraciones-por fecha-descendente';
-import { take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { Subscription, pipe } from 'rxjs';
 import { Configuracion } from '@core/models/definiciones/configuracion';
@@ -100,26 +100,37 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
 
   ejecutar = () => {
     let integraciones = this.dataSource.data.map(prepararIntegracion);
-    let { lineEnterprise, fechaIntegracion } = this.formulario.value;
+    let { lineEnterprise, fechaIntegracion } = this.formularioIntegracion.value;
     let { observaciones } = this.formulario.value;
+    let notificar = true;
     this._integracion
-      .procesarAprobaciones(integraciones, true)
+      .procesarAprobaciones(integraciones, notificar)
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
-      .procesarReversarAprobaciones(integraciones, true)
+      .procesarReversarAprobaciones(integraciones, notificar)
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
       .procesarDepreciaciones(
-        integraciones,
+        this.integracionesCandidatas(integraciones),
         lineEnterprise,
         fechaIntegracion,
         observaciones,
-        true
+        notificar
       )
       .pipe(take(1))
-      .subscribe();
+      .subscribe(() => this.recargarDatos());
+    this._integracion
+      .procesarReversarDepreciaciones(
+        this.integracionesCandidatas(integraciones),
+        lineEnterprise,
+        fechaIntegracion,
+        observaciones,
+        notificar
+      )
+      .pipe(take(1))
+      .subscribe(() => this.recargarDatos());
     this._integracion
       .buscarTodos()
       .pipe(
@@ -133,8 +144,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     (this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar' &&
       this.existenAprobaciones()) ||
     this.existenReversoAprobaciones() ||
-    this.existenIntegraciones() ||
-    this.existenReversoIntegraciones();
+    this.existenIntegracionesReversos();
 
   private existenAprobaciones = () =>
     this.dataSource.data
@@ -156,29 +166,25 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     );
   };
 
-  private existenIntegraciones = () =>
+  private existenIntegracionesReversos = () =>
     this.dataSource.data
       .map(prepararIntegracion)
-      .filter(integracion =>
-        PROCESOS_INTEGRABLES.some(proin => integracion.procesoTipo === proin)
-      )
       .filter(
-        (integracion, indice) =>
-          this.integracionesInicial[indice]['integrado'] !=
-            integracion['integrado'] && integracion.registrado == 1
+        integracion =>
+          this.integracionesInicial.find(
+            integracionInicial => integracionInicial.id == integracion.id
+          ).integrado != integracion.integrado
       ).length > 0;
 
-  private existenReversoIntegraciones = () =>
-    this.dataSource.data
-      .map(prepararIntegracion)
-      .filter(integracion =>
-        PROCESOS_INTEGRABLES.some(proin => proin === integracion.procesoTipo)
-      )
-      .filter(
-        (integracion, indice) =>
-          this.integracionesInicial[indice]['integrado'] !=
-            integracion['integrado'] && integracion.integrado == 0
-      ).length > 0;
+  private integracionesCandidatas = (integraciones: Integracion[]) =>
+    integraciones.filter(
+      integracion =>
+        PROCESOS_INTEGRABLES.some(
+          procesoIntegrable => integracion.procesoTipo === procesoIntegrable
+        ) &&
+        this.integracionesInicial.find(integ => integ.id === integracion.id)
+          .integrado != integracion.integrado
+    );
 
   irAtras = () => {
     this._location.back();
@@ -215,6 +221,13 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
         ),
         ordenarIntegracionesPorFechaDescendiente(),
         tap(procesos => (this.dataSource = new MatTableDataSource(procesos))),
+        take(1)
+      )
+      .subscribe();
+    this._integracion
+      .buscarTodos()
+      .pipe(
+        tap(integraciones => (this.integracionesInicial = integraciones)),
         take(1)
       )
       .subscribe();

@@ -37,9 +37,6 @@ export const contabilizarModificaciones = (
       );
       return convertirModificaciones.pipe(
         toArray(),
-        tap(comprobantes =>
-          console.log({ comprobantesModificacion: comprobantes })
-        ),
         switchMap(comprobantes => {
           return _contabilizacion.contabilizar(comprobantes).pipe(
             tap(res => {

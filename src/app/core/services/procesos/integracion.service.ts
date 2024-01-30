@@ -9,7 +9,10 @@ import { Id } from '@core/types/id';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
-import { adaptarIntegracion } from '@core/utils/pipes-rxjs/adaptadores/adaptar-integracion';
+import {
+  adaptarIntegracion,
+  adaptarIntegraciones,
+} from '@core/utils/pipes-rxjs/adaptadores/adaptar-integracion';
 import { ActivoService } from '../definiciones/activo.service';
 import { UnidadAdministrativaService } from '../definiciones/unidad-administrativa.service';
 import { ContabilizacionService } from '../otros-modulos/contabilidad.service';
@@ -51,7 +54,8 @@ export class IntegracionService extends GenericService<Integracion> {
   buscarTodos(): Observable<Integracion[]> {
     return this._http.get<any>(this.apiUrl).pipe(
       map((respuesta: any) => respuesta.data),
-      map((data: any[]) => data.map(normalizarObjeto))
+      map((data: any[]) => data.map(normalizarObjeto)),
+      adaptarIntegraciones()
     );
   }
 
@@ -112,7 +116,10 @@ export class IntegracionService extends GenericService<Integracion> {
         this._activo,
         this._unidadAdministrativa,
         this._depreciacion,
-        this._contabilizacion
+        this._contabilizacion,
+        this,
+        this._snackBar,
+        notificar
       )
     );
   }
@@ -133,7 +140,10 @@ export class IntegracionService extends GenericService<Integracion> {
         this._activo,
         this._unidadAdministrativa,
         this._depreciacion,
-        this._contabilizacion
+        this._contabilizacion,
+        this,
+        this._snackBar,
+        notificar
       )
     );
   }

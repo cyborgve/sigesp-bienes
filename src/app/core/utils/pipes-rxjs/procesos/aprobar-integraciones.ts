@@ -25,7 +25,7 @@ export const aprobarIntegraciones = (
             _snackBar.open(mensaje, undefined, {
               duration: 6000,
             });
-          return integracionesAprobadas;
+          return integraciones;
         })
       );
     })
