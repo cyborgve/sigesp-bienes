@@ -1,7 +1,6 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TIPOS_PROCEDE } from '@core/constants/tipos-procede';
 import { ComprobanteContable } from '@core/models/auxiliares/comprobante-contable';
-import { ResultadoContabilidad } from '@core/models/auxiliares/resultado-contabilidad';
 import { Integracion } from '@core/models/procesos/integracion';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
@@ -47,8 +46,7 @@ export const reversarContabilizarDepreciacionesMensuales = (
         toArray(),
         switchMap(comprobantes => {
           return _contabilizacion.reversarContabilizar(comprobantes).pipe(
-            tap(console.log),
-            tap((resultado: ResultadoContabilidad) => {
+            tap(resultado => {
               if (resultado.data.length > 0) {
                 if (notificar) {
                   let { data } = resultado;

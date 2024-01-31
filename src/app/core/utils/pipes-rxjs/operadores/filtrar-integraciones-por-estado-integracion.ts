@@ -15,6 +15,12 @@ export const filtrarIntegracionesPorEstadoIntegracion = (
             return integracion.integrado === 1;
           return true;
         });
+      if (estadoIntegracion === 'NO INTEGRADOS')
+        return integraciones.filter(integracion => {
+          if (procesoIntegrable(integracion.procesoTipo))
+            return integracion.integrado === 0;
+          return true;
+        });
       return integraciones;
     })
   );
