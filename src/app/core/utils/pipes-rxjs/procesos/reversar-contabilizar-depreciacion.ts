@@ -137,7 +137,7 @@ const generarComprobanteContableDepreciacion = (
                 let fecha = moment(fechaIntegracion).format('YYYY-MM-DD');
                 let depreciacionMensual =
                   depreciacionEncontrada.detalles[indiceDepreciacionMensual];
-                let comprobante = 'DEP-' + procesoComprobante;
+                let comprobante = procesoComprobante;
                 let comprobanteSalida = <ComprobanteContable>{
                   procede: TIPOS_PROCEDE[procesoTipo],
                   lineaEmpresa: lineaEmpresa,

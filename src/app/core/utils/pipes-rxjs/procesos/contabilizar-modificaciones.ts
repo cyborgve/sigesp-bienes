@@ -127,7 +127,7 @@ const generarComprobanteContableModificacion = (
                 let monto = 0; // el monto se calcula en breve
                 let fecha = moment(fechaIntegracion).format('YYYY-MM-DD');
                 let { cuentasContables } = modificacionEncontrada;
-                let comprobante = `'MOD-'${procesoComprobante}`;
+                let comprobante = procesoComprobante;
                 let asientosContables = cuentasContables.map(
                   ccp =>
                     <AsientoContable>{

@@ -125,7 +125,7 @@ const generarComprobanteContableDesincirporacion = (
                   let procede = TIPOS_PROCEDE[procesoTipo];
                   let descripcion = `DESINCORPORACIÓN: ${observaciones}`;
                   let comprobante =
-                    'DES-' + integracion.procesoComprobante.split(',')[0];
+                    integracion.procesoComprobante.split(',')[0];
                   let fechaCreado =
                     moment(fechaIntegracion).format('YYYY-MM-DD');
                   let asientosContables =
