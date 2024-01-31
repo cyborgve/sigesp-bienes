@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import {
   adaptarIntegracion,
@@ -108,7 +108,6 @@ export class IntegracionService extends GenericService<Integracion> {
     notificar?: boolean
   ): Observable<Integracion[]> {
     return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
       contabilizarDepreciacionesMensuales(
         lineaEmpresa,
         fechaIntegraciones,
@@ -132,7 +131,6 @@ export class IntegracionService extends GenericService<Integracion> {
     notificar?: boolean
   ): Observable<Integracion[]> {
     return of(integraciones).pipe(
-      map(ints => ints.map(prepararIntegracion)),
       reversarContabilizarDepreciacionesMensuales(
         lineaEmpresa,
         fechaIntegraciones,
@@ -164,7 +162,10 @@ export class IntegracionService extends GenericService<Integracion> {
         this._activo,
         this._unidadAdministrativa,
         this._desincorporacion,
-        this._contabilizacion
+        this._contabilizacion,
+        this,
+        this._snackBar,
+        true
       )
     );
   }
@@ -185,7 +186,10 @@ export class IntegracionService extends GenericService<Integracion> {
         this._activo,
         this._unidadAdministrativa,
         this._desincorporacion,
-        this._contabilizacion
+        this._contabilizacion,
+        this,
+        this._snackBar,
+        true
       )
     );
   }

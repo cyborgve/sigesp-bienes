@@ -132,6 +132,27 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
+      .procesarDesincorporaciones(
+        this.integracionesCandidatas(integraciones),
+        lineEnterprise,
+        fechaIntegracion,
+        observaciones,
+        notificar
+      )
+      .pipe(take(1))
+      .subscribe(() => this.recargarDatos());
+    this._integracion
+      .procesarReversarDesincorporaciones(
+        this.integracionesCandidatas(integraciones),
+        lineEnterprise,
+        fechaIntegracion,
+        observaciones,
+        notificar
+      )
+      .pipe(take(1))
+      .subscribe(() => this.recargarDatos());
+
+    this._integracion
       .buscarTodos()
       .pipe(
         tap(integraciones => (this.integracionesInicial = integraciones)),

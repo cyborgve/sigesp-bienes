@@ -23,6 +23,7 @@ import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-repor
 import { ejecutarDesincorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-desincorporacion';
 import { DesincorporacionUbicacionService } from './desincorporacion-ubicacion.service';
 import { DesincorporacionUbicacion } from '@core/models/auxiliares/desincorporacion-ubicacion';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
   providedIn: 'root',
@@ -83,6 +84,9 @@ export class DesincorporacionService extends GenericService<Desincorporacion> {
 
   buscarPorActivo(id: Id): Observable<Desincorporacion> {
     return this._http.get(this.apiUrlActivo(id)).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data[0]),
+      map(normalizarObjeto),
       adaptarDesincorporacion(),
       switchMap(desincorporacion => {
         let buscarComplementos = [

@@ -41,7 +41,7 @@ export const contabilizarModificaciones = (
           return _contabilizacion.contabilizar(comprobantes).pipe(
             tap(res => {
               //aqui se puede realizar una accion con la respuesta de contabilidad.
-              console.log(res);
+              // console.log(res);
             }),
             map(() => integraciones)
           );
