@@ -5,7 +5,7 @@ import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-p
 import { Id } from '@core/types/id';
 import { adaptarCuentasContablesProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuenta-contable-proceso';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { adaptarCuentaContableProceso } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cuenta-contable-proceso';
 

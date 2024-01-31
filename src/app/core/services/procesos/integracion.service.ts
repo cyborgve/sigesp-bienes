@@ -210,7 +210,10 @@ export class IntegracionService extends GenericService<Integracion> {
         this._activo,
         this._unidadAdministrativa,
         this._modificacion,
-        this._contabilizacion
+        this._contabilizacion,
+        this,
+        this._snackBar,
+        true
       )
     );
   }
@@ -231,7 +234,10 @@ export class IntegracionService extends GenericService<Integracion> {
         this._activo,
         this._unidadAdministrativa,
         this._modificacion,
-        this._contabilizacion
+        this._contabilizacion,
+        this,
+        this._snackBar,
+        true
       )
     );
   }

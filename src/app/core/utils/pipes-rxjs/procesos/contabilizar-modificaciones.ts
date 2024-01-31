@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TIPOS_PROCEDE } from '@core/constants/tipos-procede';
 import { AsientoContable } from '@core/models/auxiliares/asiento-contable';
 import { ComprobanteContable } from '@core/models/auxiliares/comprobante-contable';
@@ -5,11 +6,12 @@ import { Integracion } from '@core/models/procesos/integracion';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
+import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
 import { Id } from '@core/types/id';
 import moment from 'moment';
-import { forkJoin, from, pipe } from 'rxjs';
-import { map, switchMap, tap, toArray } from 'rxjs/operators';
+import { forkJoin, from, of, pipe } from 'rxjs';
+import { filter, map, switchMap, tap, toArray } from 'rxjs/operators';
 
 export const contabilizarModificaciones = (
   lineaEmpresa: Id,
@@ -18,14 +20,20 @@ export const contabilizarModificaciones = (
   _activo: ActivoService,
   _unidadAdministrativa: UnidadAdministrativaService,
   _modificacion: ModificacionService,
-  _contabilizacion: ContabilizacionService
+  _contabilizacion: ContabilizacionService,
+  _integracion: IntegracionService,
+  _snackBar: MatSnackBar,
+  notificar: boolean
 ) =>
   pipe(
-    switchMap((integraciones: Integracion[]) => {
-      let modificaciones = integraciones
-        .filter(inte => inte.procesoTipo === 'MODIFICACIÓN')
-        .filter(integracion => integracion.aprobado === 1);
-      let convertirModificaciones = from(modificaciones).pipe(
+    filter(
+      (integraciones: Integracion[]) =>
+        integracionesCandidatas(integraciones).length > 0
+    ),
+    switchMap(integraciones => {
+      let convertirModificaciones = from(
+        integracionesCandidatas(integraciones)
+      ).pipe(
         generarComprobanteContableModificacion(
           lineaEmpresa,
           fechaIntegraciones,
@@ -39,9 +47,47 @@ export const contabilizarModificaciones = (
         toArray(),
         switchMap(comprobantes => {
           return _contabilizacion.contabilizar(comprobantes).pipe(
-            tap(res => {
-              //aqui se puede realizar una accion con la respuesta de contabilidad.
-              // console.log(res);
+            tap(resultado => {
+              if (resultado.data.length > 0) {
+                if (notificar) {
+                  let { data } = resultado;
+                  let exitosas = data.filter(
+                    comprobante => comprobante.estatus
+                  );
+                  let fallidas = data.filter(
+                    comprobante => !comprobante.estatus
+                  );
+                  let mensaje = `De ${data.length} modificaciones enviadas, ${exitosas.length} 
+                  se contabilizaron con exito y ${fallidas.length} fallaron`;
+
+                  _snackBar.open(mensaje, undefined, {
+                    duration: 8000,
+                  });
+                }
+              }
+            }),
+            switchMap(resultado => {
+              let exitosas = resultado.data.filter(
+                comprobante => comprobante.estatus
+              );
+              let actualizarIntegraciones = exitosas
+                .map(comprobante =>
+                  integraciones.find(
+                    integracion =>
+                      integracion.procesoComprobante === comprobante.documento
+                  )
+                )
+                .map(integracion =>
+                  _integracion.actualizar(
+                    integracion.id,
+                    integracion,
+                    undefined,
+                    false
+                  )
+                );
+              return exitosas.length > 0
+                ? forkJoin(actualizarIntegraciones).pipe(map(() => resultado))
+                : of(resultado);
             }),
             map(() => integraciones)
           );
@@ -60,10 +106,11 @@ const generarComprobanteContableModificacion = (
 ) =>
   pipe(
     switchMap((integracion: Integracion) => {
-      let activoId =
+      let activoId = Number(
         String(integracion.activo).split(',').length > 1
           ? Number(String(integracion.activo).split(',')[0])
-          : Number(integracion.activo);
+          : Number(integracion.activo)
+      );
       let buscarActivo = _activo.buscarPorId(activoId);
       let buscarModificacion = _modificacion.buscarPorActivo(activoId);
       return forkJoin([buscarActivo, buscarModificacion]).pipe(
@@ -80,16 +127,17 @@ const generarComprobanteContableModificacion = (
                 let monto = 0; // el monto se calcula en breve
                 let fecha = moment(fechaIntegracion).format('YYYY-MM-DD');
                 let { cuentasContables } = modificacionEncontrada;
+                let comprobante = `'MOD-'${procesoComprobante}`;
                 let asientosContables = cuentasContables.map(
                   ccp =>
                     <AsientoContable>{
-                      comprobante: procesoComprobante,
+                      comprobante: comprobante,
                       centroCostos: codigoCentroCostos,
                       cuentaContable: ccp.cuentaContable,
                       procedencia: ccp.procedencia,
                       unidadOrganizativa: unidadOrganizativa,
                       descripcion: descripcion,
-                      monto: ccp.monto,
+                      monto: Number(ccp.monto),
                       creado: fecha,
                     }
                 );
@@ -100,7 +148,7 @@ const generarComprobanteContableModificacion = (
                 let comprobanteSalida = <ComprobanteContable>{
                   procede: TIPOS_PROCEDE[procesoTipo],
                   aprobado: aprobado,
-                  comprobante: procesoComprobante,
+                  comprobante: comprobante,
                   centroCostos: codigoCentroCostos,
                   fuenteFinanciamiento: fuenteFinanciamiento,
                   lineaEmpresa: lineaEmpresa,
@@ -117,3 +165,9 @@ const generarComprobanteContableModificacion = (
       );
     })
   );
+
+const integracionesCandidatas = (integraciones: Integracion[]) =>
+  integraciones
+    .filter(integracion => integracion.procesoTipo === 'MODIFICACIÓN')
+    .filter(integracion => integracion.aprobado == 1)
+    .filter(integracion => integracion.integrado == 1);

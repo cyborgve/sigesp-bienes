@@ -137,13 +137,14 @@ const generarComprobanteContableDepreciacion = (
                 let fecha = moment(fechaIntegracion).format('YYYY-MM-DD');
                 let depreciacionMensual =
                   depreciacionEncontrada.detalles[indiceDepreciacionMensual];
+                let comprobante = 'DEP-' + procesoComprobante;
                 let comprobanteSalida = <ComprobanteContable>{
                   procede: TIPOS_PROCEDE[procesoTipo],
                   lineaEmpresa: lineaEmpresa,
                   centroCostos: codigoCentroCostos,
                   unidadAdministrativa: unidadOrganizativa,
                   fuenteFinanciamiento: fuenteFinanciamiento,
-                  comprobante: procesoComprobante,
+                  comprobante: comprobante,
                   monto: depreciacionMensual.depreciacionMensual,
                   aprobado: aprobado,
                   descripcion: descripcion,
@@ -151,7 +152,7 @@ const generarComprobanteContableDepreciacion = (
                   asientosContables: [
                     {
                       centroCostos: codigoCentroCostos,
-                      comprobante: procesoComprobante,
+                      comprobante: comprobante,
                       cuentaContable: cuentaContableDebe,
                       procedencia: 'D',
                       creado: fecha,
@@ -161,7 +162,7 @@ const generarComprobanteContableDepreciacion = (
                     },
                     {
                       centroCostos: codigoCentroCostos,
-                      comprobante: procesoComprobante,
+                      comprobante: comprobante,
                       cuentaContable: cuentaContableHaber,
                       procedencia: 'H',
                       monto: depreciacionMensual.depreciacionMensual,

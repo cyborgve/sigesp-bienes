@@ -22,6 +22,7 @@ import { reversarModificacion } from '@core/utils/pipes-rxjs/procesos/reversar-m
 import { DepreciacionService } from './depreciacion.service';
 import { ActivoService } from '../definiciones/activo.service';
 import { __asyncDelegator } from 'tslib';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 
 @Injectable({
   providedIn: 'root',
@@ -77,6 +78,9 @@ export class ModificacionService extends GenericService<Modificacion> {
 
   buscarPorActivo(id: Id): Observable<Modificacion> {
     return this._http.get(this.apiUrlActivo(id)).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data[0]),
+      map(normalizarObjeto),
       adaptarModificacion(),
       switchMap(modificacionGuardada => {
         let buscarComplementos = [
