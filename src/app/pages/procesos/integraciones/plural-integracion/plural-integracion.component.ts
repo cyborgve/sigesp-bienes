@@ -10,20 +10,14 @@ import { filtrarIntegracionesPorEstadoIntegracion } from '@core/utils/pipes-rxjs
 import { filtrarIntegracionesPorFecha } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-fecha';
 import { filtrarIntegracionesPorTipoProceso } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-tipo-proceso';
 import { ordenarIntegracionesPorFechaDescendiente } from '@core/utils/pipes-rxjs/operadores/ordenar-integraciones-por fecha-descendente';
-import { map, take, tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
-import { Subscription, pipe } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Configuracion } from '@core/models/definiciones/configuracion';
 import { ConfiguracionPorDefecto } from '@core/utils/funciones/configuracion-por-defecto';
 import { filtrarIntegracionesPorEstadoRegistro } from '@core/utils/pipes-rxjs/operadores/filtrar-integraciones-por-estado-registro';
-import { ContabilizacionService } from '@core/services/otros-modulos/contabilidad.service';
 import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
-import { ActivoService } from '@core/services/definiciones/activo.service';
-import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
-import { ModificacionService } from '@core/services/procesos/modificacion.service';
-import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
-import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-administrativa.service';
 import { PROCESOS_INTEGRABLES } from '@core/constants/procesos-integrables';
 import { prepararIntegracion } from '@core/utils/funciones/preparar-integracion';
 
@@ -46,17 +40,11 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   configuracion: Configuracion = ConfiguracionPorDefecto();
 
   constructor(
-    private _contabilizacion: ContabilizacionService,
     private _integracion: IntegracionService,
     private _router: Router,
     private _location: Location,
     private _configuracion: ConfiguracionService,
-    private _formBuilder: FormBuilder,
-    private _activo: ActivoService,
-    private _depreciacion: DepreciacionService,
-    private _modificacion: ModificacionService,
-    private _desincorporacion: DesincorporacionService,
-    private _unidadAdministrativa: UnidadAdministrativaService
+    private _formBuilder: FormBuilder
   ) {
     let esteMes = FECHAS_CALCULADAS['ESTE MES'];
     this.formularioRangoFechas = this._formBuilder.group({
@@ -76,6 +64,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     this.formularioIntegracion = this._formBuilder.group({
       lineEnterprise: [0],
       fechaIntegracion: [new Date()],
+      comentario: [''],
     });
   }
 
@@ -98,10 +87,14 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     this.recargarDatos();
   }
 
+  ngOnDestroy(): void {
+    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
+  }
+
   ejecutar = () => {
-    let integraciones = this.dataSource.data.map(prepararIntegracion);
-    let { lineEnterprise, fechaIntegracion } = this.formularioIntegracion.value;
-    let { observaciones } = this.formulario.value;
+    let integraciones = this.integracionesCandidatas();
+    let { lineEnterprise, fechaIntegracion, comentario } =
+      this.formularioIntegracion.value;
     let notificar = true;
     this._integracion
       .procesarAprobaciones(integraciones, notificar)
@@ -113,60 +106,60 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => this.recargarDatos());
     this._integracion
       .procesarDepreciaciones(
-        this.integracionesCandidatas(integraciones),
+        integraciones,
         lineEnterprise,
         fechaIntegracion,
-        observaciones,
+        comentario,
         notificar
       )
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
       .procesarReversarDepreciaciones(
-        this.integracionesCandidatas(integraciones),
+        integraciones,
         lineEnterprise,
         fechaIntegracion,
-        observaciones,
+        comentario,
         notificar
       )
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
       .procesarDesincorporaciones(
-        this.integracionesCandidatas(integraciones),
+        integraciones,
         lineEnterprise,
         fechaIntegracion,
-        observaciones,
+        comentario,
         notificar
       )
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
       .procesarReversarDesincorporaciones(
-        this.integracionesCandidatas(integraciones),
+        integraciones,
         lineEnterprise,
         fechaIntegracion,
-        observaciones,
+        comentario,
         notificar
       )
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
       .procesarModificaciones(
-        this.integracionesCandidatas(integraciones),
+        integraciones,
         lineEnterprise,
         fechaIntegracion,
-        observaciones,
+        comentario,
         notificar
       )
       .pipe(take(1))
       .subscribe(() => this.recargarDatos());
     this._integracion
       .procesarReversarModificaciones(
-        this.integracionesCandidatas(integraciones),
+        integraciones,
         lineEnterprise,
         fechaIntegracion,
-        observaciones,
+        comentario,
         notificar
       )
       .pipe(take(1))
@@ -216,15 +209,17 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
           ).integrado != integracion.integrado
       ).length > 0;
 
-  private integracionesCandidatas = (integraciones: Integracion[]) =>
-    integraciones.filter(
-      integracion =>
-        PROCESOS_INTEGRABLES.some(
-          procesoIntegrable => integracion.procesoTipo === procesoIntegrable
-        ) &&
-        this.integracionesInicial.find(integ => integ.id === integracion.id)
-          .integrado != integracion.integrado
-    );
+  private integracionesCandidatas = () =>
+    this.dataSource.data
+      .map(prepararIntegracion)
+      .filter(
+        integracion =>
+          PROCESOS_INTEGRABLES.some(
+            procesoIntegrable => integracion.procesoTipo === procesoIntegrable
+          ) &&
+          this.integracionesInicial.find(integ => integ.id === integracion.id)
+            .integrado != integracion.integrado
+      );
 
   irAtras = () => {
     this._location.back();
@@ -271,9 +266,5 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
         take(1)
       )
       .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.subscripciones.forEach(subscripcion => subscripcion.unsubscribe());
   }
 }

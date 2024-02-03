@@ -6,6 +6,7 @@
   (limpiarBuscadorEvento)="filtrar($event)"
   [hidden]="ocultarEncabezado"></app-encabezado-definiciones>
 
+<!-- filtros de integraciones -->
 <mat-card class="superior inferior">
   <section class="filtros">
     <app-filtro-rango-fechas
@@ -26,47 +27,61 @@
   </section>
 </mat-card>
 
+<!-- datos de integracion -->
 <mat-card class="superior inferior">
-  <section class="datosIntegracion">
-    <article class="lineaEmpresa">
-      <ng-container
-        *ngIf="
-          formularioIntegracion.value.lineEnterprise === 'Seleccionar';
-          then noSeleccionado;
-          else seleccionado
-        ">
-      </ng-container>
-      <ng-template #noSeleccionado>
-        <p class="indicacionesLine" id="pNoSeleccionado">
-          Es necesario seleccionar <b>Linea Empresa</b> para ejecutar las
-          integraciones
-        </p>
-      </ng-template>
-      <ng-template #seleccionado>
-        <p class="indicacionesLine" id="pSeleccionado">
-          <b>Linea Empresa</b> listo para ejecutar las integraciones
-        </p>
-      </ng-template>
-    </article>
-    <app-filtro-line-enterprise
-      class="filtroLineaEmpresa"
-      [formulario]="formularioIntegracion"
-      [sinDecorar]="!configuracion.decorarFiltros"></app-filtro-line-enterprise>
-    <!-- fecha de integracion -->
-    <form [formGroup]="formularioIntegracion" class="fFechaIntegracion">
-      <mat-form-field appearance="fill" class="fechaIntegracion">
-        <mat-label>Fecha de Integración</mat-label>
+  <form [formGroup]="formularioIntegracion">
+    <section class="datosIntegracion">
+      <!-- texto linea empresa -->
+      <article class="lineaEmpresaTexto">
+        <ng-container
+          *ngIf="
+            formularioIntegracion.value.lineEnterprise === 'Seleccionar';
+            then noSeleccionado;
+            else seleccionado
+          ">
+        </ng-container>
+        <ng-template #noSeleccionado>
+          <p class="indicacionesLine" id="pNoSeleccionado">
+            Es necesario seleccionar <b>Linea Empresa</b> para ejecutar las
+            integraciones
+          </p>
+        </ng-template>
+        <ng-template #seleccionado>
+          <p class="indicacionesLine" id="pSeleccionado">
+            <b>Linea Empresa</b> listo para ejecutar las integraciones
+          </p>
+        </ng-template>
+      </article>
+      <!-- linea empresa -->
+      <app-filtro-line-enterprise
+        class="lineaEmpresa"
+        [formulario]="formularioIntegracion"
+        [sinDecorar]="
+          !configuracion.decorarFiltros
+        "></app-filtro-line-enterprise>
+      <!-- fecha integraciones-->
+      <mat-form-field appearance="fill" class="fechaIntegraciones">
+        <mat-label>Fecha de Integraciones</mat-label>
         <input
           matInput
-          formControlName="fechaIntegracion"
-          [matDatepicker]="pickerFechaIntegracion"
+          formControlName="fechaIntegraciones"
+          [matDatepicker]="pickerFechaIntegraciones"
           readonly />
-        <mat-datepicker-toggle matSuffix [for]="pickerFechaIntegracion">
+        <mat-datepicker-toggle matSuffix [for]="pickerFechaIntegraciones">
         </mat-datepicker-toggle>
-        <mat-datepicker #pickerFechaIntegracion></mat-datepicker>
+        <mat-datepicker #pickerFechaIntegraciones></mat-datepicker>
       </mat-form-field>
-    </form>
-  </section>
+      <!-- comentario -->
+      <mat-form-field appearance="fill" class="comentario">
+        <mat-label>Comentario</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="comentario"
+          placeholder="Use comentarios aplicables a todas las integraciones seleccionadas" />
+      </mat-form-field>
+    </section>
+  </form>
 </mat-card>
 
 <mat-card class="card-table superior inferior">
