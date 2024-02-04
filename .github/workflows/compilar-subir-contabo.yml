@@ -31,6 +31,5 @@ jobs:
           host: ${{ secrets.CONTABITO_HOST }}
           username: ${{ secrets.CONTABITO_USER }}
           password: ${{ secrets.CONTABITO_PASSWORD }}
-          fingerprint: ${{ secrets.CONTABITO_FINGERPRINT }}
           source: '/home/runner/work/sigesp_bienes/sigesp_bienes/dist/bienes/*'
           target: '/var/www/html/SigespERP/bienes/'
