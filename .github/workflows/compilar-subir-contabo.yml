@@ -25,4 +25,12 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-      - run: scp -o StrictHostKeyChecking=no -o PasswordAuthentication=yes -r .\dist\bienes ${{ secrets.CONTABITO_USER }}@${{ secrets.CONTABITO_HOST }}:/var/www/html/SigespERP/ <<< ${{ secrets.CONTABITO_PASSWORD }}
+      - name: Subir al Contabito via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CONTABITO_HOST }}
+          username: ${{ secrets.CONTABITO_USER }}
+          password: ${{ secrets.CONTABITO_PASSWORD }}
+          port: ${{ secrets.CONTABITO_PORT }}
+          source: '/home/runner/work/sigesp_bienes/sigesp_bienes/dist/bienes'
+          target: '/var/www/html/SigespERP/'
