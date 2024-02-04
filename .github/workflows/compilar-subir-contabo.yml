@@ -32,5 +32,5 @@ jobs:
           username: ${{ secrets.CONTABITO_USER }}
           password: ${{ secrets.CONTABITO_PASSWORD }}
           port: ${{ secrets.CONTABITO_PORT }}
-          source: '/home/runner/work/sigesp_bienes/sigesp_bienes/dist/bienes'
-          target: '/var/www/html/SigespERP/'
+          source: '/home/runner/work/sigesp_bienes/sigesp_bienes/dist/bienes/*'
+          target: '/var/www/html/SigespERP/bienes/'
