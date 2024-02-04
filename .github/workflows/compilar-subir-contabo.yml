@@ -38,4 +38,3 @@ jobs:
             df -h
           after_script: |
             whoami
-        with:
