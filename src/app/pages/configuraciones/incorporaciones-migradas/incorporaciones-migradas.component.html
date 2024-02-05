@@ -1,0 +1,19 @@
+<section class="contenedor-singular superior">
+  <app-encabezado-definiciones
+    [titulo]="titulo"
+    [ocultarNuevo]="true"></app-encabezado-definiciones>
+  <app-detalle
+    class="inferior"
+    [generarIntegraciones]="generarIncorporaciones"
+    (actualizarData)="
+      actualizarBotonEjecutarDeshabilitado($event)
+    "></app-detalle>
+</section>
+<app-toolbar
+  (ejecutar)="clickBotonGenerar()"
+  [mostrarBorrar]="false"
+  [mostrarBuscar]="false"
+  [mostrarEjecutar]="true"
+  [mostrarGuardar]="false"
+  [mostrarImportar]="false"
+  [desabilitarEjecutar]="botonEjecutarDeshabilitado"></app-toolbar>

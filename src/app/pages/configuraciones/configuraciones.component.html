@@ -6,7 +6,7 @@
     </article>
     <article class="grid grid-cols-5">
       <a
-        *ngFor="let configuracion of menuItems"
+        *ngFor="let configuracion of menuItems()"
         [routerLink]="configuracion.routerLink">
         <mat-card class="configuracion">
           <img [src]="configuracion.image" alt="image" width="80px" />

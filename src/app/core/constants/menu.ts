@@ -325,6 +325,12 @@ export const MENU: MenuItem[] = [
         icon: 'pin',
         image: './assets/images/svg/pin.svg',
       },
+      {
+        label: 'Incorporaciones Migradas',
+        routerLink: 'incorporaciones-migradas',
+        icon: 'pin',
+        image: './assets/images/svg/service_toolbox.svg',
+      },
     ],
   },
 ];

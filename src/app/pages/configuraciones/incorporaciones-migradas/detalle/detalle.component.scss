@@ -1,0 +1,20 @@
+.card-tabla {
+  @apply w-full grid grid-cols-1;
+}
+
+th.mat-column-tipoActivo,
+td.mat-column-tipoActivo {
+  @apply w-32 pl-4;
+}
+
+th.mat-column-acciones,
+td.mat-column-acciones {
+  @apply pl-4 text-left;
+}
+
+th.mat-column-creado,
+td.mat-column-creado,
+th.mat-column-modificado,
+td.mat-column-modificado {
+  @apply w-32 pl-4;
+}

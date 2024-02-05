@@ -1,4 +1,8 @@
 {
   "editor.wordBasedSuggestions": "matchingDocuments",
-  "conventionalCommits.scopes": ["integraciones"]
+  "conventionalCommits.scopes": [
+    "integraciones",
+    "configuracion",
+    "configuraciones"
+  ]
 }

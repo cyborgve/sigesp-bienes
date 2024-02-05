@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConfiguracionesComponent } from './configuraciones.component';
+import { UsuarioSigespGuard } from '@core/guards/usuario-sigesp.guard';
 
 const routes: Routes = [
   { path: '', component: ConfiguracionesComponent },
@@ -17,6 +18,14 @@ const routes: Routes = [
       import('./correlativos/correlativos.module').then(
         m => m.CorrelativosModule
       ),
+  },
+  {
+    path: 'incorporaciones-migradas',
+    loadChildren: () =>
+      import('./incorporaciones-migradas/incorporaciones-migradas.module').then(
+        m => m.IncorporacionesMigradasModule
+      ),
+    canActivate: [UsuarioSigespGuard],
   },
 ];
 

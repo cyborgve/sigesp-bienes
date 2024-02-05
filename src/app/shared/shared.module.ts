@@ -93,6 +93,7 @@ import { CorregirReferenciaEstadoPipe } from './pipes/corregir-referencia-estado
 import { CorregirCodigoRetornoPipe } from './pipes/corregir-codigo-retorno.pipe';
 import { CorregirAutorizadoResponsablePipe } from './pipes/corregir-autorizado-responsable.pipe';
 import { CorregirDenominacionActivoPipe } from './pipes/corregir-denominacion-activo.pipe';
+import { DialogoSpinnerComponent } from './components/dialogo-spinner/dialogo-spinner.component';
 
 const sharedComponents = [
   LoadingScreenComponent,
@@ -192,8 +193,8 @@ const sharedPipes = [
 ];
 
 @NgModule({
-  declarations: [...sharedComponents, ...sharedPipes],
+  declarations: [...sharedComponents, ...sharedPipes, DialogoSpinnerComponent],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [...sharedComponents, ...sharedPipes],
+  exports: [...sharedComponents, ...sharedPipes, DialogoSpinnerComponent],
 })
 export class SharedModule {}

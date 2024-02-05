@@ -38,6 +38,7 @@ const routes: Routes = [
     path: 'reportes',
     loadChildren: () =>
       import('@pages/reportes/reportes.module').then(m => m.ReportesModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'configuraciones',
@@ -45,6 +46,7 @@ const routes: Routes = [
       import('./pages/configuraciones/configuraciones.module').then(
         m => m.ConfiguracionesModule
       ),
+    canActivate: [AuthGuard],
   },
 ];
 

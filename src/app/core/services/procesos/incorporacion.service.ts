@@ -1,4 +1,4 @@
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { Incorporacion } from '@core/models/procesos/incorporacion';
@@ -14,6 +14,8 @@ import { adaptarIncorporacion } from '@core/utils/pipes-rxjs/adaptadores/adaptar
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { ejecutarIncorporacion } from '@core/utils/pipes-rxjs/procesos/ejecutar-incorporacion';
 import { reversarIncorporacion } from '@core/utils/pipes-rxjs/procesos/reversar-incorporacion';
+import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
+import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,8 @@ export class IncorporacionService extends GenericService<Incorporacion> {
   protected getEntidadUrl(): string {
     return END_POINTS.find(ep => ep.clave === 'incorporacion').valor;
   }
+
+  private apiUrlPendientes = `${this.apiUrl}?pendientes=${'pendientes'}`;
 
   constructor(
     protected _http: HttpClient,
@@ -35,6 +39,20 @@ export class IncorporacionService extends GenericService<Incorporacion> {
 
   buscarTodos(): Observable<Incorporacion[]> {
     return super.buscarTodos().pipe(adaptarIncorporaciones());
+  }
+
+  buscarPendientesPorRegistrar(): Observable<Incorporacion[]> {
+    return this._http.get<any>(this.apiUrlPendientes).pipe(
+      map((resultado: any) => resultado.data),
+      map((data: any[]) => data.map(normalizarObjeto)),
+      adaptarIncorporaciones(),
+      map(incorporaciones =>
+        incorporaciones.map(inco => {
+          inco.activos = transformarActivos(inco.activos);
+          return inco;
+        })
+      )
+    );
   }
 
   buscarPorId(id: Id): Observable<Incorporacion> {
@@ -101,3 +119,20 @@ export class IncorporacionService extends GenericService<Incorporacion> {
     );
   }
 }
+
+const transformarActivos = (activos: any) => {
+  let entrada = String(activos).split(',');
+  let salida: ActivoProceso[] = [];
+  salida.push({
+    empresaId: Number(entrada[0]),
+    id: Number(entrada[1]),
+    proceso: Number(entrada[2]),
+    activo: Number(entrada[3]),
+    tipoActivo: <any>entrada[4],
+    codigo: entrada[5],
+    denominacion: entrada[6],
+    creado: new Date(entrada[7]),
+    modificado: new Date(entrada[8]),
+  });
+  return salida;
+};
