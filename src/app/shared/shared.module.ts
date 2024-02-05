@@ -90,7 +90,6 @@ import { CorregirTodosPipe } from './pipes/corregir-todos.pipe';
 import { CorregirTipoActivoPipe } from './pipes/corregir-tipo-activo.pipe';
 import { CorregirTipoPlantillaIntegracionPipe } from './pipes/corregir-tipo-plantilla-integracion.pipe';
 import { CorregirReferenciaEstadoPipe } from './pipes/corregir-referencia-estado.pipe';
-import { DenoinacionLineEnterprisePipe } from './pipes/denoinacion-line-enterprise.pipe';
 import { CorregirCodigoRetornoPipe } from './pipes/corregir-codigo-retorno.pipe';
 import { CorregirAutorizadoResponsablePipe } from './pipes/corregir-autorizado-responsable.pipe';
 import { CorregirDenominacionActivoPipe } from './pipes/corregir-denominacion-activo.pipe';
@@ -125,6 +124,7 @@ const sharedComponents = [
   DialogoEliminarProcesoComponent,
   BuscadorUnidadOrganizativaComponent,
   BuscadorLineEnterpriseComponent,
+  ListaDepreciacionesComponent,
 ];
 
 const sharedPipes = [
@@ -182,35 +182,18 @@ const sharedPipes = [
   EstadoMovimientoCatalogoPipe,
   DenominacionUnidadOrganizativaPipe,
   DenominacionLineEnterprisePipe,
+  CorregirTodosPipe,
+  CorregirTipoActivoPipe,
+  CorregirTipoPlantillaIntegracionPipe,
+  CorregirReferenciaEstadoPipe,
+  CorregirCodigoRetornoPipe,
+  CorregirAutorizadoResponsablePipe,
+  CorregirDenominacionActivoPipe,
 ];
 
 @NgModule({
-  declarations: [
-    ...sharedComponents,
-    ...sharedPipes,
-    ListaDepreciacionesComponent,
-    CorregirTodosPipe,
-    CorregirTipoActivoPipe,
-    CorregirTipoPlantillaIntegracionPipe,
-    CorregirReferenciaEstadoPipe,
-    DenoinacionLineEnterprisePipe,
-    CorregirCodigoRetornoPipe,
-    CorregirAutorizadoResponsablePipe,
-    CorregirDenominacionActivoPipe,
-  ],
+  declarations: [...sharedComponents, ...sharedPipes],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
-  exports: [
-    ...sharedComponents,
-    ...sharedPipes,
-    ListaDepreciacionesComponent,
-    CorregirTodosPipe,
-    CorregirTipoActivoPipe,
-    CorregirTipoPlantillaIntegracionPipe,
-    CorregirReferenciaEstadoPipe,
-    DenoinacionLineEnterprisePipe,
-    CorregirCodigoRetornoPipe,
-    CorregirAutorizadoResponsablePipe,
-    CorregirDenominacionActivoPipe,
-  ],
+  exports: [...sharedComponents, ...sharedPipes],
 })
 export class SharedModule {}

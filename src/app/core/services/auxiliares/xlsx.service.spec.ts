@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { XlsxService } from './xlsx.service';
+import { XLSXService } from './xlsx.service';
 
-describe('XlsxService', () => {
-  let service: XlsxService;
+describe('XLSXService', () => {
+  let service: XLSXService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(XlsxService);
+    service = TestBed.inject(XLSXService);
   });
 
   it('should be created', () => {

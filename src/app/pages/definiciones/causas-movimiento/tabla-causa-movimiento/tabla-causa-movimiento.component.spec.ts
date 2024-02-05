@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TablaCausasMovimientoComponent } from './tabla-causa-movimiento.component';
+import { TablaCausaMovimientoComponent } from './tabla-causa-movimiento.component';
 
-describe('TablaCausasMovimientoComponent', () => {
-  let component: TablaCausasMovimientoComponent;
-  let fixture: ComponentFixture<TablaCausasMovimientoComponent>;
+describe('TablaCausaMovimientoComponent', () => {
+  let component: TablaCausaMovimientoComponent;
+  let fixture: ComponentFixture<TablaCausaMovimientoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TablaCausasMovimientoComponent],
+      declarations: [TablaCausaMovimientoComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TablaCausasMovimientoComponent);
+    fixture = TestBed.createComponent(TablaCausaMovimientoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

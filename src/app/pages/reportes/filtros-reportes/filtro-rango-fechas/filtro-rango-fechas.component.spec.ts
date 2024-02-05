@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RangoFechasComponent } from './filtro-rango-fechas.component';
+import { FiltroRangoFechasComponent } from './filtro-rango-fechas.component';
 
-describe('RangoFechasComponent', () => {
-  let component: RangoFechasComponent;
-  let fixture: ComponentFixture<RangoFechasComponent>;
+describe('FiltroRangoFechasComponent', () => {
+  let component: FiltroRangoFechasComponent;
+  let fixture: ComponentFixture<FiltroRangoFechasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RangoFechasComponent],
+      declarations: [FiltroRangoFechasComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RangoFechasComponent);
+    fixture = TestBed.createComponent(FiltroRangoFechasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

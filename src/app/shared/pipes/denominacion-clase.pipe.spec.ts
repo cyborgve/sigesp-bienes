@@ -1,8 +1,10 @@
+import { ClaseService } from '@core/services/definiciones/clase.service';
 import { DenominacionClasePipe } from './denominacion-clase.pipe';
 
 describe('DenominacionClasePipe', () => {
   it('create an instance', () => {
-    const pipe = new DenominacionClasePipe();
+    let _clase: ClaseService;
+    const pipe = new DenominacionClasePipe(_clase);
     expect(pipe).toBeTruthy();
   });
 });
