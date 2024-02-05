@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FiltroCatalogoCuentasComponent } from './filtro-catalogo-general.component';
+import { FiltroCatalogoGeneralComponent } from './filtro-catalogo-general.component';
 
-describe('FiltroCatalogoCuentasComponent', () => {
-  let component: FiltroCatalogoCuentasComponent;
-  let fixture: ComponentFixture<FiltroCatalogoCuentasComponent>;
+describe('FiltroCatalogoGeneralComponent', () => {
+  let component: FiltroCatalogoGeneralComponent;
+  let fixture: ComponentFixture<FiltroCatalogoGeneralComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FiltroCatalogoCuentasComponent],
+      declarations: [FiltroCatalogoGeneralComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FiltroCatalogoCuentasComponent);
+    fixture = TestBed.createComponent(FiltroCatalogoGeneralComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

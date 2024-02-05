@@ -1,8 +1,10 @@
+import { SeguroService } from '@core/services/definiciones/seguro.service';
 import { DenominacionSeguroPipe } from './denominacion-seguro.pipe';
 
 describe('DenominacionSeguroPipe', () => {
   it('create an instance', () => {
-    const pipe = new DenominacionSeguroPipe();
+    let _seguro: SeguroService;
+    const pipe = new DenominacionSeguroPipe(_seguro);
     expect(pipe).toBeTruthy();
   });
 });

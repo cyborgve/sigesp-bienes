@@ -1,8 +1,10 @@
+import { EstadoService } from '@core/services/otros-modulos/estado.service';
 import { DenominacionEstadoPipe } from './denominacion-estado.pipe';
 
 describe('DenominacionEstadoPipe', () => {
   it('create an instance', () => {
-    const pipe = new DenominacionEstadoPipe();
+    let _estado: EstadoService;
+    const pipe = new DenominacionEstadoPipe(_estado);
     expect(pipe).toBeTruthy();
   });
 });
