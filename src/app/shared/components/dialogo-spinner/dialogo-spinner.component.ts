@@ -7,7 +7,7 @@ import { MensajeDialogoSpinnerService } from '@core/services/auxiliares/mensaje-
   styleUrls: ['./dialogo-spinner.component.scss'],
 })
 export class DialogoSpinnerComponent {
-  mensaje = this._mensajeDialogoSpinner.obtenerMensaje();
+  mensaje = this._mensajeDialogoSpinner.obtener();
 
   constructor(private _mensajeDialogoSpinner: MensajeDialogoSpinnerService) {}
 }

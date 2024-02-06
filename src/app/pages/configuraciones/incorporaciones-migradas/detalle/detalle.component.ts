@@ -140,12 +140,6 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
     this._incorporacion
       .buscarPendientesPorRegistrar()
       .pipe(
-        delay(200),
-        tap(incorporaciones =>
-          this._mensaje.actualizarMensaje(
-            `Se van a procesar ${incorporaciones.length} Bienes`
-          )
-        ),
         map(incorporaciones =>
           incorporaciones.filter(incorporacion =>
             activosMigrados.some(
@@ -170,8 +164,9 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
           )
         ),
         tap(incorporacionesAgrupadas =>
-          this._mensaje.actualizarMensaje(
-            `Se estan registrando ${incorporacionesAgrupadas.length} Incorporaciones`
+          this._mensaje.actualizar(
+            'MENSAJE',
+            `Se estan registrando ${incorporacionesAgrupadas.length} Incorporaciones para ${activosMigrados.length} Bienes`
           )
         ),
         switchMap(incorporaciones => {
