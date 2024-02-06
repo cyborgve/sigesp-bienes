@@ -1,4 +1,4 @@
-import { first, tap, filter, switchMap, take } from 'rxjs/operators';
+import { tap, filter, switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import {
   Component,
@@ -22,8 +22,6 @@ import { Id } from '@core/types/id';
 import { ordenarPorId } from '@core/utils/pipes-rxjs/operadores/ordenar-por-id';
 import { ConfiguracionService } from '@core/services/definiciones/configuracion.service';
 import { Configuracion } from '@core/models/definiciones/configuracion';
-import { ordenarPorCodigo } from '@core/utils/pipes-rxjs/operadores/ordenar-por-codigo';
-import { pipeFromArray } from 'rxjs/internal/util/pipe';
 
 @Component({
   selector: 'app-tabla-correlativo',
@@ -87,7 +85,7 @@ export class TablaCorrelativoComponent
       .pipe(
         switchMap(configuracion =>
           this._entidad.buscarTodos().pipe(
-            ordenarPorCodigo(),
+            ordenarPorId(),
             tap((entidades: Correlativo[]) => {
               this.dataSource = new MatTableDataSource(entidades);
               this.dataSource.sort = this.sort;
