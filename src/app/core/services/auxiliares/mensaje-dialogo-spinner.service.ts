@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 type TipoMensajeSpinner = 'TITULO' | 'MENSAJE' | 'MENSAJE INFERIOR';
 
@@ -12,7 +12,10 @@ interface MensajeSpinner {
   providedIn: 'root',
 })
 export class MensajeDialogoSpinnerService {
-  private mensaje = new Subject<MensajeSpinner>();
+  private mensaje = new BehaviorSubject<MensajeSpinner>({
+    tipo: 'MENSAJE',
+    mensaje: '',
+  });
 
   obtener = () => this.mensaje.asObservable();
 

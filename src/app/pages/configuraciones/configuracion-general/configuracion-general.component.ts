@@ -118,7 +118,7 @@ export class ConfiguracionGeneralComponent implements Entidad {
   }
 
   irAlInicio(): void {
-    this._router.navigate(['/definiciones']);
+    this._router.navigate(['/']);
   }
 
   salir(): void {

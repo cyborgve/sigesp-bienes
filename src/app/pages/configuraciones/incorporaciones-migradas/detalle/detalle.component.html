@@ -1,78 +1,107 @@
-<mat-card>
-  <section class="card-tabla">
-    <table mat-table [dataSource]="dataSource" *ngIf="!activarSpinner">
-      <!-- codigo -->
-      <ng-container matColumnDef="codigo">
-        <th mat-header-cell *matHeaderCellDef>Código</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.codigo | corregirCodigo }}
-        </td>
-      </ng-container>
-      <!-- denominacion -->
-      <ng-container matColumnDef="denominacion">
-        <th mat-header-cell *matHeaderCellDef>Denominación</th>
-        <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
-      </ng-container>
-      <!-- tipoActivo -->
-      <ng-container matColumnDef="tipoActivo">
-        <th mat-header-cell *matHeaderCellDef>Tipo</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.tipoActivo | corregirTipoActivo }}
-        </td>
-      </ng-container>
-      <!-- creado -->
-      <ng-container matColumnDef="creado">
-        <th mat-header-cell *matHeaderCellDef>Creado</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.creado | date : 'medium' }}
-        </td>
-      </ng-container>
-      <!-- modificado -->
-      <ng-container matColumnDef="modificado">
-        <th mat-header-cell *matHeaderCellDef>Modificado</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.modificado | date : 'medium' }}
-        </td>
-      </ng-container>
-      <!-- acciones -->
-      <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-slide-toggle
-            #generarTodas
-            (change)="selecionarGenerarTodas($event)"
-            >Generar Todas</mat-slide-toggle
-          >
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-slide-toggle
-            [checked]="generar(row)"
-            (toggleChange)="actualizarGenerar(row)"
-            >Generar</mat-slide-toggle
-          >
-        </td> </ng-container
-      ><!-- ejecuta el armado de la tabla -->
-      <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: columnasVisibles"
-        class="row-hover"></tr>
+<section class="superior inferior">
+  <mat-card class="causa-card">
+    <form [formGroup]="formulario">
+      <!-- causa de movimiento -->
+      <mat-form-field class="causa-movimiento" appearance="fill">
+        <mat-label>Causa de Movimiento</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="causaMovimiento"
+          readonly="true"
+          [value]="
+            formulario.value.causaMovimiento
+              | denominacionCausaMovimiento
+              | async
+          " />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="buscarCausaMovimiento()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </mat-card>
+</section>
+<section class="inferior">
+  <mat-card>
+    <section class="card-tabla">
+      <table mat-table [dataSource]="dataSource" *ngIf="!activarSpinner">
+        <!-- codigo -->
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef>Código</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.codigo | corregirCodigo }}
+          </td>
+        </ng-container>
+        <!-- denominacion -->
+        <ng-container matColumnDef="denominacion">
+          <th mat-header-cell *matHeaderCellDef>Denominación</th>
+          <td mat-cell *matCellDef="let row">{{ row.denominacion }}</td>
+        </ng-container>
+        <!-- tipoActivo -->
+        <ng-container matColumnDef="tipoActivo">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.tipoActivo | corregirTipoActivo }}
+          </td>
+        </ng-container>
+        <!-- creado -->
+        <ng-container matColumnDef="creado">
+          <th mat-header-cell *matHeaderCellDef>Creado</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.creado | date : 'medium' }}
+          </td>
+        </ng-container>
+        <!-- modificado -->
+        <ng-container matColumnDef="modificado">
+          <th mat-header-cell *matHeaderCellDef>Modificado</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.modificado | date : 'medium' }}
+          </td>
+        </ng-container>
+        <!-- acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-slide-toggle
+              #generarTodas
+              (change)="selecionarGenerarTodas($event)"
+              >Generar Todas</mat-slide-toggle
+            >
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle
+              [checked]="generar(row)"
+              (toggleChange)="actualizarGenerar(row)"
+              >Generar</mat-slide-toggle
+            >
+          </td> </ng-container
+        ><!-- ejecuta el armado de la tabla -->
+        <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: columnasVisibles"
+          class="row-hover"></tr>
 
-      <!-- mostrar cuando no hay datos que coincidan -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">
-          No hay datos para mostrar que concidan con la busqueda "{{
-            dataSource.filter
-          }}"
-        </td>
-      </tr>
-    </table>
-    <mat-paginator
-      *ngIf="configuracion.activarPaginacion && !activarSpinner"
-      [length]="dataSource.data.length"
-      [pageSize]="itemsPorPagina"
-      [showFirstLastButtons]="configuracion.mostrarBotonesInicioFinal"
-      [pageSizeOptions]="configuracion.opcionesPaginacion"
-      [hidePageSize]="!configuracion.mostrarOpcionesPaginacion">
-    </mat-paginator>
-  </section>
-</mat-card>
+        <!-- mostrar cuando no hay datos que coincidan -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No hay datos para mostrar que concidan con la busqueda "{{
+              dataSource.filter
+            }}"
+          </td>
+        </tr>
+      </table>
+      <mat-paginator
+        *ngIf="configuracion.activarPaginacion && !activarSpinner"
+        [length]="dataSource.data.length"
+        [pageSize]="itemsPorPagina"
+        [showFirstLastButtons]="configuracion.mostrarBotonesInicioFinal"
+        [pageSizeOptions]="configuracion.opcionesPaginacion"
+        [hidePageSize]="!configuracion.mostrarOpcionesPaginacion">
+      </mat-paginator>
+    </section>
+  </mat-card>
+</section>

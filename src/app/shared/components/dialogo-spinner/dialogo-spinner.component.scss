@@ -7,3 +7,11 @@ mat-spinner {
   @apply m-auto;
   background-color: rgba(255, 255, 255, 0);
 }
+
+.mensaje-fijo {
+  @apply text-sm text-center;
+}
+
+.mensaje {
+  @apply mt-4;
+}

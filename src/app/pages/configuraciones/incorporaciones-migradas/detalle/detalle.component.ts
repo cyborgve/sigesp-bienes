@@ -7,6 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import {
@@ -16,6 +17,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ActivoMigrado } from '@core/models/auxiliares/activo-migrado';
+import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { MensajeDialogoSpinnerService } from '@core/services/auxiliares/mensaje-dialogo-spinner.service';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { ActivoService } from '@core/services/definiciones/activo.service';
@@ -26,11 +28,14 @@ import { ConfiguracionPorDefecto } from '@core/utils/funciones/configuracion-por
 import { convertirActivoMigrado } from '@core/utils/funciones/convertir-activo-migrado';
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
 import { filtrarActivosSinIncorporacion } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-sin-incorporacion';
+import { filtrarCausasMovimientoPorTipo } from '@core/utils/pipes-rxjs/operadores/filtrar-causas-movimiento-por-tipo';
+import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
+import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { DialogoSpinnerComponent } from '@shared/components/dialogo-spinner/dialogo-spinner.component';
 import moment from 'moment';
 import { Observable, Subscription, forkJoin, from } from 'rxjs';
 import {
-  delay,
+  filter,
   groupBy,
   map,
   mergeMap,
@@ -55,6 +60,7 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'];
   itemsPorPagina = this.configuracion['opcionesPaginacion'][0];
   activarSpinner = false;
+  formulario: FormGroup;
 
   @Output() actualizarData = new EventEmitter();
 
@@ -65,8 +71,12 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
     private _incorporacion: IncorporacionService,
     private _incorporacionActivo: IncorporacionActivoService,
     private _dialog: MatDialog,
-    private _mensaje: MensajeDialogoSpinnerService
+    private _mensaje: MensajeDialogoSpinnerService,
+    private _formBuilder: FormBuilder
   ) {
+    this.formulario = this._formBuilder.group({
+      causaMovimiento: [0],
+    });
     this._configuracion
       .buscarPorId(1)
       .pipe(tap(configuracion => (this.configuracion = configuracion), take(1)))
@@ -133,6 +143,7 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
   private inicio = moment(new Date());
 
   ejecutarGenerarIncorporaciones = () => {
+    this.inicio = moment(new Date());
     let activosMigrados = this.dataSource.data.filter(dato => dato.generar);
     let dialog = this._dialog.open(DialogoSpinnerComponent, {
       disableClose: true,
@@ -148,6 +159,11 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
             )
           )
         ),
+        map(incorporaciones => {
+          for (let inc of incorporaciones)
+            inc.causaMovimiento = this.formulario.value.causaMovimiento;
+          return incorporaciones;
+        }),
         mergeMap(incorporaciones =>
           from(incorporaciones).pipe(
             groupBy(incorporacion => incorporacion.responsableUso),
@@ -166,7 +182,7 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
         tap(incorporacionesAgrupadas =>
           this._mensaje.actualizar(
             'MENSAJE',
-            `Se estan registrando ${incorporacionesAgrupadas.length} Incorporaciones para ${activosMigrados.length} Bienes`
+            `Se estan registrando ${incorporacionesAgrupadas.length} Incorporaciones con ${activosMigrados.length} Bienes en total`
           )
         ),
         switchMap(incorporaciones => {
@@ -180,6 +196,8 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => {
         this.recargarDatos();
         dialog.close();
+        this.formulario.reset();
+        this.formulario.patchValue({ causaMovimiento: 0 });
         console.log(
           'Duracion: ' +
             moment(new Date()).diff(this.inicio, 'seconds') +
@@ -197,5 +215,26 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.actualizarData.emit(data.some(activo => activo.generar));
+  };
+
+  buscarCausaMovimiento = () => {
+    let dialog = this._dialog.open(BuscadorCausaMovimientoComponent, {
+      width: '85%',
+      height: '95%',
+      data: {
+        filtros: [filtrarCausasMovimientoPorTipo('INCORPORACIÓN')],
+      },
+    });
+    dialog
+      .afterClosed()
+      .pipe(
+        filter(todo => todo),
+        puedeActualizarFormulario(this.formulario.value.causaMovimiento),
+        tap((causaMovimiento: CausaMovimiento) => {
+          this.formulario.patchValue({ causaMovimiento: causaMovimiento.id });
+        }),
+        take(1)
+      )
+      .subscribe();
   };
 }
