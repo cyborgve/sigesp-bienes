@@ -175,6 +175,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
 
   botonEjecutarHabilitado = () =>
     (this.formularioIntegracion.value.lineEnterprise !== 'Seleccionar' &&
+      String(this.formularioIntegracion.value.comentario).trim() !== '' &&
       this.existenAprobaciones()) ||
     this.existenReversoAprobaciones() ||
     this.existenIntegracionesReversos();

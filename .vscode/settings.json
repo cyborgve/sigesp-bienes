@@ -3,6 +3,7 @@
   "conventionalCommits.scopes": [
     "integraciones",
     "configuracion",
-    "configuraciones"
+    "configuraciones",
+    "incorporaciones-migradas"
   ]
 }
