@@ -5,11 +5,11 @@ import { SingularCategoriaUnidadRoutingModule } from './singular-categoria-unida
 import { SingularCategoriaUnidadComponent } from './singular-categoria-unidad.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BuscadorCategoriaUnidadModule } from '../buscador-categoria-unidad/buscador-categoria-unidad.module';
 
 @NgModule({

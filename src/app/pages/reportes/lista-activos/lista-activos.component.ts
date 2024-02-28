@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import {
   CdkDragDrop,
   moveItemInArray,

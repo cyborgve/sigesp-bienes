@@ -1,5 +1,5 @@
 <section class="contenedor">
-  <mat-card>
+  <mat-card appearance="outlined">
     <article class="buscar">
       <span class="titulo">{{ titulo | titlecase }}</span>
       <span class="espaciador"></span>
@@ -26,7 +26,7 @@
       <a
         *ngFor="let definicion of definiciones() | async"
         [routerLink]="definicion.routerLink">
-        <mat-card class="definicion">
+        <mat-card appearance="outlined" class="definicion">
           <img [src]="definicion.image" alt="image" width="80px" />
           <mat-card-title>{{ definicion.label }}</mat-card-title>
           <mat-card-subtitle>{{ titulo }}</mat-card-subtitle>

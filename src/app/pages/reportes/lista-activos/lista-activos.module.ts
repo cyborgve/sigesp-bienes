@@ -7,8 +7,8 @@ import { SharedModule } from '@shared/shared.module';
 import { FiltrosReportesModule } from '../filtros-reportes/filtros-reportes.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { DetalleComponent } from './detalle/detalle.component';
 
 @NgModule({

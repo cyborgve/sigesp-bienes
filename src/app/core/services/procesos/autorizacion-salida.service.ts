@@ -7,7 +7,7 @@ import { END_POINTS } from '@core/constants/end-points';
 import { Observable, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AutorizacionSalidaActivoService } from './autorizacion-salida-activo.service';
 import { adaptarAutorizacionesSalida } from '@core/utils/pipes-rxjs/adaptadores/adaptar-autorizacion-salida';
 import { Id } from '@core/types/id';

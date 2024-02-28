@@ -6,7 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
@@ -20,14 +20,14 @@ import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-e
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { prepararActaPrestamo } from '@core/utils/funciones/preparar-acta-prestamo';
 import { Entidad } from '@core/models/auxiliares/entidad';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';

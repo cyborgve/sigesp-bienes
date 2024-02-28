@@ -1,5 +1,5 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 

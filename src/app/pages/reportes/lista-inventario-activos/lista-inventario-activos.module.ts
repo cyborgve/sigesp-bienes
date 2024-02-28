@@ -5,10 +5,10 @@ import { ListaInventarioActivosRoutingModule } from './lista-inventario-activos-
 import { ListaInventarioActivosComponent } from './lista-inventario-activos.component';
 import { SharedModule } from '@shared/shared.module';
 import { DetalleComponent } from './detalle/detalle.component';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
 import { FiltrosReportesModule } from '../filtros-reportes/filtros-reportes.module';
 
 @NgModule({

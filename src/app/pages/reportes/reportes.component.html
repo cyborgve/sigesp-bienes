@@ -1,12 +1,12 @@
 <section class="contenedor">
-  <mat-card>
+  <mat-card appearance="outlined">
     <article class="buscar">
       <span class="titulo">{{ titulo | titlecase }}</span>
       <span class="espaciador"></span>
     </article>
     <article class="grid grid-cols-5">
       <a *ngFor="let reporte of menuItems" [routerLink]="reporte.routerLink">
-        <mat-card class="reporte">
+        <mat-card appearance="outlined" class="reporte">
           <img [src]="reporte.image" alt="image" width="80px" />
           <mat-card-title>{{ reporte.label }}</mat-card-title>
           <mat-card-subtitle>{{ titulo | titlecase }}</mat-card-subtitle>

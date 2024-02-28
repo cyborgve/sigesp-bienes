@@ -6,7 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrigenService } from '@core/services/definiciones/origen.service';
 import { Id } from '@core/types/id';

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorUnidadAdministrativaComponent } from './buscador-unidad-administrativa.component';
 import { TablaUnidadAdministrativaModule } from '../tabla-unidad-administrativa/tabla-unidad-administrativa.module';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BuscadorUnidadAdministrativaComponent],

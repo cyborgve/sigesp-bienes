@@ -6,7 +6,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
@@ -19,7 +19,7 @@ import { Depreciacion } from '@core/models/procesos/depreciacion';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { Basica } from '@core/models/auxiliares/basica';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Activo } from '@core/models/definiciones/activo';

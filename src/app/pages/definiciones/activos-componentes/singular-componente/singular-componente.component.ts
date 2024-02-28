@@ -13,7 +13,7 @@ import {
 import { ComponenteService } from '@core/services/definiciones/componente.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { BuscadorComponenteComponent } from '../buscador-componente/buscador-componente.component';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';

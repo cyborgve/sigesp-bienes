@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { LineEnterprise } from '@core/models/otros-modulos/line-enterprise';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorLineEnterpriseComponent } from '@shared/components/buscador-line-enterprise/buscador-line-enterprise.component';

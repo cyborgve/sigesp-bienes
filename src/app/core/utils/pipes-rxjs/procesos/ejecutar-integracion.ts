@@ -5,7 +5,7 @@ import { UnidadAdministrativaService } from '@core/services/definiciones/unidad-
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { DesincorporacionService } from '@core/services/procesos/desincorporacion.service';
 import { ModificacionService } from '@core/services/procesos/modificacion.service';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { IntegracionService } from '@core/services/procesos/integracion.service';
 import { Integracion } from '@core/models/procesos/integracion';
 import { take } from 'rxjs/operators';

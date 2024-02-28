@@ -7,7 +7,7 @@ cle<app-encabezado-definiciones
   [hidden]="ocultarEncabezado"></app-encabezado-definiciones>
 
 <!-- filtros de integraciones -->
-<mat-card class="superior inferior">
+<mat-card appearance="outlined" class="superior inferior">
   <section class="filtros">
     <app-filtro-rango-fechas
       [formulario]="formularioRangoFechas"
@@ -28,7 +28,7 @@ cle<app-encabezado-definiciones
 </mat-card>
 
 <!-- datos de integracion -->
-<mat-card class="superior inferior">
+<mat-card appearance="outlined" class="superior inferior">
   <form [formGroup]="formularioIntegracion">
     <section class="datosIntegracion">
       <!-- texto linea empresa -->
@@ -84,7 +84,7 @@ cle<app-encabezado-definiciones
   </form>
 </mat-card>
 
-<mat-card class="card-table superior inferior">
+<mat-card appearance="outlined" class="card-table superior inferior">
   <!-- tabla -->
   <table mat-table [dataSource]="dataSource" class="table" matSort>
     <!-- tipo -->

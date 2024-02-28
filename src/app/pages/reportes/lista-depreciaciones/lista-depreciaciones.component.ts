@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { DepreciacionService } from '@core/services/procesos/depreciacion.service';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';

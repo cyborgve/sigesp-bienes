@@ -1,7 +1,7 @@
 import { take, tap, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';

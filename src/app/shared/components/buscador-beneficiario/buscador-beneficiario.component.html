@@ -3,7 +3,7 @@
   ocultarNuevo="true"
   (filtrarDatos)="filtrar($event)"
   (limpiarBuscadorEvento)="filtrar($event)"></app-encabezado-definiciones>
-<mat-card class="card-table">
+<mat-card appearance="outlined" class="card-table">
   <table mat-table [dataSource]="dataSource" class="table" matSort>
     <!-- cedula -->
     <ng-container matColumnDef="cedula">

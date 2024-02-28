@@ -2,7 +2,7 @@ import { TablaComponenteModule } from './../tabla-componente/tabla-componente.mo
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuscadorComponenteComponent } from './buscador-componente.component';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BuscadorComponenteComponent],

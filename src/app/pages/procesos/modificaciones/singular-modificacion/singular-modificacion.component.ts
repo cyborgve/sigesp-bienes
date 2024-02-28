@@ -8,7 +8,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
@@ -25,7 +25,7 @@ import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { Activo } from '@core/models/definiciones/activo';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { BuscadorComponenteComponent } from '@pages/definiciones/activos-componentes/buscador-componente/buscador-componente.component';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 import { ComponenteProceso } from '@core/models/auxiliares/componente-proceso';
 import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-proceso';

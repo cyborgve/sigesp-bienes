@@ -1,5 +1,5 @@
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import {
   Component,
   Output,

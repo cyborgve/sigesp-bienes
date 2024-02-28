@@ -1,4 +1,4 @@
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TIPOS_PROCEDE } from '@core/constants/tipos-procede';
 import { AsientoContable } from '@core/models/auxiliares/asiento-contable';
 import { ComprobanteContable } from '@core/models/auxiliares/comprobante-contable';

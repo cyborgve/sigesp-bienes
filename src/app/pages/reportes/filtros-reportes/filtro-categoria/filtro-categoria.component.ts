@@ -1,4 +1,4 @@
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { tap, take, filter } from 'rxjs/operators';

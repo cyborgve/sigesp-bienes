@@ -1,12 +1,12 @@
 <section class="contenedor">
-  <mat-card>
+  <mat-card appearance="outlined">
     <article class="buscar">
       <span class="titulo">{{ titulo | titlecase }}</span>
       <span class="espaciador"></span>
     </article>
     <article class="grid grid-cols-5">
       <a *ngFor="let proceso of menuItems" [routerLink]="proceso.routerLink">
-        <mat-card class="proceso">
+        <mat-card appearance="outlined" class="proceso">
           <img [src]="proceso.image" alt="image" width="80px" />
           <mat-card-title>{{ proceso.label }}</mat-card-title>
           <mat-card-subtitle>{{ titulo }}</mat-card-subtitle>

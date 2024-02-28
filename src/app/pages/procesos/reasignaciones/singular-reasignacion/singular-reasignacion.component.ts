@@ -7,7 +7,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
@@ -28,7 +28,7 @@ import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
 import { Activo } from '@core/models/definiciones/activo';
 import { ActivoService } from '@core/services/definiciones/activo.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { ActivoProcesoReasignacion } from '@core/models/auxiliares/activo-proceso-reasignacion';
 import { convertirActivoProcesoReasignacion } from '@core/utils/funciones/convertir-activo-proceso-reasignacion';

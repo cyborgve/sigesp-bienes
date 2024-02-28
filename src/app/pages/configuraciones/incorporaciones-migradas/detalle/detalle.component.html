@@ -1,5 +1,5 @@
 <section class="superior inferior">
-  <mat-card class="causa-card">
+  <mat-card appearance="outlined" class="causa-card">
     <form [formGroup]="formulario">
       <!-- causa de movimiento -->
       <mat-form-field class="causa-movimiento" appearance="fill">
@@ -26,7 +26,7 @@
   </mat-card>
 </section>
 <section class="inferior">
-  <mat-card>
+  <mat-card appearance="outlined">
     <section class="card-tabla">
       <table mat-table [dataSource]="dataSource" *ngIf="!activarSpinner">
         <!-- codigo -->

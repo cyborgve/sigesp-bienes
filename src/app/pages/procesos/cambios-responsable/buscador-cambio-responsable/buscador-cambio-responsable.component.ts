@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { CambioResponsable } from '@core/models/procesos/cambio-responsable';
 

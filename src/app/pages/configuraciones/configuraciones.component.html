@@ -1,5 +1,5 @@
 <section class="contenedor">
-  <mat-card>
+  <mat-card appearance="outlined">
     <article class="buscar">
       <span class="titulo">{{ titulo | titlecase }}</span>
       <span class="espaciador"></span>
@@ -8,7 +8,7 @@
       <a
         *ngFor="let configuracion of menuItems()"
         [routerLink]="configuracion.routerLink">
-        <mat-card class="configuracion">
+        <mat-card appearance="outlined" class="configuracion">
           <img [src]="configuracion.image" alt="image" width="80px" />
           <mat-card-title>{{ configuracion.label }}</mat-card-title>
           <mat-card-subtitle>{{ titulo }}</mat-card-subtitle>

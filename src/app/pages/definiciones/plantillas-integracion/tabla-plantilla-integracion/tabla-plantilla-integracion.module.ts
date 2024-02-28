@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { TablaPlantillaIntegracionComponent } from './tabla-plantilla-integracion.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 import { MatSortModule } from '@angular/material/sort';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [TablaPlantillaIntegracionComponent],

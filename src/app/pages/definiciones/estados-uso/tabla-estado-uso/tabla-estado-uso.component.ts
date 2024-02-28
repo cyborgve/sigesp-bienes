@@ -8,14 +8,14 @@ import {
   EventEmitter,
   AfterViewInit,
 } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { EstadoUsoService } from '@core/services/definiciones/estado-uso.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { Id } from '@core/types/id';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';

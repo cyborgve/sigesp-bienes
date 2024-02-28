@@ -12,7 +12,7 @@ import {
 import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorTipoAnimalComponent } from '../buscador-tipo-animal/buscador-tipo-animal.component';

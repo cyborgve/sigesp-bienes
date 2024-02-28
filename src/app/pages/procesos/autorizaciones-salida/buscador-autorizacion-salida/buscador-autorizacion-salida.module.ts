@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorAutorizacionSalidaComponent } from './buscador-autorizacion-salida.component';
 import { TablaAutorizacionSalidaModule } from '../tabla-autorizacion-salida/tabla-autorizacion-salida.module';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BuscadorAutorizacionSalidaComponent],

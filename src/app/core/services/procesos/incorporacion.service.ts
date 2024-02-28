@@ -5,7 +5,7 @@ import { Incorporacion } from '@core/models/procesos/incorporacion';
 import { END_POINTS } from '@core/constants/end-points';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { IncorporacionActivoService } from './incorporacion-activo.service';
 import { Observable, forkJoin } from 'rxjs';
 import { adaptarIncorporaciones } from '@core/utils/pipes-rxjs/adaptadores/adaptar-incorporacion';

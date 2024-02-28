@@ -7,11 +7,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BuscadorUnidadAdministrativaModule } from '../buscador-unidad-administrativa/buscador-unidad-administrativa.module';
 import { SharedModule } from '@shared/shared.module';
 import { BuscadorCategoriaUnidadModule } from '@pages/definiciones/categorias-unidad-administrativa/buscador-categoria-unidad/buscador-categoria-unidad.module';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [SingularUnidadAdministrativaComponent],

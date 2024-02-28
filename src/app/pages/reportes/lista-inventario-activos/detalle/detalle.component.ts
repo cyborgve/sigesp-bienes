@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { Activo } from '@core/models/definiciones/activo';
 
 @Component({

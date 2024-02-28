@@ -5,7 +5,7 @@
 
 <!-- decorado -->
 <ng-template #decorado>
-  <mat-card>
+  <mat-card appearance="outlined">
     <mat-card-title class="titulo-filtro"
       >Selección de las propiedades a exportar</mat-card-title
     >
@@ -20,16 +20,16 @@
 <!-- contenido -->
 <ng-template #contenido>
   <section class="contenido" cdkDropListGroup>
-    <mat-card class="disponibles mat-elevation-z2">
+    <mat-card appearance="outlined" class="disponibles mat-elevation-z2">
       <mat-card-title class="titulo-propiedades"
         >Propiedades disponibles</mat-card-title
       >
       <article class="propiedades">
-        <mat-chip-list
+        <mat-chip-listbox
           cdkDropList
           [cdkDropListData]="propiedadesDisponibles"
           (cdkDropListDropped)="accionSoltar.emit($event)">
-          <mat-chip
+          <mat-chip-option
             cdkDrag
             *ngFor="let propiedad of propiedadesDisponibles"
             class="propiedad"
@@ -37,20 +37,20 @@
             [color]="propiedad.color"
             selected>
             {{ propiedad.nombre }}
-          </mat-chip>
-        </mat-chip-list>
+          </mat-chip-option>
+        </mat-chip-listbox>
       </article>
     </mat-card>
-    <mat-card class="seleccionadas mat-elevation-z2">
+    <mat-card appearance="outlined" class="seleccionadas mat-elevation-z2">
       <mat-card-title class="titulo-propiedades"
         >Propiedades seleccionadas</mat-card-title
       >
       <article class="propiedades">
-        <mat-chip-list
+        <mat-chip-listbox
           cdkDropList
           [cdkDropListData]="propiedadesSeleccionadas"
           (cdkDropListDropped)="accionSoltar.emit($event)">
-          <mat-chip
+          <mat-chip-option
             cdkDrag
             *ngFor="let propiedad of propiedadesSeleccionadas"
             class="propiedad"
@@ -58,8 +58,8 @@
             [color]="propiedad.color"
             selected>
             {{ propiedad.nombre }}
-          </mat-chip>
-        </mat-chip-list>
+          </mat-chip-option>
+        </mat-chip-listbox>
       </article>
     </mat-card>
   </section>

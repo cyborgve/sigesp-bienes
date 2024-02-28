@@ -5,7 +5,7 @@ import { CambioResponsable } from '@core/models/procesos/cambio-responsable';
 import { END_POINTS } from '@core/constants/end-points';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { adaptarCambiosResponsable } from '@core/utils/pipes-rxjs/adaptadores/adaptar-cambio-responsable';

@@ -8,13 +8,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import {
-  MatLegacySlideToggle as MatSlideToggle,
-  MatLegacySlideToggleChange as MatSlideToggleChange,
-} from '@angular/material/legacy-slide-toggle';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+  MatSlideToggle,
+  MatSlideToggleChange,
+} from '@angular/material/slide-toggle';
+import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ActivoMigrado } from '@core/models/auxiliares/activo-migrado';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorTipoAnimalComponent } from './buscador-tipo-animal.component';
 import { TablaTipoAnimalModule } from '../tabla-tipo-animal/tabla-tipo-animal.module';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BuscadorTipoAnimalComponent],

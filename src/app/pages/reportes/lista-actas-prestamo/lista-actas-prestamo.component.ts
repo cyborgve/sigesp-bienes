@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { RANGOS_FECHAS } from '@core/constants/rangos-fechas';
 import { TIPOS_PROCESO } from '@core/constants/tipos-proceso';

@@ -10,7 +10,7 @@ import { Id } from '@core/types/id';
 import { normalizarObjeto } from '@core/utils/funciones/normalizar-objetos';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DepreciacionDetalleService } from './depreciacion-detalle.service';
 import { DepreciacionLista } from '@core/models/auxiliares/depreciacion-lista';
 import { adaptarDepreciacionesLista } from '@core/utils/pipes-rxjs/adaptadores/adaptar-depreciacion-lista';

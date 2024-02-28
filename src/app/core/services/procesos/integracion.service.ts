@@ -3,7 +3,7 @@ import { GenericService } from '../auxiliares/generic.service';
 import { Integracion } from '@core/models/procesos/integracion';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { END_POINTS } from '@core/constants/end-points';
 import { Id } from '@core/types/id';
 import { Observable, of } from 'rxjs';

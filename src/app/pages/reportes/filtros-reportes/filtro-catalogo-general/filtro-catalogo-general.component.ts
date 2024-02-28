@@ -1,5 +1,5 @@
 import { BuscadorCatalogoGeneralComponent } from '@pages/definiciones/catalogos-generales/buscador-catalogo-general/buscador-catalogo-general.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { tap, take, map, filter } from 'rxjs/operators';

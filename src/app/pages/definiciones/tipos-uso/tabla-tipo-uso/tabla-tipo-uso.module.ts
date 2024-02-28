@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { TablaTipoUsoComponent } from './tabla-tipo-uso.component';
 import { RouterModule } from '@angular/router';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [TablaTipoUsoComponent],

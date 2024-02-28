@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorCambioResponsableComponent } from './buscador-cambio-responsable.component';
 import { TablaCambioResponsableModule } from '../tabla-cambio-responsable/tabla-cambio-responsable.module';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BuscadorCambioResponsableComponent],

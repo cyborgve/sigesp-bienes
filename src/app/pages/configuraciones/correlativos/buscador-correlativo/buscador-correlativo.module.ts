@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuscadorCorrelativoComponent } from './buscador-correlativo.component';
 import { TablaCorrelativoModule } from '../tabla-correlativo/tabla-correlativo.module';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BuscadorCorrelativoComponent],
