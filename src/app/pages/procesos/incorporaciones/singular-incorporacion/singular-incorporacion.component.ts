@@ -2,8 +2,12 @@ import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
@@ -21,7 +25,7 @@ import { Sede } from '@core/models/definiciones/sede';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { prepararIncorporacion } from '@core/utils/funciones/preparar-incorporacion';
 import { prepararActivoProceso } from '@core/utils/funciones/preparar-activo-proceso';

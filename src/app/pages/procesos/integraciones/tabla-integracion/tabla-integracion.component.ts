@@ -7,10 +7,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatLegacySlideToggle as MatSlideToggle } from '@angular/material/legacy-slide-toggle';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Router } from '@angular/router';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { OPCIONES_INTEGRACION_PROCESOS } from '@core/constants/opciones-proceso-integracion';

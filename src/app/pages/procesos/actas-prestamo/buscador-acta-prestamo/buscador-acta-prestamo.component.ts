@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ActaPrestamo } from '@core/models/procesos/acta-prestamo';
 

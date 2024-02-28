@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ReportesRoutingModule } from './reportes-routing.module';
 import { ReportesComponent } from './reportes.component';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
 @NgModule({
   declarations: [ReportesComponent],

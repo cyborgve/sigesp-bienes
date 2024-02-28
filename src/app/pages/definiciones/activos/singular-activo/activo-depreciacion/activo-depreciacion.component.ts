@@ -2,7 +2,7 @@ import { ModoFormulario } from '@core/types/modo-formulario';
 import { tap, filter, take } from 'rxjs/operators';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { METODOS_DEPRECIACION } from '@core/constants/metodos-depreciacion';
 import { BuscadorCuentaContableComponent } from '@shared/components/buscador-cuenta-contable/buscador-cuenta-contable.component';
 import { Subscription } from 'rxjs';

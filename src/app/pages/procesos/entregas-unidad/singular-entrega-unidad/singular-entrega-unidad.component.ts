@@ -1,8 +1,12 @@
 import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
@@ -20,7 +24,7 @@ import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/b
 import { Sede } from '@core/models/definiciones/sede';
 import { BuscadorUnidadAdministrativaComponent } from '@pages/definiciones/unidades-administrativas/buscador-unidad-administrativa/buscador-unidad-administrativa.component';
 import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administrativa';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { Subscription } from 'rxjs';
 import { ActivoService } from '@core/services/definiciones/activo.service';

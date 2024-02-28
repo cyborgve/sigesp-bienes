@@ -4,11 +4,15 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Id } from '@core/types/id';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { TipoAnimalService } from '@core/services/definiciones/tipo-animal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { filter, first, switchMap, take, tap } from 'rxjs/operators';
 import { BuscadorTipoAnimalComponent } from '../buscador-tipo-animal/buscador-tipo-animal.component';

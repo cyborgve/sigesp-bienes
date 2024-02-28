@@ -1,12 +1,12 @@
 import { tap, take, switchMap } from 'rxjs/operators';
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { Beneficiario } from '@core/models/otros-modulos/beneficiario';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BeneficiarioService } from '@core/services/otros-modulos/beneficiario.service';

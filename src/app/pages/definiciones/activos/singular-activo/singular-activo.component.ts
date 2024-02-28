@@ -3,8 +3,12 @@ import { Basica } from '@core/models/auxiliares/basica';
 import { tap, first, take, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Id } from '@core/types/id';

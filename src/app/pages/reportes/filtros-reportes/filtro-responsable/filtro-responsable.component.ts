@@ -1,7 +1,7 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';

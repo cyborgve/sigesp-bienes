@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Basica } from '@core/models/auxiliares/basica';
 import { ModeloServicio } from '@core/models/auxiliares/modelo-servicio';
 import { Id } from '@core/types/id';

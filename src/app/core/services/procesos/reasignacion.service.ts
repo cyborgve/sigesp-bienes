@@ -5,7 +5,7 @@ import { Reasignacion } from '@core/models/procesos/reasignacion';
 import { END_POINTS } from '@core/constants/end-points';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { PDFService } from '../auxiliares/pdf.service';
 import { ReasignacionActivoService } from './reasignacion-activo.service';
 import { Observable, forkJoin } from 'rxjs';

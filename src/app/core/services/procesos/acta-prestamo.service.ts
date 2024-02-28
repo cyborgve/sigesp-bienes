@@ -6,7 +6,7 @@ import { Id } from '@core/types/id';
 import { Observable, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ActaPrestamoActivoService } from './acta-prestamo-activo.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { adaptarActasPrestamo } from '@core/utils/pipes-rxjs/adaptadores/adaptar-acta-prestamo';

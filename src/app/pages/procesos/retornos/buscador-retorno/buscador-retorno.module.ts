@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorRetornoComponent } from './buscador-retorno.component';
 import { TablaRetornoModule } from '../tabla-retorno/tabla-retorno.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 @NgModule({
   declarations: [BuscadorRetornoComponent],

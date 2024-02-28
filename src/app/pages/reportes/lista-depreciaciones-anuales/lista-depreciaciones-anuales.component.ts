@@ -1,7 +1,7 @@
 import { ordenarActivoListaDepreciacionPorFecha } from '@core/utils/pipes-rxjs/operadores/ordenar-detalles-depreciacion-fecha';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';

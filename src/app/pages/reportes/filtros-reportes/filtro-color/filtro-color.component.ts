@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Color } from '@core/models/definiciones/color';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
 import { BuscadorColorComponent } from '@pages/definiciones/colores/buscador-color/buscador-color.component';

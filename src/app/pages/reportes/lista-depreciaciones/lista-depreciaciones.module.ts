@@ -7,8 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { FiltrosReportesModule } from '../filtros-reportes/filtros-reportes.module';
 import { TablaDepreciacionModule } from '@pages/procesos/depreciaciones/tabla-depreciacion/tabla-depreciacion.module';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { DetalleComponent } from './detalle/detalle.component';
 
 @NgModule({

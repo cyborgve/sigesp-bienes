@@ -1,8 +1,12 @@
 import { first, tap, take, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';

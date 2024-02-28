@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivoDetalle } from '@core/models/definiciones/activo-detalle';
 import { PlantillaIntegracion } from '@core/models/definiciones/plantilla-integracion';
 import { CuentaContable } from '@core/models/otros-modulos/cuenta-contable';

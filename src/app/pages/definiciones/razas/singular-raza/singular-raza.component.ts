@@ -2,8 +2,12 @@ import { TipoAnimal } from '@core/models/definiciones/tipo-animal';
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RazaService } from '@core/services/definiciones/raza.service';
 import { Id } from '@core/types/id';

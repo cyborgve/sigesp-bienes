@@ -2,7 +2,7 @@ import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
 import { BuscadorEstadoConservacionComponent } from '@pages/definiciones/estados-conservacion/buscador-estado-conservacion/buscador-estado-conservacion.component';
 import { BuscadorEstadoUsoComponent } from '@pages/definiciones/estados-uso/buscador-estado-uso/buscador-estado-uso.component';

@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Activo } from '@core/models/definiciones/activo';
 import { XLSXService } from '@core/services/auxiliares/xlsx.service';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';

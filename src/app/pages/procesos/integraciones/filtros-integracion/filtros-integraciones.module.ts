@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FiltroAprobadosComponent } from './filtro-aprobados/filtro-aprobados.component';
 import { FiltroIntegradosComponent } from './filtro-integrados/filtro-integrados.component';
 import { FiltroTipoProcesoComponent } from './filtro-tipo-proceso/filtro-tipo-proceso.component';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FiltroRegistradosComponent } from './filtro-registrados/filtro-registrados.component';
 

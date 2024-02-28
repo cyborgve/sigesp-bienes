@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { SingularCategoriaRoutingModule } from './singular-categoria-routing.module';
 import { SingularCategoriaComponent } from './singular-categoria.component';
 import { SharedModule } from '@shared/shared.module';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { BuscadorCategoriaModule } from '../buscador-categoria/buscador-categoria.module';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 @NgModule({
   declarations: [SingularCategoriaComponent],

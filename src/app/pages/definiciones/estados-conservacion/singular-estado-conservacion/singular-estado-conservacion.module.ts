@@ -3,12 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { SingularEstadoConservacionRoutingModule } from './singular-estado-conservacion-routing.module';
 import { SingularEstadoConservacionComponent } from './singular-estado-conservacion.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '@shared/shared.module';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BuscadorEstadoConservacionModule } from '../buscador-estado-conservacion/buscador-estado-conservacion.module';
 

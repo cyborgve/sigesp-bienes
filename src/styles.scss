@@ -147,7 +147,7 @@ $warn: mat.define-palette(mat.$red-palette, 900);
 
 $theme: mat.define-light-theme($primary, $accent, $warn);
 
-@include mat.all-component-themes($theme);
+@include mat.all-legacy-component-themes($theme);
 
 @tailwind base;
 @tailwind components;

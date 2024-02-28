@@ -2,8 +2,12 @@ import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstadoUsoService } from '@core/services/definiciones/estado-uso.service';
 import { Id } from '@core/types/id';

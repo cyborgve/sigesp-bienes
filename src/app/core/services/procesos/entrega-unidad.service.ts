@@ -8,7 +8,7 @@ import { adaptarEntregasUnidades } from '@core/utils/pipes-rxjs/adaptadores/adap
 import { Id } from '@core/types/id';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { PDFService } from '../auxiliares/pdf.service';
 import { abrirReporteProceso } from '@core/utils/pipes-rxjs/procesos/abrir-reporte-proceso';
 import { ejecutarEntregaUnidad } from '@core/utils/pipes-rxjs/procesos/ejecutar-entrega-unidad';

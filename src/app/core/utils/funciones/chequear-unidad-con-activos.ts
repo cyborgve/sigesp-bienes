@@ -1,7 +1,7 @@
 import { map, tap } from 'rxjs/operators';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { Id } from '@core/types/id';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { filtrarActivosPorUnidadAdministrativa } from '../pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosReferenciaEstadoDisponible } from '../pipes-rxjs/operadores/filtrar-activos-referencia-estado-disponible.ts';

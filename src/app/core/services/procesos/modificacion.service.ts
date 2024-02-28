@@ -4,7 +4,7 @@ import { Modificacion } from '@core/models/procesos/modificacion';
 import { END_POINTS } from '@core/constants/end-points';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ModificacionComponenteService } from './modificacion-componente.service';
 import { ModificacionCuentaContableService } from './modificacion-cuenta-contable.service';
 import { PDFService } from '../auxiliares/pdf.service';

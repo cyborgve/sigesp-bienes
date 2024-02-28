@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { tap, take, filter } from 'rxjs/operators';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { BuscadorAseguradoraComponent } from '@pages/definiciones/aseguradoras/buscador-aseguradora/buscador-aseguradora.component';
 import { Aseguradora } from '@core/models/definiciones/aseguradora';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';

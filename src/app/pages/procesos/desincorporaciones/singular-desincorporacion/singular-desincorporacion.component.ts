@@ -2,8 +2,12 @@ import { tap, switchMap, take, first, filter, map } from 'rxjs/operators';
 import { Subscription, forkJoin } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
 import { Entidad } from '@core/models/auxiliares/entidad';
@@ -19,7 +23,7 @@ import { UnidadAdministrativa } from '@core/models/definiciones/unidad-administr
 import { BuscadorCausaMovimientoComponent } from '@pages/definiciones/causas-movimiento/buscador-causa-movimiento/buscador-causa-movimiento.component';
 import { CausaMovimiento } from '@core/models/definiciones/causa-movimiento';
 import { BuscadorActivoComponent } from '@pages/definiciones/activos/buscador-activo/buscador-activo.component';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ActivoProceso } from '@core/models/auxiliares/activo-proceso';
 import { convertirActivoProceso } from '@core/utils/funciones/convertir-activo-proceso';
 import { DialogoEliminarProcesoComponent } from '@shared/components/dialogo-eliminar-proceso/dialogo-eliminar-proceso.component';
@@ -27,7 +31,7 @@ import { CuentaContableProceso } from '@core/models/auxiliares/cuenta-contable-p
 import { convertirCuentaProceso } from '@core/utils/funciones/convertir-cuenta-proceso';
 import { ActivoService } from '@core/services/definiciones/activo.service';
 import { chequearUnidadConActivos } from '@core/utils/funciones/chequear-unidad-con-activos';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { filtrarActivosIncorporados } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-incoporados';
 import { ActivoUbicacionService } from '@core/services/definiciones/activo-ubicacion.service';
 import { filtrarActivosPorUnidadAdministrativa } from '@core/utils/pipes-rxjs/operadores/filtrar-activos-por-unidad-administrativa';

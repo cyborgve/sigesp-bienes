@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorTipoUsoComponent } from './buscador-tipo-uso.component';
 import { TablaTipoUsoModule } from '../tabla-tipo-uso/tabla-tipo-uso.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 @NgModule({
   declarations: [BuscadorTipoUsoComponent],

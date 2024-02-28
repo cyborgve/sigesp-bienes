@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorDepreciacionComponent } from './buscador-depreciacion.component';
 import { TablaDepreciacionModule } from '../tabla-depreciacion/tabla-depreciacion.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 @NgModule({
   declarations: [BuscadorDepreciacionComponent],

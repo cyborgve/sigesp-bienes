@@ -8,7 +8,7 @@ import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { DesincorporacionActivoService } from './desincorporacion-activo.service';
 import { ActivoUbicacionService } from '../definiciones/activo-ubicacion.service';
 import { Observable, forkJoin } from 'rxjs';

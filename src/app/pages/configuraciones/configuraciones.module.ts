@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ConfiguracionesRoutingModule } from './configuraciones-routing.module';
 import { ConfiguracionesComponent } from './configuraciones.component';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
 @NgModule({
   declarations: [ConfiguracionesComponent],

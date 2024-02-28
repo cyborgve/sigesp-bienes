@@ -4,14 +4,14 @@ import { CommonModule } from '@angular/common';
 import { SingularCausaMovimientoRoutingModule } from './singular-causa-movimiento-routing.module';
 import { SingularCausaMovimientoComponent } from './singular-causa-movimiento.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { SharedModule } from '@shared/shared.module';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { BuscadorCausaMovimientoModule } from '../buscador-causa-movimiento/buscador-causa-movimiento.module';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 
 @NgModule({
   declarations: [SingularCausaMovimientoComponent],

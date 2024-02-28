@@ -5,11 +5,15 @@ import { Entidad } from '@core/models/auxiliares/entidad';
 import { ModoFormulario } from '@core/types/modo-formulario';
 import { Id } from '@core/types/id';
 import { CORRELATIVOS } from '@core/constants/correlativos';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ComponenteService } from '@core/services/definiciones/componente.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CorrelativoService } from '@core/services/definiciones/correlativo.service';
 import { BuscadorComponenteComponent } from '../buscador-componente/buscador-componente.component';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';

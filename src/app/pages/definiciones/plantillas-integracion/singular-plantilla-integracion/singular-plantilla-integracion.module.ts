@@ -5,12 +5,12 @@ import { SingularPlantillaIntegracionRoutingModule } from './singular-plantilla-
 import { SingularPlantillaIntegracionComponent } from './singular-plantilla-integracion.component';
 import { SharedModule } from '@shared/shared.module';
 import { BuscadorPlantillaIntegracionModule } from '../buscador-plantilla-integracion/buscador-plantilla-integracion.module';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
 @NgModule({
   declarations: [SingularPlantillaIntegracionComponent],

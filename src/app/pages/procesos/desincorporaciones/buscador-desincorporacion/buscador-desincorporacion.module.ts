@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BuscadorDesincorporacionComponent } from './buscador-desincorporacion.component';
 import { TablaDesincorporacionModule } from '../tabla-desincorporacion/tabla-desincorporacion.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 @NgModule({
   declarations: [BuscadorDesincorporacionComponent],

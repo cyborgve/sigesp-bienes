@@ -6,7 +6,7 @@ import { END_POINTS } from '@core/constants/end-points';
 import { GenericService } from '@core/services/auxiliares/generic.service';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { RetornoActivoService } from './retorno-activo.service';
 import { PDFService } from '../auxiliares/pdf.service';
 import { adaptarRetorno } from '@core/utils/pipes-rxjs/adaptadores/adaptar-retorno';

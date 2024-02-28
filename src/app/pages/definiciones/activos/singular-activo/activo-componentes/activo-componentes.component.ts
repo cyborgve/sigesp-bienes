@@ -1,6 +1,6 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { ActivoComponente } from '@core/models/definiciones/activo-componente';
 

@@ -8,7 +8,7 @@ import { Id } from '@core/types/id';
 import { ActivoDetalleService } from './activo-detalle.service';
 import { HttpClient } from '@angular/common/http';
 import { SigespService } from 'sigesp';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ActivoComponenteService } from './activo-componente.service';
 import { ActivoDepreciacionService } from './activo-depreciacion.service';
 import { ActivoUbicacionService } from './activo-ubicacion.service';

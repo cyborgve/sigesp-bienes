@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Router } from '@angular/router';
 import { Integracion } from '@core/models/procesos/integracion';
 import { TipoProceso } from '@core/types/tipo-proceso';

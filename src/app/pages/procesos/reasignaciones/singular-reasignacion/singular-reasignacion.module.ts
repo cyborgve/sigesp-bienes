@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { SingularReasignacionRoutingModule } from './singular-reasignacion-routing.module';
 import { SingularReasignacionComponent } from './singular-reasignacion.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { BuscadorReasignacionModule } from '../buscador-reasignacion/buscador-reasignacion.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';

@@ -1,6 +1,6 @@
 import { Retorno } from '@core/models/procesos/retorno';
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 
 @Component({

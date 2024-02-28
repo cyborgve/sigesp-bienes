@@ -7,16 +7,16 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { COLUMNAS_VISIBLES } from '@core/constants/columnas-visibles';
 import { Aseguradora } from '@core/models/definiciones/aseguradora';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { AseguradoraService } from '@core/services/definiciones/aseguradora.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Id } from '@core/types/id';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DialogoEliminarDefinicionComponent } from '@shared/components/dialogo-eliminar-definicion/dialogo-eliminar-definicion.component';
 import { TablaEntidad } from '@core/models/auxiliares/tabla-entidad';
 import { pipeFromArray } from 'rxjs/internal/util/pipe';
