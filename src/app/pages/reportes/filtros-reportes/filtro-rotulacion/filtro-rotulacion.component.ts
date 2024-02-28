@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Rotulacion } from '@core/models/definiciones/rotulacion';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
@@ -12,7 +12,7 @@ import { take, tap, filter } from 'rxjs/operators';
   styleUrls: ['./filtro-rotulacion.component.scss'],
 })
 export class FiltroRotulacionComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

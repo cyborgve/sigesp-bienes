@@ -1,6 +1,6 @@
 import { take, tap, first, filter, switchMap } from 'rxjs/operators';
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CausaMovimientoService } from '@core/services/definiciones/causa-movimiento.service';
@@ -27,14 +27,14 @@ export class SingularCausaMovimientoComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[6].nombre;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
   tiposCausaMovimiento = TIPOS_CAUSA_MOVIMIENTO;
 
   constructor(
     private _entidad: CausaMovimientoService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

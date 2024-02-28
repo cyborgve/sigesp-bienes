@@ -3,7 +3,7 @@ import { tap, take, switchMap, first, filter, map } from 'rxjs/operators';
 import { combineLatest, forkJoin, pipe } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -46,7 +46,7 @@ export class SingularModificacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[36].nombre;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
   dataComponentes: MatTableDataSource<ComponenteProceso> =
     new MatTableDataSource();
   dataCuentasContables: MatTableDataSource<CuentaContableProceso> =
@@ -57,7 +57,7 @@ export class SingularModificacionComponent implements Entidad {
     private _entidad: ModificacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorTipoSedeComponent } from '@pages/definiciones/tipos-sede/buscador-tipo-sede/buscador-tipo-sede.component';
 import { TipoSede } from '@core/models/definiciones/tipo-sede';
@@ -12,7 +12,7 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
   styleUrls: ['./filtro-tipo-sede.component.scss'],
 })
 export class FiltroTipoSedeComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

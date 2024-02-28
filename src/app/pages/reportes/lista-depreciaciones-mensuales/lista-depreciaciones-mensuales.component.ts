@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { FECHAS_CALCULADAS } from '@core/constants/fechas-calculadas';
 import { ActivoListaDepreciacion } from '@core/models/auxiliares/activo-lista-depreciacion';
@@ -23,7 +23,7 @@ export class ListaDepreciacionesMensualesComponent
   private subscripciones: Subscription[] = [];
   titulo = 'Reportes: Lista de Depreciaciones Mensuales';
   fechaEmision = new Date();
-  formularioRangoFechas: FormGroup;
+  formularioRangoFechas: UntypedFormGroup;
   dataSource: MatTableDataSource<ActivoListaDepreciacion> =
     new MatTableDataSource();
   columnasVisibles =
@@ -33,7 +33,7 @@ export class ListaDepreciacionesMensualesComponent
   filtrosSinDecorar: boolean = false;
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _depreciacion: DepreciacionService,
     private _xlsx: XLSXService,
     private _configuracion: ConfiguracionService

@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorParroquiaComponent } from '@shared/components/buscador-parroquia/buscador-parroquia.component';
 import { Parroquia } from '@core/models/otros-modulos/parroquia';
@@ -12,7 +12,7 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
   styleUrls: ['./filtro-parroquia.component.scss'],
 })
 export class FiltroParroquiaComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

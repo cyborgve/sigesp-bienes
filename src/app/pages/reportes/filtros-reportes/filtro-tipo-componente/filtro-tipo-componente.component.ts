@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TipoComponente } from '@core/models/definiciones/tipo-componente';
 import { BuscadorTipoComponenteComponent } from '@pages/definiciones/tipos-componente/buscador-tipo-componente/buscador-tipo-componente.component';
@@ -12,7 +12,7 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
   styleUrls: ['./filtro-tipo-componente.component.scss'],
 })
 export class FiltroTipoComponenteComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import {
@@ -60,7 +60,7 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
   columnasVisibles = COLUMNAS_VISIBLES['ACTIVOS'];
   itemsPorPagina = this.configuracion['opcionesPaginacion'][0];
   activarSpinner = false;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
 
   @Output() actualizarData = new EventEmitter();
 
@@ -72,7 +72,7 @@ export class DetalleComponent implements AfterViewInit, OnDestroy {
     private _incorporacionActivo: IncorporacionActivoService,
     private _dialog: MatDialog,
     private _mensaje: MensajeDialogoSpinnerService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: UntypedFormBuilder
   ) {
     this.formulario = this._formBuilder.group({
       causaMovimiento: [0],

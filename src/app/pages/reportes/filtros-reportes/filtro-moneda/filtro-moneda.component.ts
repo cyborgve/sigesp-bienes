@@ -1,6 +1,6 @@
 import { take, tap, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Moneda } from '@core/models/otros-modulos/moneda';
 import { BuscadorMonedaComponent } from '@shared/components/buscador-moneda/buscador-moneda.component';
@@ -12,7 +12,7 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
   styleUrls: ['./filtro-moneda.component.scss'],
 })
 export class FiltroMonedaComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

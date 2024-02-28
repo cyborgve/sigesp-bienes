@@ -1,7 +1,7 @@
 import { tap, take, first, filter, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CORRELATIVOS } from '@core/constants/correlativos';
@@ -42,7 +42,7 @@ export class SingularDepreciacionComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[32].nombre;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
   metodosDepreciacion = METODOS_DEPRECIACION;
   dataSource: MatTableDataSource<DetalleDepreciacion> =
     new MatTableDataSource();
@@ -52,7 +52,7 @@ export class SingularDepreciacionComponent implements Entidad {
     private _entidad: DepreciacionService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService,

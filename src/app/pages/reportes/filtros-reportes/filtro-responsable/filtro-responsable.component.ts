@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Responsable } from '@core/models/otros-modulos/responsable';
 import { BuscadorResponsableComponent } from '@shared/components/buscador-responsable/buscador-responsable.component';
@@ -12,7 +12,7 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
   styleUrls: ['./filtro-responsable.component.scss'],
 })
 export class FiltroResponsableComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

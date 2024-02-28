@@ -1,7 +1,7 @@
 import { take, tap, filter, switchMap, first } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ColorService } from '@core/services/definiciones/color.service';
@@ -25,13 +25,13 @@ export class SingularColorComponent implements Entidad, OnDestroy {
   modoFormulario: ModoFormulario = 'CREANDO';
   id: Id;
   titulo = CORRELATIVOS[8].nombre;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
 
   constructor(
     private _entidad: ColorService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _location: Location,
     private _dialog: MatDialog,
     private _correlativo: CorrelativoService

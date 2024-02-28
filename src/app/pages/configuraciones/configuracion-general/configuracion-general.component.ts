@@ -1,6 +1,6 @@
 import { tap, take, first } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NORMATIVAS_ACTIVO } from '@core/constants/normativas-activo';
 import { TIPOS_AFECTACION_DEPRECIACION } from '@core/constants/tipos-afectaciones-depreciacion';
@@ -20,7 +20,7 @@ import { Location } from '@angular/common';
 export class ConfiguracionGeneralComponent implements Entidad {
   modoFormulario: ModoFormulario = 'CREANDO';
   titulo = 'Configuración General';
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
 
   tiposAfectacionDepreciacion = TIPOS_AFECTACION_DEPRECIACION;
   normativasActivo = NORMATIVAS_ACTIVO;
@@ -28,7 +28,7 @@ export class ConfiguracionGeneralComponent implements Entidad {
   private id: Id;
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _location: Location,

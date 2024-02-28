@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-filtro-tipo-responsable',
@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./filtro-tipo-responsable.component.scss'],
 })
 export class FiltroTipoResponsableComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
   tiposResponsable = ['Ambos', 'Responsable Principal', 'Responsable de Uso'];
 

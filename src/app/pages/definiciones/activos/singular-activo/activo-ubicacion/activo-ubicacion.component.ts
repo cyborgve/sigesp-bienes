@@ -1,6 +1,6 @@
 import { tap, take, filter } from 'rxjs/operators';
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Basica } from '@core/models/auxiliares/basica';
 import { MatDialog } from '@angular/material/dialog';
 import { BuscadorSedeComponent } from '@pages/definiciones/sedes/buscador-sede/buscador-sede.component';
@@ -21,8 +21,8 @@ import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/pue
   styleUrls: ['./activo-ubicacion.component.scss'],
 })
 export class ActivoUbicacionComponent {
-  @Input() formulario: FormGroup;
-  @Input() formularioEspecial: FormGroup;
+  @Input() formulario: UntypedFormGroup;
+  @Input() formularioEspecial: UntypedFormGroup;
   @Input() modoFormulario: ModoFormulario;
 
   constructor(private _dialog: MatDialog) {}

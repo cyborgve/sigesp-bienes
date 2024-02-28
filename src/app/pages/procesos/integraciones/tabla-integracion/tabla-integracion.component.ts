@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
@@ -43,9 +43,9 @@ export class TablaIntegracionComponent implements TablaEntidad<Integracion> {
   @Input() dataSource: MatTableDataSource<Integracion> =
     new MatTableDataSource();
 
-  @Input() formularioRangoFechas: FormGroup = new FormGroup({});
-  @Input() formulario: FormGroup = new FormGroup({});
-  @Input() formularioIntegracion: FormGroup = new FormGroup({});
+  @Input() formularioRangoFechas: UntypedFormGroup = new UntypedFormGroup({});
+  @Input() formulario: UntypedFormGroup = new UntypedFormGroup({});
+  @Input() formularioIntegracion: UntypedFormGroup = new UntypedFormGroup({});
   opciones = OPCIONES_INTEGRACION_PROCESOS;
 
   constructor(private _location: Location, private _router: Router) {}

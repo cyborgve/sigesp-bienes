@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoriaUnidadAdministrativa } from '@core/models/definiciones/categoria-unidad-administrativa';
 import { puedeActualizarFormulario } from '@core/utils/pipes-rxjs/operadores/puede-actualizar-formulario';
@@ -12,7 +12,7 @@ import { filter, take, tap } from 'rxjs/operators';
   styleUrls: ['./filtro-categoria-unidad-administrativa.component.scss'],
 })
 export class FiltroCategoriaUnidadAdministrativaComponent {
-  @Input() formulario: FormGroup;
+  @Input() formulario: UntypedFormGroup;
   @Input() sinDecorar: boolean = false;
 
   constructor(private _dialog: MatDialog) {}

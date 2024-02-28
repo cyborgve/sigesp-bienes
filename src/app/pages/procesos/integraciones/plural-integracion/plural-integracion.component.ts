@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Integracion } from '@core/models/procesos/integracion';
@@ -33,9 +33,9 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
   dataSource: MatTableDataSource<Integracion> = new MatTableDataSource();
   aprobarTodos: boolean = false;
   integrarTodos: boolean = false;
-  formularioRangoFechas: FormGroup;
-  formulario: FormGroup;
-  formularioIntegracion: FormGroup;
+  formularioRangoFechas: UntypedFormGroup;
+  formulario: UntypedFormGroup;
+  formularioIntegracion: UntypedFormGroup;
   procesoTipo: TipoProceso;
   configuracion: Configuracion = ConfiguracionPorDefecto();
 
@@ -44,7 +44,7 @@ export class PluralIntegracionComponent implements AfterViewInit, OnDestroy {
     private _router: Router,
     private _location: Location,
     private _configuracion: ConfiguracionService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: UntypedFormBuilder
   ) {
     let esteMes = FECHAS_CALCULADAS['ESTE MES'];
     this.formularioRangoFechas = this._formBuilder.group({
