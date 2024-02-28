@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
-@import '~ngx-toastr/toastr';
+@import 'ngx-toastr/toastr';
 
 @font-face {
   font-family: 'Fira Sans';
@@ -36,39 +36,6 @@ $mat-myapp-primary: (
     900: #ffffff,
     A100: #000000,
     A200: #ffffff,
-    A400: #ffffff,
-    A700: #ffffff,
-  ),
-);
-
-$mat-myapp-secondary: (
-  50: #efe3f1,
-  100: #d8badc,
-  200: #be8cc4,
-  300: #a35eac,
-  400: #903c9b,
-  500: #7c1989,
-  600: #741681,
-  700: #691276,
-  800: #5f0e6c,
-  900: #4c0859,
-  A100: #ea8cff,
-  A200: #e159ff,
-  A400: #d726ff,
-  A700: #d30dff,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
     A400: #ffffff,
     A700: #ffffff,
   ),
@@ -141,7 +108,6 @@ $mat-myapp-warn: (
 );
 
 $primary: mat.define-palette($mat-myapp-primary);
-$secondary: mat.define-palette($mat-myapp-secondary);
 $accent: mat.define-palette($primary, A100);
 $warn: mat.define-palette(mat.$red-palette, 900);
 
