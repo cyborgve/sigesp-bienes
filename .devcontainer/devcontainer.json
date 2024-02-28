@@ -1,5 +1,5 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:14-bullseye",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye",
   "features": {
     "ghcr.io/customink/codespaces-features/docker-in-docker-amzn": {},
     "ghcr.io/devcontainers-contrib/features/npm-package:1": {}
