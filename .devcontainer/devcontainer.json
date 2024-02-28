@@ -1,0 +1,29 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:14-bullseye",
+  "features": {
+    "ghcr.io/customink/codespaces-features/docker-in-docker-amzn": {},
+    "ghcr.io/devcontainers-contrib/features/npm-package:1": {}
+  },
+  "postAttachCommand": "run npm i --no-audit --nofund",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Angular.ng-template",
+        "steoates.autoimport",
+        "mariospapa.vscode-clean-imports-on-save",
+        "vivaxy.vscode-conventional-commits",
+        "dbaeumer.vscode-eslint",
+        "heybourn.headwind",
+        "oderwat.indent-rainbow",
+        "moalamri.inline-fold",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "GregorBiswanger.json2ts",
+        "PKief.material-icon-theme",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "jgclark.vscode-todo-highlight"
+      ]
+    }
+  },
+  "forwardPorts": [4200]
+}
